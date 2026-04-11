@@ -112,6 +112,7 @@ const PRICING = [
     price: 'Free',
     period: '',
     desc: 'Get started with basic strategy guides',
+    link: '#',
     features: [
       'Map overviews for ranked pool',
       'Basic operator tier lists',
@@ -125,6 +126,7 @@ const PRICING = [
     period: '/mo',
     desc: 'Everything you need to climb',
     featured: true,
+    link: 'https://buy.stripe.com/00weVe0gygI4c3d3tM7ss0a',
     features: [
       'Live AI callouts in-match',
       'Personalized operator picks',
@@ -139,6 +141,7 @@ const PRICING = [
     price: '$29',
     period: '/mo',
     desc: 'For players who want it all',
+    link: 'https://buy.stripe.com/aFa5kE9R84Zmc3d7K27ss0b',
     features: [
       'Everything in Pro',
       'Unlimited VOD reviews',
@@ -406,9 +409,9 @@ function App() {
                   <li key={f}>{f}</li>
                 ))}
               </ul>
-              <button className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
+              <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
                 {p.price === 'Free' ? 'Get Started Free' : 'Subscribe Now'}
-              </button>
+              </a>
             </div>
           ))}
         </div>
