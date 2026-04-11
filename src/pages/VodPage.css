@@ -1,0 +1,358 @@
+/* ─── VOD Page ─── */
+.vod-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.vod-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.vod-header h1 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+.vod-header p {
+  color: var(--text);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ─── Tabs ─── */
+.vod-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.vod-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  position: relative;
+}
+.vod-tab:hover:not(.disabled) {
+  color: var(--accent);
+}
+.vod-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.vod-tab.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.vod-tab-icon {
+  font-size: 1.1rem;
+}
+.vod-tab-soon {
+  font-size: 0.6rem;
+  background: var(--border);
+  color: var(--text);
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Upload Zone ─── */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: var(--bg-card);
+}
+.upload-zone:hover,
+.upload-zone.dragging {
+  border-color: var(--accent);
+  background: rgba(0, 229, 255, 0.03);
+}
+.upload-zone-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+.upload-zone h3 {
+  font-size: 1.2rem;
+  color: var(--text-h);
+  margin-bottom: 8px;
+}
+.upload-zone p {
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+.upload-zone-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.upload-zone-formats {
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: var(--text);
+  opacity: 0.5;
+}
+.upload-preview {
+  margin-top: 20px;
+}
+.upload-preview img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.upload-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* ─── Link Input ─── */
+.link-input-wrap {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.link-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-h);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.link-input:focus {
+  border-color: var(--accent);
+}
+.link-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.link-input-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.link-input-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Loading ─── */
+.analysis-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 20px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.loading-steps {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto 0;
+  max-width: 300px;
+}
+.loading-steps li {
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.loading-steps li.done {
+  color: var(--success);
+}
+.loading-steps li.active {
+  color: var(--accent);
+}
+
+/* ─── Analysis Results ─── */
+.analysis-results {
+  display: grid;
+  gap: 20px;
+}
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.analysis-header h3 {
+  font-size: 1.2rem;
+  color: var(--text-h);
+}
+.analysis-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.analysis-card-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.analysis-card p {
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+.analysis-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+}
+.analysis-score-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+.analysis-score-label {
+  font-size: 0.75rem;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.analysis-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.analysis-list li {
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 6px 0;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.analysis-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* ─── Coming Soon ─── */
+.vod-coming-soon {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.vod-coming-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+.vod-coming-soon h3 {
+  font-size: 1.3rem;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+.vod-coming-soon p {
+  color: var(--text);
+  max-width: 460px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+  font-size: 0.92rem;
+}
+.vod-coming-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Error ─── */
+.vod-error {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-card);
+  border: 1px solid #c62828;
+  border-radius: 12px;
+}
+.vod-error p {
+  color: #ef5350;
+  margin-bottom: 16px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  .vod-page {
+    padding: 100px 16px 60px;
+  }
+  .vod-header h1 {
+    font-size: 1.8rem;
+  }
+  .vod-tabs {
+    overflow-x: auto;
+  }
+  .upload-zone {
+    padding: 40px 20px;
+  }
+  .link-input-wrap {
+    flex-direction: column;
+  }
+}

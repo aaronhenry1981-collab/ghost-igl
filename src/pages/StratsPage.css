@@ -1,0 +1,334 @@
+/* ─── Strats Page ─── */
+.strats-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.strats-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.strats-header h1 {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+.strats-header p {
+  color: var(--text);
+  font-size: 1.05rem;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.strats-back {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.strats-back:hover {
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+
+.strats-map-title {
+  margin-bottom: 20px;
+}
+.strats-map-title h2 {
+  font-size: 1.5rem;
+  color: var(--text-h);
+}
+
+.strats-empty {
+  text-align: center;
+  color: var(--text);
+  padding: 60px 20px;
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+/* ─── Map Selector Grid ─── */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.map-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.map-card:hover:not(.coming-soon) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0, 229, 255, 0.08);
+}
+.map-card.coming-soon {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.map-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 4px;
+}
+.map-card-sites {
+  font-size: 0.75rem;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.map-card-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.map-card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* ─── Side Toggle ─── */
+.side-toggle {
+  display: inline-flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.side-toggle button {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 10px 28px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+.side-toggle button.active-attack {
+  background: #1565c0;
+  color: #fff;
+}
+.side-toggle button.active-defense {
+  background: #c62828;
+  color: #fff;
+}
+
+/* ─── Site Selector ─── */
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.site-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.site-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.site-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 4px;
+}
+.site-card-floor {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Strat Display ─── */
+.strat-display {
+  display: grid;
+  gap: 24px;
+}
+
+.strat-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.strat-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.strat-text {
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* Operators */
+.operator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.operator-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.operator-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.operator-avatar.essential {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+.operator-avatar.recommended {
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--gold);
+  border: 2px solid var(--gold);
+}
+.operator-avatar.flex {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+.operator-info {
+  min-width: 0;
+}
+.operator-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-h);
+}
+.operator-role {
+  font-size: 0.72rem;
+  color: var(--text);
+  margin-top: 2px;
+}
+.operator-priority {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.operator-priority.essential {
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--accent);
+}
+.operator-priority.recommended {
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--gold);
+}
+.operator-priority.flex {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+/* Callouts */
+.callout-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.callout-tag {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 5px;
+}
+
+/* Utility */
+.utility-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.utility-list li {
+  color: var(--text);
+  font-size: 0.88rem;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.utility-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 700px) {
+  .strats-page {
+    padding: 100px 16px 60px;
+  }
+  .strats-header h1 {
+    font-size: 1.8rem;
+  }
+  .map-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .operator-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-grid {
+    grid-template-columns: 1fr;
+  }
+}
