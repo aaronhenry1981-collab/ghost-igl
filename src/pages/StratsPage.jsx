@@ -3,6 +3,7 @@ import MAPS from '../data/maps'
 import STRATS from '../data/strats'
 import BANS from '../data/bans'
 import SQUAD_ROLES from '../data/squadRoles'
+import ENEMY_META from '../data/enemyMeta'
 import MapSelector from '../components/strats/MapSelector'
 import SiteSelector from '../components/strats/SiteSelector'
 import SideToggle from '../components/strats/SideToggle'
@@ -10,6 +11,7 @@ import SquadToggle from '../components/strats/SquadToggle'
 import SquadGuide from '../components/strats/SquadGuide'
 import StratDisplay from '../components/strats/StratDisplay'
 import BanDisplay from '../components/strats/BanDisplay'
+import EnemyIntel from '../components/strats/EnemyIntel'
 import './StratsPage.css'
 
 export default function StratsPage() {
@@ -22,6 +24,9 @@ export default function StratsPage() {
   const strat = selectedMap && selectedSite && STRATS[selectedMap]?.[selectedSite]?.[side]
   const bans = selectedMap && BANS[selectedMap]
   const squadGuide = SQUAD_ROLES[side]?.[squadSize]
+  // Enemy intel: show the opposite side's meta (if you're attacking, show what defenders will run)
+  const enemySide = side === 'attack' ? 'defense' : 'attack'
+  const enemyIntel = selectedMap && selectedSite && ENEMY_META[selectedMap]?.[selectedSite]?.[enemySide]
 
   function handleMapSelect(mapId) {
     const map = MAPS.find((m) => m.id === mapId)
@@ -88,6 +93,7 @@ export default function StratsPage() {
             <>
               {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
               <StratDisplay strat={strat} side={side} />
+              {enemyIntel && <EnemyIntel intel={enemyIntel} />}
             </>
           ) : (
             <div className="strats-empty">No strategy data available for this configuration.</div>

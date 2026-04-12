@@ -476,6 +476,95 @@
   border: 1px solid rgba(198, 40, 40, 0.2);
 }
 
+/* ─── Enemy Intel ─── */
+.enemy-intel {
+  display: grid;
+  gap: 20px;
+  margin-top: 8px;
+}
+.enemy-intel .strat-section {
+  border-left: 3px solid #c62828;
+}
+.enemy-ops {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.enemy-op {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.enemy-op-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.enemy-op-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(198, 40, 40, 0.12);
+  color: #ef5350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.65rem;
+  border: 2px solid rgba(198, 40, 40, 0.3);
+  flex-shrink: 0;
+}
+.enemy-op-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-h);
+  flex: 1;
+}
+.enemy-op-rate {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #ef5350;
+  background: rgba(198, 40, 40, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.enemy-op-reason {
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+}
+.enemy-strat-list,
+.enemy-tendency-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.enemy-strat-list li,
+.enemy-tendency-list li {
+  color: var(--text);
+  font-size: 0.88rem;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.enemy-strat-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: #ef5350;
+}
+.enemy-tendency-list li::before {
+  content: '\26A1';
+  position: absolute;
+  left: 0;
+  font-size: 0.7rem;
+}
+
 /* ─── Bans ─── */
 .ban-display {
   display: grid;
