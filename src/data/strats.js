@@ -586,6 +586,447 @@ const STRATS = {
       },
     },
   },
+
+  kafe: {
+    'reading-fireplace': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Capitao', role: 'Area Denial', priority: 'recommended' },
+          { name: 'Iana', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Open the Reading Room wall with Thermite from the white stairs side. Buck plays vertical from the roof hatch above Fireplace Hall to pressure anchors off default positions. Capitao fire bolts deny the Fireplace anchor spot during the plant execute. Iana drones Reading and Fireplace to locate remaining defenders before committing.',
+        callouts: ['Reading Room', 'Fireplace Hall', 'White Stairs', 'Red Stairs', 'Cigar Shop', 'Mining Room', 'Piano'],
+        utility: [
+          'Thermite: 2 charges on Reading Room reinforced wall',
+          'Thatcher: EMP Reading wall to clear Kaid/Bandit',
+          'Buck: Open roof hatch and floor above Fireplace Hall',
+          'Capitao: Fire bolts on Fireplace anchor positions during execute',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Wamai', role: 'Utility Denial', priority: 'flex' },
+        ],
+        strategy: 'Kaid electrifies the Reading Room wall from behind the piano. Smoke holds Fireplace doorways and denies plant in the last 30 seconds. Jager and Wamai stack utility denial to protect anchor positions from Capitao fire and grenades. Vigil roams white stairs and cigar shop to waste attacker time.',
+        callouts: ['Reading Room', 'Fireplace Hall', 'White Stairs', 'Red Stairs', 'Cigar Shop', 'Piano'],
+        utility: [
+          'Kaid: Electroclaw on Reading Room wall from behind piano',
+          'Smoke: Canisters on Fireplace doorways for plant denial',
+          'Jager: ADS covering windows and white stairs entry',
+          'Wamai: Mag-NETs near Reading Room windows',
+        ],
+      },
+    },
+    'mining-train': {
+      attack: {
+        operators: [
+          { name: 'Hibana', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Hibana opens the Mining Room wall at range from cigar balcony. Sledge opens the roof hatch and plays vertical from above Train Museum. Ash pushes from white stairs after establishing control. Nomad covers red stairs and freezer flanks. Coordinate the execute with vertical pressure forcing defenders off the bomb.',
+        callouts: ['Mining Room', 'Train Museum', 'Cigar Balcony', 'White Stairs', 'Red Stairs', 'Freezer', 'Pillar'],
+        utility: [
+          'Hibana: X-KAIROS on Mining Room reinforced wall',
+          'Thatcher: EMP to clear anti-breach electronics',
+          'Sledge: Open roof hatch and floor above Train Museum',
+          'Nomad: Airjabs on red stairs and freezer rotation',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Mute', role: 'Intel Denial', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Lesion', role: 'Intel / Delay', priority: 'flex' },
+        ],
+        strategy: 'Bandit tricks the Mining Room wall to deny Hibana. Maestro places Evil Eyes covering Train Museum plant spots and the pillar angle. Mute jammers deny drone intel and support Bandit on the wall. Ela roams freezer and white stairs with Grzmot mines. Lesion mines provide early warning on all entry points.',
+        callouts: ['Mining Room', 'Train Museum', 'White Stairs', 'Red Stairs', 'Freezer', 'Pillar'],
+        utility: [
+          'Bandit: Trick Mining Room wall against Hibana',
+          'Maestro: Evil Eyes on Train Museum plant spots',
+          'Mute: Jammers supporting wall denial and drone holes',
+          'Lesion: Gu mines at entries and stairwells',
+        ],
+      },
+    },
+    'kitchen-bakery': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Zofia', role: 'Soft Breach', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Flores', role: 'Utility Clear', priority: 'recommended' },
+          { name: 'Finka', role: 'Support', priority: 'flex' },
+        ],
+        strategy: 'Ace opens the Kitchen reinforced wall from the bakery corridor. Buck plays vertical from Reading Room floor above to pressure kitchen anchors. Zofia clears utility and opens soft walls for new angles. Flores drones clear defender gadgets before the execute. Finka boost supports the final push through bakery.',
+        callouts: ['Kitchen', 'Bakery', 'Bakery Corridor', 'Prep Area', 'Freezer', 'Red Stairs', 'White Stairs'],
+        utility: [
+          'Ace: S.E.L.M.A on Kitchen reinforced wall',
+          'Zofia: Concussions and impacts for utility clear',
+          'Buck: Vertical destruction from Reading Room above',
+          'Flores: Drone clear shields and barbed wire',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Mira', role: 'Intel', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Thunderbird', role: 'Sustain', priority: 'flex' },
+        ],
+        strategy: 'Mira places a Black Mirror between Kitchen and Bakery for intel on the push. Smoke holds the bakery corridor and denies plant. Jager ADS protect the Mira window and anchor positions. Vigil roams above site to deny vertical setup. Thunderbird provides healing near the rotation between sites.',
+        callouts: ['Kitchen', 'Bakery', 'Bakery Corridor', 'Prep Area', 'Freezer', 'Red Stairs'],
+        utility: [
+          'Mira: Black Mirror on Kitchen/Bakery wall',
+          'Smoke: Canisters to deny bakery corridor plant',
+          'Jager: ADS protecting Mira window and entries',
+          'Thunderbird: Kona station near rotation point',
+        ],
+      },
+    },
+    'bar-cocktail': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Capitao', role: 'Area Denial', priority: 'recommended' },
+          { name: 'Gridlock', role: 'Flank Denial', priority: 'flex' },
+        ],
+        strategy: 'Thermite opens the Bar reinforced wall from the main entrance side. Sledge plays vertical from Mining Room above to open the floor over Cocktail Lounge. Capitao fire bolts deny the bar counter anchor during execute. Gridlock trax cover the red stairs rotation to prevent flanks. Thatcher clears electronics on the wall before breach.',
+        callouts: ['Bar', 'Cocktail Lounge', 'Main Entrance', 'Red Stairs', 'White Stairs', 'Cigar Shop', 'Freezer'],
+        utility: [
+          'Thermite: Breach Bar reinforced wall from main entrance',
+          'Thatcher: EMP to clear Bandit/Kaid on Bar wall',
+          'Sledge: Open floor above Cocktail Lounge from Mining Room',
+          'Capitao: Fire bolts on bar counter anchor spot',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Alibi', role: 'Roam / Intel', priority: 'recommended' },
+          { name: 'Aruni', role: 'Utility Gate', priority: 'flex' },
+        ],
+        strategy: 'Kaid electrifies the Bar wall from behind cover in Cocktail Lounge. Smoke denies plant at the main entrance doorway and bar counter area. Jager ADS protect the site from flashbangs and Capitao bolts. Alibi roams freezer and cigar shop with prismas. Aruni gates slow the main entrance and white stairs pushes.',
+        callouts: ['Bar', 'Cocktail Lounge', 'Main Entrance', 'Red Stairs', 'White Stairs', 'Freezer'],
+        utility: [
+          'Kaid: Electroclaw on Bar wall from Cocktail Lounge',
+          'Smoke: Deny plant at main entrance and bar counter',
+          'Jager: ADS covering main entrance and windows',
+          'Aruni: Surya gates on main entrance and white stairs',
+        ],
+      },
+    },
+  },
+
+  consulate: {
+    'consul-meeting': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'recommended' },
+          { name: 'Iana', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Thermite opens the Consul Office wall from the balcony. Buck plays vertical from the roof by opening the hatch above Meeting Room. Nomad watches yellow stairs and connector flanks. Iana drones out the site before the final push. Control the piano room and top of yellow stairs before executing.',
+        callouts: ['Consul Office', 'Meeting Room', 'Balcony', 'Yellow Stairs', 'Piano', 'Connector', 'Admin Office'],
+        utility: [
+          'Thermite: 2 charges on Consul Office reinforced wall',
+          'Thatcher: EMP to clear Kaid electroclaw on Consul wall',
+          'Buck: Open hatch and floor above Meeting Room',
+          'Nomad: Airjabs on yellow stairs and connector',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Mute', role: 'Intel Denial', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Wamai', role: 'Utility Denial', priority: 'flex' },
+        ],
+        strategy: 'Kaid electrifies the Consul wall from behind the desk. Smoke holds the Meeting Room doorway and denies plant. Mute jammers deny drones and support anti-breach on the wall. Vigil roams yellow stairs and admin to waste time. Wamai Mag-NETs protect anchor positions from projectiles.',
+        callouts: ['Consul Office', 'Meeting Room', 'Balcony', 'Yellow Stairs', 'Piano', 'Connector'],
+        utility: [
+          'Kaid: Electroclaw on Consul Office wall',
+          'Smoke: Deny plant in Meeting Room doorway',
+          'Mute: Jammers on wall and drone entry points',
+          'Wamai: Mag-NETs near balcony windows',
+        ],
+      },
+    },
+    'lobby-press': {
+      attack: {
+        operators: [
+          { name: 'Hibana', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Zofia', role: 'Soft Breach', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Flores', role: 'Utility Clear', priority: 'flex' },
+        ],
+        strategy: 'Hibana opens the Lobby reinforced wall from the main entrance. Sledge plays vertical from above through Consul Office floor to pressure Press Room anchors. Ash pushes from visa entrance after Zofia clears utility. Flores drones clear shields and barbed wire before the execute. Control visa office and main entrance before committing.',
+        callouts: ['Lobby', 'Press Room', 'Visa Office', 'Main Entrance', 'Yellow Stairs', 'Spiral Stairs', 'Front Desk'],
+        utility: [
+          'Hibana: X-KAIROS on Lobby reinforced wall',
+          'Zofia: Concussions and impacts for utility clear',
+          'Sledge: Vertical play from Consul Office floor',
+          'Flores: Drone clear shields and barbed wire',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mira', role: 'Intel', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Lesion', role: 'Intel / Delay', priority: 'flex' },
+        ],
+        strategy: 'Mira places a Black Mirror on the wall between Lobby and Press Room for intel on the main entrance push. Smoke holds the visa office corridor and denies plant. Jager ADS protect Mira window and anchor spots. Ela roams upstairs with Grzmot mines on yellow stairs. Lesion mines cover visa entrance and spiral stairs.',
+        callouts: ['Lobby', 'Press Room', 'Visa Office', 'Main Entrance', 'Yellow Stairs', 'Front Desk'],
+        utility: [
+          'Mira: Black Mirror between Lobby and Press Room',
+          'Smoke: Deny plant in visa corridor',
+          'Jager: ADS protecting Mira window from grenades',
+          'Lesion: Gu mines on visa entrance and spiral stairs',
+        ],
+      },
+    },
+    'garage-cafeteria': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Gridlock', role: 'Flank Denial', priority: 'recommended' },
+          { name: 'Lion', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Thermite opens the Garage reinforced wall from outside. Buck plays vertical from 1F above Cafeteria to pressure defenders off default spots. Gridlock trax deny the spiral stairs rotation. Lion scan catches rotating defenders during the execute. Control lobby and visa office above before pushing basement.',
+        callouts: ['Garage', 'Cafeteria', 'Spiral Stairs', 'Basement Corridor', 'Server Room', 'Visa Entrance'],
+        utility: [
+          'Thermite: Breach Garage reinforced wall from outside',
+          'Thatcher: EMP to clear Bandit/Kaid on Garage wall',
+          'Buck: Vertical destruction from 1F into Cafeteria',
+          'Gridlock: Trax on spiral stairs to deny rotation',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Mute', role: 'Intel Denial', priority: 'recommended' },
+          { name: 'Pulse', role: 'Intel', priority: 'recommended' },
+          { name: 'Castle', role: 'Delay', priority: 'flex' },
+        ],
+        strategy: 'Bandit tricks the Garage wall to deny Thermite every round. Smoke holds the basement corridor and denies plant near the Garage door. Mute jammers support Bandit on the wall and deny drone intel. Pulse plays on 1F for vertical intel and C4 opportunities against attackers above. Castle barricades delay the spiral stairs push.',
+        callouts: ['Garage', 'Cafeteria', 'Spiral Stairs', 'Basement Corridor', 'Server Room'],
+        utility: [
+          'Bandit: Trick Garage wall against Thermite',
+          'Smoke: Deny plant in basement corridor',
+          'Mute: Jammers on Garage wall and drone holes',
+          'Pulse: C4 through ceiling against vertical players',
+        ],
+      },
+    },
+    'tellers-archives': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Twitch', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'recommended' },
+          { name: 'Dokkaebi', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Ace opens the Tellers reinforced wall from the main entrance side. Twitch drone clears anti-breach gadgets. Sledge plays vertical from 2F above Archives to deny anchor positions. Nomad watches yellow stairs and spiral stairs flanks. Dokkaebi calls phones to reveal anchor positions before the final push.',
+        callouts: ['Tellers', 'Archives', 'Main Entrance', 'Yellow Stairs', 'Spiral Stairs', 'Visa Office', 'Front Desk'],
+        utility: [
+          'Ace: S.E.L.M.A on Tellers reinforced wall',
+          'Twitch: Drone to clear ADS and shock wire',
+          'Sledge: Vertical destruction above Archives',
+          'Nomad: Airjabs on yellow stairs and spiral stairs',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Lesion', role: 'Intel / Delay', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Valkyrie', role: 'Intel', priority: 'recommended' },
+          { name: 'Aruni', role: 'Utility Gate', priority: 'flex' },
+        ],
+        strategy: 'Bandit tricks the Tellers wall to deny Ace. Lesion mines cover every entry point for early warning and slow intel. Jager ADS protect site from flashbangs and projectiles. Valkyrie cameras in visa office and spiral stairs provide rotation intel. Aruni gates on main entrance and visa corridor slow the push.',
+        callouts: ['Tellers', 'Archives', 'Main Entrance', 'Yellow Stairs', 'Spiral Stairs', 'Visa Office'],
+        utility: [
+          'Bandit: Trick Tellers reinforced wall',
+          'Lesion: Gu mines at every entry point',
+          'Jager: ADS covering main entrance and windows',
+          'Aruni: Surya gates on main entrance and visa corridor',
+        ],
+      },
+    },
+  },
+
+  chalet: {
+    'master-office': {
+      attack: {
+        operators: [
+          { name: 'Hibana', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Zofia', role: 'Soft Breach', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Hibana opens the Master Bedroom wall from the balcony at range. Ash pushes from main stairs after clearing the hallway. Zofia opens soft walls between Office and library for new angles and concusses anchor positions. Nomad covers back stairs and kitchen rotation. Take library and hallway control before executing on site.',
+        callouts: ['Master Bedroom', 'Office', 'Balcony', 'Main Stairs', 'Back Stairs', 'Library', 'Hallway'],
+        utility: [
+          'Hibana: X-KAIROS on Master Bedroom wall from balcony',
+          'Thatcher: EMP to clear Kaid/Bandit on Master wall',
+          'Zofia: Soft breach and concussions on Office angles',
+          'Nomad: Airjabs on back stairs and kitchen rotation',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Melusi', role: 'Slow', priority: 'flex' },
+        ],
+        strategy: 'Kaid electrifies the Master Bedroom wall from the bathroom side. Smoke holds the hallway and denies plant at the doorway. Jager ADS protect the balcony windows and Office angles. Vigil roams library and main stairs to waste time. Melusi banshees slow the main stairs and balcony pushes.',
+        callouts: ['Master Bedroom', 'Office', 'Balcony', 'Main Stairs', 'Back Stairs', 'Library'],
+        utility: [
+          'Kaid: Electroclaw on Master Bedroom wall',
+          'Smoke: Deny plant in hallway doorway',
+          'Jager: ADS on balcony windows and Office entry',
+          'Melusi: Banshees on main stairs and balcony door',
+        ],
+      },
+    },
+    'bar-gaming': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Capitao', role: 'Area Denial', priority: 'recommended' },
+          { name: 'Iana', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Thermite opens the Bar reinforced wall from the campfire side. Buck plays vertical from Master Bedroom above to pressure Gaming Room anchors. Capitao fire bolts deny the bar counter position during execute. Iana drones Gaming Room and connector before the push. Control trophy room and main entrance before executing.',
+        callouts: ['Bar', 'Gaming Room', 'Campfire', 'Main Entrance', 'Trophy Room', 'Fireplace', 'Connector'],
+        utility: [
+          'Thermite: Breach Bar wall from campfire exterior',
+          'Thatcher: EMP to clear electronics on Bar wall',
+          'Buck: Vertical from Master Bedroom above Gaming Room',
+          'Capitao: Fire bolts on bar counter anchor position',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Thunderbird', role: 'Sustain', priority: 'flex' },
+        ],
+        strategy: 'Bandit tricks the Bar wall to deny Thermite. Maestro Evil Eyes cover the Gaming Room plant spot and campfire window angle. Jager ADS protect against Capitao bolts and grenades. Ela roams trophy room and main stairs with Grzmot mines. Thunderbird Kona station near the connector rotation provides sustain.',
+        callouts: ['Bar', 'Gaming Room', 'Campfire', 'Main Entrance', 'Trophy Room', 'Connector'],
+        utility: [
+          'Bandit: Trick Bar wall against Thermite',
+          'Maestro: Evil Eyes covering Gaming Room plant spot',
+          'Jager: ADS in Bar and Gaming Room',
+          'Ela: Grzmot mines on trophy room and main stairs',
+        ],
+      },
+    },
+    'kitchen-trophy': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Zofia', role: 'Soft Breach', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'recommended' },
+          { name: 'Finka', role: 'Support', priority: 'flex' },
+        ],
+        strategy: 'Ace opens the Kitchen reinforced wall from the campfire side. Sledge plays vertical from Office above to pressure Trophy Room anchors through the soft floor. Zofia clears utility and opens soft walls for angles into Kitchen. Nomad watches back stairs and connector flanks. Finka boosts the team for the final push through the campfire breach.',
+        callouts: ['Kitchen', 'Trophy Room', 'Campfire', 'Back Stairs', 'Main Entrance', 'Connector', 'Wine Cellar Stairs'],
+        utility: [
+          'Ace: S.E.L.M.A on Kitchen reinforced wall',
+          'Zofia: Concussions and soft breach into Trophy Room',
+          'Sledge: Vertical from Office floor above Trophy Room',
+          'Nomad: Airjabs on back stairs and connector',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Mira', role: 'Intel', priority: 'essential' },
+          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Lesion', role: 'Intel / Delay', priority: 'flex' },
+        ],
+        strategy: 'Mira places a Black Mirror between Kitchen and Trophy Room for intel on the campfire push. Smoke holds the connector and denies plant. Jager ADS protect the Mira window and Kitchen anchors from projectiles. Vigil roams above site to deny vertical setup. Lesion mines provide early warning on all entry points.',
+        callouts: ['Kitchen', 'Trophy Room', 'Campfire', 'Back Stairs', 'Connector', 'Wine Cellar Stairs'],
+        utility: [
+          'Mira: Black Mirror on Kitchen/Trophy Room wall',
+          'Smoke: Deny plant in connector and Kitchen doorway',
+          'Jager: ADS protecting Mira window and entries',
+          'Lesion: Gu mines on campfire entrance and back stairs',
+        ],
+      },
+    },
+    'wine-snowmobile': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Gridlock', role: 'Flank Denial', priority: 'recommended' },
+          { name: 'Lion', role: 'Intel', priority: 'flex' },
+        ],
+        strategy: 'Thermite opens the Snowmobile Garage wall from the exterior. Buck plays vertical from Kitchen floor above to open the ceiling over Wine Cellar and deny anchor positions. Gridlock trax deny the wine cellar stairs rotation and back stairs flank. Lion scan catches rotating defenders during the execute. Control kitchen and trophy room above before pushing basement.',
+        callouts: ['Wine Cellar', 'Snowmobile Garage', 'Wine Cellar Stairs', 'Back Stairs', 'Basement Corridor', 'Garage Door'],
+        utility: [
+          'Thermite: Breach Snowmobile Garage wall from outside',
+          'Thatcher: EMP to clear Bandit/Kaid on Garage wall',
+          'Buck: Vertical destruction from Kitchen into Wine Cellar',
+          'Gridlock: Trax on wine cellar stairs to deny rotation',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Smoke', role: 'Area Denial', priority: 'essential' },
+          { name: 'Mute', role: 'Intel Denial', priority: 'recommended' },
+          { name: 'Pulse', role: 'Intel', priority: 'recommended' },
+          { name: 'Castle', role: 'Delay', priority: 'flex' },
+        ],
+        strategy: 'Bandit tricks the Snowmobile Garage wall every round to deny Thermite. Smoke holds the basement corridor and wine cellar stairs, denying plant in the last 30 seconds. Mute jammers support Bandit on the wall and deny drone intel. Pulse plays on 1F for vertical intel and C4 opportunities against Buck. Castle barricades delay the wine cellar stairs push.',
+        callouts: ['Wine Cellar', 'Snowmobile Garage', 'Wine Cellar Stairs', 'Back Stairs', 'Basement Corridor'],
+        utility: [
+          'Bandit: Trick Snowmobile Garage wall against Thermite',
+          'Smoke: Deny plant in basement corridor and stairs',
+          'Mute: Jammers on Garage wall and drone entries',
+          'Pulse: C4 through ceiling against vertical players on 1F',
+        ],
+      },
+    },
+  },
 }
 
 export default STRATS

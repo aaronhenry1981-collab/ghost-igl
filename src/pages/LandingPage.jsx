@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { getCurrentSeason } from '../utils/season'
+import EmailCapture from '../components/EmailCapture'
 
 function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0)
@@ -101,7 +103,7 @@ export default function LandingPage() {
         <div className="hero-content">
           <div className="hero-badge">
             <span className="pulse-dot" />
-            Rainbow Six Siege &mdash; Season Y9S4
+            Rainbow Six Siege &mdash; Season {getCurrentSeason()}
           </div>
           <h1>
             Stop Getting <span className="accent">Boosted.</span><br />
@@ -291,6 +293,12 @@ export default function LandingPage() {
         </div>
         <div className="faq-list">
           {FAQ.map((item) => (<FaqItem key={item.q} item={item} />))}
+        </div>
+      </section>
+
+      <section className="section" id="newsletter">
+        <div className="section-header">
+          <EmailCapture />
         </div>
       </section>
 

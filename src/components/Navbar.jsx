@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false)
   const location = useLocation()
   const isLanding = location.pathname === '/'
+  const { user, isPro, signOut } = useAuth()
 
   const sectionLink = (hash) => isLanding ? hash : `/${hash}`
 
@@ -21,7 +23,17 @@ export default function Navbar() {
       <div className="navbar-right">
         <div className="live-dot" />
         <span className="live-count">2,847 players online</span>
-        <Link to="/strats" className="btn btn-primary btn-sm">Try Free</Link>
+        {user ? (
+          <>
+            {isPro && <span className="nav-pro-badge">PRO</span>}
+            <button className="btn btn-ghost btn-sm" onClick={signOut}>Sign Out</button>
+          </>
+        ) : (
+          <>
+            <Link to="/auth" className="btn btn-ghost btn-sm">Sign In</Link>
+            <Link to="/strats" className="btn btn-primary btn-sm">Try Free</Link>
+          </>
+        )}
       </div>
       <button className="mobile-toggle" onClick={() => setMobileMenu(!mobileMenu)} aria-label="Menu">
         <span /><span /><span />

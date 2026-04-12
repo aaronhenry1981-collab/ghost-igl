@@ -616,6 +616,468 @@ const ENEMY_META = {
       },
     },
   },
+  kafe: {
+    'reading-fireplace': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 80, reason: 'Reading Room wall is the primary hard breach target on this site' },
+          { name: 'Thatcher', pickRate: 68, reason: 'Clearing Kaid electroclaw on Reading wall is the standard support play' },
+          { name: 'Buck', pickRate: 55, reason: 'Vertical from roof hatch into Fireplace Hall is very common' },
+          { name: 'Capitao', pickRate: 48, reason: 'Fire bolts deny Fireplace anchor spots during late-round execute' },
+        ],
+        commonStrats: [
+          'Hard breach Reading wall + vertical from roof hatch above Fireplace (55% of rounds)',
+          'White stairs push into Reading with Ash entry (25% of rounds)',
+          'Split push: cigar shop + white stairs pinch (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Reading wall is the default play — expect Thermite or Ace every round',
+          'Vertical pressure through the roof hatch comes early — watch for Buck within 60 seconds',
+          'Capitao fire bolts will target your Fireplace anchor position during the plant',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Kaid', pickRate: 75, reason: 'Electroclaw on Reading Room wall is the standard anti-breach setup' },
+          { name: 'Smoke', pickRate: 65, reason: 'Denies plant in Fireplace Hall doorways and Reading Room connector' },
+          { name: 'Vigil', pickRate: 52, reason: 'Roams white stairs and cigar shop to waste attacker time' },
+          { name: 'Jager', pickRate: 58, reason: 'ADS protect anchor positions from Capitao bolts and grenades' },
+        ],
+        commonStrats: [
+          'Kaid wall + Smoke anchor Fireplace, roamer on white stairs (50% of rounds)',
+          'Extended cigar shop hold to deny map control (25% of rounds)',
+          'Aggressive red stairs peek to catch early pushes (25% of rounds)',
+        ],
+        tendencies: [
+          'Kaid tricking on Reading wall is standard — bring a counter or rush the breach',
+          'One roamer will contest white stairs control early in the round',
+          'Smoke saves canisters for the last 30 seconds — clear him before attempting plant',
+        ],
+      },
+    },
+    'mining-train': {
+      attack: {
+        likelyOps: [
+          { name: 'Hibana', pickRate: 74, reason: 'Opens Mining Room wall at range from cigar balcony' },
+          { name: 'Sledge', pickRate: 60, reason: 'Vertical from roof into Train Museum is a primary strategy' },
+          { name: 'Thatcher', pickRate: 65, reason: 'Clears Bandit batteries on Mining Room wall' },
+          { name: 'Ash', pickRate: 52, reason: 'Fast entry through white stairs or red stairs into site' },
+        ],
+        commonStrats: [
+          'Hibana breach Mining wall + vertical from above Train Museum (50% of rounds)',
+          'White stairs push with Ash entry into Mining Room (30% of rounds)',
+          'Split push: cigar balcony + red stairs pinch (20% of rounds)',
+        ],
+        tendencies: [
+          'Hibana will target Mining Room wall from cigar balcony — long range breach is standard',
+          'Vertical play through roof hatch above Train Museum comes within the first 90 seconds',
+          'If they take white stairs early, they are setting up a fast push into Mining',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Bandit', pickRate: 72, reason: 'Battery tricking on Mining Room wall is the default anti-breach' },
+          { name: 'Maestro', pickRate: 55, reason: 'Evil Eyes on Train Museum plant spots provide intel and damage' },
+          { name: 'Mute', pickRate: 50, reason: 'Jammers support Bandit on the wall and deny drone intel' },
+          { name: 'Ela', pickRate: 45, reason: 'Roams freezer and white stairs with Grzmot mines' },
+        ],
+        commonStrats: [
+          'Bandit trick wall + Maestro cameras on plant (50% of rounds)',
+          'Extended white stairs hold to deny map control (25% of rounds)',
+          'Roam heavy with 2 players off-site in freezer and cigar (25% of rounds)',
+        ],
+        tendencies: [
+          'Bandit tricking is almost guaranteed on Mining wall — assume they are doing it',
+          'Maestro cameras in Train Museum will provide intel on your push — clear them first',
+          'A roamer will contest freezer or white stairs — clear before executing',
+        ],
+      },
+    },
+    'kitchen-bakery': {
+      attack: {
+        likelyOps: [
+          { name: 'Ace', pickRate: 70, reason: 'Opens Kitchen wall from bakery corridor at range' },
+          { name: 'Buck', pickRate: 62, reason: 'Vertical from Reading Room above Kitchen is very effective' },
+          { name: 'Zofia', pickRate: 55, reason: 'Soft breach and concussions for clearing tight Kitchen angles' },
+          { name: 'Flores', pickRate: 42, reason: 'Drones clear defender gadgets and force repositioning' },
+        ],
+        commonStrats: [
+          'Hard breach Kitchen wall + vertical from Reading Room above (55% of rounds)',
+          'Red stairs push into Kitchen with Ash/Zofia entry (25% of rounds)',
+          'Bakery corridor push with utility clear (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Kitchen wall is the default — expect Ace or Thermite every round',
+          'Vertical play from Reading Room floor above Kitchen comes within the first 90 seconds',
+          'If they clear bakery corridor early, the execute is coming through there',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Mira', pickRate: 65, reason: 'Black Mirror between Kitchen and Bakery gives massive intel on the push' },
+          { name: 'Smoke', pickRate: 62, reason: 'Denies plant in bakery corridor and Kitchen doorways' },
+          { name: 'Jager', pickRate: 58, reason: 'ADS protect Mira window and anchor positions from projectiles' },
+          { name: 'Vigil', pickRate: 48, reason: 'Roams above site to deny vertical play setup' },
+        ],
+        commonStrats: [
+          'Mira mirror + Smoke denial in bakery corridor (50% of rounds)',
+          'Extended freezer hold to deny rotation (25% of rounds)',
+          'Roam above to deny Buck vertical play (25% of rounds)',
+        ],
+        tendencies: [
+          'If Mira is not banned, expect a Black Mirror between Kitchen and Bakery',
+          'Smoke holds canisters for the last 30 seconds — clear him before planting',
+          'A roamer will play above site to contest vertical — check before committing Buck',
+        ],
+      },
+    },
+    'bar-cocktail': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 78, reason: 'Bar wall is the primary hard breach target from main entrance' },
+          { name: 'Sledge', pickRate: 58, reason: 'Vertical from Mining Room above Cocktail Lounge is common' },
+          { name: 'Capitao', pickRate: 52, reason: 'Fire bolts deny bar counter anchor during execute' },
+          { name: 'Thatcher', pickRate: 66, reason: 'Clears Kaid/Bandit on Bar wall before breach' },
+        ],
+        commonStrats: [
+          'Hard breach Bar wall + vertical from Mining Room above (50% of rounds)',
+          'Red stairs push into Cocktail Lounge (25% of rounds)',
+          'Main entrance push with Ash/Zofia (25% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Bar wall from main entrance is the default — expect it every round',
+          'Sledge or Buck will play vertical above Cocktail Lounge within the first 90 seconds',
+          'Late-round Capitao fire will deny your bar counter anchor — reposition before execute',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Kaid', pickRate: 74, reason: 'Electroclaw on Bar wall is the standard anti-breach setup' },
+          { name: 'Smoke', pickRate: 63, reason: 'Canisters deny plant at main entrance and bar counter' },
+          { name: 'Jager', pickRate: 60, reason: 'ADS protect anchor positions from grenades and fire bolts' },
+          { name: 'Alibi', pickRate: 44, reason: 'Prismas in freezer and cigar shop confuse attackers' },
+        ],
+        commonStrats: [
+          'Kaid wall + Smoke hold + roamer on freezer (50% of rounds)',
+          'Extended red stairs hold to deny attacker map control (25% of rounds)',
+          'Aggressive main entrance peek early round (25% of rounds)',
+        ],
+        tendencies: [
+          'Kaid electroclaw on Bar wall is standard — assume they are tricking',
+          'Smoke saves utility for the last 30 seconds to deny plant at main entrance',
+          'Watch for an aggressive peek from red stairs in the first 15 seconds',
+        ],
+      },
+    },
+  },
+  consulate: {
+    'consul-meeting': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 82, reason: 'Consul Office wall is the primary hard breach target — almost every attack team brings him' },
+          { name: 'Thatcher', pickRate: 70, reason: 'Clearing Kaid electroclaw on Consul wall is the default support play' },
+          { name: 'Buck', pickRate: 55, reason: 'Vertical from roof hatch above Meeting Room is a primary strategy' },
+          { name: 'Nomad', pickRate: 48, reason: 'Airjabs on yellow stairs and connector watch flanks' },
+        ],
+        commonStrats: [
+          'Hard breach Consul wall + vertical from roof above Meeting Room (55% of rounds)',
+          'Piano room control into Consul push (25% of rounds)',
+          'Balcony entry with split push from yellow stairs (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Consul wall is the default — expect Thermite or Ace every round',
+          'Vertical from roof hatch comes within the first 90 seconds',
+          'If they take piano room early, they are setting up a coordinated push',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Kaid', pickRate: 76, reason: 'Electroclaw on Consul Office wall is the highest priority setup' },
+          { name: 'Smoke', pickRate: 64, reason: 'Denies plant in Meeting Room doorway and connector' },
+          { name: 'Vigil', pickRate: 52, reason: 'Roams yellow stairs and admin office to waste time' },
+          { name: 'Mute', pickRate: 50, reason: 'Jammers on wall and drone holes deny intel and support anti-breach' },
+        ],
+        commonStrats: [
+          'Kaid wall + Smoke anchor Meeting Room, roamer on yellow stairs (50% of rounds)',
+          'Extended piano room hold to deny map control (25% of rounds)',
+          'Aggressive balcony peek early round (25% of rounds)',
+        ],
+        tendencies: [
+          'Kaid tricking on Consul wall is standard — bring a counter or rush the breach',
+          'One roamer will play yellow stairs or admin — clear before committing',
+          'Smoke saves canisters for plant denial in the last 30 seconds',
+        ],
+      },
+    },
+    'lobby-press': {
+      attack: {
+        likelyOps: [
+          { name: 'Hibana', pickRate: 72, reason: 'Opens Lobby reinforced wall from main entrance at range' },
+          { name: 'Sledge', pickRate: 58, reason: 'Vertical from Consul Office floor above Press Room is common' },
+          { name: 'Zofia', pickRate: 55, reason: 'Soft breach and concussions for clearing Lobby corners' },
+          { name: 'Ash', pickRate: 52, reason: 'Fast entry from visa entrance into Lobby' },
+        ],
+        commonStrats: [
+          'Hard breach Lobby wall + vertical from above Press Room (50% of rounds)',
+          'Visa entrance push into Lobby with Ash entry (30% of rounds)',
+          'Main entrance push into Front Desk control (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Lobby wall is the standard — expect Hibana or Ace from main entrance',
+          'Vertical play from Consul Office floor above comes early in the round',
+          'If they take visa office control, they are flanking through visa entrance',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Mira', pickRate: 65, reason: 'Black Mirror between Lobby and Press Room gives massive intel advantage' },
+          { name: 'Smoke', pickRate: 60, reason: 'Denies plant in visa corridor and Lobby doorways' },
+          { name: 'Jager', pickRate: 58, reason: 'ADS protect Mira window and anchor spots from grenades' },
+          { name: 'Ela', pickRate: 45, reason: 'Roams upstairs with Grzmot mines on yellow stairs' },
+        ],
+        commonStrats: [
+          'Mira mirror + Smoke denial at visa corridor (50% of rounds)',
+          'Extended spiral stairs hold to deny flank (25% of rounds)',
+          'Roam heavy upstairs to deny vertical play (25% of rounds)',
+        ],
+        tendencies: [
+          'If Mira is not banned, expect a Black Mirror between Lobby and Press Room',
+          'Smoke holds canisters for plant denial — clear him before attempting plant',
+          'Check for Ela Grzmot mines on yellow stairs before pushing',
+        ],
+      },
+    },
+    'garage-cafeteria': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 85, reason: 'Garage wall is the primary breach target — essential for opening up basement' },
+          { name: 'Thatcher', pickRate: 72, reason: 'Clearing Bandit on Garage wall is critical for the hard breach' },
+          { name: 'Buck', pickRate: 58, reason: 'Vertical from 1F above Cafeteria pressures defenders off default spots' },
+          { name: 'Gridlock', pickRate: 44, reason: 'Trax on spiral stairs deny the rotation from above' },
+        ],
+        commonStrats: [
+          'Hard breach Garage wall + vertical from 1F above Cafeteria (55% of rounds)',
+          'Spiral stairs push into basement corridor (25% of rounds)',
+          'Full basement rush through Garage door with utility dump (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Garage wall is almost guaranteed — it is the default play',
+          'Vertical play from 1F comes within the first 60 seconds — watch for Buck above',
+          'If they take spiral stairs early, they are setting up a corridor push',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Bandit', pickRate: 78, reason: 'Tricking Garage wall is the highest priority — standard every round' },
+          { name: 'Smoke', pickRate: 68, reason: 'Basement corridor denial is extremely strong with limited paths' },
+          { name: 'Mute', pickRate: 55, reason: 'Jammers support Bandit on Garage wall and deny drone intel' },
+          { name: 'Pulse', pickRate: 42, reason: 'C4 through ceiling against vertical players on 1F' },
+        ],
+        commonStrats: [
+          'Bandit trick Garage wall + Smoke hold corridor, Pulse plays C4 below (50% of rounds)',
+          'Extended 1F hold to deny vertical play setup (25% of rounds)',
+          'Aggressive spiral stairs roam to waste time (25% of rounds)',
+        ],
+        tendencies: [
+          'Bandit will be tricking Garage wall — always assume they are doing it',
+          'Smoke saves canisters for the last 30 seconds to deny plant in corridor',
+          'Watch for Pulse below 1F with C4 if you are playing vertical',
+        ],
+      },
+    },
+    'tellers-archives': {
+      attack: {
+        likelyOps: [
+          { name: 'Ace', pickRate: 70, reason: 'Opens Tellers wall from main entrance side at range' },
+          { name: 'Sledge', pickRate: 56, reason: 'Vertical from 2F above Archives pressures anchor positions' },
+          { name: 'Nomad', pickRate: 50, reason: 'Airjabs on yellow stairs and spiral stairs watch flanks' },
+          { name: 'Twitch', pickRate: 45, reason: 'Drone clears anti-breach gadgets on Tellers wall' },
+        ],
+        commonStrats: [
+          'Hard breach Tellers wall + vertical from above Archives (50% of rounds)',
+          'Visa office control into Tellers push (30% of rounds)',
+          'Main entrance push with utility clear (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Tellers wall is the default — expect Ace or Thermite every round',
+          'Vertical play from 2F above Archives comes within the first 90 seconds',
+          'Nomad airjabs will block your rotation through yellow stairs late round',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Bandit', pickRate: 70, reason: 'Tricking Tellers wall to deny Ace is the standard play' },
+          { name: 'Lesion', pickRate: 58, reason: 'Gu mines on every entry point for early warning and slow' },
+          { name: 'Jager', pickRate: 56, reason: 'ADS protect site from flashbangs and projectiles' },
+          { name: 'Valkyrie', pickRate: 46, reason: 'Cameras in visa office and spiral stairs for rotation intel' },
+        ],
+        commonStrats: [
+          'Bandit trick wall + Lesion mines on entries (45% of rounds)',
+          'Extended visa office hold to deny flank route (30% of rounds)',
+          'Roam heavy with 2 players upstairs wasting time (25% of rounds)',
+        ],
+        tendencies: [
+          'Bandit tricking on Tellers wall is common — listen for batteries and time your breach',
+          'Check for Valkyrie cameras in visa office before pushing through',
+          'Lesion mines will be on every entry point — slow down and check your feet',
+        ],
+      },
+    },
+  },
+  chalet: {
+    'master-office': {
+      attack: {
+        likelyOps: [
+          { name: 'Hibana', pickRate: 76, reason: 'Opens Master Bedroom wall from balcony at range' },
+          { name: 'Thatcher', pickRate: 66, reason: 'Clears Kaid electroclaw on Master wall before breach' },
+          { name: 'Ash', pickRate: 58, reason: 'Fast entry from main stairs into hallway' },
+          { name: 'Zofia', pickRate: 52, reason: 'Soft breach and concussions on Office walls and angles' },
+        ],
+        commonStrats: [
+          'Hard breach Master wall from balcony + main stairs push (50% of rounds)',
+          'Library control into Office push from hallway (30% of rounds)',
+          'Balcony entry with split push from back stairs (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Master wall from balcony is the default — expect Hibana or Thermite',
+          'Library control is usually the first objective before pushing Office',
+          'If they take hallway control early, the execute is coming from main stairs',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Kaid', pickRate: 74, reason: 'Electroclaw on Master Bedroom wall is the standard anti-breach' },
+          { name: 'Smoke', pickRate: 62, reason: 'Denies plant in hallway doorway and Office connector' },
+          { name: 'Vigil', pickRate: 54, reason: 'Roams library and main stairs to deny map control' },
+          { name: 'Jager', pickRate: 58, reason: 'ADS protect balcony windows and Office angles from projectiles' },
+        ],
+        commonStrats: [
+          'Kaid wall + Smoke anchor site, roamer on library (50% of rounds)',
+          'Extended hallway hold to deny main stairs push (25% of rounds)',
+          'Aggressive balcony peek early round (25% of rounds)',
+        ],
+        tendencies: [
+          'Kaid tricking on Master wall is standard — bring a counter or rush',
+          'One roamer will contest library control — clear before committing',
+          'Smoke holds canisters for the last 30 seconds to deny plant',
+        ],
+      },
+    },
+    'bar-gaming': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 80, reason: 'Bar wall is the primary hard breach target from campfire side' },
+          { name: 'Buck', pickRate: 62, reason: 'Vertical from Master Bedroom above Gaming Room is the primary pressure tool' },
+          { name: 'Capitao', pickRate: 50, reason: 'Fire bolts deny bar counter anchor during execute' },
+          { name: 'Thatcher', pickRate: 68, reason: 'Clears Bandit on Bar wall before breach' },
+        ],
+        commonStrats: [
+          'Hard breach Bar wall + vertical from Master Bedroom above Gaming (55% of rounds)',
+          'Trophy room push into Gaming Room flank (25% of rounds)',
+          'Main entrance push with Ash/Zofia entry (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Bar wall from campfire is the default — expect it every round',
+          'Vertical play from Master Bedroom above Gaming Room comes within the first 90 seconds',
+          'If they take trophy room early, they are flanking into Gaming Room',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Bandit', pickRate: 74, reason: 'Tricking Bar wall to deny Thermite is standard every round' },
+          { name: 'Maestro', pickRate: 55, reason: 'Evil Eyes on Gaming Room plant spots provide bulletproof intel' },
+          { name: 'Jager', pickRate: 60, reason: 'ADS protect against Capitao bolts and grenades' },
+          { name: 'Ela', pickRate: 46, reason: 'Roams trophy room and main stairs with Grzmot mines' },
+        ],
+        commonStrats: [
+          'Bandit trick wall + Maestro cameras on Gaming Room plant (50% of rounds)',
+          'Extended trophy room hold to deny flank route (25% of rounds)',
+          'Aggressive campfire peek early round (25% of rounds)',
+        ],
+        tendencies: [
+          'Bandit tricking on Bar wall is standard — assume they are doing it',
+          'Maestro cameras in Gaming Room — bring Ash or Sledge to clear them',
+          'Watch for an aggressive campfire peek in the first 15 seconds',
+        ],
+      },
+    },
+    'kitchen-trophy': {
+      attack: {
+        likelyOps: [
+          { name: 'Ace', pickRate: 72, reason: 'Opens Kitchen wall from campfire side at range' },
+          { name: 'Sledge', pickRate: 60, reason: 'Vertical from Office above Trophy Room pressures anchors' },
+          { name: 'Zofia', pickRate: 55, reason: 'Soft breach into Trophy Room and concussions for clearing angles' },
+          { name: 'Nomad', pickRate: 48, reason: 'Airjabs on back stairs and connector deny flanks' },
+        ],
+        commonStrats: [
+          'Hard breach Kitchen wall + vertical from Office above Trophy Room (50% of rounds)',
+          'Connector push with Zofia/Ash entry (30% of rounds)',
+          'Campfire push through Kitchen wall breach (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Kitchen wall is the default — expect Ace or Thermite every round',
+          'Vertical play from Office above Trophy Room comes within the first 90 seconds',
+          'If they take connector early, they are pushing through to Trophy Room',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Mira', pickRate: 64, reason: 'Black Mirror between Kitchen and Trophy Room gives massive intel' },
+          { name: 'Smoke', pickRate: 62, reason: 'Denies plant in connector and Kitchen doorway' },
+          { name: 'Jager', pickRate: 58, reason: 'ADS protect Mira window from grenades' },
+          { name: 'Vigil', pickRate: 48, reason: 'Roams above site to deny vertical play setup' },
+        ],
+        commonStrats: [
+          'Mira mirror + Smoke denial at connector (50% of rounds)',
+          'Extended back stairs hold to deny flank (25% of rounds)',
+          'Roam above to deny Sledge vertical play (25% of rounds)',
+        ],
+        tendencies: [
+          'If Mira is not banned, expect a Black Mirror between Kitchen and Trophy Room',
+          'Smoke saves canisters for plant denial — kill him early',
+          'A roamer will play above site to contest vertical — check before committing',
+        ],
+      },
+    },
+    'wine-snowmobile': {
+      attack: {
+        likelyOps: [
+          { name: 'Thermite', pickRate: 84, reason: 'Snowmobile Garage wall is the primary breach target — essential for basement' },
+          { name: 'Thatcher', pickRate: 70, reason: 'Clearing Bandit on Garage wall is critical' },
+          { name: 'Buck', pickRate: 60, reason: 'Vertical from Kitchen above Wine Cellar is the primary pressure play' },
+          { name: 'Gridlock', pickRate: 44, reason: 'Trax on wine cellar stairs deny defender rotation' },
+        ],
+        commonStrats: [
+          'Hard breach Garage wall + vertical from Kitchen above Wine Cellar (55% of rounds)',
+          'Wine cellar stairs push into basement corridor (25% of rounds)',
+          'Full basement rush through Garage door (20% of rounds)',
+        ],
+        tendencies: [
+          'Hard breach on Garage wall is guaranteed — it is the only viable attack every round',
+          'Vertical play from Kitchen above Wine Cellar comes within the first 60 seconds',
+          'If they take wine cellar stairs early, they are pushing from both sides',
+        ],
+      },
+      defense: {
+        likelyOps: [
+          { name: 'Bandit', pickRate: 80, reason: 'Tricking Garage wall is the highest priority on this site' },
+          { name: 'Smoke', pickRate: 70, reason: 'Basement corridor denial is devastating with limited paths' },
+          { name: 'Mute', pickRate: 55, reason: 'Jammers support Bandit on Garage wall and deny drones' },
+          { name: 'Pulse', pickRate: 45, reason: 'C4 through ceiling against vertical players in Kitchen' },
+        ],
+        commonStrats: [
+          'Bandit trick Garage wall + Smoke corridor hold, Pulse plays C4 below (50% of rounds)',
+          'Extended 1F hold to deny vertical play (25% of rounds)',
+          'Aggressive wine cellar stairs roam (25% of rounds)',
+        ],
+        tendencies: [
+          'Bandit tricking is guaranteed on Garage wall — always assume they are doing it',
+          'Smoke saves canisters for the final 30 seconds to deny plant in corridor',
+          'Pulse will be below Kitchen with C4 — be careful playing vertical',
+        ],
+      },
+    },
+  },
 }
 
 export default ENEMY_META

@@ -39,6 +39,36 @@ const BANS = {
       { name: 'Jager', reason: 'ADS protect every window and door on Coastline. Without them, defenders get overwhelmed by grenades and flashes.' },
     ],
   },
+  kafe: {
+    attack: [
+      { name: 'Thatcher', reason: 'Kafe\'s reinforced walls on Reading and Mining sites depend on electronic denial. Without Thatcher, attackers must rely on slower alternatives to clear Kaid and Bandit.' },
+      { name: 'Capitao', reason: 'Fire bolts deny critical anchor positions behind bar counters and in Fireplace Hall. Removing him weakens late-round execute potential.' },
+    ],
+    defense: [
+      { name: 'Maestro', reason: 'Evil Eyes on Kafe\'s tight plant spots are extremely hard to clear. Maestro provides bulletproof intel and chip damage that stalls executes.' },
+      { name: 'Smoke', reason: 'Kafe\'s narrow doorways and stairwells make Smoke\'s canisters devastating for plant denial across every site.' },
+    ],
+  },
+  consulate: {
+    attack: [
+      { name: 'Thatcher', reason: 'Garage wall and Consul Office reinforcements are heavily electrified. Banning Thatcher forces risky Maverick or Twitch plays to open key walls.' },
+      { name: 'Montagne', reason: 'Consulate\'s long hallways and tight doorways make Montagne\'s shield push nearly unstoppable, especially on Lobby and Garage sites.' },
+    ],
+    defense: [
+      { name: 'Mira', reason: 'Black Mirrors on Consul Office and Garage connector walls give defenders overwhelming intel advantage and deny safe entry.' },
+      { name: 'Echo', reason: 'Yokai drones on Consulate\'s low ceilings deny plant on every site. Extremely hard to find and clear in time.' },
+    ],
+  },
+  chalet: {
+    attack: [
+      { name: 'Buck', reason: 'Vertical play from above is the primary attack strategy on most Chalet sites. Without Buck, attackers lose their strongest pressure tool.' },
+      { name: 'Sledge', reason: 'Chalet\'s extensive soft floors make Sledge\'s vertical destruction devastating. Banning him alongside Buck cripples vertical play entirely.' },
+    ],
+    defense: [
+      { name: 'Bandit', reason: 'Wine Cellar and Snowmobile Garage walls require Bandit tricking to hold. His batteries are essential for basement site defense.' },
+      { name: 'Valkyrie', reason: 'Chalet\'s many exterior approaches and balconies make Valkyrie\'s outside cameras invaluable for early warning and C4 kills.' },
+    ],
+  },
 }
 
 export default BANS

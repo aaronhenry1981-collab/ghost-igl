@@ -13,25 +13,25 @@ export default function Footer() {
           <ul>
             <li><Link to="/strats">Map Strats</Link></li>
             <li><Link to="/vod">VOD Review</Link></li>
-            <li><a href="/#pricing">Pricing</a></li>
-            <li><a href="/#faq">FAQ</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
         <div className="footer-col">
           <h4>Community</h4>
           <ul>
-            <li><a href="#discord">Discord</a></li>
-            <li><a href="#twitter">Twitter / X</a></li>
-            <li><a href="#youtube">YouTube</a></li>
-            <li><a href="#twitch">Twitch</a></li>
+            <li><a href="https://discord.gg/ghostigl" target="_blank" rel="noopener noreferrer">Discord</a></li>
+            <li><a href="https://x.com/ghostigl" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+            <li><a href="https://youtube.com/@ghostigl" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+            <li><a href="https://twitch.tv/ghostigl" target="_blank" rel="noopener noreferrer">Twitch</a></li>
           </ul>
         </div>
         <div className="footer-col">
           <h4>Legal</h4>
           <ul>
-            <li><a href="#terms">Terms of Service</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#refund">Refund Policy</a></li>
+            <li><Link to="/terms">Terms of Service</Link></li>
+            <li><Link to="/privacy">Privacy Policy</Link></li>
+            <li><Link to="/refund">Refund Policy</Link></li>
           </ul>
         </div>
       </div>
