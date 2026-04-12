@@ -22,7 +22,7 @@ export default function ProGate({ label, children }) {
         </div>
         {user ? (
           <a
-            href="https://buy.stripe.com/00weVe0gygI4c3d3tM7ss0a"
+            href="https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary btn-sm pro-gate-btn"

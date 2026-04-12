@@ -68,8 +68,8 @@ const TESTIMONIALS = [
 
 const PRICING = [
   { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '#', features: ['Map overviews for ranked pool', 'Basic operator tier lists', 'Community Discord access', 'Weekly strategy articles'] },
-  { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00weVe0gygI4c3d3tM7ss0a', features: ['Live AI callouts in-match', 'Personalized operator picks', 'AI VOD review (10/month)', 'Rank tracking dashboard', 'Advanced map strategies', 'Priority Discord support'] },
-  { tier: 'Champion', price: '$29', period: '/mo', desc: 'For players who want it all', link: 'https://buy.stripe.com/aFa5kE9R84Zmc3d7K27ss0b', features: ['Everything in Pro', 'Unlimited VOD reviews', 'Team coordination tools', 'Custom strat builder', 'Scrim analysis', '1-on-1 coaching sessions', 'Early access to new features'] },
+  { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c', features: ['Live AI callouts in-match', 'Personalized operator picks', 'AI VOD review (10/month)', 'Rank tracking dashboard', 'Advanced map strategies', 'Priority Discord support'] },
+  { tier: 'Champion', price: '$29', period: '/mo', desc: 'For players who want it all', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'Unlimited VOD reviews', 'Team coordination tools', 'Custom strat builder', 'Scrim analysis', '1-on-1 coaching sessions', 'Early access to new features'] },
 ]
 
 const FAQ = [

@@ -126,7 +126,7 @@ const PRICING = [
     period: '/mo',
     desc: 'Everything you need to climb',
     featured: true,
-    link: 'https://buy.stripe.com/00weVe0gygI4c3d3tM7ss0a',
+    link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c',
     features: [
       'Live AI callouts in-match',
       'Personalized operator picks',
@@ -141,7 +141,7 @@ const PRICING = [
     price: '$29',
     period: '/mo',
     desc: 'For players who want it all',
-    link: 'https://buy.stripe.com/aFa5kE9R84Zmc3d7K27ss0b',
+    link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d',
     features: [
       'Everything in Pro',
       'Unlimited VOD reviews',
