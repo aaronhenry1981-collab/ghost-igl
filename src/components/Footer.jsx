@@ -21,9 +21,9 @@ export default function Footer() {
           <h4>Community</h4>
           <ul>
             <li><a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a></li>
-            <li><a href="https://x.com/ghostigl" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-            <li><a href="https://youtube.com/@ghostigl" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-            <li><a href="https://twitch.tv/ghostigl" target="_blank" rel="noopener noreferrer">Twitch</a></li>
+
+            <li><a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+            <li><a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a></li>
           </ul>
         </div>
         <div className="footer-col">
