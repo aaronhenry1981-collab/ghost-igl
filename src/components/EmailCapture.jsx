@@ -15,13 +15,12 @@ export default function EmailCapture() {
       stored.push({ email: email.trim(), date: new Date().toISOString() })
       localStorage.setItem('ghost_emails', JSON.stringify(stored))
 
-      // If you set up Formspree, uncomment this:
-      // const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email: email.trim() }),
-      // })
-      // if (!res.ok) throw new Error('Failed')
+      const res = await fetch('https://formspree.io/f/mykbrrob', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      })
+      if (!res.ok) throw new Error('Failed')
 
       setStatus('success')
       setEmail('')
