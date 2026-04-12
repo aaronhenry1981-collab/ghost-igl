@@ -314,6 +314,97 @@
   color: var(--accent);
 }
 
+/* ─── Bans ─── */
+.ban-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.ban-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-h);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ban-icon {
+  font-size: 0.9rem;
+}
+.ban-cards {
+  display: grid;
+  gap: 10px;
+}
+.ban-card {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.ban-card.ban-yours {
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.06);
+}
+.ban-card.ban-enemy {
+  border-color: rgba(255, 215, 0, 0.25);
+  background: rgba(255, 215, 0, 0.04);
+}
+.ban-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.ban-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(198, 40, 40, 0.15);
+  color: #ef5350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  border: 2px solid #c62828;
+}
+.ban-enemy .ban-avatar {
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--gold);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+.ban-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-h);
+  flex: 1;
+}
+.ban-tag {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(198, 40, 40, 0.2);
+  color: #ef5350;
+}
+.ban-tag.warn {
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--gold);
+}
+.ban-reason {
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 700px) {
   .strats-page {
@@ -329,6 +420,9 @@
     grid-template-columns: 1fr;
   }
   .site-grid {
+    grid-template-columns: 1fr;
+  }
+  .ban-display {
     grid-template-columns: 1fr;
   }
 }

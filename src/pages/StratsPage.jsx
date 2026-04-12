@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import MAPS from '../data/maps'
 import STRATS from '../data/strats'
+import BANS from '../data/bans'
 import MapSelector from '../components/strats/MapSelector'
 import SiteSelector from '../components/strats/SiteSelector'
 import SideToggle from '../components/strats/SideToggle'
 import StratDisplay from '../components/strats/StratDisplay'
+import BanDisplay from '../components/strats/BanDisplay'
 import './StratsPage.css'
 
 export default function StratsPage() {
@@ -14,6 +16,7 @@ export default function StratsPage() {
 
   const mapData = MAPS.find((m) => m.id === selectedMap)
   const strat = selectedMap && selectedSite && STRATS[selectedMap]?.[selectedSite]?.[side]
+  const bans = selectedMap && BANS[selectedMap]
 
   function handleMapSelect(mapId) {
     const map = MAPS.find((m) => m.id === mapId)
@@ -57,6 +60,7 @@ export default function StratsPage() {
             <h2>{mapData?.name}</h2>
           </div>
           <SideToggle side={side} onToggle={setSide} />
+          {bans && <BanDisplay bans={bans} side={side} />}
           <SiteSelector sites={mapData?.sites || []} onSelect={handleSiteSelect} />
         </>
       )}
@@ -67,6 +71,7 @@ export default function StratsPage() {
             <h2>{mapData?.name} &mdash; {mapData?.sites.find((s) => s.id === selectedSite)?.name}</h2>
           </div>
           <SideToggle side={side} onToggle={setSide} />
+          {bans && <BanDisplay bans={bans} side={side} />}
           {strat ? (
             <StratDisplay strat={strat} side={side} />
           ) : (
