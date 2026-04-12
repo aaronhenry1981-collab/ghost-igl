@@ -314,6 +314,168 @@
   color: var(--accent);
 }
 
+/* ─── Controls Row ─── */
+.strats-controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.strats-controls .side-toggle {
+  margin-bottom: 0;
+}
+
+/* ─── Squad Toggle ─── */
+.squad-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.squad-toggle-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  white-space: nowrap;
+}
+.squad-toggle-btns {
+  display: inline-flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.squad-toggle-btns button {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.squad-toggle-btns button:hover {
+  color: var(--accent);
+}
+.squad-toggle-btns button.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ─── Squad Guide ─── */
+.squad-guide {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-left: 3px solid var(--accent);
+}
+.squad-guide-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.squad-guide-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+.squad-guide-role {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+}
+.squad-guide-desc {
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.squad-guide-section {
+  margin-top: 14px;
+}
+.squad-guide-section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.squad-guide-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.squad-guide-list li {
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 4px 0 4px 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.squad-guide-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.squad-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.squad-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+}
+.squad-pick-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-h);
+}
+.squad-pick-role {
+  font-size: 0.7rem;
+  color: var(--accent);
+}
+.squad-role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.squad-role-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+.squad-role-tag.good {
+  background: rgba(0, 200, 83, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(0, 200, 83, 0.25);
+}
+.squad-role-tag.bad {
+  background: rgba(198, 40, 40, 0.08);
+  color: #ef5350;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
 /* ─── Bans ─── */
 .ban-display {
   display: grid;
@@ -424,5 +586,18 @@
   }
   .ban-display {
     grid-template-columns: 1fr;
+  }
+  .strats-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .squad-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .squad-toggle-btns button {
+    padding: 8px 10px;
+    font-size: 0.72rem;
   }
 }
