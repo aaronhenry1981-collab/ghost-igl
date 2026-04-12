@@ -476,6 +476,51 @@
   border: 1px solid rgba(198, 40, 40, 0.2);
 }
 
+/* ─── Pro Gate ─── */
+.pro-gate {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.pro-gate-content {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+.pro-gate-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(2px);
+  z-index: 2;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+}
+.pro-gate-lock {
+  font-size: 2rem;
+}
+.pro-gate-text strong {
+  font-size: 1.1rem;
+  color: var(--text-h);
+  display: block;
+  margin-bottom: 4px;
+}
+.pro-gate-text p {
+  color: var(--text);
+  font-size: 0.85rem;
+  margin: 0;
+}
+.pro-gate-btn {
+  margin-top: 8px;
+  text-decoration: none;
+}
+
 /* ─── Enemy Intel ─── */
 .enemy-intel {
   display: grid;

@@ -12,6 +12,7 @@ import SquadGuide from '../components/strats/SquadGuide'
 import StratDisplay from '../components/strats/StratDisplay'
 import BanDisplay from '../components/strats/BanDisplay'
 import EnemyIntel from '../components/strats/EnemyIntel'
+import ProGate from '../components/strats/ProGate'
 import './StratsPage.css'
 
 export default function StratsPage() {
@@ -71,10 +72,12 @@ export default function StratsPage() {
           </div>
           <div className="strats-controls">
             <SideToggle side={side} onToggle={setSide} />
-            <SquadToggle size={squadSize} onToggle={setSquadSize} />
           </div>
-          {bans && <BanDisplay bans={bans} side={side} />}
-          {squadGuide && <SquadGuide guide={squadGuide} />}
+          {bans && (
+            <ProGate label="Ban Recommendations">
+              <BanDisplay bans={bans} side={side} />
+            </ProGate>
+          )}
           <SiteSelector sites={mapData?.sites || []} onSelect={handleSiteSelect} />
         </>
       )}
@@ -86,14 +89,24 @@ export default function StratsPage() {
           </div>
           <div className="strats-controls">
             <SideToggle side={side} onToggle={setSide} />
-            <SquadToggle size={squadSize} onToggle={setSquadSize} />
           </div>
-          {bans && <BanDisplay bans={bans} side={side} />}
+          {bans && (
+            <ProGate label="Ban Recommendations">
+              <BanDisplay bans={bans} side={side} />
+            </ProGate>
+          )}
           {strat ? (
             <>
-              {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
-              <StratDisplay strat={strat} side={side} />
-              {enemyIntel && <EnemyIntel intel={enemyIntel} />}
+              <ProGate label="Squad Coaching">
+                <SquadToggle size={squadSize} onToggle={() => {}} />
+                {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
+              </ProGate>
+              <StratDisplay strat={strat} side={side} gated />
+              {enemyIntel && (
+                <ProGate label="Enemy Intel & Predictions">
+                  <EnemyIntel intel={enemyIntel} />
+                </ProGate>
+              )}
             </>
           ) : (
             <div className="strats-empty">No strategy data available for this configuration.</div>

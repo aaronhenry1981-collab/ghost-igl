@@ -1,6 +1,7 @@
 import OperatorCard from './OperatorCard'
+import ProGate from './ProGate'
 
-export default function StratDisplay({ strat, side }) {
+export default function StratDisplay({ strat, side, gated }) {
   return (
     <div className="strat-display">
       <div className="strat-section">
@@ -26,14 +27,27 @@ export default function StratDisplay({ strat, side }) {
         </div>
       </div>
 
-      <div className="strat-section">
-        <div className="strat-section-title">Utility Usage</div>
-        <ul className="utility-list">
-          {strat.utility.map((u) => (
-            <li key={u}>{u}</li>
-          ))}
-        </ul>
-      </div>
+      {gated ? (
+        <ProGate label="Utility Breakdown">
+          <div className="strat-section">
+            <div className="strat-section-title">Utility Usage</div>
+            <ul className="utility-list">
+              {strat.utility.map((u) => (
+                <li key={u}>{u}</li>
+              ))}
+            </ul>
+          </div>
+        </ProGate>
+      ) : (
+        <div className="strat-section">
+          <div className="strat-section-title">Utility Usage</div>
+          <ul className="utility-list">
+            {strat.utility.map((u) => (
+              <li key={u}>{u}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
