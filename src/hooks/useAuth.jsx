@@ -3,6 +3,8 @@ import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
 
+const ADMIN_EMAILS = ['aaronhenry1981@gmail.com']
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isPro, setIsPro] = useState(false)
@@ -17,7 +19,7 @@ export function AuthProvider({ children }) {
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
-      if (session?.user) checkProStatus(session.user.id)
+      if (session?.user) checkProStatus(session.user.id, session.user.email)
       setLoading(false)
     })
 
@@ -25,7 +27,7 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       if (session?.user) {
-        checkProStatus(session.user.id)
+        checkProStatus(session.user.id, session.user.email)
       } else {
         setIsPro(false)
       }
@@ -34,7 +36,11 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  async function checkProStatus(userId) {
+  async function checkProStatus(userId, email) {
+    if (ADMIN_EMAILS.includes(email?.toLowerCase())) {
+      setIsPro(true)
+      return
+    }
     if (!supabase) return
     try {
       const { data } = await supabase
