@@ -69,12 +69,66 @@ const MAPS = [
       { id: 'wine-snowmobile', name: 'Wine Cellar / Snowmobile Garage', floor: 'B' },
     ],
   },
-  { id: 'border', name: 'Border', sites: [], comingSoon: true },
-  { id: 'skyscraper', name: 'Skyscraper', sites: [], comingSoon: true },
-  { id: 'theme-park', name: 'Theme Park', sites: [], comingSoon: true },
-  { id: 'villa', name: 'Villa', sites: [], comingSoon: true },
-  { id: 'nighthaven', name: 'Nighthaven Labs', sites: [], comingSoon: true },
-  { id: 'lair', name: 'Lair', sites: [], comingSoon: true },
+  {
+    id: 'border',
+    name: 'Border',
+    sites: [
+      { id: 'armory-archives', name: 'Armory Lockers / Archives', floor: '2F' },
+      { id: 'workshop-ventilation', name: 'Workshop / Ventilation Room', floor: '1F' },
+      { id: 'customs-supply', name: 'Customs Inspection / Supply Room', floor: '1F' },
+      { id: 'bathroom-tellers', name: 'Bathroom / Tellers', floor: '2F' },
+    ],
+  },
+  {
+    id: 'skyscraper',
+    name: 'Skyscraper',
+    sites: [
+      { id: 'tea-room', name: 'Tea Room / Karaoke', floor: '2F' },
+      { id: 'bedroom', name: 'Bedroom / Closet', floor: '2F' },
+      { id: 'kitchen', name: 'Kitchen / BBQ', floor: '1F' },
+      { id: 'work-office', name: 'Work Office / Exhibition', floor: '1F' },
+    ],
+  },
+  {
+    id: 'theme-park',
+    name: 'Theme Park',
+    sites: [
+      { id: 'throne-room', name: 'Throne Room / Armory', floor: '2F' },
+      { id: 'lab', name: 'Lab / Storage', floor: '1F' },
+      { id: 'office', name: 'Office / Initiation', floor: '2F' },
+      { id: 'bunk', name: 'Bunk / Day Care', floor: '1F' },
+    ],
+  },
+  {
+    id: 'villa',
+    name: 'Villa',
+    sites: [
+      { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
+      { id: 'trophy-statuary', name: 'Trophy Room / Statuary Hall', floor: '2F' },
+      { id: 'kitchen-dining', name: 'Kitchen / Dining Room', floor: '1F' },
+      { id: 'living-library', name: 'Living Room / Library', floor: '1F' },
+    ],
+  },
+  {
+    id: 'nighthaven',
+    name: 'Nighthaven Labs',
+    sites: [
+      { id: 'server-control', name: 'Server Room / Control Room', floor: 'B' },
+      { id: 'assembly-production', name: 'Assembly / Production', floor: '1F' },
+      { id: 'briefing-meeting', name: 'Briefing Room / Meeting Room', floor: '2F' },
+      { id: 'dormitory-bunks', name: 'Dormitory / Bunks', floor: '2F' },
+    ],
+  },
+  {
+    id: 'lair',
+    name: 'Lair',
+    sites: [
+      { id: 'balcony-memorial', name: 'Balcony / Memorial', floor: '2F' },
+      { id: 'surveillance-lounge', name: 'Surveillance / Lounge', floor: '2F' },
+      { id: 'lab-workshop', name: 'R&D Lab / Workshop', floor: '1F' },
+      { id: 'server-vault', name: 'Server / Vault', floor: 'B' },
+    ],
+  },
 ]
 
 export default MAPS

@@ -69,6 +69,66 @@ const BANS = {
       { name: 'Valkyrie', reason: 'Chalet\'s many exterior approaches and balconies make Valkyrie\'s outside cameras invaluable for early warning and C4 kills.' },
     ],
   },
+  border: {
+    attack: [
+      { name: 'Thatcher', reason: 'Border\'s reinforced walls on Workshop and Armory are heavily electrified. Without Thatcher, attackers must rely on slow Kali or Twitch plays to clear Bandit and Kaid.' },
+      { name: 'Ace', reason: 'S.E.L.M.A charges can open multiple walls from safety. Removing Ace forces attackers into riskier Thermite plays on Border\'s exposed wall positions.' },
+    ],
+    defense: [
+      { name: 'Mira', reason: 'Black Mirrors on Workshop connector and Customs walls give defenders overwhelming intel and deny safe entry through Border\'s tight corridors.' },
+      { name: 'Valkyrie', reason: 'Border\'s many exterior windows and rooftop approaches make Valkyrie\'s outside cameras devastating for early warning and C4 runout kills.' },
+    ],
+  },
+  skyscraper: {
+    attack: [
+      { name: 'Buck', reason: 'Skyscraper\'s soft floors make vertical play devastating on Tea Room and Bedroom. Without Buck, attackers lose their strongest tool for pressuring anchors from above.' },
+      { name: 'Ash', reason: 'Fast entry through Skyscraper\'s many windows and balcony doors makes Ash a dominant fragger. Banning her slows down aggressive window plays significantly.' },
+    ],
+    defense: [
+      { name: 'Valkyrie', reason: 'Skyscraper\'s exterior balconies and windows make Valkyrie\'s outside cameras extremely powerful for C4 kills and early rotation reads.' },
+      { name: 'Echo', reason: 'Yokai drones deny plant in Tea Room and Kitchen\'s tight plant spots. Very hard to clear with Skyscraper\'s cluttered ceiling spaces.' },
+    ],
+  },
+  'theme-park': {
+    attack: [
+      { name: 'Thatcher', reason: 'Theme Park\'s reinforced walls on Throne Room and Lab are heavily electrified. Without Thatcher, hard breachers struggle to open critical walls.' },
+      { name: 'Capitao', reason: 'Fire bolts deny anchor positions in Throne Room\'s tight corners and Lab\'s storage area. Removing him weakens late-round plant executes.' },
+    ],
+    defense: [
+      { name: 'Kaid', reason: 'Electroclaw range lets Kaid deny hatches and walls on multiple Theme Park sites simultaneously. Critical for Throne Room and Lab defense.' },
+      { name: 'Smoke', reason: 'Theme Park\'s narrow doorways and connector hallways make Smoke\'s canisters devastating for denying plant on every site.' },
+    ],
+  },
+  villa: {
+    attack: [
+      { name: 'Thatcher', reason: 'Villa\'s reinforced walls on Trophy and Kitchen sites rely on electronic denial. Without Thatcher, attackers must use slower alternatives to clear Bandit and Kaid setups.' },
+      { name: 'Maverick', reason: 'Maverick silently opens reinforced walls in Statuary and Dining without any counter. Banning him removes the only uncounterable hard breach option on Villa\'s key walls.' },
+    ],
+    defense: [
+      { name: 'Mira', reason: 'Black Mirrors on Aviator connector and Kitchen hallway walls give defenders dominant intel and shut down safe attacker pushes on Villa\'s two strongest sites.' },
+      { name: 'Maestro', reason: 'Evil Eyes on Villa\'s plant spots provide bulletproof intel and chip damage. The map\'s open sightlines make his cameras extremely hard to clear without wasting utility.' },
+    ],
+  },
+  nighthaven: {
+    attack: [
+      { name: 'Thatcher', reason: 'Nighthaven Labs\' basement Server Room walls are heavily electrified. Without Thatcher, attackers must rely on risky Kali or Twitch plays to open critical reinforcements.' },
+      { name: 'Flores', reason: 'Flores\' exploding drones clear bulletproof utility through Nighthaven\'s long corridors with zero risk. Banning him forces attackers to push into defender gadgets head-on.' },
+    ],
+    defense: [
+      { name: 'Kaid', reason: 'Electroclaw range lets Kaid deny hatches and walls on Server Room and Assembly simultaneously. His flexibility is critical for Nighthaven\'s vertical-heavy defense.' },
+      { name: 'Smoke', reason: 'Nighthaven Labs\' tight chokepoints and narrow corridors make Smoke\'s canisters devastating for denying plant attempts on every site.' },
+    ],
+  },
+  lair: {
+    attack: [
+      { name: 'Thatcher', reason: 'Lair\'s basement Vault walls and 1F Workshop reinforcements rely on electronic denial. Without Thatcher, attackers must use slow Twitch or Kali plays to clear Kaid and Bandit setups.' },
+      { name: 'Maverick', reason: 'Maverick silently opens reinforced walls in Vault and Workshop with zero counter-play. Banning him removes the only uncounterable hard breach option on Lair\'s tightest sites.' },
+    ],
+    defense: [
+      { name: 'Mira', reason: 'Black Mirrors on Workshop connector and Surveillance hallway walls give defenders dominant intel and deny safe attacker pushes on Lair\'s strongest sites.' },
+      { name: 'Smoke', reason: 'Lair\'s narrow corridors and chokepoints leading into every site make Smoke\'s canisters devastating for denying late-round plant attempts.' },
+    ],
+  },
 }
 
 export default BANS
