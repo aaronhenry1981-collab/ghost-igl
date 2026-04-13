@@ -23,12 +23,12 @@ function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
 }
 
 const FEATURES = [
-  { icon: '\uD83C\uDFAF', title: 'Live Callouts', desc: 'Real-time tactical callouts during ranked matches. Know when to push, hold, or rotate before the enemy does.', link: null },
   { icon: '\uD83D\uDDFA\uFE0F', title: 'Map Strategies', desc: 'Deep strats for every map in the ranked pool. Default executes, retakes, and site setups used by pros.', link: '/strats' },
-  { icon: '\uD83D\uDEE1\uFE0F', title: 'Operator Picks', desc: 'Smart operator suggestions based on your team comp, map, and site. Build the perfect lineup every round.', link: '/strats' },
-  { icon: '\uD83D\uDCC8', title: 'Rank Tracking', desc: 'Track your MMR, win rate, and improvement over time. See exactly what\'s working and what needs fixing.', link: null },
-  { icon: '\uD83C\uDFAC', title: 'VOD Review', desc: 'AI-powered round analysis that spots your mistakes. Actionable feedback on positioning, timing, and utility.', link: '/vod' },
-  { icon: '\uD83D\uDC65', title: 'Team Coordination', desc: 'Coordinate your five-stack with role assignments, operator bans, and attack/defense game plans.', link: null },
+  { icon: '\uD83D\uDEE1\uFE0F', title: 'Operator Picks', desc: 'Smart operator suggestions based on map, site, and side. Build the perfect lineup every round.', link: '/strats' },
+  { icon: '\uD83C\uDFAC', title: 'AI VOD Review', desc: 'Upload a gameplay screenshot and get instant AI-powered coaching. Feedback on positioning, crosshair, and utility.', link: '/vod' },
+  { icon: '\uD83D\uDEAB', title: 'Operator Bans', desc: 'Know exactly who to ban on every map. Data-driven ban recommendations with reasoning for attack and defense.', link: '/strats' },
+  { icon: '\uD83D\uDD2E', title: 'Enemy Predictions', desc: 'Predict what your opponents will pick and how they\'ll play. Counter-strat before the round even starts.', link: '/strats' },
+  { icon: '\uD83D\uDC65', title: 'Squad Coaching', desc: 'Solo to five-stack guidance. Know your role, your priorities, and which operators to pick for any squad size.', link: '/strats' },
 ]
 
 const RANKS = [
@@ -43,42 +43,38 @@ const RANKS = [
 ]
 
 const STEPS = [
-  { num: '01', title: 'Connect', desc: 'Link your Siege account and let Ghost IGL analyze your play style, rank history, and operator pool.' },
-  { num: '02', title: 'Learn', desc: 'Get personalized strats, callouts, and operator picks tailored to your rank and the maps you play.' },
-  { num: '03', title: 'Play', desc: 'Queue ranked with Ghost IGL running live. Get real-time callouts and tactical suggestions mid-match.' },
-  { num: '04', title: 'Climb', desc: 'Watch your rank climb as your game sense, positioning, and decision-making improve every session.' },
+  { num: '01', title: 'Pick Your Map', desc: 'Select any map from the ranked pool. Ghost IGL has full strats for every site on every map.' },
+  { num: '02', title: 'Study the Strat', desc: 'Get operator picks, positioning, callouts, and utility usage. Learn what to ban and what the enemy will do.' },
+  { num: '03', title: 'Review Your Gameplay', desc: 'Upload screenshots from your matches. Our AI coach gives instant feedback on what to improve.' },
+  { num: '04', title: 'Climb', desc: 'Better game sense, smarter operator picks, and stronger positioning. Your rank improves because YOU improve.' },
 ]
 
 const COMPARE = [
   { feature: 'You actually improve', ghost: true, boost: false, coach: true },
   { feature: 'Available 24/7', ghost: true, boost: true, coach: false },
   { feature: 'No account sharing risk', ghost: true, boost: false, coach: true },
-  { feature: 'Real-time in-match help', ghost: true, boost: false, coach: false },
-  { feature: 'Personalized to your rank', ghost: true, boost: false, coach: true },
+  { feature: 'Every map + site covered', ghost: true, boost: false, coach: false },
+  { feature: 'AI-powered VOD review', ghost: true, boost: false, coach: true },
   { feature: 'Affordable monthly pricing', ghost: true, boost: false, coach: false },
   { feature: 'Keep your rank permanently', ghost: true, boost: false, coach: true },
   { feature: 'No scheduling needed', ghost: true, boost: true, coach: false },
 ]
 
-const TESTIMONIALS = [
-  { text: 'I was hard-stuck Gold for three seasons. Ghost IGL taught me rotations and site setups I never would have figured out alone. Hit Platinum in two weeks flat.', name: 'FragHunter', rank: 'Gold \u2192 Platinum', initials: 'FH', hours: '47 hours played' },
-  { text: 'The live callouts are insane. It\'s like having a diamond player whispering in your ear every round. My game sense jumped overnight. Worth every penny.', name: 'ValkMain_', rank: 'Silver \u2192 Gold', initials: 'VM', hours: '32 hours played' },
-  { text: 'Finally broke into Diamond after being Plat for a year. The VOD reviews showed me I was wasting utility every single round. Absolute game changer.', name: 'AceOfSiege', rank: 'Platinum \u2192 Diamond', initials: 'AS', hours: '89 hours played' },
-]
+const TESTIMONIALS = []
 
 const PRICING = [
-  { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '#', features: ['Map overviews for ranked pool', 'Basic operator tier lists', 'Community Discord access', 'Weekly strategy articles'] },
-  { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c', features: ['Live AI callouts in-match', 'Personalized operator picks', 'AI VOD review (10/month)', 'Rank tracking dashboard', 'Advanced map strategies', 'Priority Discord support'] },
-  { tier: 'Champion', price: '$29', period: '/mo', desc: 'For players who want it all', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'Unlimited VOD reviews', 'Team coordination tools', 'Custom strat builder', 'Scrim analysis', '1-on-1 coaching sessions', 'Early access to new features'] },
+  { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '#', features: ['Map strats for all ranked maps', 'Basic operator suggestions', 'Community Discord access', 'Attack & defense strategies'] },
+  { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c', features: ['Full utility & callout breakdowns', 'Operator ban recommendations', 'Enemy prediction intel', 'Squad coaching (solo to 5-stack)', 'AI VOD screenshot review', 'Priority Discord support'] },
+  { tier: 'Champion', price: '$29', period: '/mo', desc: 'For players who want it all', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'Unlimited VOD reviews', 'Early access to new maps & features', 'Priority feature requests', 'Direct coaching support', 'Exclusive Discord channels'] },
 ]
 
 const FAQ = [
   { q: 'Is Ghost IGL a boosting service?', a: 'No. Ghost IGL is an AI coaching tool that helps YOU improve. Nobody else plays your account. You earn your rank through better game sense, positioning, and decision-making.' },
-  { q: 'Will I get banned for using Ghost IGL?', a: 'No. Ghost IGL runs as a separate overlay and does not modify game files, inject code, or interact with the game client in any way. It\'s fully compliant with Ubisoft\'s terms of service.' },
-  { q: 'How do live callouts work?', a: 'Ghost IGL uses screen analysis and game state tracking to provide real-time tactical suggestions through an overlay. It tells you when to rotate, where enemies are likely pushing, and which angles to hold.' },
-  { q: 'What ranks does Ghost IGL support?', a: 'Ghost IGL works for all ranks from Copper to Champion. Strategies and callouts are tailored to your specific rank, so you get advice that\'s relevant to the opponents you\'re actually facing.' },
-  { q: 'Can I use Ghost IGL with a team?', a: 'Yes. The Champion plan includes team coordination tools. You can share strats with your squad, assign roles, and plan operator lineups together before queuing.' },
-  { q: 'What maps are supported?', a: 'All maps in the current ranked rotation. Strategies are updated within 48 hours whenever the ranked pool changes or a new season drops.' },
+  { q: 'Will I get banned for using Ghost IGL?', a: 'No. Ghost IGL is a web-based strategy guide and coaching tool. It does not modify game files, inject code, or interact with the game client in any way.' },
+  { q: 'How does the VOD review work?', a: 'Upload a screenshot from your gameplay and our AI analyzes your positioning, crosshair placement, utility usage, and tactical situation. You get instant, actionable coaching feedback.' },
+  { q: 'What ranks does Ghost IGL support?', a: 'Ghost IGL works for all ranks from Copper to Champion. Strategies cover the full competitive meta, so you get advice relevant to any skill level.' },
+  { q: 'What\'s the difference between free and Pro?', a: 'Free gives you basic strats and operator picks for every map. Pro unlocks full utility breakdowns, callouts, operator ban recommendations, enemy predictions, and squad coaching.' },
+  { q: 'What maps are supported?', a: 'All maps in the current ranked rotation. Strategies are updated each season when the map pool changes.' },
 ]
 
 function FaqItem({ item }) {
@@ -110,8 +106,8 @@ export default function LandingPage() {
             Start Getting <span className="accent">Better.</span>
           </h1>
           <p className="hero-subtitle">
-            Ghost IGL is the AI-powered In-Game Leader that coaches you in real time.
-            Live callouts, map strats, and operator picks &mdash; your rank, earned by you.
+            Ghost IGL is the AI-powered In-Game Leader for Rainbow Six Siege.
+            Map strats, operator picks, enemy predictions, and AI VOD review &mdash; your rank, earned by you.
           </p>
           <div className="hero-cta">
             <Link to="/strats" className="btn btn-primary btn-lg">Try Strat Tool &mdash; Free</Link>
@@ -119,18 +115,18 @@ export default function LandingPage() {
           </div>
           <div className="hero-stats">
             <div className="hero-stat">
-              <strong><AnimatedCounter end={14829} /></strong>
-              <span>Active Players</span>
+              <strong><AnimatedCounter end={13} /></strong>
+              <span>Maps Covered</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
-              <strong><AnimatedCounter end={2} suffix="+" />M</strong>
-              <span>Rounds Analyzed</span>
+              <strong><AnimatedCounter end={52} />+</strong>
+              <span>Site Strategies</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
-              <strong><AnimatedCounter end={94} suffix="%" /></strong>
-              <span>Rank Up in 30 Days</span>
+              <strong><AnimatedCounter end={100} suffix="%" /></strong>
+              <span>Ranked Pool</span>
             </div>
           </div>
         </div>
@@ -140,7 +136,7 @@ export default function LandingPage() {
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> No Account Sharing</div>
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> TOS Compliant</div>
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Cancel Anytime</div>
-        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> 24/7 AI Coaching</div>
+        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Updated Every Season</div>
       </div>
 
       <section className="section" id="features">
@@ -171,8 +167,8 @@ export default function LandingPage() {
       <section className="section section-dark" id="how-it-works">
         <div className="section-header">
           <div className="section-label">How It Works</div>
-          <h2>From Install to Champion in 4 Steps</h2>
-          <p>Get set up in under 2 minutes. No downloads, no plugins, no BS.</p>
+          <h2>Start Improving in 4 Steps</h2>
+          <p>No downloads, no plugins, no BS. Just better Siege.</p>
         </div>
         <div className="steps-grid">
           {STEPS.map((s) => (
@@ -234,6 +230,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {TESTIMONIALS.length > 0 && (
       <section className="section" id="testimonials">
         <div className="section-header">
           <div className="section-label">Testimonials</div>
@@ -257,6 +254,7 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+      )}
 
       <section className="section section-dark" id="pricing">
         <div className="section-header">
@@ -305,7 +303,7 @@ export default function LandingPage() {
       <section className="cta-section">
         <div className="cta-content">
           <h2>Ready to Stop Losing MMR?</h2>
-          <p>Join 14,000+ Siege players who are actually getting better &mdash; not just getting boosted.</p>
+          <p>AI-powered strats, operator picks, and coaching for every map in the ranked pool.</p>
           <Link to="/strats" className="btn btn-primary btn-lg">Try the Strat Tool &mdash; Free</Link>
         </div>
       </section>
