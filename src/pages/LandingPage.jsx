@@ -33,6 +33,8 @@ const FEATURES = [
   { icon: '\uD83D\uDEAB', title: 'Operator Bans', desc: 'Know exactly who to ban on every map. Data-driven ban recommendations with reasoning for attack and defense.', link: '/strats' },
   { icon: '\uD83D\uDD2E', title: 'Enemy Predictions', desc: 'Predict what your opponents will pick and how they\'ll play. Counter-strat before the round even starts.', link: '/strats' },
   { icon: '\uD83D\uDC65', title: 'Squad Coaching', desc: 'Solo to five-stack guidance. Know your role, your priorities, and which operators to pick for any squad size.', link: '/strats' },
+  { icon: '\uD83C\uDFAE', title: 'IGL Command Desktop', desc: 'Champion-only Windows app: live capture-based coaching with voice callouts. PC + console supported.', link: '/download', badge: 'Champion' },
+  { icon: '\uD83D\uDCE1', title: 'Live Team Sessions', desc: 'Real-time squad coordination inside IGL Command. Share callouts and plans instantly across your stack.', link: '/download', badge: 'Champion' },
 ]
 
 const RANKS = [
@@ -69,7 +71,7 @@ const TESTIMONIALS = []
 const PRICING = [
   { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '#', features: ['Map strats for all ranked maps', 'Basic operator suggestions', 'Community Discord access', 'Attack & defense strategies'] },
   { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c', features: ['Full utility & callout breakdowns', 'Operator ban recommendations', 'Enemy prediction intel', 'Squad coaching (solo to 5-stack)', 'AI VOD screenshot review', 'Priority Discord support'] },
-  { tier: 'Champion', price: '$29', period: '/mo', desc: 'For players who want it all', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'Unlimited VOD reviews', 'Early access to new maps & features', 'Priority feature requests', 'Direct coaching support', 'Exclusive Discord channels'] },
+  { tier: 'Champion', price: '$29', period: '/mo', desc: 'Full IGL Command desktop + team features', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'IGL Command desktop app (Windows)', 'Live capture-based coaching (PC + console)', 'TTS voice callouts during play', 'Real-time team sessions (5-stack sync)', 'Unlimited VOD reviews', 'Early access to new features'] },
 ]
 
 const FAQ = [
@@ -153,13 +155,15 @@ export default function LandingPage() {
         <div className="features-grid">
           {FEATURES.map((f) => (
             f.link ? (
-              <Link to={f.link} className="feature-card" key={f.title}>
+              <Link to={f.link} className={`feature-card${f.badge ? ' feature-card-champion' : ''}`} key={f.title}>
+                {f.badge && <span className="feature-badge">{f.badge}</span>}
                 <div className="feature-icon">{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
               </Link>
             ) : (
               <div className="feature-card" key={f.title}>
+                {f.badge && <span className="feature-badge">{f.badge}</span>}
                 <div className="feature-icon">{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>

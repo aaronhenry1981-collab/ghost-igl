@@ -1,0 +1,255 @@
+.activate-page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4rem 1.5rem 3rem;
+  background: radial-gradient(ellipse at top, rgba(0, 245, 255, 0.05), transparent 60%),
+              linear-gradient(180deg, var(--bg, #0a0a0f), #0d1117);
+}
+
+.activate-box {
+  width: 100%;
+  max-width: 640px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2.5rem 2.25rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.activate-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.activate-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(99, 91, 255, 0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: #00f5ff;
+  flex-shrink: 0;
+}
+
+.activate-icon.locked {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
+
+.activate-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #00f5ff;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.activate-box h1 {
+  font-size: 1.75rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.activate-intro {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.activate-steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.activate-steps li {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-bottom: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  counter-increment: step;
+}
+
+.activate-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: rgba(0, 245, 255, 0.1);
+  color: #00f5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.activate-token-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.activate-token {
+  width: 100%;
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 0.75rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 10px;
+  color: #00f5ff;
+  resize: none;
+  word-break: break-all;
+}
+
+.activate-copy {
+  align-self: flex-start;
+}
+
+.activate-note {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 215, 0, 0.06);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: rgba(255, 215, 0, 0.85);
+  line-height: 1.55;
+}
+
+.activate-note strong {
+  color: #ffd700;
+}
+
+.activate-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.activate-footer-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.activate-footer-value {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.activate-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.activate-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.activate-feature-list li {
+  padding: 0.5rem 0 0.5rem 1.75rem;
+  position: relative;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.activate-feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #00f5ff;
+  font-weight: 700;
+}
+
+/* Download page */
+.download-card {
+  background: linear-gradient(135deg, rgba(99, 91, 255, 0.12), rgba(0, 245, 255, 0.08));
+  border: 1px solid rgba(0, 245, 255, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.download-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.download-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.25rem;
+}
+
+.download-version {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00f5ff;
+}
+
+.download-date {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.download-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.download-btn span {
+  font-weight: 400;
+  opacity: 0.7;
+  margin-left: 0.5rem;
+}
+
+.download-filename {
+  text-align: center;
+  margin-top: 0.75rem;
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 640px) {
+  .activate-box {
+    padding: 1.75rem 1.25rem;
+  }
+  .activate-box h1 {
+    font-size: 1.4rem;
+  }
+}
