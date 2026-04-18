@@ -100,36 +100,16 @@ export default function AdminPage() {
 
       <div className="admin-section">
         <div className="admin-section-header">
-          <h2>External Tools</h2>
+          <h2>Manage Business</h2>
         </div>
-        <div className="admin-links-grid">
-          <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="admin-link-card">
+        <div className="admin-links-grid admin-links-single">
+          <a href="https://dashboard.stripe.com" target="_blank" rel="noopener noreferrer" className="admin-link-card admin-link-stripe">
             <div className="admin-link-icon">{'\uD83D\uDCB3'}</div>
             <div>
               <h3>Stripe Dashboard</h3>
-              <p>Customers, subscriptions, payments, refunds</p>
+              <p>Customers, subscriptions, payments, refunds, disputes</p>
             </div>
-          </a>
-          <a href="https://supabase.com/dashboard/project/zewzeaoecdjcbkdqpcfh" target="_blank" rel="noopener noreferrer" className="admin-link-card">
-            <div className="admin-link-icon">{'\uD83D\uDDC4\uFE0F'}</div>
-            <div>
-              <h3>Supabase</h3>
-              <p>Database, auth users, SQL editor</p>
-            </div>
-          </a>
-          <a href="https://formspree.io/forms" target="_blank" rel="noopener noreferrer" className="admin-link-card">
-            <div className="admin-link-icon">{'\u2709\uFE0F'}</div>
-            <div>
-              <h3>Formspree</h3>
-              <p>Email list & signups</p>
-            </div>
-          </a>
-          <a href="https://github.com/aaronhenry1981-collab/ghost-igl" target="_blank" rel="noopener noreferrer" className="admin-link-card">
-            <div className="admin-link-icon">{'\uD83D\uDCC1'}</div>
-            <div>
-              <h3>GitHub Repo</h3>
-              <p>Source code & deploys</p>
-            </div>
+            <div className="admin-link-arrow">{'\u2192'}</div>
           </a>
         </div>
       </div>
