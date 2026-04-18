@@ -98,7 +98,7 @@ export default function StratsPage() {
           {strat ? (
             <>
               <ProGate label="Squad Coaching">
-                <SquadToggle size={squadSize} onToggle={() => {}} />
+                <SquadToggle size={squadSize} onToggle={setSquadSize} />
                 {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
               </ProGate>
               <StratDisplay strat={strat} side={side} gated />
