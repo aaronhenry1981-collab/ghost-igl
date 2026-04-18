@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createHashRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom'
 import './index.css'
 import './App.css'
 import { AuthProvider } from './hooks/useAuth'
@@ -24,6 +24,7 @@ const router = createHashRouter([
       { path: '/terms', element: <TermsPage /> },
       { path: '/privacy', element: <PrivacyPage /> },
       { path: '/refund', element: <RefundPage /> },
+      { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
 ])
