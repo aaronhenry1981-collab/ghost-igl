@@ -4,7 +4,11 @@ import { useAuth } from '../hooks/useAuth'
 
 function scrollToSection(id) {
   const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
+  if (el) {
+    const navHeight = 60
+    const top = el.getBoundingClientRect().top + window.scrollY - navHeight
+    window.scrollTo({ top, behavior: 'smooth' })
+  }
 }
 
 export default function Navbar() {
@@ -14,14 +18,13 @@ export default function Navbar() {
   const isLanding = location.pathname === '/'
   const { user, isPro, signOut } = useAuth()
 
-  const handleSectionClick = (sectionId) => (e) => {
-    e.preventDefault()
+  const handleSectionClick = (sectionId) => {
     setMobileMenu(false)
     if (isLanding) {
       scrollToSection(sectionId)
     } else {
       navigate('/')
-      setTimeout(() => scrollToSection(sectionId), 100)
+      setTimeout(() => scrollToSection(sectionId), 300)
     }
   }
 
@@ -34,7 +37,7 @@ export default function Navbar() {
       <ul className={`navbar-links${mobileMenu ? ' show' : ''}`}>
         <li><Link to="/strats" onClick={() => setMobileMenu(false)}>Strats</Link></li>
         <li><Link to="/vod" onClick={() => setMobileMenu(false)}>VOD Review</Link></li>
-        <li><a href="#" onClick={handleSectionClick('pricing')}>Pricing</a></li>
+        <li><span style={{ cursor: 'pointer' }} onClick={() => handleSectionClick('pricing')}>Pricing</span></li>
       </ul>
 
       <div className="navbar-right">
