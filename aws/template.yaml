@@ -186,7 +186,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ghost-igl-stripe-webhook
-      CodeUri: lambda/webhook/
+      CodeUri: ../lambda/webhook/
       Handler: index.handler
       Environment:
         Variables:
@@ -209,7 +209,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ghost-igl-subscription-api
-      CodeUri: lambda/subscription/
+      CodeUri: ../lambda/subscription/
       Handler: index.handler
       Environment:
         Variables:
