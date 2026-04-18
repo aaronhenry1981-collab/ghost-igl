@@ -1,6 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+
+function scrollToSection(id, navigate, isLanding) {
+  if (isLanding) {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  } else {
+    navigate('/')
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
+}
 
 export default function Footer() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const isLanding = location.pathname === '/'
+
   return (
     <footer className="footer">
       <div className="footer-top">
@@ -13,15 +30,14 @@ export default function Footer() {
           <ul>
             <li><Link to="/strats">Map Strats</Link></li>
             <li><Link to="/vod">VOD Review</Link></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('pricing', navigate, isLanding) }}>Pricing</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('faq', navigate, isLanding) }}>FAQ</a></li>
           </ul>
         </div>
         <div className="footer-col">
           <h4>Community</h4>
           <ul>
             <li><a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a></li>
-
             <li><a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a></li>
             <li><a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a></li>
           </ul>
