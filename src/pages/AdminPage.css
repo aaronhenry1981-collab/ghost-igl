@@ -1,11 +1,13 @@
 .admin-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 6rem 1.5rem 4rem;
 }
 
 .admin-header {
   margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .admin-header h1 {
@@ -80,11 +82,16 @@
   gap: 1rem;
 }
 
+.admin-links-single {
+  grid-template-columns: 1fr;
+  max-width: 600px;
+}
+
 .admin-link-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
@@ -95,22 +102,47 @@
 
 .admin-link-card:hover {
   background: rgba(0, 245, 255, 0.05);
-  border-color: rgba(0, 245, 255, 0.2);
+  border-color: rgba(0, 245, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.admin-link-stripe {
+  background: linear-gradient(135deg, rgba(99, 91, 255, 0.1), rgba(0, 245, 255, 0.08));
+  border-color: rgba(99, 91, 255, 0.3);
+}
+
+.admin-link-stripe:hover {
+  background: linear-gradient(135deg, rgba(99, 91, 255, 0.15), rgba(0, 245, 255, 0.12));
+  border-color: rgba(99, 91, 255, 0.5);
 }
 
 .admin-link-icon {
-  font-size: 2rem;
+  font-size: 2.25rem;
   flex-shrink: 0;
 }
 
 .admin-link-card h3 {
-  font-size: 1rem;
+  font-size: 1.125rem;
   margin-bottom: 0.25rem;
 }
 
 .admin-link-card p {
   font-size: 0.875rem;
   color: var(--text-dim);
+  margin: 0;
+}
+
+.admin-link-arrow {
+  margin-left: auto;
+  font-size: 1.5rem;
+  color: var(--accent);
+  opacity: 0.6;
+  transition: all 0.15s ease;
+}
+
+.admin-link-card:hover .admin-link-arrow {
+  opacity: 1;
+  transform: translateX(4px);
 }
 
 .admin-table-wrap {
