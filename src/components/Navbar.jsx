@@ -37,6 +37,7 @@ export default function Navbar() {
       <ul className={`navbar-links${mobileMenu ? ' show' : ''}`}>
         <li><Link to="/strats" onClick={() => setMobileMenu(false)}>Strats</Link></li>
         <li><Link to="/vod" onClick={() => setMobileMenu(false)}>VOD Review</Link></li>
+        {isPro && <li><Link to="/download" onClick={() => setMobileMenu(false)}>Desktop App</Link></li>}
         <li><span style={{ cursor: 'pointer' }} onClick={() => handleSectionClick('pricing')}>Pricing</span></li>
       </ul>
 
