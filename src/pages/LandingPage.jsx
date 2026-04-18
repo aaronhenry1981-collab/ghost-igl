@@ -111,7 +111,7 @@ export default function LandingPage() {
           </p>
           <div className="hero-cta">
             <Link to="/strats" className="btn btn-primary btn-lg">Try Strat Tool &mdash; Free</Link>
-            <a href="#how-it-works" className="btn btn-ghost btn-lg">See How It Works</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }} className="btn btn-ghost btn-lg">See How It Works</a>
           </div>
           <div className="hero-stats">
             <div className="hero-stat">
