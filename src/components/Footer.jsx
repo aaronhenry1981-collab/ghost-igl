@@ -1,15 +1,22 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 function scrollToSection(id, navigate, isLanding) {
+  const navHeight = 60
   if (isLanding) {
     const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
   } else {
     navigate('/')
     setTimeout(() => {
       const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - navHeight
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
+    }, 300)
   }
 }
 
@@ -30,8 +37,8 @@ export default function Footer() {
           <ul>
             <li><Link to="/strats">Map Strats</Link></li>
             <li><Link to="/vod">VOD Review</Link></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('pricing', navigate, isLanding) }}>Pricing</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('faq', navigate, isLanding) }}>FAQ</a></li>
+            <li><span style={{ cursor: 'pointer' }} onClick={() => scrollToSection('pricing', navigate, isLanding)}>Pricing</span></li>
+            <li><span style={{ cursor: 'pointer' }} onClick={() => scrollToSection('faq', navigate, isLanding)}>FAQ</span></li>
           </ul>
         </div>
         <div className="footer-col">
