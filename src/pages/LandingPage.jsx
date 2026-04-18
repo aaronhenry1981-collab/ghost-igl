@@ -69,7 +69,7 @@ const COMPARE = [
 const TESTIMONIALS = []
 
 const PRICING = [
-  { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '#', features: ['Map strats for all ranked maps', 'Basic operator suggestions', 'Community Discord access', 'Attack & defense strategies'] },
+  { tier: 'Recruit', price: 'Free', period: '', desc: 'Get started with basic strategy guides', link: '/strats', features: ['Map strats for all ranked maps', 'Basic operator suggestions', 'Community Discord access', 'Attack & defense strategies'] },
   { tier: 'Pro', price: '$12', period: '/mo', desc: 'Everything you need to climb', featured: true, link: 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c', features: ['Full utility & callout breakdowns', 'Operator ban recommendations', 'Enemy prediction intel', 'Squad coaching (solo to 5-stack)', 'AI VOD screenshot review', 'Priority Discord support'] },
   { tier: 'Champion', price: '$29', period: '/mo', desc: 'Full IGL Command desktop + team features', link: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', features: ['Everything in Pro', 'IGL Command desktop app (Windows)', 'Live capture-based coaching (PC + console)', 'TTS voice callouts during play', 'Real-time team sessions (5-stack sync)', 'Unlimited VOD reviews', 'Early access to new features'] },
 ]
@@ -118,7 +118,7 @@ export default function LandingPage() {
           </p>
           <div className="hero-cta">
             <Link to="/strats" className="btn btn-primary btn-lg">Try Strat Tool &mdash; Free</Link>
-            <a href="#" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }) }} className="btn btn-ghost btn-lg">See How It Works</a>
+            <span style={{ cursor: 'pointer' }} onClick={() => { const el = document.getElementById('how-it-works'); if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 60; window.scrollTo({ top, behavior: 'smooth' }); } }} className="btn btn-ghost btn-lg">See How It Works</span>
           </div>
           <div className="hero-stats">
             <div className="hero-stat">
