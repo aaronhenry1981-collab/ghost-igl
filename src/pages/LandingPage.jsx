@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getCurrentSeason } from '../utils/season'
 import EmailCapture from '../components/EmailCapture'
+import { useAuth } from '../hooks/useAuth'
+
+// Stripe customer portal URL - configure at dashboard.stripe.com/settings/billing/portal
+const STRIPE_PORTAL_URL = 'https://billing.stripe.com/p/login/ghostigl'
 
 function AnimatedCounter({ end, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0)
@@ -91,6 +95,7 @@ function FaqItem({ item }) {
 }
 
 export default function LandingPage() {
+  const { user, isPro } = useAuth()
   return (
     <>
       <section className="hero">
@@ -274,9 +279,19 @@ export default function LandingPage() {
               <ul className="pricing-features">
                 {p.features.map((f) => (<li key={f}>{f}</li>))}
               </ul>
-              <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
-                {p.price === 'Free' ? 'Get Started Free' : 'Subscribe Now'}
-              </a>
+              {isPro && p.price !== 'Free' ? (
+                <a href={STRIPE_PORTAL_URL} target="_blank" rel="noopener noreferrer" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
+                  Manage Subscription
+                </a>
+              ) : p.price === 'Free' && user ? (
+                <Link to="/strats" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
+                  Go to Strats
+                </Link>
+              ) : (
+                <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
+                  {p.price === 'Free' ? 'Get Started Free' : 'Subscribe Now'}
+                </a>
+              )}
             </div>
           ))}
         </div>

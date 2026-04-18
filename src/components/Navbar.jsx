@@ -38,8 +38,6 @@ export default function Navbar() {
       </ul>
 
       <div className="navbar-right">
-        <div className="live-dot" />
-        <span className="live-count">2,847 players online</span>
         {user ? (
           <>
             {isPro && <span className="nav-pro-badge">PRO</span>}
