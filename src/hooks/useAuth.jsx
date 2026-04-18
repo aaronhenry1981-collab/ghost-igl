@@ -1,8 +1,16 @@
 import { useState, useEffect, createContext, useContext } from 'react'
-import { supabase } from '../lib/supabase'
+import {
+  userPool,
+  getCognitoUser,
+  getAuthDetails,
+  getCurrentUser,
+  getSession,
+  getIdToken,
+  API_URL
+} from '../lib/supabase'
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
 
 const AuthContext = createContext(null)
-
 const ADMIN_EMAILS = ['aaronhenry1981@gmail.com']
 
 export function AuthProvider({ children }) {
@@ -11,67 +19,110 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!supabase) {
+    if (!userPool) {
       setLoading(false)
       return
     }
 
-    // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      if (session?.user) checkProStatus(session.user.id, session.user.email)
+    // Check current session on mount
+    const cognitoUser = getCurrentUser()
+    if (cognitoUser) {
+      getSession(cognitoUser)
+        .then((session) => {
+          const payload = session.getIdToken().decodePayload()
+          const userData = {
+            id: payload.sub,
+            email: payload.email,
+            cognitoUser,
+            session,
+          }
+          setUser(userData)
+          checkProStatus(userData.id, userData.email, session)
+        })
+        .catch(() => {
+          setUser(null)
+          setIsPro(false)
+        })
+        .finally(() => setLoading(false))
+    } else {
       setLoading(false)
-    })
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        checkProStatus(session.user.id, session.user.email)
-      } else {
-        setIsPro(false)
-      }
-    })
-
-    return () => subscription.unsubscribe()
+    }
   }, [])
 
-  async function checkProStatus(userId, email) {
+  async function checkProStatus(userId, email, session) {
     if (ADMIN_EMAILS.includes(email?.toLowerCase())) {
       setIsPro(true)
       return
     }
-    if (!supabase) return
-    try {
-      const { data } = await supabase
-        .from('subscriptions')
-        .select('status, plan')
-        .eq('user_id', userId)
-        .eq('status', 'active')
-        .single()
 
-      setIsPro(data?.plan === 'pro' || data?.plan === 'champion')
+    if (!API_URL) return
+
+    try {
+      const token = getIdToken(session)
+      const res = await fetch(`${API_URL}/subscription`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setIsPro(data?.plan === 'pro' || data?.plan === 'champion')
+      } else {
+        setIsPro(false)
+      }
     } catch {
-      // No subscription found — free user
       setIsPro(false)
     }
   }
 
   async function signUp(email, password) {
-    if (!supabase) return { error: { message: 'Auth not configured' } }
-    const { data, error } = await supabase.auth.signUp({ email, password })
-    return { data, error }
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const attributes = [
+        new CognitoUserAttribute({ Name: 'email', Value: email }),
+      ]
+
+      userPool.signUp(email, password, attributes, null, (err, result) => {
+        if (err) {
+          resolve({ data: null, error: { message: err.message } })
+        } else {
+          resolve({ data: result, error: null })
+        }
+      })
+    })
   }
 
   async function signIn(email, password) {
-    if (!supabase) return { error: { message: 'Auth not configured' } }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    return { data, error }
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const cognitoUser = getCognitoUser(email)
+      const authDetails = getAuthDetails(email, password)
+
+      cognitoUser.authenticateUser(authDetails, {
+        onSuccess: (session) => {
+          const payload = session.getIdToken().decodePayload()
+          const userData = {
+            id: payload.sub,
+            email: payload.email,
+            cognitoUser,
+            session,
+          }
+          setUser(userData)
+          checkProStatus(userData.id, userData.email, session)
+          resolve({ data: { user: userData, session }, error: null })
+        },
+        onFailure: (err) => {
+          resolve({ data: null, error: { message: err.message } })
+        },
+      })
+    })
   }
 
   async function signOut() {
-    if (!supabase) return
-    await supabase.auth.signOut()
+    const cognitoUser = getCurrentUser()
+    if (cognitoUser) {
+      cognitoUser.signOut()
+    }
     setUser(null)
     setIsPro(false)
   }
