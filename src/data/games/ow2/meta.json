@@ -1,0 +1,66 @@
+{
+  "_comment": "Last verified: 2026-05 — based on tier-1 OWCS pick rates + Liquipedia tier list snapshot.",
+  "S": [
+    "Tracer",
+    "Sojourn",
+    "Ana",
+    "Kiriko",
+    "Reinhardt",
+    "D.Va"
+  ],
+  "A": [
+    "Cassidy",
+    "Ashe",
+    "Pharah",
+    "Genji",
+    "Mercy",
+    "Lúcio",
+    "Baptiste",
+    "Winston",
+    "Sigma",
+    "Orisa",
+    "Junker Queen"
+  ],
+  "B": [
+    "Soldier: 76",
+    "Reaper",
+    "Hanzo",
+    "Echo",
+    "Widowmaker",
+    "Sombra",
+    "Mei",
+    "Brigitte",
+    "Illari",
+    "Juno",
+    "Zarya",
+    "Ramattra"
+  ],
+  "C": [
+    "Bastion",
+    "Junkrat",
+    "Symmetra",
+    "Torbjörn",
+    "Venture",
+    "Freja",
+    "Lifeweaver",
+    "Moira",
+    "Zenyatta",
+    "Roadhog",
+    "Mauga",
+    "Wrecking Ball",
+    "Doomfist",
+    "Hazard"
+  ],
+  "bans_attack": [
+    "Sombra",
+    "Tracer",
+    "Mei",
+    "Roadhog"
+  ],
+  "bans_defense": [
+    "Widowmaker",
+    "Pharah",
+    "Bastion",
+    "Torbjörn"
+  ]
+}
