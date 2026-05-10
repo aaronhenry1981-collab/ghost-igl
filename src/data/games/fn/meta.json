@@ -1,0 +1,32 @@
+{
+  "_comment": "Last verified: 2026-05 — based on Fortnite community + competitive tier list snapshot. Weapons tier list (no character meta).",
+  "S": [
+    "Hammer Pump Shotgun",
+    "Striker AR",
+    "Rapid SMG",
+    "Heisted Sniper"
+  ],
+  "A": [
+    "Frenzy Auto Shotgun",
+    "Tactical AR",
+    "Hyper SMG",
+    "DMR Sniper",
+    "Combat Pistol"
+  ],
+  "B": [
+    "Pump Shotgun",
+    "Burst AR",
+    "Submachine Gun",
+    "Heavy Sniper",
+    "Suppressed Pistol"
+  ],
+  "C": [
+    "Twin Mag SMG",
+    "Heavy Shotgun",
+    "Bolt Sniper",
+    "Revolver",
+    "Throwables (Boogie / Shockwave)"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
