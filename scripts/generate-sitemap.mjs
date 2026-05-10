@@ -21,6 +21,7 @@ const STATIC_URLS = [
   { loc: '/', freq: 'weekly', pri: 1.0 },
   { loc: '/#/auth', freq: 'monthly', pri: 0.6 },
   { loc: '/#/strats', freq: 'weekly', pri: 0.9 },
+  { loc: '/#/match-prep', freq: 'weekly', pri: 0.85 },
   { loc: '/#/operators', freq: 'weekly', pri: 0.9 },
   { loc: '/#/meta', freq: 'weekly', pri: 0.8 },
   { loc: '/#/vod', freq: 'monthly', pri: 0.8 },
@@ -213,6 +214,8 @@ async function main() {
     'ow2-silver-to-gold',
     'ow2-gold-to-plat',
     'ow2-plat-to-diamond',
+    'ow2-diamond-to-master',
+    'ow2-master-to-gm',
     // Apex
     'apex-bronze-to-silver',
     'apex-silver-to-gold',
