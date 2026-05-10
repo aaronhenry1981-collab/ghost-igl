@@ -234,6 +234,9 @@ async function main() {
     'halo-bronze-to-silver',
     'halo-silver-to-gold',
     'halo-gold-to-plat',
+    'halo-plat-to-diamond',
+    'halo-diamond-to-onyx',
+    'halo-onyx-to-champion',
     // The Finals
     'finals-bronze-to-silver',
     'finals-gold-to-plat',

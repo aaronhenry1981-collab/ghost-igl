@@ -3749,6 +3749,302 @@ const HALO_POSTS = [
 ]
 
 // ============================================================================
+// HALO HIGH-TIER POSTS (3)
+// ============================================================================
+const HALO_POSTS_HIGH = [
+  {
+    game: 'halo',
+    gameLabel: 'Halo Infinite',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'halo-plat-to-diamond',
+    metaTitle: 'How to Climb from Plat to Diamond in Halo Infinite (2026 Guide)',
+    metaDescription: 'Halo Plat-to-Diamond — coordinated power weapon contests, equipment cycling, spawn-flip awareness, mode-specific strategies, and pro VOD prep.',
+    intro: `<p>Plat in Halo Infinite means you have the BR fundamentals + power weapon awareness. Diamond demands coordinated 4-player power weapon contests, mode-specific strategies, and active spawn-flip reads. Here's the leap.</p>`,
+    sections: [
+      { heading: 'Coordinated power weapon contests — 4 players, not 1', html: `<p>Plat teams send 1 player to contest power weapons and lose. Diamond teams pre-position 4 deep:</p>
+<ul>
+  <li>30 seconds before respawn: 2 players posted near the spawn, 2 covering rotation paths.</li>
+  <li>10 seconds before respawn: 1 player throws Threat Sensor in the spawn zone.</li>
+  <li>0 seconds: pick up weapon, retreat to cover. Don't fight from the spawn point.</li>
+</ul>
+<p>Diamond squads dominate the spawn cycle. Plat squads contest 1v1 and lose 50%+ of contests.</p>` },
+      { heading: 'Equipment cycling — Drop Wall, Threat Sensor, Repulsor', html: `<p>Diamond teams cycle equipment every fight:</p>
+<ul>
+  <li><strong>Drop Wall:</strong> peek safely, then collapse the wall to push.</li>
+  <li><strong>Threat Sensor:</strong> reveals enemy positions through walls. Throw before pushing contested rooms.</li>
+  <li><strong>Repulsor:</strong> reflects projectiles + grenades. Use defensively when caught open.</li>
+  <li><strong>Grappleshot:</strong> mobility for surprise high-ground.</li>
+</ul>
+<p>Plat teams ignore equipment. Diamond teams cycle 2-3 pieces per minute. The 5-second equipment usage is the round-decider.</p>` },
+      { heading: 'Spawn-flip awareness', html: `<p>Halo has reverse-spawn mechanics: kill 3 enemies in their base, they spawn at your base instead. Diamond teams use this:</p>
+<ul>
+  <li>Coordinate a 4-player base push when enemy is at top mid.</li>
+  <li>Kill 3 in their base = spawn flip.</li>
+  <li>You now control top mid AND their power weapon spawn.</li>
+</ul>
+<p>Plat teams don't read spawns. Diamond teams flip 1-2 times per match.</p>` },
+      { heading: 'Mode-specific strategies', html: `<p>Plat teams play every mode the same. Diamond teams adapt:</p>
+<ul>
+  <li><strong>Slayer:</strong> spawn-control + power weapon contests. Force kill-feed momentum.</li>
+  <li><strong>CTF:</strong> 2 escorts the carrier, 2 defend home flag. Pick equipment for carrier protection (Drop Wall on the carry route).</li>
+  <li><strong>Strongholds:</strong> rotate between zones every 15-20 seconds. Don't stack one zone.</li>
+  <li><strong>Oddball:</strong> ball carrier stays in cover. Other 3 trade frags around them.</li>
+  <li><strong>King of the Hill:</strong> hold the hill from cover, not on it. Snipe from range.</li>
+</ul>
+<p>Mode-specific play wins Diamond rounds. Plat runs the same playbook every mode.</p>` },
+      { heading: 'Grenade-cook timing', html: `<p>Diamond grenades are timed. Specifics:</p>
+<ul>
+  <li>Cook Frag for 1.5s = instant detonation on landing. Use in 1v1 corner peeks.</li>
+  <li>Cook Plasma for 0.5s = quicker stick. Use on moving targets.</li>
+  <li>Pre-throw a Frag through a doorway 1 second before pushing — room is cleared by the time you arrive.</li>
+</ul>
+<p>Plat grenades land 2 seconds late. Diamond grenades land on the count.</p>` },
+      { heading: 'Power-up timing — Overshield + Active Camo', html: `<p>Beyond power weapons, Halo has power-ups: Overshield (extra HP) and Active Camo (invisibility). Spawn timings:</p>
+<ul>
+  <li>Overshield: 120s respawn. Critical for dive engages.</li>
+  <li>Active Camo: 90s respawn. Sniper or Sword carrier holds it.</li>
+</ul>
+<p>Track power-up timers in your head. Win the contest = power-up advantage = round momentum.</p>` },
+      { heading: 'Pro VOD watching as practice', html: `<p>Watch one HCS match per day. Pause every minute. Predict the call. By VOD 30 you'll absorb pro-tier macro: power weapon rotations, spawn-flip timing, equipment cycles.</p>
+<p>Recommended VODs: HCS Worlds finals, regional finals.</p>` },
+      { heading: 'Sensitivity and FOV — tune before chasing rank', html: `<p>Halo Infinite default sensitivity is too high for accurate aim at Diamond+. Setup:</p>
+<ul>
+  <li><strong>Look sensitivity:</strong> 4-6 horizontal, 4-6 vertical (matches the BR's recoil pattern).</li>
+  <li><strong>Look acceleration:</strong> 0 (linear). Default acceleration is awful for tracking.</li>
+  <li><strong>FOV:</strong> 105+ on PC for situational awareness.</li>
+  <li><strong>Crosshair color:</strong> bright cyan or yellow.</li>
+</ul>
+<p>Plat players use defaults. Diamond players tune. Spend a week dialing in before grinding more matches.</p>` },
+      { heading: 'Communication discipline', html: `<p>Diamond comms are short and decisive:</p>
+<ul>
+  <li>"Sniper in 30s" — call timing.</li>
+  <li>"Pushing top mid, follow on call" — synced engage.</li>
+  <li>"Their power weapon dead, push" — call momentum.</li>
+  <li>"I'm one-shot, falling back" — call your state.</li>
+</ul>
+<p>NOT commentary. Information only — what changes a teammate's decision. Plat comms include questions and commentary; Diamond comms only contain decisions.</p>` },
+    ],
+    mistakes: [
+      '1-player power weapon contests.',
+      'Equipment unused.',
+      'No spawn-flip awareness.',
+      'Same strategy on every mode.',
+      'Grenades 2 seconds late.',
+      'No Overshield / Active Camo timer tracking.',
+      'No pro VOD prep.',
+      'Default sensitivity / FOV / acceleration.',
+      'Comms full of commentary, not decisions.',
+    ],
+    drill: { heading: 'Drill: 5 ranked games tracking power-up timers', html: `<p>For 5 ranked games, set a mental timer for each power weapon AND power-up respawn. Be at the spawn 5 seconds early. Track win-rate of power-up + power-weapon contests.</p><p>By game 5 you'll auto-track timers. Apply in matchmaking — the 90-second cycle is the Diamond differentiator.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your power weapon contest win rate per map and flags rounds where the rotation broke down. Useful for spotting which maps have the worst contest win rates so you can study them specifically.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/halo-gold-to-plat.html' },
+      { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
+      { name: 'Halo Aquarius Guide', url: '/games/halo/aquarius.html' },
+      { name: 'Halo Live Fire Guide', url: '/games/halo/live-fire.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'halo',
+    gameLabel: 'Halo Infinite',
+    fromRank: 'Diamond',
+    toRank: 'Onyx',
+    slug: 'halo-diamond-to-onyx',
+    metaTitle: 'How to Climb from Diamond to Onyx in Halo Infinite (2026 Guide)',
+    metaDescription: 'Halo Diamond-to-Onyx — comp role designation, anti-grapple positioning, mid-match adaptation, mental game, and HCS-tier macro absorption.',
+    intro: `<p>Diamond is high-elo in Halo Infinite. Onyx is top 3%. The gap is comp role designation, anti-grapple positioning, mid-match adaptation, and HCS-tier macro patterns absorbed from VOD review.</p>`,
+    sections: [
+      { heading: 'Comp role designation pre-match', html: `<p>Onyx 4-stacks designate roles:</p>
+<ul>
+  <li><strong>Slayer (entry fragger):</strong> takes first contact, BR/Mangler aggressive.</li>
+  <li><strong>Power weapon controller:</strong> Sniper / Skewer holder, plays back.</li>
+  <li><strong>Objective runner:</strong> grabs flag/ball/captures zones in objective modes.</li>
+  <li><strong>Support / utility:</strong> Drop Wall, Threat Sensor, Repulsor for team plays.</li>
+</ul>
+<p>Diamond teams have rough roles. Onyx teams have explicit roles + voice calls that confirm them ("I'm power weapon, you objective"). The role discipline is the conversion lever.</p>` },
+      { heading: 'Anti-grapple positioning', html: `<p>Onyx enemies will grapple-flank you. Counter:</p>
+<ul>
+  <li>Hold cover that grapple can't reach (low ceilings, building corners).</li>
+  <li>If enemy grapples to high ground, throw Plasma or Frag to deny the perch.</li>
+  <li>If enemy grapples toward you, BR-burst mid-air. The grapple is a free shot.</li>
+  <li>Pre-aim grapple landing spots — most players grapple to the same spots map after map.</li>
+</ul>
+<p>Diamond loses to grapple plays. Onyx preps for them.</p>` },
+      { heading: 'Mid-match adaptation', html: `<p>Onyx IGLs adapt mid-match based on round 1-3 reads:</p>
+<ul>
+  <li>Enemy team consistently rushes top mid → fall back, set up cross-fire from base side.</li>
+  <li>Enemy power weapon controller dies first → push the next power weapon spawn aggressively.</li>
+  <li>Enemy keeps using grapple to claim same high-ground → pre-throw nades to that spot.</li>
+</ul>
+<p>Diamond teams play set strategies. Onyx teams adapt based on observed patterns.</p>` },
+      { heading: 'Mechanical aim consistency', html: `<p>Onyx aim benchmarks:</p>
+<ul>
+  <li>BR75: 30%+ headshot rate at 30+ meters.</li>
+  <li>Sniper: 60%+ headshot rate at any range.</li>
+  <li>Mangler: 25%+ headshot rate (combo with melee for 1-shot kill).</li>
+</ul>
+<p>Daily aim regimen: 30 min Range BR practice, 15 min Sniper practice, 15 min Mangler combo drilling. Track headshot rate weekly.</p>` },
+      { heading: 'Mental game between matches', html: `<p>Halo matches are 5-15 min each. Tilt-stacking 3 losses is the Diamond plateau killer:</p>
+<ul>
+  <li>60-second mental reset between matches.</li>
+  <li>If you tilt-stack 3, stop for 30 minutes.</li>
+  <li>Don't blame teammates in voice — kills team morale + your own focus.</li>
+  <li>Track session win rate. Below 50%, end session.</li>
+</ul>
+<p>Onyx players reset; Diamond players grind through tilt and lose more.</p>` },
+      { heading: 'HCS macro absorption', html: `<p>Watch HCS matches with the pause-and-predict method. By VOD 30, you'll have absorbed:</p>
+<ul>
+  <li>Standard map control sequences (Aquarius top mid, Live Fire OS contests).</li>
+  <li>Coordinated grenade arc setups for chokes.</li>
+  <li>Power weapon contest patterns (4 vs 1 dominate).</li>
+  <li>Spawn-flip mechanics + reads.</li>
+</ul>
+<p>Recommended VODs: HCS Worlds, EU/NA regional finals. Tier-1 only.</p>` },
+      { heading: 'Equipment + grenade combo plays', html: `<p>Onyx-tier setups:</p>
+<ul>
+  <li>Drop Wall + Frag throw: peek through wall, throw, retreat behind wall.</li>
+  <li>Repulsor + Plasma: reflect enemy grenades AND throw your sticky.</li>
+  <li>Threat Sensor + grenade arc: ping enemies through wall, then nade their location.</li>
+</ul>
+<p>Practice these combos in Custom Game with a buddy. After 20 reps each, the combo timing is muscle memory.</p>` },
+      { heading: 'Map veto and queue strategy', html: `<p>By Diamond you have win-rate data per map. Onyx players use it:</p>
+<ul>
+  <li>Toggle off your bottom 2-3 maps in queue settings.</li>
+  <li>Track win rate weekly per map. If a strong map drops below 50%, study HCS VODs of it before queueing again.</li>
+  <li>Focus practice on top 4 strongest maps. Become the team's expert there.</li>
+</ul>
+<p>The veto compounds across a season. Diamonds who veto strategically gain 30%+ more rank per session. The hours invested in the wrong maps is hours lost in the climb.</p>` },
+      { heading: 'Tilt protocols for objective modes', html: `<p>In CTF / Strongholds / KOTH, late-game tilt is the round killer. Specific protocols:</p>
+<ul>
+  <li>If a teammate keeps dying with the flag, switch carriers in voice — "I'll take flag, you escort." Don't assign blame.</li>
+  <li>If your team loses a round to overtime, IGL calls "default round next" — no trick play, fundamentals only.</li>
+  <li>Between matches, 60-second mental reset. Don't queue back tilted.</li>
+</ul>
+<p>Onyx teams have these protocols baked in. Diamond teams tilt-stack and lose 4-round streaks.</p>` },
+    ],
+    mistakes: [
+      'No role designation — 4 IGLs in stack.',
+      'No anti-grapple prep.',
+      'Set strategies, no mid-match adaptation.',
+      'Aim ceiling at Diamond benchmarks.',
+      'Tilt-stacking matches.',
+      'No HCS VOD prep.',
+      'Equipment + grenade used independently, not as combos.',
+      'No queue veto.',
+      'No tilt protocol for objective overtime rounds.',
+    ],
+    drill: { heading: 'Drill: 30-day HCS pro VOD-per-day + role-locked sessions', html: `<p>30 days of 1 HCS match per day + 4-stack practice with explicit role designation. By day 30 you have 30 patterns memorized + role coordination muscle memory.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against HCS-tier reads for power weapon contests + spawn flips. Useful for finding the rounds where you missed a spawn flip your team should have called.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/halo-plat-to-diamond.html' },
+      { name: 'How to Climb from Onyx to Champion', url: '/blog/halo-onyx-to-champion.html' },
+      { name: 'Halo Recharge Guide', url: '/games/halo/recharge.html' },
+      { name: 'Halo Empyrean Guide', url: '/games/halo/empyrean.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'halo',
+    gameLabel: 'Halo Infinite',
+    fromRank: 'Onyx',
+    toRank: 'Champion',
+    slug: 'halo-onyx-to-champion',
+    metaTitle: 'How to Climb from Onyx to Champion in Halo Infinite (2026 Guide)',
+    metaDescription: 'Halo Onyx-to-Champion — top 200 mental game, mechanical aim consistency, HCS-tier macro patterns, comm discipline, and competitive map veto.',
+    intro: `<p>Onyx is top 3% of Halo Infinite. Champion is top 200 globally. The gap is mental discipline at the high-pressure rounds, mechanical aim at the ceiling, and HCS-tier macro patterns absorbed from 90+ days of VOD review.</p>`,
+    sections: [
+      { heading: 'Top-200 mental discipline', html: `<p>Champion matches are 5-15 minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>2-second mental reset between deaths. Same crosshair, same default position.</li>
+  <li>If you tilt-stack 2 losses, stop the session. Champion matches don't reward tilt-grinding.</li>
+  <li>Don't blame teammates — Champion teams solve, Onyx teams blame.</li>
+  <li>Track session win rate. Below 55%, end session.</li>
+</ul>
+<p>The reset discipline separates Champion consistency from Onyx volatility. Most plateaued Onyx players have the mechanics but lose 4-round streaks to mental tilt.</p>` },
+      { heading: 'Champion-tier aim benchmarks', html: `<p>Specific aim benchmarks per weapon:</p>
+<ul>
+  <li>BR75: 35%+ headshot rate at any range.</li>
+  <li>Sniper: 70%+ headshot rate.</li>
+  <li>Mangler: 30%+ headshot rate (with melee combo discipline).</li>
+  <li>Bandit Evo: 35%+ headshot rate (precision rifle, longer time-to-kill rewards consistency).</li>
+</ul>
+<p>Daily aim regimen at this tier: 60 min Range practice + 30 min in-match warm-up. Track weekly. If you're stuck below benchmarks, fix sensitivity or technique before chasing macro.</p>` },
+      { heading: 'HCS-tier macro patterns at scale', html: `<p>By Champion you should have absorbed 100+ specific HCS patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize map control patterns.</li>
+  <li>You predict power weapon contests 30+ seconds before they happen.</li>
+  <li>You read spawn flips by position alone.</li>
+  <li>You know which equipment combos counter which player styles.</li>
+</ul>
+<p>Recommended VODs: HCS Worlds finals, regional finals from past 3 years. Avoid casual content.</p>` },
+      { heading: 'Communication discipline at top tier', html: `<p>Champion comms are short and decisive:</p>
+<ul>
+  <li>"Sniper in 10" — call timing.</li>
+  <li>"OS gone, push" — call commit.</li>
+  <li>"Their power weapon controller dead, push spawn" — call momentum.</li>
+  <li>"Falling back, regroup" — call disengage.</li>
+</ul>
+<p>NOT commentary. Information only. Comm discipline is what separates Champion teams from Onyx teams that frag equally well but lose to miscommunication.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Champion players tune sensitivity to body type and hand speed:</p>
+<ul>
+  <li>800-2400 DPI is standard. Higher DPI = faster flicks, less precision.</li>
+  <li>Sensitivity in cm/360°: 25-40cm. Test in custom games.</li>
+  <li>FOV: max in-game (Halo Infinite supports 105+).</li>
+  <li>Crosshair: bright color (cyan, yellow). Avoid red.</li>
+</ul>
+<p>If you're using default settings, you're playing at a mechanical disadvantage. Spend a week dialing in.</p>` },
+      { heading: 'Map veto and competitive queue strategy', html: `<p>Champion queues: top 4 maps prepped + bottom 3 banned. Veto strategy:</p>
+<ul>
+  <li>Toggle off bottom 3 maps in queue settings.</li>
+  <li>Track win rate weekly per map.</li>
+  <li>Focus practice on top 4-5 strongest maps.</li>
+  <li>Note opponent comp tendencies on rematch lobbies — at this elo, opponents recur.</li>
+</ul>
+<p>The veto edge compounds across a season. Champions gain 30%+ more rank per session than Onyx players who play all maps.</p>` },
+      { heading: 'Tilt protocols at high-pressure rounds', html: `<p>Round 13+ in objective modes is where matches are decided. Specific tilt protocols:</p>
+<ul>
+  <li>Between rounds, 4-second box breath. Heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you lose 2 rounds in a row, IGL calls "default round" — no trick play, fundamentals only.</li>
+  <li>If you lose 3 in a row, IGL calls a player swap if anyone's tilting visibly.</li>
+</ul>
+<p>Champion teams have these protocols. Onyx teams tilt-stack into 6-round losing streaks.</p>` },
+      { heading: 'Reading enemy team patterns across the match', html: `<p>By round 8 you should have read at least 3 enemy patterns:</p>
+<ul>
+  <li>Their power weapon controller's preferred angle (predictable peek).</li>
+  <li>Their grenade-throwing tendency (do they always cook to 1.5s, or random fuse?).</li>
+  <li>Their grapple use (are they aggressive flankers or defensive escapes?).</li>
+  <li>Their objective priority (do they stack the hill or rotate?).</li>
+</ul>
+<p>Champion IGLs build a mental model of enemy tendencies and call counter-plays based on it. Onyx IGLs play their own game without tracking opponents.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches.',
+      'Aim ceiling at Onyx benchmarks instead of Champion.',
+      'Pro VOD library at 30 patterns, not 100+.',
+      'Comm-overload.',
+      'Default sensitivity / FOV.',
+      'No queue veto.',
+      'No tilt protocol for round 13+.',
+      'No enemy pattern tracking across rounds.',
+    ],
+    drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 HCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, contest win rate, K/D.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against HCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Onyx plateau from Champion ceiling.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Halo Bazaar Guide', url: '/games/halo/bazaar.html' },
+      { name: 'Halo Empyrean Guide', url: '/games/halo/empyrean.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // THE FINALS POSTS (2)
 // ============================================================================
 const FINALS_POSTS = [
@@ -3942,7 +4238,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -3959,4 +4255,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
