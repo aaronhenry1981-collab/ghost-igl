@@ -4464,6 +4464,427 @@ const COD_POSTS = [
 ]
 
 // ============================================================================
+// CoD GAP POSTS (4)
+// ============================================================================
+const COD_POSTS_GAPS = [
+  {
+    game: 'cod',
+    gameLabel: 'Call of Duty',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'cod-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in Call of Duty Ranked (2026 Guide)',
+    metaDescription: 'CoD Silver-to-Gold — full meta loadout setup, recoil control patterns, slide-cancel movement, audio cues, and SnD-specific positioning fundamentals.',
+    intro: `<p>Silver in CoD ranked means you have a meta loadout and basic map awareness. Gold demands consistent recoil control, slide-cancel movement, audio cues, and SnD-specific positioning that wins anchor / entry duels.</p>`,
+    sections: [
+      { heading: 'Full meta loadout — every attachment matters', html: `<p>Silver players use a meta gun with random attachments. Gold players run the optimized 5-attachment build:</p>
+<ul>
+  <li><strong>Optic:</strong> standard reticle that fits your eye (avoid red dots that blend with HUD).</li>
+  <li><strong>Barrel:</strong> for range / recoil based on map size (long-range AR vs CQB SMG).</li>
+  <li><strong>Underbarrel:</strong> grip for recoil control on long sightlines.</li>
+  <li><strong>Magazine:</strong> larger mag for SnD anchor positions.</li>
+  <li><strong>Stock:</strong> ADS speed adjustment for entry duelists.</li>
+</ul>
+<p>Builds change per season. Check tier-1 sources (TrueGameData, JGOD) before each season for optimal builds.</p>` },
+      { heading: 'Recoil control — pull patterns by gun', html: `<p>Gold-tier recoil control. Specific patterns per S-tier weapon class:</p>
+<ul>
+  <li><strong>AR:</strong> pulls up + slight left. Counter: pull mouse down, slight right.</li>
+  <li><strong>SMG:</strong> pulls up rapidly. Counter: pull mouse down hard, less horizontal compensation.</li>
+  <li><strong>LMG:</strong> high vertical recoil after burst 5. Tap-fire at distance.</li>
+</ul>
+<p>Practice 30 min daily in private match. After 7 days the recoil patterns become muscle memory.</p>` },
+      { heading: 'Slide-cancel movement', html: `<p>CoD is movement-heavy. Slide-cancel basics:</p>
+<ul>
+  <li>Sprint forward → slide (Crouch button) → cancel (Jump or Crouch again).</li>
+  <li>Slide-cancel breaks enemy aim tracking.</li>
+  <li>Use to enter rooms unpredictably.</li>
+  <li>Combine with mantle-jumps for vertical surprise.</li>
+</ul>
+<p>Silver players run flat-footed. Gold players slide-cancel every entry. The movement is the biggest mid-tier rank gap.</p>` },
+      { heading: 'Audio cues — track footsteps, plates, killstreaks', html: `<p>Crank audio at Gold. Specifics:</p>
+<ul>
+  <li>Footsteps: directional + distance.</li>
+  <li>Plate sound: enemy reloading armor — push trade.</li>
+  <li>Killstreak announcer: enemy got UAV / Counter UAV — they have intel/denial.</li>
+  <li>Door open sound: enemy in/out building.</li>
+  <li>Reload sound: enemy is reloading; push for free trade.</li>
+</ul>
+<p>Crank footstep volume to 100. Wear good headphones. Audio is rank-decisive.</p>` },
+      { heading: 'SnD-specific positioning', html: `<p>If you're queueing Search and Destroy (the ranked mode in CoD), positioning matters more than aim. Specifics:</p>
+<ul>
+  <li><strong>Anchor positions:</strong> hold the back-corner of bombsite with line of sight to entry.</li>
+  <li><strong>Entry positions:</strong> commit through smokes, not without.</li>
+  <li><strong>Plant spots:</strong> always plant the bomb in cover. The post-plant defense matters.</li>
+  <li><strong>Trade-fragger distance:</strong> 5m of the entry, crosshair pre-aimed.</li>
+</ul>
+<p>Silver SnD players treat each round like Slayer. Gold SnD players play position-first.</p>` },
+      { heading: 'Sensitivity setup', html: `<p>CoD default sens is too high for accurate aim. Setup:</p>
+<ul>
+  <li>ADS sensitivity: 0.8 multiplier of hipfire.</li>
+  <li>Hipfire: medium-fast.</li>
+  <li>FOV: 100-110 on PC, 100 on console.</li>
+</ul>
+<p>Silver uses defaults. Gold tunes. Spend a session dialing in.</p>` },
+      { heading: 'Pre-aim common angles', html: `<p>CoD MP maps have known peek spots. Specifics on Skidrow, Highrise, Terminal:</p>
+<ul>
+  <li>Skidrow: pre-aim Apartments doorway, Mid alley window.</li>
+  <li>Highrise: pre-aim Helipad cubby, Office spawn corner.</li>
+  <li>Terminal: pre-aim Plane stairs, Lobby corner.</li>
+</ul>
+<p>Pre-aim at head height. Most Silver players walk into rooms with crosshair at the floor.</p>` },
+      { heading: 'Trade-fragging discipline', html: `<p>Two-on-one duels win SnD rounds. The trade fragger:</p>
+<ul>
+  <li>Stays within 5 meters of the entry.</li>
+  <li>Has line-of-sight to the entry's target angle.</li>
+  <li>Has crosshair pre-aimed at the angle the entry will engage.</li>
+  <li>Doesn't reload at the same time the entry's pushing.</li>
+</ul>
+<p>If your IGL doesn't call trades and your team doesn't trade naturally, you're not in Gold yet. Stack with players who know to trade — soloqueue Silver teaches the wrong habits.</p>` },
+      { heading: 'Loadout swaps mid-match', html: `<p>If your starting loadout isn't working, swap. Specifics:</p>
+<ul>
+  <li>Long-range maps (Highrise, Terminal): switch from SMG to AR if your CQB build isn't landing.</li>
+  <li>CQB maps (Skidrow): switch from AR to SMG if you're losing close-range duels.</li>
+  <li>If you're getting shotgunned consistently in spawn, swap to a perk that counters Tactical Sprint or wear armor.</li>
+</ul>
+<p>Silver players bring 1 loadout and stick. Gold players have 3 prepped + swap based on map and momentum.</p>` },
+    ],
+    mistakes: [
+      'Random attachments on meta gun.',
+      'Spraying full-auto at long range.',
+      'Flat-footed movement (no slide-cancel).',
+      'Audio at default volume.',
+      'Treating SnD like Slayer.',
+      'Default sensitivity / FOV.',
+      'Crosshair at chest height.',
+      'Trade-fragger too far back.',
+      '1 loadout for every map and momentum.',
+    ],
+    drill: { heading: 'Drill: 30 min recoil + 30 min slide-cancel daily', html: `<p>Daily routine:</p><ul><li>30 min in Firing Range with meta AR — practice recoil pull patterns at 50m+ targets.</li><li>30 min in private match practicing slide-cancel + mantle-jumps.</li></ul><p>After 7 days both become muscle memory. Apply in ranked.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Silver and Gold-tier aim consistency.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/cod-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Plat', url: '/blog/cod-gold-to-plat.html' },
+      { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
+      { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'cod',
+    gameLabel: 'Call of Duty',
+    fromRank: 'Gold',
+    toRank: 'Platinum',
+    slug: 'cod-gold-to-plat',
+    metaTitle: 'How to Climb from Gold to Plat in Call of Duty Ranked (2026 Guide)',
+    metaDescription: 'CoD Gold-to-Plat — map-specific positioning, killstreak chain optimization, anti-flank discipline, SnD utility timing, and pro VOD prep.',
+    intro: `<p>Gold players have meta loadouts and basic positioning. Plat demands map-specific holds, killstreak chain optimization, anti-flank discipline, and the discipline to play position-first SnD without ego-pushing.</p>`,
+    sections: [
+      { heading: 'Map-specific positioning by map', html: `<p>Each CoD ranked map has known anchor spots and contested angles. Specifics:</p>
+<ul>
+  <li><strong>Skidrow:</strong> Apartments balcony anchor, Mid alley AR hold, Side stairs flank-watch.</li>
+  <li><strong>Highrise:</strong> Helipad rooftop anchor, Office tower long sightline, Crane corner.</li>
+  <li><strong>Terminal:</strong> Plane stairs anchor, Lobby AR hold, Tarmac long sightline.</li>
+  <li><strong>Karachi:</strong> Mid alley anchor, A-side window long sightline.</li>
+</ul>
+<p>Gold players play default spawns. Plat players hold map-specific anchors that pre-aim every common push angle.</p>` },
+      { heading: 'Killstreak chain optimization', html: `<p>CoD killstreaks chain across kills. Plat-tier streaks:</p>
+<ul>
+  <li><strong>UAV (4 kills):</strong> use immediately for team intel.</li>
+  <li><strong>Counter UAV (5 kills):</strong> use BEFORE enemy UAV — denies their intel.</li>
+  <li><strong>Cluster Strike (8 kills):</strong> use on contested objective.</li>
+  <li><strong>Gunship / VTOL (12 kills):</strong> save for round-deciding push.</li>
+</ul>
+<p>Pick a chain that synergizes (UAV → Counter UAV → Cluster Strike). Gold players pick random streaks; Plat players have a deliberate chain.</p>` },
+      { heading: 'Anti-flank discipline — designated rear-watcher', html: `<p>Plat 4-stacks always have a rear-watcher. Specifics:</p>
+<ul>
+  <li>Front fight: 2-3 players engaged, 1 rear-watching from cover.</li>
+  <li>If audio cue from behind, rear-watcher calls "lurker, holding."</li>
+  <li>If a teammate dies to flank, refocus team rotation to cover the gap.</li>
+</ul>
+<p>Gold teams commit 4-deep, get flanked, lose round. Plat teams commit 3-deep with 1 rear-watcher.</p>` },
+      { heading: 'SnD utility timing', html: `<p>If you queue ranked SnD, utility timing matters:</p>
+<ul>
+  <li>Smoke at choke entry on the team count: "smoke in 3, 2, 1."</li>
+  <li>Stun grenade through doorway BEFORE entry, not after.</li>
+  <li>Frag for clearing standard anchor positions in tight rooms.</li>
+</ul>
+<p>Synced utility wins SnD rounds at Plat. Gold players throw nades on instinct; Plat players time them.</p>` },
+      { heading: 'Audio cues at the higher tier', html: `<p>Plat audio:</p>
+<ul>
+  <li>Footstep distance: estimate enemy distance to within 5m.</li>
+  <li>Plate sounds + reload sounds: free trade kill on the reload window.</li>
+  <li>Dead silence ult activation: enemy mute incoming — pre-aim the flank.</li>
+  <li>Door open / close: building entry signal.</li>
+</ul>
+<p>Plat players track 4-5 audio signals simultaneously. Gold tracks 1-2.</p>` },
+      { heading: 'Pro VOD watching as practice', html: `<p>Watch one CDL match per day. Pause every minute. Predict the call. By VOD 30 you'll absorb pro-tier macro: anchor positions, killstreak timings, smoke usage.</p>
+<p>Recommended VODs: CDL Champs, regional finals.</p>` },
+      { heading: 'Comp role designation in 4-stacks', html: `<p>Plat 4-stacks designate roles:</p>
+<ul>
+  <li><strong>IGL:</strong> calls engage / disengage.</li>
+  <li><strong>Slayer (entry):</strong> takes first contact.</li>
+  <li><strong>Anchor:</strong> holds map-specific anchor angle.</li>
+  <li><strong>Support / utility:</strong> smokes + utility timing.</li>
+</ul>
+<p>Gold teams play 4 solo. Plat teams have 1 IGL whose calls everyone follows.</p>` },
+      { heading: 'Spawn awareness in CoD MP', html: `<p>CoD MP has spawn flips that change game flow. Plat players track:</p>
+<ul>
+  <li>Killing 3 enemies near their spawn flips them to the opposite spawn.</li>
+  <li>If your team is dying to back-shots, spawns just flipped — reposition immediately.</li>
+  <li>Use spawn-flip awareness for objective modes (Hardpoint rotation, Domination flag swaps).</li>
+</ul>
+<p>Gold players ignore spawns. Plat players read them every 30 seconds.</p>` },
+      { heading: 'Mental game and tilt management', html: `<p>CoD ranked matches are 30+ minutes. Tilt-stacking 3 losses is the Gold plateau killer:</p>
+<ul>
+  <li>60-second mental reset between matches.</li>
+  <li>If you tilt-stack 3, stop for 30 minutes.</li>
+  <li>Don't blame teammates in voice — Plat teams solve, Gold teams blame.</li>
+  <li>Track session win rate. Below 45%, end session — your performance compounds badly past that point.</li>
+</ul>
+<p>Plat teams have tilt protocols. Gold teams grind through tilt and lose more matches per hour. The 30-minute break to walk + hydrate is worth more than the 30 minutes of tilted ranked you'd have played.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Plat players tune sensitivity beyond Gold's defaults:</p>
+<ul>
+  <li>800-1600 DPI is standard.</li>
+  <li>Sensitivity in cm/360°: 25-40cm for AR, 20-30cm for sniper.</li>
+  <li>FOV: 105+ on PC, 100 on console.</li>
+</ul>
+<p>If you're using defaults, dial in over a week. The mechanical edge compounds.</p>` },
+    ],
+    mistakes: [
+      'Default spawns instead of map-specific anchors.',
+      'Random killstreak picks (no chain).',
+      'No designated rear-watcher.',
+      'Utility thrown on instinct, not on synced count.',
+      'Audio at default volume.',
+      'No pro VOD prep.',
+      'No role designation in 4-stack.',
+      'No spawn-flip awareness.',
+      'Tilt-stacking matches.',
+    ],
+    drill: { heading: 'Drill: 5-game role-designated stack', html: `<p>If you queue with a 4-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>By game 5 the role coordination is automatic. The IGL discipline is the conversion lever for ranked SnD.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks anchor position win rates per map. Useful for spotting which maps have your worst hold percentages so you can study CDL pro positioning specifically for those maps.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/cod-silver-to-gold.html' },
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
+      { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
+      { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'cod',
+    gameLabel: 'Call of Duty',
+    fromRank: 'Diamond',
+    toRank: 'Iridescent',
+    slug: 'cod-diamond-to-iri',
+    metaTitle: 'How to Climb from Diamond to Iridescent in CoD Ranked (2026 Guide)',
+    metaDescription: 'CoD Diamond-to-Iridescent — pro-tier macro round patterns, lobby-by-lobby reads, killstreak banking, mental game, and CDL-tier comm discipline.',
+    intro: `<p>Diamond is high-elo in CoD ranked. Iridescent is top 1%. The gap is macro round patterns, lobby-by-lobby opponent reads, killstreak banking for round-decider moments, and CDL-tier comm discipline that converts close losses into wins.</p>`,
+    sections: [
+      { heading: 'Pro-tier macro round patterns', html: `<p>Iridescent teams script the match across 11-round games:</p>
+<ul>
+  <li>Rounds 1-3: probe enemy comp + anchor patterns.</li>
+  <li>Rounds 4-6: counter-strat based on probe data.</li>
+  <li>Rounds 7+: lock in winning pattern, save killstreaks for match-deciding rounds.</li>
+</ul>
+<p>Diamond teams play round-to-round. Iridescent teams play match-to-match. The 11-round vision is what wins close matches.</p>` },
+      { heading: 'Lobby-by-lobby opponent reads', html: `<p>By round 3 you should have read at least 3 enemy patterns:</p>
+<ul>
+  <li>Their AWP/sniper main's preferred angle.</li>
+  <li>Their entry fragger's typical push direction.</li>
+  <li>Their utility commit timing (do they smoke first or flash first?).</li>
+  <li>Their bomb plant location preference (covered vs open).</li>
+</ul>
+<p>Iridescent IGLs build mental models of enemy tendencies + call counter-plays. Diamond IGLs play their own game without tracking.</p>` },
+      { heading: 'Killstreak banking — save for clutch moments', html: `<p>Iridescent teams bank killstreaks for round-deciding moments:</p>
+<ul>
+  <li>If you're 3-0 ahead, save streaks for the closeout round.</li>
+  <li>If you're 1-3 behind, use streaks to reset momentum.</li>
+  <li>If round 11 is overtime, full team commits all streaks.</li>
+</ul>
+<p>Diamond players spam streaks the moment they're available. Iridescent players bank for the round that decides the match.</p>` },
+      { heading: 'Mechanical aim consistency', html: `<p>Iridescent aim benchmarks:</p>
+<ul>
+  <li>AR headshot rate: 25%+ at all engagement ranges.</li>
+  <li>SMG headshot rate: 30%+ in CQB.</li>
+  <li>Sniper one-shot accuracy: 50%+ in ranked SnD.</li>
+</ul>
+<p>Daily aim regimen: 60 min in Firing Range + private match. Track headshot rate weekly. If you're stuck below benchmarks, fix sensitivity or technique.</p>` },
+      { heading: 'CDL-tier comm discipline', html: `<p>Iridescent comms are short:</p>
+<ul>
+  <li>"Pushing on smoke, 3, 2, 1."</li>
+  <li>"Their AWP heaven, save."</li>
+  <li>"UAV up, push their flank."</li>
+  <li>"Bomb planted, defend long."</li>
+</ul>
+<p>NOT commentary. Information only. Comm discipline is what separates Iridescent teams from Diamond teams that frag equally well.</p>` },
+      { heading: 'Mental game — between rounds', html: `<p>Iridescent ranked matches are 30+ minutes. Tilt-stacking 3 losses is the Diamond plateau killer:</p>
+<ul>
+  <li>30-second box breath between rounds.</li>
+  <li>If you tilt-stack 3, end the session.</li>
+  <li>Don't blame teammates — Iridescent teams solve, Diamond teams blame.</li>
+</ul>
+<p>Diamond+ teams have tilt protocols. Diamond teams without protocols stay Diamond.</p>` },
+      { heading: 'Pro VOD library at scale', html: `<p>By Iridescent you should have absorbed 60+ specific CDL patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize pro setups for major SnD maps.</li>
+  <li>You predict killstreak chains 5+ seconds before they fire.</li>
+  <li>You read smoke + flash timings by matching pro patterns.</li>
+</ul>
+<p>Recommended VODs: CDL Champs, regional finals.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Iridescent players tune sensitivity to body type and hand speed:</p>
+<ul>
+  <li>800-2400 DPI is standard.</li>
+  <li>Sensitivity in cm/360°: 25-40cm for AR, 20-30cm for sniper.</li>
+  <li>FOV: 105+ on PC, 100 on console.</li>
+  <li>Crosshair: bright color (cyan, yellow). Avoid red.</li>
+</ul>
+<p>If you're using default settings at this tier, you're playing at a mechanical disadvantage. Spend a week dialing in.</p>` },
+      { heading: 'Veto strategy for ranked queue', html: `<p>By Iridescent you should have win-rate data per map. Specific veto pattern:</p>
+<ul>
+  <li>Toggle off your bottom 2-3 maps in queue settings.</li>
+  <li>Track win rate weekly per map.</li>
+  <li>Focus practice on top 4 strongest maps.</li>
+</ul>
+<p>The veto compounds across a season. Iridescent players who veto strategically gain 30%+ more rank per session than those who play all maps.</p>` },
+      { heading: 'Tilt protocols at the high-pressure rounds', html: `<p>Round 7+ in 11-round SnD is where matches are decided. Specific protocols:</p>
+<ul>
+  <li>Between rounds, 4-second box breath. Heart rate from 95+ BPM (tilted) to 70 BPM (focused).</li>
+  <li>If you lose 2 in a row, IGL calls "default round" — fundamentals only.</li>
+  <li>If you lose 3 in a row, IGL calls a player swap if anyone's tilting visibly.</li>
+</ul>
+<p>Iridescent teams have these protocols. Diamond teams tilt-stack into 6-round losing streaks.</p>` },
+    ],
+    mistakes: [
+      'Round-to-round play instead of match-to-match macro.',
+      'No lobby-by-lobby opponent reads.',
+      'Streaks spammed instead of banked.',
+      'Aim ceiling at Diamond benchmarks.',
+      'Comm-overload.',
+      'Tilt-stacking matches.',
+      'Pro VOD library at 20 patterns, not 60+.',
+      'Default sensitivity / FOV.',
+      'No queue veto.',
+    ],
+    drill: { heading: 'Drill: 90-day CDL-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 CDL match per day. By day 90 you have a 60+ pattern library AND your aim is at Iridescent benchmarks.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against CDL-tier reads. Useful for finding the rounds where your killstreak banking decision was wrong (used too early or saved too late) — the exact macro pattern that separates Diamond plateau from Iridescent climb.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
+      { name: 'How to Climb from Iridescent to Top 250', url: '/blog/cod-iri-to-top250.html' },
+      { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
+      { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'cod',
+    gameLabel: 'Call of Duty',
+    fromRank: 'Iridescent',
+    toRank: 'Top 250',
+    slug: 'cod-iri-to-top250',
+    metaTitle: 'How to Climb from Iridescent to Top 250 in CoD Ranked (2026 Guide)',
+    metaDescription: 'CoD Iridescent-to-Top 250 — top-tier mental game, mechanical aim consistency at the ceiling, CDL-tier macro patterns, sensitivity optimization, and queue veto.',
+    intro: `<p>Iridescent is top 1% of CoD ranked. Top 250 is top 0.05% globally. The gap is mental discipline at the high-pressure rounds, mechanical aim at the absolute ceiling, and CDL-tier macro patterns absorbed from 90+ days of pro VOD review.</p>`,
+    sections: [
+      { heading: 'Top-0.05% mental discipline', html: `<p>Top 250 matches are 30+ minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>2-second mental reset between deaths. Same crosshair, same default position.</li>
+  <li>If you tilt-stack 2 losses, stop session. Don't grind through tilt at this elo.</li>
+  <li>Don't blame teammates — Top 250 teams solve, Iridescent teams blame.</li>
+  <li>Track session win rate. Below 55%, end session.</li>
+</ul>
+<p>The reset discipline is what separates Top 250 consistency from Iridescent volatility. Most plateaued Iridescent players have the mechanics but lose 4-round streaks to mental tilt.</p>` },
+      { heading: 'Top-tier aim benchmarks', html: `<p>Specific aim benchmarks per weapon class:</p>
+<ul>
+  <li>AR: 28%+ headshot rate at all ranges.</li>
+  <li>SMG: 32%+ headshot rate in CQB.</li>
+  <li>Sniper: 60%+ one-shot accuracy in ranked SnD.</li>
+  <li>Pistol: 25%+ headshot rate (clutch scenarios).</li>
+</ul>
+<p>Daily aim regimen: 90 min in Firing Range + private match. Track weekly. If you're stuck below benchmarks, fix sensitivity or technique before chasing macro.</p>` },
+      { heading: 'CDL-tier macro at scale', html: `<p>By Top 250 you should have absorbed 100+ specific CDL patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize pro anchor setups by map.</li>
+  <li>You predict killstreak chains 5+ seconds before they fire.</li>
+  <li>You read smoke + flash timings perfectly.</li>
+  <li>You know which weapon matchups counter which.</li>
+</ul>
+<p>Recommended VODs: CDL Champs, regional finals from past 2 years.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Top 250 players tune sensitivity to body type and hand speed:</p>
+<ul>
+  <li>800-2400 DPI is standard. Higher DPI = faster flicks, less precision.</li>
+  <li>Sensitivity in cm/360°: 25-40cm for AR, 20-30cm for sniper.</li>
+  <li>FOV: 105+ on PC.</li>
+  <li>Crosshair: bright cyan or yellow.</li>
+</ul>
+<p>If you're using default settings at this tier, you're playing at a mechanical disadvantage. Spend a week dialing in.</p>` },
+      { heading: 'Queue veto and matchmaking macro', html: `<p>Top 250 queues: top 4 maps prepped + bottom 2 banned. Veto wins matches before round 1.</p>
+<ul>
+  <li>Toggle off your bottom 2 maps.</li>
+  <li>Track win rate weekly.</li>
+  <li>Focus practice on top 4 strongest maps.</li>
+</ul>
+<p>The veto edge compounds across a season. Iridescent players who veto strategically gain 30%+ more rank per session.</p>` },
+      { heading: 'Comm discipline at high-pressure rounds', html: `<p>Top 250 comms are short and decisive:</p>
+<ul>
+  <li>"Pushing on count, 3, 2, 1."</li>
+  <li>"AWP heaven, save."</li>
+  <li>"Their UAV up, hold cover."</li>
+  <li>"Bomb planted, defend long."</li>
+</ul>
+<p>NOT commentary. Information only — what changes a teammate's decision.</p>` },
+      { heading: 'Tilt protocols at high-pressure rounds', html: `<p>Round 8+ in 11-round SnD is where matches are decided. Specific protocols:</p>
+<ul>
+  <li>Between rounds, 4-second box breath. Heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you lose 2 rounds in a row, IGL calls "default round" — fundamentals only.</li>
+  <li>If you lose 3 in a row, IGL calls a player swap if anyone's tilting.</li>
+</ul>
+<p>Top 250 teams have these protocols. Iridescent teams tilt-stack into 6-round losing streaks.</p>` },
+      { heading: 'Reading enemy comp + counter-strats', html: `<p>By round 5 you should have read at least 3 enemy patterns:</p>
+<ul>
+  <li>Their AWP main's preferred angle.</li>
+  <li>Their entry fragger's typical commit timing.</li>
+  <li>Their utility commit patterns (smoke first vs flash first).</li>
+  <li>Their bomb plant location preferences.</li>
+</ul>
+<p>Top 250 IGLs build mental models of enemy tendencies and call counter-plays. Iridescent IGLs play their own game without tracking opponents across rounds.</p>` },
+      { heading: 'Match macro across full ranked games', html: `<p>Top 250 teams script the full match across 11 rounds:</p>
+<ul>
+  <li>Rounds 1-3: probe enemy setups.</li>
+  <li>Rounds 4-6: counter-strat.</li>
+  <li>Rounds 7-9: lock in winning pattern.</li>
+  <li>Rounds 10-11: closeout, save killstreaks for clutch.</li>
+</ul>
+<p>Iridescent teams play round-to-round. Top 250 teams play match-to-match with the script in mind.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches.',
+      'Aim ceiling at Iridescent benchmarks instead of Top 250.',
+      'Pro VOD library at 50 patterns, not 100+.',
+      'Comm-overload.',
+      'Default sensitivity / FOV.',
+      'No queue veto.',
+      'No tilt protocol for round 8+.',
+      'No round-by-round opponent tracking.',
+      'Round-to-round play instead of match-to-match macro.',
+    ],
+    drill: { heading: 'Drill: 90-day CDL pro VOD library + aim regimen', html: `<p>90 days of 90 min daily aim + 1 CDL match per day. By day 90 you have a 100-pattern library AND your aim is at Top 250 benchmarks. Track weekly: headshot rate per weapon, K/D, ADR.</p>` },
+    aiVodMention: `<p>At Top 250 the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against CDL-tier reads round-by-round. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Iridescent plateau from Top 250 ceiling.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Iridescent', url: '/blog/cod-diamond-to-iri.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
+      { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // FORTNITE POSTS (2)
 // ============================================================================
 const FN_POSTS = [
@@ -4531,7 +4952,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -4548,4 +4969,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, htmlShell, renderPost, renderIndex }
