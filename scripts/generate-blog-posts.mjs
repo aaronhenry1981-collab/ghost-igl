@@ -3035,6 +3035,263 @@ const APEX_POSTS = [
 ]
 
 // ============================================================================
+// APEX HIGH-TIER POSTS (3)
+// ============================================================================
+const APEX_POSTS_HIGH = [
+  {
+    game: 'apex',
+    gameLabel: 'Apex Legends',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'apex-plat-to-diamond',
+    metaTitle: 'How to Climb from Plat to Diamond in Apex Legends (2026 Guide)',
+    metaDescription: 'Apex Plat-to-Diamond — endgame zone reads, mobility chain rotations, anti-flank discipline, lobby-by-lobby loadout swaps, and ALGS-tier engagement decisions.',
+    intro: `<p>Plat in Apex means you have movement, drops, and basic squad coordination locked in. Diamond demands consistent endgame zone reads, mobility chain rotations, and the discipline to disengage fights you can't win. Here's the leap.</p>`,
+    sections: [
+      { heading: 'Endgame zone reads — predict the next ring before it closes', html: `<p>Plat squads react to ring damage. Diamond squads pre-position 60+ seconds before each ring closes. The cycle:</p>
+<ul>
+  <li>At ring 1 close (5:00), call out the next zone center based on the new circle.</li>
+  <li>Identify the high-ground spot that will sit inside the next ring. Plan the mobility-item route to claim it.</li>
+  <li>If the next zone forces you through 2+ enemy POIs, change rotation now — don't wait for ring damage to push you through them.</li>
+</ul>
+<p>Diamond squads arrive at zone with cover. Plat squads arrive bleeding ring damage and out of mobility items.</p>` },
+      { heading: 'Mobility chain rotations', html: `<p>Plat squads save mobility items "for emergencies" and die holding them. Diamond squads chain them as primary rotation:</p>
+<ul>
+  <li><strong>Pathfinder zip + Octane pad:</strong> 200m+ rotation in 8 seconds.</li>
+  <li><strong>Valkyrie ult + Pathfinder zip:</strong> cross-map repositioning to deny third-party.</li>
+  <li><strong>Wraith portal + Octane pad:</strong> commit-and-retreat for high-risk pushes.</li>
+  <li><strong>Horizon ult + DPS dive:</strong> grouped enemies into a Black Hole, free clean-up.</li>
+</ul>
+<p>Practice these chains in scrims. Each chain wins 2-3 fights per match if timed right.</p>` },
+      { heading: 'Anti-flank discipline — designated rear-watcher', html: `<p>Diamond squads always have one player watching the flank. Specific protocol:</p>
+<ul>
+  <li>Front fight: 2 players engaged, 1 rear-watching from cover.</li>
+  <li>Rotation: rear-watcher's drone or scan covers the back-line.</li>
+  <li>If audio cue from behind, rear-watcher calls "lurker, holding the angle" — front pair completes engage knowing the back is covered.</li>
+</ul>
+<p>Plat squads commit 3-deep, get flanked, lose the round. Diamond squads commit 2-deep with a rear-watcher and maintain map control.</p>` },
+      { heading: 'Lobby-by-lobby loadout swaps', html: `<p>Plat squads loot whatever they find. Diamond squads optimize loadouts mid-match based on lobby reads:</p>
+<ul>
+  <li>If lobby is full of Bocek + R-99 close-range squads → swap to a long-range loadout (Sentinel, G7, Triple Take).</li>
+  <li>If lobby is sniper-heavy → swap to fast-mobility legend (Octane, Path) and SMG/AR mid-range.</li>
+  <li>If you're carrying a weapon you don't main, swap to looted alt at next death-box.</li>
+</ul>
+<p>The loadout swap is a 5-second mental check between fights. Diamond squads do it; Plat squads forget.</p>` },
+      { heading: 'Audio cue tracking at high tier', html: `<p>Diamond audio at the ceiling:</p>
+<ul>
+  <li>Footsteps: directional + distance + numbers (1 player vs 3).</li>
+  <li>Reload sound: enemy is reloading — push trade.</li>
+  <li>Heal sound: enemy stuck for 6s; push.</li>
+  <li>Ult activation: enemy used ult, 3-min cooldown — aggress in that window.</li>
+  <li>Door open / close: building entry signal — pre-aim the doorway.</li>
+  <li>Healing pickup sound (in death box): teammate picking up enemy heals — coverage shift incoming.</li>
+</ul>
+<p>Diamond players track 4-5 audio signals simultaneously. Plat players track 1-2. Crank footstep volume to 100, wear good headphones — non-negotiable at this elo.</p>` },
+      { heading: 'Engagement decision tree — fight or flee?', html: `<p>Diamond squads have an engagement framework:</p>
+<ul>
+  <li>Full kit + ults available → engage.</li>
+  <li>White armor + no ults → rotate around the fight.</li>
+  <li>2 squads fighting nearby → wait, third-party the loser.</li>
+  <li>Ring 4+ low-HP situation → bunker, heal, do not engage.</li>
+  <li>Endgame with 3 squads remaining → don't push first; let the others contest each other.</li>
+</ul>
+<p>Plat squads engage on instinct. Diamond squads engage on EV calculation.</p>` },
+      { heading: 'Pro VOD prep — ALGS patterns', html: `<p>Watch one ALGS match per day. Pause every minute. Predict the call. By VOD 30 you'll absorb pro-tier rotation timings, ult chain combos, and crystal endgame patterns.</p>
+<p>Specific ALGS patterns to internalize: pre-rotation 60s before ring close, Valk ult to claim high-ground, Caustic ult to deny choke, third-team baiting via fake-engagement.</p>` },
+    ],
+    mistakes: [
+      'Reacting to ring damage instead of pre-rotating.',
+      'Saving mobility items unused.',
+      'No designated rear-watcher in fights.',
+      'Random loot loadouts — no lobby-based swap.',
+      'Audio at default volume.',
+      'Engaging on instinct without EV check.',
+      'No ALGS VOD prep.',
+    ],
+    drill: { heading: 'Drill: 5-game pre-rotation tracking', html: `<p>5 ranked Apex games. For each, mark the 60-second-before-ring-close moment in your head and call the next zone center. Track whether you actually pre-rotated or whether you reacted to ring damage.</p><p>By game 5 the pre-rotation habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your engagement decisions across matches and flags the rounds where you fought a battle you couldn't win — useful for catching the Plat plateau pattern of "engaging on instinct."</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/apex-gold-to-plat.html' },
+      { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
+      { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
+      { name: 'Apex World\'s Edge Guide', url: '/games/apex/worlds-edge.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'apex',
+    gameLabel: 'Apex Legends',
+    fromRank: 'Diamond',
+    toRank: 'Master',
+    slug: 'apex-diamond-to-master',
+    metaTitle: 'How to Climb from Diamond to Master in Apex Legends (2026 Guide)',
+    metaDescription: 'Apex Diamond-to-Master — final-ring positioning depth, ult chain combos, loadout optimization at scale, third-team timing reads, and ALGS-tier macro discipline.',
+    intro: `<p>Diamond squads have the fundamentals. Master squads have refined macro: final-ring positioning, ult chain combos timed to the second, and the discipline to play 20+ minute matches without a single ego-engagement. The leap is converting individual mechanics into team-coordinated late-game decisions where most ranked Apex matches are won or lost.</p>`,
+    sections: [
+      { heading: 'Final-ring positioning — high ground + cover', html: `<p>By Ring 5, the zone is small enough that 3-4 squads remain. Master positioning:</p>
+<ul>
+  <li>Take the highest available ground that has cover within 5m.</li>
+  <li>If zone closes onto flat terrain, use ult mobility (Pathfinder zip, Valk ult) to claim a building roof.</li>
+  <li>If a squad already holds the high ground, don't dispute — bunker on adjacent ground and force them to push you.</li>
+  <li>Watch for terrain-tilt: which squads are forced to push uphill into your position by ring close?</li>
+</ul>
+<p>Master squads set up final-ring positioning 90+ seconds before zone forces. Diamond squads scramble for cover when ring damage starts.</p>` },
+      { heading: 'Ult chain combos timed to the second', html: `<p>Master ult chains:</p>
+<ul>
+  <li><strong>Bangalore smoke + Bloodhound ult:</strong> smoke covers your push, scan reveals targets through smoke. Drop on a count: smoke, 2-second beat, scan.</li>
+  <li><strong>Caustic ult + Wattson fence:</strong> chokepoint denial. Caustic ult lands first, fences activate as ult expires.</li>
+  <li><strong>Valk ult + Path zip:</strong> mass repositioning to claim or deny zone center.</li>
+  <li><strong>Horizon ult + Bangalore Rolling Thunder:</strong> grouped enemies, then artillery.</li>
+</ul>
+<p>Practice in scrims with voice comm: "Ult in 3, 2, 1." Each combo wins fights when synced within 1 second of each other.</p>` },
+      { heading: 'Loadout optimization at the ceiling', html: `<p>Master squads have specific loadout priorities:</p>
+<ul>
+  <li><strong>Long-range:</strong> Sentinel (charged), Triple Take, or G7 Scout. Hold high ground.</li>
+  <li><strong>Mid-range:</strong> Flatline, R-301, Hemlok. Standard fight range.</li>
+  <li><strong>Close-range:</strong> R-99, CAR, Volt SMG. Push fights.</li>
+  <li><strong>Anti-armor:</strong> Mastiff or Peacekeeper as backup for full-purple enemies.</li>
+</ul>
+<p>By Ring 4, your team should have 1 long-range, 2 mid-range, 0 hot-drop SMGs unless your comp is dive-heavy. Master squads optimize per ring; Diamond squads keep what they grabbed at drop.</p>` },
+      { heading: 'Third-team timing reads', html: `<p>Master squads predict third-team arrival within 15 seconds. Specifics:</p>
+<ul>
+  <li>Kill feed shows nearby fight → 30-second arrival window for the third team. Plan engage timing accordingly.</li>
+  <li>Audio of distant gunshots → directional read. Third team coming from that vector.</li>
+  <li>If you just won a fight, retreat to cover and HEAL before the inevitable third party.</li>
+  <li>If you're the third team, push the loser — full kit + RP.</li>
+</ul>
+<p>Diamond squads forget third-teaming half the time. Master squads bake it into every engagement decision.</p>` },
+      { heading: 'Match macro across 20-minute games', html: `<p>Master squads play 20-minute matches with a script:</p>
+<ul>
+  <li>0:00-5:00: drop, loot full kit, no engages unless contested at drop.</li>
+  <li>5:00-10:00: rotate to zone, third-party 1-2 fights opportunistically, build kit.</li>
+  <li>10:00-15:00: pre-position for Ring 3-4, hold high ground.</li>
+  <li>15:00+: final ring, ult chain coordination, crystal endgame.</li>
+</ul>
+<p>Diamond squads play minute-by-minute. Master squads play match-by-match with the script in mind.</p>` },
+      { heading: 'Squad role designation pre-match', html: `<p>Master 3-stacks designate roles:</p>
+<ul>
+  <li><strong>IGL (caller):</strong> makes engage/disengage calls. Final say on rotation timing.</li>
+  <li><strong>Fragger (entry):</strong> takes first contact in fights. Aggressive legend pick (Octane, Bangalore).</li>
+  <li><strong>Support (sustainer):</strong> heals, drone scouts, banner runs. Defensive legend pick (Lifeline, Newcastle, Conduit).</li>
+</ul>
+<p>If your trio doesn't have designated roles, fights collapse on miscommunication. Plat trios fight as 3 IGLs. Master trios have one IGL whose calls everyone follows. Practice: pre-match role-call in voice — "I'm IGL, you fragger, you support" — and stick with it for the session.</p>` },
+      { heading: 'Tilt management at the high-pressure rounds', html: `<p>Master matches are 20+ minutes, often ending in close losses. Tilt management:</p>
+<ul>
+  <li>Between matches, 60-second mental reset. No reviewing the kill cam past the first 10 seconds.</li>
+  <li>If you tilt-stack 3 losses, stop for 30 minutes.</li>
+  <li>Don't blame teammates — the squad is your unit, not your opponent.</li>
+</ul>
+<p>Master discipline is what converts 60% session win rate into a Master placement. Diamond grinders without tilt protocols stay Diamond.</p>` },
+    ],
+    mistakes: [
+      'Final-ring positioning by reaction, not pre-positioning.',
+      'Solo ulting (no chain).',
+      'Loadout from drop unchanged through Ring 4.',
+      'No third-team timing read.',
+      'Match macro by feel, not script.',
+      'No squad role designation.',
+      'Tilt-stacking 3+ matches.',
+    ],
+    drill: { heading: 'Drill: 5 games of match-macro tracking', html: `<p>5 ranked games. For each, write down (1) drop time, (2) first kit complete time, (3) Ring 3 position, (4) final-ring high-ground status. Compare your timeline to the Master script (5:00 / 10:00 / 15:00 markers).</p><p>If you're lagging on any phase, that's where to focus practice.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag the rounds where you took an unfavorable engagement that didn't fit the match script — particularly useful for spotting the Diamond plateau of "engaging on instinct" that Master macro discipline solves.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/apex-plat-to-diamond.html' },
+      { name: 'How to Climb from Master to Predator', url: '/blog/apex-master-to-pred.html' },
+      { name: 'Apex Olympus Guide', url: '/games/apex/olympus.html' },
+      { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'apex',
+    gameLabel: 'Apex Legends',
+    fromRank: 'Master',
+    toRank: 'Predator',
+    slug: 'apex-master-to-pred',
+    metaTitle: 'How to Climb from Master to Predator in Apex Legends (2026 Guide)',
+    metaDescription: 'Apex Master-to-Predator — top 750 mental game, constant ult tracking, mid-game flex decisions, ALGS-tier squad coordination, and aim consistency at the ceiling.',
+    intro: `<p>Master is top 4% of Apex. Predator is top 750 globally per region. The gap is constant ult tracking, mid-game flex decisions, and mental discipline at the high-pressure rounds. Here's what Predator-tier squads do that Master squads don't — the squad-protocol depth, aim consistency benchmarks, and 90-day pro VOD library that converts plateau into ceiling.</p>`,
+    sections: [
+      { heading: 'Constant ult tracking — yours and theirs', html: `<p>Predator squads track every legend's ult cooldown across the entire lobby. Specifics:</p>
+<ul>
+  <li>Squad ult availability is announced every minute: "Path ult in 30, Bang ult ready, Octane pad cycling."</li>
+  <li>Enemy ult tracking via observation: "Caustic used ult 2 minutes ago — they don't have it for next 60 seconds."</li>
+  <li>Engage timing windows are calculated from squad-ult-availability: only engage when 4+ ults across the squad are charged.</li>
+  <li>Disengage triggers: if your squad has 0 ults and the enemy clearly has multiple, retreat and reset. No ego-engagements at this elo.</li>
+</ul>
+<p>Master squads check ult availability "sometimes." Predator squads track it constantly. The 60-second ult window between fights is what determines engage feasibility — Predators win because they only fight when ahead on ult charge, never when behind.</p>` },
+      { heading: 'Mid-game flex decisions', html: `<p>Predator squads adapt mid-game based on lobby reads:</p>
+<ul>
+  <li>Lobby is third-party-heavy → switch to fight-and-flee posture: only engage when you can disengage in 30 seconds.</li>
+  <li>Lobby is camp-heavy → take aggressive engagements early to thin the field.</li>
+  <li>Lobby is endgame-focused → loot longer, conserve ults, bunker for crystal endgame.</li>
+</ul>
+<p>The flex happens around the 10-minute mark. Master squads play the same game-plan every match. Predators flex based on the data.</p>` },
+      { heading: 'ALGS-tier squad coordination', html: `<p>Predator-tier squad coordination patterns:</p>
+<ul>
+  <li><strong>Engage protocol:</strong> "I push left, follow on my call." NOT "I'm pushing now."</li>
+  <li><strong>Disengage protocol:</strong> "Falling back, smoke me." Squad covers retreat with smokes/ults.</li>
+  <li><strong>Banner protocol:</strong> teammate dies → squad designates banner runner. Other 2 cover.</li>
+  <li><strong>Reset protocol:</strong> after a wipe-and-revive, full team heals to 200 (full HP + shields) BEFORE re-engage.</li>
+</ul>
+<p>Master squads have rough versions of these protocols. Predators have them down to the second.</p>` },
+      { heading: 'Aim consistency at the ceiling', html: `<p>Predator aim benchmarks:</p>
+<ul>
+  <li>Tracking %: 65%+ on moving targets at mid-range.</li>
+  <li>Recoil control: full-auto R-99 at 30m drops <30% accuracy from first-shot baseline.</li>
+  <li>Long-range Sentinel: 50%+ headshot rate at 100m+.</li>
+  <li>Reaction time: <250ms on visual flicks (test in Aim Lab).</li>
+</ul>
+<p>Daily aim regimen at this tier: 60 min Aim Lab + 60 min Apex Firing Range with target legend's main weapon. Track headshot rate weekly.</p>` },
+      { heading: 'Mental game and tilt protection', html: `<p>Predator matches are 20-30 minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>Reset between deaths in <5 seconds. No commentary on the death.</li>
+  <li>Tilt-stack 2 matches → stop session.</li>
+  <li>Don't review kill cam past the first 5 seconds.</li>
+  <li>Track session win rate. Below 50%, end session.</li>
+</ul>
+<p>The mental game is where Predator separates from Master. Mechanically the gap is 5%. Mentally, 95%.</p>` },
+      { heading: 'Veto and queue strategy', html: `<p>Predator queues are optimized:</p>
+<ul>
+  <li>Top 3 maps prepped (heat maps memorized, drop spots optimized, pro VOD library curated).</li>
+  <li>Bottom 2 maps avoided via queue settings or off-peak queue.</li>
+  <li>Lobby reads from session 1: same opponents at this rank recur. Note their tendencies.</li>
+</ul>
+<p>The veto edge compounds across a season. Predators climb 30%+ faster per session than Masters who play all maps.</p>` },
+      { heading: 'Pro player VOD library at scale', html: `<p>Predator squads have absorbed 100+ specific ALGS patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize squad comps from drop.</li>
+  <li>You predict ult chains 5+ seconds before they fire.</li>
+  <li>You read engagement timing windows by matching pro patterns.</li>
+  <li>You know which maps favor dive vs poke vs bunker comps.</li>
+</ul>
+<p>Recommended VODs: ALGS Year 4+ finals, regional Pro League. Avoid casual streamer content — only tier-1 prep level.</p>` },
+    ],
+    mistakes: [
+      'Ult tracking only "sometimes."',
+      'Same game-plan every match — no mid-game flex.',
+      'Squad protocols are vibes, not scripts.',
+      'Aim ceiling at Master benchmarks (50% tracking) instead of Predator (65%+).',
+      'Mental game absent at high-pressure rounds.',
+      'No queue veto.',
+      'Pro VOD library at 30 patterns, not 100+.',
+    ],
+    drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 ALGS match per day. By day 90 you have a 100-pattern library AND your aim is at Predator benchmarks.</p><p>Track weekly: tracking %, headshot rate per weapon, reaction time. If numbers plateau before day 90, fix sensitivity or ergonomics first.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against ALGS-tier reads — particularly useful for finding the rounds where you knew the right call but committed to the wrong one. The exact pattern that separates Master plateau from Predator ceiling.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
+      { name: 'Apex Olympus Guide', url: '/games/apex/olympus.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // MARVEL RIVALS POSTS (3)
 // ============================================================================
 const MVR_POSTS = [
@@ -3408,7 +3665,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...MVR_POSTS, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -3425,4 +3682,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, MVR_POSTS, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }

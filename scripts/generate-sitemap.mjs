@@ -220,6 +220,9 @@ async function main() {
     'apex-bronze-to-silver',
     'apex-silver-to-gold',
     'apex-gold-to-plat',
+    'apex-plat-to-diamond',
+    'apex-diamond-to-master',
+    'apex-master-to-pred',
     // Marvel Rivals
     'mvr-bronze-to-silver',
     'mvr-silver-to-gold',
