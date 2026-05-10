@@ -4107,6 +4107,299 @@ const FINALS_POSTS = [
 ]
 
 // ============================================================================
+// FINALS GAP POSTS (3)
+// ============================================================================
+const FINALS_POSTS_GAPS = [
+  {
+    game: 'finals',
+    gameLabel: 'The Finals',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'finals-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in The Finals (2026 Guide)',
+    metaDescription: 'The Finals Silver-to-Gold — synced 3-stack engagement, build-specific kit mastery, third-team timing reads, vault carry routes per map, and Defib timing.',
+    intro: `<p>Silver in The Finals means you've picked a build and have basic Cashout discipline. Gold demands synced 3-stack play, build-specific kit mastery, and third-team timing reads that flip contested rounds. The Silver-to-Gold leap is communication discipline + map-specific carry routes — fundamentals that turn 3 solo players into 1 coordinated unit.</p>`,
+    sections: [
+      { heading: 'Synced 3-stack engagement', html: `<p>Silver trios fight as 3 solo players. Gold trios fight as 1 unit. Specifics:</p>
+<ul>
+  <li><strong>Engage call:</strong> "I push left, follow on my call." NOT "I'm pushing now."</li>
+  <li><strong>Trade-fragger distance:</strong> within 5m of the entry, crosshair pre-aimed at the engage angle.</li>
+  <li><strong>Disengage call:</strong> "Falling back, smoke me." Squad covers retreat.</li>
+</ul>
+<p>Voice comm is the conversion lever. Silent trios at Silver are 3 solos; comm-disciplined trios at Gold are 1 unit.</p>` },
+      { heading: 'Build-specific kit mastery', html: `<p>Pick one build and master its full kit:</p>
+<ul>
+  <li><strong>Heavy:</strong> Mesh Shield + RPG + Charge \'N Slam. Practice the Mesh Shield-into-engage on every contest.</li>
+  <li><strong>Medium:</strong> Healing Beam + Defib + Goo Gun. Master Defib timing (anticipative, not reactive).</li>
+  <li><strong>Light:</strong> Cloak + Stun Gun + Glitch Grenades. Master the cloak-flank-stun-pick pattern.</li>
+</ul>
+<p>Silver players use kits randomly. Gold players have specific combos for every contest scenario.</p>` },
+      { heading: 'Third-team timing reads', html: `<p>The Finals is 4-team. Every fight attracts a third squad. Specific reads:</p>
+<ul>
+  <li>Kill feed shows nearby fight → 30-second arrival window for the third team.</li>
+  <li>Audio cue from a direction you didn't engage from → third team pushing.</li>
+  <li>If you just won a fight, retreat to cover and heal IMMEDIATELY before the third party.</li>
+  <li>If a Cashout is being contested by 2 teams, you're the third team — push the loser.</li>
+</ul>
+<p>Silver squads forget third teams. Gold squads time engagements around them.</p>` },
+      { heading: 'Vault carry routes — map-specific', html: `<p>Silver squads carry the vault via the obvious path and get third-partied. Gold squads use less-contested routes:</p>
+<ul>
+  <li><strong>Las Vegas Casino → Strip Cashout:</strong> via rooftops, not Streets.</li>
+  <li><strong>Monaco Yacht → Plaza:</strong> via harbor side, not promenade.</li>
+  <li><strong>Seoul Mall → Plaza:</strong> via subway tunnel, not Streets.</li>
+</ul>
+<p>Each map has 2-3 fastest carry routes. Memorize them in offline mode before queueing ranked.</p>` },
+      { heading: 'Defib timing — anticipate the wipe', html: `<p>Silver Mediums Defib reactively (after wipe). Gold Mediums Defib BEFORE the wipe is complete:</p>
+<ul>
+  <li>Teammate is being shot from 1 angle → Defib BEFORE they go down (full health Defib).</li>
+  <li>Teammate is being focused by 3 enemies → use Defib to wipe-and-revive.</li>
+  <li>If team is wiping, hide and Defib after enemy moves on. Don't Defib mid-fight.</li>
+</ul>
+<p>The Defib timing is the round-saver. Silver Mediums use Defib correctly 30% of the time. Gold Mediums hit 70%+.</p>` },
+      { heading: 'Audio cues — track footsteps and ult sounds', html: `<p>Gold The Finals players use audio for everything:</p>
+<ul>
+  <li>Footsteps: directional + distance.</li>
+  <li>Cashout deposit sound: enemy committing — push to interrupt.</li>
+  <li>Defibrillator sound: enemy revived — refocus damage on the new target.</li>
+  <li>Glitch grenade sound: gadgets disabled, reposition.</li>
+</ul>
+<p>Crank footstep volume to 100. Wear good headphones.</p>` },
+      { heading: 'Map destructibility basics', html: `<p>The Finals has fully destructible buildings. Silver players ignore this; Gold players use it:</p>
+<ul>
+  <li>Heavy Sledgehammer breaks walls in 3 hits — make new entries on contested Cashouts.</li>
+  <li>Heavy RPG blows holes in floors — drop on enemies from above.</li>
+  <li>Goo Gun (Heavy) seals entries — denies enemy push paths.</li>
+  <li>Defibrillator (Medium) revives teammates anywhere — doesn't need direct line.</li>
+</ul>
+<p>The map is a tool, not fixed environment. Use destructibility to break enemy holds.</p>` },
+      { heading: 'Sensitivity and crosshair setup', html: `<p>Default sensitivity in The Finals is too high for accurate aim at Gold+. Setup:</p>
+<ul>
+  <li>ADS sensitivity: 0.8x multiplier of hipfire.</li>
+  <li>Hipfire sensitivity: medium-fast (test in practice mode).</li>
+  <li>FOV: 100+ on PC for awareness.</li>
+  <li>Crosshair: bright color (cyan, yellow). Avoid red.</li>
+</ul>
+<p>Silver uses defaults. Gold tunes settings before grinding more matches.</p>` },
+    ],
+    mistakes: [
+      'Silent trios — 3 solo players.',
+      'Random kit usage.',
+      'No third-team timing read.',
+      'Standard carry routes (predictable).',
+      'Reactive Defib timing.',
+      'Audio at default volume.',
+      'Ignoring map destructibility.',
+      'Default sensitivity / FOV.',
+    ],
+    drill: { heading: 'Drill: 5-game build mastery focus', html: `<p>Pick one build and play 5 ranked games with it. Track your kit usage per round — did you use Mesh Shield in every contest? Did you Defib at the right moment? After 5 games your build feels reflexive.</p><p>Specific tracking: write 1 line per game on what worked and what didn't. Re-read your notes before queueing the next session — patterns emerge fast when you keep notes.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your kit usage timing across matches and flags rounds where the engage was uncoordinated. Useful for spotting Silver-tier "3 solo plays" patterns vs Gold-tier synced engagements.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/finals-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
+      { name: 'The Finals Las Vegas Guide', url: '/games/finals/las-vegas.html' },
+      { name: 'The Finals Monaco Guide', url: '/games/finals/monaco.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'finals',
+    gameLabel: 'The Finals',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'finals-plat-to-diamond',
+    metaTitle: 'How to Climb from Plat to Diamond in The Finals (2026 Guide)',
+    metaDescription: 'The Finals Plat-to-Diamond — anticipative Defib timing, multi-floor cashout holds, anti-grenade positioning, build synergy depth, and pro VOD prep.',
+    intro: `<p>Plat in The Finals means you have build mastery + carry routes. Diamond demands anticipative Defib timing, multi-floor Cashout holds, and the discipline to read enemy commit patterns 1-2 seconds before they happen. The leap is converting individual mechanics into team-coordinated late-round decisions where most close matches are won or lost.</p>`,
+    sections: [
+      { heading: 'Anticipative Defib timing perfected', html: `<p>Plat Mediums Defib at 50% bleed-out. Diamond Mediums Defib BEFORE the teammate goes down:</p>
+<ul>
+  <li>Teammate dropping below 30 HP under fire → instant Defib (full health).</li>
+  <li>Teammate is being focused by 3 → Defib mid-fight to convert the loss into a wipe-and-revive.</li>
+  <li>If team is wiping, position behind cover and Defib AFTER enemy commits to the next push.</li>
+</ul>
+<p>Diamond Mediums hit 80%+ Defib accuracy. Plat sits at 60-70%.</p>` },
+      { heading: 'Multi-floor Cashout holds', html: `<p>Plat squads hold Cashout from one floor. Diamond squads use multi-floor positioning:</p>
+<ul>
+  <li>Heavy on Cashout floor (anchor + Mesh Shield).</li>
+  <li>Medium one floor up with Jump Pad ready (heal sustainment + repositioning).</li>
+  <li>Light on rooftop (sniper picks + flank scouting).</li>
+</ul>
+<p>The vertical split forces enemies to commit to multiple angles. Plat single-floor holds collapse to coordinated commits.</p>` },
+      { heading: 'Anti-grenade positioning', html: `<p>Pyro grenades and Frag spam break Cashout contests. Diamond counter:</p>
+<ul>
+  <li>Stand under overhangs / behind cover with no roof gap (Frag arc can't reach).</li>
+  <li>Pre-aim grenade-throwing angles. Most enemies throw from the same spot every time.</li>
+  <li>If pyro is thrown, retreat to non-flammable terrain (concrete, glass).</li>
+</ul>
+<p>Plat players take grenade damage every Cashout fight. Diamond players minimize it via positioning.</p>` },
+      { heading: 'Build synergy in 3-stacks', html: `<p>Diamond 3-stack composition:</p>
+<ul>
+  <li><strong>1 Heavy:</strong> RPG + Mesh Shield + M60. Vault carrier + tank.</li>
+  <li><strong>1 Medium:</strong> Healing Beam + Defib + FCAR. Healer + utility.</li>
+  <li><strong>1 Light:</strong> SR-84 + Cloak + Stun Gun. Scout + flank.</li>
+</ul>
+<p>Plat trios run 3 random builds. Diamond trios run synergy comps where each build fills a specific role.</p>` },
+      { heading: 'Cashout contest reads', html: `<p>By round 3 you should know how to read Cashout contests:</p>
+<ul>
+  <li>If 2 squads are committed to the Cashout → third-party the winner.</li>
+  <li>If 1 squad is committed and another is approaching → time engage on their commitment.</li>
+  <li>If you're holding a Cashout, watch all 3 entry directions (one per squad).</li>
+</ul>
+<p>Diamond squads call the read in voice: "2 squads committed at A, third squad incoming from B, hold and let them fight."</p>` },
+      { heading: 'Map destructibility — pro-tier usage', html: `<p>Diamond squads exploit destructible environments:</p>
+<ul>
+  <li>Heavy with Sledgehammer: knock walls down to make new entries.</li>
+  <li>Heavy RPG: blow holes in floors to drop on enemies from above.</li>
+  <li>Heavy Goo Gun: seal entries to deny push paths.</li>
+  <li>Light Vanishing Bomb: invisible explosion blows out small walls/floors.</li>
+</ul>
+<p>Plat squads use the map as it is. Diamond squads remake the map mid-fight.</p>` },
+      { heading: 'Pro VOD watching as practice', html: `<p>Watch one tier-1 The Finals tournament match per day. Pause every minute. Predict the call. By VOD 30 you'll absorb pro-tier macro: vault routes, Defib timings, third-party reads.</p>
+<p>Recommended VODs: TFCS finals, regional events. Tier-1 only.</p>` },
+      { heading: 'Tilt management between matches', html: `<p>The Finals matches are 8-15 minutes each. Tilt-stacking 3 losses is the Plat plateau killer:</p>
+<ul>
+  <li>60-second mental reset between matches.</li>
+  <li>If you tilt-stack 3, stop for 30 minutes.</li>
+  <li>Don't blame teammates in voice — kills team morale + own focus.</li>
+  <li>Track session win rate. Below 40%, end the session.</li>
+</ul>
+<p>Diamond+ teams have tilt protocols. Plat teams grind through tilt and lose more matches per hour.</p>` },
+      { heading: 'Round-by-round opponent reads', html: `<p>By round 3 you should have read at least 2 enemy patterns:</p>
+<ul>
+  <li>Their Heavy's Mesh Shield commit timing — predictable peeks.</li>
+  <li>Their Medium's Defib usage frequency.</li>
+  <li>Their Light's flank routes per map.</li>
+</ul>
+<p>Diamond teams build mental models of opponents and call counter-plays based on them. Plat teams play their own game without tracking.</p>` },
+    ],
+    mistakes: [
+      'Defib accuracy at Plat benchmarks (60%) instead of Diamond (80%+).',
+      'Single-floor Cashout holds.',
+      'Standing in grenade arc spots.',
+      'Random build comp in 3-stack.',
+      'No Cashout contest read.',
+      'Ignoring map destructibility.',
+      'No pro VOD prep.',
+      'No round-by-round opponent tracking.',
+      'Tilt-stacking matches.',
+    ],
+    drill: { heading: 'Drill: 5 ranked games tracking Defib accuracy', html: `<p>5 ranked games as Medium. Track per game: how many Defibs were "anticipative" (before bleed) vs "reactive" (after bleed). Goal: 80%+ anticipative by game 5.</p><p>If you're not playing Medium, run the drill on your Heavy Mesh Shield commit timing or Light Cloak-flank-stun chain instead. The principle is the same: track kit usage per round, refine via review.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
+      { name: 'How to Climb from Diamond to Ruby', url: '/blog/finals-diamond-to-ruby.html' },
+      { name: 'The Finals Seoul Guide', url: '/games/finals/seoul.html' },
+      { name: 'The Finals Kyoto Guide', url: '/games/finals/kyoto.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'finals',
+    gameLabel: 'The Finals',
+    fromRank: 'Diamond',
+    toRank: 'Ruby',
+    slug: 'finals-diamond-to-ruby',
+    metaTitle: 'How to Climb from Diamond to Ruby in The Finals (2026 Guide)',
+    metaDescription: 'The Finals Diamond-to-Ruby — top-1% mental game, mechanical aim consistency, pro VOD library at scale, tournament-tier comm discipline, and queue veto strategy.',
+    intro: `<p>Diamond is high-elo in The Finals. Ruby is top 1%. The gap is mental discipline at the high-pressure rounds, mechanical aim at the ceiling, and tournament-tier macro patterns absorbed from 90+ days of pro VOD review. The Diamond-to-Ruby plateau is mental more than mechanical — most plateaued Diamonds have the aim and game sense, they just lose 4-round streaks to tilt.</p>`,
+    sections: [
+      { heading: 'Top-1% mental discipline', html: `<p>Ruby matches are 8-15 minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>2-second mental reset between deaths. No commentary on the death.</li>
+  <li>If you tilt-stack 2 losses, end the session. Don't grind through tilt.</li>
+  <li>Don't blame teammates. Ruby teams solve, Diamond teams blame.</li>
+  <li>Track session win rate. Below 50%, end session.</li>
+</ul>
+<p>The reset discipline separates Ruby consistency from Diamond volatility. Most plateaued Diamonds have the mechanics but lose 4-round streaks to tilt.</p>` },
+      { heading: 'Mechanical aim at the ceiling', html: `<p>Ruby aim benchmarks per build:</p>
+<ul>
+  <li>Heavy (M60, Lewis Gun): 25%+ headshot rate at 30m.</li>
+  <li>Medium (FCAR, AKM): 30%+ headshot rate.</li>
+  <li>Light (SR-84 sniper): 50%+ headshot rate at any range.</li>
+  <li>Light (V9S pistol): 35%+ headshot rate.</li>
+</ul>
+<p>Daily aim regimen: 60 min in The Finals practice mode + 30 min Aim Lab. Track weekly. If you're stuck below benchmarks, fix sensitivity or technique.</p>` },
+      { heading: 'Pro VOD library at scale — 100+ patterns', html: `<p>By Ruby, you should have absorbed 100+ specific tournament patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize standard 3-stack comps from drop.</li>
+  <li>You predict third-team arrivals before they happen.</li>
+  <li>You know which vault carry routes win which maps.</li>
+  <li>You know which build matchups counter which.</li>
+</ul>
+<p>Recommended VODs: TFCS Worlds finals, regional finals from past year.</p>` },
+      { heading: 'Tournament-tier comm discipline', html: `<p>Ruby teams comm short:</p>
+<ul>
+  <li>"Vault locked, taking it."</li>
+  <li>"Defib in 3, hold them."</li>
+  <li>"Their Heavy ult ready, don't push."</li>
+  <li>"Falling back, smoke me."</li>
+</ul>
+<p>NOT commentary. Information only. Comm discipline is the conversion lever for close matches.</p>` },
+      { heading: 'Queue veto strategy', html: `<p>Ruby queues: top 4 maps prepped + bottom 2 banned. The veto compounds across a season.</p>
+<ul>
+  <li>Toggle off your bottom 2 maps in queue settings.</li>
+  <li>Track win rate weekly per map.</li>
+  <li>Focus practice on top 4 strongest maps.</li>
+</ul>
+<p>Diamonds who veto strategically gain 30%+ more rank per session than those who play all maps.</p>` },
+      { heading: 'Round-by-round opponent reads', html: `<p>By round 5 you should have read at least 3 enemy patterns:</p>
+<ul>
+  <li>Their Heavy's Mesh Shield commit timing.</li>
+  <li>Their Medium's Defib usage frequency (anticipative vs reactive).</li>
+  <li>Their Light's flank routes.</li>
+  <li>Their carry route preferences per map.</li>
+</ul>
+<p>Ruby IGLs build mental models of enemy tendencies and call counter-plays. Diamond IGLs play their own game without tracking.</p>` },
+      { heading: 'Endgame 1v1 reads', html: `<p>Ruby 1v1s are won on reads, not aim. In 5 seconds before contact:</p>
+<ul>
+  <li>What's the opponent's last move? (Reload? Heal? Repositioned?)</li>
+  <li>What angle did they hold round 1? (Predictable peek?)</li>
+  <li>Are they tilted (just lost a duel)? Over-aggressive peek incoming.</li>
+  <li>Have they used Mesh Shield / Cloak / Defib already this fight? Cooldown awareness.</li>
+</ul>
+<p>Ruby players use 4-5 reads. Diamonds use 1-2.</p>` },
+      { heading: 'Tilt protocols for high-pressure matches', html: `<p>Ruby tilt protocols at the high-pressure rounds:</p>
+<ul>
+  <li>30-second box breath between matches. Heart rate from 95+ BPM (tilted) to 70 BPM (focused).</li>
+  <li>If you tilt-stack 2 losses, stop session. Don't grind through tilt at this elo.</li>
+  <li>If a teammate is tilting, don't escalate. Quick "you got this, swap builds" defuses tilt better than silence.</li>
+</ul>
+<p>Ruby+ teams have these protocols. Diamond teams tilt-stack into 4-round losing streaks.</p>` },
+      { heading: 'Sensitivity and FOV at the ceiling', html: `<p>Ruby players tune sensitivity to body type and hand speed:</p>
+<ul>
+  <li>800-1600 DPI is standard. Higher DPI = faster flicks, less precision.</li>
+  <li>Sensitivity in cm/360°: 30-50cm. Test in practice mode.</li>
+  <li>FOV: max in-game.</li>
+  <li>Crosshair: bright cyan or yellow.</li>
+</ul>
+<p>If you're using default settings, you're playing at a mechanical disadvantage. Spend a week dialing in.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches.',
+      'Aim ceiling at Diamond benchmarks instead of Ruby.',
+      'Pro VOD library at 30 patterns, not 100+.',
+      'Comm-overload.',
+      'No queue veto.',
+      'No round-by-round opponent tracking.',
+      '1v1 reads using only 1-2 data points.',
+      'Default sensitivity / FOV.',
+    ],
+    drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 TFCS match per day. By day 90 you have a 100-pattern library AND your aim is at Ruby benchmarks. Track weekly: headshot rate per weapon, Defib accuracy (Mediums), session win rate.</p>` },
+    aiVodMention: `<p>At Ruby, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against tournament-tier reads — flags rounds where you knew the right call but committed to the wrong one. The Diamond plateau pattern that Ruby macro discipline solves.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/finals-plat-to-diamond.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'The Finals Las Vegas Guide', url: '/games/finals/las-vegas.html' },
+      { name: 'The Finals Bernal Guide', url: '/games/finals/bernal.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // CALL OF DUTY POSTS (2)
 // ============================================================================
 const COD_POSTS = [
@@ -4238,7 +4531,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -4255,4 +4548,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
