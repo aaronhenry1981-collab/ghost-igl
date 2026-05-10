@@ -3007,7 +3007,25 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://r6coaching.com/blog/finals-silver-to-gold.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://r6coaching.com/blog/finals-gold-to-plat.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://r6coaching.com/blog/finals-plat-to-diamond.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://r6coaching.com/blog/finals-diamond-to-ruby.html</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -239,7 +239,10 @@ async function main() {
     'halo-onyx-to-champion',
     // The Finals
     'finals-bronze-to-silver',
+    'finals-silver-to-gold',
     'finals-gold-to-plat',
+    'finals-plat-to-diamond',
+    'finals-diamond-to-ruby',
     // CoD
     'cod-bronze-to-silver',
     'cod-plat-to-diamond',
