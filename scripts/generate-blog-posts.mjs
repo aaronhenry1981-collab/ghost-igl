@@ -4946,13 +4946,446 @@ const FN_POSTS = [
   },
 ]
 
+// ============================================================================
+// FORTNITE GAP POSTS (4)
+// ============================================================================
+const FN_POSTS_GAPS = [
+  {
+    game: 'fn',
+    gameLabel: 'Fortnite Zero Build',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'fn-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in Fortnite Zero Build (2026 Guide)',
+    metaDescription: 'Fortnite Zero Build Silver-to-Gold — squad coordination, audio cues, sensitivity setup, mobility item discipline, and zone rotation timing.',
+    intro: `<p>Silver in Zero Build means you can edge-drop, loot, and survive Ring 3. Gold demands squad coordination, audio cue tracking, sensitivity tuning, and mobility item usage that turns rotations into engagements. The Silver-to-Gold leap is layering the small habits on top of the foundational ones — not a single mechanical fix but a stack of fundamentals that compounds across rotations.</p>`,
+    sections: [
+      { heading: 'Squad coordination in trio queue', html: `<p>If you queue trios, coordinate basic tactics:</p>
+<ul>
+  <li>Designate roles — 1 IGL caller, 1 fragger, 1 support.</li>
+  <li>Drop together — split-drops lose 70% of fights.</li>
+  <li>Heal together — Chug Splash heals all 3 in radius. Use it.</li>
+  <li>Voice calls: "Pushing together, 3, 2, 1." NOT "should we push?"</li>
+</ul>
+<p>Bronze trios are 3 solo players. Gold trios coordinate basic engages on a count.</p>` },
+      { heading: 'Audio cues — footsteps and reload sounds', html: `<p>Fortnite Zero Build audio:</p>
+<ul>
+  <li>Footsteps: directional + distance.</li>
+  <li>Healing sound: enemy is mid-heal for 3-10s. Push for the kill.</li>
+  <li>Reload sound: enemy is reloading. Push the trade.</li>
+  <li>Storm closing sound: zone damage starting; rotate now.</li>
+  <li>Drop sound (boxes / chests): enemy looting — they're stuck for 2-3 seconds.</li>
+</ul>
+<p>Crank footstep volume to 100. Wear good headphones.</p>` },
+      { heading: 'Sensitivity and FOV setup', html: `<p>Fortnite Zero Build benefits from tuned settings:</p>
+<ul>
+  <li>ADS sensitivity: 0.8x multiplier of hipfire. Slower ADS = more accurate snipes.</li>
+  <li>Hipfire sensitivity: medium-fast (test in Creative).</li>
+  <li>FOV: 100+ on PC. Wider = better awareness.</li>
+  <li>Crosshair color: bright cyan or yellow. Avoid red.</li>
+</ul>
+<p>Bronze players use defaults. Silver players tune. Spend a session in Creative dialing in.</p>` },
+      { heading: 'Mobility item discipline', html: `<p>Mobility items break engagements:</p>
+<ul>
+  <li><strong>Crash Pad:</strong> bounce up high. Use for retreat or surprise high-ground take.</li>
+  <li><strong>Launch Pad:</strong> long-range rotation. Use for zone repositioning.</li>
+  <li><strong>Shockwave Grenade:</strong> instant escape from a fight you're losing.</li>
+  <li><strong>Boogie Bomb:</strong> disable enemy for 5 seconds — round-winning.</li>
+</ul>
+<p>Silver players save mobility "for emergencies" and never use them. Gold players use them in every fight.</p>` },
+      { heading: 'Zone rotation timing', html: `<p>Fortnite zone phases:</p>
+<ul>
+  <li>Ring 1 (5 min): loot.</li>
+  <li>Ring 2 (3 min): rotate to zone center.</li>
+  <li>Ring 3-4 (2 min each): commit to defensible terrain.</li>
+  <li>Final ring: high ground + cover.</li>
+</ul>
+<p>Silver runs zone damage. Gold pre-rotates by Ring 2 with positioning advantage.</p>` },
+      { heading: 'Pre-aim common angles', html: `<p>Universal FPS fundamental: crosshair at head height. Walk through every POI with crosshair pre-aimed at standard fight angles. Most Silver players walk into rooms with crosshair at the floor and miss free kills.</p>` },
+      { heading: 'Healing rotation discipline', html: `<p>Fortnite heals are sequenced:</p>
+<ul>
+  <li><strong>Mini Shield (lower priority):</strong> use for fast partial shield top-up.</li>
+  <li><strong>Big Shield Pot:</strong> use to top up to full shields.</li>
+  <li><strong>Med Kit:</strong> full health regen, 10 seconds slow heal.</li>
+  <li><strong>Chug Splash:</strong> instant team heal during fights — use it in trio queue.</li>
+</ul>
+<p>Heal in cover, never in the open. Silver players heal in the open and get punished. Gold players heal behind cover and reset the fight on full HP.</p>` },
+      { heading: 'Drop spot strategy at Silver', html: `<p>Silver drops still tend toward hot zones. Edge-drop pattern:</p>
+<ul>
+  <li>Land at named POIs but in edge buildings (corners, not the center).</li>
+  <li>Loot full kit: shotgun + AR + sniper + 2 heal items + 1 mobility.</li>
+  <li>Push contested zones AFTER most teams have died.</li>
+</ul>
+<p>The 30-second loot window of an edge drop wins more games than fragging at the contested center.</p>` },
+      { heading: 'Buy round / loot priority order', html: `<p>Silver loadouts are inconsistent. The order:</p>
+<ol>
+  <li>Shotgun (Hammer Pump or Frenzy) — 200 HP burst.</li>
+  <li>AR (Striker or Tactical) — mid-range damage.</li>
+  <li>Heals (2+ Med Kits or 4 Bandages).</li>
+  <li>Sniper / DMR (optional) — long-range threat.</li>
+  <li>Mobility item — Crash Pad or Launch Pad.</li>
+</ol>
+<p>Without shotgun + heals, you can't win 1v1s. Gold players hit this loadout by Ring 2 every game.</p>` },
+      { heading: 'Trade-fragging in trio fights', html: `<p>Two-on-one duels win Zero Build fights. The trade fragger:</p>
+<ul>
+  <li>Stays within 5m of the entry.</li>
+  <li>Has line-of-sight to the entry's target angle.</li>
+  <li>Has crosshair pre-aimed at head height.</li>
+  <li>Doesn't reload at the same time the entry's pushing.</li>
+</ul>
+<p>If your teammate dies in the doorway, you peek the SAME doorway from a slightly different angle within 2 seconds. The enemy just used recoil cooldown — your trade kill is free.</p>` },
+    ],
+    mistakes: [
+      '3 IGLs in trio.',
+      'Audio at default volume.',
+      'Default sensitivity / FOV.',
+      'Saving mobility items unused.',
+      'Running zone damage.',
+      'Crosshair at chest height.',
+      'Healing in the open.',
+      'Random loot priorities.',
+      'Hot-dropping with random builds.',
+      'Trade-fragger too far back.',
+    ],
+    drill: { heading: 'Drill: 5-game role-locked trio + Creative warm-up', html: `<p>If you queue with a 3-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>Before each session, 15 min Creative aim courses (search "Aim Trainer Zero Build" maps). Warm up shotgun headshots + AR tracking. By session 5 the warm-up + role coordination compounds into a +10% win rate.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/fn-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Plat', url: '/blog/fn-gold-to-plat.html' },
+      { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'fn',
+    gameLabel: 'Fortnite Zero Build',
+    fromRank: 'Gold',
+    toRank: 'Platinum',
+    slug: 'fn-gold-to-plat',
+    metaTitle: 'How to Climb from Gold to Plat in Fortnite Zero Build (2026 Guide)',
+    metaDescription: 'Fortnite Zero Build Gold-to-Plat — endgame positioning, third-party reads, loot loadout priorities, mobility chain rotations, and ranked queue veto.',
+    intro: `<p>Gold in Zero Build means you have squad coordination + audio cues. Plat demands endgame positioning, third-party reads, optimized loot loadouts, and chained mobility item rotations that out-position 80% of opponents. The Gold-to-Plat leap is converting individual mechanics into squad-level macro decisions where most close-range fights are won or lost by who has high-ground first.</p>`,
+    sections: [
+      { heading: 'Endgame positioning — high ground + cover', html: `<p>By Ring 4, the zone has 4-5 squads. The team holding high ground with cover wins. Specifics:</p>
+<ul>
+  <li>Take a ridge or building roof — height advantage forces enemies uphill.</li>
+  <li>Have at least one cover object (rock, tree) within 5m for disengage.</li>
+  <li>If zone closes onto a flat, use Crash Pad or Launch Pad to claim high ground first.</li>
+</ul>
+<p>Gold squads fight on flat. Plat squads take elevation 60+ seconds before zone forces.</p>` },
+      { heading: 'Third-party reads', html: `<p>Plat enemies will lurker-flank. Reads:</p>
+<ul>
+  <li>If a fight has 2 visible enemies, the 3rd is flanking.</li>
+  <li>Audio cue from behind = lurker. Reposition immediately.</li>
+  <li>Watch the kill feed for nearby fights — third squad arriving in 30s.</li>
+</ul>
+<p>Gold squads get flanked 30%+ of fights. Plat squads less than 10%.</p>` },
+      { heading: 'Loot loadout priorities', html: `<p>Plat loadouts are optimized:</p>
+<ul>
+  <li><strong>Hammer Pump Shotgun</strong> (S-tier CQB).</li>
+  <li><strong>Striker AR</strong> (S-tier mid-range).</li>
+  <li><strong>Heisted Sniper</strong> (S-tier long-range).</li>
+  <li>2 Big Shield Pots + 1 Med Kit + 1 Chug Splash.</li>
+  <li>1 Mobility item (Crash Pad or Launch Pad).</li>
+</ul>
+<p>If you don't have this loadout by Ring 3, swap into it from looted players. Gold plays with random loadouts; Plat optimizes mid-match.</p>` },
+      { heading: 'Mobility chain rotations', html: `<p>Plat squads chain mobility for fast cross-map rotations:</p>
+<ul>
+  <li>Crash Pad → Launch Pad: free 200m rotation in 5 seconds.</li>
+  <li>Shockwave Grenade: land safely from height — escape engagements.</li>
+  <li>Boogie Bomb in clutch 1v1: disables enemy for 5s, free kill.</li>
+</ul>
+<p>Gold saves mobility "for emergencies." Plat uses them as standard rotation method.</p>` },
+      { heading: 'Crystal endgame — final 2-3 squads', html: `<p>Crystal endgame: 2-3 squads, ring closing fast. Specifics:</p>
+<ul>
+  <li>Don't push first — let others contest.</li>
+  <li>If you have a sniper, hold high ground for picks.</li>
+  <li>If you have shockwave + Boogie, save for the final 1v1.</li>
+</ul>
+<p>The team landing the first knock in crystal endgame wins 70%+ of placements.</p>` },
+      { heading: 'Ranked queue veto strategy', html: `<p>Fortnite Zero Build doesn't have map veto in the traditional sense, but you can pick when to queue. Specifics:</p>
+<ul>
+  <li>Queue at off-peak hours for less sweaty lobbies.</li>
+  <li>Track win rate by chapter section / event. If a special event mode tilts your style, skip it.</li>
+  <li>Take session breaks if you tilt-stack 2 losses.</li>
+</ul>
+<p>Plat players are deliberate about when they queue. Gold players grind regardless of fatigue or tilt state.</p>` },
+      { heading: 'Mental game and tilt management', html: `<p>Fortnite matches are 20+ minutes. One bad rotation can lose the game. Tilt management:</p>
+<ul>
+  <li>60-second mental reset between matches.</li>
+  <li>If you tilt-stack 3 losses, stop for 30 minutes.</li>
+  <li>Don't blame teammates in voice — kills team morale + own focus.</li>
+  <li>Track session win rate. <40%, end session.</li>
+</ul>
+<p>Plat players reset; Gold players grind through tilt.</p>` },
+      { heading: 'Pro VOD watching as practice', html: `<p>Watch one FNCS Zero Build pro tournament match per day. Pause every minute. Predict the call. By VOD 30 you'll absorb pro-tier endgame positioning patterns + rotation timing.</p>
+<p>Recommended VODs: FNCS Zero Build finals, regional events. Avoid casual streamer content.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Plat players tune sensitivity beyond Gold defaults:</p>
+<ul>
+  <li>800-1600 DPI standard.</li>
+  <li>Sensitivity in cm/360°: 30-50cm.</li>
+  <li>FOV: max in-game.</li>
+  <li>Crosshair: bright cyan or yellow. Avoid red.</li>
+</ul>
+<p>If you're using defaults, dial in over a session in Creative.</p>` },
+      { heading: 'Spawn / drop pattern variation', html: `<p>Plat-tier squads vary their drop patterns:</p>
+<ul>
+  <li>If you've dropped same POI 3 games in a row, swap. Defenders learn your patterns.</li>
+  <li>Pick drops based on bus path — early-bus drops vs late-bus drops change loot competition.</li>
+  <li>Track which drops have your highest win rate; queue toward them.</li>
+</ul>
+<p>Gold squads drop the same POI every game. Plat squads vary based on bus + lobby reads.</p>` },
+    ],
+    mistakes: [
+      'Fighting on flat ground in Ring 4.',
+      'Saving mobility items unused.',
+      'Random loot loadouts.',
+      'No third-party reads.',
+      'Pushing first in crystal endgame.',
+      'No queue strategy (when to queue).',
+      'Tilt-stacking matches.',
+      'No pro VOD prep.',
+      'Default sensitivity / FOV.',
+      'Same drop POI every game.',
+    ],
+    drill: { heading: 'Drill: 5 ranked games tracking endgame positioning', html: `<p>5 ranked games. For each, focus on Ring 4 high-ground take. Did you claim elevation before zone forced? Did you use a mobility item to get there?</p><p>By game 5 the pre-positioning habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p><p>Track per-game: Ring 4 high-ground claim time, third-party encounter count, mobility items used. Patterns emerge by game 3.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where you committed to fights without high-ground positioning. Useful for finding the rounds where your placement was lost on macro, not aim.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/fn-silver-to-gold.html' },
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
+      { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'fn',
+    gameLabel: 'Fortnite Zero Build',
+    fromRank: 'Diamond',
+    toRank: 'Elite',
+    slug: 'fn-diamond-to-elite',
+    metaTitle: 'How to Climb from Diamond to Elite in Fortnite Zero Build (2026 Guide)',
+    metaDescription: 'Fortnite Zero Build Diamond-to-Elite — pro VOD prep, mechanical aim consistency, FNCS-tier macro patterns, audio cue mastery, and tilt protocols.',
+    intro: `<p>Diamond in Zero Build means you have endgame positioning + loadout discipline. Elite demands FNCS-tier macro patterns, mechanical aim consistency at the ceiling, and tilt protocols that convert close losses into close wins. At Diamond you survive to crystal endgame; at Elite you win it 50%+ of the time.</p>`,
+    sections: [
+      { heading: 'FNCS-tier macro patterns', html: `<p>Elite squads play 20-minute matches with a script:</p>
+<ul>
+  <li>0:00-3:00: drop, edge-loot, no engages unless forced.</li>
+  <li>3:00-8:00: rotate to zone center, hold mid-game position.</li>
+  <li>8:00-12:00: pre-position for Ring 4.</li>
+  <li>12:00+: crystal endgame, mobility chain commits.</li>
+</ul>
+<p>Diamond squads play minute-by-minute. Elite squads play match-by-match with the script.</p>` },
+      { heading: 'Mechanical aim consistency at the ceiling', html: `<p>Elite aim benchmarks per weapon class:</p>
+<ul>
+  <li>Hammer Pump Shotgun: 60%+ headshot rate at point-blank.</li>
+  <li>Striker AR: 25%+ headshot rate at mid-range.</li>
+  <li>Heisted Sniper: 50%+ headshot rate at any range.</li>
+</ul>
+<p>Daily aim regimen: 60 min Creative aim courses + 30 min ranked play with focus on shot quality. Track headshot rate weekly.</p>` },
+      { heading: 'Audio cue mastery', html: `<p>Elite Zero Build audio:</p>
+<ul>
+  <li>Footstep distance: estimate enemy distance to within 5m.</li>
+  <li>Heal sound: enemy stuck for 6s. Push.</li>
+  <li>Reload + plate sound: free trade kill window.</li>
+  <li>Storm sound: zone closing, time rotation.</li>
+  <li>Vehicle / ATV sound: enemy traversing — pre-aim road junctions.</li>
+</ul>
+<p>Crank audio. Elite players track 5-6 cues simultaneously.</p>` },
+      { heading: 'Pro VOD library at scale', html: `<p>By Elite, you should have absorbed 60+ specific FNCS patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize standard endgame setups.</li>
+  <li>You predict third-party arrivals.</li>
+  <li>You know which loot routes win which maps.</li>
+</ul>
+<p>Recommended VODs: FNCS Globals, regional finals.</p>` },
+      { heading: 'Tilt protocols and mental game', html: `<p>Fortnite matches are 20+ minutes. Tilt-stacking 2 losses is the Diamond plateau killer:</p>
+<ul>
+  <li>60-second mental reset between matches.</li>
+  <li>If you tilt-stack 2 placements outside top 5, stop for 30 minutes.</li>
+  <li>Don't review kill cam past first 5 seconds — distracts from current game.</li>
+</ul>
+<p>Elite players reset; Diamond players grind tilt and lose more.</p>` },
+      { heading: 'Sensitivity and FOV at the ceiling', html: `<p>Elite players tune sensitivity:</p>
+<ul>
+  <li>800-1600 DPI standard.</li>
+  <li>Sensitivity in cm/360°: 30-50cm.</li>
+  <li>FOV: max in-game.</li>
+  <li>Crosshair: bright cyan or yellow.</li>
+</ul>
+<p>If you're using defaults, dial in over a week.</p>` },
+      { heading: 'Squad role designation', html: `<p>Elite trios designate roles:</p>
+<ul>
+  <li>IGL: makes engage / disengage calls.</li>
+  <li>Fragger: takes first contact.</li>
+  <li>Support: heals + revives + drone scouts.</li>
+</ul>
+<p>Diamond trios fight as 3 IGLs. Elite trios have one IGL whose calls everyone follows.</p>` },
+      { heading: 'Endgame loadout optimization', html: `<p>Elite squads optimize loadouts mid-match:</p>
+<ul>
+  <li>By Ring 2, every player has S-tier shotgun + AR + sniper.</li>
+  <li>If a teammate dies, salvage their kit if better than yours.</li>
+  <li>Carry only 1 mobility item; don't waste slot.</li>
+  <li>2 Big Shield Pots in inventory minimum at all times.</li>
+</ul>
+<p>Diamond players keep whatever loot they grabbed. Elite players actively swap up to optimal loadouts every fight.</p>` },
+      { heading: 'Pro player habits — common patterns', html: `<p>Pro Zero Build players share habits:</p>
+<ul>
+  <li>Always full heal between fights, even if it costs 10 seconds of looting.</li>
+  <li>Always carry a sniper for endgame, even on close-range builds.</li>
+  <li>Mobility items used proactively, not reserved for emergencies.</li>
+  <li>Pre-aim every corner at head height.</li>
+</ul>
+<p>Mimic these patterns. Pro habits at Diamond → Elite is the bridge.</p>` },
+      { heading: 'Crystal endgame mastery', html: `<p>Crystal endgame in Zero Build: 2-3 squads, ring closing fast. Elite-tier:</p>
+<ul>
+  <li>Don't push first — let other squads contest.</li>
+  <li>Position on highest available ground with cover.</li>
+  <li>Save Boogie Bomb / Shockwave for final 1v1.</li>
+  <li>Pre-aim known rotation paths from each adjacent squad.</li>
+</ul>
+<p>Elite squads convert top-3 placements to wins 50%+ of the time. Diamond converts 30%.</p>` },
+    ],
+    mistakes: [
+      'Match macro by feel, not script.',
+      'Aim ceiling at Diamond benchmarks.',
+      'Audio at default volume.',
+      'Pro VOD library at 20 patterns, not 60+.',
+      'Tilt-stacking matches.',
+      'Default sensitivity / FOV.',
+      'No squad role designation.',
+      'No mid-match loadout swap.',
+      'Mobility items reserved for emergencies.',
+      'Pushing first in crystal endgame.',
+    ],
+    drill: { heading: 'Drill: 90-day FNCS-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 FNCS match per day. By day 90 you have a 60+ pattern library AND your aim is at Elite benchmarks.</p><p>Track weekly: shotgun headshot rate, AR tracking percentage, sniper accuracy at long range. If numbers plateau before day 90, fix sensitivity or technique before continuing.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match decisions against FNCS-tier reads. Useful for finding the rounds where your endgame positioning broke down — the macro pattern that separates Diamond plateau from Elite climb. Particularly useful for spotting whether your mobility chain rotations were proactive or reactive.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
+      { name: 'How to Climb from Elite to Champion', url: '/blog/fn-elite-to-champion.html' },
+      { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'fn',
+    gameLabel: 'Fortnite Zero Build',
+    fromRank: 'Elite',
+    toRank: 'Champion',
+    slug: 'fn-elite-to-champion',
+    metaTitle: 'How to Climb from Elite to Champion in Fortnite Zero Build (2026 Guide)',
+    metaDescription: 'Fortnite Zero Build Elite-to-Champion — top-1% mental game, mechanical aim at the ceiling, FNCS-tier macro patterns at scale, and queue strategy.',
+    intro: `<p>Elite is high-elo Zero Build. Champion is top 1%. The gap is mental discipline at the high-pressure rounds, mechanical aim at the absolute ceiling, and FNCS-tier macro patterns absorbed from 90+ days of pro VOD review. The Champion plateau is mental more than mechanical — most plateaued Elite players have the aim and game sense; they lose 4-match streaks to tilt.</p>`,
+    sections: [
+      { heading: 'Top-1% mental discipline', html: `<p>Champion matches are 20+ minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>2-second mental reset between deaths. Same crosshair, same default position.</li>
+  <li>If you tilt-stack 2 matches, stop session.</li>
+  <li>Don't blame teammates — Champion teams solve, Elite teams blame.</li>
+  <li>Track session win rate. Below 50%, end session.</li>
+</ul>
+<p>The reset discipline separates Champion consistency from Elite volatility.</p>` },
+      { heading: 'Champion-tier aim benchmarks', html: `<p>Specific aim benchmarks:</p>
+<ul>
+  <li>Shotgun: 65%+ headshot rate at point-blank.</li>
+  <li>AR: 28%+ headshot rate at mid-range.</li>
+  <li>Sniper: 55%+ headshot rate at any range.</li>
+  <li>SMG: 30%+ headshot rate in CQB.</li>
+</ul>
+<p>Daily aim regimen: 90 min Creative aim courses + ranked match warm-up. Track weekly.</p>` },
+      { heading: 'FNCS-tier macro at scale', html: `<p>By Champion you should have absorbed 100+ specific FNCS patterns. Watch one match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize standard endgame loot routes.</li>
+  <li>You predict third-party arrivals 30+ seconds before they happen.</li>
+  <li>You read crystal endgame positioning 60+ seconds before zone close.</li>
+</ul>
+<p>Recommended VODs: FNCS Globals finals, regional finals from past 2 years.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>Champion players tune sensitivity:</p>
+<ul>
+  <li>800-2400 DPI standard.</li>
+  <li>Sensitivity in cm/360°: 25-40cm.</li>
+  <li>FOV: max in-game.</li>
+</ul>
+<p>If you're using defaults, dial in over a week.</p>` },
+      { heading: 'Queue strategy and session management', html: `<p>Champion players treat queue as a strategic decision:</p>
+<ul>
+  <li>Queue at off-peak hours (less sweaty lobbies, faster placement gains).</li>
+  <li>Don't queue tilted — track session state.</li>
+  <li>Practice in Creative before queueing if you haven't warmed up.</li>
+</ul>
+<p>Elite players grind regardless of state. Champion players are deliberate.</p>` },
+      { heading: 'Crystal endgame mastery', html: `<p>Crystal endgame in Zero Build: 2-3 squads, ring closing. Champion-tier:</p>
+<ul>
+  <li>Don't push first — let other squads contest.</li>
+  <li>Position on highest available ground with cover.</li>
+  <li>Save Boogie Bomb / Shockwave for final 1v1.</li>
+  <li>Pre-aim known rotation paths from each adjacent squad.</li>
+</ul>
+<p>Champion squads convert top-3 placements to wins 50%+ of the time. Elite converts 30%.</p>` },
+      { heading: 'Tilt protocols at high-pressure rounds', html: `<p>Late-game tilt is the Elite plateau killer. Specific protocols:</p>
+<ul>
+  <li>4-second box breath between matches. Heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you lose 2 placements outside top 5, stop session.</li>
+  <li>Don't review kill cam past first 5 seconds.</li>
+</ul>
+<p>Champion+ players have these protocols. Elite players grind through tilt and lose more.</p>` },
+      { heading: 'Communication discipline at top tier', html: `<p>Champion comms are short and decisive:</p>
+<ul>
+  <li>"Pushing on count, 3, 2, 1."</li>
+  <li>"Snipe in cover, save."</li>
+  <li>"Their squad low, push." / "Falling back, smoke me."</li>
+</ul>
+<p>NOT commentary. Information only — what changes a teammate's decision.</p>` },
+      { heading: 'Reading enemy patterns across the match', html: `<p>By the mid-game you should have read at least 3 patterns from any squad you contested:</p>
+<ul>
+  <li>Their preferred drop spot (predictable).</li>
+  <li>Their rotation routes (do they fly directly, or take side paths?).</li>
+  <li>Their engagement style (third-party heavy vs straight-fight).</li>
+</ul>
+<p>Champion squads track enemies and call counter-rotations. Elite squads play their own game.</p>` },
+      { heading: 'Pro player habits at the ceiling', html: `<p>Champion-tier player habits:</p>
+<ul>
+  <li>Heal between every fight, even mid-rotation.</li>
+  <li>Pre-aim every doorway at head height — no exceptions.</li>
+  <li>Use mobility items proactively (every fight), not reactively (emergencies).</li>
+  <li>Pre-rotate 90+ seconds before zone close.</li>
+  <li>Track session win rate; end session below 50%.</li>
+</ul>
+<p>Elite players have most of these. Champion players have all of them, every match, every round.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches.',
+      'Aim ceiling at Elite benchmarks instead of Champion.',
+      'Pro VOD library at 50 patterns, not 100+.',
+      'Default sensitivity / FOV.',
+      'No queue strategy.',
+      'Crystal endgame engaged on instinct, not script.',
+      'No tilt protocols.',
+      'Comms full of commentary, not decisions.',
+      'No enemy pattern tracking.',
+      'Reactive mobility item use.',
+    ],
+    drill: { heading: 'Drill: 90-day FNCS pro VOD + aim regimen', html: `<p>90 days of 90 min daily aim + 1 FNCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, top-3 placement rate, session win rate.</p><p>If aim numbers plateau at Elite benchmarks for 4+ weeks, the issue is sensitivity, ergonomics, or technique. Get a coach review or try a sensitivity audit (compare to pro players' eDPI numbers).</p>` },
+    aiVodMention: `<p>At Champion the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against FNCS-tier reads. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Elite plateau from Champion ceiling.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Elite', url: '/blog/fn-diamond-to-elite.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
 // ---------- MAIN ----------
 
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS]
 
   let written = 0
   for (const post of allPosts) {
@@ -4969,4 +5402,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, FN_POSTS_GAPS, htmlShell, renderPost, renderIndex }
