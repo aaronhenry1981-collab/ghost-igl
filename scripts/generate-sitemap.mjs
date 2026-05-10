@@ -201,9 +201,13 @@ async function main() {
     'cs2-lem-to-supreme',
     'cs2-supreme-to-global',
     // Valorant
-    // 'valorant-iron-to-bronze', 'valorant-bronze-to-silver', 'valorant-silver-to-gold',
-    // 'valorant-gold-to-plat', 'valorant-plat-to-diamond', 'valorant-diamond-to-ascendant',
-    // 'valorant-ascendant-to-immortal',
+    'valorant-iron-to-bronze',
+    'valorant-bronze-to-silver',
+    'valorant-silver-to-gold',
+    'valorant-gold-to-plat',
+    'valorant-plat-to-diamond',
+    'valorant-diamond-to-ascendant',
+    'valorant-ascendant-to-immortal',
     // OW2
     // 'ow2-bronze-to-silver', 'ow2-silver-to-gold', 'ow2-gold-to-plat', 'ow2-plat-to-diamond',
     // Apex
