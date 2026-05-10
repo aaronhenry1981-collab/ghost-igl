@@ -227,6 +227,9 @@ async function main() {
     'mvr-bronze-to-silver',
     'mvr-silver-to-gold',
     'mvr-gold-to-plat',
+    'mvr-plat-to-diamond',
+    'mvr-diamond-to-gm',
+    'mvr-gm-to-celestial',
     // Halo
     'halo-bronze-to-silver',
     'halo-silver-to-gold',
