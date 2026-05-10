@@ -926,13 +926,705 @@ function renderIndex(allPosts) {
   })
 }
 
+// ============================================================================
+// CS2 POSTS
+// ============================================================================
+// Counter-Strike 2 rank-up posts. Skill group ladder: Silver → Gold Nova →
+// Master Guardian → DMG → LE → LEM → Supreme → Global. Content targets the
+// specific tactical gap at each tier — economy at Silver, smoke lineups at
+// Nova, opponent reads at LEM, etc.
+
+const CS2_POSTS = [
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'Silver',
+    toRank: 'Gold Nova',
+    slug: 'cs2-silver-to-nova',
+    metaTitle: 'How to Climb Out of Silver in CS2 (2026 Guide)',
+    metaDescription: 'Specific tactics that win Silver rounds in CS2 — crosshair placement, AK-47/M4 discipline, plant spot selection, full-buy economy, and the must-know smoke lineups.',
+    intro: `<p>Silver in CS2 is the foundation tier. Most Silvers have decent aim but lose rounds to crosshair placement, weapon discipline, and economy mistakes. The Silver-to-Nova climb is fundamentals — fix three habits and you'll move up inside two weeks.</p>`,
+    sections: [
+      {
+        heading: 'One weapon per side, master before you experiment',
+        html: `<p>Pick AK-47 on T-side and M4A4 on CT-side. Don't experiment with the Galil, Famas, AUG, or SG 553 yet. Master the one-tap headshot at distance with the AK and the burst control with the M4.</p>
+<p>The AK-47 deals 36 body damage and 100+ headshot damage with armor. At 30 meters, two body shots kill. At any range, one headshot kills through helmet. Practice the AK spray pattern in offline mode for 30 minutes — most Silver players never learn it.</p>
+<p>The M4A4 has lower damage per bullet but better accuracy in bursts. CT-side gunplay is positional, not aggressive — hold an angle, burst the head when the T peeks. Learn the M4's first-bullet accuracy by tap-firing at long distance in deathmatch.</p>`,
+      },
+      {
+        heading: 'Crosshair placement at head height',
+        html: `<p>Walk through any map with your crosshair at chest height and you'll lose 70% of duels in Silver. Walk with the crosshair at head height (about a quarter of the way down the screen for most resolutions, ~165cm in-game) and you'll start one-tapping CTs who peek the same angle every round.</p>
+<p>Specific habit: every corner you turn, your crosshair sits at the head height of where the enemy will appear, not where their feet will appear. Most Silvers aim at the floor reflexively — fix this and your kills-per-round triples.</p>
+<p>Practice in deathmatch with one rule: if you ever fire a shot when your crosshair was below shoulder height, that kill doesn't count to you. After 10 deathmatch sessions, head-height becomes muscle memory.</p>`,
+      },
+      {
+        heading: 'Plant for the post-plant, not for ease',
+        html: `<p>This is a Silver classic. You take A site, kill the anchor, then plant the bomb in the open spot because it's the fastest. Wrong. Plant for the post-plant lineup, not for the easy plant.</p>
+<ul>
+  <li><strong>Mirage A:</strong> plant at Triple Box (covered by Default common) not Default (exposed to Connector and Stairs).</li>
+  <li><strong>Inferno B:</strong> plant in Coffins (covered by New Box) not Site corner (exposed to CT mid).</li>
+  <li><strong>Anubis A:</strong> plant at the Connector wall (denies Heaven defuse trade).</li>
+  <li><strong>Dust 2 A:</strong> plant at Goose corner (covered by Default and CT) not Default (open to Long).</li>
+</ul>
+<p>Every plant spot has a teammate who pre-aims the post-plant defuse angle. Pre-plan it. Plant + 1 trade kill on the defuser = round won.</p>`,
+      },
+      {
+        heading: 'The full-buy CT loadout — exact dollars',
+        html: `<p>Silver players buy 2 flashes + a smoke and call it good. Wrong. The standard CT-side full-buy includes:</p>
+<ul>
+  <li>M4A4 ($3100) or M4A1-S ($2900)</li>
+  <li>1 flashbang ($200)</li>
+  <li>1 smoke grenade ($300)</li>
+  <li>1 incendiary ($600)</li>
+  <li>Kevlar+helmet ($1000)</li>
+  <li>Defuse kit ($400 — critical on CT)</li>
+</ul>
+<p>Total: ~$5300. That's a full CT buy. T-side is similar but skip the kit, swap the incendiary for a molotov ($400), and you save $400 — use it on a Deagle for the second player as a backup AWP/Deagle threat.</p>
+<p>Defuse kit is often skipped at Silver. Don't. The kit changes a 10-second defuse to 5 seconds — the difference between defusing on time and dying mid-defuse.</p>`,
+      },
+      {
+        heading: 'Economy management — when to save vs force buy',
+        html: `<p>Silver players force-buy after losing one round, which loses round 2 AND round 3. The rule:</p>
+<ul>
+  <li><strong>Lost pistol round, less than $3000 round 2:</strong> save full (just pistol). Do NOT force buy at Silver.</li>
+  <li><strong>Lost pistol, $3000-4500 round 2:</strong> SMG buy + light kevlar. Goal is round momentum, not winning the round.</li>
+  <li><strong>Lost pistol, $4500+ round 2:</strong> rifle force, full team commit.</li>
+</ul>
+<p>If you save round 2, you full-buy round 3 with $5500+. If you force round 2 and lose, you're stuck on full eco round 3 with $1500. The save-then-full-buy pattern wins more rounds long-term than chained force-buys.</p>`,
+      },
+    ],
+    mistakes: [
+      'Buying random rifles (Galil, Famas) instead of the AK / M4.',
+      'Crosshair at chest height — losing every duel to head-height CTs.',
+      'Planting on the open spot for an easy plant — losing the post-plant trade.',
+      'Skipping the defuse kit on CT.',
+      'Force-buying after losing round 1 — losing round 2 AND round 3.',
+      'Reloading in the open mid-fight.',
+      'Sprinting through smokes (you make a target sound).',
+    ],
+    drill: {
+      heading: 'Drill: Mirage A standard execute smokes',
+      html: `<p>Load Mirage in offline practice mode. Practice the standard A site execute smoke set:</p>
+<ol>
+  <li><strong>CT smoke</strong> — from T spawn, blocks the AWP from CT.</li>
+  <li><strong>Stairs smoke</strong> — from A Ramp, blocks the rotator from CT spawn.</li>
+  <li><strong>Jungle smoke</strong> — from A Main, blocks Connector trade.</li>
+  <li><strong>Window smoke</strong> — from Top Mid, denies the Mid AWP.</li>
+</ol>
+<p>Each lineup takes 5 minutes to learn. After 20 minutes you have the most-used T-side execute on the most-played CS2 map. Apply in matchmaking.</p>`,
+    },
+    aiVodMention: `<p>If you're losing rounds and can't tell why, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + utility mistakes round by round — useful for catching the habit you don't know you have.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Nova to Master Guardian', url: '/blog/cs2-nova-to-mg.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 7,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'Gold Nova',
+    toRank: 'Master Guardian',
+    slug: 'cs2-nova-to-mg',
+    metaTitle: 'How to Climb from Gold Nova to Master Guardian in CS2 (2026 Guide)',
+    metaDescription: 'Nova-to-MG is map mastery + smoke lineups + economy reads — three-map focus, five must-know smokes, trade-frag positioning, and AWP discipline.',
+    intro: `<p>Gold Nova is where most CS2 players plateau because they have aim but no game sense. Master Guardian is where game sense kicks in: deep map knowledge, real smoke lineups, and economy reads that dictate the buy.</p>`,
+    sections: [
+      {
+        heading: 'Master 3 maps deep, not 7 shallow',
+        html: `<p>Pick Mirage, Inferno, and Anubis (or Mirage / Inferno / Dust 2 — three is enough). Play these maps exclusively in matchmaking for two weeks. By end of week 2 you'll know:</p>
+<ul>
+  <li>Standard CT setups for both bombsites</li>
+  <li>T-side execute smokes by lineup, not by feel</li>
+  <li>Common spawn-peek angles (and how to avoid them)</li>
+  <li>Default plant spots and post-plant lineups</li>
+  <li>Where the AWP holds long sightlines on each map</li>
+</ul>
+<p>If you keep queuing all 9 maps, you never get the depth needed to climb. Nova players play 9 maps shallowly. MG players play 3 maps deeply.</p>`,
+      },
+      {
+        heading: 'Five must-know smoke lineups',
+        html: `<p>Each lineup takes ~10 minutes to learn from a YouTube tutorial. Memorize five and you've covered the standard executes on three maps.</p>
+<ul>
+  <li><strong>Mirage A:</strong> CT smoke from T spawn (blocks the AWP from CT spawn for the A take).</li>
+  <li><strong>Mirage B:</strong> Apps smoke from T spawn (denies CT mid rotator).</li>
+  <li><strong>Inferno A:</strong> Library one-way smoke (your team can shoot through, defenders can't).</li>
+  <li><strong>Inferno B:</strong> Banana flash from T spawn (the round-deciding nade — pop-flashes the CT anchor).</li>
+  <li><strong>Anubis A:</strong> Connector smoke (isolates Heaven from Default).</li>
+</ul>
+<p>Every Nova player who learns 5 smoke lineups climbs to MG inside a month. Aim is already in your hands; lineups are pure knowledge work.</p>`,
+      },
+      {
+        heading: 'Economy reads — count enemy money round-by-round',
+        html: `<p>When the enemy team forces, read it: did they win round 1 with full eco? They have $5000 round 2. Did they lose pistol AND round 2? They have $3000 — they're saving round 3.</p>
+<p>This information dictates your buy:</p>
+<ul>
+  <li>Enemy saving (full eco or pistol) → eco round for you (don't full-buy, save for round after).</li>
+  <li>Enemy force-buying → full buy and trade frags. Their SMG/shotgun buy can't out-rifle you.</li>
+  <li>Enemy full-buying → mirror their buy.</li>
+</ul>
+<p>If you ignore enemy economy and full-buy every round, you'll go even when you should be ahead. MG teams use the eco state to skip safe round 1 buys for richer round 3 buys.</p>`,
+      },
+      {
+        heading: 'Trade fragging at proper distance',
+        html: `<p>Two-on-one duels win rounds. The trade fragger:</p>
+<ul>
+  <li>Stays within 5 meters of the entry</li>
+  <li>Has line-of-sight to the entry's target angle</li>
+  <li>Has crosshair pre-aimed at the angle the entry will engage</li>
+  <li>Doesn't reload at the same time the entry's pushing</li>
+</ul>
+<p>Specific drill: Mirage A take. Your entry takes the Stairs angle from Ramp. You're 3 meters behind, crosshair at head height pointed at Stairs. Entry dies → you take the duel within 1 second. The CT just spent recoil cooldown on the entry — your trade kill is free.</p>
+<p>If your IGL doesn't call trades and your team doesn't trade naturally, you're not in MG yet. Play with stacks where players know to trade — soloqueue Nova teaches the wrong habits.</p>`,
+      },
+      {
+        heading: 'AWP discipline on CT-side',
+        html: `<p>The AWP is the round-decider on most CT maps. Rules:</p>
+<ul>
+  <li>Hold ONE angle. Don't peek if your team's not trading.</li>
+  <li>If you don't get a kill in the first 30 seconds, fall back to a safer position.</li>
+  <li>Save the AWP if you can't engage — it's worth $4750. Losing it twice = lost economy.</li>
+  <li>Standard CT AWP positions: Mirage CT Spawn (covers Mid), Inferno Banana (covers Banana take), Dust 2 Long (covers Long doors), Anubis Heaven (covers Connector + Default).</li>
+</ul>
+<p>If your AWPer is dying first every round, swap. The AWP role is map-knowledge-heavy — wrong position loses the AWP and the round.</p>`,
+      },
+    ],
+    mistakes: [
+      'Force-buying every round after a loss.',
+      'No smoke lineups — eco-balling utility into general areas.',
+      'Trading at the wrong distance (10 meters back, miss the trade window).',
+      'AWP peeking on rotation, giving away $4750 every round.',
+      'Full save round → full buy round (losing the save round in between for no reason).',
+      'Playing all 9 maps in rotation, never learning any deeply.',
+    ],
+    drill: {
+      heading: 'Drill: Inferno B execute timing',
+      html: `<p>Practice the standard Inferno B execute:</p>
+<ol>
+  <li><strong>0:50 timer:</strong> Banana molotov to clear the standard CT anchor spot.</li>
+  <li><strong>0:48:</strong> Library smoke (deny A rotator).</li>
+  <li><strong>0:46:</strong> Two flashbangs over the Banana corner.</li>
+  <li><strong>0:45:</strong> B Site smoke + team take.</li>
+</ol>
+<p>Run this timing 10 times offline. By rep 10 you have the standard MG-level B exec. Apply in matchmaking with your stack.</p>`,
+    },
+    aiVodMention: `<p>Once you're confident on lineups, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your trade-frag distance was off — useful when you don't know why a 4v3 became a 0v3.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Nova', url: '/blog/cs2-silver-to-nova.html' },
+      { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'Master Guardian',
+    toRank: 'DMG',
+    slug: 'cs2-mg-to-dmg',
+    metaTitle: 'How to Climb from Master Guardian to DMG in CS2 (2026 Guide)',
+    metaDescription: 'MG-to-DMG is utility coordination + pro-style positioning — surgical smokes, trade-frag distance, defendable plant spots, round-3 economy lever, and opponent reads.',
+    intro: `<p>At MG you have aim and basic game sense. Distinguished Master Guardian is utility coordination and pro-style positioning. The leap is moving from "general area smokes" to "specific sightline smokes" — and from playing the round to playing the match.</p>`,
+    sections: [
+      {
+        heading: 'Pro-style smokes — block specific sightlines',
+        html: `<p>At MG, players smoke "the general area." At DMG, smokes block specific sightlines:</p>
+<ul>
+  <li><strong>Mirage A:</strong> Stairs smoke covers the AWP angle from CT spawn — not "the stairs" generally.</li>
+  <li><strong>Inferno B:</strong> New Box molly denies the default anchor position specifically — not "the site."</li>
+  <li><strong>Anubis A:</strong> Heaven flash blinds the AWP for 2 seconds — the exact window for entry.</li>
+  <li><strong>Dust 2 A:</strong> Pit smoke covers the AWP from Pit corner only — leaves Default common contestable.</li>
+</ul>
+<p>Each pro smoke has a single purpose. Watch a tier-1 pro VOD with smokes paused — count what each smoke blocks. After 5 VODs you'll think pro-utility.</p>`,
+      },
+      {
+        heading: 'Default plant spots — covered, not exposed',
+        html: `<p>DMG players plant for the post-plant lineup, not for the easy plant. Specifics:</p>
+<ul>
+  <li><strong>Mirage A:</strong> plant at Triple (covered by Default common) not Default (exposed to Connector).</li>
+  <li><strong>Inferno B:</strong> plant at Coffins (covered) not Site (exposed to CT mid).</li>
+  <li><strong>Anubis A:</strong> plant at Connector wall (denies Heaven defuse trade).</li>
+  <li><strong>Dust 2 B:</strong> plant in Plat (covered by Door) not Site corner (open to Tunnels).</li>
+</ul>
+<p>Every plant spot has a 10-second AWP angle the planter holds while teammates rotate. Pre-plan it. The 0:30 post-plant window is round-deciding — don't waste it on an exposed plant.</p>`,
+      },
+      {
+        heading: 'Round-3 economy lever',
+        html: `<p>After winning pistol round, most players go full SMG-buy round 2 (and rifle-buy round 3). This wins round 1 + round 3 even if you lose round 2.</p>
+<p>Sequence:</p>
+<ol>
+  <li><strong>Round 1 (pistol):</strong> full Glock or USP. Win → bonus $700.</li>
+  <li><strong>Round 2 (anti-eco):</strong> SMG/shotgun for high frag bonuses, or rifle if rich. Win → bonus $1400.</li>
+  <li><strong>Round 3 (full buy):</strong> rifles + utility, full kit.</li>
+</ol>
+<p>If you lose round 2 anti-eco, the enemy SMG team's economy spikes. Read the round-3 buy carefully — they can full-buy. Adjust accordingly.</p>`,
+      },
+      {
+        heading: 'Trade fragging at 3-5 meter distance',
+        html: `<p>The trade fragger should be 3-5 meters behind the entry, with crosshair pre-aimed at the same angle. At MG, trade fraggers are 10 meters back and miss the trade window. The CT just used recoil cooldown on the entry — the trade-fragger has 1-2 seconds to land the kill before the CT realigns.</p>
+<p>Drill it: Mirage A take. Entry takes Stairs angle. Trade fragger is 3 meters behind, crosshair at head height pointed at Stairs. Entry dies → trade fragger takes the duel within 1 second. Round won.</p>`,
+      },
+      {
+        heading: 'Reading opponent tendencies in real time',
+        html: `<p>By round 5 of any DMG match you should have read at least 2 of:</p>
+<ul>
+  <li>Does the enemy AWPer always hold the same angle round-to-round? (Predictable peek.)</li>
+  <li>Does the enemy IGL call double-A executes when behind? (Forces you to over-rotate to A.)</li>
+  <li>Does the enemy molly Banana every Inferno round? (Read it; play around it.)</li>
+  <li>Does the enemy lurker take Mid every round? (Mid trade prep.)</li>
+  <li>Does the enemy buy AWP only when they have $5500+ savings? (Predict AWP rounds from economy alone.)</li>
+  <li>Does the enemy spawn-peek the same window every gun round? (Free pre-aim kill.)</li>
+</ul>
+<p>DMG is information game. Track 2-3 patterns per match in your head, exploit them rounds 6+. Most DMG players track zero — they just play their own game and hope. The DMG-to-LE gap is converting passive observation into active counter-strats.</p>`,
+      },
+      {
+        heading: 'Eco round playbook — how to win 0-buy rounds',
+        html: `<p>DMG players treat eco rounds as throwaways. LE players have an eco playbook that wins ~25% of full ecos:</p>
+<ul>
+  <li><strong>Stack one site with all 5</strong> — concentrated firepower beats spread defense even with pistols.</li>
+  <li><strong>Take the AWP if you kill the enemy AWPer</strong> — flips the round economy and denies them the AWP next round.</li>
+  <li><strong>Default Deagle one-tap practice</strong> — Deagle headshot at any range = cheap rifle kill that loots a P250 or better.</li>
+  <li><strong>Ninja defuse on plant</strong> — if attackers are pushed off, sneak the defuse instead of fragging.</li>
+</ul>
+<p>The eco round you steal flips $7000+ of enemy economy across the next 2 rounds. DMG teams write off ecos; LE teams play them as round 1 of a 3-round comeback.</p>`,
+      },
+    ],
+    mistakes: [
+      'Smoking general areas not specific angles.',
+      'Trade fragger too far back to make the trade window.',
+      'Default plant on the exposed corner — losing post-plant defuse.',
+      'Skipping round-2 anti-eco buy.',
+      'No opponent read by round 5.',
+      'Same AWP angle every round.',
+      'Treating eco rounds as throwaways instead of stack-and-steal opportunities.',
+    ],
+    drill: {
+      heading: 'Drill: Mirage Window spawn-peek timing',
+      html: `<p>Mirage Window peek (CT side) catches A pushers at 0:08 timer mark. Practice in offline mode: peek Window at 0:08 with crosshair at head height pre-aimed at the standard A Ramp player position. Hit the peek 20 times until muscle memory.</p>
+<p>Apply in ranked. You'll get a free round-opener pick on most A executes — flips the round economy.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your smoke placement vs pro placement on the same map — useful for spotting where your smokes are blocking the wrong angle.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Nova to MG', url: '/blog/cs2-nova-to-mg.html' },
+      { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'DMG',
+    toRank: 'LE',
+    slug: 'cs2-dmg-to-le',
+    metaTitle: 'How to Climb from DMG to Legendary Eagle in CS2 (2026 Guide)',
+    metaDescription: 'DMG-to-LE is synced executes + spawn-peek timing + AWP rotation + off-angle holds + counter-flank reads. The pro-style refinements that close the gap.',
+    intro: `<p>DMG players have utility coordination. Legendary Eagle players have refined pro-style executes and the discipline to commit (or hold) on a coordinated count. Here's the upgrade.</p>`,
+    sections: [
+      {
+        heading: 'Synced execute counts — utility on the beat',
+        html: `<p>At DMG, players "smoke when ready." At LE, the IGL counts: "Smoke in 3, 2, 1, GO." All 5 utility hit on the same beat — the enemy can't react fast enough to coordinated cover fire.</p>
+<p>Practice with a 5-stack in Custom Game on Mirage. Run a 5-utility A exec with a coordinated count. Repeat 10 times. Apply in ranked. The team that hits utility on a count wins ~70% of executed rounds at this elo.</p>`,
+      },
+      {
+        heading: 'Spawn-peek timings — free round-opener picks',
+        html: `<p>Some maps have spawn windows where attackers cross at known timings. CT defenders can peek for free picks:</p>
+<ul>
+  <li><strong>Mirage Window:</strong> peeks A pushers at 0:08 timer.</li>
+  <li><strong>Inferno CT Mid:</strong> peeks Mid takers at 0:10.</li>
+  <li><strong>Anubis Mid:</strong> peeks Connectors at 0:12.</li>
+  <li><strong>Dust 2 Long Doors:</strong> peeks Long take at 0:09.</li>
+</ul>
+<p>These aren't intuitive — they're learned from pro VODs and from running them in offline practice. LE-tier defenders practice these timings; DMG-tier attackers don't pre-aim them.</p>`,
+      },
+      {
+        heading: 'AWP angle rotation across rounds',
+        html: `<p>At DMG you hold one AWP angle. At LE you rotate per round to break the read:</p>
+<ul>
+  <li>Round 1: hold Mid Window.</li>
+  <li>Round 2: hold Stairs (if they read your round-1 angle).</li>
+  <li>Round 3: rotate back to Window with a teammate trading from Stairs.</li>
+  <li>Round 4: hold the AWP from CT spawn (off-angle).</li>
+</ul>
+<p>Predictable AWP positioning loses LE matches. Variation wins them. Specifically: if you held Mid Window 2 rounds in a row and got a kill both times, swap angle for round 3 — the enemy IGL will call a flash + push on Window.</p>`,
+      },
+      {
+        heading: 'Off-angle holds force re-clearing',
+        html: `<p>LE defenders pre-aim from spots T-side doesn't expect:</p>
+<ul>
+  <li><strong>Mirage A:</strong> hold Default from Ramp side (not Triple corner).</li>
+  <li><strong>Inferno B:</strong> hold Site from Coffins instead of Default.</li>
+  <li><strong>Anubis A:</strong> hold from Heaven side, not Connector.</li>
+  <li><strong>Dust 2 A:</strong> hold from CT corner (not the obvious Default angle).</li>
+</ul>
+<p>Off-angles cost the entry 1-2 seconds of re-clearing. That's the trade window your teammate uses. The pro-tip: switch off-angle every round. The enemy team's first frag remembers angle X — they expect it again next round and you've moved.</p>`,
+      },
+      {
+        heading: 'Counter-flank reads — predict the round',
+        html: `<p>By round 5 you've seen patterns. Use them:</p>
+<ul>
+  <li>If the enemy lurker is always coming through Mid → set up a CT mid trade.</li>
+  <li>If the enemy IGL fakes A every economy round → expect the real B exec when they're poor.</li>
+  <li>If the enemy team economy means they CAN'T full-buy round 6 → adjust your buy down (eco or force).</li>
+  <li>If the enemy AWPer has died twice this match on the same angle → continue pre-aiming it.</li>
+</ul>
+<p>LE is read-based. Predict the round, prep the counter. DMG plays default rounds; LE plays counter-default rounds.</p>`,
+      },
+      {
+        heading: 'Half-time comp prep — review and adjust',
+        html: `<p>At LE you have 30 seconds between rounds 12 and 13 to switch sides. Don't waste it on chat. Use it for a comp prep:</p>
+<ul>
+  <li>What's the opposing team's strongest player and their weapon? Counter-pick (e.g., bait their AWPer with a forward Deagle pick).</li>
+  <li>Which sites did they hit on T-side? Stack the under-defended one on your CT-side.</li>
+  <li>Which CT angles did they hold? Avoid those on T-side or run a fake to bait them off.</li>
+  <li>Did they tilt-call (frustrated comms after losses)? You're winning the half — don't let up.</li>
+</ul>
+<p>LE teams do this comp prep automatically every match. DMG teams chat-talk through the half-time and start round 13 unprepared.</p>`,
+      },
+    ],
+    mistakes: [
+      'Uncoordinated utility timing (smoke when ready).',
+      'Predictable AWP angles every round.',
+      'Default holds only — no off-angle variation.',
+      'No counter-flank read by round 5.',
+      'Spawn-peek timings unknown — free CT picks lost.',
+      'No half-time comp prep — round 13 starts cold.',
+    ],
+    drill: {
+      heading: 'Drill: Inferno B fake-A → real-B exec',
+      html: `<p>Run a fake-A then real-B execute:</p>
+<ol>
+  <li><strong>0:55:</strong> full utility commit to A — Library smoke, Pit molly, two flashes from A Long.</li>
+  <li><strong>0:48:</strong> 4 players visible at A common, AWPer baits at A long.</li>
+  <li><strong>0:42:</strong> quick rotate to B through CT mid (the rotators have already left B).</li>
+  <li><strong>0:38:</strong> exec B Site with whatever utility remains.</li>
+</ol>
+<p>Catches LE-tier defenders out of position 50%+ of attempts. Run it as a stack 5-10 times for the timing.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your AWP angle variation across the match — useful for spotting when you've held the same spot 3 rounds in a row without realizing it.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
+      { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'CS2 Anubis Guide', url: '/games/cs2/anubis.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'LE',
+    toRank: 'LEM',
+    slug: 'cs2-le-to-lem',
+    metaTitle: 'How to Climb from LE to LEM in CS2 (2026 Guide)',
+    metaDescription: 'LE-to-LEM is macro reads — utility tracking across the match, comp swap per round, pro-aim consistency, tilt protection round 13+, and map veto strategy.',
+    intro: `<p>LE players read opponents per round. LEM players read across the entire match. The macro upgrade — utility tracking, comp swaps, and tilt protection — is what closes the gap.</p>`,
+    sections: [
+      {
+        heading: 'Util tracking — count enemy nades round-to-round',
+        html: `<p>By round 5 of a match you should have a rough count of enemy utility used. Each player carries 2-3 nades by default. If the enemy has burned 50%+ of utility by round 5, they're light on nades for round 6+.</p>
+<p>Specific tracking:</p>
+<ul>
+  <li>Enemy Banana mollies: 1 per match per CT typically. Round 1-3 used = no Banana molly round 4.</li>
+  <li>Enemy A executes: 4-5 utility per round. Two A executes by round 5 = they're light for round 6.</li>
+  <li>Enemy AWP rounds: each AWP loss = no AWP round 7+ unless they hit the bonus.</li>
+</ul>
+<p>If you remember which utility the enemy has, you predict their force-buy capacity. LEM teams play the round assuming the enemy has X — LE teams play assuming the enemy has full kit.</p>`,
+      },
+      {
+        heading: 'Comp swap per round — break opponent reads',
+        html: `<p>LE teams play the same 5-role comp every round. LEM teams swap roles per round:</p>
+<ul>
+  <li>Round 1: standard AWPer + standard entry.</li>
+  <li>Round 5: AWPer plays support angle, entry picks up the AWP.</li>
+  <li>Round 8: original AWPer back, but on a different angle.</li>
+</ul>
+<p>This breaks opponent reads of "their AWPer always plays X angle." Now their AWPer's angle is unknown round-to-round. The enemy team has to re-read every round.</p>
+<p>Practice: in your stack, designate role-fluid players. 2 players know how to play both AWP and rifle support. The role swap is a 30-second pre-round call from the IGL.</p>`,
+      },
+      {
+        heading: 'Pro-grade aim refinement',
+        html: `<p>At LEM, raw aim has to compete with pro players' practice routines. Daily aim:</p>
+<ul>
+  <li><strong>30 minutes/day of scenario practice</strong> — Aim Lab Gridshot, scenario-specific tracking drills.</li>
+  <li><strong>30 minutes/day of CS2 deathmatch</strong> with rifle only.</li>
+  <li><strong>30 minutes/day of recoil training</strong> — offline, shoot at wall, learn AK and M4 spray pattern from muscle memory.</li>
+</ul>
+<p>LEM aim is consistent: 30%+ headshot rate on rifle, 60%+ on AWP. Track yours in the in-game stats screen. If you're below these numbers, fix the aim regimen first — utility coordination doesn't matter if your duels are lost.</p>`,
+      },
+      {
+        heading: 'Tilt protection round 13+',
+        html: `<p>LE players win 11 rounds, then lose 4 in a row to tilt. LEM players reset every round.</p>
+<p>The reset technique: between rounds, deep breath in for 4 seconds, hold 4, exhale 4. Lower heart rate from tilted (95+ BPM) to focused (70 BPM). It's not a meme — it physically lowers your heart rate and your reaction time stays sharp.</p>
+<p>If you can't reset from tilt at LE, you'll never reach LEM consistently. Round 13 onwards is where matches are won — if your team's tilted at the half, the second half is a 11-15 loss.</p>`,
+      },
+      {
+        heading: 'Map veto pre-game prep',
+        html: `<p>By LE you should have 2-3 maps you crush + 2-3 maps you lose. Veto your weak maps. Pick your strong maps. Specific veto pattern for matchmaking:</p>
+<ul>
+  <li>Ban: your weakest map first (Vertigo or Ancient typically).</li>
+  <li>Ban: enemy's strongest map (you can read this from their stats).</li>
+  <li>Pick: your strongest map (Mirage or Inferno usually).</li>
+  <li>Decider: whichever map you have the highest win rate on this season.</li>
+</ul>
+<p>LEM teams pick maps based on opponent reads. If the enemy lost their last 5 Mirage games, ban Mirage off them. Veto wins the match before round 1.</p>`,
+      },
+    ],
+    mistakes: [
+      'Blowing utility every round — no eco round 6 reserves.',
+      'Same comp 7 rounds in a row — predictable to LEM-level reads.',
+      'Raw aim plateau — 25% headshot rate ceiling.',
+      'Tilt-stacks — losing 4 rounds in a row after a frustrating loss.',
+      'No veto strategy — playing whatever map gets picked.',
+    ],
+    drill: {
+      heading: 'Drill: 2-week aim regimen',
+      html: `<p>90 minutes/day of structured aim:</p>
+<ol>
+  <li><strong>30 min Aim Lab</strong> — Gridshot for clicking, Strafeshot for movement aim.</li>
+  <li><strong>30 min CS2 deathmatch</strong> — rifle only, no AWP, no pistol.</li>
+  <li><strong>30 min recoil training</strong> — offline AK spray at the wall, M4 burst at the wall, learn the patterns to muscle memory.</li>
+</ol>
+<p>Track headshot % weekly via the stats screen. If you're not at 28%+ after 2 weeks, extend to 4 weeks. Aim is the foundation — utility doesn't fix lost duels.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compute your headshot rate by weapon and map — useful for finding the gun-map combination that's holding back your stats.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
+      { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'LEM',
+    toRank: 'Supreme',
+    slug: 'cs2-lem-to-supreme',
+    metaTitle: 'How to Climb from LEM to Supreme Master First Class in CS2 (2026 Guide)',
+    metaDescription: 'LEM-to-Supreme is pro-VOD prep, map-specific pro setups, mid-match strat switching, enemy economy reads round 12+, and tier-1 communication discipline.',
+    intro: `<p>LEM is the top 2% of CS2. Supreme Master First Class is the top 0.7%. The gap is pro-VOD-level prep, mid-match adaptation, and mental discipline at the high-pressure rounds 12+.</p>`,
+    sections: [
+      {
+        heading: 'Pro-VOD watching as practice',
+        html: `<p>Watch one tier-1 CS2 match per day. Pause every 30 seconds. Predict the next call. Was it a default? An exec? A counter-strat?</p>
+<p>By VOD 10 you'll start anticipating pro decisions. By VOD 30 you'll think like a pro IGL during your own matches.</p>
+<p>Recommended VODs: BLAST Premier finals, IEM Cologne, ESL Pro League. Avoid casual content — only watch tier-1 prep level. The macro decision-making at this tier is what you're absorbing, not the aim. Aim's already at LEM.</p>`,
+      },
+      {
+        heading: 'Map-specific pro setups',
+        html: `<p>Each pro team has signature setups. Astralis on Inferno Banana. NaVi on Anubis. Vitality on Mirage. Watch their exec patterns and copy:</p>
+<ul>
+  <li><strong>Astralis Inferno B:</strong> smoke timing 0:50, molly 0:48, flash 0:46, Banana take 0:45. The 5-second windows are deliberate.</li>
+  <li><strong>NaVi Anubis A:</strong> 5-utility split with 2 from Mid, 3 from A Main. Synced commit on count.</li>
+  <li><strong>Vitality Mirage A:</strong> 4-utility with the AWPer holding off-angle Connector for the trade.</li>
+</ul>
+<p>Pros set up rounds 5+ with information from rounds 1-4. Copy this thinking into your own play.</p>`,
+      },
+      {
+        heading: 'Mid-match strat switching every 3 rounds',
+        html: `<p>Supreme teams switch strats every 3 rounds based on opponent adaptation:</p>
+<ol>
+  <li>Rounds 1-3: standard exec patterns.</li>
+  <li>Rounds 4-6: switch comp + utility timings (the enemy's adapted to round 1-3).</li>
+  <li>Rounds 7-9: re-adapt based on round 4-6 wins/losses.</li>
+  <li>Rounds 10-12: half-time prep + comp adjustment.</li>
+  <li>Rounds 13+: counter-strats based on full-half data.</li>
+</ol>
+<p>LEM teams hold the same strat for 5 rounds. Supreme teams switch every 3. The enemy team adapts in 5 rounds — Supreme teams beat the adaptation curve.</p>`,
+      },
+      {
+        heading: 'Reading enemy economy round 12+',
+        html: `<p>By round 12 of a long match you should know:</p>
+<ul>
+  <li>Enemy total utility used (rough count).</li>
+  <li>Enemy AWP availability (yes/no per round based on saves and losses).</li>
+  <li>Enemy IGL's force-buy patterns (do they force after one loss or two?).</li>
+  <li>Enemy team's emotional state (winning streak vs losing streak).</li>
+</ul>
+<p>This dictates your buy and strat round 13+. If the enemy is forced to eco round 13, you can full-buy + run a riskier strat (the eco can't punish bad utility). If the enemy can full-buy, you mirror the buy.</p>`,
+      },
+      {
+        heading: 'Communication discipline at high elo',
+        html: `<p>LEM teams over-comm. Supreme teams comm short and decisive:</p>
+<ul>
+  <li>"Roamer top, taking it." (3 seconds, decision made.)</li>
+  <li>"Smoke landed, push in 3, 2, 1." (Synced execute call.)</li>
+  <li>"Anchor heaven, save AWP." (Post-loss recovery decision.)</li>
+</ul>
+<p>NOT: "I think the roamer's top, I might push, what do you think?" (15 seconds, no decision.) Mid-round commentary is noise. Information only — and only when it changes a teammate's decision.</p>`,
+      },
+      {
+        heading: 'Anti-stack reads — when the enemy bunches up',
+        html: `<p>Supreme teams notice when the enemy stacks. Three CTs on A site means B is open. The standard counter:</p>
+<ul>
+  <li>Fake A with 2 utility (smoke + flash), pull rotators.</li>
+  <li>Quick rotate to B with 4 players. The 1 leftover CT can't hold against 4.</li>
+  <li>Plant fast at B for the post-plant cycle. Rotators are caught between sites.</li>
+</ul>
+<p>The read happens through droning A early — if you see 3 silhouettes through smoke, B is the play. LEM teams commit to the called site even when info contradicts. Supreme teams audible mid-round based on info.</p>`,
+      },
+      {
+        heading: 'Tilt management at the high-pressure rounds',
+        html: `<p>Rounds 14-22 are where matches are decided. Tilt protection is non-negotiable. Specific technique that works at this elo:</p>
+<ul>
+  <li>Between rounds, 4-second box breath (in 4, hold 4, out 4, hold 4). Drops heart rate from 95+ BPM (tilted) to 70 BPM (focused).</li>
+  <li>If you lose 2 in a row, IGL calls a "default round" — no trick play, just fundamentals. Resets the team's mental.</li>
+  <li>If you lose 3 in a row, IGL calls a player swap if anyone's tilting visibly. The mental swap is more valuable than 1 round of frags.</li>
+</ul>
+<p>Supreme teams have this protocol. LEM teams tilt-stack into 6-round losing streaks.</p>`,
+      },
+    ],
+    mistakes: [
+      'No pro VOD prep — playing on instinct, not pattern recognition.',
+      'Copy-paste team strats with no mid-match switching.',
+      'No enemy economy read by round 12.',
+      'Comm-overload — flooding voice with non-decisions.',
+      'Treating round 13+ like rounds 1-12 — no half-time adaptation.',
+      'No anti-stack read — committing to called site when info contradicts.',
+      'Tilt-stacking into 4-6 round losing streaks.',
+    ],
+    drill: {
+      heading: 'Drill: 30 days of pro-VOD-per-day',
+      html: `<p>Watch one tier-1 CS2 match per day for 30 days. Tracking sheet on your phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways: utility timings, default plant spots, anti-eco buys, half-time reads.</p>
+<p>This is the practice routine that bridges LEM to Supreme. The gap isn't aim — it's pattern recognition at the pro level.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compare your decision patterns against pro-tier reads round-by-round — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
+      { name: 'How to Climb from Supreme to Global', url: '/blog/cs2-supreme-to-global.html' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'cs2',
+    gameLabel: 'Counter-Strike 2',
+    fromRank: 'Supreme',
+    toRank: 'Global Elite',
+    slug: 'cs2-supreme-to-global',
+    metaTitle: 'How to Climb from Supreme Master to Global Elite in CS2 (2026 Guide)',
+    metaDescription: 'Supreme-to-Global is macro round structure, mechanical reset, pro-aim consistency, enemy emotional reads, and matchmaking veto strategy.',
+    intro: `<p>Supreme Master First Class is the top 0.7%. Global Elite is the top 0.1%. The gap is mental, mechanical, and macro at the highest tier — fewer mistakes per round, better reads across the match, and consistent aim every duel.</p>`,
+    sections: [
+      {
+        heading: 'Macro round structure across 24 rounds',
+        html: `<p>Global teams script the match across all 24 rounds:</p>
+<ol>
+  <li>Rounds 1-3: probe enemy comp + utility patterns.</li>
+  <li>Rounds 4-6: pick best counter-strat based on probe data.</li>
+  <li>Rounds 7-9: lock in the winning pattern.</li>
+  <li>Rounds 10-12: half-time comp prep.</li>
+  <li>Rounds 13-15: switch sides, re-probe.</li>
+  <li>Rounds 16-18: counter-strat round 2.</li>
+  <li>Rounds 19-24: closeout (or comeback) plays.</li>
+</ol>
+<p>Supreme teams play round-to-round. Global teams play match-to-match. Every round is a piece of the larger plan.</p>`,
+      },
+      {
+        heading: 'Mechanical reset discipline every round',
+        html: `<p>At Global, you will get one-tapped from spawn unfairly. You will lose a 4v1. The Global difference is reset. Every round.</p>
+<p>Specific: 2-second mental reset between rounds. Same crosshair, same default position, same focus. No commentary on the previous round. Any deviation costs the round.</p>
+<p>The reset is what 0.1% of CS2 players have. Most players who reach Supreme can't reset; they tilt round 14+ and lose the half. Global players reset 100% of rounds.</p>`,
+      },
+      {
+        heading: 'Pro-aim consistency benchmarks',
+        html: `<p>Specific aim numbers you should hit by Global:</p>
+<ul>
+  <li><strong>30%+ headshot rate on rifle.</strong></li>
+  <li><strong>60%+ headshot rate on AWP.</strong></li>
+  <li><strong>80%+ on Deagle one-taps</strong> (yes, really, at this level).</li>
+</ul>
+<p>If your numbers are below, you have an aim ceiling that's blocking the climb. Drill: 1 hour/day of focused aim. AK spray, M4 burst, Deagle one-tap. Track weekly. The aim regimen is non-negotiable at Global queue.</p>`,
+      },
+      {
+        heading: 'Enemy emotional reads',
+        html: `<p>By round 14 you should know if the enemy team is frustrated or focused. Their callout volume drops when focused, rises when tilting. Their utility usage gets sloppier when tilting. Their AWPer over-peeks when tilting.</p>
+<p>Global IGLs read this and call counter-strats that exploit tilt:</p>
+<ul>
+  <li>Enemy is tilting → run safe defaults; they over-extend trying to make a play.</li>
+  <li>Enemy is focused → switch up your strats; they're reading you fast.</li>
+  <li>Enemy is split (some tilted, some focused) → bait the tilted player with risky exec, the focused player traps it.</li>
+</ul>`,
+      },
+      {
+        heading: 'Veto and matchmaking macro',
+        html: `<p>Global queues: top 5 maps prepped + top 5 banned. Veto wins the match before the first round.</p>
+<p>Specifically:</p>
+<ul>
+  <li>Ban opponents' best 2 maps based on their match history.</li>
+  <li>Pick your best 2 maps.</li>
+  <li>Decider goes to the map you have the highest win rate vs their comp style.</li>
+</ul>
+<p>Supreme teams ignore veto strategy and play whatever map gets picked. Global teams win 60%+ of matches at veto. The veto edge compounds across a season — the teams that veto well climb faster than teams that just play better.</p>`,
+      },
+      {
+        heading: 'Anti-flash + anti-utility positioning',
+        html: `<p>At Global, the enemy team will throw perfect utility every round. The Global counter is positioning that minimizes utility damage:</p>
+<ul>
+  <li><strong>Stand at flash-resistant angles</strong> — corners where the wall blocks pop-flashes. Specific spots: Mirage A Default behind Triple, Inferno B in Coffins corner, Anubis A in Connector cubby.</li>
+  <li><strong>Pre-aim molly spots</strong> — if the enemy mollies the same spot every round (Banana corner on Inferno, Pit on Mirage), don't stand there. Move 5 meters back; the molly damage drops to zero.</li>
+  <li><strong>Smoke-spot off-angles</strong> — when the enemy smokes, the smoke fade window is 3 seconds. Pre-aim the fade angle from the side the smoke doesn't fully cover.</li>
+</ul>
+<p>This is positional discipline that requires 1000+ rounds of practice. Supreme players know the angles theoretically; Global players use them in every round.</p>`,
+      },
+      {
+        heading: 'Endgame 1v1 reads — read the opponent in 5 seconds',
+        html: `<p>Global 1v1s are won on reads, not aim. In the 5 seconds before contact:</p>
+<ul>
+  <li>What's the opponent's last move? (Reload? Repositioned? Just won a duel?)</li>
+  <li>What angle did they hold round 1? (Predictable peek?)</li>
+  <li>Are they tilted (just lost their AWPer)? (Over-aggressive peek incoming.)</li>
+  <li>Do they pre-fire common angles? (Counter with a wide swing or jiggle peek.)</li>
+</ul>
+<p>The reads compound. By round 18 you've collected 30+ data points on the enemy AWPer. The 1v1 endgame uses ALL of them. Most Supreme players use 2-3. Globals use 5-6.</p>`,
+      },
+    ],
+    mistakes: [
+      'No macro round structure — playing each round in isolation.',
+      'Tilt-resets failing — losing rounds 14+ to mental, not mechanical.',
+      'Mechanical aim ceiling — 25% headshot rate ceiling on rifle.',
+      'No enemy emotional read by round 14.',
+      'No veto strategy — random map picks.',
+      'Standing in standard molly spots round-after-round.',
+      '1v1 reads using only 1-2 data points instead of 5-6.',
+    ],
+    drill: {
+      heading: 'Drill: 1 month of stat tracking',
+      html: `<p>Track per-match: headshot %, K/D, ADR (average damage per round). If numbers are flat over 30 matches, fix the aim regimen first before trying to climb on macro.</p>
+<p>Aim is the foundation that lets the macro work. Without 30%+ headshot rate, your reads don't matter — you're losing duels even when you read correctly.</p>`,
+    },
+    aiVodMention: `<p>At the Global queue level, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation (round 1-3 vs round 4-6) against pro-tier patterns — useful for finding the rounds where you should have switched strat but didn't.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
+      { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+]
+
 // ---------- MAIN ----------
 
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // Stage 1: only R6 posts. Other games will be added in subsequent commits.
-  const allPosts = [...R6_POSTS]
+  // Stage 2: R6 + CS2 posts. Other games will be added in subsequent commits.
+  const allPosts = [...R6_POSTS, ...CS2_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -949,4 +1641,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, htmlShell, renderPost, renderIndex }
