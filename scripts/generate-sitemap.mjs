@@ -209,7 +209,10 @@ async function main() {
     'valorant-diamond-to-ascendant',
     'valorant-ascendant-to-immortal',
     // OW2
-    // 'ow2-bronze-to-silver', 'ow2-silver-to-gold', 'ow2-gold-to-plat', 'ow2-plat-to-diamond',
+    'ow2-bronze-to-silver',
+    'ow2-silver-to-gold',
+    'ow2-gold-to-plat',
+    'ow2-plat-to-diamond',
     // Apex
     // 'apex-bronze-to-silver', 'apex-silver-to-gold', 'apex-gold-to-plat',
     // Marvel Rivals
