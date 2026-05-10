@@ -1,0 +1,60 @@
+{
+  "_comment": "Last verified: 2026-05 — based on Marvel Rivals tournament pick rates + community tier list snapshot.",
+  "S": [
+    "Hela",
+    "Doctor Strange",
+    "Magneto",
+    "Luna Snow",
+    "Mantis"
+  ],
+  "A": [
+    "Punisher",
+    "Iron Man",
+    "Hulk",
+    "Thor",
+    "Captain America",
+    "Adam Warlock",
+    "Cloak & Dagger",
+    "Invisible Woman"
+  ],
+  "B": [
+    "Black Panther",
+    "Hawkeye",
+    "Spider-Man",
+    "Storm",
+    "Magik",
+    "Psylocke",
+    "Venom",
+    "Groot",
+    "Peni Parker",
+    "Rocket Raccoon",
+    "Loki",
+    "Jeff the Land Shark"
+  ],
+  "C": [
+    "Iron Fist",
+    "Moon Knight",
+    "Namor",
+    "Scarlet Witch",
+    "Squirrel Girl",
+    "Star-Lord",
+    "Black Widow",
+    "Winter Soldier",
+    "Wolverine",
+    "Human Torch",
+    "Mister Fantastic",
+    "Emma Frost",
+    "The Thing",
+    "Ultron"
+  ],
+  "bans_attack": [
+    "Hela",
+    "Iron Man",
+    "Doctor Strange"
+  ],
+  "bans_defense": [
+    "Punisher",
+    "Hawkeye",
+    "Magneto"
+  ]
+}

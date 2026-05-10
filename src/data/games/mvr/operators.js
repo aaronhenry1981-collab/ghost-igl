@@ -1,0 +1,47 @@
+// Marvel Rivals — 37 heroes as of May 2026.
+// Roles: Vanguard (tank), Duelist (DPS), Strategist (support).
+// VERIFY: re-check NetEase roster for new releases.
+
+const CAST = [
+  { id: "captain-america", name: "Captain America", role: "Vanguard", side: null, kit: ["Living Legend Shield", "Sentinel Strike", "Freedom Charge"] },
+  { id: "doctor-strange", name: "Doctor Strange", role: "Vanguard", side: null, kit: ["Shield of Seraphim", "Pentagram of Farallah", "Eye of Agamotto"] },
+  { id: "groot", name: "Groot", role: "Vanguard", side: null, kit: ["Ironwood Wall", "Vengeful Stamen", "Strangling Prison"] },
+  { id: "hulk", name: "Hulk", role: "Vanguard", side: null, kit: ["Indestructible Guard", "Incredible Leap", "Hulk Smash"] },
+  { id: "magneto", name: "Magneto", role: "Vanguard", side: null, kit: ["Metal Bulwark", "Iron Volley", "Meteor M"] },
+  { id: "peni-parker", name: "Peni Parker", role: "Vanguard", side: null, kit: ["Cyber-Web Cluster", "Bionic Spider-Nest", "Ultimate Bionic Hyperthrust"] },
+  { id: "thor", name: "Thor", role: "Vanguard", side: null, kit: ["Awakening Rune", "Storm Surge", "God of Thunder"] },
+  { id: "venom", name: "Venom", role: "Vanguard", side: null, kit: ["Cellular Corrosion", "Frenzied Arrival", "Feast of the Abyss"] },
+  { id: "emma-frost", name: "Emma Frost", role: "Vanguard", side: null, kit: ["Diamond Form", "Mind Control", "Psionic Seduction"] },
+  { id: "the-thing", name: "The Thing", role: "Vanguard", side: null, kit: ["Stone Smash", "Embattled Leap", "Clobbering Time"] },
+  { id: "black-panther", name: "Black Panther", role: "Duelist", side: null, kit: ["Spinning Kick", "Spirit Rend", "Bast's Descent"] },
+  { id: "black-widow", name: "Black Widow", role: "Duelist", side: null, kit: ["Edge Dancer", "Electro-Plasma Explosion", "Fearsome Sting"] },
+  { id: "hawkeye", name: "Hawkeye", role: "Duelist", side: null, kit: ["Crescent Dive", "Skyward Leap", "Hunter's Sight"] },
+  { id: "hela", name: "Hela", role: "Duelist", side: null, kit: ["Soul Drainer", "Hel's Descent", "Goddess of Death"] },
+  { id: "iron-fist", name: "Iron Fist", role: "Duelist", side: null, kit: ["Wall of Wind", "Dragon's Defense", "Living Chi"] },
+  { id: "iron-man", name: "Iron Man", role: "Duelist", side: null, kit: ["Hyper-Density Armor", "Micro-Missile Barrage", "Gamma Overdrive"] },
+  { id: "magik", name: "Magik", role: "Duelist", side: null, kit: ["Dark Teleportation", "Stepping Discs", "Darkchild"] },
+  { id: "moon-knight", name: "Moon Knight", role: "Duelist", side: null, kit: ["Hand of Khonshu", "Moon Blade", "Hand of Khonshu Ult"] },
+  { id: "namor", name: "Namor", role: "Duelist", side: null, kit: ["Aquatic Dominion", "Wrath of the Seven Seas", "Horn of Proteus"] },
+  { id: "psylocke", name: "Psylocke", role: "Duelist", side: null, kit: ["Wing Shuriken", "Psi-Blade Dash", "Dance of the Butterfly"] },
+  { id: "punisher", name: "The Punisher", role: "Duelist", side: null, kit: ["Smart Web", "Adjudication", "Final Judgment"] },
+  { id: "scarlet-witch", name: "Scarlet Witch", role: "Duelist", side: null, kit: ["Mystic Projection", "Telekinesis", "Reality Erasure"] },
+  { id: "spider-man", name: "Spider-Man", role: "Duelist", side: null, kit: ["Web-Cluster", "Get Over Here!", "Spectacular Spin"] },
+  { id: "squirrel-girl", name: "Squirrel Girl", role: "Duelist", side: null, kit: ["Mammal Bond", "Squirrel Tsunami", "Unbeatable Squirrel Tsunami"] },
+  { id: "star-lord", name: "Star-Lord", role: "Duelist", side: null, kit: ["Stellar Shift", "Blaster Barrage", "Galactic Legend"] },
+  { id: "storm", name: "Storm", role: "Duelist", side: null, kit: ["Wind Blade", "Goddess Boost", "Omega Hurricane"] },
+  { id: "winter-soldier", name: "Winter Soldier", role: "Duelist", side: null, kit: ["Trooper Bot", "Tainted Voltage", "Kraken Impact"] },
+  { id: "wolverine", name: "Wolverine", role: "Duelist", side: null, kit: ["Berserker Leap", "Vicious Rampage", "Last Stand"] },
+  { id: "human-torch", name: "Human Torch", role: "Duelist", side: null, kit: ["Plasma Body", "Scorching Trail", "Supernova"] },
+  { id: "mister-fantastic", name: "Mister Fantastic", role: "Duelist", side: null, kit: ["Reflexive Rubber", "Stretch Punch", "Brainiac Bounce"] },
+  { id: "adam-warlock", name: "Adam Warlock", role: "Strategist", side: null, kit: ["Avatar Life Stream", "Cosmic Cluster", "Karmic Revival"] },
+  { id: "cloak-and-dagger", name: "Cloak & Dagger", role: "Strategist", side: null, kit: ["Veil of Lightforce", "Dagger Storm", "Eternal Bond"] },
+  { id: "invisible-woman", name: "Invisible Woman", role: "Strategist", side: null, kit: ["Force Field", "Psionic Vortex", "Invisible Boundary"] },
+  { id: "jeff-the-land-shark", name: "Jeff the Land Shark", role: "Strategist", side: null, kit: ["Joyful Splash", "Hide and Seek", "It's Jeff!"] },
+  { id: "loki", name: "Loki", role: "Strategist", side: null, kit: ["Regeneration Domain", "Devious Exchange", "God of Mischief"] },
+  { id: "luna-snow", name: "Luna Snow", role: "Strategist", side: null, kit: ["Cryo Heart", "Absolute Zero", "Fate of Both Worlds"] },
+  { id: "mantis", name: "Mantis", role: "Strategist", side: null, kit: ["Nature's Soothing", "Spore Slumber", "Soul Resurgence"] },
+  { id: "rocket-raccoon", name: "Rocket Raccoon", role: "Strategist", side: null, kit: ["Repair Mode", "Jetpack Dash", "C.Y.A."] },
+  { id: "ultron", name: "Ultron", role: "Strategist", side: null, kit: ["Imperative Fix", "Encephalo-Ray", "Rage of Ultron"] },
+]
+
+export default CAST
