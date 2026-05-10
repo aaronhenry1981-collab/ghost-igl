@@ -214,12 +214,26 @@ async function main() {
     'ow2-gold-to-plat',
     'ow2-plat-to-diamond',
     // Apex
-    // 'apex-bronze-to-silver', 'apex-silver-to-gold', 'apex-gold-to-plat',
+    'apex-bronze-to-silver',
+    'apex-silver-to-gold',
+    'apex-gold-to-plat',
     // Marvel Rivals
-    // 'mvr-bronze-to-silver', 'mvr-silver-to-gold', 'mvr-gold-to-plat',
+    'mvr-bronze-to-silver',
+    'mvr-silver-to-gold',
+    'mvr-gold-to-plat',
     // Halo
-    // 'halo-bronze-to-silver', 'halo-silver-to-gold', 'halo-gold-to-plat',
-    // The Finals, CoD, Fortnite — added as posts ship
+    'halo-bronze-to-silver',
+    'halo-silver-to-gold',
+    'halo-gold-to-plat',
+    // The Finals
+    'finals-bronze-to-silver',
+    'finals-gold-to-plat',
+    // CoD
+    'cod-bronze-to-silver',
+    'cod-plat-to-diamond',
+    // Fortnite
+    'fn-bronze-to-silver',
+    'fn-plat-to-diamond',
   ]
   for (const slug of BLOG_SLUGS) {
     urls.push(urlEntry({
