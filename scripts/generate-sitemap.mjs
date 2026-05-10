@@ -1,0 +1,202 @@
+#!/usr/bin/env node
+// Regenerates public/sitemap.xml from the actual map data + static routes.
+// Previously this file was hand-maintained and drifted out of sync — now it's
+// part of the build step so every deploy has a fresh, correct sitemap.
+// Run: node scripts/generate-sitemap.mjs
+
+import { writeFileSync } from 'node:fs'
+import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import MAPS from '../src/data/maps.js'
+import STRATS from '../src/data/strats.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const ROOT = join(__dirname, '..')
+const OUT = join(ROOT, 'public', 'sitemap.xml')
+const SITE = 'https://r6coaching.com'
+
+const today = new Date().toISOString().slice(0, 10)
+
+const STATIC_URLS = [
+  { loc: '/', freq: 'weekly', pri: 1.0 },
+  { loc: '/#/auth', freq: 'monthly', pri: 0.6 },
+  { loc: '/#/strats', freq: 'weekly', pri: 0.9 },
+  { loc: '/#/operators', freq: 'weekly', pri: 0.9 },
+  { loc: '/#/meta', freq: 'weekly', pri: 0.8 },
+  { loc: '/#/vod', freq: 'monthly', pri: 0.8 },
+  { loc: '/#/download', freq: 'monthly', pri: 0.7 },
+  { loc: '/#/changelog', freq: 'weekly', pri: 0.5 },
+  { loc: '/#/terms', freq: 'yearly', pri: 0.3 },
+  { loc: '/#/privacy', freq: 'yearly', pri: 0.3 },
+  { loc: '/#/refund', freq: 'yearly', pri: 0.3 },
+  { loc: '/guides/', freq: 'weekly', pri: 0.9 },
+  { loc: '/guides/operators/', freq: 'weekly', pri: 0.9 },
+  { loc: '/guides/bans/', freq: 'weekly', pri: 0.8 },
+  { loc: '/blog/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/', freq: 'weekly', pri: 0.9 },
+  // Per-game landing pages — one per supported FPS, captures
+  // long-tail SEO ("CS2 strategy guide", "Valorant agent guide", etc.).
+  { loc: '/games/cs2/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/valorant/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/cod/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/apex/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/ow2/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/mvr/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/finals/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/halo/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/fn/', freq: 'weekly', pri: 0.85 },
+]
+
+// Per-game per-map landing pages. Local Claude generated 9 games' worth of
+// data; we expose each map as its own indexable URL — captures queries like
+// "CS2 Mirage strategy guide", "Valorant Bind callouts", "Apex Storm Point POIs",
+// etc. Adds ~73 URLs to the sitemap.
+async function getMultiGameMapUrls() {
+  const urls = []
+  try {
+    const { GAMES } = await import('../src/data/games/index.js')
+    for (const game of GAMES) {
+      if (game.id === 'r6') continue // R6 has its own /guides/ system
+      try {
+        const data = await game.load()
+        const maps = Array.isArray(data.MAPS) ? data.MAPS : Object.values(data.MAPS || {})
+        for (const m of maps) {
+          if (!m?.id) continue
+          urls.push({
+            loc: `/games/${game.id}/${m.id}.html`,
+            freq: 'monthly',
+            pri: 0.7,
+          })
+        }
+      } catch {
+        // Game data load failed; skip.
+      }
+    }
+  } catch {
+    // Multi-game registry not present yet; skip silently.
+  }
+  return urls
+}
+
+function urlEntry({ loc, freq, pri, lastmod }) {
+  return `  <url>
+    <loc>${SITE}${loc}</loc>
+    ${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}
+    <changefreq>${freq}</changefreq>
+    <priority>${pri.toFixed(1)}</priority>
+  </url>`
+}
+
+async function main() {
+  const urls = []
+  for (const u of STATIC_URLS) urls.push(urlEntry({ ...u, lastmod: today }))
+
+  // Per-map guide pages (only maps with strat data)
+  for (const map of MAPS) {
+    if (map.comingSoon) continue
+    if (!STRATS[map.id]) continue
+    urls.push(urlEntry({
+      loc: `/guides/${map.id}.html`,
+      freq: 'monthly',
+      pri: 0.8,
+      lastmod: today,
+    }))
+
+    // Per-site SEO pages — one per bomb site that has a strat. These target
+    // long-tail queries like "bank ceo defense strat" and dramatically expand
+    // the site's indexable surface (14 pages → ~70 pages).
+    for (const site of map.sites) {
+      if (!STRATS[map.id]?.[site.id]) continue
+      urls.push(urlEntry({
+        loc: `/guides/${map.id}/${site.id}.html`,
+        freq: 'monthly',
+        pri: 0.7,
+        lastmod: today,
+      }))
+    }
+  }
+
+  // Per-operator SEO pages — same long-tail capture pattern as per-site
+  // pages. "Thermite operator guide R6 Siege" is a real search query; this
+  // gives Google ~47 indexable operator pages with proper internal linking.
+  const operatorSet = new Set()
+  for (const mapId of Object.keys(STRATS)) {
+    for (const siteId of Object.keys(STRATS[mapId])) {
+      for (const side of ['attack', 'defense']) {
+        const ops = STRATS[mapId][siteId]?.[side]?.operators || []
+        for (const op of ops) operatorSet.add(op.name)
+      }
+    }
+  }
+  // Append multi-game per-map URLs from local Claude's data
+  const gameMapUrls = await getMultiGameMapUrls()
+  for (const u of gameMapUrls) urls.push(urlEntry({ ...u, lastmod: today }))
+
+  for (const opName of [...operatorSet].sort()) {
+    const slug = opName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    urls.push(urlEntry({
+      loc: `/guides/operators/${slug}.html`,
+      freq: 'monthly',
+      pri: 0.7,
+      lastmod: today,
+    }))
+  }
+
+  // Per-map ban guide pages — captures "best operators to ban on X" queries.
+  for (const map of MAPS) {
+    urls.push(urlEntry({
+      loc: `/guides/bans/${map.id}.html`,
+      freq: 'monthly',
+      pri: 0.7,
+      lastmod: today,
+    }))
+  }
+
+  // Blog rank-up posts — long-tail SEO targeting "how to rank up in <game>"
+  // queries. Slugs are stable; we can list them directly without rescanning
+  // the filesystem so the sitemap stays deterministic.
+  const BLOG_SLUGS = [
+    // R6
+    'r6-copper-to-bronze',
+    'r6-bronze-to-silver',
+    'r6-silver-to-gold',
+    'r6-gold-to-platinum',
+    'r6-platinum-to-emerald',
+    'r6-emerald-to-diamond',
+    'r6-diamond-to-champion',
+    // CS2 (added when posts ship)
+    // 'cs2-silver-to-nova', 'cs2-nova-to-mg', 'cs2-mg-to-dmg', 'cs2-dmg-to-le',
+    // 'cs2-le-to-lem', 'cs2-lem-to-supreme', 'cs2-supreme-to-global',
+    // Valorant
+    // 'valorant-iron-to-bronze', 'valorant-bronze-to-silver', 'valorant-silver-to-gold',
+    // 'valorant-gold-to-plat', 'valorant-plat-to-diamond', 'valorant-diamond-to-ascendant',
+    // 'valorant-ascendant-to-immortal',
+    // OW2
+    // 'ow2-bronze-to-silver', 'ow2-silver-to-gold', 'ow2-gold-to-plat', 'ow2-plat-to-diamond',
+    // Apex
+    // 'apex-bronze-to-silver', 'apex-silver-to-gold', 'apex-gold-to-plat',
+    // Marvel Rivals
+    // 'mvr-bronze-to-silver', 'mvr-silver-to-gold', 'mvr-gold-to-plat',
+    // Halo
+    // 'halo-bronze-to-silver', 'halo-silver-to-gold', 'halo-gold-to-plat',
+    // The Finals, CoD, Fortnite — added as posts ship
+  ]
+  for (const slug of BLOG_SLUGS) {
+    urls.push(urlEntry({
+      loc: `/blog/${slug}.html`,
+      freq: 'monthly',
+      pri: 0.7,
+      lastmod: today,
+    }))
+  }
+
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join('\n')}
+</urlset>
+`
+  writeFileSync(OUT, body, 'utf8')
+  console.log(`✓ Generated sitemap with ${urls.length} URLs`)
+}
+
+main()
