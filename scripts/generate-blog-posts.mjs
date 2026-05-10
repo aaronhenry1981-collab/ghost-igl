@@ -2339,13 +2339,434 @@ const VALORANT_POSTS = [
   },
 ]
 
+// ============================================================================
+// OW2 POSTS
+// ============================================================================
+// Overwatch 2 rank ladder: Bronze → Silver → Gold → Platinum → Diamond → Master
+// → Grandmaster → Top 500. 5v5 role-locked. Each post focuses on the
+// per-role tactical gap, comp synergy, and ult economy.
+
+const OW2_POSTS = [
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Bronze',
+    toRank: 'Silver',
+    slug: 'ow2-bronze-to-silver',
+    metaTitle: 'How to Climb from Bronze to Silver in Overwatch 2 (2026 Guide)',
+    metaDescription: 'OW2 Bronze-to-Silver — pick one role, master 2-3 heroes per role, crosshair placement, ult tracking, and the round-losing habits to drop first.',
+    intro: `<p>Bronze in Overwatch 2 is the foundation tier. Most Bronze players try to play every hero and master none. The Bronze-to-Silver climb is role specialization, hero-pool focus, and basic ult tracking.</p>`,
+    sections: [
+      {
+        heading: 'Pick one role and stick to it',
+        html: `<p>OW2 is 5v5 with locked roles: 1 Tank, 2 DPS, 2 Support. At Bronze, players queue Flex and play whatever role pops — never building real expertise. The fix:</p>
+<ul>
+  <li><strong>Pick the role you genuinely enjoy.</strong> Tank gets the most game-changing impact at Bronze. Support is the easiest to climb on if your aim is below average. DPS rewards pure mechanical skill.</li>
+  <li><strong>Queue role-specific only</strong> for 4 weeks. Don't queue Flex.</li>
+  <li><strong>Track win rate per role.</strong> If your DPS win rate is 35% but Support is 55%, the data tells you the role.</li>
+</ul>
+<p>By the end of 4 weeks of role-locked queue, you'll have 60+ matches of muscle memory on the same role. That's the foundation Silver-tier players have.</p>`,
+      },
+      {
+        heading: 'Master 2-3 heroes per role',
+        html: `<p>Pick 2-3 heroes total. Specifics by role:</p>
+<ul>
+  <li><strong>Tank:</strong> Reinhardt (brawl), Winston (dive), Orisa (anchor). Three archetypes — pick whichever the team comp needs.</li>
+  <li><strong>DPS:</strong> Soldier 76 (forgiving aim), Cassidy (CQB + ult), Pharah (vertical advantage on big maps).</li>
+  <li><strong>Support:</strong> Mercy (positional, simple kit), Lúcio (utility + healing), Ana (high skill ceiling but rewards practice).</li>
+</ul>
+<p>Bronze players one-trick a hero AND ignore the comp need. Silver players have a 2-3 hero pool and pick based on map + comp. Don't expand the pool until you're winning consistently with your three.</p>`,
+      },
+      {
+        heading: 'Crosshair placement at head height',
+        html: `<p>This is universal across FPS games. Walk through any map with your crosshair at chest height and you'll lose 70% of duels. Walk with the crosshair at head height (about 1/4 of the way down the screen) and your one-shot threshold drops dramatically.</p>
+<p>Specific habit: every corner you turn, your crosshair sits at the head height of where the enemy will appear. Most Bronze players aim at the floor.</p>
+<p>Practice in custom games with bots: walk a map with no enemies, focus on keeping crosshair at head height through every doorway and corner. After 10 sessions it's automatic.</p>`,
+      },
+      {
+        heading: 'Track enemy ult charges',
+        html: `<p>OW2 is an ult-driven game. By 1:30 into the round you should have a rough count of enemy ult availability:</p>
+<ul>
+  <li>Did the enemy Reinhardt use Earthshatter? They're 60-70 seconds from the next one.</li>
+  <li>Did the enemy Ana use Nano? They're 90 seconds out.</li>
+  <li>Did the enemy Tracer Pulse Bomb? Wait for it again at minute 2.</li>
+</ul>
+<p>Bronze players ignore enemy ults. Silver players track 1-2 ults. Gold players track all enemy ults at all times.</p>
+<p>Specific habit: when you die, watch the kill cam. Note which ults the enemy team has — call them out in voice chat or pings.</p>`,
+      },
+      {
+        heading: 'Don\'t throw your ult uncoordinated',
+        html: `<p>The biggest Bronze mistake: ulting alone into 5 enemies. Specifics:</p>
+<ul>
+  <li><strong>Reinhardt Earthshatter:</strong> only ult when teammates can follow up with damage ults (Pharah barrage, Soldier visor). Solo Earthshatter = 1 stun, 0 kills.</li>
+  <li><strong>Ana Nano:</strong> Nano the carry hero (DPS or Tank with damage ult). Don't Nano a Mercy.</li>
+  <li><strong>Cassidy Deadeye:</strong> Use it from cover, with team taking attention. Open-ground Deadeye = 0 kills, 1 dead Cassidy.</li>
+  <li><strong>Tracer Pulse:</strong> stick the Tank or grouped enemies. Don't stick a Tracer.</li>
+</ul>
+<p>The "ult coordination call" is what wins teamfights. If you don't say "Earthshatter ready" in voice and time it with your team, you're throwing the ult.</p>`,
+      },
+    ],
+    mistakes: [
+      'Queueing Flex — never specializing.',
+      'Hero pool of 8+ — no muscle memory on any.',
+      'Crosshair at chest height.',
+      'No ult tracking — surprise ults wipe you.',
+      'Solo ulting into 5 enemies.',
+      'Mercy boost on a Soldier instead of Pharah (boost the aerial).',
+      'Tank running ahead of supports (out of heal range).',
+    ],
+    drill: {
+      heading: 'Practice routine for week 1',
+      html: `<ul>
+  <li><strong>30 min Workshop aim training</strong> — there's a popular Workshop code (look up "AimBots") for hero-specific aim drills.</li>
+  <li><strong>5 ranked games per day</strong> on your chosen role with your 2-3 hero pool.</li>
+  <li><strong>1 VOD review per session</strong> — watch a high-rank player on your hero for 10 minutes after each session.</li>
+</ul>
+<p>If you commit to fundamentals — role specialization, small hero pool, head-height crosshair, ult tracking — you'll exit Bronze inside 3-4 weeks.</p>`,
+    },
+    aiVodMention: `<p>If you can't tell why team fights feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + ult timing mistakes per fight.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'ow2-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in Overwatch 2 (2026 Guide)',
+    metaDescription: 'Silver-to-Gold OW2 — comp archetypes (dive/poke/brawl), ult chains, high ground positioning, map-specific hero picks, and team fight reset reads.',
+    intro: `<p>Silver-to-Gold in OW2 is comp synergy. At Silver, players pick their main without checking team comp. At Gold, picks are based on the team's archetype: dive, poke, or brawl. Here's the leap.</p>`,
+    sections: [
+      {
+        heading: 'Recognize the three comp archetypes',
+        html: `<p>OW2 team comps fall into three archetypes:</p>
+<ul>
+  <li><strong>Dive comp:</strong> Winston + Tracer + Genji + Lúcio + Ana. Mobility-heavy, picks on supports, breaks position.</li>
+  <li><strong>Brawl comp:</strong> Reinhardt + Reaper + Mei + Brigitte + Lúcio. CQB-heavy, walks the team forward, wins close fights.</li>
+  <li><strong>Poke comp:</strong> Sigma + Hanzo + Widowmaker + Baptiste + Ana. Long-range, holds high ground, wins from distance.</li>
+</ul>
+<p>Pick a hero that fits the team's archetype. If your team has 4 dive heroes and you pick Bastion, you're throwing. If your team is brawl and you pick Widow, you're throwing.</p>
+<p>Quick check: when 4 players have locked, look at the comp. If 3+ are dive, pick dive. If 3+ are brawl, pick brawl.</p>`,
+      },
+      {
+        heading: 'Coordinated ult chains',
+        html: `<p>Ult chains are the highest-impact play in OW2:</p>
+<ul>
+  <li><strong>Grav + Dragon:</strong> Zarya Graviton Surge + Hanzo Dragonstrike. Standard team-wipe combo.</li>
+  <li><strong>Nano + Blade:</strong> Ana Nano on Genji Dragonblade. 4 kills on average.</li>
+  <li><strong>Earthshatter + Visor:</strong> Reinhardt shatter + Soldier 76 visor. Picks 3-4 stunned enemies.</li>
+  <li><strong>Self-Destruct + Whole Hog:</strong> D.Va bomb + Roadhog ult. Forces enemy into chokepoint.</li>
+</ul>
+<p>The chain timing: ult 1 lands, ult 2 fires within 1 second. Practice these in scrims or Mystery Heroes warm-up. Silver teams ult independently and waste them; Gold teams chain ults and win the fight.</p>`,
+      },
+      {
+        heading: 'High ground positioning by map',
+        html: `<p>Every OW2 map has high ground that controls the team fight. Specifics:</p>
+<ul>
+  <li><strong>King's Row Statue:</strong> hold from Big Window or Roof — long sightline to the choke.</li>
+  <li><strong>Eichenwalde Townsquare:</strong> Tavern roof or Bridge gives Pharah/Hanzo angles.</li>
+  <li><strong>Ilios Lighthouse:</strong> spiral stairs high ground = control of the entire point.</li>
+  <li><strong>Antarctic Peninsula Icebreaker:</strong> Crow's Nest is the dominant angle.</li>
+</ul>
+<p>Gold players take high ground first; Silver players brawl for the point. The team holding high ground wins the fight 65%+ of the time.</p>`,
+      },
+      {
+        heading: 'Map-specific hero picks',
+        html: `<p>The strongest hero by map (Gold-tier reads):</p>
+<ul>
+  <li><strong>Big maps (Havana, Junkertown):</strong> Pharah/Echo for vertical, Bastion for setup pieces.</li>
+  <li><strong>Tight chokes (Hanamura, Volskaya):</strong> Mei (wall + freeze), Reinhardt (brawl walk).</li>
+  <li><strong>Vertical maps (Numbani, Rialto):</strong> Pharah dominant if no hitscan counter.</li>
+  <li><strong>Indoor sections (Dorado finals, Ilios Well):</strong> Reaper, Mei, brawl heroes.</li>
+</ul>
+<p>If your team has Pharah on a tight indoor map, swap. If your team has Reinhardt on Havana, swap. Map-specific picks are the Gold differentiator.</p>`,
+      },
+      {
+        heading: 'Team fight reset reads',
+        html: `<p>After a wipe (yours or theirs), there's a 25-second window to regroup. Specifics:</p>
+<ul>
+  <li>If you wiped, the enemy has 5+ second ult advantage. Don't trickle in — wait for the team and fight together.</li>
+  <li>If they wiped, push the objective NOW. They'll arrive piecemeal; pick them off.</li>
+  <li>If both teams wiped (overtime), the team that respawns closer wins. Read the spawn distances.</li>
+</ul>
+<p>Silver players trickle in solo and feed. Gold players read the wipe state and regroup or push together.</p>`,
+      },
+      {
+        heading: 'Spawn timing reads on payload maps',
+        html: `<p>On Escort and Hybrid maps, defender spawn times shift as the payload progresses. Specifics:</p>
+<ul>
+  <li>Defender spawn after each payload checkpoint moves 5-8 seconds further away. Track this — your push window grows.</li>
+  <li>Attacker spawn stays roughly constant. Your trickle-in mechanics matter less if defenders take longer to return.</li>
+  <li>On the final checkpoint, defender spawn is right next to the objective. Don't engage 1v5; wait for your team.</li>
+</ul>
+<p>Gold players know spawn timings; Silver players don't. The 5-second spawn advantage on Point B vs Point A is the difference between winning and losing the fight.</p>`,
+      },
+    ],
+    mistakes: [
+      'Picking your main against comp need.',
+      'Solo ulting (not chaining).',
+      'Brawling for the point without taking high ground first.',
+      'Wrong hero for the map type.',
+      'Trickling in after a wipe.',
+      'Mercy pocketing the wrong target.',
+      'Tank charging without supports in range.',
+      'Engaging at final spawn distance — defenders return in 5 seconds.',
+    ],
+    drill: {
+      heading: 'Drill: 3-comp archetype practice',
+      html: `<p>Play 5 games with each comp archetype (15 games total):</p>
+<ul>
+  <li>5 dive games: Winston + Tracer + Lúcio + Ana.</li>
+  <li>5 brawl games: Reinhardt + Reaper + Mei + Lúcio + Ana.</li>
+  <li>5 poke games: Sigma + Hanzo + Widow + Bap + Mercy.</li>
+</ul>
+<p>Even if you're flexing, you'll learn how each comp wins the fight. After 15 games you'll auto-recognize comps from the round 1 lock-in screen.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy — useful for spotting "I should have switched" moments.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/ow2-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Gold',
+    toRank: 'Platinum',
+    slug: 'ow2-gold-to-plat',
+    metaTitle: 'How to Climb from Gold to Platinum in Overwatch 2 (2026 Guide)',
+    metaDescription: 'Gold-to-Plat in OW2 — counter-pick reads, Nano-blade and Grav-Dragon timings, defending high ground, ult economy across multiple fights, and comm discipline.',
+    intro: `<p>At Gold-to-Plat, the meta starts mattering. You're playing against people who counter-pick your hero, time their ults precisely, and defend high ground actively. Here's the meta-aware climb.</p>`,
+    sections: [
+      {
+        heading: 'Read enemy comp and counter-pick',
+        html: `<p>Round 1 you see the enemy lock-in. Use it:</p>
+<ul>
+  <li>Enemy Pharah → swap to Soldier 76, Ashe, or Cassidy. Hitscan beats vertical.</li>
+  <li>Enemy Doomfist → swap to Cassidy or Brig. Stun shuts down dive.</li>
+  <li>Enemy Bastion in setup → swap to Genji deflect or Sombra hack.</li>
+  <li>Enemy Widowmaker → swap to Winston or D.Va. Force her off the angle.</li>
+</ul>
+<p>Counter-picks aren't optional at Plat. If you ignore the enemy team's comp, you lose comp diff. Plat players check enemy comp every round and adjust.</p>`,
+      },
+      {
+        heading: 'Coordinated ult combos with timing',
+        html: `<p>Plat-tier ult chains:</p>
+<ul>
+  <li><strong>Grav-Dragon:</strong> Zarya Graviton lands, Hanzo Dragonstrike fires within 1 second. 4-5 kills.</li>
+  <li><strong>Nano-Blade:</strong> Ana Nano-boosts Genji's Dragonblade. Genji clears the back-line in 4 swings.</li>
+  <li><strong>Sound Barrier reset:</strong> Lúcio Sound Barrier as the team takes incoming ult damage. Saves the team for re-engage.</li>
+  <li><strong>Trans + Coalescence:</strong> Zenyatta Trans + Moira Coalescence stacked = unkillable team for 5 seconds.</li>
+</ul>
+<p>The combo timing is 1-second windows. Practice in scrims with voice comm: "Grav in 3, 2, 1." Each ult fires on the count.</p>`,
+      },
+      {
+        heading: 'Defending high ground actively',
+        html: `<p>At Gold, players take high ground and stay there passively. At Plat, defenders actively defend high ground:</p>
+<ul>
+  <li>If the enemy Tank tries to pressure your high ground (Winston jump, D.Va boost), the supports peel back to mid-line and the DPS rotates.</li>
+  <li>If the enemy Pharah pressures, the hitscan player swaps to Soldier or Cassidy.</li>
+  <li>If the enemy uses a flanker (Tracer, Sombra), the Brigitte or Mei holds the back line.</li>
+</ul>
+<p>Passive high ground is bait. Active high ground is a winning fight every time.</p>`,
+      },
+      {
+        heading: 'Ult economy across multiple team fights',
+        html: `<p>OW2 has ~3 team fights per round on most modes. Plat-tier teams budget ults across the fights:</p>
+<ul>
+  <li>Fight 1: maybe use 2 ults (e.g., Earthshatter + Nano).</li>
+  <li>Fight 2: hold ults, use only 1 if forced.</li>
+  <li>Fight 3 (overtime): commit all remaining ults for the win.</li>
+</ul>
+<p>Gold teams blow all ults fight 1, then fight 2-3 with no ult advantage. Plat teams hold ults for the round-deciding fight.</p>`,
+      },
+      {
+        heading: 'Communication discipline at Plat',
+        html: `<p>Plat comms are short, decisive, and ult-focused:</p>
+<ul>
+  <li>"Earthshatter ready" — call ult availability.</li>
+  <li>"Grav in 3, 2, 1" — call combo execution.</li>
+  <li>"Pharah on flank, swap" — call counter-pick.</li>
+  <li>"They wiped, push" — call tempo.</li>
+</ul>
+<p>Gold comms include commentary ("they're so good, what's our chance?"). Plat comms only contain decisions and information. Train this — it's the biggest comm differentiator.</p>`,
+      },
+      {
+        heading: 'Anti-flank coverage and back-line protection',
+        html: `<p>Flankers (Tracer, Sombra, Genji) win Gold rounds by killing supports. Plat teams cover the back line:</p>
+<ul>
+  <li>Brigitte or Mei plays mid-line, peels for supports on flank pings.</li>
+  <li>Cassidy holds an angle that watches the standard flank routes.</li>
+  <li>Supports stick within 8m of each other for cross-heal cover.</li>
+  <li>Mercy uses Guardian Angel to escape, not to engage solo.</li>
+</ul>
+<p>If the enemy Tracer is wiping your supports every fight, swap a DPS to Cassidy or Soldier and post on the flank. Gold ignores flanker damage; Plat actively counters.</p>`,
+      },
+      {
+        heading: 'Map-specific ult priority',
+        html: `<p>Different maps reward different ults more than others:</p>
+<ul>
+  <li><strong>King's Row Point A:</strong> Earthshatter into the choke wins the round. Highest priority ult.</li>
+  <li><strong>Junkertown payload 2:</strong> Pharah Barrage from above payload destroys the team. High priority.</li>
+  <li><strong>Ilios Lighthouse:</strong> Lúcio knock-off ult (Sound Barrier doesn't apply) — Reinhardt charge is the win.</li>
+  <li><strong>Hanaoka Point 3 (Mid):</strong> Grav-Dragon combo wins the team fight 80%+ of the time.</li>
+</ul>
+<p>Plat teams plan ults around map-specific priorities. Gold teams blow ults the moment they're available regardless of map.</p>`,
+      },
+    ],
+    mistakes: [
+      'Mains-only — refusing to counter-pick.',
+      'Solo ulting (no combo).',
+      'Passive high ground (taking it then sitting).',
+      'No ult budget across fights.',
+      'Comms full of commentary, not decisions.',
+      'No back-line peel for flanker damage.',
+      'Wrong ult priority for the map (using Earthshatter on a knockoff map).',
+    ],
+    drill: {
+      heading: 'Drill: 5-game counter-pick exercise',
+      html: `<p>Play 5 games where you commit to swapping heroes when the enemy counter-picks you. Track:</p>
+<ul>
+  <li>How many times you swapped per match (target: 2-3 swaps minimum if enemy comp shifts).</li>
+  <li>Which counter-picks you used and whether they fixed the matchup.</li>
+  <li>Did your swap teach you a new hero in your role pool?</li>
+</ul>
+<p>By game 5 you'll have 10+ counter-pick scenarios under your belt. Apply in ranked. The swap habit is the Plat-to-Diamond bridge — it's worth more rank than mechanical aim improvement at this stage.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your hero swap timing and flags rounds where you should have counter-picked but didn't.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'ow2-plat-to-diamond',
+    metaTitle: 'How to Climb from Platinum to Diamond in Overwatch 2 (2026 Guide)',
+    metaDescription: 'Plat-to-Diamond OW2 — round-by-round counter-picks, healing ult timing, overtime double-fight reads, comp swaps mid-match, and pro VOD prep.',
+    intro: `<p>Platinum players have comp synergy. Diamond players adapt round-by-round, time healing ults precisely, and read overtime double-fights. The leap is in-match adaptation.</p>`,
+    sections: [
+      {
+        heading: 'Counter-picks per round, not per match',
+        html: `<p>Plat teams pick at round start and run the same comp. Diamond teams adapt per round:</p>
+<ul>
+  <li>If you won round 1 with dive comp → enemy will swap to anti-dive (Brig, Cassidy). Be ready to swap to brawl for round 2.</li>
+  <li>If you lost round 1 to brawl → swap to poke comp for round 2 (out-range them).</li>
+  <li>If the enemy's main DPS dies first round 2 → they're vulnerable. Push aggressive round 3.</li>
+</ul>
+<p>Diamond IGLs call hero swaps every round. Plat teams stick with what worked round 1 and lose round 3 because the enemy adapted.</p>`,
+      },
+      {
+        heading: 'Healing ult timing',
+        html: `<p>Healing ults (Trans, Coalescence, Sound Barrier, Valkyrie) are the round-savers. Diamond timing:</p>
+<ul>
+  <li><strong>Trans (Zenyatta):</strong> use to absorb enemy damage ult (Earthshatter, Dragon, Nano-Blade). Don't use it for chip damage.</li>
+  <li><strong>Sound Barrier (Lúcio):</strong> use as the team takes ult damage. Saves 4-5 HP per teammate.</li>
+  <li><strong>Coalescence (Moira):</strong> use as a re-engage ult, not as a desperate save.</li>
+  <li><strong>Valkyrie (Mercy):</strong> use to spread heals across multiple targets. Don't pocket a single target.</li>
+</ul>
+<p>Plat supports use healing ults reactively (after teammates take damage). Diamond supports use them anticipatively (before the enemy ult lands).</p>`,
+      },
+      {
+        heading: 'Overtime double-fight reads',
+        html: `<p>Overtime in OW2 frequently has a "double fight" — both teams wipe and the second wave determines the round. Diamond reads:</p>
+<ul>
+  <li>If both teams wipe, the team that respawns closer wins the contest. Read spawn distances.</li>
+  <li>If you have ults remaining, push immediately. They probably don't.</li>
+  <li>If you don't have ults, hold spawn-side high ground and force them to over-extend.</li>
+  <li>If overtime is at 0 remaining, every fight is round-ending. Don't trickle.</li>
+</ul>
+<p>Plat teams trickle into overtime fights. Diamond teams group up and contest as 5.</p>`,
+      },
+      {
+        heading: 'Comp swaps mid-match based on map type',
+        html: `<p>Diamond IGLs swap comps mid-match based on map progression:</p>
+<ul>
+  <li><strong>King's Row:</strong> Point A favors brawl (tight choke), Point B favors poke (open street), final favors dive (back-line targets).</li>
+  <li><strong>Junkertown:</strong> First payload section favors poke, second favors brawl, third favors dive (Mercy carry).</li>
+  <li><strong>Ilios Well:</strong> Always brawl; close-range knockoffs are the win condition.</li>
+</ul>
+<p>If your comp doesn't fit the map section, swap. Plat teams stick with what worked at Point A even when Point B demands a different comp.</p>`,
+      },
+      {
+        heading: 'Pro-VOD watching as practice',
+        html: `<p>Watch one tier-1 OWCS match per day. Pause every minute. Predict the call. Was it a counter-pick? An ult chain? A regroup?</p>
+<p>By VOD 30 you'll start anticipating decisions. The macro decisions at this tier are what you're absorbing — aim is already at Plat-tier.</p>
+<p>Recommended VODs: OWCS finals, regional finals. Watch with the "pause and predict" method.</p>`,
+      },
+      {
+        heading: 'Tilt management between rounds',
+        html: `<p>Plat players tilt-stack into 3-round losing streaks. Diamond players reset every round. The technique:</p>
+<ul>
+  <li>30-second box breath between rounds (in 4, hold 4, out 4, hold 4). Drops heart rate from 95+ BPM (tilted) to 70 BPM (focused).</li>
+  <li>If you lose 2 rounds in a row, IGL calls for a comp swap. The mental break + the new picks reset both pieces.</li>
+  <li>If a teammate is tilting visibly (callouts in caps, blame in voice), don't escalate. Quick "you got this, swap heroes" defuses tilt better than silence.</li>
+</ul>
+<p>Diamond+ teams have tilt protocols. Plat teams don't and lose the second half.</p>`,
+      },
+      {
+        heading: 'Reading enemy team economy',
+        html: `<p>Track enemy ult charges across the entire match, not just round-to-round. By round 5 of a long match you should know:</p>
+<ul>
+  <li>Enemy total ults available right now (rough count from kill cam observations).</li>
+  <li>Enemy DPS ult cycle (used round 2, will have it again round 5).</li>
+  <li>Enemy Tank ult cycle (used round 3, will have it round 6).</li>
+  <li>Enemy Support ults — most important, they're the round-savers.</li>
+</ul>
+<p>Diamond teams plan engages around enemy ult availability. If the enemy has 5 ults, hold defensive position. If they have 0, push aggressively. Plat teams ignore this and lose ult diff fights.</p>`,
+      },
+    ],
+    mistakes: [
+      'Same comp every round.',
+      'Healing ults used reactively, not anticipatively.',
+      'Trickling into overtime fights.',
+      'No comp swap based on map section.',
+      'No pro VOD prep.',
+      'Tilt-stacks into 3-round losing streaks.',
+      'No ult tracking on enemy team across rounds.',
+    ],
+    drill: {
+      heading: 'Drill: 30 days of pro VOD-per-day',
+      html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match. By day 30 you'll have 30 specific patterns memorized.</p>
+<p>Examples: "OWCS team uses Sound Barrier on the regroup, not the engage." "Pro IGL always swaps tank from Reinhardt to Sigma between Point A and B on King's Row."</p>`,
+    },
+    aiVodMention: `<p>At Diamond, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Junkertown Guide', url: '/games/ow2/junkertown.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+]
+
 // ---------- MAIN ----------
 
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // Stage 3: R6 + CS2 + Valorant. Other games added in subsequent commits.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS]
+  // Stage 4: R6 + CS2 + Valorant + OW2. Other games added in subsequent commits.
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -2362,4 +2783,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, htmlShell, renderPost, renderIndex }
