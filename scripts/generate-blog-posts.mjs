@@ -3382,6 +3382,283 @@ const MVR_POSTS = [
 ]
 
 // ============================================================================
+// MVR HIGH-TIER POSTS (3)
+// ============================================================================
+const MVR_POSTS_HIGH = [
+  {
+    game: 'mvr',
+    gameLabel: 'Marvel Rivals',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'mvr-plat-to-diamond',
+    metaTitle: 'How to Climb from Platinum to Diamond in Marvel Rivals (2026 Guide)',
+    metaDescription: 'MVR Plat-to-Diamond — mid-fight counter-picks, healing-ult anticipation, comp-archetype mastery, anti-stack reads, team-up combo discipline, and pro VOD prep.',
+    intro: `<p>Plat players have comp synergy. Diamond players adapt mid-fight, time healing ults before damage lands, and read enemy comp by round 2. The leap is in-fight adaptation, not just round-by-round picks.</p>`,
+    sections: [
+      { heading: 'Mid-fight counter-picks — swap during the fight', html: `<p>Plat IGLs call counter-picks at round start. Diamond IGLs swap heroes DURING a fight if the matchup tilts. Specifics:</p>
+<ul>
+  <li>Your Vanguard is being shut down by enemy Magneto bubble → mid-fight swap to Doctor Strange (portal to back-line) or Thor (mobility).</li>
+  <li>Enemy Hela is carrying → mid-fight swap to Iron Man / Hawkeye / Punisher to shut down ranged DPS.</li>
+  <li>Enemy is running 3 Strategists for sustain → swap your Duelist to a burst pick (Spider-Man, Magik, Iron Fist) to cut through heals.</li>
+</ul>
+<p>Diamond IGLs make 4-6 hero swaps per match. Plat IGLs make 1-2. The mid-fight swap is the biggest single climb lever at this elo.</p>` },
+      { heading: 'Healing-ult anticipation', html: `<p>Plat Strategists use ults reactively. Diamond Strategists time them 1-2 seconds BEFORE enemy damage ult lands.</p>
+<ul>
+  <li>Enemy Hela charges ult → pre-emptive Cloak & Dagger Veil for the team.</li>
+  <li>Enemy Strange portal opens → Adam Warlock revive ready for the wipe-and-revive.</li>
+  <li>Enemy Iron Man Gamma Overdrive → Luna Snow ult to sustain through the burst.</li>
+</ul>
+<p>Anticipation requires tracking enemy ult charges constantly. Most Plat Strategists forget. Diamond Strategists never forget.</p>` },
+      { heading: 'Comp-archetype mastery', html: `<p>Diamond teams know which comp wins which map type:</p>
+<ul>
+  <li><strong>Convoy maps:</strong> brawl comp (Reinhardt-style Vanguards + close-range Duelists). Walk the payload as a unit.</li>
+  <li><strong>Convergence maps:</strong> mixed comp — Duelists for cap, Vanguards for hold. Adapt mid-round.</li>
+  <li><strong>Domination maps:</strong> poke comp (long-range Duelists like Hela + Punisher) for point control.</li>
+</ul>
+<p>If your team's running brawl on a Domination map, swap. Comp synergy beats individual hero preference every time.</p>` },
+      { heading: 'Anti-stack reads — punish bunched enemies', html: `<p>If enemy team stacks 4 on point A, point B is undefended. Diamond counter:</p>
+<ul>
+  <li>Fake A with 2 utility (smoke + flash), pull rotators.</li>
+  <li>Quick rotate to B with 4 players. The 1-2 enemy at B can't hold against 4.</li>
+  <li>Cap fast. Rotators caught between sites.</li>
+</ul>
+<p>The read happens through droning A early. Plat teams commit to the called site even when info contradicts. Diamond teams audible mid-round.</p>` },
+      { heading: 'Team-up combo discipline', html: `<p>MVR has hero pair bonuses. Diamond teams pick around them:</p>
+<ul>
+  <li><strong>Hulk + Iron Man:</strong> damage boost on each other.</li>
+  <li><strong>Doctor Strange + Magik:</strong> portal synergy for entry.</li>
+  <li><strong>Luna Snow + Hawkeye/Iron Fist:</strong> stat bonuses.</li>
+  <li><strong>Storm + Human Torch:</strong> elemental combo.</li>
+</ul>
+<p>If you're playing without checking team-up combos, you're leaving 5-10% damage on the table per fight. Plat ignores this. Diamond builds comp around it.</p>` },
+      { heading: 'Tilt management between rounds', html: `<p>Diamond players reset every round. Tilt protocol:</p>
+<ul>
+  <li>30-second box breath between rounds (in 4, hold 4, out 4, hold 4). Heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you tilt-stack 3 losses, end the session. Don't grind through tilt at this elo.</li>
+  <li>Don't blame teammates. Quick "you got this, swap heroes" defuses tilt better than silence.</li>
+</ul>
+<p>Diamond+ teams have tilt protocols. Plat teams don't and lose the second half.</p>` },
+      { heading: 'Pro VOD prep — tournament patterns', html: `<p>Watch one tier-1 MVR tournament match per day. Pause every minute. Predict the call.</p>
+<p>By VOD 30 you'll absorb pro-tier macro: ult chain timing, comp swaps mid-match, healing-ult anticipation. Recommended VODs: Ignite Tournament finals, regional MVR pro events.</p>` },
+      { heading: 'Communication discipline at high elo', html: `<p>Plat comms include commentary. Diamond comms are short and decisive:</p>
+<ul>
+  <li>"Hela ult ready" — call ult availability.</li>
+  <li>"Their Strange portal up, fall back" — call counter-ult.</li>
+  <li>"Pushing on count, 3, 2, 1" — synced engage call.</li>
+  <li>"My HP is 30, falling back" — call your own state.</li>
+</ul>
+<p>NOT "I think we should push, what do you think?" Information only — what changes a teammate's decision. The comm discipline is the single biggest non-mechanical Diamond differentiator.</p>` },
+    ],
+    mistakes: [
+      'Hero swaps only at round start, not mid-fight.',
+      'Healing ults reactive, not anticipative.',
+      'Comp archetype mismatch (brawl on Domination map).',
+      'No anti-stack reads.',
+      'Ignoring team-up combos.',
+      'Tilt-stacking 3+ rounds.',
+      'No pro VOD prep.',
+      'Comms full of commentary, not decisions.',
+    ],
+    drill: { heading: 'Drill: 5-game team-up combo audit', html: `<p>5 ranked games. Pre-match, identify which 2-3 hero pairs in your team comp have team-up bonuses. Post-match, check whether you actually picked complementary heroes.</p><p>By game 5 you'll auto-pick around team-up combos in lobby — the Diamond differentiator that Plat IGLs ignore.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your hero-swap timing and team-up combo usage across matches. Useful for spotting the Plat plateau pattern of "stuck on main hero through whole match" that Diamond mid-fight swaps solve.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/mvr-gold-to-plat.html' },
+      { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
+      { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
+      { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'mvr',
+    gameLabel: 'Marvel Rivals',
+    fromRank: 'Diamond',
+    toRank: 'Grandmaster',
+    slug: 'mvr-diamond-to-gm',
+    metaTitle: 'How to Climb from Diamond to Grandmaster in Marvel Rivals (2026 Guide)',
+    metaDescription: 'MVR Diamond-to-GM — top-tier mental discipline, mechanical aim consistency, hero pool depth, match-to-match macro reads, and 100+ pattern pro VOD library.',
+    intro: `<p>Diamond is high-elo in MVR. Grandmaster is top 1%. The gap is mental discipline at the high-pressure rounds, mechanical aim at the ceiling, and hero pool depth that lets you cover any meta swap. Here's the climb.</p>`,
+    sections: [
+      { heading: 'Top-1% mental discipline', html: `<p>GM matches are 30+ minutes of high-pressure decisions. Mental discipline:</p>
+<ul>
+  <li>2-second mental reset between deaths. Same crosshair, same default, same focus. No commentary.</li>
+  <li>If you tilt-stack 2 losses, end the session.</li>
+  <li>Don't blame teammates in voice. GM players solve; Diamond players blame.</li>
+  <li>Track session win rate. Below 50%, end session — your performance compounds badly past that point.</li>
+</ul>
+<p>The reset discipline is what separates GM consistency from Diamond volatility. Most plateaued Diamonds have the mechanics but lose 4-round streaks to tilt.</p>` },
+      { heading: 'Mechanical aim at the ceiling', html: `<p>GM aim benchmarks per role:</p>
+<ul>
+  <li>Duelist (Hela, Punisher): 35%+ headshot rate.</li>
+  <li>Iron Man / Storm: 50%+ projectile accuracy on moving targets.</li>
+  <li>Hawkeye: 40%+ headshot rate at long range.</li>
+  <li>Strategist (Mantis Sleep, Cloak Dagger): 50%+ utility hit rate.</li>
+</ul>
+<p>Daily aim regimen: 30 min Aim Lab + 30 min MVR practice + 30 min hero-specific scenario. Track headshot rate weekly.</p>` },
+      { heading: 'Hero pool depth — 5+ per role', html: `<p>Diamond players have 2-3 heroes per role. GM players have 5+. Why: meta swaps and counter-picks demand fluency.</p>
+<p>Specific GM hero pools:</p>
+<ul>
+  <li>Vanguard: Doctor Strange, Magneto, Hulk, Thor, Venom (match-up dependent).</li>
+  <li>Duelist: Hela, Punisher, Black Panther, Iron Man, Hawkeye, Storm, Spider-Man.</li>
+  <li>Strategist: Mantis, Luna Snow, Adam Warlock, Cloak & Dagger, Invisible Woman.</li>
+</ul>
+<p>If you're 2-trick at Diamond, expand the pool BEFORE chasing GM. The 4-round counter-pick window demands flexibility.</p>` },
+      { heading: 'Match-to-match macro reads', html: `<p>GM teams play match-to-match, not round-to-round. Specifics:</p>
+<ul>
+  <li>Round 1-3: probe enemy comp + ult patterns.</li>
+  <li>Round 4-6: pick best counter-strat from probe data.</li>
+  <li>Round 7+: lock in winning pattern.</li>
+</ul>
+<p>Diamond teams play round-to-round. GM teams play match-to-match. The 12-round vision is what wins overtime games.</p>` },
+      { heading: 'Pro VOD library at scale — 100+ patterns', html: `<p>By GM, you should have absorbed 100+ specific pro patterns. Watch one tier-1 match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize standard comps from round 1 lock-in.</li>
+  <li>You predict ult chains 5+ seconds before they fire.</li>
+  <li>You read healing-ult timing windows by matching pro patterns.</li>
+  <li>You know which maps favor brawl vs poke vs dive comps.</li>
+</ul>
+<p>Recommended VODs: tier-1 MVR tournaments, regional finals. Avoid casual content.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>GM players tune sensitivity to body type and hand speed:</p>
+<ul>
+  <li>800-1600 DPI is standard. Higher DPI = faster flicks but less precision.</li>
+  <li>Sensitivity in cm/360°: 30-50cm for Duelists, 20-30cm for projectile-heavy heroes.</li>
+  <li>FOV: max in-game.</li>
+  <li>Crosshair: bright cyan or yellow.</li>
+</ul>
+<p>If you're using default settings, you're playing at a mechanical disadvantage. Spend a week dialing in.</p>` },
+      { heading: 'Veto strategy and queue optimization', html: `<p>By Diamond you have win-rate data per map. GM uses it strategically:</p>
+<ul>
+  <li>Toggle off bottom 3 maps in queue settings.</li>
+  <li>Track win rate weekly. If a strong map drops below 50%, study pro VODs of it before queueing again.</li>
+  <li>Focus practice on top 4-5 strongest maps.</li>
+</ul>
+<p>Veto + practice focus compounds across a season. Diamonds who veto strategically gain 30%+ more rank per session.</p>` },
+      { heading: 'Tilt protocols at the high-pressure rounds', html: `<p>Round 13+ is where MVR matches are decided. Specific tilt protocols:</p>
+<ul>
+  <li>Between rounds, 4-second box breath. Heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you lose 2 in a row, IGL calls "default round" — no trick play, just fundamentals. Resets the team's mental.</li>
+  <li>If you lose 3 in a row, IGL calls a hero swap if anyone's tilting visibly. The swap is more valuable than 1 round of frags.</li>
+</ul>
+<p>GM teams have this protocol. Diamond teams tilt-stack into 6-round losing streaks.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches.',
+      'Aim ceiling at Diamond benchmarks instead of GM.',
+      'Hero pool of 2-3 per role.',
+      'Round-to-round play instead of match-to-match macro.',
+      'Pro VOD library at 30 patterns, not 100+.',
+      'Default sensitivity / FOV.',
+      'No queue veto.',
+      'No tilt protocol for round 13+.',
+    ],
+    drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, healing per game (Strategists), damage per game (Duelists). If numbers plateau before day 90, fix sensitivity or ergonomics first before continuing.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation patterns against tier-1 reads — flags rounds where you should have swapped comp but didn't. The Diamond plateau pattern that GM macro discipline solves. Recon+ also reads ult timing across the full match — useful for spotting whether your healing-ult anticipation actually beats the enemy damage ult window.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/mvr-plat-to-diamond.html' },
+      { name: 'How to Climb from GM to Celestial', url: '/blog/mvr-gm-to-celestial.html' },
+      { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
+      { name: 'MVR Wakanda Guide', url: '/games/mvr/birnin-tchalla.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'mvr',
+    gameLabel: 'Marvel Rivals',
+    fromRank: 'Grandmaster',
+    toRank: 'Celestial',
+    slug: 'mvr-gm-to-celestial',
+    metaTitle: 'How to Climb from Grandmaster to Celestial in Marvel Rivals (2026 Guide)',
+    metaDescription: 'MVR GM-to-Celestial — top-0.5% macro round structure, mechanical aim at the ceiling, enemy emotional reads, full-pool hero fluency, and tournament-tier comm discipline.',
+    intro: `<p>GM is top 1% in MVR. Celestial is top 0.3%. The gap is macro round structure across full matches, mechanical aim at the ceiling, and tournament-tier comm discipline that converts close losses into close wins.</p>`,
+    sections: [
+      { heading: 'Macro round structure across full matches', html: `<p>Celestial teams script the match across all rounds:</p>
+<ul>
+  <li>Rounds 1-3: probe enemy comp + ult patterns.</li>
+  <li>Rounds 4-6: pick best counter-strat based on probe data.</li>
+  <li>Rounds 7-9: lock in winning pattern.</li>
+  <li>Rounds 10+: counter-counter-strats based on enemy adaptation.</li>
+</ul>
+<p>GM teams play round-to-round. Celestial teams play match-to-match with the script in mind.</p>` },
+      { heading: 'Mechanical reset discipline every round', html: `<p>At Celestial, you will get one-shot from spawn unfairly. You will lose a 1v3. The Celestial difference is reset. Every round.</p>
+<p>2-second mental reset between deaths. No commentary. Same crosshair, same default position. The reset is what 0.3% of MVR players have. Most who reach GM can't reset; they tilt round 14+ and lose the half.</p>` },
+      { heading: 'Pro-aim consistency at the ceiling', html: `<p>Specific Celestial benchmarks:</p>
+<ul>
+  <li>Duelist headshot rate: 38%+.</li>
+  <li>Projectile accuracy (Iron Man, Storm): 55%+ on moving targets.</li>
+  <li>Strategist utility hit rate: 55%+ Mantis sleep, 50%+ Cloak Dagger pierce.</li>
+</ul>
+<p>If your numbers are below these, you have an aim ceiling blocking the climb. Drill: 1 hour daily of focused aim. Track weekly.</p>` },
+      { heading: 'Enemy emotional reads', html: `<p>By round 14 you should know if the enemy team is frustrated or focused. Specific signals:</p>
+<ul>
+  <li>Callout volume drops when focused, rises when tilting.</li>
+  <li>Utility usage gets sloppier when tilting.</li>
+  <li>Hero swaps become panic-picks instead of strategic.</li>
+</ul>
+<p>Celestial IGLs read this and call counter-strats that exploit tilt. Standard: when enemy is tilting, run safe defaults — they'll over-extend trying to make a play.</p>` },
+      { heading: 'Full-pool hero fluency — 6+ per role', html: `<p>Celestial players have 6+ heroes per role. Why: meta swaps and counter-pick demands.</p>
+<ul>
+  <li>Vanguard pool: Strange, Magneto, Hulk, Thor, Venom, Cap America, Groot, Peni.</li>
+  <li>Duelist pool: Hela, Punisher, Iron Man, Hawkeye, Storm, Spider-Man, Magik, Psylocke, Black Panther.</li>
+  <li>Strategist pool: Mantis, Luna, Adam Warlock, Cloak Dagger, Invisible Woman, Rocket, Loki.</li>
+</ul>
+<p>GM players have 4-5 heroes per role. Celestial players have 6+. The depth is the conversion lever.</p>` },
+      { heading: 'Tournament-tier comm discipline', html: `<p>Celestial teams comm short and decisive:</p>
+<ul>
+  <li>"Hela ult ready" — call ult availability.</li>
+  <li>"Pushing on count, 3, 2, 1" — synced engage.</li>
+  <li>"Their Strange portal up, fall back" — counter-call.</li>
+</ul>
+<p>NOT commentary. Information only — what changes a teammate's decision.</p>` },
+      { heading: 'Veto and matchmaking macro', html: `<p>Celestial queues: top 4 maps prepped + bottom 3 banned. Veto wins matches before round 1.</p>
+<ul>
+  <li>Ban opponents' best 2 maps based on match history.</li>
+  <li>Pick your best 2 maps.</li>
+  <li>Decider: highest win rate vs their comp style.</li>
+</ul>
+<p>The veto edge compounds across a season. Celestial players win 60%+ of matches at veto.</p>` },
+      { heading: 'Anti-stack + anti-utility positioning', html: `<p>At Celestial, the enemy will throw perfect utility every round. The Celestial counter is positioning that minimizes utility damage:</p>
+<ul>
+  <li>Stand at flash-resistant angles — corners where the wall blocks pop-flashes.</li>
+  <li>Pre-aim ult-throwing spots. If the enemy Hela ults from the same spot every round, pre-aim that spot at her ult activation timing.</li>
+  <li>If a healing ult lands on the enemy team, focus the highest-damage Duelist (not the Strategist who ulted) — the heal expires in 5-8 seconds.</li>
+</ul>
+<p>This is positional discipline that requires 1000+ rounds of practice. GM players know the angles theoretically; Celestial players use them in every round.</p>` },
+      { heading: 'Endgame 1v1 reads', html: `<p>Celestial 1v1s are won on reads, not aim. In the 5 seconds before contact:</p>
+<ul>
+  <li>What's the opponent's last move? (Ult? Reload? Swap?)</li>
+  <li>What angle did they hold round 1? (Predictable peek?)</li>
+  <li>Are they tilted (just lost a duel)? Over-aggressive peek incoming.</li>
+  <li>Do they have ult charge? (Track from observation, not memory.)</li>
+</ul>
+<p>The reads compound. By round 18 you've collected 30+ data points on the enemy carry. Celestial players use 5-6 reads per 1v1. GM players use 2-3.</p>` },
+    ],
+    mistakes: [
+      'No macro round structure — playing each round in isolation.',
+      'Mechanical reset failing — tilt-stack 4+ rounds.',
+      'Aim ceiling at GM benchmarks instead of Celestial.',
+      'No enemy emotional read.',
+      'Hero pool of 4-5 per role.',
+      'No veto strategy.',
+      'Comm-overload.',
+      'Standing in standard ult-throw spots round-after-round.',
+      '1v1 reads using only 1-2 data points instead of 5-6.',
+    ],
+    drill: { heading: 'Drill: 30-day stat tracking', html: `<p>Track per-match: headshot rate, K/D, healing per game (Strategists), damage per game (Duelists). If numbers are flat over 30 matches, fix aim regimen first before chasing macro.</p>` },
+    aiVodMention: `<p>At Celestial, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation against tournament-tier patterns — flags rounds where you should have switched comp but didn't.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
+      { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // HALO INFINITE POSTS (3)
 // ============================================================================
 const HALO_POSTS = [
@@ -3665,7 +3942,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -3682,4 +3959,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
