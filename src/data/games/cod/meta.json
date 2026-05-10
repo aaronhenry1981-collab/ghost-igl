@@ -1,0 +1,33 @@
+{
+  "_comment": "Last verified: 2026-05 — based on Activision tournament + community tier list snapshot. CoD weapons-tier list (no character meta).",
+  "S": [
+    "MCW (AR)",
+    "RAM-7 (AR)",
+    "WSP Swarm (SMG)",
+    "Holger 26 (LMG)",
+    "Kar98k / KV Inhibitor (Sniper)"
+  ],
+  "A": [
+    "SVA 545 (AR)",
+    "Ram-9 (SMG)",
+    "Striker (SMG)",
+    "XRK Stalker (Sniper)",
+    "BAS-B (Battle Rifle)"
+  ],
+  "B": [
+    "MCW 6.8 (Marksman)",
+    "Bruen Mk9 (LMG)",
+    "Striker 9 (SMG)",
+    "KATT-AMR (Sniper)",
+    "M16 (Battle Rifle)"
+  ],
+  "C": [
+    "SOA Subverter (Battle Rifle)",
+    "TAQ Eradicator (LMG)",
+    "BP50 (AR)",
+    "AMR9 (SMG)",
+    "Pulemyot (LMG)"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
