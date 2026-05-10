@@ -1,0 +1,49 @@
+{
+  "_comment": "Last verified: 2026-05 — Riot pro stats + VLR.gg meta data. Tier list reflects current ranked + pro pick rates.",
+  "S": [
+    "Jett",
+    "Omen",
+    "Cypher",
+    "Sova",
+    "Raze"
+  ],
+  "A": [
+    "Killjoy",
+    "Viper",
+    "KAY/O",
+    "Skye",
+    "Brimstone",
+    "Astra",
+    "Clove",
+    "Fade"
+  ],
+  "B": [
+    "Phoenix",
+    "Breach",
+    "Sage",
+    "Reyna",
+    "Neon",
+    "Gekko",
+    "Chamber",
+    "Tejo",
+    "Harbor"
+  ],
+  "C": [
+    "Yoru",
+    "Iso",
+    "Deadlock",
+    "Vyse",
+    "Waylay"
+  ],
+  "bans_attack": [
+    "Cypher",
+    "Astra",
+    "Killjoy",
+    "Sova"
+  ],
+  "bans_defense": [
+    "Jett",
+    "Raze",
+    "Sova"
+  ]
+}
