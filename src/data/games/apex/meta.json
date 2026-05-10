@@ -1,0 +1,39 @@
+{
+  "_comment": "Last verified: 2026-05 — based on ALGS pro pick rates + Apex Legends Status tier list.",
+  "S": [
+    "Bloodhound",
+    "Catalyst",
+    "Newcastle",
+    "Conduit",
+    "Lifeline"
+  ],
+  "A": [
+    "Bangalore",
+    "Wraith",
+    "Pathfinder",
+    "Valkyrie",
+    "Horizon",
+    "Caustic",
+    "Gibraltar",
+    "Loba"
+  ],
+  "B": [
+    "Octane",
+    "Ash",
+    "Mad Maggie",
+    "Ballistic",
+    "Seer",
+    "Vantage",
+    "Wattson",
+    "Mirage",
+    "Alter"
+  ],
+  "C": [
+    "Fuse",
+    "Revenant",
+    "Crypto",
+    "Rampart"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
