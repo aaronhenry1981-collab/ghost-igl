@@ -1618,13 +1618,734 @@ const CS2_POSTS = [
   },
 ]
 
+// ============================================================================
+// VALORANT POSTS
+// ============================================================================
+// Valorant rank ladder: Iron → Bronze → Silver → Gold → Platinum → Diamond
+// → Ascendant → Immortal → Radiant. Each post targets the gap to the next
+// tier with agent-specific advice, real callouts from current map pool,
+// and lineup references where they matter.
+
+const VALORANT_POSTS = [
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Iron',
+    toRank: 'Bronze',
+    slug: 'valorant-iron-to-bronze',
+    metaTitle: 'How to Climb Out of Iron in Valorant (2026 Guide)',
+    metaDescription: 'Iron-to-Bronze in Valorant — agent pool of 4, crosshair placement, Vandal vs Phantom decision, fundamentals that win Iron rounds.',
+    intro: `<p>Iron is the foundation tier in Valorant. Most Iron players have decent reactions but lose rounds to crosshair placement, agent overload, and undisciplined buys. Here's the four-week plan to escape.</p>`,
+    sections: [
+      {
+        heading: 'Pick 4 agents — not the whole roster',
+        html: `<p>Valorant has 26+ agents with unique abilities, ult charges, and timing windows. Iron players try to play them all and master none. Pick four:</p>
+<ul>
+  <li><strong>Phoenix</strong> (Duelist) — self-healing flash + wall, forgiving kit. Curveball flash teaches lineup thinking.</li>
+  <li><strong>Brimstone</strong> (Controller) — straightforward smokes from a top-down map. No lineup memorization needed.</li>
+  <li><strong>Sage</strong> (Sentinel) — wall + heals + slow orbs. Most-played defender role at low elos for a reason.</li>
+  <li><strong>Sova</strong> (Initiator) — recon arrow gives free intel. Drone scouts for the team. Hard to throw with.</li>
+</ul>
+<p>Master these four, then expand. KAY/O, Cypher, and Jett go on the list at Bronze when you're ready for more complex utility timing.</p>`,
+      },
+      {
+        heading: 'Crosshair placement at head height',
+        html: `<p>Walk through any map with your crosshair at chest height and you'll lose 70% of duels in Iron. Walk with the crosshair at head height (about a quarter of the way down the screen) and you'll start one-tapping enemies who peek the same angle every round.</p>
+<p>Specific habit: every corner you turn, your crosshair sits at the head height of where the enemy will appear. Most Iron players aim at the floor. Fix this single habit and your kills-per-round triples.</p>
+<p>Practice in deathmatch with one rule: if you ever fire when your crosshair was below shoulder height, that kill doesn't count. After 10 deathmatch sessions, head-height becomes muscle memory.</p>`,
+      },
+      {
+        heading: 'Vandal vs Phantom — pick one, master it',
+        html: `<p>Both rifles cost 2900 credits. The choice:</p>
+<ul>
+  <li><strong>Vandal</strong> — one-shot headshot at any range. Slower fire rate. Reward for one-tap aim.</li>
+  <li><strong>Phantom</strong> — faster fire rate, body-shot insurance, but loses the one-shot at long range.</li>
+</ul>
+<p>At Iron, pick Vandal. The one-shot headshot rewards good crosshair placement and punishes bad placement decisively. You'll learn aim discipline faster on Vandal because every body shot you take is a "should have been a headshot" lesson.</p>
+<p>Switch to Phantom at Gold+ when you understand range-based decisions. Don't switch back and forth — pick one for 100 hours, then experiment.</p>`,
+      },
+      {
+        heading: 'Buy discipline — the 3000-credit eco line',
+        html: `<p>Iron players buy randomly. The rule: if your team has less than 3000 credits per player on round 2 (after losing pistol), save full. Just pistol, no shields, no utility.</p>
+<p>The save round gives you ~3500 credits round 3 for a full Vandal + light shields buy. The force-buy round 2 with 2500 credits gets you a Spectre + nothing — guaranteed loss. Then you're stuck on full eco round 3.</p>
+<p>Specifics:</p>
+<ul>
+  <li>Round 1 lost pistol: save round 2.</li>
+  <li>Round 2 won (eco): force or save round 3 based on credits.</li>
+  <li>Round 2 lost (eco): save round 3, full-buy round 4.</li>
+</ul>`,
+      },
+      {
+        heading: 'Don\'t push first — trade frags',
+        html: `<p>The first player through a doorway in Iron dies because they have no info advantage. Let your teammate commit, then peek behind them on the trade. Two-on-one fights win rounds — period.</p>
+<p>This is the hardest habit to build because Iron feels like a frag race. It's not. It's a positioning game. The team that trades frags wins rounds 70%+ of the time even with worse aim.</p>
+<p>If your teammate dies in the doorway, you peek the SAME doorway from a slightly different angle within 2 seconds. The enemy just used recoil cooldown — their first shot will miss. Your trade kill is free.</p>`,
+      },
+    ],
+    mistakes: [
+      'Spawn-peeking with no info — dying first 30 seconds.',
+      'Buying random rifles + utility every round.',
+      'Force-buying after a loss — losing round 2 AND round 3.',
+      'Switching agents every match — no specialization.',
+      'Picking Reyna and trying to 1v5.',
+      'Crosshair at chest height.',
+      'Pushing first into rooms — no trade.',
+    ],
+    drill: {
+      heading: 'Practice routine for week 1',
+      html: `<ul>
+  <li><strong>30 min aim training</strong> — Aim Lab Gridshot or Valorant Range with bots, Vandal only.</li>
+  <li><strong>15 min map walk on Bind</strong> — load Range, walk every site, learn callouts.</li>
+  <li><strong>5 ranked games per day</strong> — 4 with your 4-agent pool, 1 to experiment.</li>
+</ul>
+<p>If you commit to fundamentals — small agent pool, head-height crosshair, save-don't-force, trade fragging — you'll exit Iron inside two weeks.</p>`,
+    },
+    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + ability usage mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Valorant Haven Guide', url: '/games/valorant/haven.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 7,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Bronze',
+    toRank: 'Silver',
+    slug: 'valorant-bronze-to-silver',
+    metaTitle: 'How to Climb from Bronze to Silver in Valorant (2026 Guide)',
+    metaDescription: 'Bronze-to-Silver is map awareness — three-map focus, callout vocabulary, basic smokes by map, trade-frag positioning, and stop dry pushing.',
+    intro: `<p>Bronze players know agent kits but don't have map awareness yet. The rank that separates Bronze from Silver is "did you survive 30 seconds without a callout?" — Silvers know maps deeply enough to position alone.</p>`,
+    sections: [
+      {
+        heading: 'Master 3 maps. Stop playing the whole rotation',
+        html: `<p>Pick Bind, Haven, and Ascent (or any three of the current 10-map pool). Play these maps exclusively for two weeks. By end of week 2 you'll know:</p>
+<ul>
+  <li>Every site's name and standard plant spots</li>
+  <li>Where common defenders set up</li>
+  <li>Where to throw your basic smokes</li>
+  <li>Standard agent picks for your team comp</li>
+  <li>Which exterior angles get spawn-peeked</li>
+</ul>
+<p>If you queue all 10 maps, you never get the depth needed for Silver+. Bronze players play 10 maps shallowly. Silver players play 3 deeply.</p>`,
+      },
+      {
+        heading: 'Learn 7 callouts per map',
+        html: `<p>Callouts are how teams coordinate. If a teammate calls "Hookah push!" on Bind and you don't know where Hookah is, you can't rotate. Memorize seven per map:</p>
+<p><strong>Bind:</strong> A Site, A Bath, A Truck, B Site, B Hookah, B Window, Mid, Showers, Lamps.</p>
+<p><strong>Haven:</strong> A Heaven, A Long, B Site, B Mid, C Site, C Long, C Garage, Mid Doors.</p>
+<p><strong>Ascent:</strong> A Site, A Main, A Tree, A Generator, B Site, B Main, B Stairs, Mid, Catwalk, Market.</p>
+<p>Drill: load each map in the Range, walk around for 15 minutes, say each callout out loud as you enter the room. After 9 sessions you'll out-position any Bronze player.</p>`,
+      },
+      {
+        heading: 'Five must-know smoke setups',
+        html: `<p>Each setup takes 5-10 minutes to learn. Memorize five and you've covered the standard executes on three maps:</p>
+<ul>
+  <li><strong>Bind A:</strong> Brim smoke on CT + Bath. Denies the AWP from Default and the rotator from Bath.</li>
+  <li><strong>Bind B:</strong> Brim smoke on Window + CT. Standard B exec, denies the AWP cross.</li>
+  <li><strong>Haven A:</strong> Brim smoke on Heaven + A Link. Denies the rotation trade.</li>
+  <li><strong>Ascent A:</strong> Omen smoke on Generator + Tree. Denies the standard CT angle.</li>
+  <li><strong>Ascent B:</strong> Omen smoke on Stairs + B Main entry. Synced exec smokes.</li>
+</ul>
+<p>If your controller doesn't know lineups, do them yourself in custom mode. 30 minutes of lineup practice = 5 lineups memorized.</p>`,
+      },
+      {
+        heading: 'Stop dry pushing — utility before commit',
+        html: `<p>Bronze attackers commit first, lose the trade, the round folds. The fix: <strong>no utility, no push.</strong> Before any push, you should have used at least one of: a smoke, a flash, a recon dart, or a drone clear. If you don't have utility ready, you don't push. Period.</p>
+<p>Specific check: if you're 30 seconds from round end and you haven't thrown any utility, you're either winning easily (good) or losing the round (most likely). The team that uses utility wins the round 65%+ of the time at Bronze.</p>`,
+      },
+      {
+        heading: 'Trade fragging — second peek wins',
+        html: `<p>Two-on-one duels win rounds. The trade fragger:</p>
+<ul>
+  <li>Stays within 5 meters of the entry</li>
+  <li>Has line-of-sight to the entry's target angle</li>
+  <li>Has crosshair pre-aimed at the angle the entry will engage</li>
+  <li>Doesn't reload at the same time</li>
+</ul>
+<p>If your teammate dies, you peek the SAME angle within 2 seconds. The defender just used recoil cooldown — their first shot will miss. Your trade kill is free.</p>`,
+      },
+      {
+        heading: 'Buy discipline by round number',
+        html: `<p>Valorant economy is unforgiving at Bronze. Specific buy patterns:</p>
+<ul>
+  <li><strong>Round 1 (pistol):</strong> Classic + light shields + 1 ability. 800 credits remaining for round 2.</li>
+  <li><strong>Round 2 (after pistol loss):</strong> Save full. 1900 credits + bonus = 2800 round 3.</li>
+  <li><strong>Round 2 (after pistol win):</strong> Sheriff + light shields + 2 abilities. Anti-eco round.</li>
+  <li><strong>Round 3 (full buy):</strong> Vandal + full shields + 4 abilities = 4900 credits.</li>
+  <li><strong>Round 6 (long match):</strong> Track team economy — if anyone is below 4500, force or save.</li>
+</ul>
+<p>Bronze players force-buy after round 1 loss with 2500 credits → buy a Spectre + nothing → guaranteed loss → stuck on full eco round 3. The save-then-full-buy pattern wins more rounds long-term.</p>`,
+      },
+    ],
+    mistakes: [
+      'Switching agents every match — no specialization.',
+      'No callouts learned — can\'t rotate when teammates call.',
+      'Smokes thrown without lineups (general area smokes).',
+      'Trade fragger 10 meters back — misses the trade window.',
+      'Dry pushing without utility.',
+      'Buying full SMG round when you should save.',
+      'Force-buying after round 1 loss with 2500 credits.',
+    ],
+    drill: {
+      heading: 'Drill: 3-map deathmatch + range loop',
+      html: `<p>For each of your 3 chosen maps:</p>
+<ul>
+  <li><strong>15 min Range</strong> — walk every site, say callouts.</li>
+  <li><strong>15 min deathmatch</strong> — practice angles in real fights.</li>
+  <li><strong>3 ranked games</strong> on the map.</li>
+</ul>
+<p>Repeat for 3 maps × 1 week. By end of week you've put 9+ hours into 3 maps. Map knowledge is the Silver gap.</p>`,
+    },
+    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your positioning telegraphed your push direction — useful for spotting predictable habits.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Iron to Bronze', url: '/blog/valorant-iron-to-bronze.html' },
+      { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Valorant Haven Guide', url: '/games/valorant/haven.html' },
+      { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'valorant-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in Valorant (2026 Guide)',
+    metaDescription: 'Silver-to-Gold is utility coordination — synced executes, Sage wall placement, Killjoy ult timing, post-plant lineups, and trade fragging at proper distance.',
+    intro: `<p>Silver to Gold is the utility coordination jump. At Silver you might run smokes and flashes but they're not synced. At Gold the smoke lands, the flash pops 0.5 seconds later, and the entry pushes through both — perfect timing.</p>`,
+    sections: [
+      {
+        heading: 'Synced execute counts — utility on the beat',
+        html: `<p>At Silver, players "smoke when ready." At Gold, the IGL counts: "Smoke in 3, 2, 1, GO." All 5 utility hit on the same beat.</p>
+<p>Practice in Custom Game with a 5-stack. Run a 5-utility A exec on Bind with synced count. Repeat 10 times. Apply in ranked. The team that hits utility on a count wins ~70% of executed rounds.</p>
+<p>Specific Bind A exec sequence:</p>
+<ol>
+  <li><strong>0:55:</strong> Brim smoke on CT.</li>
+  <li><strong>0:53:</strong> Brim smoke on Bath.</li>
+  <li><strong>0:50:</strong> Phoenix flash from A Short.</li>
+  <li><strong>0:48:</strong> Entry takes A Short.</li>
+  <li><strong>0:45:</strong> Trade fragger pushes through.</li>
+</ol>`,
+      },
+      {
+        heading: 'Sage wall placement on key chokes',
+        html: `<p>Sage wall is the most under-used utility in Silver. At Gold, players place walls strategically:</p>
+<ul>
+  <li><strong>Bind A:</strong> wall blocks the CT-to-Site sightline. Forces defenders to peek the long way.</li>
+  <li><strong>Haven C:</strong> wall blocks Garage rotation, isolates C from rest of map.</li>
+  <li><strong>Ascent B:</strong> wall on Stairs forces the rotation through Mid only.</li>
+</ul>
+<p>The wall's effect is ~30 seconds. That's a full execute window where defenders can't trade-rotate. Sage walls win Silver-Gold rounds.</p>`,
+      },
+      {
+        heading: 'Killjoy turret + ult timing',
+        html: `<p>Killjoy on defense is one of the strongest agents at Gold. Specifics:</p>
+<ul>
+  <li>Turret + Alarmbot on the choke. Free kills if defenders push without smoke.</li>
+  <li>Nanoswarm grenades on default plant spots — denies plant for ~5 seconds.</li>
+  <li>Lockdown ult on retake. Use it as the team executes back, not pre-emptively.</li>
+</ul>
+<p>The ult timing is the Gold differentiator. Silver Killjoys ult at the wrong time. Gold Killjoys ult at the synced retake call.</p>`,
+      },
+      {
+        heading: 'Post-plant utility cycling',
+        html: `<p>When the spike is down, defenders need to break the plant. Pro defenders cycle utility:</p>
+<ol>
+  <li>Brim molly at 0:35 (denies defuse for 5 seconds).</li>
+  <li>Killjoy nanoswarm at 0:30 (chip damage on planter).</li>
+  <li>Sage slow orb at 0:25 (slows the rotator).</li>
+  <li>Final flash at 0:20 (blinds the defuser).</li>
+</ol>
+<p>Practice this sequence on Custom Game. It's the round-deciding 30 seconds in any executed round.</p>`,
+      },
+      {
+        heading: 'Trade fragging at 3-5 meter distance',
+        html: `<p>The trade fragger should be 3-5 meters behind the entry, with crosshair pre-aimed at the same angle. At Silver, trade fraggers are 10 meters back and miss the trade window.</p>
+<p>Drill: Bind A take. Entry takes Bath corner. Trade fragger is 3 meters behind, crosshair at head height pointed at Bath. Entry dies → trade fragger takes the duel within 1 second. Round won.</p>`,
+      },
+      {
+        heading: 'Sentinel setups — Cypher trips and Killjoy turret placement',
+        html: `<p>Sentinels win Gold rounds when their utility is placed strategically:</p>
+<ul>
+  <li><strong>Cypher on Bind:</strong> Trips on Showers (catches A flank), Bath teleporter exit (catches A push), B Hookah corner (catches B push). Spycam in B Window for site intel.</li>
+  <li><strong>Cypher on Haven:</strong> Trips on A Long, Garage rotation, C Long. Spycam from Heaven covering all three sites.</li>
+  <li><strong>Killjoy on Ascent:</strong> Turret in Tree corner covers A site approach. Alarmbot on Catwalk catches mid takers. Nanoswarm on default plant.</li>
+  <li><strong>Killjoy on Sunset:</strong> Turret on B Mall covers the standard B push. Alarmbot in Mid Bottom for early intel.</li>
+</ul>
+<p>Sentinel utility takes 30 seconds to set up at round start. Use the buy phase + first 30 seconds to place every gadget. If you're contacting at 0:55 timer with utility unplaced, you're playing Silver.</p>`,
+      },
+      {
+        heading: 'Spike plant timing — when to plant for round economy',
+        html: `<p>The plant decision matters at Gold:</p>
+<ul>
+  <li><strong>Plant ASAP if you have 3+ teammates alive:</strong> denies the retake utility cycle.</li>
+  <li><strong>Plant slow if 4v5 or worse:</strong> burn timer, save the spike for the next attempt.</li>
+  <li><strong>Don't plant in the open:</strong> always plant for the post-plant lineup (Bind A Truck, Bind B Hookah).</li>
+  <li><strong>Don't plant if defenders have ult:</strong> you'll get retaken via Killjoy Lockdown or Sova Hunter's Fury.</li>
+</ul>
+<p>Plant timing is round-deciding. Wrong plant = 30 seconds of trying to defend impossible angles.</p>`,
+      },
+    ],
+    mistakes: [
+      'Smokes thrown without sync count.',
+      'Sage wall placed in the open (not on a choke).',
+      'Killjoy ult pre-emptively (wasted).',
+      'No post-plant utility cycle.',
+      'Trade fragger too far back.',
+      'Sentinel utility unplaced at 0:55 timer.',
+      'Plant in the open spot — losing the post-plant defense.',
+    ],
+    drill: {
+      heading: 'Drill: Bind A synced execute',
+      html: `<p>Stack 5 in Custom Game. Run the Bind A exec sequence above 10 times. Each rep, the IGL counts the timer; utility hits on the count. After 10 reps the timing is muscle memory.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks utility timing per round and flags rounds where your team's exec was off-tempo.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Valorant Haven Guide', url: '/games/valorant/haven.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Gold',
+    toRank: 'Platinum',
+    slug: 'valorant-gold-to-plat',
+    metaTitle: 'How to Climb from Gold to Platinum in Valorant (2026 Guide)',
+    metaDescription: 'Gold-to-Plat is comp synergy + map-specific agent picks — Cypher on Bind, Killjoy on Ascent, Viper on Icebox. Plus post-plant lineups and Sova Recon Bolt timings.',
+    intro: `<p>Gold-to-Plat is where the Valorant meta starts mattering. You're playing against people who pick agents based on the map, not preference. Here's the meta-aware climb.</p>`,
+    sections: [
+      {
+        heading: 'Map-specific agent picks',
+        html: `<p>Each map favors specific agents. Plat players pick by map; Gold players pick by preference and lose comp synergy.</p>
+<ul>
+  <li><strong>Bind:</strong> Cypher (TP trips), Brimstone (smokes), Skye (flash + heal), Raze (nades clear corners), Phoenix.</li>
+  <li><strong>Ascent:</strong> Killjoy (Lockdown ult), Omen (TP smoke), KAY/O (suppression), Jett (mobility), Sova.</li>
+  <li><strong>Icebox:</strong> Viper (wall + ult), Sage (wall + heals), Sova (recon), Jett (mobility for vertical), KAY/O.</li>
+  <li><strong>Haven:</strong> Cypher (3-site coverage), Astra (global utility), Sova (recon), Jett, Phoenix.</li>
+</ul>
+<p>If your team's playing Killjoy on Bind or Cypher on Icebox, you've already lost comp. Re-pick.</p>`,
+      },
+      {
+        heading: 'Sova Recon Bolt timings — exact spots',
+        html: `<p>Sova Recon Bolt scans for 1.5 seconds and shows enemies through walls. Pro lineups exist for every map:</p>
+<ul>
+  <li><strong>Ascent A:</strong> Recon from A Main, lands on Heaven, scans the standard anchor + Tree.</li>
+  <li><strong>Bind B:</strong> Recon from B Long, lands on Hookah, scans the Hookah + Window angle.</li>
+  <li><strong>Haven A:</strong> Recon from A Long, lands on Heaven, scans the trade angle.</li>
+</ul>
+<p>Each lineup takes 5 minutes from a YouTube tutorial. Plat Sovas have 5+ lineups per map. Gold Sovas throw recon randomly.</p>`,
+      },
+      {
+        heading: 'Comp synergy — controller + sentinel + initiator + 2 duelists',
+        html: `<p>Standard Plat comp:</p>
+<ul>
+  <li>1 Controller (smokes for entry).</li>
+  <li>1 Sentinel (defends site, watches flank).</li>
+  <li>1 Initiator (recon + flash for entry).</li>
+  <li>2 Duelists or 1 Duelist + 1 Flex (entry + trade).</li>
+</ul>
+<p>If your team has 3 duelists and no controller, you can't smoke executes. If your team has 2 sentinels, you have no entry. Plat queues fill missing roles automatically; Gold queues fight over duelists.</p>`,
+      },
+      {
+        heading: 'Post-plant utility cycling — full 30 seconds',
+        html: `<p>Plat-tier post-plant: cycle utility every 5 seconds for 30 seconds total. Defenders forced to re-utility on every cycle.</p>
+<ol>
+  <li>0:35: smoke the defuser angle.</li>
+  <li>0:30: molly the post-plant approach.</li>
+  <li>0:25: flash from off-angle.</li>
+  <li>0:20: ult denial (Sova Hunter's Fury, KAY/O suppression).</li>
+  <li>0:15: trade frag the defuser.</li>
+</ol>
+<p>If your team plants and dies trying to defend — you didn't post-plant cycle. Practice this in Custom mode.</p>`,
+      },
+      {
+        heading: 'Spike plant for the post-plant lineup',
+        html: `<p>At Gold you plant for ease. At Plat you plant for the post-plant lineup. Specific spots:</p>
+<ul>
+  <li><strong>Bind A:</strong> plant at Truck (defendable from CT and Heaven).</li>
+  <li><strong>Bind B:</strong> plant at Hookah (covered by Hookah corner).</li>
+  <li><strong>Ascent A:</strong> plant at Default (Tree + Generator covers).</li>
+  <li><strong>Ascent B:</strong> plant at Default (Stairs covers).</li>
+</ul>
+<p>Each plant spot has a 30-second window where the team holds specific angles. Plan it pre-execute.</p>`,
+      },
+      {
+        heading: 'Phantom vs Vandal range matchups by map',
+        html: `<p>Plat-tier players pick the right rifle by map and role:</p>
+<ul>
+  <li><strong>Bind:</strong> Vandal preferred — long sightlines on A Long and B Long reward one-tap.</li>
+  <li><strong>Haven:</strong> Vandal for the C Long AWP-trade angles, Phantom for entries on A and B (close range).</li>
+  <li><strong>Ascent:</strong> Vandal for A Main long peek, Phantom for B Main close fights.</li>
+  <li><strong>Icebox:</strong> Phantom — most fights are mid-range, rapid fire wins more duels than one-tap discipline.</li>
+  <li><strong>Sunset:</strong> Phantom for both sites — close range CQB.</li>
+</ul>
+<p>Wrong rifle for the engagement range = lost duel. Plat fixes this by map; Gold uses the same gun every match.</p>`,
+      },
+      {
+        heading: 'Reading enemy ult points — economy of ults',
+        html: `<p>By round 5 you should track enemy ult charges. Each ult costs 6-8 points. After they pop ult, you have 3-4 rounds before they have it again.</p>
+<p>Specific tracking:</p>
+<ul>
+  <li>Jett Blade Storm used round 3 → no ult round 4-7. Push aggressive on those rounds.</li>
+  <li>Killjoy Lockdown used round 4 → no retake ult round 5-9.</li>
+  <li>Sova Hunter's Fury used round 5 → no recon ult round 6-9.</li>
+</ul>
+<p>If enemy team has 3+ ults at round 6, eco round to deny ult value. If they have 0 ults, full-buy and push aggressively.</p>`,
+      },
+    ],
+    mistakes: [
+      'Picking duelists instead of role-fill.',
+      'Sova recon thrown randomly — no lineup.',
+      'Plant on the open spot.',
+      'No post-plant utility cycle.',
+      'Same agent every map.',
+      'Wrong rifle for the engagement range.',
+      'No ult tracking — surprise ults flip rounds.',
+    ],
+    drill: {
+      heading: 'Drill: 5 Sova lineups in 30 minutes',
+      html: `<p>Watch a YouTube Sova lineup video for your 3 main maps. Practice in Custom mode for 30 minutes total — 5 lineups memorized. Apply in ranked. Round-opener picks 30%+ of the time on the maps you know.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your team's comp was missing a role and the round was lost on synergy, not aim.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
+      { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Valorant Icebox Guide', url: '/games/valorant/icebox.html' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'valorant-plat-to-diamond',
+    metaTitle: 'How to Climb from Platinum to Diamond in Valorant (2026 Guide)',
+    metaDescription: 'Plat-to-Diamond is refined positioning — off-angle setups, Vandal vs Phantom range decisions, jiggle peek mechanics, agent ult timing reads, and counter-utility prep.',
+    intro: `<p>Plat players have the fundamentals. Diamond players have refinements: off-angle setups, jiggle-peek mechanics, ult timing reads, and counter-utility prep that flips contested rounds.</p>`,
+    sections: [
+      {
+        heading: 'Off-angle setups — break the predictable corner',
+        html: `<p>At Plat, defenders sit on obvious anchor spots. Diamond defenders pre-aim from spots opponents don't expect:</p>
+<ul>
+  <li><strong>Bind A:</strong> hold from A Truck (not the obvious A Short angle).</li>
+  <li><strong>Ascent B:</strong> hold from B Stairs middle (not the corner).</li>
+  <li><strong>Haven C:</strong> hold from C Cubby (not C Long).</li>
+  <li><strong>Icebox B:</strong> hold from B Yellow (not the obvious Tube angle).</li>
+</ul>
+<p>Off-angles cost the entry 1-2 seconds of re-clearing. That's the trade window your teammate uses. Switch off-angle every round so opponents can't read it.</p>`,
+      },
+      {
+        heading: 'Vandal vs Phantom range decisions',
+        html: `<p>At Plat, players pick one rifle. At Diamond, players pick by the engagement range:</p>
+<ul>
+  <li>Long range (50m+): Vandal (one-shot headshot still kills at any range).</li>
+  <li>Medium range (20-50m): Vandal preferred.</li>
+  <li>Close range (under 20m): Phantom (faster fire rate makes spray more effective).</li>
+</ul>
+<p>If you're holding a long sightline (Bind Long, Haven Long), pick Vandal. If you're entry-fragging in CQB sites, pick Phantom. Plat players use the wrong rifle for the engagement.</p>`,
+      },
+      {
+        heading: 'Jiggle peek mechanics — read before commit',
+        html: `<p>The jiggle peek: tap A-D quickly while stepping forward 1 step at a time. The enemy sees a half-second silhouette and reflexes a shot. You step back into cover before their bullet lands.</p>
+<p>Result: you've baited their first shot. Now you peek wide for free.</p>
+<p>Specific use: Bind Hookah jiggle to bait the AWP. The AWPer fires once → you peek wide and trade. Diamond peeks are layered like this.</p>`,
+      },
+      {
+        heading: 'Ult timing reads — track enemy ult points',
+        html: `<p>By round 5 you should have a count of enemy ult charges. Each agent's ult costs 6-8 points. Tracking when they pop ults tells you when they don't have it next round.</p>
+<p>Specific reads:</p>
+<ul>
+  <li>Jett ult used round 3 → no ult round 4-7.</li>
+  <li>Killjoy Lockdown ult used round 4 → no ult round 5-9.</li>
+  <li>Sova Hunter's Fury used round 5 → no recon ult round 6-9.</li>
+</ul>
+<p>If the enemy team has 0 ults, full-buy. If they have 3+ ults, eco round to deny their ult value. Plat ignores ult tracking; Diamond builds buys around it.</p>`,
+      },
+      {
+        heading: 'Counter-utility prep — anticipate enemy lineups',
+        html: `<p>If the enemy Sova always recons the same spot from A Main, pre-aim that spot at the recon timing. The recon takes 1.5 seconds — your kill on the Sova denies the team's intel for the round.</p>
+<p>If the enemy Phoenix always flashes from B Hookah, anti-flash by turning around or holding cover. Your sight comes back faster than their flash window.</p>
+<p>Counter-utility is what Diamonds do automatically. Plat players react to utility; Diamond players prep for it.</p>`,
+      },
+      {
+        heading: 'Anti-flash positioning by site',
+        html: `<p>At Diamond, the enemy throws perfect pop-flashes every entry. The counter is positioning that minimizes flash exposure:</p>
+<ul>
+  <li><strong>Bind A:</strong> hold from CT corner facing Site (flash from A Short doesn't hit you).</li>
+  <li><strong>Bind B:</strong> hold from CT side of Hookah (flash from Hookah doesn't hit you).</li>
+  <li><strong>Ascent A:</strong> hold from Tree corner (flash from A Main doesn't hit you).</li>
+  <li><strong>Ascent B:</strong> hold from B Site default behind cover (flash from B Main doesn't hit you).</li>
+</ul>
+<p>If you're holding an angle that gets flashed every round, move 5 meters laterally. The flash window shifts; you keep sight while the enemy entry is blind.</p>`,
+      },
+      {
+        heading: 'Round-3 economy — the post-pistol lever',
+        html: `<p>After winning pistol round, Diamond teams go full SMG-buy round 2 (and rifle-buy round 3). This wins round 1 + round 3 even if round 2 is lost.</p>
+<p>Sequence:</p>
+<ol>
+  <li><strong>Round 1 (pistol):</strong> Classic + light shields. Win → bonus.</li>
+  <li><strong>Round 2 (anti-eco):</strong> Spectre or Bulldog + light shields. SMG range fights.</li>
+  <li><strong>Round 3 (full buy):</strong> Vandal/Phantom + full shields + 4 abilities.</li>
+</ol>
+<p>If the enemy team forces round 2 against your SMG buy, your range advantage wins. If they save round 2, you bank credits for round 3 full buy.</p>`,
+      },
+    ],
+    mistakes: [
+      'Same anchor spot every round — predictable.',
+      'Wrong rifle for the engagement range.',
+      'No jiggle peeks — wide swinging into AWPs.',
+      'No ult tracking — surprise ults flip rounds.',
+      'No counter-utility prep — reacting instead of anticipating.',
+      'Standing in the same flash spot every round.',
+      'Skipping round-2 anti-eco buy.',
+    ],
+    drill: {
+      heading: 'Drill: jiggle peek practice in Range',
+      html: `<p>Load Range with bots set to "easy" (so they don't track). Practice jiggle-peeking: 1 A tap → 1 D tap → step forward 1 frame → step back. Repeat 50 times. The motion becomes muscle memory.</p>
+<p>Apply in ranked when peeking AWPs or known angle holders. Bait the first shot, peek wide for the trade.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where you held the same anchor angle 3+ rounds in a row — predictable habits Diamond opponents will exploit.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
+      { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Valorant Icebox Guide', url: '/games/valorant/icebox.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Diamond',
+    toRank: 'Ascendant',
+    slug: 'valorant-diamond-to-ascendant',
+    metaTitle: 'How to Climb from Diamond to Ascendant in Valorant (2026 Guide)',
+    metaDescription: 'Diamond-to-Ascendant is reading opponent comp + counter-strat per round + retake utility cycles + spawn-peek timings + agent role swap.',
+    intro: `<p>Diamond is the high-elo bracket. Ascendant is where reads compound across the match. The gap is round-by-round adaptation, comp counter-picks, and retake utility.</p>`,
+    sections: [
+      {
+        heading: 'Read opponent agent compositions round 1',
+        html: `<p>Round 1 you see the enemy team's agents. Use them:</p>
+<ul>
+  <li>Enemy Cypher → expect TP trips on Bind. Pre-aim TP exits.</li>
+  <li>Enemy Killjoy → expect Lockdown ult on retake. Save smokes for the ult counter.</li>
+  <li>Enemy Sova → recon coming from common lineup spots. Move from those spots round-by-round.</li>
+  <li>Enemy Jett → blade-running every retake. Track Jett ult charge; deny her on cooldown.</li>
+</ul>
+<p>Diamond players ignore comp; Ascendants build round 1 plans around the read.</p>`,
+      },
+      {
+        heading: 'Comp swap per round — break opponent reads',
+        html: `<p>If the enemy reads "their Phoenix always flashes from A Short," round 6 the Phoenix swaps with the Brimstone — a smoke comes from A Short instead. The enemy pre-aim is wrong.</p>
+<p>Practice this in your stack: 2 players know multiple agent roles. The role swap is a 30-second pre-round call.</p>`,
+      },
+      {
+        heading: 'Retake utility cycles — coordinated execute back',
+        html: `<p>Retake on Ascent A:</p>
+<ol>
+  <li>Sova recon scans default plant spot.</li>
+  <li>Killjoy nanoswarm denies the planter.</li>
+  <li>Brim molly the rotation path.</li>
+  <li>Team smokes the defuse cross.</li>
+  <li>Phoenix flash + entry from CT.</li>
+</ol>
+<p>Each retake is 5 utility burned in 5 seconds. Retake utility cycles win Ascendant rounds; Diamond teams retake one-by-one and lose.</p>`,
+      },
+      {
+        heading: 'Spawn-peek timings — free round-opener picks',
+        html: `<p>Specific timings:</p>
+<ul>
+  <li><strong>Bind A:</strong> peek A Short window at 0:08.</li>
+  <li><strong>Ascent A:</strong> peek A Main from CT at 0:10.</li>
+  <li><strong>Haven A:</strong> peek A Lobby from CT at 0:09.</li>
+</ul>
+<p>Practice these in offline mode. Apply on round 1 every match. Free round-opener picks 30%+ of attempts.</p>`,
+      },
+      {
+        heading: '1v1 reads at the endgame',
+        html: `<p>In 1v1 endgame, read the opponent in 5 seconds:</p>
+<ul>
+  <li>Did they reload? Half their mag is empty. They'll prefer to peek wide for the trade.</li>
+  <li>Did they use ult? Their utility is depleted — they can't flash or smoke the next push.</li>
+  <li>What's their last position? Predict the rotation path. Most players take the shortest route.</li>
+  <li>Are they tilted (just lost a duel)? Over-aggressive peek incoming.</li>
+  <li>Have they jiggle-peeked already? They're baiting the first shot — don't bite.</li>
+</ul>
+<p>Ascendant players use 4-5 reads. Diamond players use 1-2. Build the habit by paying attention every round, not just in 1v1s — the information compounds across the match.</p>`,
+      },
+      {
+        heading: 'Map veto and queue strategy',
+        html: `<p>By Diamond you should have 2-3 maps you crush + 2-3 maps you lose. Veto your weak maps in ranked queue. Specific veto pattern:</p>
+<ul>
+  <li>Toggle your weakest 2-3 maps OFF in queue settings.</li>
+  <li>Keep your strongest 5-6 maps ON for queue.</li>
+  <li>Prep specifically for the maps you'll see — lineup library, agent picks, common defensive setups.</li>
+  <li>Track win rate per map weekly. If you drop below 50% on a map you previously crushed, take it off queue and study pro VODs of that map.</li>
+</ul>
+<p>The veto compounds — you avoid the 5 maps you lose 60%+ on. Net rank gain over a season is 200+ RR. Diamonds who play all 10 maps queue inefficiently and gain less rank per hour. Ascendants who veto strategically gain ~30% more RR per session.</p>`,
+      },
+      {
+        heading: 'Mid-round adapts based on round-1 reads',
+        html: `<p>Ascendant IGLs adapt mid-round based on round 1-3 reads:</p>
+<ul>
+  <li>If enemy team rushed A round 1 → expect a fake A round 5 (real B exec).</li>
+  <li>If enemy AWPer held the same angle round 1-3 → bait that angle round 4 with utility.</li>
+  <li>If enemy team economy was forced rounds 1-3 → they're rich round 4. Mirror buy.</li>
+</ul>
+<p>Diamond teams set the round 1 strat and run it for 6 rounds. Ascendant teams adapt every 3 rounds based on round-1 patterns.</p>`,
+      },
+    ],
+    mistakes: [
+      'No comp read round 1 — playing default vs read setup.',
+      'Same agents every round — no swap.',
+      'Retake one-by-one — uncoordinated.',
+      'Spawn-peeks unknown — free CT picks lost.',
+      '1v1s without read — auto-pilot peeks.',
+      'No queue veto — playing weak maps for free RR loss.',
+      'Same strat 6 rounds in a row — predictable to Ascendant reads.',
+    ],
+    drill: {
+      heading: 'Drill: round 1 comp-read protocol',
+      html: `<p>Every match, the IGL announces 3 reads on round 1: "Their Cypher has TP trips. Their Killjoy has Lockdown. Their Sova has recon lineups." Team adjusts setup accordingly.</p>
+<p>Practice this for 10 matches. After 10 matches, the comp-read protocol is automatic.</p>`,
+    },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your comp adaptations across the match — useful for spotting rounds where the right call was obvious but you played default.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
+      { name: 'How to Climb from Ascendant to Immortal', url: '/blog/valorant-ascendant-to-immortal.html' },
+      { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'valorant',
+    gameLabel: 'Valorant',
+    fromRank: 'Ascendant',
+    toRank: 'Immortal',
+    slug: 'valorant-ascendant-to-immortal',
+    metaTitle: 'How to Climb from Ascendant to Immortal in Valorant (2026 Guide)',
+    metaDescription: 'Ascendant-to-Immortal is pro VOD prep + map-specific lineups + tilt management + utility economy across rounds + decisive comm discipline.',
+    intro: `<p>Ascendant is top 5% of Valorant. Immortal is top 1%. The gap is pro-VOD-level prep, lineup mastery, and mental discipline at the high-pressure rounds 13+.</p>`,
+    sections: [
+      {
+        heading: 'Pro-VOD watching as practice',
+        html: `<p>Watch one tier-1 VCT match per day. Pause every 30 seconds. Predict the call. By VOD 30 you'll think like a pro IGL during your own matches.</p>
+<p>Recommended VODs: VCT Champions finals, VCT Masters, regional finals. Avoid casual content — only watch tier-1 prep level. Map-specific patterns are what you're absorbing.</p>`,
+      },
+      {
+        heading: 'Lineup mastery per agent + map',
+        html: `<p>Immortal players have ~5 lineups per agent per map they play. Specific:</p>
+<ul>
+  <li><strong>Sova on Ascent:</strong> 5 recon spots covering A Main, B Main, Mid, Catwalk, retake angles.</li>
+  <li><strong>Brim on Bind:</strong> 5 smoke lineups for A exec, B exec, retake A, retake B, mid control.</li>
+  <li><strong>Viper on Icebox:</strong> 5 wall positions for A take, B take, A retake, B retake, mid setup.</li>
+</ul>
+<p>30 minutes per agent + map = 5 lineups memorized. Repeat across 3 main maps. After 4.5 hours of lineup practice you have a tier-1 lineup library.</p>`,
+      },
+      {
+        heading: 'Tilt management round 13+',
+        html: `<p>Ascendant players win 11 rounds, then lose 4 to tilt. Immortal players reset every round.</p>
+<p>Technique: between rounds, 4-second box breath (in 4, hold 4, out 4, hold 4). Drops heart rate from 95+ BPM (tilted) to 70 BPM (focused). Not a meme — it physically resets your reaction speed.</p>
+<p>If you can't reset from tilt at Ascendant, you'll never reach Immortal consistently. Round 13+ is where matches are won.</p>`,
+      },
+      {
+        heading: 'Utility economy across rounds',
+        html: `<p>Immortal teams budget utility. They have a "save round" where they intentionally don't blow utility round 1 (use only one util commit). This banks utility for rounds 6+ when match goes long.</p>
+<p>Specific: on Bind, save your Sova ult for round 4+ (the second economy round in a long match). The extra ult wins overtime rounds 60% of the time.</p>`,
+      },
+      {
+        heading: 'Communication discipline — decisive comms',
+        html: `<p>Ascendant comms over-share. Immortal comms are short:</p>
+<ul>
+  <li>"Roamer top, taking it." (3 seconds, decision made.)</li>
+  <li>"Smoke landed, push in 3, 2, 1." (Synced execute call.)</li>
+  <li>"Anchor heaven, save AWP." (Post-loss decision.)</li>
+</ul>
+<p>NOT: "I think the roamer's top, I might push, what do you think?" (15 seconds, no decision.)</p>`,
+      },
+      {
+        heading: 'Pro lineup library — top 5 maps',
+        html: `<p>Immortal players have a lineup library of ~5 lineups per agent on every map they queue. Specific minimums:</p>
+<ul>
+  <li><strong>Sova on Ascent:</strong> 2 recon spots for A, 2 for B, 1 for Mid. Plus Hunter's Fury post-plant lineup.</li>
+  <li><strong>Brim on Bind:</strong> 4 smoke spots for A, 4 for B. Stim Beacon usage on retakes.</li>
+  <li><strong>Viper on Icebox:</strong> Wall spots for both sites + Pit ult timing on retake.</li>
+  <li><strong>Killjoy on Sunset:</strong> Lockdown ult position + turret spots covering both sites.</li>
+  <li><strong>Cypher on Bind:</strong> 6 trip placements + Spycam positions for global intel.</li>
+</ul>
+<p>30 minutes per agent + map = 5 lineups memorized. Repeat across 5 main maps = 5+ hours of lineup practice. The library is the Ascendant-to-Immortal differentiator.</p>`,
+      },
+      {
+        heading: 'Pro-grade aim consistency',
+        html: `<p>Ascendant raw aim plateaus around 22-25% headshot rate. Immortal players hit 28%+ consistently. The gap is daily aim regimen:</p>
+<ul>
+  <li><strong>30 min/day Aim Lab</strong> — Gridshot + tracking scenarios.</li>
+  <li><strong>30 min/day Valorant deathmatch</strong> — Vandal only, hold the same gun.</li>
+  <li><strong>30 min/day spray training</strong> — practice the Vandal first-bullet accuracy + the Phantom 5-shot burst.</li>
+</ul>
+<p>Track headshot % weekly. If you're stuck at 25% after 2 weeks of regimen, the issue is sensitivity or technique — get a coach to review your crosshair placement.</p>`,
+      },
+      {
+        heading: 'Half-time review and round 13+ adaptation',
+        html: `<p>Between rounds 12 and 13 you have 30 seconds. Don't waste it on chat. Use it for a comp prep:</p>
+<ul>
+  <li>Which sites did the enemy hit on T-side? Stack the under-defended one on your CT-side.</li>
+  <li>Which agent was their carry? Counter-pick by stacking that angle with utility.</li>
+  <li>What was their economy state? Predict round 13 buy.</li>
+  <li>Are they tilting? Run defaults — they'll over-extend trying to make a play.</li>
+</ul>
+<p>Immortal teams do this comp prep automatically. Ascendant teams chat-talk through half-time and start round 13 unprepared. Half-time prep is a 30-second win.</p>`,
+      },
+    ],
+    mistakes: [
+      'No pro VOD prep.',
+      'Lineup library at 1-2 per agent — not 5+.',
+      'Tilt-stacks round 13+.',
+      'Blowing utility every round.',
+      'Comm-overload.',
+      'Headshot rate plateaued at 22-25% — no aim regimen.',
+      'No half-time prep — round 13 starts cold.',
+    ],
+    drill: {
+      heading: 'Drill: 30 days of pro-VOD-per-day',
+      html: `<p>Watch one tier-1 VCT match per day for 30 days. Tracking sheet on phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways.</p>`,
+    },
+    aiVodMention: `<p>At Immortal queue, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
+      { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+]
+
 // ---------- MAIN ----------
 
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // Stage 2: R6 + CS2 posts. Other games will be added in subsequent commits.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS]
+  // Stage 3: R6 + CS2 + Valorant. Other games added in subsequent commits.
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -1641,4 +2362,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, htmlShell, renderPost, renderIndex }
