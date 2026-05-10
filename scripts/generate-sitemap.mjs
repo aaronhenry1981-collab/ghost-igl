@@ -252,7 +252,11 @@ async function main() {
     'cod-iri-to-top250',
     // Fortnite
     'fn-bronze-to-silver',
+    'fn-silver-to-gold',
+    'fn-gold-to-plat',
     'fn-plat-to-diamond',
+    'fn-diamond-to-elite',
+    'fn-elite-to-champion',
   ]
   for (const slug of BLOG_SLUGS) {
     urls.push(urlEntry({
