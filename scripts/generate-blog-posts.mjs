@@ -2761,6 +2761,191 @@ const OW2_POSTS = [
 ]
 
 // ============================================================================
+// OW2 HIGH-TIER POSTS (2)
+// ============================================================================
+const OW2_POSTS_HIGH = [
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Diamond',
+    toRank: 'Master',
+    slug: 'ow2-diamond-to-master',
+    metaTitle: 'How to Climb from Diamond to Master in Overwatch 2 (2026 Guide)',
+    metaDescription: 'OW2 Diamond-to-Master — mid-fight counter-picks, anticipative healing-ult timing, pro-VOD library at scale, 2-round comp swaps, mechanical benchmarks, and veto strategy.',
+    intro: `<p>Diamond players adapt round-by-round. Master players adapt mid-fight. The leap is in-fight comp awareness, anticipative healing-ult timing, and a pro-VOD library deep enough to recognize patterns from a single ult cooldown.</p>`,
+    sections: [
+      { heading: 'Mid-fight counter-picks — swap during the fight, not before', html: `<p>Diamond IGLs call counter-picks at round start. Master IGLs swap heroes DURING a fight if the matchup tilts wrong. Specifics:</p>
+<ul>
+  <li>Your DPS is being shut down by Cassidy stuns mid-fight → mid-fight, the DPS dies → respawn as Genji or Tracer (mobility) instead of staying Soldier 76.</li>
+  <li>Enemy Tank goes Doomfist → swap your Reinhardt to Sigma at next death. Don't wait for round end.</li>
+  <li>Enemy Pharah is dominating → if your hitscan died, respawn as a different hitscan (Cassidy if you were Soldier, Ashe if you were Cassidy).</li>
+</ul>
+<p>Master IGLs make 4-6 hero swaps per match. Diamond IGLs make 1-2. The mid-fight swap window is the biggest single climb lever at this elo.</p>` },
+      { heading: 'Anticipative healing-ult timing', html: `<p>Diamond supports use Trans / Sound Barrier / Coalescence reactively (after damage starts). Master supports time them 1-2 seconds BEFORE the enemy damage ult lands.</p>
+<p>Specific reads:</p>
+<ul>
+  <li>Enemy Reinhardt has Earthshatter charged → pre-emptive Trans when the team is grouped within shatter range.</li>
+  <li>Enemy Genji ults from cover → Sound Barrier the moment Dragonblade voiceline triggers.</li>
+  <li>Enemy Sigma Gravitic Flux above the team → Trans on the freeze, not after the slam.</li>
+</ul>
+<p>Anticipation requires tracking enemy ult charge percentages constantly. Most Diamond supports forget to track. Master supports never forget.</p>` },
+      { heading: 'Pro-VOD library at scale — 30+ patterns memorized', html: `<p>By Master, you should have 30+ specific OWCS patterns memorized:</p>
+<ul>
+  <li>Pro Reinhardt always pre-blocks the choke for 3 seconds before charging.</li>
+  <li>Pro Ana sleep darts the Tank's primary ult target, not the Tank itself.</li>
+  <li>Pro Tracer always Pulse Bombs the grouped Support pair, never solo Tank.</li>
+  <li>Pro Lúcio amps speed boost for the engage, then heals for the trade.</li>
+</ul>
+<p>Build the library by watching one OWCS match per day with the pause-and-predict method. By month 2 you'll have 60+ patterns. By month 3 you're playing at Master-tier macro reads.</p>` },
+      { heading: '2-round comp swaps — adapt every 2 rounds', html: `<p>Plat teams hold same comp for 5 rounds. Diamond teams swap every 3. Master teams swap every 2. The cycle:</p>
+<ul>
+  <li>Rounds 1-2: standard comp probe.</li>
+  <li>Rounds 3-4: counter-comp based on round 1-2 reads.</li>
+  <li>Rounds 5-6: re-counter or hold based on results.</li>
+</ul>
+<p>The 2-round window is what beats opponent adaptation. Diamond opponents adapt slowly; Master opponents adapt by round 4. Beat the curve by switching first.</p>` },
+      { heading: 'Mechanical aim benchmarks', html: `<p>At Master, the aim ceiling drops most plateaus. Specific benchmarks per role:</p>
+<ul>
+  <li>Hitscan DPS (Cassidy, Ashe, Soldier): 30%+ headshot rate, 50%+ critical hit rate.</li>
+  <li>Tracer / Sojourn: tracking percentage 60%+ on moving targets.</li>
+  <li>Ana: Sleep dart hit rate 40%+ on engaged enemies.</li>
+  <li>Widowmaker (if maining): 35%+ headshot rate.</li>
+</ul>
+<p>Track these weekly via in-game stats. If you're stuck at Diamond benchmarks (22-25% headshot), the issue is mechanical, not macro. Fix aim before chasing macro.</p>` },
+      { heading: 'Veto strategy and ranked queue optimization', html: `<p>By Diamond you have win-rate data per map. Master players use it strategically:</p>
+<ul>
+  <li>Toggle off your bottom 3 maps in queue settings.</li>
+  <li>Track win rate weekly per map. If a previously-strong map drops below 50%, study pro VODs of it before queueing again.</li>
+  <li>Focus practice on your 4-5 strongest maps. Become the team's expert there.</li>
+  <li>Note opponent comp tendencies on rematch lobbies — same opponents at this elo recur.</li>
+</ul>
+<p>Veto + practice focus compounds across a season. Diamonds who veto strategically gain 30%+ more SR per session than Diamonds who play all maps.</p>` },
+      { heading: 'Mental game — between-match resets', html: `<p>OWCS-tier mental discipline. Specific protocols:</p>
+<ul>
+  <li>30-second box breath between rounds (in 4, hold 4, out 4, hold 4). Drops heart rate from 95+ BPM to 70 BPM.</li>
+  <li>If you tilt-stack 3 matches, stop for 30 minutes. Walk, water, return fresh.</li>
+  <li>If a teammate is tilting, don't escalate. Quick "you got this, swap heroes" defuses better than silence.</li>
+  <li>Track session win rate. Below 40%, end the session — your performance compounds badly.</li>
+</ul>
+<p>Master players reset 100% of rounds. Diamond players carry tilt for 2-3 rounds. That swing alone is the rank gap.</p>` },
+    ],
+    mistakes: [
+      'Hero swaps only at round start, not mid-fight.',
+      'Healing ults reactive (after damage), not anticipative.',
+      'Pro VOD library at 5-10 patterns, not 30+.',
+      'Comp swaps every 5 rounds, not every 2.',
+      'Aim ceiling at Diamond benchmarks (22-25% headshot).',
+      'No queue veto — playing weak maps for free SR loss.',
+      'Tilt-stacking 3+ match losing streaks.',
+    ],
+    drill: { heading: 'Drill: 30-day pro VOD-per-day library build', html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match — pattern, ult timing, comp swap, positioning detail. By day 30 you have 30 patterns.</p><p>Test it: at day 30, watch a new pro match and predict 5 calls before they happen. Hit rate should be 60%+. If it's lower, your library is shallow — keep watching for another 30 days.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compute your hero-swap timing across matches and flag rounds where you should have swapped mid-fight but didn't. Useful for finding the Diamond plateau pattern of "stuck on main hero" that Master players have already broken.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
+      { name: 'How to Climb from Master to GM', url: '/blog/ow2-master-to-gm.html' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Master',
+    toRank: 'Grandmaster',
+    slug: 'ow2-master-to-gm',
+    metaTitle: 'How to Climb from Master to Grandmaster in Overwatch 2 (2026 Guide)',
+    metaDescription: 'OW2 Master-to-GM — top 0.5% mental discipline, mechanical aim consistency at scale, hero pool depth, match-to-match macro reads, and OWCS-tier comp absorption.',
+    intro: `<p>Master is top 2% of OW2. Grandmaster is top 0.5%. The gap is mental discipline at the high-pressure rounds, mechanical aim at the ceiling, and hero pool depth that lets you cover any meta swap.</p>`,
+    sections: [
+      { heading: 'Top-0.5% mental discipline', html: `<p>GM matches are 30+ minutes of high-pressure decisions. Mental discipline at this tier:</p>
+<ul>
+  <li>2-second mental reset between deaths. Same crosshair, same default, same focus. No commentary on the death.</li>
+  <li>If you tilt-stack 2 losses, stop the session. Don't grind through tilt at GM — your SR loss compounds badly.</li>
+  <li>Don't blame teammates in voice. Master players blame; GM players solve.</li>
+  <li>Track session win rate. Below 50%, end session.</li>
+</ul>
+<p>The reset discipline is what separates GM consistency from Master volatility. Most plateaued Masters have the mechanics but lose 4-round streaks to mental tilt.</p>` },
+      { heading: 'Mechanical aim at the ceiling', html: `<p>GM aim benchmarks per role:</p>
+<ul>
+  <li>Hitscan DPS: 35%+ headshot rate, 60%+ crit rate.</li>
+  <li>Projectile DPS (Genji, Hanzo, Pharah): 50%+ projectile-shot accuracy on moving targets.</li>
+  <li>Ana: 50%+ Sleep dart hit rate, 40%+ crit rate on rifle.</li>
+  <li>Tracker (Tracer, Soldier 76): 65%+ tracking percentage.</li>
+</ul>
+<p>Daily aim regimen at this tier:</p>
+<ul>
+  <li>30 min Aim Lab (Gridshot, Tracking, Microshot).</li>
+  <li>30 min OW2 quick play with target hero (don't waste competitive matches on aim warm-up).</li>
+  <li>30 min hero-specific scenario practice (e.g., Tracer flickshots, Genji deflect timing).</li>
+</ul>
+<p>If you're below GM benchmarks after 4 weeks of regimen, the issue is sensitivity or technique. Get a coach to review.</p>` },
+      { heading: 'Hero pool depth — 6-8 heroes per role', html: `<p>Master players have 3-4 heroes per role. GM players have 6-8. Why: meta swaps and counter-picks demand fluency.</p>
+<p>Specific GM hero pools:</p>
+<ul>
+  <li>Tank: Reinhardt, D.Va, Winston, Sigma, Orisa, Junker Queen, Ramattra, Zarya. Match-up dependent.</li>
+  <li>DPS hitscan: Soldier, Cassidy, Ashe, Sojourn. Plus Tracer for dive comp.</li>
+  <li>DPS projectile: Pharah, Echo, Hanzo, Genji.</li>
+  <li>Support: Ana, Kiriko, Lúcio, Mercy, Baptiste, Brigitte. Plus Juno for sustain comps.</li>
+</ul>
+<p>If you're 3-trick at Master, expand the pool BEFORE chasing GM. The 4-round counter-pick window demands flexibility.</p>` },
+      { heading: 'Match-to-match macro reads', html: `<p>GM teams play match-to-match, not round-to-round. Specifics:</p>
+<ul>
+  <li>Round 1-3: probe enemy comp + ult patterns.</li>
+  <li>Round 4-6: pick best counter-strat from probe data.</li>
+  <li>Round 7-9: lock in winning pattern.</li>
+  <li>Round 10-12: half-time prep + comp adjustment based on full half data.</li>
+  <li>Round 13+: counter-strat round 2.</li>
+</ul>
+<p>Master teams play round-to-round. GM teams play match-to-match. The 12-round vision is what wins overtime games.</p>` },
+      { heading: 'OWCS-tier comp absorption', html: `<p>By GM, you should have absorbed 100+ pro patterns. Watch one tier-1 match per day for 90 days. By day 90:</p>
+<ul>
+  <li>You auto-recognize standard comps from round 1 lock-in.</li>
+  <li>You predict ult chains 5+ seconds before they fire.</li>
+  <li>You read healing-ult timing windows by matching to pro patterns.</li>
+  <li>You know which maps favor dive vs brawl vs poke comps.</li>
+</ul>
+<p>Recommended VODs: OWCS Worlds finals, regional finals, top streamers' tournament play. Avoid casual content — only tier-1 prep level.</p>` },
+      { heading: 'Sensitivity and FOV optimization', html: `<p>GM players tune sensitivity to body type and hand speed. Specifics:</p>
+<ul>
+  <li>800-1600 DPI is standard at GM. Higher DPI = faster flicks but less precision.</li>
+  <li>Sensitivity in cm/360°: most GM players use 30-50cm/360° for hitscan, 20-30cm for projectile.</li>
+  <li>FOV: 103 (max in OW2) for situational awareness.</li>
+  <li>Crosshair: bright cyan or yellow. Avoid red (blends with HUD).</li>
+</ul>
+<p>If you're using default settings, you're playing at a mechanical disadvantage. Spend a week dialing in your sensitivity before chasing GM.</p>` },
+      { heading: 'Tilt protocols at the high-pressure rounds', html: `<p>Round 13+ is where matches are decided. Specific tilt protocols:</p>
+<ul>
+  <li>Between rounds, 4-second box breath. Heart rate from 95+ to 70 BPM.</li>
+  <li>If you lose 2 in a row, IGL calls "default round" — no trick play, just fundamentals.</li>
+  <li>If you lose 3 in a row, IGL calls a player swap if anyone's tilting visibly.</li>
+</ul>
+<p>GM teams run these protocols. Master teams tilt-stack into 6-round losing streaks. The protocol is the conversion lever.</p>` },
+    ],
+    mistakes: [
+      'Tilt-stacking matches — losing 4-6 in a row to mental, not mechanical.',
+      'Aim ceiling at Master benchmarks (28-30% headshot) instead of GM (35%+).',
+      'Hero pool of 3-4 — can\'t cover counter-pick demands.',
+      'Round-to-round play instead of match-to-match macro.',
+      'Pro VOD library at 30 patterns, not 100+.',
+      'Default sensitivity / FOV settings.',
+      'No tilt protocol for round 13+.',
+    ],
+    drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days, 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, sleep dart hit rate (if Ana), crit rate per role. If numbers plateau before day 90, fix sensitivity or ergonomics before continuing.</p>` },
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against OWCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern that separates Master plateau from GM ceiling.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Master', url: '/blog/ow2-diamond-to-master.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
+      { name: 'OW2 Junkertown Guide', url: '/games/ow2/junkertown.html' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
+// ============================================================================
 // APEX LEGENDS POSTS (3)
 // ============================================================================
 const APEX_POSTS = [
@@ -3223,7 +3408,7 @@ function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...APEX_POSTS, ...MVR_POSTS, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...MVR_POSTS, ...HALO_POSTS, ...FINALS_POSTS, ...COD_POSTS, ...FN_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -3240,4 +3425,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, APEX_POSTS, MVR_POSTS, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, MVR_POSTS, HALO_POSTS, FINALS_POSTS, COD_POSTS, FN_POSTS, htmlShell, renderPost, renderIndex }
