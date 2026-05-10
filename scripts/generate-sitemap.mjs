@@ -22,6 +22,7 @@ const STATIC_URLS = [
   { loc: '/#/auth', freq: 'monthly', pri: 0.6 },
   { loc: '/#/strats', freq: 'weekly', pri: 0.9 },
   { loc: '/#/match-prep', freq: 'weekly', pri: 0.85 },
+  { loc: '/#/loadouts', freq: 'weekly', pri: 0.85 },
   { loc: '/#/operators', freq: 'weekly', pri: 0.9 },
   { loc: '/#/meta', freq: 'weekly', pri: 0.8 },
   { loc: '/#/vod', freq: 'monthly', pri: 0.8 },
@@ -257,6 +258,17 @@ async function main() {
     'fn-plat-to-diamond',
     'fn-diamond-to-elite',
     'fn-elite-to-champion',
+    // R6 operator deep-dives (47 posts)
+    'r6-operator-ace', 'r6-operator-alibi', 'r6-operator-aruni', 'r6-operator-ash', 'r6-operator-azami',
+    'r6-operator-bandit', 'r6-operator-buck', 'r6-operator-capitao', 'r6-operator-castle', 'r6-operator-caveira',
+    'r6-operator-doc', 'r6-operator-dokkaebi', 'r6-operator-echo', 'r6-operator-ela', 'r6-operator-finka',
+    'r6-operator-flores', 'r6-operator-fuze', 'r6-operator-glaz', 'r6-operator-goyo', 'r6-operator-gridlock',
+    'r6-operator-hibana', 'r6-operator-iana', 'r6-operator-jager', 'r6-operator-kaid', 'r6-operator-kali',
+    'r6-operator-lesion', 'r6-operator-lion', 'r6-operator-maestro', 'r6-operator-maverick', 'r6-operator-melusi',
+    'r6-operator-mira', 'r6-operator-mozzie', 'r6-operator-mute', 'r6-operator-nomad', 'r6-operator-pulse',
+    'r6-operator-sledge', 'r6-operator-smoke', 'r6-operator-thatcher', 'r6-operator-thermite', 'r6-operator-thunderbird',
+    'r6-operator-twitch', 'r6-operator-valkyrie', 'r6-operator-vigil', 'r6-operator-wamai', 'r6-operator-ying',
+    'r6-operator-zero', 'r6-operator-zofia',
   ]
   for (const slug of BLOG_SLUGS) {
     urls.push(urlEntry({
