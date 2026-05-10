@@ -1,0 +1,37 @@
+{
+  "_comment": "Last verified: 2026-05 — HLTV pro stats + Liquipedia tournament data. CS2 weapons-tier list (no character meta).",
+  "S": [
+    "AK-47",
+    "AWP",
+    "M4A4",
+    "M4A1-S"
+  ],
+  "A": [
+    "Desert Eagle",
+    "Galil AR",
+    "FAMAS",
+    "P250",
+    "Tec-9",
+    "USP-S"
+  ],
+  "B": [
+    "SG 553",
+    "AUG",
+    "MP9",
+    "MAC-10",
+    "MP7",
+    "Five-SeveN",
+    "CZ75-Auto"
+  ],
+  "C": [
+    "UMP-45",
+    "Negev",
+    "M249",
+    "P90",
+    "Bizon",
+    "XM1014",
+    "MAG-7"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
