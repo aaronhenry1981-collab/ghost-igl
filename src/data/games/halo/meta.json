@@ -1,0 +1,34 @@
+{
+  "_comment": "Last verified: 2026-05 — based on HCS pro stats + Halo Infinite ranked tier list snapshot. Halo weapons-tier list (no character meta).",
+  "S": [
+    "BR75 Battle Rifle",
+    "Sniper Rifle",
+    "Mangler",
+    "Bandit Evo"
+  ],
+  "A": [
+    "Skewer",
+    "Rocket Launcher",
+    "Energy Sword",
+    "Gravity Hammer",
+    "Sidekick",
+    "Commando"
+  ],
+  "B": [
+    "Stalker Rifle",
+    "Hydra",
+    "Cindershot",
+    "Heatwave",
+    "Plasma Pistol",
+    "Disruptor"
+  ],
+  "C": [
+    "Pulse Carbine",
+    "Ravager",
+    "Needler",
+    "Plasma Carbine",
+    "Shock Rifle"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
