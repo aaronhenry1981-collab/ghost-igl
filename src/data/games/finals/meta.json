@@ -1,0 +1,29 @@
+{
+  "_comment": "Last verified: 2026-05 — based on The Finals tournament + community tier list snapshot.",
+  "S": [
+    "Heavy",
+    "Medium",
+    "Heavy + Medium + Light comp"
+  ],
+  "A": [
+    "Light (cloak / sniper builds)",
+    "AKM (Medium)",
+    "Lewis Gun (Heavy)",
+    "FCAR (Medium)"
+  ],
+  "B": [
+    "M60 (Heavy)",
+    "V9S (Light)",
+    "XP-54 (Light)",
+    "SA1216 (Heavy)",
+    "Model 1887 (Medium)"
+  ],
+  "C": [
+    "Sword (Light)",
+    "Sledgehammer (Heavy)",
+    "Riot Shield (Medium)",
+    "CL-40 (Medium)"
+  ],
+  "bans_attack": [],
+  "bans_defense": []
+}
