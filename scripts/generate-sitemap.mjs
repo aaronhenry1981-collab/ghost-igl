@@ -51,6 +51,30 @@ const STATIC_URLS = [
 // data; we expose each map as its own indexable URL — captures queries like
 // "CS2 Mirage strategy guide", "Valorant Bind callouts", "Apex Storm Point POIs",
 // etc. Adds ~73 URLs to the sitemap.
+// Per-game cast (agent/hero/legend/loadout) URLs. Captures queries like
+// "Jett Valorant guide", "D.Va Overwatch 2 build", etc. ~156 URLs.
+async function getMultiGameCastUrls() {
+  const urls = []
+  try {
+    const { GAMES } = await import('../src/data/games/index.js')
+    for (const game of GAMES) {
+      if (game.id === 'r6') continue
+      try {
+        const data = await game.load()
+        const cast = Array.isArray(data.CAST) ? data.CAST : Object.values(data.CAST || {})
+        for (const m of cast) {
+          if (!m?.name) continue
+          const slug = String(m.id || m.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+          urls.push({ loc: `/games/${game.id}/cast/${slug}.html`, freq: 'monthly', pri: 0.7 })
+        }
+        // Index page per game's cast catalog
+        urls.push({ loc: `/games/${game.id}/cast/`, freq: 'weekly', pri: 0.8 })
+      } catch { /* skip */ }
+    }
+  } catch { /* skip */ }
+  return urls
+}
+
 async function getMultiGameMapUrls() {
   const urls = []
   try {
@@ -132,6 +156,10 @@ async function main() {
   const gameMapUrls = await getMultiGameMapUrls()
   for (const u of gameMapUrls) urls.push(urlEntry({ ...u, lastmod: today }))
 
+  // Append multi-game per-cast (agent/hero/legend/loadout) URLs.
+  const gameCastUrls = await getMultiGameCastUrls()
+  for (const u of gameCastUrls) urls.push(urlEntry({ ...u, lastmod: today }))
+
   for (const opName of [...operatorSet].sort()) {
     const slug = opName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
     urls.push(urlEntry({
@@ -164,9 +192,14 @@ async function main() {
     'r6-platinum-to-emerald',
     'r6-emerald-to-diamond',
     'r6-diamond-to-champion',
-    // CS2 (added when posts ship)
-    // 'cs2-silver-to-nova', 'cs2-nova-to-mg', 'cs2-mg-to-dmg', 'cs2-dmg-to-le',
-    // 'cs2-le-to-lem', 'cs2-lem-to-supreme', 'cs2-supreme-to-global',
+    // CS2
+    'cs2-silver-to-nova',
+    'cs2-nova-to-mg',
+    'cs2-mg-to-dmg',
+    'cs2-dmg-to-le',
+    'cs2-le-to-lem',
+    'cs2-lem-to-supreme',
+    'cs2-supreme-to-global',
     // Valorant
     // 'valorant-iron-to-bronze', 'valorant-bronze-to-silver', 'valorant-silver-to-gold',
     // 'valorant-gold-to-plat', 'valorant-plat-to-diamond', 'valorant-diamond-to-ascendant',
