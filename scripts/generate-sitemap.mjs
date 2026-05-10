@@ -245,7 +245,11 @@ async function main() {
     'finals-diamond-to-ruby',
     // CoD
     'cod-bronze-to-silver',
+    'cod-silver-to-gold',
+    'cod-gold-to-plat',
     'cod-plat-to-diamond',
+    'cod-diamond-to-iri',
+    'cod-iri-to-top250',
     // Fortnite
     'fn-bronze-to-silver',
     'fn-plat-to-diamond',
