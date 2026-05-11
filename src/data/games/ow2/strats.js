@@ -3571,6 +3571,2572 @@ const STRATS = {
       },
     },
   },
+  "lijiang-tower": {
+    "night-market": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Night Market is dive heaven — tight corridors and stall-cover everywhere. Winston bubbles a Lúcio-amped engage through the stalls onto Point. Tracer recalls off the back-line, Sojourn slides on Disruptor for the railgun pick. Stagger your dive, don't 5-man one corridor.",
+        callouts: ["Point", "Bridge", "Stalls", "Side Room", "High Ground", "Cubby", "Spawn Path"],
+        utility: [
+          "Winston: Jump Pack onto Bap/Ana, bubble in stalls for cover",
+          "Tracer: Pulse Bomb the contested support cluster — Lúcio-amp the throw",
+          "Sojourn: Disruptor on Point to deny stand, slide to the railgun shot",
+          "Lúcio: Speed amp the engage, save Sound Barrier for the trade",
+          "Kiriko: Suzu the dive entry, Kitsune for the cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Spawn-to-Point dive route", from: "Spawn high ground", use: "Lúcio speed-amps Winston + Tracer through the bridge, Sojourn flanks low for cross-fire — 6-second engage." },
+            { spawn: "Re-engage on cap", from: "Spawn", use: "Don't trickle after a wipe — wait full team, Kitsune Rush ready, swap to enemy weakest flank." },
+          ],
+          spawnKillSpots: [
+            { from: "Bridge", target: "Bap on Stalls high ground", risk: "High — exposed to Widow", reward: "Removes the Immortality Field from the next fight" },
+          ],
+          advancedSetups: [
+            "Ult combo: Lúcio amp → Kitsune Rush → Winston Primal → Tracer Pulse Bomb on retreat path.",
+            "Round 1 commit only — round 2 reset Winston positioning, Tracer flips to opposite flank.",
+            "If they run Hog/Brig wall, swap Sojourn → Sombra to hack the Suzu and break Trans timing.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anchor Night Market with 5-on-Point. Winston body-blocks the cap line. Sojourn holds the Bridge sightline. Tracer roams Side Room for the harass pick. Use Kitsune to walk the cap back if it tips past 99%.",
+        callouts: ["Point", "Bridge", "Stalls", "Side Room", "High Ground", "Cubby", "Spawn Path"],
+        utility: [
+          "Winston: Anchor cap with bubble, save Primal for retake",
+          "Tracer: Side Room flank watch + back-line harass",
+          "Sojourn: Hold Bridge railgun angle on charge",
+          "Lúcio: Heal aura on Point, Sound Barrier on retake",
+          "Kiriko: Mid-line Suzu + Kitsune for the walk-it-back",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Bridge", target: "attacker spawn exit", timing: "Setup phase — pre-position before first engage to deny Lúcio speed-amp" },
+            { from: "Side Room", target: "attacker support line", timing: "Mid-fight — flank punish once their tank commits to Point" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim the standard Bridge entry — most dive teams ult-amp through the same arch each round.",
+            "Save Kiriko Suzu for the second push — the first dive is a tempo test.",
+          ],
+          advancedSetups: [
+            "Ult bait: Lúcio fakes a Sound Barrier on tempo push, real Sound Barrier on the contest at 99%.",
+            "Off-angle Sojourn at Stalls forces dive to re-clear, buys 3s for Suzu cycle.",
+            "Walk-it-back commit: Kitsune at 95%, full team on Point — never engage at 99% without ults.",
+          ],
+        },
+      },
+    },
+    "garden": {
+      attack: {
+        operators: [
+          { name: "Ramattra", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Hanzo", role: "DPS", priority: "recommended" },
+          { name: "Brigitte", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Garden's open layout favors poke + brawl over pure dive. Ramattra pokes from Bridge with Void Barrier, Hanzo Sonic-arrows the cap, Reaper Wraiths through Side for the support kill. Nano-Annihilate the cap on Sound Barrier trade.",
+        callouts: ["Point", "Bridge", "Side", "Waterfall", "Cubby", "High Ground", "Spawn"],
+        utility: [
+          "Ramattra: Void Barrier over Point, Vortex on cap chokes",
+          "Reaper: Shadow Step behind support line, Death Blossom the cluster",
+          "Hanzo: Sonic Arrow pre-engage, Dragonstrike the cap on Nano commit",
+          "Brigitte: Inspire heal aura, Rally for the contest reset",
+          "Ana: Nano on Reaper or Rammatra, Sleep the enemy tank",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "High ground hold from Spawn", from: "Spawn high ground", use: "Hanzo + Ana hold high ground, tank duo bunkers Bridge for poke phase before the commit." },
+            { spawn: "Side flank from Spawn", from: "Spawn side door", use: "Reaper + Brig flank Side Cubby, force enemy support line to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Bridge", target: "enemy DPS on Waterfall", risk: "Medium — Genji deflect angle", reward: "Removes their pick threat for the cap commit" },
+          ],
+          advancedSetups: [
+            "Ult combo: Sonic Arrow → Nano-Annihilation → Dragonstrike denies the cap re-entry.",
+            "Counter-dive read: Brigitte Whip Shot saves the Ana from Tracer harass — pre-aim the Recall path.",
+            "Garden cubby trap: Reaper holds the rotating cubby; Ana Sleep + Brigitte Whip Shot for the back-line pick.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Ramattra", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Hanzo", role: "DPS", priority: "recommended" },
+          { name: "Brigitte", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Garden defense is the textbook bunker. Ramattra Void Barrier on Point, Hanzo from Bridge for the long shot, Brigitte armor-aura on the choke, Ana Sleep + Nano combo for the retake. Punish attacker tempo with Sleep-Anti on the engage.",
+        callouts: ["Point", "Bridge", "Side", "Waterfall", "Cubby", "High Ground", "Spawn"],
+        utility: [
+          "Ramattra: Void Barrier on Point, Nemesis Form on engage",
+          "Reaper: Shadow Step harass off-angle, Wraith escape",
+          "Hanzo: Bridge sightline, Sonic Arrow before push reads",
+          "Brigitte: Armor aura, Whip Shot the Tracer harass",
+          "Ana: Sleep Dart on commit, Anti-Nade the cap, Nano on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side door", target: "attacker support line", timing: "Setup phase — pre-position Reaper for the round-opener flank" },
+            { from: "High ground", target: "attacker DPS", timing: "Mid-fight — Hanzo lunge the off-angle reset" },
+          ],
+          antiSpawnPeek: [
+            "Ana Sleep on the tank engage — pre-aim the Bridge entry, sleep the Winston jump.",
+            "Hanzo Sonic Arrow on push reads — most attackers commit through the same chokes.",
+          ],
+          advancedSetups: [
+            "Sleep-Anti combo: Ana Sleeps the tank, Anti-Nades the support line, Brigitte Rallies for the contest.",
+            "Ramattra Annihilation on retake — pre-burn enemy Suzu with a fake Vortex commit.",
+            "Off-angle Reaper on Cubby — forces attacker to clear before tank commits, buys retake 4s.",
+          ],
+        },
+      },
+    },
+    "control-center": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Control Center is 70% dive, 30% high ground duel. Winston jumps the supports, Genji Dragonblade-pockets with Mercy boost, Soldier holds the rooftop for cleanup. Wells on the edges are kill zones — Lúcio boops on the cap pinch.",
+        callouts: ["Point", "Rooftop", "Bridge", "Well", "Side Wing", "Spawn Hall", "Tunnel"],
+        utility: [
+          "Winston: Jump Pack the back-line, Primal Rage into the well boop",
+          "Genji: Deflect the Anti-Nade, Dragonblade with Mercy boost",
+          "Soldier: Helix the engage, Tac Visor on the cap re-take",
+          "Lúcio: Speed-amp the dive, boop enemy off the well edge",
+          "Mercy: Dmg boost on Dragon, Valk for re-engage mobility",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Rooftop high-ground take", from: "Spawn rooftop", use: "Soldier + Mercy claim Rooftop on round start, Winston dives from below to split defender attention." },
+            { spawn: "Bridge dive route", from: "Spawn bridge", use: "Lúcio speed → Winston jump → Genji Swift Strike onto Point in one ult window." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "Ana on opposite high ground", risk: "Medium — Widow counter angle", reward: "Removes the Sleep threat from the Winston dive" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Mercy boost → Genji Dragonblade → Soldier Visor cleans up.",
+            "Boop the well: Lúcio boops cap-defender off the side edge on full ult window — instant 5v4.",
+            "Round 1 commit only — round 2 swap to Soldier + Pharah for the high-ground duel.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold Point center with Lúcio aura, Soldier on Bridge for the long sightline, Genji counter-dives the attacker support flank. Sound Barrier the cap when ult diff hits. Don't body-block the well edge — Lúcio boop = instant loss.",
+        callouts: ["Point", "Rooftop", "Bridge", "Well", "Side Wing", "Spawn Hall", "Tunnel"],
+        utility: [
+          "Winston: Anchor Point, bubble the cap line",
+          "Genji: Counter-dive the attacker Tracer, Dragonblade on retake",
+          "Soldier: Bridge sightline, Biotic Field on cap",
+          "Lúcio: Speed-rotate to the secondary cap entry",
+          "Mercy: Pocket Soldier, Valk on the contest",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Wing", target: "attacker spawn exit", timing: "Setup phase — Soldier sprint-rotates for the round-opener pick" },
+            { from: "Tunnel", target: "attacker support line", timing: "Mid-fight — Genji Swift Strike the Mercy" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Bridge — every dive route on Control Center comes through the same arch.",
+            "Soldier hold high ground sightline — most attackers re-engage from rooftop, hold the railing.",
+          ],
+          advancedSetups: [
+            "Sound Barrier on the contest at 95%, not on engage — wins the trade if attackers ult first.",
+            "Off-angle Genji on rooftop — forces attacker dive to clear before the support kill.",
+            "Don't stand on the well — Lúcio boop wins rounds. Position 2m inside the cap circle.",
+          ],
+        },
+      },
+    },
+  },
+  "oasis": {
+    "city-center": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Pharah", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "City Center is sky war. Pharah-Mercy hold the airspace, Winston dives the back-line through the side tunnels, Tracer recall-harasses the supports. Lúcio speed-engage commits both flanks at once. The cars in the middle are auto-kill — boop enemies into them on engage.",
+        callouts: ["Point", "Bar", "Library", "Cars", "Side Tunnel", "Rooftop", "Spawn Hall"],
+        utility: [
+          "Winston: Jump Pack the back-line, bubble for Pharah landing",
+          "Tracer: Recall after harass, Pulse Bomb the cluster on Sound Barrier trade",
+          "Pharah: Concussive Blast boops into cars, Barrage on Sound Barrier",
+          "Mercy: Pocket Pharah, Valk for re-engage",
+          "Lúcio: Speed-engage, boop into the cars on the cap pinch",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Sky high-ground hold", from: "Spawn rooftop", use: "Pharah + Mercy claim air on round start, Winston dives below to split defender attention." },
+            { spawn: "Side tunnel dive", from: "Spawn side", use: "Tracer + Winston commit Side Tunnel for the flank, Lúcio speeds through main." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "Ana on opposite high ground", risk: "Medium — Widow counter", reward: "Removes Anti-Nade threat for the cap commit" },
+          ],
+          advancedSetups: [
+            "Boop into cars: Lúcio boop on Point — enemy bunker = instant kill in the auto-hazard.",
+            "Pharah-Mercy ult: Sound Barrier counter-burn before Barrage — most defenders waste it on the fake.",
+            "Side tunnel staircase: Tracer + Lúcio commit Side, force defender Pharah counter — Winston dives the Mercy left alone.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "City Center defense is air denial. Cassidy holds Bar for the long shot, Ana pre-aims the Pharah jet, Winston counter-dives the attacker Tracer. Boop the Point hazard cars on engage. Save Sound Barrier for the contest, not the engage.",
+        callouts: ["Point", "Bar", "Library", "Cars", "Side Tunnel", "Rooftop", "Spawn Hall"],
+        utility: [
+          "Winston: Counter-dive the attacker dive tank, anchor cap",
+          "Tracer: Side Tunnel flank watch, harass attacker Mercy",
+          "Cassidy: Bar sightline, Magnetic Grenade on Pharah jet",
+          "Mercy: Pocket Cassidy for Pharah counter, rez priority",
+          "Ana: Anti-Nade the cap contest, Sleep the Pharah commit",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Tunnel", target: "attacker spawn exit", timing: "Setup phase — pre-position to deny attacker Side dive" },
+            { from: "Rooftop", target: "attacker Pharah", timing: "Mid-fight — Ana Sleep on jet for the team trade" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Pharah jump — every Pharah engages from the same spawn rooftop.",
+            "Ana Sleep on Pharah jet timing — count 5s after spawn audio.",
+          ],
+          advancedSetups: [
+            "Hazard-car trap: Tracer/Winston boop attacker into Point cars — round-winning play.",
+            "Sleep-Anti combo on the dive engage — kills the tank window before it lands.",
+          ],
+        },
+      },
+    },
+    "gardens": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "recommended" },
+          { name: "Brigitte", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Gardens is brawl city — tight chokes, hazards, layered walls. Reinhardt walls up the engage, Reaper Wraiths through the side, Bastion Tank-form on the cap from cover. Nano-Earthshatter on the cap contest. Boop bumper enemies into the planters.",
+        callouts: ["Point", "Greenhouse", "Hazard", "Side Garden", "Bridge", "Spawn Hall", "Cubby"],
+        utility: [
+          "Reinhardt: Barrier the choke, Fire Strike pre-engage, Earthshatter on cap",
+          "Reaper: Wraith side flank, Death Blossom the cluster",
+          "Bastion: Sentry-form on cover for the cap shred",
+          "Brigitte: Armor-aura the brawl, Rally for the contest",
+          "Ana: Nano on Reaper or Rein, Sleep the enemy tank",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Greenhouse main entry", from: "Spawn main", use: "Rein walls + Brig armor-aura up Greenhouse for the engage, Bastion in Sentry from Cubby." },
+            { spawn: "Side Garden flank", from: "Spawn side", use: "Reaper Wraiths Side Garden, forces defender to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Greenhouse", target: "enemy Ana on Cubby", risk: "Medium — exposed to Widow", reward: "Removes Sleep/Anti from the cap commit" },
+          ],
+          advancedSetups: [
+            "Earthshatter timing: Nano-Shatter on the cap at 95% — never burn on engage.",
+            "Bastion shred: Sentry-form from Cubby on the cap line — Rein walls the angle.",
+            "Counter-Sigma: if defender runs Sigma, swap Bastion → Sombra for Suzu hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Gardens defense is sustain bunker. Sigma barriers the choke, Cassidy + Bap pre-aim from cover. Ana Anti-Nades the contest. Bastion shreds the tank on engage. Don't break formation — every line in Gardens is built for trade-pre-aim.",
+        callouts: ["Point", "Greenhouse", "Hazard", "Side Garden", "Bridge", "Spawn Hall", "Cubby"],
+        utility: [
+          "Sigma: Barrier choke, Accretion stun the engage tank, Kinetic Grasp the Reaper",
+          "Cassidy: Hold long sightline, Magnetic Grenade on Rein wall",
+          "Bastion: Sentry-form on cover for tank shred",
+          "Baptiste: Lamp the cap, Amplification Matrix for the kill window",
+          "Ana: Anti-Nade the cap contest, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Garden", target: "attacker support line", timing: "Setup phase — Cassidy rotates to the off-angle pre-fight" },
+            { from: "Cubby", target: "attacker tank engage", timing: "Mid-fight — Bastion Sentry from cover for the round-opener shred" },
+          ],
+          antiSpawnPeek: [
+            "Ana pre-aim Greenhouse main — every brawl comp pushes from the same arch.",
+            "Cassidy hold long Bridge — most attackers commit before clearing the angle.",
+          ],
+          advancedSetups: [
+            "Anti-Amp combo: Bap Amp Matrix + Ana Anti-Nade on cap — burst kills the tank on commit.",
+            "Sigma Accretion-stun on Rein wall break — frees the trade angle.",
+            "Don't fight Hazard — kite enemies into it, boop with Cassidy nade.",
+          ],
+        },
+      },
+    },
+    "university": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "University is the dive map of Oasis. Winston dives Library, Genji Swift-Strikes the back-line, Sojourn slides Disruptor through main. Kitsune speed-cap on engage. The Point is open — bait Sound Barrier with a fake commit before the real engage.",
+        callouts: ["Point", "Library", "Catwalk", "Side Hall", "Atrium", "Spawn Path", "High Ground"],
+        utility: [
+          "Winston: Jump Library, bubble for Sojourn slide",
+          "Genji: Swift Strike the Mercy, Dragonblade on Sound Barrier trade",
+          "Sojourn: Disruptor on Point, slide to the railgun shot",
+          "Lúcio: Speed-amp the dive, Sound Barrier on cap contest",
+          "Kiriko: Suzu the entry, Kitsune Rush for cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Library dive route", from: "Spawn high ground", use: "Lúcio amps Winston + Sojourn through Library, Genji flanks Catwalk for the support kill." },
+            { spawn: "Side Hall flank", from: "Spawn side", use: "Genji + Tracer commit Side Hall, force defender Ana off Catwalk." },
+          ],
+          spawnKillSpots: [
+            { from: "Catwalk", target: "Bap/Ana on Atrium", risk: "Medium — Widow angle", reward: "Removes Immortality from the cap commit" },
+          ],
+          advancedSetups: [
+            "Bait Sound Barrier: fake commit through main, real engage from Catwalk on Sound Barrier burn.",
+            "Kitsune timing: speed cap from 80%, never burn on early contest.",
+            "Genji Dragon on retake — pre-burn enemy Trans with fake dive.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Brigitte", role: "Support", priority: "essential" },
+          { name: "Baptiste", role: "Support", priority: "recommended" },
+        ],
+        strategy: "University defense lives on the long sightline. Widow holds Library from spawn, Sigma anchors the cap, Brig armor-aura's the dive counter. Bap Lamp on the cap on first contest. Anti-dive: Brig Whip Shot pre-aims the Winston jump.",
+        callouts: ["Point", "Library", "Catwalk", "Side Hall", "Atrium", "Spawn Path", "High Ground"],
+        utility: [
+          "Sigma: Barrier the cap, Accretion stun the dive tank",
+          "Widow: Library long sightline, Venom Mine on Catwalk flank",
+          "Sojourn: Side Hall flank watch, slide for off-angle",
+          "Brigitte: Armor aura the cap, Whip Shot the Tracer Recall",
+          "Baptiste: Lamp the cap, Amplification Matrix on the retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Library", target: "attacker spawn exit", timing: "Setup phase — Widow rotates for the round-opener pick" },
+            { from: "Side Hall", target: "attacker Mercy", timing: "Mid-fight — Sojourn slide flank when tank commits" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Library — most dive comps cross the same sightline.",
+            "Brig Whip Shot the Winston jump — pre-aim the standard arc.",
+          ],
+          advancedSetups: [
+            "Anti-dive trade: Brig Whip Shot + Bap Lamp burn the Winston jump engage.",
+            "Off-angle Sojourn on Side Hall forces re-clear, buys 4s for the Bap Lamp.",
+            "Sigma Accretion the back-line Genji on Swift Strike — kills the ult window.",
+          ],
+        },
+      },
+    },
+  },
+  "samoa": {
+    "downtown": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Downtown is layered streets and short sightlines. Winston dives the rooftop supports, Soldier holds long for the trade, Tracer harasses Mercy on the back. Lúcio speed-amp the rooftop take. The Point is exposed — bait ults from Side Building.",
+        callouts: ["Point", "Rooftop", "Side Building", "Streets", "Pier", "Spawn Path", "Cubby"],
+        utility: [
+          "Winston: Jump rooftop, bubble for Soldier reset",
+          "Tracer: Recall harass, Pulse Bomb the support cluster",
+          "Soldier: Helix the engage, Visor on Sound Barrier trade",
+          "Lúcio: Speed-amp rooftop take, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune on cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Rooftop high-ground take", from: "Spawn rooftop", use: "Soldier + Mercy claim Rooftop, Winston dives below to split defender attention." },
+            { spawn: "Pier flank", from: "Spawn pier", use: "Tracer + Lúcio flank Pier, force defender support line to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "enemy Bap on Side Building", risk: "Medium — Widow counter", reward: "Removes Lamp/Amp from the cap commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune → Visor → Pulse Bomb the cap.",
+            "Side Building bait: fake commit forces defender Mercy to rez early, real push wipes.",
+            "Counter-bunker: swap Tracer → Sombra to hack the cap Sigma barrier.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anchor Downtown with Sigma on Point, Bap Lamp for sustain, Cassidy + Soldier on Rooftop for the long sightline. Anti-dive: Ana Anti-Nade on the Winston jump. Hazard pier is a kill zone — boop attackers off the edge.",
+        callouts: ["Point", "Rooftop", "Side Building", "Streets", "Pier", "Spawn Path", "Cubby"],
+        utility: [
+          "Sigma: Barrier the cap, Accretion stun the dive tank",
+          "Cassidy: Rooftop long sightline, Magnetic on tank engage",
+          "Soldier: Streets cross-fire, Helix the cap commit",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade the engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Pier", target: "attacker support line", timing: "Setup phase — Cassidy rotates for the round-opener pick" },
+            { from: "Rooftop", target: "attacker Pharah/Soldier", timing: "Mid-fight — Soldier reset to opposite rooftop" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Rooftop — every dive comp commits through the same high-ground arch.",
+            "Ana Sleep the Winston jump — count 4s after Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Boop pier hazard: Lúcio boop the attacker tank off pier — round-winning combo.",
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank engage — kills tank in 1s.",
+          ],
+        },
+      },
+    },
+    "beach": {
+      attack: {
+        operators: [
+          { name: "Doomfist", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Hanzo", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Beach is open chaos — terrain transforms each round. Doomfist Slams the cluster, Sombra hacks the cap support, Hanzo Sonic-arrows pre-engage. Kitsune speed-engage the cap. Use the elevated cliff for high-ground duels.",
+        callouts: ["Point", "Cliff", "Shore", "Cave", "Side Path", "Spawn Hall", "High Ground"],
+        utility: [
+          "Doomfist: Power Block the tank engage, Slam the support cluster",
+          "Sombra: Hack the cap Bap, EMP on Sound Barrier trade",
+          "Hanzo: Sonic Arrow pre-engage, Dragonstrike on the cap",
+          "Kiriko: Suzu the Doom dive, Kitsune for cap commit",
+          "Lúcio: Speed-amp Cliff take, boop into Cave",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Cliff high-ground take", from: "Spawn high ground", use: "Hanzo + Lúcio claim Cliff, Doomfist Slams below to split defender attention." },
+            { spawn: "Cave flank", from: "Spawn side", use: "Sombra Translocate Cave, EMP behind defender line for full team commit." },
+          ],
+          spawnKillSpots: [
+            { from: "Cliff", target: "enemy Ana on opposite high ground", risk: "Medium — Widow counter", reward: "Removes Sleep/Anti from the cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Dragon combo: Sombra EMP → Hanzo Dragonstrike → cap shreds through Suzu burn.",
+            "Doomfist isolate: Slam the back-line support, Hack-cleave for the team trade.",
+            "Cliff bait: fake commit forces defender Pharah counter — Hanzo lunge picks Pharah on jet.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Beach defense lives on the long Cliff sightline. Widow snipes from Cliff, Sigma barriers the cap, Bap Lamps the contest. Bastion Sentry from cover for the tank shred. Brig armor-auras the dive counter.",
+        callouts: ["Point", "Cliff", "Shore", "Cave", "Side Path", "Spawn Hall", "High Ground"],
+        utility: [
+          "Sigma: Barrier the cap, Accretion stun the dive engage",
+          "Widow: Cliff long sightline, Venom Mine on Cave flank",
+          "Bastion: Sentry-form on cover for tank shred",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura the cap, Whip Shot the Sombra Translocate",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Cliff", target: "attacker high ground take", timing: "Setup phase — Widow rotates to deny Hanzo pick" },
+            { from: "Cave", target: "attacker support line", timing: "Mid-fight — Sigma Accretion the back-line on commit" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Cliff — every attacker comp takes the same high-ground arch.",
+            "Brig pre-aim Cave Translocate — Sombra commits from the same spot each round.",
+          ],
+          advancedSetups: [
+            "Anti-dive trade: Brig Whip Shot + Bap Lamp burn the Doom Slam — kills the ult.",
+            "Bastion Sentry from Side Path — flank shred on attacker tank engage.",
+            "Sigma Accretion-stun on EMP commit — kills the Sombra ult window.",
+          ],
+        },
+      },
+    },
+    "volcano": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Brigitte", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Volcano is brawl chokes and hazard lava. Rein walls + Brig armor-aura the engage, Reaper Wraiths Side, Mei walls the cap split. Nano-Earthshatter on the cap contest. Boop enemies into lava on Point edge.",
+        callouts: ["Point", "Lava Pit", "Side Cave", "Bridge", "Cubby", "Spawn Hall", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier the choke, Fire Strike pre-engage, Earthshatter on cap",
+          "Reaper: Wraith Side Cave, Death Blossom the cluster",
+          "Mei: Ice Wall the cap split, Blizzard on the contest",
+          "Brigitte: Armor aura, Rally for the contest reset",
+          "Ana: Nano Reaper, Sleep tank, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bridge main entry", from: "Spawn main", use: "Rein + Brig commit Bridge for the engage, Mei Ice Wall splits the defender line." },
+            { spawn: "Side Cave flank", from: "Spawn side", use: "Reaper Wraith Side Cave, EMP-equivalent flank from off-angle." },
+          ],
+          spawnKillSpots: [
+            { from: "Cubby", target: "enemy Bap on cap", risk: "Medium — Widow counter", reward: "Removes Lamp from the cap commit" },
+          ],
+          advancedSetups: [
+            "Boop lava: Brig Whip Shot or Mei Wall enemies into Lava Pit — instant kill.",
+            "Nano-Shatter: Ana Nano on Rein, Earthshatter on cap at 95% — never burn on engage.",
+            "Counter-Sigma: if defender runs Sigma, swap Mei → Sombra for Suzu hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Volcano defense is sustain bunker with the lava on your side. Sigma anchors Point, Cassidy + Bap pre-aim Bridge, Ana Anti-Nades the cap. Bastion shreds the engage tank. Boop attackers off Bridge into Lava Pit.",
+        callouts: ["Point", "Lava Pit", "Side Cave", "Bridge", "Cubby", "Spawn Hall", "High Ground"],
+        utility: [
+          "Sigma: Barrier the cap, Accretion stun the engage tank",
+          "Cassidy: Bridge sightline, Magnetic on Rein wall break",
+          "Bastion: Sentry from Cubby for tank shred",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade the cap, Sleep the dive engage",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Cave", target: "attacker support line", timing: "Setup phase — Cassidy rotates for the round-opener pick" },
+            { from: "Bridge", target: "attacker tank engage", timing: "Mid-fight — Bastion Sentry shreds on tank commit" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Bridge — every brawl comp pushes through the same arch.",
+            "Ana Anti-Nade on the cap engage — pre-aim the Rein wall arc.",
+          ],
+          advancedSetups: [
+            "Boop lava: Cassidy Magnetic nade boops attacker off Bridge — round-winning play.",
+            "Anti-Amp burst: Bap Amp + Bastion Sentry burst the tank in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+          ],
+        },
+      },
+    },
+  },
+  "hanamura": {
+    "point-a": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hanamura A is the textbook chokepoint hold — open courtyard, layered cover. Rein walls the main choke, Mei Ice Walls splits the defender line, Cassidy holds the long-shot trade. Nano-Shatter on cap. Side door is the off-angle commit — flank with Reaper or Tracer alt.",
+        callouts: ["Point A", "Main Choke", "Side Door", "Courtyard", "Killbox", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main Choke, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: Long-shot from Courtyard, Magnetic on tank wall break",
+          "Mei: Ice Wall splits cap into 2v2 trades, Blizzard on contest",
+          "Lúcio: Speed-amp Side Door commit, Sound Barrier on cap",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap, Sleep tank",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Choke commit", from: "Spawn main", use: "Rein walls + Lúcio amps the engage, Mei walls cap-split for the trade." },
+            { spawn: "Side Door flank", from: "Spawn side", use: "Reaper or Tracer Side flank, EMP-equivalent on defender support line." },
+          ],
+          spawnKillSpots: [
+            { from: "Courtyard", target: "defender Widow on high ground", risk: "High — exposed to flank", reward: "Removes long-shot threat from the choke push" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% capture — Shatter on cap commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-cap one side while Mei walls off retake.",
+            "Counter-Bastion: if Bastion on Point, swap Cassidy → Sombra for hack disable.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hanamura A defense is the textbook bunker hold. Sigma barriers the choke, Bastion Sentry from Killbox cover, Widow holds Courtyard long. Bap Lamp on the cap contest. Brig armor-auras the dive counter. Pre-aim Main Choke — every push starts there.",
+        callouts: ["Point A", "Main Choke", "Side Door", "Courtyard", "Killbox", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main Choke, Accretion stun the engage tank",
+          "Bastion: Sentry-form from Killbox, shred tank on engage",
+          "Widow: Courtyard long sightline, Venom Mine on Side Door",
+          "Baptiste: Lamp the cap, Amp Matrix on the retake",
+          "Brigitte: Armor aura the cap, Whip Shot the Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Door", target: "attacker support line", timing: "Setup phase — Widow rotates for the round-opener pick" },
+            { from: "High ground", target: "attacker DPS on Courtyard", timing: "Mid-fight — Widow reset to opposite angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Choke — every Rein push commits through the same arch.",
+            "Bastion Sentry timing: form-up on attacker tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank engage — burst kills in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot the Side Door flank — pre-aim the Tracer Recall path.",
+          ],
+        },
+      },
+    },
+    "point-b": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hanamura B is dive heaven — vertical layering and back rooms. Winston dives back-line, Tracer harasses Mercy, Sojourn slides through main for the railgun. Kitsune speed-cap. The window into B is the death angle — clear it before tank commits.",
+        callouts: ["Point B", "Window", "Side Hall", "Back Stairs", "Anchor Room", "Spawn", "Main Entry"],
+        utility: [
+          "Winston: Jump back-line, bubble for Sojourn slide cap",
+          "Tracer: Recall harass, Pulse Bomb the support cluster",
+          "Sojourn: Disruptor on cap, slide to railgun shot",
+          "Lúcio: Speed-amp the dive, Sound Barrier on cap",
+          "Kiriko: Suzu the dive entry, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Back Stairs dive", from: "Spawn back", use: "Winston + Tracer commit Back Stairs, Sojourn slides through main to split defender." },
+            { spawn: "Side Hall flank", from: "Spawn side", use: "Tracer + Kiriko commit Side Hall, force defender support line to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Window", target: "defender Bap on Anchor Room", risk: "Medium — exposed to Widow counter", reward: "Removes Lamp/Amp from cap commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune Rush → Pulse Bomb → Visor cleans up.",
+            "Window clear: Sonic Arrow or Discord pre-engage Window, Sojourn rails through.",
+            "Anchor Room flank: Tracer recalls Anchor for the back-line pick on commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hanamura B defense is the standard back-room hold. Sigma anchors the cap, Widow on Window for the long shot, Cassidy on Side Hall. Bap Lamp the contest. Ana Sleep the Winston jump. Anchor Room is your back-line — Bap Lamp under attack.",
+        callouts: ["Point B", "Window", "Side Hall", "Back Stairs", "Anchor Room", "Spawn", "Main Entry"],
+        utility: [
+          "Sigma: Barrier the cap, Accretion stun the dive tank",
+          "Widow: Window long sightline, Venom Mine on Back Stairs",
+          "Cassidy: Side Hall cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Hall", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Window", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Window — every dive comp commits through the same sightline.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio — count 4s.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank — burst in 1s.",
+            "Sigma Accretion the back-line Sojourn on slide — kills the railgun.",
+            "Lamp the Anchor Room for retake — Bap saves Mercy on rez.",
+          ],
+        },
+      },
+    },
+  },
+  "hollywood": {
+    "point-a": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood A is layered choke and high ground. Rein walls the main entry, Mei Ice Walls cap-split, Cassidy holds the long-shot from Hotel. Nano-Shatter on cap contest. Side Hotel rotates flank Tracer for the support pick.",
+        callouts: ["Point A", "Main Entry", "Hotel", "Side Hotel", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main Entry, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: Hotel long sightline, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on the contest",
+          "Lúcio: Speed-amp the engage, Sound Barrier on cap",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap contest",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry commit", from: "Spawn main", use: "Rein walls + Brig armor-auras the engage, Mei wall-splits cap for 2v2." },
+            { spawn: "Hotel high-ground take", from: "Spawn high ground", use: "Cassidy + Ana hold Hotel for poke phase before full team commit." },
+          ],
+          spawnKillSpots: [
+            { from: "Hotel", target: "defender Widow on opposite high ground", risk: "Medium — Side Hotel flank", reward: "Removes long-shot threat from the cap push" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side while Mei walls retake.",
+            "Counter-bunker: if defender runs Bastion, swap Cassidy → Sombra for hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood A defense is bunker on cap. Sigma barriers Main Entry, Bastion Sentry from cap cover, Widow holds Hotel sightline. Bap Lamp the contest. Pre-aim every push — A is the cleanest hold on the map.",
+        callouts: ["Point A", "Main Entry", "Hotel", "Side Hotel", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main Entry, Accretion stun the engage tank",
+          "Bastion: Sentry from cap cover for tank shred",
+          "Widow: Hotel long sightline, Venom Mine on Side Hotel",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot the Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Hotel", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Hotel", target: "attacker DPS", timing: "Mid-fight — Widow reset to opposite angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — every Rein push commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Hotel — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+    "point-b": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood B is the alley + back-room hold. Rein walls the alley choke, Soldier Helix the entry, Mei wall-splits the cap. Push payload on Sound Barrier. Side Alley is the off-angle flank for Tracer harass.",
+        callouts: ["Payload", "Alley", "Side Alley", "Back Room", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Alley, Fire Strike pre-engage, Earthshatter on cap",
+          "Soldier: Helix the engage, Visor on Sound Barrier trade",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp the engage, Sound Barrier on payload push",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Alley main commit", from: "Spawn main", use: "Rein walls + Lúcio amps Alley for the engage, Mei wall-splits for the trade." },
+            { spawn: "Side Alley flank", from: "Spawn side", use: "Tracer or Reaper Side flank, force defender support to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Back Room", target: "defender support on cap", risk: "Medium — Side Alley counter-flank", reward: "Removes Bap Lamp from the cap commit" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+            "Counter-pirate-ship: if defender runs Bastion on payload, swap Soldier → Sombra hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood B defense is bunker-on-payload. Sigma barriers Alley, Bastion Sentry from cover, Cassidy long-shot from high ground. Bap Lamp the cap. Brig armor-aura the dive counter. Force attackers to commit Alley — pre-aim the choke.",
+        callouts: ["Payload", "Alley", "Side Alley", "Back Room", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Alley, Accretion stun the engage tank",
+          "Bastion: Sentry from cover for tank shred",
+          "Cassidy: High-ground long-shot, Magnetic on Rein wall break",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot the Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Alley", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "High ground", target: "attacker DPS", timing: "Mid-fight — Cassidy reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Alley — every brawl comp commits through the same choke.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Alley — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+    "point-c": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood C is the open final push. Winston dives the back-line through Side Building, Sojourn slides through main for the railgun cap, Tracer recalls for the cleanup. Kitsune speed on the payload final push.",
+        callouts: ["Payload", "Final Cap", "Side Building", "Stage Entry", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Winston: Jump back-line, bubble for Sojourn slide",
+          "Tracer: Recall harass, Pulse Bomb the support cluster",
+          "Sojourn: Disruptor on cap, slide to railgun cap",
+          "Lúcio: Speed-amp the dive, Sound Barrier on payload final",
+          "Kiriko: Suzu the dive entry, Kitsune Rush for payload",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Side Building dive", from: "Spawn side", use: "Winston + Tracer commit Side Building, Sojourn slides through main to split." },
+            { spawn: "Stage Entry main", from: "Spawn main", use: "Lúcio speed-amps Sojourn + Kiriko for the payload final commit." },
+          ],
+          spawnKillSpots: [
+            { from: "Side Building", target: "defender Bap on Final Cap", risk: "Medium — Stage Entry counter-flank", reward: "Removes Lamp from the payload final commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune Rush → Pulse Bomb → Sojourn Visor cleans up.",
+            "Side Building dive: Winston jumps back-line, Tracer recalls for the back support kill.",
+            "Counter-bunker: swap Sojourn → Sombra to hack Sigma barrier on payload final.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hollywood C defense is the open-final bunker. Sigma anchors payload, Widow holds long sightline from Stage Entry, Cassidy on Side Building. Bap Lamp the cap. Brig armor-aura the dive counter. Pre-aim the standard dive paths.",
+        callouts: ["Payload", "Final Cap", "Side Building", "Stage Entry", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier payload, Accretion stun the dive tank",
+          "Widow: Stage Entry long sightline, Venom Mine on Side Building",
+          "Cassidy: Side Building cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot the Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Building", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Stage Entry", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Stage Entry — every dive comp commits through the same arch.",
+            "Brig Whip Shot Side Building — pre-aim Tracer Recall arc.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank — burst in 1s.",
+            "Sigma Accretion-stun on Sojourn slide — kills the railgun cap.",
+            "Brig + Bap dive counter: armor aura + Lamp shut down Winston jump.",
+          ],
+        },
+      },
+    },
+  },
+  "paraiso": {
+    "first-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso First is the bridge brawl choke. Rein walls bridge entry, Cassidy long-shot from high ground, Mei wall-splits cap. Nano-Shatter on cap. Side Alley is the flank for Tracer harass — force defender to split focus.",
+        callouts: ["First Point", "Bridge", "Side Alley", "High Ground", "Cap", "Spawn", "Cubby"],
+        utility: [
+          "Reinhardt: Barrier Bridge, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: High-ground long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp Bridge engage, Sound Barrier on cap",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bridge main commit", from: "Spawn main", use: "Rein walls + Lúcio amps Bridge for the engage, Mei wall-splits cap for 2v2." },
+            { spawn: "Side Alley flank", from: "Spawn side", use: "Tracer or Reaper commit Side Alley, force defender to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender Widow on opposite high ground", risk: "Medium — Side Alley counter-flank", reward: "Removes long-shot threat from cap push" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+            "Counter-bunker: if defender Bastion, swap Cassidy → Sombra for hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso First defense is the textbook bridge hold. Sigma barriers Bridge, Bastion Sentry from cover, Widow holds high ground sightline. Bap Lamp the cap. Pre-aim Bridge — every push commits through the same choke.",
+        callouts: ["First Point", "Bridge", "Side Alley", "High Ground", "Cap", "Spawn", "Cubby"],
+        utility: [
+          "Sigma: Barrier Bridge, Accretion stun engage tank",
+          "Bastion: Sentry from cover for tank shred",
+          "Widow: High-ground long sightline, Venom Mine on Side Alley",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Alley", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "High Ground", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bridge — every brawl comp commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Alley — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+    "second-point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso Second is mid-map dive territory. Winston dives back-line, Sojourn slides Main, Tracer recalls for harass. Kitsune speed on payload push. Side Tunnel rotates for the support kill — force defender Mercy to rez early.",
+        callouts: ["Payload", "Second Point", "Main Street", "Side Tunnel", "High Ground", "Spawn", "Cubby"],
+        utility: [
+          "Winston: Jump back-line, bubble for Sojourn slide",
+          "Tracer: Recall harass, Pulse Bomb the support cluster",
+          "Sojourn: Disruptor on cap, slide to railgun cap",
+          "Lúcio: Speed-amp dive, Sound Barrier on cap",
+          "Kiriko: Suzu the entry, Kitsune for payload commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Street dive", from: "Spawn main", use: "Lúcio amps Winston + Sojourn through Main, Tracer flanks Side." },
+            { spawn: "Side Tunnel flank", from: "Spawn side", use: "Tracer + Kiriko commit Side Tunnel for back-line pick." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender Bap on Second Point", risk: "Medium — Side Tunnel counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune Rush → Pulse Bomb → Visor cleans up.",
+            "Side Tunnel dive: Winston jumps back-line, Tracer recalls for support kill.",
+            "Counter-bunker: swap Sojourn → Sombra to hack Sigma barrier.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso Second defense is mid-map hold. Sigma anchors payload, Widow holds Main long sightline, Cassidy on Side Tunnel. Bap Lamp the cap. Ana Sleep the Winston jump. Pre-aim every dive path.",
+        callouts: ["Payload", "Second Point", "Main Street", "Side Tunnel", "High Ground", "Spawn", "Cubby"],
+        utility: [
+          "Sigma: Barrier payload, Accretion stun dive tank",
+          "Widow: Main Street long sightline, Venom Mine on Side Tunnel",
+          "Cassidy: Side Tunnel cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Tunnel", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Main Street", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Street — every dive comp commits through the same sightline.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio — count 4s.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank — burst in 1s.",
+            "Sigma Accretion-stun on Sojourn slide — kills the railgun cap.",
+            "Brig Whip Shot Tracer Recall — pre-aim the arc.",
+          ],
+        },
+      },
+    },
+    "final-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso Final is the rooftop + carnival hold. Rein walls Main, Cassidy + Mei from elevated cover, Nano-Shatter on payload final. Rooftop high-ground take wins the round — Cassidy + Ana hold the angle.",
+        callouts: ["Payload", "Final Cap", "Rooftop", "Carnival", "Side Stairs", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main, Fire Strike pre-engage, Earthshatter on payload final",
+          "Cassidy: Rooftop long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp engage, Sound Barrier on payload final",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Rooftop high-ground take", from: "Spawn high ground", use: "Cassidy + Ana claim Rooftop for poke phase, force defender to face high ground." },
+            { spawn: "Carnival main commit", from: "Spawn main", use: "Rein + Lúcio amps Carnival for full team payload final commit." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender support on Final Cap", risk: "Medium — Side Stairs counter-flank", reward: "Removes Lamp from payload final commit" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% payload — Shatter on commit.",
+            "Mei wall split: payload final into 2v2s — Lúcio speed-caps one side.",
+            "Counter-bunker: swap Cassidy → Sombra to hack Bap Lamp on payload final.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Paraíso Final defense is the bunker on payload. Sigma barriers Main, Bastion Sentry from cap cover, Widow on Rooftop high ground. Bap Lamp the cap. Pre-aim Main — every push commits through the same arch.",
+        callouts: ["Payload", "Final Cap", "Rooftop", "Carnival", "Side Stairs", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main, Accretion stun engage tank",
+          "Bastion: Sentry from cap cover for tank shred",
+          "Widow: Rooftop long sightline, Venom Mine on Side Stairs",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Stairs", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker DPS", timing: "Mid-fight — Widow reset to opposite angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main — every brawl comp commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Stairs — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+  },
+  "rialto": {
+    "first-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto First is the canal-side brawl choke. Rein walls Main, Cassidy long-shot from Plaza, Mei wall-splits cap. Nano-Shatter on cap. Side Canal is the off-angle flank for the support kill.",
+        callouts: ["First Point", "Plaza", "Canal", "Side Canal", "Cap", "Spawn", "Cubby"],
+        utility: [
+          "Reinhardt: Barrier Main, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: Plaza long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Plaza main commit", from: "Spawn main", use: "Rein walls + Lúcio amps Plaza for engage, Mei wall-splits cap." },
+            { spawn: "Canal flank", from: "Spawn side", use: "Tracer or Reaper Canal flank, force defender to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Plaza", target: "defender Widow on opposite high ground", risk: "Medium — Side Canal counter-flank", reward: "Removes long-shot threat from cap push" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+            "Counter-bunker: if defender Bastion, swap Cassidy → Sombra for hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto First defense is the canal-side bunker. Sigma barriers Main, Bastion Sentry from cover, Widow on Plaza. Bap Lamp the cap. Pre-aim Main — every brawl push commits through the same choke.",
+        callouts: ["First Point", "Plaza", "Canal", "Side Canal", "Cap", "Spawn", "Cubby"],
+        utility: [
+          "Sigma: Barrier Main, Accretion stun engage tank",
+          "Bastion: Sentry from cover for tank shred",
+          "Widow: Plaza long sightline, Venom Mine on Side Canal",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Canal", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Plaza", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main — every brawl comp commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Canal — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+    "second-point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto Second is dive territory through the alley network. Winston dives back-line, Sojourn slides Main, Tracer recalls harass. Kitsune speed on payload. Bridge is the high-ground duel — Sojourn rails through the angle.",
+        callouts: ["Payload", "Second Point", "Bridge", "Alley", "Side Bridge", "Spawn", "High Ground"],
+        utility: [
+          "Winston: Jump back-line, bubble for Sojourn slide",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Sojourn: Disruptor on cap, slide railgun",
+          "Lúcio: Speed-amp dive, Sound Barrier on cap",
+          "Kiriko: Suzu entry, Kitsune for payload commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bridge dive route", from: "Spawn high ground", use: "Lúcio amps Winston + Sojourn through Bridge, Tracer flanks Alley." },
+            { spawn: "Alley flank", from: "Spawn side", use: "Tracer + Kiriko commit Alley for back-line pick." },
+          ],
+          spawnKillSpots: [
+            { from: "Bridge", target: "defender Bap on Second Point", risk: "Medium — Alley counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune Rush → Pulse Bomb → Visor cleans up.",
+            "Alley dive: Winston jumps back-line, Tracer recalls for support kill.",
+            "Counter-bunker: swap Sojourn → Sombra to hack Sigma barrier.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto Second defense lives on the Bridge sightline. Sigma anchors payload, Widow holds Bridge, Cassidy on Alley. Bap Lamp the cap. Ana Sleep the Winston jump. Anti-dive: pre-aim every standard dive arch.",
+        callouts: ["Payload", "Second Point", "Bridge", "Alley", "Side Bridge", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier payload, Accretion stun dive tank",
+          "Widow: Bridge long sightline, Venom Mine on Alley",
+          "Cassidy: Alley cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Alley", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Bridge", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bridge — every dive comp commits through the same sightline.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio — count 4s.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank — burst in 1s.",
+            "Sigma Accretion-stun on Sojourn slide — kills the railgun cap.",
+            "Brig Whip Shot Tracer Recall — pre-aim the arc.",
+          ],
+        },
+      },
+    },
+    "third-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto Third is the open square final push. Rein walls Main, Cassidy + Mei from cover, Nano-Shatter on cap. The Plaza Center is exposed — bait Sound Barrier with a fake commit before real engage.",
+        callouts: ["Payload", "Third Point", "Plaza Center", "Side Building", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: High-ground long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp engage, Sound Barrier on payload final",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Plaza Center main commit", from: "Spawn main", use: "Rein + Lúcio amps Plaza for engage, Mei wall-splits cap." },
+            { spawn: "Side Building flank", from: "Spawn side", use: "Tracer or Reaper commit Side Building, force defender to split focus." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender support on Third Point", risk: "Medium — Side Building counter", reward: "Removes Lamp from final cap commit" },
+          ],
+          advancedSetups: [
+            "Bait Sound Barrier: fake commit forces defender burn, real engage on Lúcio.",
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rialto Third defense is the final bunker hold. Sigma barriers Main, Bastion Sentry from cap cover, Widow holds Plaza Center. Bap Lamp the cap. Pre-aim every dive path.",
+        callouts: ["Payload", "Third Point", "Plaza Center", "Side Building", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main, Accretion stun engage tank",
+          "Bastion: Sentry from cover for tank shred",
+          "Widow: Plaza Center long sightline, Venom Mine on Side Building",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Building", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "High Ground", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Plaza Center — every push commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Building — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+  },
+  "havana": {
+    "first-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana First is the open street brawl. Rein walls Main, Cassidy long-shot from rooftop, Mei wall-splits cap. Nano-Shatter on cap commit. Side Alley is the flank for Tracer harass on defender Mercy.",
+        callouts: ["First Point", "Streets", "Rooftop", "Side Alley", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main, Fire Strike pre-engage, Earthshatter on cap",
+          "Cassidy: Rooftop long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Streets main commit", from: "Spawn main", use: "Rein + Lúcio amps Streets for engage, Mei wall-splits cap." },
+            { spawn: "Side Alley flank", from: "Spawn side", use: "Tracer or Reaper Side Alley flank, force defender to split focus." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender Widow on opposite rooftop", risk: "Medium — Side Alley counter", reward: "Removes long-shot threat from cap push" },
+          ],
+          advancedSetups: [
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+            "Counter-bunker: if defender Bastion, swap Cassidy → Sombra for hack.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana First defense is the textbook street bunker. Sigma barriers Main, Bastion Sentry from cover, Widow holds Rooftop sightline. Bap Lamp the cap. Pre-aim Streets — every brawl push commits through the same choke.",
+        callouts: ["First Point", "Streets", "Rooftop", "Side Alley", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main, Accretion stun engage tank",
+          "Bastion: Sentry from cover for tank shred",
+          "Widow: Rooftop long sightline, Venom Mine on Side Alley",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Alley", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Streets — every brawl comp commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Alley — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+    "second-point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sojourn", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana Second is the distillery dive map. Winston dives back-line, Sojourn slides Main, Tracer recalls for harass. Kitsune speed on payload push. Side Distillery flank rotates for support kill on Mercy.",
+        callouts: ["Payload", "Second Point", "Distillery", "Side Distillery", "High Ground", "Spawn", "Cubby"],
+        utility: [
+          "Winston: Jump back-line, bubble for Sojourn slide",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Sojourn: Disruptor on cap, slide railgun",
+          "Lúcio: Speed-amp dive, Sound Barrier on cap",
+          "Kiriko: Suzu entry, Kitsune for payload commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Distillery dive", from: "Spawn high ground", use: "Lúcio amps Winston + Sojourn through Distillery, Tracer flanks Side." },
+            { spawn: "Side Distillery flank", from: "Spawn side", use: "Tracer + Kiriko commit Side Distillery for back-line pick." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender Bap on Second Point", risk: "Medium — Side Distillery counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "Ult chain: Lúcio amp → Kitsune Rush → Pulse Bomb → Visor cleans up.",
+            "Side Distillery dive: Winston jumps back-line, Tracer recalls for support kill.",
+            "Counter-bunker: swap Sojourn → Sombra to hack Sigma barrier.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana Second defense is the distillery hold. Sigma anchors payload, Widow holds Distillery sightline, Cassidy on Side. Bap Lamp the cap. Ana Sleep the Winston jump. Anti-dive: pre-aim every dive arch.",
+        callouts: ["Payload", "Second Point", "Distillery", "Side Distillery", "High Ground", "Spawn", "Cubby"],
+        utility: [
+          "Sigma: Barrier payload, Accretion stun dive tank",
+          "Widow: Distillery long sightline, Venom Mine on Side",
+          "Cassidy: Side cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Distillery", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Distillery", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Distillery — every dive comp commits through the same sightline.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio — count 4s.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Cassidy Magnetic on tank — burst in 1s.",
+            "Sigma Accretion-stun on Sojourn slide — kills the railgun cap.",
+            "Brig Whip Shot Tracer Recall — pre-aim the arc.",
+          ],
+        },
+      },
+    },
+    "third-point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana Third is the bar-side final push. Rein walls Main, Cassidy + Mei from cover, Nano-Shatter on payload final. Bait Sound Barrier with a fake commit, then run real push on Lúcio.",
+        callouts: ["Payload", "Third Point", "Bar", "Side Bar", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Reinhardt: Barrier Main, Fire Strike pre-engage, Earthshatter on payload final",
+          "Cassidy: Bar long-shot, Magnetic on Rein wall break",
+          "Mei: Ice Wall splits cap, Blizzard on contest",
+          "Lúcio: Speed-amp engage, Sound Barrier on payload final",
+          "Ana: Nano Rein for Shatter, Anti-Nade the cap",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bar main commit", from: "Spawn main", use: "Rein + Lúcio amps Bar for engage, Mei wall-splits cap." },
+            { spawn: "Side Bar flank", from: "Spawn side", use: "Tracer or Reaper Side Bar flank, force defender to split focus." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender support on Third Point", risk: "Medium — Side Bar counter", reward: "Removes Lamp from final cap commit" },
+          ],
+          advancedSetups: [
+            "Bait Sound Barrier: fake commit forces defender burn, real engage on Lúcio.",
+            "Nano-Shatter timing: Ana Nano on Rein at 80% cap — Shatter on commit.",
+            "Mei wall split: cap into 2v2s — Lúcio speed-caps one side.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Havana Third defense is the bar-side bunker. Sigma barriers Main, Bastion Sentry from cap cover, Widow holds Bar long sightline. Bap Lamp the cap. Brig armor-aura the dive counter.",
+        callouts: ["Payload", "Third Point", "Bar", "Side Bar", "Cap", "Spawn", "High Ground"],
+        utility: [
+          "Sigma: Barrier Main, Accretion stun engage tank",
+          "Bastion: Sentry from cap cover for tank shred",
+          "Widow: Bar long sightline, Venom Mine on Side Bar",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Bar", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "High Ground", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bar — every push commits through the same arch.",
+            "Bastion Sentry timing: form-up on tank engage, never pre-burn.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Bap Amp + Bastion Sentry on tank — burst in 1s.",
+            "Sigma Accretion-stun on Earthshatter — cancels the ult window.",
+            "Brig Whip Shot Side Bar — pre-aim Tracer Recall arc.",
+          ],
+        },
+      },
+    },
+  },
+  "new-junk-city": {
+    "north": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Flashpoint North is mobile-comp territory. Sombra hacks the cap supports, Winston dives the back-line, Tracer cleans up. EMP-Kitsune combo on cap. Cycle 2-3 points before final commit — never bunker one point.",
+        callouts: ["North Point", "Main Entry", "Side Door", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line, bubble for cap commit",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Side Door flank", from: "Spawn side", use: "Sombra Translocate Side Door, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender support on North", risk: "Medium — Side Door counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds through Suzu burn.",
+            "Don't bunker: cycle Sombra Hack across multiple points, force defender to split focus.",
+            "Flashpoint rotation: never engage at 50% point cap — wait for 80%+ progress before commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Flashpoint North defense is rotation-aware bunker. Sigma anchors the active cap, Widow holds long sightline, Cassidy on Side. Bap Lamp the cap. Ana Anti-Nade the engage. Don't over-commit — Flashpoint rewards regroup.",
+        callouts: ["North Point", "Main Entry", "Side Door", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Long sightline, Venom Mine on Side Door",
+          "Cassidy: Cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Door", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — every comp commits through the same arch.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp the cap to soak EMP burst before attacker engage.",
+            "Don't over-commit: if cap lost, regroup at next point — Flashpoint is rotation game.",
+            "Sigma Accretion the Sombra EMP commit — cancels the ult window.",
+          ],
+        },
+      },
+    },
+    "east": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "East Point is junk-yard open layout — high mobility wins. Sombra hacks supports, Winston dives back-line, Tracer cleans up. EMP-Kitsune cap combo. Use the side junk piles as cover for the dive entry.",
+        callouts: ["East Point", "Junk Pile", "Main Entry", "Side Garage", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line through junk piles",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Side Garage flank", from: "Spawn side", use: "Sombra Translocate Garage, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Junk Pile", target: "defender support on East", risk: "Medium — Side Garage counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds through Suzu.",
+            "Cycle Hack: never let defender Bap have Lamp + Amp on cap commit.",
+            "Flashpoint rotation: never engage at 50% cap — wait for 80%+ before commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "East defense is rotation-aware bunker. Sigma anchors cap, Widow holds long sightline, Cassidy on Side. Bap Lamp the cap. Ana Anti-Nade the engage. Don't over-commit — regroup if cap lost.",
+        callouts: ["East Point", "Junk Pile", "Main Entry", "Side Garage", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Long sightline, Venom Mine on Side Garage",
+          "Cassidy: Cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Garage", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Junk Pile", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — every comp commits through the same arch.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit: regroup at next point — Flashpoint is rotation game.",
+            "Sigma Accretion the Sombra EMP commit — cancels the ult window.",
+          ],
+        },
+      },
+    },
+    "south": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "South Point is open dust-bowl with vehicle wrecks for cover. Winston dives back-line, Sombra hacks the cap support, Tracer cleans up. EMP-Kitsune combo on cap. Use the wrecks as flank cover for Sombra Translocate.",
+        callouts: ["South Point", "Wrecks", "Main Entry", "Side Path", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line, bubble cap commit",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks." },
+            { spawn: "Side Path flank", from: "Spawn side", use: "Sombra Translocate Side, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Wrecks", target: "defender support on South", risk: "Medium — Side Path counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds.",
+            "Cycle Hack across multiple cap supports for rotation pressure.",
+            "Flashpoint rotation: 80%+ cap before final commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "South defense is rotation-aware bunker. Sigma anchors cap, Widow holds long sightline. Bap Lamp the cap. Don't over-commit — Flashpoint regroup wins more often than bunker holds.",
+        callouts: ["South Point", "Wrecks", "Main Entry", "Side Path", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Long sightline, Venom Mine on Side Path",
+          "Cassidy: Cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Path", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Wrecks", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — every comp commits through the same arch.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit: regroup at next point on Flashpoint loss.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+    "west": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "West Point is the warehouse-side dive zone. Winston dives back-line through Warehouse, Sombra hacks supports, Tracer recalls harass. EMP-Kitsune cap combo. Side Workshop flank for the support pick.",
+        callouts: ["West Point", "Warehouse", "Main Entry", "Side Workshop", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line through Warehouse",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Warehouse dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Warehouse, Sombra hacks support cluster." },
+            { spawn: "Side Workshop flank", from: "Spawn side", use: "Sombra Translocate Workshop, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Warehouse", target: "defender support on West", risk: "Medium — Side Workshop counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds.",
+            "Warehouse high-ground take: Winston jumps to top crates for back-line dive.",
+            "Flashpoint rotation: 80%+ cap before final commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "West defense is the warehouse hold. Sigma anchors cap, Widow holds Warehouse sightline, Cassidy on Workshop. Bap Lamp the cap. Don't over-commit on a lost cap — regroup.",
+        callouts: ["West Point", "Warehouse", "Main Entry", "Side Workshop", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Warehouse long sightline, Venom Mine on Workshop",
+          "Cassidy: Workshop cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Workshop", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Warehouse", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Warehouse — every comp commits through the same arch.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit: regroup at next point.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+    "central": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Central is the open Flashpoint tiebreaker zone — 5+ entry points. Winston dives back-line, Sombra cycles Hack across multiple cap supports. EMP-Kitsune on cap. Use 3-4 ult window for the Central final.",
+        callouts: ["Central Point", "Main Entry", "Side Entries", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line, bubble cap commit",
+          "Sombra: Cycle Hack across supports, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap final",
+          "Kiriko: Suzu the dive, Kitsune for cap final",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry commit", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Multi-entry split", from: "Spawn side", use: "Sombra Translocate one side, Tracer recalls other — force defender to split focus 3 ways." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender support on Central", risk: "High — multiple counter-flank angles", reward: "Removes Lamp from final cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo on final: Sombra EMP → Kiriko Kitsune → cap shreds.",
+            "Central is tiebreaker — never commit without 4 ults charged.",
+            "Multi-entry split: force defender to clear 3 angles — at least one entry hits.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Central defense is the final-point bunker. Sigma anchors cap, Widow + Cassidy cover multiple entries. Bap Lamp the cap. Anti-EMP: Bap Lamp before attacker Sombra ult. This is the tiebreaker — never over-commit on a lost trade.",
+        callouts: ["Central Point", "Main Entry", "Side Entries", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Long sightline, Venom Mine on entries",
+          "Cassidy: Cross-fire multiple entries, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Entries", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — most comps commit through main first.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit on tiebreaker — regroup if first attempt fails.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+  },
+  "throne-of-anubis": {
+    "tomb": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Tomb is a tight Egyptian corridor zone. Winston dives the cap, Sombra hacks supports through the side passage, Tracer recalls harass. EMP-Kitsune combo on cap. Use the sarcophagus pillars as flank cover.",
+        callouts: ["Tomb Point", "Main Hall", "Side Passage", "Sarcophagi", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump cap, bubble for the commit",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Hall dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Side Passage flank", from: "Spawn side", use: "Sombra Translocate Passage, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Sarcophagi", target: "defender Bap on cap", risk: "Medium — Side Passage counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds through Suzu.",
+            "Flashpoint rotation: 80%+ cap before final commit.",
+            "Cycle Hack across multiple cap supports for rotation pressure.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Tomb defense is corridor bunker. Sigma anchors cap, Widow holds Main Hall, Cassidy on Side. Bap Lamp the cap. Don't over-commit on a lost cap — regroup.",
+        callouts: ["Tomb Point", "Main Hall", "Side Passage", "Sarcophagi", "Cubby", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Main Hall long sightline, Venom Mine on Side Passage",
+          "Cassidy: Cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Passage", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Sarcophagi", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Hall — every comp commits through the same arch.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit on Flashpoint — regroup at next point.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+    "sphinx": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Pharah", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Sphinx is the outdoor Flashpoint zone — verticality wins. Pharah-Mercy claim the airspace, Winston dives the cap, Sombra hacks supports. Bombardment on cap. Use Sphinx statue ledges for off-angle.",
+        callouts: ["Sphinx Point", "Statue", "Main Entry", "Side Ramp", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump cap, bubble for Pharah landing",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Pharah: Concussive Blast boops, Barrage on cap commit",
+          "Mercy: Pocket Pharah, Valk for re-engage mobility",
+          "Kiriko: Suzu the dive, Kitsune for cap final",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Rooftop high-ground take", from: "Spawn rooftop", use: "Pharah + Mercy claim sky on round start, Winston dives below to split defender attention." },
+            { spawn: "Side Ramp flank", from: "Spawn side", use: "Sombra Translocate Ramp, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender Ana on opposite high ground", risk: "Medium — Side Ramp counter", reward: "Removes Sleep/Anti from cap commit" },
+          ],
+          advancedSetups: [
+            "Pharah-Mercy ult chain: Lúcio amp → Sound Barrier counter-burn → Barrage on cap.",
+            "EMP-Pharah combo: Sombra EMP → Barrage shreds through Suzu burn.",
+            "Statue ledge off-angle: Mercy GAs to ledge for the Pharah pocket reset.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Sphinx defense is air denial. Cassidy + Soldier counter Pharah, Sigma anchors cap, Bap Lamp the contest. Ana Sleep the Winston jump. Don't over-commit — Flashpoint rewards regroup.",
+        callouts: ["Sphinx Point", "Statue", "Main Entry", "Side Ramp", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Cassidy: Anti-Pharah magnetic, hold long sightline",
+          "Soldier: Helix the cap, Visor on Pharah Barrage trade",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Ramp", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker Pharah", timing: "Mid-fight — Ana Sleep on jet for team trade" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Pharah jump — every Pharah engages from the same spawn rooftop.",
+            "Ana Sleep on Pharah jet timing — count 5s after spawn audio.",
+          ],
+          advancedSetups: [
+            "Anti-Barrage trade: Bap Amp + Cassidy magnetic + Sleep on Pharah jet.",
+            "Don't over-commit: regroup at next point on Flashpoint loss.",
+            "Sigma Accretion the EMP commit.",
+          ],
+        },
+      },
+    },
+    "oasis": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anubis Oasis is a tight water-feature zone. Winston dives back-line, Tracer recalls harass, Sombra cycles Hack. EMP-Kitsune cap combo. Pool hazard: boop enemies in for kills.",
+        callouts: ["Oasis Point", "Pool", "Main Entry", "Side Bridge", "Palm Cover", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line, bubble cap commit",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Lúcio: Speed-amp engage, boop into Pool",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry dive", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Side Bridge flank", from: "Spawn side", use: "Sombra Translocate Bridge, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Palm Cover", target: "defender Bap on cap", risk: "Medium — Side Bridge counter", reward: "Removes Lamp from cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo: Sombra EMP → Kiriko Kitsune → cap shreds.",
+            "Pool boop: Lúcio Sonic Amp boops defender into Pool — instant kill.",
+            "Flashpoint rotation: 80%+ cap before final commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Oasis defense is water-side bunker. Sigma anchors cap, Widow holds Main, Cassidy on Side Bridge. Brig armor-aura dive counter. Bap Lamp the cap. Don't get booped into Pool — position 2m from edge.",
+        callouts: ["Oasis Point", "Pool", "Main Entry", "Side Bridge", "Palm Cover", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Main long sightline, Venom Mine on Side Bridge",
+          "Cassidy: Cross-fire, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Brigitte: Armor aura cap, Whip Shot Tracer harass",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Bridge", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Palm Cover", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — every comp commits through the same arch.",
+            "Don't stand by Pool — Lúcio boop = instant kill.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit on Flashpoint — regroup at next point.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+    "pyramid": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Pharah", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pyramid is vertical Flashpoint zone. Pharah-Mercy claim airspace, Winston dives the cap, Sombra hacks supports. Barrage on cap commit. Use pyramid steps for high-ground duels.",
+        callouts: ["Pyramid Point", "Steps", "Main Entry", "Side Ramp", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump cap, bubble for Pharah landing",
+          "Sombra: Hack cap support, EMP on Sound Barrier trade",
+          "Pharah: Concussive Blast boops, Barrage on cap commit",
+          "Mercy: Pocket Pharah, Valk re-engage",
+          "Kiriko: Suzu the dive, Kitsune for cap commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Rooftop air take", from: "Spawn rooftop", use: "Pharah + Mercy claim sky on round start, Winston dives below to split defender attention." },
+            { spawn: "Side Ramp flank", from: "Spawn side", use: "Sombra Translocate Ramp, EMP behind defender line." },
+          ],
+          spawnKillSpots: [
+            { from: "Steps", target: "defender Ana on opposite high ground", risk: "Medium — Side Ramp counter", reward: "Removes Sleep/Anti from cap commit" },
+          ],
+          advancedSetups: [
+            "Pharah-Mercy ult: Sound Barrier counter-burn → Barrage on cap.",
+            "EMP-Barrage combo: Sombra EMP → Pharah Barrage shreds through Suzu.",
+            "Step ledge off-angle: Mercy GAs to step for Pharah pocket reset.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pyramid defense is air denial. Cassidy + Soldier anti-Pharah, Sigma anchors cap, Bap Lamp the contest. Ana Sleep dive tank. Pre-aim every Pharah jet timing.",
+        callouts: ["Pyramid Point", "Steps", "Main Entry", "Side Ramp", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Cassidy: Anti-Pharah magnetic, hold long sightline",
+          "Soldier: Helix the cap, Visor on Pharah Barrage trade",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep dive tank",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Ramp", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker Pharah", timing: "Mid-fight — Ana Sleep on jet for team trade" },
+          ],
+          antiSpawnPeek: [
+            "Cassidy pre-aim Pharah jump — every Pharah engages from the same spawn rooftop.",
+            "Ana Sleep on Pharah jet timing — count 5s after spawn audio.",
+          ],
+          advancedSetups: [
+            "Anti-Barrage trade: Bap Amp + Cassidy magnetic + Sleep on Pharah jet.",
+            "Don't over-commit: regroup at next point.",
+            "Sigma Accretion the EMP commit.",
+          ],
+        },
+      },
+    },
+    "throne": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Sombra", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Throne is the Anubis tiebreaker zone — 5+ entries. Winston dives back-line, Sombra cycles Hack across cap supports. EMP-Kitsune on cap final. Multi-entry split: force defender to clear 3 angles at once.",
+        callouts: ["Throne Point", "Main Entry", "Side Entries", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Winston: Jump back-line, bubble cap commit",
+          "Sombra: Cycle Hack across supports, EMP on Sound Barrier trade",
+          "Tracer: Recall harass, Pulse Bomb the cluster",
+          "Lúcio: Speed-amp engage, Sound Barrier on cap final",
+          "Kiriko: Suzu the dive, Kitsune for cap final",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Entry commit", from: "Spawn main", use: "Lúcio amps Winston + Tracer through Main, Sombra hacks support cluster." },
+            { spawn: "Multi-entry split", from: "Spawn side", use: "Sombra Translocate one side, Tracer recalls other — force defender to split focus 3 ways." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "defender support on Throne", risk: "High — multiple counter-flank angles", reward: "Removes Lamp from final cap commit" },
+          ],
+          advancedSetups: [
+            "EMP-Kitsune combo on final: Sombra EMP → Kiriko Kitsune → cap shreds.",
+            "Throne is tiebreaker — never commit without 4 ults charged.",
+            "Multi-entry split: force defender to clear 3 angles — at least one entry hits.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Throne defense is the final tiebreaker bunker. Sigma anchors cap, Widow + Cassidy cover multiple entries. Bap Lamp the cap. Anti-EMP: Bap Lamp before attacker Sombra ult. Never over-commit on a lost trade.",
+        callouts: ["Throne Point", "Main Entry", "Side Entries", "Cubby", "Rooftop", "Spawn", "Rotate Path"],
+        utility: [
+          "Sigma: Barrier cap, Accretion stun engage tank",
+          "Widow: Long sightline, Venom Mine on entries",
+          "Cassidy: Cross-fire multiple entries, Magnetic on Winston jump",
+          "Baptiste: Lamp the cap, Amp Matrix on retake",
+          "Ana: Anti-Nade engage, Sleep the dive",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Entries", target: "attacker support line", timing: "Setup phase — Cassidy rotates for round-opener pick" },
+            { from: "Rooftop", target: "attacker DPS", timing: "Mid-fight — Widow reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Main Entry — most comps commit through main first.",
+            "Ana Sleep timing: Winston jump on Lúcio speed audio.",
+          ],
+          advancedSetups: [
+            "Anti-EMP read: Bap Lamp before attacker EMP burst.",
+            "Don't over-commit on tiebreaker — regroup if first attempt fails.",
+            "Sigma Accretion the Sombra EMP commit.",
+          ],
+        },
+      },
+    },
+  },
+  "rio": {
+    "point-1": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 1 is the standard Push first-cap. Orisa Javelin pushes the bot, Bastion Sentry from high ground, Cassidy long-shot trade. Bap Amp Matrix on the engage. Side ramp flank for the support pick.",
+        callouts: ["Point 1", "Bot Lane", "High Ground", "Side Ramp", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Orisa: Javelin Spin choke push, Terra Surge on cap commit",
+          "Bastion: Sentry-form from high ground for shred",
+          "Cassidy: Long-shot trade, Magnetic on Orisa engage",
+          "Baptiste: Lamp the bot push, Amp Matrix on engage",
+          "Brigitte: Armor aura the push, Whip Shot the Tracer counter",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bot Lane main commit", from: "Spawn main", use: "Orisa Javelin pushes bot, Bap Amp Matrix on engage for burst." },
+            { spawn: "Side Ramp flank", from: "Spawn side", use: "Cassidy or Sojourn Side Ramp flank for the support pick." },
+          ],
+          spawnKillSpots: [
+            { from: "High Ground", target: "defender Ana on opposite high ground", risk: "Medium — Side Ramp counter", reward: "Removes Anti-Nade from cap push" },
+          ],
+          advancedSetups: [
+            "Bot push timing: Bap Amp Matrix on Orisa Javelin engage — burst shreds tank.",
+            "Bastion Sentry from high ground: shred bot on engage, never pre-burn.",
+            "Counter-dive: if defender runs Winston, swap Cassidy → Bastion shred for full bunker.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 1 defense is bot-push bunker. Sigma anchors bot, Soldier holds high ground, Widow long sightline. Ana Anti-Nade the Orisa Javelin engage. Don't over-commit — Push rewards bot-respawn cycle.",
+        callouts: ["Point 1", "Bot Lane", "High Ground", "Side Ramp", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Sigma: Barrier the bot, Accretion stun engage tank",
+          "Soldier: High-ground hold, Visor on cap commit",
+          "Widow: Long sightline, Venom Mine on Side Ramp",
+          "Ana: Anti-Nade engage, Sleep the dive",
+          "Lúcio: Speed-rotate, Sound Barrier on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Ramp", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "High Ground", target: "attacker DPS", timing: "Mid-fight — Soldier reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bot Lane — every Orisa push commits through the same choke.",
+            "Ana Sleep timing: Orisa Javelin commit on Bap Amp audio.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Ana Anti-Nade + Soldier Helix on tank — kills Javelin engage.",
+            "Sigma Accretion-stun on Terra Surge — cancels the cap ult.",
+            "Don't over-commit: bot respawns at 50%, Push is rotation game.",
+          ],
+        },
+      },
+    },
+    "point-2": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 2 is the mid-map favela push. Orisa Javelin pushes bot, Bastion Sentry from rooftop, Cassidy long-shot. Bap Amp on engage. Favela alleys are flank routes — use Side for support pick.",
+        callouts: ["Point 2", "Bot Lane", "Favela Rooftop", "Side Alley", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Orisa: Javelin Spin choke push, Terra Surge on cap commit",
+          "Bastion: Sentry-form from Favela Rooftop for shred",
+          "Cassidy: Long-shot trade, Magnetic on Orisa engage",
+          "Baptiste: Lamp the bot push, Amp Matrix on engage",
+          "Brigitte: Armor aura push, Whip Shot Tracer counter",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bot Lane main commit", from: "Spawn main", use: "Orisa Javelin pushes bot, Bap Amp Matrix on engage." },
+            { spawn: "Side Alley flank", from: "Spawn side", use: "Cassidy or Sojourn Side Alley flank for support pick." },
+          ],
+          spawnKillSpots: [
+            { from: "Favela Rooftop", target: "defender Ana on opposite high ground", risk: "Medium — Side Alley counter", reward: "Removes Anti-Nade from cap push" },
+          ],
+          advancedSetups: [
+            "Bot push timing: Bap Amp Matrix on Orisa Javelin engage — burst shreds tank.",
+            "Bastion Sentry timing: form-up from Rooftop on bot engage.",
+            "Counter-dive: swap Cassidy → Bastion shred for full bunker.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 2 defense is favela bunker. Sigma anchors bot, Soldier holds Rooftop, Widow long sightline. Ana Anti-Nade the engage. Don't over-commit — bot respawn cycle.",
+        callouts: ["Point 2", "Bot Lane", "Favela Rooftop", "Side Alley", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Sigma: Barrier the bot, Accretion stun engage tank",
+          "Soldier: Rooftop hold, Visor on cap commit",
+          "Widow: Long sightline, Venom Mine on Side Alley",
+          "Ana: Anti-Nade engage, Sleep the dive",
+          "Lúcio: Speed-rotate, Sound Barrier on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Alley", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Favela Rooftop", target: "attacker DPS", timing: "Mid-fight — Soldier reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bot Lane — every Orisa push commits through the same choke.",
+            "Ana Sleep timing: Orisa Javelin commit on Bap Amp audio.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Ana Anti-Nade + Soldier Helix on tank — kills Javelin engage.",
+            "Sigma Accretion-stun on Terra Surge — cancels cap ult.",
+            "Don't over-commit: Push is bot-respawn rotation game.",
+          ],
+        },
+      },
+    },
+    "point-3": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 3 is mid-cap split — both teams push through the same choke. Orisa Javelin pushes the contested zone, Bastion Sentry from cover. Bap Amp Matrix on engage. Side Path is the off-angle commit.",
+        callouts: ["Point 3", "Contested Bot", "Cover Wall", "Side Path", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Orisa: Javelin Spin contest, Terra Surge on cap commit",
+          "Bastion: Sentry from Cover Wall for shred",
+          "Cassidy: Long-shot trade, Magnetic on engage",
+          "Baptiste: Lamp the contest, Amp Matrix on engage",
+          "Brigitte: Armor aura the push, Whip Shot Tracer counter",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Contested main commit", from: "Spawn main", use: "Orisa Javelin pushes the bot contest, Bap Amp Matrix on engage." },
+            { spawn: "Side Path flank", from: "Spawn side", use: "Cassidy or Sojourn Side Path flank for the support pick." },
+          ],
+          spawnKillSpots: [
+            { from: "Cover Wall", target: "defender Ana on opposite high ground", risk: "Medium — Side Path counter", reward: "Removes Anti-Nade from cap push" },
+          ],
+          advancedSetups: [
+            "Contest timing: Bap Amp on Orisa Javelin engage — burst shreds defender tank.",
+            "Bastion shred: Sentry-form from Cover Wall on tank engage, never pre-burn.",
+            "Push tiebreaker: never engage at 50%, wait for 70%+ before commit.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 3 defense is contest bunker. Sigma anchors contest, Soldier holds high ground, Widow long sightline. Ana Anti-Nade the engage. Don't over-commit on contest — Push rewards bot rotation.",
+        callouts: ["Point 3", "Contested Bot", "Cover Wall", "Side Path", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Sigma: Barrier contest, Accretion stun engage tank",
+          "Soldier: High-ground hold, Visor on cap commit",
+          "Widow: Long sightline, Venom Mine on Side Path",
+          "Ana: Anti-Nade engage, Sleep the dive",
+          "Lúcio: Speed-rotate, Sound Barrier on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Path", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Cover Wall", target: "attacker DPS", timing: "Mid-fight — Soldier reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Contest — every push commits through the same choke.",
+            "Ana Sleep timing: Orisa Javelin commit on Bap Amp audio.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Ana Anti-Nade + Soldier Helix on tank — kills Javelin engage.",
+            "Sigma Accretion-stun on Terra Surge — cancels cap ult.",
+            "Don't over-commit on contest — wait for bot respawn timing.",
+          ],
+        },
+      },
+    },
+    "point-4": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 4 is the deeper push into Rio. Orisa Javelin commits bot, Bastion Sentry from cover, Cassidy long-shot. Bap Amp Matrix on the engage. Use Side Building flank for the support pick on Ana.",
+        callouts: ["Point 4", "Bot Lane", "Cover", "Side Building", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Orisa: Javelin Spin choke push, Terra Surge on cap commit",
+          "Bastion: Sentry-form from Cover for shred",
+          "Cassidy: Long-shot trade, Magnetic on Orisa engage",
+          "Baptiste: Lamp the bot push, Amp Matrix on engage",
+          "Brigitte: Armor aura push, Whip Shot Tracer counter",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Bot Lane main commit", from: "Spawn main", use: "Orisa Javelin pushes bot, Bap Amp Matrix on engage." },
+            { spawn: "Side Building flank", from: "Spawn side", use: "Cassidy or Sojourn Side Building flank for support pick." },
+          ],
+          spawnKillSpots: [
+            { from: "Cover", target: "defender Ana on opposite high ground", risk: "Medium — Side Building counter", reward: "Removes Anti-Nade from cap push" },
+          ],
+          advancedSetups: [
+            "Bot push timing: Bap Amp Matrix on Orisa Javelin engage — burst shreds tank.",
+            "Bastion Sentry timing: form-up from Cover on bot engage.",
+            "Counter-dive: swap Cassidy → Bastion shred for full bunker.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 4 defense is deeper bunker. Sigma anchors bot, Soldier holds high ground, Widow long sightline. Ana Anti-Nade the engage. Push is rotation: don't over-commit.",
+        callouts: ["Point 4", "Bot Lane", "Cover", "Side Building", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Sigma: Barrier the bot, Accretion stun engage tank",
+          "Soldier: High-ground hold, Visor on cap commit",
+          "Widow: Long sightline, Venom Mine on Side Building",
+          "Ana: Anti-Nade engage, Sleep the dive",
+          "Lúcio: Speed-rotate, Sound Barrier on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Building", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Cover", target: "attacker DPS", timing: "Mid-fight — Soldier reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bot Lane — every Orisa push commits through the same choke.",
+            "Ana Sleep timing: Orisa Javelin commit on Bap Amp audio.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Ana Anti-Nade + Soldier Helix on tank — kills Javelin engage.",
+            "Sigma Accretion-stun on Terra Surge — cancels cap ult.",
+            "Don't over-commit: Push rewards bot rotation.",
+          ],
+        },
+      },
+    },
+    "point-5": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Bastion", role: "DPS", priority: "essential" },
+          { name: "Cassidy", role: "DPS", priority: "recommended" },
+          { name: "Baptiste", role: "Support", priority: "essential" },
+          { name: "Brigitte", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 5 is the final push deep into Rio. Orisa Javelin commits bot final, Bastion Sentry from cover, Cassidy long-shot. Bap Amp Matrix on the engage. Push tiebreaker — never engage without 4+ ults.",
+        callouts: ["Point 5", "Final Cap", "Cover", "Side Path", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Orisa: Javelin Spin choke push, Terra Surge on cap final",
+          "Bastion: Sentry-form from Cover for shred",
+          "Cassidy: Long-shot trade, Magnetic on Orisa engage",
+          "Baptiste: Lamp the bot push, Amp Matrix on engage",
+          "Brigitte: Armor aura push, Whip Shot Tracer counter",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Final Cap main commit", from: "Spawn main", use: "Orisa Javelin pushes bot final, Bap Amp Matrix on engage." },
+            { spawn: "Side Path flank", from: "Spawn side", use: "Cassidy or Sojourn Side Path flank for support pick." },
+          ],
+          spawnKillSpots: [
+            { from: "Cover", target: "defender Ana on opposite high ground", risk: "Medium — Side Path counter", reward: "Removes Anti-Nade from final cap push" },
+          ],
+          advancedSetups: [
+            "Push tiebreaker: never engage at 50%, wait for 80%+ ult window for final commit.",
+            "Bap Amp on Orisa Javelin: burst shreds defender tank in 1s.",
+            "Bastion Sentry timing: form-up on bot engage, shred tank line.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Widowmaker", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Rio Point 5 defense is the final-cap bunker. Sigma anchors bot, Soldier holds high ground, Widow long sightline. Ana Anti-Nade the engage. Tiebreaker — full team commit on final, no over-commit.",
+        callouts: ["Point 5", "Final Cap", "Cover", "Side Path", "Cubby", "Spawn", "Choke"],
+        utility: [
+          "Sigma: Barrier the bot, Accretion stun engage tank",
+          "Soldier: High-ground hold, Visor on cap commit",
+          "Widow: Long sightline, Venom Mine on Side Path",
+          "Ana: Anti-Nade engage, Sleep the dive",
+          "Lúcio: Speed-rotate, Sound Barrier on retake",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Path", target: "attacker support line", timing: "Setup phase — Widow rotates for round-opener pick" },
+            { from: "Cover", target: "attacker DPS", timing: "Mid-fight — Soldier reset to off-angle" },
+          ],
+          antiSpawnPeek: [
+            "Widow pre-aim Bot Lane — every Orisa push commits through the same choke.",
+            "Ana Sleep timing: Orisa Javelin commit on Bap Amp audio.",
+          ],
+          advancedSetups: [
+            "Anti-Amp burst: Ana Anti-Nade + Soldier Helix on tank — kills Javelin engage.",
+            "Sigma Accretion-stun on Terra Surge — cancels final cap ult.",
+            "Tiebreaker: full team commit on contest, never trickle.",
+          ],
+        },
+      },
+    },
+  },
 }
 
 export default STRATS
