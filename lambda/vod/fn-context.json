@@ -1,0 +1,477 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Fortnite",
+    "short_name": "FN",
+    "tagline": "Battle Royale + building mode — 100 players, Zero Build or Build mode, ring closing, loot economy.",
+    "sides": {
+      "attack": "Rotating IN to POIs, contesting other squads",
+      "defense": "Holding loot / endgame zone, third-party setups"
+    },
+    "character_vocab": "characters (cosmetic — mechanics identical)",
+    "round_economy": "Loot-based — common/uncommon/rare/epic/legendary/mythic weapons.",
+    "round_format": "BR — 100 players, 1 winner. Ring closes over ~25 minutes.",
+    "key_mechanics": [
+      "Two modes: Zero Build (no building) and Build (full build mechanics)",
+      "Loot rarities: common (gray) → uncommon (green) → rare (blue) → epic (purple) → legendary (gold) → mythic (orange)",
+      "Healing: bandages (15 HP), medkit (full HP, 10s), small shield (25 shield), big shield (50 shield, 5s), slurp juice (75 over time)",
+      "Movement: sprint, slide, mantle, swim, jump, vehicles (cars, planes)",
+      "Mobility items: Launch Pad, Crash Pad, Shockwave Grenade, Shockwave Hammer (varies by chapter)",
+      "Build mechanics (Build mode): walls, floors, ramps, cones — 100 mats per builder",
+      "Aim assist on console / controller (significant)",
+      "Storm: closes over 25 minutes, damage scales from 1 to 25 HP/tick",
+      "POI: Point of Interest — named map location with tier-1/2/3 loot",
+      "Mythic POI: Special POI with mythic-tier loot (boss + key)"
+    ],
+    "match_types": [
+      "Zero Build (ZB) Solo / Duo / Squad: No building, pure shooter BR",
+      "Build (BR) Solo / Duo / Squad: Full building mechanics",
+      "Reload: Smaller-map BR with respawn timers (Resurgence-style)",
+      "Creative Ranked: Custom 1v1 / Zone Wars / Box Fight / Tycoon",
+      "OG: Original Chapter 1 map (Pleasant Park, Tilted Towers, etc.)"
+    ]
+  },
+  "maps": {
+    "current-chapter": {
+      "name": "Current Chapter Map (Zero Build)",
+      "type": "Battle Royale Zero Build",
+      "sites": [
+        {
+          "id": "pleasant-piazza",
+          "name": "Pleasant Piazza",
+          "callouts": ["Plaza Center", "Loot Buildings", "Rooftops", "Side Streets", "Spawn Path"],
+          "strategy": "Hot drop, tier-3 loot. Push center on contest."
+        },
+        {
+          "id": "foxy-floodgate",
+          "name": "Foxy Floodgate",
+          "callouts": ["Dam Center", "Loot Buildings", "Bridge", "Side Path", "Coast"],
+          "strategy": "Dam center exposed. Bridge for cover."
+        },
+        {
+          "id": "hidden-hollow",
+          "name": "Hidden Hollow",
+          "callouts": ["Hollow Center", "Cave", "Side Path", "Spawn Path", "Cliffside"],
+          "strategy": "Cave POI for safer drop."
+        },
+        {
+          "id": "magic-mosses",
+          "name": "Magic Mosses",
+          "callouts": ["Magic Center", "Loot Buildings", "Cliff", "Side Path"],
+          "strategy": "Vertical play viable."
+        },
+        {
+          "id": "foxy-faulks",
+          "name": "Foxy Faulks",
+          "callouts": ["Faulks Center", "Tower", "Side Buildings", "Loot Pile"],
+          "strategy": "Tier-2 mid-game POI."
+        },
+        {
+          "id": "demons-domain",
+          "name": "Demon's Domain",
+          "callouts": ["Domain Center", "Castle", "Side Buildings", "Rooftop"],
+          "strategy": "Castle vertical POI, tier-3 loot."
+        },
+        {
+          "id": "brutal-beachhead",
+          "name": "Brutal Beachhead",
+          "callouts": ["Beach Center", "Side Buildings", "Loot Pile", "Open Water"],
+          "strategy": "Beach drop, water rotation."
+        },
+        {
+          "id": "shogun-x",
+          "name": "Shogun's X-tate",
+          "callouts": ["Shogun Center", "Castle", "Side Buildings", "Rooftop"],
+          "strategy": "Castle vertical POI, mythic boss spawn."
+        },
+        {
+          "id": "masked-meadows",
+          "name": "Masked Meadows",
+          "callouts": ["Meadows Center", "Loot Buildings", "Open Field", "Side Path"],
+          "strategy": "Tier-2 farmland POI."
+        },
+        {
+          "id": "open-air-onsen",
+          "name": "Open-Air Onsen",
+          "callouts": ["Onsen Center", "Hot Springs", "Side Buildings", "Rooftop"],
+          "strategy": "Vertical play with hot springs cover."
+        },
+        {
+          "id": "twinkle-terrace",
+          "name": "Twinkle Terrace",
+          "callouts": ["Terrace Center", "Side Buildings", "Rooftop", "Stairs"],
+          "strategy": "Vertical terrace POI."
+        },
+        {
+          "id": "ranger-ridge",
+          "name": "Ranger Ridge",
+          "callouts": ["Ridge Center", "Cliff", "Side Path", "Cave"],
+          "strategy": "Cliff vertical POI."
+        }
+      ]
+    },
+    "br-current": {
+      "name": "BR Current Chapter (Build)",
+      "type": "Battle Royale",
+      "sites": [
+        {
+          "id": "tilted-towers",
+          "name": "Tilted Towers",
+          "callouts": ["Tilted Center", "Clocktower", "Loot Lake", "Outer Buildings", "Rooftops"],
+          "strategy": "Iconic hot drop — high-tier loot, always contested. Push center on contest."
+        },
+        {
+          "id": "the-citadel",
+          "name": "The Citadel",
+          "callouts": ["Citadel Center", "Tower", "Outer Walls", "Throne Room", "Drawbridge"],
+          "strategy": "Castle POI with tower verticality. Mythic boss spawn."
+        },
+        {
+          "id": "reckless-railways",
+          "name": "Reckless Railways",
+          "callouts": ["Station", "Tracks", "Train Cars", "Platform", "Side Tunnel"],
+          "strategy": "Train POI with long sightlines."
+        },
+        {
+          "id": "mythic-poi",
+          "name": "Mythic POI",
+          "callouts": ["Boss Room", "Loot Vault", "Outer Approach", "Side Buildings"],
+          "strategy": "Mythic loot — contest after boss kill on low HP."
+        },
+        {
+          "id": "coastal",
+          "name": "Coastal",
+          "callouts": ["Beach", "Dock", "Boat Spawn", "Cliffside", "Side Cave"],
+          "strategy": "Beach-side POI with water rotation route."
+        }
+      ]
+    },
+    "reload": {
+      "name": "Reload",
+      "type": "Reload",
+      "sites": [
+        {
+          "id": "lavish-lair",
+          "name": "Lavish Lair",
+          "callouts": ["Mansion", "Vault", "Roof", "Side Garden", "Front Lawn"],
+          "strategy": "Mansion POI with tier-3 vault. Reload respawn play."
+        },
+        {
+          "id": "hazy-hillside",
+          "name": "Hazy Hillside",
+          "callouts": ["Hilltop", "Side Path", "Fog Cover", "Cottage", "Open Valley"],
+          "strategy": "Foggy elevation POI."
+        },
+        {
+          "id": "ritzy-riviera",
+          "name": "Ritzy Riviera",
+          "callouts": ["Hotel", "Pool Deck", "Cabanas", "Beach", "Marina"],
+          "strategy": "Beachfront resort POI."
+        },
+        {
+          "id": "forbidden-falls",
+          "name": "Forbidden Falls",
+          "callouts": ["Waterfall", "Cave", "Mountain Top", "Side Trail", "Pond"],
+          "strategy": "Waterfall mountain POI."
+        },
+        {
+          "id": "salty-springs",
+          "name": "Salty Springs",
+          "callouts": ["Yellow House", "Blue House", "Gas Station", "Front Yards", "Backyards"],
+          "strategy": "Classic suburban POI from Reload."
+        },
+        {
+          "id": "tilted-towers",
+          "name": "Tilted Towers",
+          "callouts": ["Tilted Center", "Clocktower", "Skyscrapers", "Rooftops", "Side Buildings"],
+          "strategy": "Reload version of Tilted."
+        }
+      ]
+    },
+    "og": {
+      "name": "OG (Original Chapter 1)",
+      "type": "Battle Royale OG",
+      "sites": [
+        {
+          "id": "tilted-towers",
+          "name": "Tilted Towers",
+          "callouts": ["Tilted Center", "Clocktower", "Outer Buildings", "Rooftops", "Skywalk"],
+          "strategy": "OG iconic hot drop."
+        },
+        {
+          "id": "pleasant-park",
+          "name": "Pleasant Park",
+          "callouts": ["Tall House", "Soccer Field", "Center Park", "Houses", "Gas Station"],
+          "strategy": "OG 7-house suburban POI. Tall House controls map."
+        },
+        {
+          "id": "retail-row",
+          "name": "Retail Row",
+          "callouts": ["Strip Mall", "Parking", "Houses", "Side Path", "Rooftops"],
+          "strategy": "OG strip mall POI with tier-2 shop loot."
+        },
+        {
+          "id": "greasy-grove",
+          "name": "Greasy Grove",
+          "callouts": ["Durr Burger", "Gas Station", "Parking", "Houses", "Pool"],
+          "strategy": "OG strip mall + Durr Burger POI."
+        },
+        {
+          "id": "salty-springs",
+          "name": "Salty Springs",
+          "callouts": ["Yellow House", "Blue House", "Gas Station", "Front Yards", "Backyards"],
+          "strategy": "OG suburban 3-house POI."
+        }
+      ]
+    },
+    "creative-ranked": {
+      "name": "Creative Ranked Pool",
+      "type": "Creative / UEFN",
+      "sites": [
+        {
+          "id": "box-fight",
+          "name": "Box Fight",
+          "callouts": ["Center Box", "Side Boxes", "Top Floor", "Doorway", "Edit Window"],
+          "strategy": "1v1/2v2 build-and-edit. Fast edits win box-fights."
+        },
+        {
+          "id": "zone-wars",
+          "name": "Zone Wars",
+          "callouts": ["Zone Center", "Storm Edge", "High Ground", "Side Cover"],
+          "strategy": "Ranked endgame simulator. Take high ground first."
+        },
+        {
+          "id": "realistic-1v1",
+          "name": "Realistic 1v1",
+          "callouts": ["Center", "Side Cover", "High Ground", "Doorway"],
+          "strategy": "Build-free 1v1. AR + Shotgun combo."
+        },
+        {
+          "id": "tycoon",
+          "name": "Tycoon",
+          "callouts": ["Base Center", "Resource Pile", "Side Buildings", "Raid Path"],
+          "strategy": "PvE/PvP resource gathering + raids."
+        },
+        {
+          "id": "pit",
+          "name": "Pit",
+          "callouts": ["Pit Center", "Side Cover", "Sniper Tower", "Open"],
+          "strategy": "FFA warm-up arena."
+        }
+      ]
+    }
+  },
+  "operator_roles": {
+    "Aggressor / Entry": {
+      "description": "Player pushing into POIs, taking close-range duels with SMG/shotgun.",
+      "loadout": "SMG / Shotgun + AR + Heals + Mobility item",
+      "common_mistakes": [
+        "Solo pushes without team trade",
+        "No mobility item ready for escape",
+        "Shotgun whiff at close range",
+        "No build response (Build mode) — no walls on engagement",
+        "No heal cycle after fight"
+      ],
+      "ideal_use": "Close-range duels, fast pushes with Crash Pad / Shockwave, build wall + edit for shot if Build mode."
+    },
+    "Marksman / Long-range": {
+      "description": "Player using Sniper / DMR for long sightlines and squad coverage.",
+      "loadout": "Sniper / DMR + AR + Heals",
+      "common_mistakes": [
+        "Holding same angle past first kill",
+        "Solo Sniper without team cover",
+        "No off-angle for the long shot",
+        "Body shots only (sniper = headshot kill)",
+        "No quick-scope for mid-range"
+      ],
+      "ideal_use": "Long-range pick from high ground, reposition after first kill, cover team rotation."
+    },
+    "Rotator / Mobility": {
+      "description": "Player using mobility items (Launch Pad, Crash Pad, Shockwave) for squad rotation.",
+      "loadout": "AR + Mobility item priority + Heals",
+      "common_mistakes": [
+        "Mobility item wasted on solo flank",
+        "Late rotates (caught in storm)",
+        "No coordination on team rotation",
+        "Launch Pad in obvious spots",
+        "Shockwave on enemy (wasted)"
+      ],
+      "ideal_use": "Squad rotation lead, Crash Pad for fast moves, Launch Pad for endgame zone access."
+    },
+    "Support / Heal": {
+      "description": "Player running heals, wall items, and squad support.",
+      "loadout": "AR + Heals + Wall item (Build) + Big Shields",
+      "common_mistakes": [
+        "Heal in fight (interrupted)",
+        "Wall break on bad spots",
+        "No heal coordination",
+        "Big Shield in fight",
+        "Solo lurk without team"
+      ],
+      "ideal_use": "Heal cycle post-fight, wall up for squad cover, Big Shield before rotations."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "Hot drop every game (no specialization)",
+      "No mobility item discipline",
+      "No team coordination on rotates",
+      "Solo flank without team trade",
+      "No heal cycle after fights",
+      "No ring damage awareness",
+      "No build response (Build mode)",
+      "No build editing (Build mode)",
+      "No comms in voice",
+      "Random weapon usage"
+    ],
+    "silver": [
+      "Predictable POI choices",
+      "Solo dives without team trade",
+      "Aggressive Sniper holds without escape",
+      "No off-angle holds",
+      "Late rotations",
+      "No heal cycle planning",
+      "Random utility usage",
+      "Crosshair placement on map geometry",
+      "Buying / looting wrong for range",
+      "Mid-fight comm overload"
+    ],
+    "gold": [
+      "Third-party timing missed",
+      "Solo engages without team backup",
+      "Ult save vs use decision wrong",
+      "Late rotates without cover",
+      "No mid-game heal cycle plan",
+      "Random Mobility item usage",
+      "No team commit on Hardpoint / POI",
+      "Half-buy spending — wrong attachments",
+      "Trade kills missed by 1 second",
+      "No anti-third-party setup"
+    ],
+    "platinum": [
+      "Off-angle holds predictable",
+      "Util execution timing wrong",
+      "No mid-round adjustment",
+      "Aggressive Sniper holds",
+      "Plant position too aggressive",
+      "Late round info gathering",
+      "Buy / loot decision based on round count",
+      "Trade kills missed by 1 second",
+      "Util coordination across team overlapping",
+      "No anti-third-party setup"
+    ],
+    "diamond_elite": [
+      "Pro-tier reads on enemy comp — predictable on own",
+      "Util discipline gaps — 1 wasted Mobility per round",
+      "Mid-round comm overload",
+      "Off-angle pre-aim not adjusted per round",
+      "Lurker map info not relayed",
+      "Buy / loot decision: 1 attachment shy",
+      "Late round 1v1 management",
+      "Sensitivity drift",
+      "Solo carries on eco rounds",
+      "Mental fatigue affecting decisions"
+    ],
+    "champion": [
+      "Pro-tier reads on every round (predictable)",
+      "Util tracking gaps — 1 grenade untracked",
+      "Cooldown management across all 3 players",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Comp staying static vs counter",
+      "Sensitivity drift across long sessions",
+      "Pickup attempt without team coverage"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player in trade position with squad?",
+      "Is the player exposed to multiple sightlines?",
+      "Is the team using cover (rock, tree, building, walls in Build mode)?",
+      "Is the team on correct side of ring?",
+      "Did the player commit to rotation or stay contested?",
+      "Is the player on high ground or low?",
+      "Did the player react to enemy build response (Build mode)?"
+    ],
+    "crosshair": [
+      "Is the crosshair pre-aimed at head level?",
+      "Is the player tracking on hitscan or projectile leading?",
+      "Is the player using the right weapon class for range?",
+      "Is the player ADS or hipfire close range?",
+      "Is the player landing 1-tap headshots?",
+      "Is the player aim-assist abusing in close range (controller)?"
+    ],
+    "utility": [
+      "Did the player use Mobility item proactively?",
+      "Did the player save mobility for endgame zone access?",
+      "Was the team coordinated on heals + rotation?",
+      "Did the player use shield/heal before rotations?",
+      "Was the team coordinated on Launch Pad / Crash Pad?",
+      "Did the player track enemy storm rotation timing?"
+    ],
+    "decisions": [
+      "Did the player drop the right POI?",
+      "Did the team commit to fight or rotate?",
+      "Did the player engage 1v2+ without team backup?",
+      "Did the player commit to team push or solo flank?",
+      "Did the player track ring damage and rotate?",
+      "Did the player choose to third-party or hold?",
+      "In Build mode: did the player edit walls for shot/cover?",
+      "In Zero Build: did the player use natural cover (tree, rock, building)?"
+    ]
+  },
+  "vocabulary": [
+    "POI: Point of Interest — named map location with loot.",
+    "Mythic POI: Special POI with mythic-tier loot + boss + key.",
+    "Hot drop: POI where 3+ squads land at start.",
+    "Edge drop: POI on map edge, less contested.",
+    "Tier loot: Common/Uncommon/Rare/Epic/Legendary/Mythic rarity tiers.",
+    "Mythic: Highest tier loot (orange), 1-2 per match.",
+    "Legendary: Gold tier loot.",
+    "Boss: Mythic POI boss enemy that drops mythic loot.",
+    "Key: Mythic POI key to access vault.",
+    "Vault: Locked loot container behind Key.",
+    "Storm: Closing ring, damages players outside.",
+    "Storm damage: HP loss per tick when outside ring.",
+    "Endgame: Final ring with 2-3 squads remaining.",
+    "Ring: Storm closing area.",
+    "Rotation / Rotate: Moving from current position to next zone.",
+    "Hot rotate: Fast rotation through enemy POIs.",
+    "Edge rotate: Rotation along ring edge for safety.",
+    "Squad wipe: Killing all 4 squad members.",
+    "Third-party: Squad pushing into existing fight.",
+    "Anti-third-party: Pre-positioning for third squad arrival.",
+    "Heals: Bandages, Medkit, Slurp Juice — HP restore.",
+    "Shields: Small Shield (Mini), Big Shield (Pot), Slurp Juice — shield restore.",
+    "Mini Shield: 25 shield, fast use.",
+    "Big Shield (Pot): 50 shield, 5s use.",
+    "Slurp Juice: 75 HP/shield over time, fast use.",
+    "Medkit: Full HP, 10s use.",
+    "Bandage: 15 HP, fast use.",
+    "Launch Pad: Vertical mobility, places on floor.",
+    "Crash Pad: Bouncy pad for movement.",
+    "Shockwave Grenade: Knockback grenade for fast moves.",
+    "Shockwave Hammer: Melee shockwave weapon.",
+    "Mobility item: Launch Pad, Crash Pad, Shockwave, etc.",
+    "Build mode: Full building mechanics enabled.",
+    "Zero Build: No building, pure shooter BR.",
+    "Wall: Build piece — vertical cover.",
+    "Floor: Build piece — horizontal platform.",
+    "Ramp: Build piece — slope for elevation.",
+    "Cone: Build piece — covers vertical space.",
+    "Edit: Modify a build piece (cut window, doorway, etc.).",
+    "Box fight: 1v1/2v2 building duel.",
+    "Zone Wars: Endgame simulator with closing zones.",
+    "Tycoon: Resource gathering + raid mode.",
+    "Pit: FFA arena.",
+    "Reload: Smaller-map BR with respawn timers (Resurgence-style).",
+    "OG: Original Chapter 1 map.",
+    "Mats / Materials: Wood / brick / metal for building.",
+    "Tilted: Tilted Towers, iconic hot drop POI.",
+    "Citadel: The Citadel, castle POI.",
+    "Skywalk: Tilted Towers connector skyway.",
+    "Aim assist: Controller / console auto-aim help."
+  ]
+}
