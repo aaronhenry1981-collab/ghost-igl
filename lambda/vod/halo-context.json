@@ -1,0 +1,587 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Halo Infinite",
+    "short_name": "Halo",
+    "tagline": "4v4 Arena and 12v12 BTB shooter — Spartans, no heroes, equal starts, power weapon control, no respawn cooldowns.",
+    "sides": {
+      "attack": "Aggressing on enemy zone, attempting flag capture / objective grab",
+      "defense": "Anchoring own zone, holding power weapon spawns"
+    },
+    "character_vocab": "Spartans (all identical mechanically — no hero abilities, equipment is pickup-based)",
+    "round_economy": "No buy economy — power weapons + power-ups spawn on timers. Equipment (Drop Wall, Repulsor, Grapple, etc.) is picked up.",
+    "round_format": "Arena: First to 50 kills (Slayer) or first to 3 (CTF/Strongholds). BTB: First to 100 (Slayer) or objective wins.",
+    "key_mechanics": [
+      "Power weapons spawn on fixed timers: Sniper 120s, Rocket 120s, Sword/Hammer 90s, OS/Active Camo 60s",
+      "Equipment is picked up: Grapple, Repulsor, Drop Wall, Threat Sensor, Thrust Boost, Active Camo",
+      "Shields recharge after 5s without damage (full shield = 70 HP buffer, full HP = 100 HP)",
+      "Headshot multiplier: precision weapons (BR, Sidekick, Commando) 1.5x damage to head",
+      "Sliding for movement — slide-jump for momentum, ledge jump for vertical",
+      "Grenade types: Frag (bouncy), Plasma (sticks), Spike (penetrates shields), Dynamo (chains)",
+      "Sniper one-shots to head; Sniper body shot = no kill (must headshot)",
+      "Map control = power weapon control = match control"
+    ],
+    "match_types": [
+      "Slayer: First to kill count",
+      "CTF (Capture the Flag): First to 3 captures",
+      "Strongholds: Hold 2 of 3 zones for points",
+      "Oddball: Hold the skull for time",
+      "King of the Hill: Hold the hill",
+      "Total Control (BTB): Cap 3 zones in sequence",
+      "Big Team Battle: 12v12, vehicles + power weapons"
+    ]
+  },
+  "maps": {
+    "aquarius": {
+      "name": "Aquarius",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Snipe)",
+          "callouts": ["Top Mid", "Snipe Tower", "Sky Bridge", "Pink Ramp", "Yellow Ramp"],
+          "power_weapons": "Sniper Rifle (top mid)",
+          "key_play": "Top Mid control = Sniper control = map control. Hold Top Mid first, then push the contested take."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Hammer Spawn", "Tunnel", "Side Door", "Center Pillar"],
+          "power_weapons": "Hammer (bottom mid)",
+          "key_play": "Hammer pickup determines tempo. Pre-aim Hammer line."
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick on base",
+          "key_play": "Push Red Base via outside cover. Window flank for back-line."
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick on base",
+          "key_play": "Push Blue Base via outside cover. Window flank for back-line."
+        }
+      ]
+    },
+    "live-fire": {
+      "name": "Live Fire",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (OS)",
+          "callouts": ["Top Mid", "OS Spawn", "Side Pillars", "Pink Lift", "Yellow Lift"],
+          "power_weapons": "Overshield (top mid, 60s respawn)",
+          "key_play": "OS pickup wins teamfights. Push Top Mid on OS respawn count."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Sword Spawn", "Side Doors", "Center", "Lift"],
+          "power_weapons": "Energy Sword (bottom mid, 90s respawn)",
+          "key_play": "Sword one-shots in close range. Pre-aim Sword pickup line."
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Drop Wall the entrance, full team commit on grenade chain"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Drop Wall the entrance, full team commit on grenade chain"
+        }
+      ]
+    },
+    "recharge": {
+      "name": "Recharge",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Snipe)",
+          "callouts": ["Top Mid", "Sniper Spawn", "Side Pillars", "Pink Lift", "Yellow Lift"],
+          "power_weapons": "Sniper Rifle (top mid)",
+          "key_play": "Sniper Top Mid is map-defining. Hold long sightline."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid (Pit)",
+          "callouts": ["Bottom Mid", "Pit", "Hammer Spawn", "Side Doors", "Lift"],
+          "power_weapons": "Hammer (bottom mid)",
+          "key_play": "Pit is the close-range trade zone. Hammer one-shots."
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Outside cover commit with Drop Wall"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Outside cover commit with Drop Wall"
+        }
+      ]
+    },
+    "streets": {
+      "name": "Streets",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Bus Stop)",
+          "callouts": ["Top Mid", "Bus Stop", "Sniper Cover", "Side Buildings", "Pink Lift"],
+          "power_weapons": "Sniper Rifle",
+          "key_play": "Sniper Bus Stop is the long sightline. Hold for map control."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid (Subway)",
+          "callouts": ["Bottom Mid", "Subway", "Side Doors", "Cubby", "Lift"],
+          "power_weapons": "Hammer / OS (rotating)",
+          "key_play": "Subway close-range — Hammer one-shots in tight spaces"
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside, Window flank"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside, Window flank"
+        }
+      ]
+    },
+    "bazaar": {
+      "name": "Bazaar",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Market)",
+          "callouts": ["Top Mid", "Market", "Side Pillars", "Pink Lift", "Yellow Lift"],
+          "power_weapons": "Sniper / Skewer",
+          "key_play": "Market view controls map"
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Hammer Spawn", "Side Doors", "Cubby", "Lift"],
+          "power_weapons": "Hammer (bottom mid)",
+          "key_play": "Hammer pickup determines tempo"
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Outside cover commit"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Outside cover commit"
+        }
+      ]
+    },
+    "solitude": {
+      "name": "Solitude",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Snipe)",
+          "callouts": ["Top Mid", "Sniper Spawn", "Side Pillars", "Pink Lift", "Yellow Lift"],
+          "power_weapons": "Sniper Rifle",
+          "key_play": "Sniper Top Mid controls map"
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Sword Spawn", "Side Cubby", "Lift", "Center"],
+          "power_weapons": "Sword / OS",
+          "key_play": "Sword in close range, OS for engages"
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside"
+        }
+      ]
+    },
+    "empyrean": {
+      "name": "Empyrean",
+      "type": "Arena",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid (Sniper Tower)",
+          "callouts": ["Top Mid", "Sniper Tower", "Side Pillars", "Pink Lift", "Yellow Lift"],
+          "power_weapons": "Sniper Rifle (Tower)",
+          "key_play": "Sniper Tower controls entire map. Hold first."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Hammer Spawn", "Side Doors", "Cubby"],
+          "power_weapons": "Hammer / OS",
+          "key_play": "Hammer one-shots, OS engages"
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Top Red", "Bottom Red", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Top Blue", "Bottom Blue", "Side Lift", "Window"],
+          "power_weapons": "BR / Sidekick",
+          "key_play": "Push base via outside"
+        }
+      ]
+    },
+    "the-pit": {
+      "name": "The Pit",
+      "type": "Arena (H3 Remake)",
+      "sites": [
+        {
+          "id": "sniper-tower",
+          "name": "Sniper Tower",
+          "callouts": ["Sniper Tower", "Sniper Spawn", "Top Sniper", "Sniper Window", "Lift"],
+          "power_weapons": "Sniper Rifle (Tower)",
+          "key_play": "Iconic H3 sniper position. Tower control = map control."
+        },
+        {
+          "id": "sword-room",
+          "name": "Sword Room",
+          "callouts": ["Sword Room", "Sword Spawn", "OS Spawn", "Side Doors", "Top Sword"],
+          "power_weapons": "Energy Sword + Overshield",
+          "key_play": "Central pickup zone — OS + Sword combo wins teamfights"
+        },
+        {
+          "id": "carbine",
+          "name": "Carbine",
+          "callouts": ["Carbine", "Side Cover", "Window", "Base Roof", "Lift"],
+          "power_weapons": "BR pair",
+          "key_play": "Mid-range trade zone"
+        },
+        {
+          "id": "long-hall",
+          "name": "Long Hall",
+          "callouts": ["Long Hall", "Rocket Spawn", "Side Cover", "Choke", "Lift"],
+          "power_weapons": "Rocket Launcher (Long Hall)",
+          "key_play": "Rocket pickup is iconic H3 play"
+        }
+      ]
+    },
+    "lockout": {
+      "name": "Lockout",
+      "type": "Arena (H2 Remake)",
+      "sites": [
+        {
+          "id": "sniper-tower",
+          "name": "Sniper Tower",
+          "callouts": ["Sniper Tower", "S1 Spawn", "Sniper Window", "Sniper Lift", "Bridge"],
+          "power_weapons": "Sniper Rifle (Tower)",
+          "key_play": "Iconic H2 S1 sniper position. Tower control = match control."
+        },
+        {
+          "id": "br-tower",
+          "name": "BR Tower",
+          "callouts": ["BR Tower", "Top BR", "BR Spawn", "BR Lift", "Bridge"],
+          "power_weapons": "BR pair",
+          "key_play": "Secondary vertical position counter-angle to Sniper Tower"
+        },
+        {
+          "id": "library",
+          "name": "Library",
+          "callouts": ["Library", "Sword Spawn", "Lift Bottom", "Side Door", "Roof"],
+          "power_weapons": "Energy Sword (bottom-center)",
+          "key_play": "Sword one-shots in tight space"
+        },
+        {
+          "id": "lift",
+          "name": "Lift",
+          "callouts": ["Lift Top", "Lift Bottom", "Side Cover", "Library View", "Sniper Tower View"],
+          "power_weapons": "BR pair",
+          "key_play": "Central vertical mover"
+        }
+      ]
+    },
+    "midship": {
+      "name": "Midship",
+      "type": "Arena (H2 Remake)",
+      "sites": [
+        {
+          "id": "top-mid",
+          "name": "Top Mid",
+          "callouts": ["Top Mid", "OS Spawn", "Pit Top", "Pink Grav", "Yellow Grav", "Side Roofs"],
+          "power_weapons": "Overshield",
+          "key_play": "Iconic H2 OS spawn over central pit. Grav lifts boost up."
+        },
+        {
+          "id": "bottom-mid",
+          "name": "Bottom Mid",
+          "callouts": ["Bottom Mid", "Sword Spawn", "Pit Floor", "Side Doors", "Top Mid View"],
+          "power_weapons": "Energy Sword",
+          "key_play": "Iconic H2 pit floor — Sword one-shots"
+        },
+        {
+          "id": "red-base",
+          "name": "Red Base",
+          "callouts": ["Red Base", "Sniper Spawn", "Base Lift", "Side Cover", "Outside"],
+          "power_weapons": "Sniper Rifle (base)",
+          "key_play": "Sniper from base, Push via Lift"
+        },
+        {
+          "id": "blue-base",
+          "name": "Blue Base",
+          "callouts": ["Blue Base", "Sniper Spawn", "Base Lift", "Side Cover", "Outside"],
+          "power_weapons": "Sniper Rifle (base)",
+          "key_play": "Sniper from base, Push via Lift"
+        }
+      ]
+    }
+  },
+  "operator_roles": {
+    "Slayer / Entry": {
+      "description": "Player taking first shot on engagement, breaking enemy formation.",
+      "loadout": "BR + Sidekick, Frag grenades for entry",
+      "common_mistakes": [
+        "Solo entries without team trade",
+        "Pushing without team grenades",
+        "Holding angles past first kill",
+        "No flag-grab discipline (slayer doesn't grab flag)",
+        "Crosshair placement off head level"
+      ],
+      "ideal_use": "First shot on engage, trade for team, push when team commits"
+    },
+    "Power Weapon Controller": {
+      "description": "Player holding the Sniper / Rocket / Sword / Hammer for the round.",
+      "loadout": "Power weapon + BR backup. Sniper / Rocket / Sword / Hammer.",
+      "common_mistakes": [
+        "Holding same angle past first kill",
+        "Pickup attempt without team coverage",
+        "Solo Sniper without trade position",
+        "Wasting Rocket shots on cover",
+        "Sword whiff at close range"
+      ],
+      "ideal_use": "Long sightline Sniper, Power Weapon trade kills, reposition after pickup"
+    },
+    "Objective Runner": {
+      "description": "Player grabbing flag / odd ball / capturing stronghold.",
+      "loadout": "BR + Sidekick, Plasma grenade for stick + grab",
+      "common_mistakes": [
+        "Grab attempt without team coverage",
+        "Solo flag grab through middle (gets traded)",
+        "Plasma stick wasted on Spartan",
+        "No Repulsor / Drop Wall for return cover",
+        "Crouching to grab flag (slow)"
+      ],
+      "ideal_use": "Coordinate with team for grab attempt, use Repulsor for return cover, Plasma stick on flag carrier"
+    },
+    "Support": {
+      "description": "Player throwing Drop Walls, Repulsors, Threat Sensors for team utility.",
+      "loadout": "BR + Sidekick + Drop Wall / Repulsor / Threat Sensor",
+      "common_mistakes": [
+        "Drop Wall in own team's line of fire",
+        "Repulsor wasted on Spartan",
+        "Threat Sensor in random spots",
+        "No grenade cycle on push",
+        "Solo lurk without team coverage"
+      ],
+      "ideal_use": "Drop Wall on entry, Repulsor for grenade deflection, Threat Sensor for site info"
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "No power weapon respawn timer tracking",
+      "Solo pickups without team coverage",
+      "Pushing without team trade position",
+      "Crouching while shooting (loses accuracy)",
+      "No grenade pre-throws on common angles",
+      "Walking everywhere (no sprint = slow)",
+      "Random weapon usage (no Sniper for long, no Sword for close)",
+      "Crosshair on chest level (should be head)",
+      "No flag-grab discipline",
+      "No team callouts"
+    ],
+    "silver": [
+      "Power weapon respawn timers off by 10s+",
+      "Holding angles past first kill",
+      "Solo Sniper without team cover",
+      "No equipment usage (Drop Wall, Repulsor wasted)",
+      "Random grenade throws",
+      "No team commit on power weapon pickup",
+      "Crosshair placement on map geometry",
+      "No anti-grenade Repulsor usage",
+      "Flag attempts without team coverage",
+      "No spawn flip awareness"
+    ],
+    "gold": [
+      "Power weapon control inconsistent",
+      "Equipment timing off (Drop Wall too late)",
+      "Solo flank without team trade",
+      "Spawn flip read late",
+      "No retake utility on lost angle",
+      "Late rotates after power weapon pickup",
+      "No off-angle holds",
+      "Random utility cycle",
+      "Flag-return without team cover",
+      "No anti-grenade pre-aim"
+    ],
+    "platinum": [
+      "Off-angle holds predictable",
+      "Power weapon trade timing off",
+      "No mid-round adjustment",
+      "Equipment overlap with team (wasted)",
+      "Aggressive Sniper holds without escape plan",
+      "Plant position too aggressive",
+      "Late round info gathering",
+      "Buy / loot decision based on round count",
+      "Trade kills missed by 1 second",
+      "Util coordination across team overlapping"
+    ],
+    "diamond": [
+      "Pro-tier reads on enemy comp — predictable on own",
+      "Power weapon respawn timer 1s off",
+      "Mid-round comm overload",
+      "Off-angle pre-aim not adjusted per round",
+      "Lurker map info not relayed",
+      "Buy / loot decision: 1 grenade shy",
+      "Late round 1v1 management",
+      "Tank ult vs DPS ult priority confusion (BTB)",
+      "Sensitivity drift",
+      "Solo carries on eco rounds"
+    ],
+    "onyx_champion": [
+      "Pro-tier reads on enemy default — predictable on own",
+      "Power weapon respawn timer gaps",
+      "Equipment usage timing wrong by 0.5s",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Late round 1v3+ management",
+      "Crosshair sensitivity drift",
+      "Mental fatigue on long sessions",
+      "Comp staying static vs counter swap",
+      "Pickup attempt without team coverage"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player in a trade position with teammate (within 3 seconds of trade)?",
+      "Is the player holding the power weapon spawn line?",
+      "Is the player in cover (corner, lift, side door) or in open?",
+      "Is the player off-angle or on the common angle?",
+      "Did the player commit to the power weapon pickup or hesitate?",
+      "Is the team coordinated on power weapon respawn timing?"
+    ],
+    "crosshair": [
+      "Is the crosshair at head level pre-aimed on the angle?",
+      "Is the player tracking on hitscan (Sniper, BR) or projectile leading?",
+      "Is the player landing 1-tap headshots with BR?",
+      "Is the player using the right weapon for the engagement range?",
+      "Is the player ADS-ing or hipfire close range?",
+      "Is the player counter-strafe-style (some movement)?"
+    ],
+    "utility": [
+      "Did the player use grenades (Frag, Plasma, Spike, Dynamo) proactively?",
+      "Did the player use equipment (Drop Wall, Repulsor, Threat Sensor) at the right time?",
+      "Was the team coordinated on power weapon respawn pickup?",
+      "Did the player save grenades for the post-kill follow-up?",
+      "Was the team coordinated on grenade chain throw?",
+      "Did the player track enemy power weapon respawn?"
+    ],
+    "decisions": [
+      "Did the player commit to power weapon pickup or hesitate?",
+      "Did the player rotate when called?",
+      "Did the player engage 1v2+ without team backup?",
+      "Did the player save weapon on knock (no respawn in Halo Arena)?",
+      "Did the player commit to flag grab or hesitate?",
+      "Did the player coordinate spawn flip?",
+      "Did the player call out enemy power weapon pickup?"
+    ]
+  },
+  "vocabulary": [
+    "Power weapon: Sniper, Rocket, Sword, Hammer, Skewer — high-impact, respawn on timer.",
+    "Power-up: Overshield (OS) or Active Camo — buffs character for 30-60s.",
+    "OS / Overshield: Pickup that gives 200 HP shield (vs default 70).",
+    "Active Camo / Camo: Pickup that makes player invisible.",
+    "Sniper / Snipe: Sniper Rifle, 1-shot kill to head.",
+    "Skewer: Single-shot anti-vehicle rifle, 1-shot kill if direct hit.",
+    "Rocket / Rocket Launcher: AoE explosion, kills in radius.",
+    "Sword / Energy Sword: Melee 1-shot at close range, lunge mechanic.",
+    "Hammer / Gravity Hammer: AoE melee, 1-shot kill at close range.",
+    "BR / Battle Rifle: 3-round burst precision rifle, 4 bursts to kill (3 body + 1 head).",
+    "Sidekick: Pistol, 7-shot kill if all headshots.",
+    "Commando: Single-shot precision rifle, ~5 headshots to kill.",
+    "Plasma Pistol: Energy weapon, can EMP shields with charge shot.",
+    "Magnum: Auto-pistol, fast fire rate.",
+    "Frag Grenade: Bouncy explosive, 50+ damage in radius.",
+    "Plasma Grenade: Sticks to enemy, 100% kill if stuck.",
+    "Spike Grenade: Sticks to surfaces, area damage.",
+    "Dynamo Grenade: Chains lightning between enemies + walls.",
+    "Drop Wall: Equipment — bullet-blocking wall (one-way for thrower).",
+    "Repulsor: Equipment — knockback shield, deflects grenades.",
+    "Threat Sensor: Equipment — area scan reveals enemies.",
+    "Grappleshot / Grapple: Equipment — grapple hook for vertical/horizontal mobility.",
+    "Thrust Boost / Thruster: Equipment — burst dash.",
+    "Shroud Screen: Equipment — smoke grenade (denies vision).",
+    "Spawn flip: Forcing enemy team to spawn in a different location.",
+    "Spawn cycle: Tracking respawn timing.",
+    "Pickup: Power weapon / equipment spawn timing pickup.",
+    "Pre-aim: Aiming crosshair at the spot enemy will appear.",
+    "Counter-snipe: Sniping the enemy sniper before they shoot.",
+    "Trade kill: Killing enemy who killed teammate within 2-3s.",
+    "Slide-jump: Slide + jump for momentum (advanced movement).",
+    "Wall jump / Wall bounce: Jump off wall for vertical (advanced).",
+    "Top control / Top mid: Holding elevated central position.",
+    "Snipe Tower: Elevated position with Sniper spawn.",
+    "Sword Room: Central pickup zone with Sword.",
+    "BR Tower: Elevated counter-angle to Sniper Tower.",
+    "Power-up cycle: Tracking respawn timing of OS / Camo / Power weapons.",
+    "Carry: Player who carries the flag / objective.",
+    "Capture: Score the flag / capture stronghold.",
+    "Flag Stand: Where the flag spawns at each base.",
+    "Strongholds: Capture the zone for points.",
+    "Oddball: Skull pickup objective.",
+    "King of the Hill: Hold the moving hill zone.",
+    "BTB / Big Team Battle: 12v12 mode with vehicles.",
+    "Warthog: Standard transport vehicle, gunner + driver.",
+    "Mongoose: Light bike vehicle.",
+    "Wasp: Flying vehicle (BTB).",
+    "Ghost: Covenant hover vehicle.",
+    "Wraith: Covenant tank.",
+    "Banshee: Covenant flying vehicle."
+  ]
+}
