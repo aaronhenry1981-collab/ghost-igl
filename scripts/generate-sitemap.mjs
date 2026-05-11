@@ -20,6 +20,7 @@ const today = new Date().toISOString().slice(0, 10)
 const STATIC_URLS = [
   { loc: '/', freq: 'weekly', pri: 1.0 },
   { loc: '/#/auth', freq: 'monthly', pri: 0.6 },
+  { loc: '/#/dashboard', freq: 'monthly', pri: 0.7 },
   { loc: '/#/strats', freq: 'weekly', pri: 0.9 },
   { loc: '/#/match-prep', freq: 'weekly', pri: 0.85 },
   { loc: '/#/loadouts', freq: 'weekly', pri: 0.85 },
@@ -47,6 +48,21 @@ const STATIC_URLS = [
   { loc: '/games/finals/', freq: 'weekly', pri: 0.85 },
   { loc: '/games/halo/', freq: 'weekly', pri: 0.85 },
   { loc: '/games/fn/', freq: 'weekly', pri: 0.85 },
+  { loc: '/games/rl/', freq: 'weekly', pri: 0.85 },
+  // Per-game loadouts pages — captures "<game> loadouts" / "best <game>
+  // weapons" queries which are extremely high-volume search terms.
+  { loc: '/games/r6/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/cs2/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/valorant/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/ow2/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/apex/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/mvr/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/halo/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/finals/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/cod/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/fn/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/games/rl/loadouts.html', freq: 'monthly', pri: 0.85 },
+  { loc: '/tools/', freq: 'weekly', pri: 0.85 },
 ]
 
 // Per-game per-map landing pages. Local Claude generated 9 games' worth of
@@ -93,6 +109,14 @@ async function getMultiGameMapUrls() {
             freq: 'monthly',
             pri: 0.7,
           })
+          // Per-map loadout pages — captures "<map> <game> loadouts" queries.
+          if (data.STRATS?.[m.id]) {
+            urls.push({
+              loc: `/games/${game.id}/${m.id}-loadouts.html`,
+              freq: 'monthly',
+              pri: 0.75,
+            })
+          }
         }
       } catch {
         // Game data load failed; skip.
@@ -258,6 +282,14 @@ async function main() {
     'fn-plat-to-diamond',
     'fn-diamond-to-elite',
     'fn-elite-to-champion',
+    // Rocket League
+    'rl-bronze-to-silver',
+    'rl-silver-to-gold',
+    'rl-gold-to-platinum',
+    'rl-platinum-to-diamond',
+    'rl-diamond-to-champion',
+    'rl-champion-to-gc',
+    'rl-gc-to-ssl',
     // R6 operator deep-dives (47 posts)
     'r6-operator-ace', 'r6-operator-alibi', 'r6-operator-aruni', 'r6-operator-ash', 'r6-operator-azami',
     'r6-operator-bandit', 'r6-operator-buck', 'r6-operator-capitao', 'r6-operator-castle', 'r6-operator-caveira',
