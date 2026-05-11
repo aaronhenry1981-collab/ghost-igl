@@ -1,0 +1,679 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Marvel Rivals",
+    "short_name": "MVR",
+    "tagline": "6v6 hero-based shooter — Marvel heroes with unique kits, role queue (Vanguard / Duelist / Strategist).",
+    "sides": {
+      "attack": "Attacking — push payload / cap point",
+      "defense": "Defending — stop the cap / payload"
+    },
+    "character_vocab": "heroes",
+    "round_economy": "No economy — abilities recharge on cooldown. Ult charges from damage / healing dealt.",
+    "round_format": "Best of 3 maps. Convoy = attack/defense rounds. Domination = control point cap. Convergence = hybrid cap + payload.",
+    "key_mechanics": [
+      "Role lock: 2 Vanguards (tanks) + 2 Duelists (DPS) + 2 Strategists (supports) per team",
+      "Team-Up abilities: certain hero combos unlock special synergy abilities (Hulk + Iron Man = Gamma Ray, etc.)",
+      "Ultimate abilities — track enemy ults, manage your own with damage/healing dealt",
+      "Destructible environment — walls / floors can be destroyed for new sightlines",
+      "Cooldown management: most tactical abilities have 6-15s cooldowns",
+      "Air-control system — many heroes can fly / glide / hover (Storm, Iron Man, Thor)",
+      "Headshot multiplier: 2x on most heroes",
+      "Match types: Convoy (escort payload), Domination (control point), Convergence (hybrid)"
+    ],
+    "team_ups": [
+      "Hulk + Iron Man = Gamma Ray (massive damage beam)",
+      "Storm + Thor = Lightning Storm (area damage)",
+      "Hela + Loki + Thor = Asgardian Soul (team buff)",
+      "Magneto + Scarlet Witch = Metallic Curse (debuff enemies)",
+      "Rocket + Punisher = Ammo Invention (faster reload)",
+      "Luna Snow + Iron Fist + Namor = Frozen Spirit (heal + buff)"
+    ]
+  },
+  "maps": {
+    "shin-shibuya": {
+      "name": "Tokyo 2099: Shin-Shibuya",
+      "type": "Convoy",
+      "sites": [
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Spawn", "First Choke", "Side Building", "Rooftop", "Plaza"],
+          "attack_strategy": "Brawl through choke, Vanguard takes shield duty, Strategists pocket DPS, Duelists clean up",
+          "defense_strategy": "Anchor choke with Vanguard, Doctor Strange portal for rotation, Hela / Hawkeye pick from rooftop"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Second Stretch",
+          "callouts": ["Bridge", "Side Streets", "Rooftop", "Cubby", "Wider Open"],
+          "attack_strategy": "Side flank with mobility heroes (Spider-Man, Magik), Vanguard pushes payload front",
+          "defense_strategy": "Sigma-like Vanguard (Magneto) hold bridge, Strategists peel for tank"
+        },
+        {
+          "id": "p3",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Rooftop", "Open Plaza", "Cubby"],
+          "attack_strategy": "Full team ult chain on payload final — Iron Man Gamma Overdrive + Hela Goddess of Death",
+          "defense_strategy": "Ult save for cap contest, Adam Warlock Karmic Revival for retake"
+        }
+      ]
+    },
+    "ninomaru": {
+      "name": "Tokyo 2099: Ninomaru",
+      "type": "Convergence",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Capture Point (Garden)",
+          "callouts": ["Garden", "Side Pillars", "Rooftop", "Choke", "Cubby"],
+          "attack_strategy": "Cap point — full team commit, Strategists area heal, Duelists clean back-line",
+          "defense_strategy": "Anchor with Vanguard, Strategists pocket Vanguard, Duelists peel for Strategist"
+        },
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Bridge", "Side Streets", "Rooftop", "Plaza", "Choke"],
+          "attack_strategy": "Push payload with Vanguard shield, Strategists pocket, Duelists pick flanks",
+          "defense_strategy": "Hold choke with Vanguard, Doctor Strange portal escape"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Rooftop", "Open Plaza"],
+          "attack_strategy": "Ult chain on cap final — Iron Man + Hela combo",
+          "defense_strategy": "Ult save for cap contest, Adam Warlock Karmic Revival"
+        }
+      ]
+    },
+    "spider-islands": {
+      "name": "Tokyo 2099: Spider-Islands",
+      "type": "Domination",
+      "sites": [
+        {
+          "id": "point",
+          "name": "Capture Point",
+          "callouts": ["Point", "Side Buildings", "Rooftop", "Open Field", "Cubby"],
+          "attack_strategy": "Mobility heroes (Spider-Man, Magik) for vertical, full team cap commit",
+          "defense_strategy": "Vanguard anchor, Strategist peel, Duelist flank coverage"
+        }
+      ]
+    },
+    "yggdrasill-path": {
+      "name": "Yggsgard: Yggdrasill Path",
+      "type": "Convoy",
+      "sites": [
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Spawn", "Choke", "Side Path", "Rooftop", "Bridge"],
+          "attack_strategy": "Brawl through choke with Thor / Hulk Vanguard, Loki / Mantis pocket",
+          "defense_strategy": "Magneto Metal Bulwark choke hold, Hawkeye Hunter's Sight pick"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Halls",
+          "callouts": ["Halls", "Side Doors", "Rooftop", "Cubby", "Open"],
+          "attack_strategy": "Mobility flank (Spider-Man, Magik) through Halls, Vanguard pushes front",
+          "defense_strategy": "Ult chain on hall denial — Storm Omega Hurricane + Hela ult"
+        },
+        {
+          "id": "p3",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Open Plaza", "Rooftop"],
+          "attack_strategy": "Full team ult chain on cap final",
+          "defense_strategy": "Ult save for cap contest, Adam Warlock Karmic Revival"
+        }
+      ]
+    },
+    "royal-palace": {
+      "name": "Yggsgard: Royal Palace",
+      "type": "Domination",
+      "sites": [
+        {
+          "id": "point",
+          "name": "Capture Point",
+          "callouts": ["Point", "Side Pillars", "Rooftop", "Open Plaza", "Cubby"],
+          "attack_strategy": "Full team commit on cap, Vanguard shield front, Strategists pocket",
+          "defense_strategy": "Vanguard anchor with Strategist pocket, Duelist counter-flank"
+        }
+      ]
+    },
+    "symbiotic-surface": {
+      "name": "Klyntar: Symbiotic Surface",
+      "type": "Convergence",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Capture Point (Pool)",
+          "callouts": ["Pool", "Side Pillars", "Rooftop", "Choke", "Cubby"],
+          "attack_strategy": "Cap point commit with Vanguard + Strategist pocket",
+          "defense_strategy": "Vanguard anchor with Strategist peel, Duelist flank coverage"
+        },
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Bridge", "Side Streets", "Rooftop", "Plaza"],
+          "attack_strategy": "Push payload with Vanguard shield, Strategists pocket",
+          "defense_strategy": "Hold choke with Vanguard, Doctor Strange portal escape"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Open Plaza"],
+          "attack_strategy": "Ult chain on cap final",
+          "defense_strategy": "Ult save for cap contest"
+        }
+      ]
+    },
+    "celestial-apex": {
+      "name": "Klyntar: Celestial's Apex",
+      "type": "Domination",
+      "sites": [
+        {
+          "id": "point",
+          "name": "Capture Point",
+          "callouts": ["Point", "Side Cliffs", "Rooftop", "Open Plaza", "Cubby"],
+          "attack_strategy": "Full team commit on cap, ult chain on contest",
+          "defense_strategy": "Vanguard anchor, Strategist pocket, hazard cliffs for booping"
+        }
+      ]
+    },
+    "birnin-tchalla": {
+      "name": "Wakanda: Birnin T'Challa",
+      "type": "Domination",
+      "sites": [
+        {
+          "id": "point",
+          "name": "Capture Point",
+          "callouts": ["Point", "Side Pillars", "Rooftop", "Open Plaza", "Cubby"],
+          "attack_strategy": "Full team commit on cap, Black Panther flank for back-line",
+          "defense_strategy": "Vanguard anchor with Strategist pocket"
+        }
+      ]
+    },
+    "hall-of-djalia": {
+      "name": "Wakanda: Hall of Djalia",
+      "type": "Convergence",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Capture Point (Hall)",
+          "callouts": ["Hall", "Side Pillars", "Rooftop", "Choke", "Cubby"],
+          "attack_strategy": "Cap point commit, Vanguard shield front, Strategists pocket",
+          "defense_strategy": "Anchor choke, Duelist flank coverage"
+        },
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Bridge", "Side Streets", "Rooftop", "Plaza"],
+          "attack_strategy": "Push payload with Vanguard shield",
+          "defense_strategy": "Hold choke with Vanguard"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Open Plaza"],
+          "attack_strategy": "Ult chain on cap final",
+          "defense_strategy": "Ult save for cap contest"
+        }
+      ]
+    },
+    "krakoa": {
+      "name": "Hellfire Gala: Krakoa",
+      "type": "Domination",
+      "sites": [
+        {
+          "id": "point",
+          "name": "Capture Point",
+          "callouts": ["Point", "Side Garden", "Rooftop", "Open Plaza", "Cubby"],
+          "attack_strategy": "Full team commit on cap, X-Men hero comp (Wolverine, Magik, Storm) for synergy",
+          "defense_strategy": "Vanguard anchor, Strategist pocket"
+        }
+      ]
+    },
+    "hells-heaven": {
+      "name": "Hydra Charteris Base: Hell's Heaven",
+      "type": "Convoy",
+      "sites": [
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Spawn", "Choke", "Side Path", "Rooftop", "Bridge"],
+          "attack_strategy": "Brawl through choke, Vanguard takes shield",
+          "defense_strategy": "Anchor choke with Vanguard"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Bridge",
+          "callouts": ["Bridge", "Side Cliffs", "Rooftop", "Cubby"],
+          "attack_strategy": "Side flank with mobility heroes, Vanguard pushes payload",
+          "defense_strategy": "Sigma-like Vanguard hold bridge"
+        },
+        {
+          "id": "p3",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Open Plaza"],
+          "attack_strategy": "Ult chain on cap final",
+          "defense_strategy": "Ult save for cap contest"
+        }
+      ]
+    },
+    "midtown": {
+      "name": "Empire of Eternal Night: Midtown",
+      "type": "Convergence",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Capture Point (Plaza)",
+          "callouts": ["Plaza", "Side Buildings", "Rooftop", "Choke", "Cubby"],
+          "attack_strategy": "Cap point commit, Vanguard shield front, Strategists pocket",
+          "defense_strategy": "Anchor choke, Duelist flank coverage"
+        },
+        {
+          "id": "p1",
+          "name": "Payload — First Stretch",
+          "callouts": ["Bridge", "Side Streets", "Rooftop", "Plaza"],
+          "attack_strategy": "Push payload with Vanguard shield",
+          "defense_strategy": "Hold choke with Vanguard"
+        },
+        {
+          "id": "p2",
+          "name": "Payload — Final",
+          "callouts": ["Final Cap", "Side Buildings", "Open Plaza"],
+          "attack_strategy": "Ult chain on cap final",
+          "defense_strategy": "Ult save for cap contest"
+        }
+      ]
+    }
+  },
+  "heroes": {
+    "vanguards": {
+      "Captain America": {
+        "role": "Vanguard — Brawl",
+        "kit": "Living Legend Shield (front block), Sentinel Strike (charge), Freedom Charge (ult — speed + heal aura)",
+        "common_mistakes": ["Shield wrong direction", "Charge without team commit", "Ult on eco", "Solo brawl"],
+        "ideal_use": "Brawl tank with shield front, Charge for engages, Freedom Charge ult on cap"
+      },
+      "Doctor Strange": {
+        "role": "Vanguard — Mobility",
+        "kit": "Shield of Seraphim (barrier), Pentagram of Farallah (vertical teleport), Eye of Agamotto (ult — large area stun)",
+        "common_mistakes": ["Shield in wrong angle", "Pentagram in obvious spot", "Eye on eco", "Solo teleport"],
+        "ideal_use": "Brawl tank, Pentagram for rotation, Eye for cap commit + ult chain"
+      },
+      "Groot": {
+        "role": "Vanguard — Walls",
+        "kit": "Ironwood Wall (placeable wall), Vengeful Stamen (area damage), Strangling Prison (ult — trap enemies)",
+        "common_mistakes": ["Wall blocks own team", "Stamen in random spot", "Ult without commit", "Solo walls"],
+        "ideal_use": "Walls for choke / cap split, Stamen for area denial, Prison ult for cap commit"
+      },
+      "Hulk": {
+        "role": "Vanguard — Dive",
+        "kit": "Indestructible Guard (shield), Incredible Leap (jump), Hulk Smash (ult — large AoE jump)",
+        "common_mistakes": ["Solo leaps into 5", "Shield wrong direction", "Ult on eco", "No team coordination"],
+        "ideal_use": "Dive back-line with Leap, Shield for sustain, Smash for cap commit (combo with Iron Man = Gamma Ray)"
+      },
+      "Magneto": {
+        "role": "Vanguard — Control",
+        "kit": "Metal Bulwark (large shield), Iron Volley (projectile damage), Meteor M (ult — metal pulse)",
+        "common_mistakes": ["Bulwark wrong angle", "Volley without commit", "Meteor on cover", "Solo poke"],
+        "ideal_use": "Poke tank with Bulwark, Volley for chip damage, Meteor for cap commit"
+      },
+      "Peni Parker": {
+        "role": "Vanguard — Webs",
+        "kit": "Cyber-Web Cluster (web traps), Bionic Spider-Nest (heal nest), Ultimate Bionic Hyperthrust (ult — area damage)",
+        "common_mistakes": ["Webs in obvious spots", "Nest in random area", "Ult on cover", "Solo webs"],
+        "ideal_use": "Webs for entry deny, Nest for team sustain, Hyperthrust for cap commit"
+      },
+      "Thor": {
+        "role": "Vanguard — Sky",
+        "kit": "Awakening Rune (flight), Storm Surge (damage), God of Thunder (ult — large AoE)",
+        "common_mistakes": ["Solo flight without team", "Rune wasted", "Ult on cover", "No team coordination"],
+        "ideal_use": "Sky control with Rune, Storm Surge for chip, God of Thunder for cap commit (combo with Storm = Lightning Storm)"
+      },
+      "Venom": {
+        "role": "Vanguard — Brawl",
+        "kit": "Cellular Corrosion (damage zone), Frenzied Arrival (dash), Feast of the Abyss (ult — area heal/damage)",
+        "common_mistakes": ["Corrosion in wrong spot", "Frenzied without commit", "Ult on eco", "Solo dives"],
+        "ideal_use": "Brawl with Corrosion, Frenzied for engage, Feast for cap commit + team heal"
+      },
+      "Emma Frost": {
+        "role": "Vanguard — Diamond",
+        "kit": "Diamond Form (HP buff), Mind Control (debuff), Psionic Seduction (ult — area control)",
+        "common_mistakes": ["Diamond at wrong time", "Mind Control wrong target", "Ult solo", "Solo without team"],
+        "ideal_use": "Diamond for sustain, Mind Control for cap denial, Psionic for ult chain"
+      },
+      "The Thing": {
+        "role": "Vanguard — Brawl",
+        "kit": "Stone Smash (damage), Embattled Leap (jump), Clobbering Time (ult — area AoE)",
+        "common_mistakes": ["Solo leaps", "Smash on cover", "Ult on eco", "No team coordination"],
+        "ideal_use": "Brawl tank, Leap for engage, Clobbering Time for cap commit"
+      }
+    },
+    "duelists": {
+      "Black Panther": {
+        "role": "Duelist — Flank",
+        "kit": "Spinning Kick (mobility), Spirit Rend (damage), Bast's Descent (ult — vertical strike)",
+        "common_mistakes": ["Solo flank without team", "Kick into 5", "Ult without commit", "No reset on kill"],
+        "ideal_use": "Flank back-line, Spinning Kick for engages, Bast's Descent on cap"
+      },
+      "Black Widow": {
+        "role": "Duelist — Sniper",
+        "kit": "Edge Dancer (mobility), Electro-Plasma Explosion (damage), Fearsome Sting (ult — single-target)",
+        "common_mistakes": ["Holding same angle", "Edge Dancer predictable", "Ult on tank", "Solo without team"],
+        "ideal_use": "Long-range sniper, Edge Dancer for reposition, Fearsome Sting for DPS kill"
+      },
+      "Hawkeye": {
+        "role": "Duelist — Bow",
+        "kit": "Crescent Dive (mobility), Skyward Leap (vertical), Hunter's Sight (ult — wallhack)",
+        "common_mistakes": ["Solo dive without team", "Leap predictable", "Ult on cover", "Bow miss"],
+        "ideal_use": "Long-range bow, Dive for reposition, Hunter's Sight on team commit"
+      },
+      "Hela": {
+        "role": "Duelist — Damage",
+        "kit": "Soul Drainer (heal on kill), Hel's Descent (vertical), Goddess of Death (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Descent predictable", "Ult on cover", "No reset"],
+        "ideal_use": "Damage DPS, Soul Drainer sustains, Goddess of Death for cap commit (combo with Loki/Thor = Asgardian Soul)"
+      },
+      "Iron Fist": {
+        "role": "Duelist — Melee",
+        "kit": "Wall of Wind (block), Dragon's Defense (heal), Living Chi (ult — speed + damage)",
+        "common_mistakes": ["Solo melee into 5", "Wall of Wind wrong angle", "Ult on eco", "No team coordination"],
+        "ideal_use": "Melee DPS, Dragon's Defense for sustain, Living Chi for cap commit"
+      },
+      "Iron Man": {
+        "role": "Duelist — Air",
+        "kit": "Hyper-Density Armor (sustain), Micro-Missile Barrage (damage), Gamma Overdrive (ult — large AoE)",
+        "common_mistakes": ["Solo air without team", "Missiles on cover", "Ult on eco", "No coordination"],
+        "ideal_use": "Air DPS, Density Armor for sustain, Gamma Overdrive for cap commit (combo with Hulk = Gamma Ray)"
+      },
+      "Magik": {
+        "role": "Duelist — Mobility",
+        "kit": "Dark Teleportation (mobility), Stepping Discs (mobility), Darkchild (ult — area damage + buff)",
+        "common_mistakes": ["Solo teleport without team", "Discs predictable", "Ult on eco", "No coordination"],
+        "ideal_use": "Flank DPS with Teleport, Discs for vertical, Darkchild for cap commit"
+      },
+      "Moon Knight": {
+        "role": "Duelist — Ranged",
+        "kit": "Hand of Khonshu (damage), Moon Blade (ranged), Hand of Khonshu Ult (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Blade miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Ranged DPS, Hand of Khonshu for chip, Ult for cap commit"
+      },
+      "Namor": {
+        "role": "Duelist — Trident",
+        "kit": "Aquatic Dominion (sustain), Wrath of the Seven Seas (damage), Horn of Proteus (ult — area attack)",
+        "common_mistakes": ["Solo without team", "Wrath miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Ranged DPS, Aquatic Dominion for sustain, Horn for cap commit"
+      },
+      "Psylocke": {
+        "role": "Duelist — Mobility",
+        "kit": "Wing Shuriken (ranged), Psi-Blade Dash (mobility), Dance of the Butterfly (ult — single-target)",
+        "common_mistakes": ["Solo dash into 5", "Shuriken miss", "Ult on tank", "No coordination"],
+        "ideal_use": "Flank DPS, Dash for engages, Dance for DPS kill"
+      },
+      "The Punisher": {
+        "role": "Duelist — Damage",
+        "kit": "Smart Web (slow), Adjudication (ranged), Final Judgment (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Web in wrong spot", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Web for control, Final Judgment for cap commit (combo with Rocket = Ammo Invention)"
+      },
+      "Scarlet Witch": {
+        "role": "Duelist — Mystic",
+        "kit": "Mystic Projection (mobility), Telekinesis (control), Reality Erasure (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Telekinesis miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Telekinesis for control, Reality Erasure for cap commit (combo with Magneto = Metallic Curse)"
+      },
+      "Spider-Man": {
+        "role": "Duelist — Web",
+        "kit": "Web-Cluster (web trap), Get Over Here! (web pull), Spectacular Spin (ult — area damage)",
+        "common_mistakes": ["Solo web pulls", "Cluster in wrong spot", "Ult on eco", "No coordination"],
+        "ideal_use": "Flank DPS, Web Pull for engages, Spin for cap commit"
+      },
+      "Squirrel Girl": {
+        "role": "Duelist — Squirrels",
+        "kit": "Mammal Bond (heal squirrels), Squirrel Tsunami (ranged), Unbeatable Squirrel Tsunami (ult — area)",
+        "common_mistakes": ["Solo without team", "Tsunami miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Tsunami for chip, Unbeatable for cap commit"
+      },
+      "Star-Lord": {
+        "role": "Duelist — Blaster",
+        "kit": "Stellar Shift (mobility), Blaster Barrage (damage), Galactic Legend (ult — speed + damage)",
+        "common_mistakes": ["Solo without team", "Barrage miss", "Ult on eco", "No coordination"],
+        "ideal_use": "Mobile DPS, Stellar Shift for engages, Galactic for cap commit"
+      },
+      "Storm": {
+        "role": "Duelist — Sky",
+        "kit": "Wind Blade (mobility), Goddess Boost (damage), Omega Hurricane (ult — area damage)",
+        "common_mistakes": ["Solo flight without team", "Boost wasted", "Ult on cover", "No coordination"],
+        "ideal_use": "Air DPS, Wind Blade for engages, Omega Hurricane for cap commit (combo with Thor = Lightning Storm)"
+      },
+      "Winter Soldier": {
+        "role": "Duelist — Trooper",
+        "kit": "Trooper Bot (auto-fire), Tainted Voltage (damage), Kraken Impact (ult — area damage)",
+        "common_mistakes": ["Bot in wrong spot", "Voltage miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Bot for area coverage, Kraken for cap commit"
+      },
+      "Wolverine": {
+        "role": "Duelist — Berserker",
+        "kit": "Berserker Leap (mobility), Vicious Rampage (damage), Last Stand (ult — temp invuln)",
+        "common_mistakes": ["Solo leaps into 5", "Rampage without commit", "Ult on eco", "No team coordination"],
+        "ideal_use": "Brawl DPS, Leap for engages, Last Stand for cap commit"
+      },
+      "Human Torch": {
+        "role": "Duelist — Fire",
+        "kit": "Plasma Body (sustain), Scorching Trail (damage), Supernova (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Trail miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Plasma Body for sustain, Supernova for cap commit"
+      },
+      "Mister Fantastic": {
+        "role": "Duelist — Stretch",
+        "kit": "Reflexive Rubber (reflect), Stretch Punch (damage), Brainiac Bounce (ult — area)",
+        "common_mistakes": ["Solo without team", "Punch miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Damage DPS, Reflexive Rubber for sustain, Brainiac Bounce for cap commit"
+      }
+    },
+    "strategists": {
+      "Adam Warlock": {
+        "role": "Strategist — Resurrect",
+        "kit": "Avatar Life Stream (heal), Cosmic Cluster (damage), Karmic Revival (ult — area resurrect)",
+        "common_mistakes": ["Solo positioning", "Heal wrong target", "Ult on dead site", "No team coordination"],
+        "ideal_use": "Heal DPS, Cosmic Cluster for chip, Karmic Revival on team wipe"
+      },
+      "Cloak & Dagger": {
+        "role": "Strategist — Light/Dark",
+        "kit": "Veil of Lightforce (heal), Dagger Storm (damage), Eternal Bond (ult — area heal + damage)",
+        "common_mistakes": ["Veil wrong target", "Dagger miss", "Ult on eco", "No coordination"],
+        "ideal_use": "Heal cycle, Dagger Storm for chip, Eternal Bond for cap commit"
+      },
+      "Invisible Woman": {
+        "role": "Strategist — Force",
+        "kit": "Force Field (barrier), Psionic Vortex (control), Invisible Boundary (ult — area)",
+        "common_mistakes": ["Field in wrong spot", "Vortex miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Field for site hold, Vortex for control, Boundary for cap commit"
+      },
+      "Jeff the Land Shark": {
+        "role": "Strategist — Splash",
+        "kit": "Joyful Splash (heal), Hide and Seek (escape), It's Jeff! (ult — area)",
+        "common_mistakes": ["Solo without team", "Splash wrong angle", "Ult on cover", "No coordination"],
+        "ideal_use": "Heal DPS, Splash for sustain, It's Jeff! for cap commit"
+      },
+      "Loki": {
+        "role": "Strategist — Mischief",
+        "kit": "Regeneration Domain (heal), Devious Exchange (swap), God of Mischief (ult — clone)",
+        "common_mistakes": ["Solo without team", "Swap wrong target", "Ult on cover", "No coordination"],
+        "ideal_use": "Heal cycle, Swap for save, God of Mischief for cap commit (combo with Hela/Thor = Asgardian Soul)"
+      },
+      "Luna Snow": {
+        "role": "Strategist — Ice",
+        "kit": "Cryo Heart (heal), Absolute Zero (damage/slow), Fate of Both Worlds (ult — area)",
+        "common_mistakes": ["Solo without team", "Zero miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Heal cycle, Absolute Zero for control, Fate for cap commit (combo with Iron Fist/Namor = Frozen Spirit)"
+      },
+      "Mantis": {
+        "role": "Strategist — Empath",
+        "kit": "Nature's Soothing (heal), Spore Slumber (sleep), Soul Resurgence (ult — area heal)",
+        "common_mistakes": ["Solo without team", "Slumber wrong target", "Ult on eco", "No coordination"],
+        "ideal_use": "Heal DPS, Slumber on engaging tank, Soul Resurgence for cap commit"
+      },
+      "Rocket Raccoon": {
+        "role": "Strategist — Tech",
+        "kit": "Repair Mode (heal), Jetpack Dash (mobility), C.Y.A. (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Repair wrong angle", "Ult on cover", "No coordination"],
+        "ideal_use": "Heal DPS, Jetpack for repositioning, C.Y.A. for cap commit (combo with Punisher = Ammo Invention)"
+      },
+      "Ultron": {
+        "role": "Strategist — Drone",
+        "kit": "Imperative Fix (heal), Encephalo-Ray (damage), Rage of Ultron (ult — area damage)",
+        "common_mistakes": ["Solo without team", "Ray miss", "Ult on cover", "No coordination"],
+        "ideal_use": "Heal DPS, Encephalo-Ray for chip, Rage of Ultron for cap commit"
+      }
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "No role discipline — 4 DPS, 0 Vanguards",
+      "Hero pick not adjusted (one-trick into counters)",
+      "Ult tracking missing",
+      "Cooldowns wasted on entry without team",
+      "No team coordination on ult chains",
+      "Hero swaps not made",
+      "Solo flanking without team commit",
+      "No callouts in voice",
+      "Walking into Vanguard front line",
+      "No Team-Up awareness"
+    ],
+    "silver": [
+      "Ult tracking inconsistent",
+      "Counter-pick swaps slow",
+      "Cooldown rotation wrong",
+      "No coordination on ult chains",
+      "Brawl vs dive comp mismatch",
+      "Solo without team",
+      "Aggressive without team trade",
+      "No retake utility on attack",
+      "Mid-fight comm overload",
+      "No Team-Up awareness"
+    ],
+    "gold": [
+      "Ult economy: 5 ults charged, no coordination",
+      "Counter-pick depth — knowing 2-3 counters per hero",
+      "Vanguard synergy with Strategist",
+      "Late rotates without cover",
+      "Bait teammate on retake",
+      "Random ability usage",
+      "No off-angle hero picks",
+      "Lurker timing on flank wrong",
+      "Comms on save round not helping team",
+      "Team-Up not coordinated"
+    ],
+    "platinum": [
+      "Off-angle picks predictable",
+      "Util execution timing wrong",
+      "No mid-round adjustment",
+      "Eco round commits — wrong hero swap",
+      "Tank ult chain timing off",
+      "Plant position too aggressive",
+      "Late round info gathering",
+      "Buy / swap decision based on rounds, not ult diff",
+      "Trade kills missed by 1 second",
+      "Team-Up coordination overlapping"
+    ],
+    "diamond": [
+      "Ult chain timing — 1 ult wasted per round",
+      "Comm overload",
+      "Off-angle pre-aim not adjusted per round",
+      "Hero swap timing — too early or too late",
+      "Lurker map info not relayed",
+      "Buy / swap decision: 1 ult shy",
+      "Late round 1v1 management",
+      "Vanguard ult vs Duelist ult priority",
+      "Sensitivity drift",
+      "Team-Up not maximized"
+    ],
+    "gm_celestial": [
+      "Pro-tier reads on enemy comp — but predictable on own",
+      "Ult tracking gaps — 1 ult untracked per round",
+      "Counter-pick on every round (predictable swaps)",
+      "Cooldown management across all 6 players",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Vanguard ult priority in chain",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Team-Up combo not maximized"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the Vanguard front-line shielding?",
+      "Are Strategists positioned behind tank for line-of-sight heal?",
+      "Are Duelists at correct range for their hero?",
+      "Is the player exposed to multiple sightlines?",
+      "Did the player commit to the team push or solo flank?",
+      "Is the player using cover (destructible terrain) appropriately?"
+    ],
+    "crosshair": [
+      "Is the crosshair pre-aimed at head level?",
+      "Is the player tracking hitscan or leading projectile?",
+      "Is the crosshair on the tank (priority target) or DPS?",
+      "Is the player landing key abilities (Stamen, Sting, Sleep)?",
+      "Is the player using ADS for ranged or hipfire close?"
+    ],
+    "utility": [
+      "Did the Vanguard use shield + ability for engages?",
+      "Did the Duelist use ability rotation proactively?",
+      "Did the Strategist use heal + utility coordination?",
+      "Was ult tracked across team?",
+      "Was the ult used at the right moment (chain or solo)?",
+      "Was the Team-Up activated for max effect?"
+    ],
+    "decisions": [
+      "Did the player swap to a counter when called?",
+      "Did the player commit to cap or hesitate?",
+      "Did the player rotate when called?",
+      "Did the player trade teammate's death within 3s?",
+      "Did the player engage 1v3+ without backup?",
+      "Did the player track ult diff before engaging?",
+      "Did the player commit to the ult chain?",
+      "Did the player coordinate Team-Up combo?"
+    ]
+  },
+  "vocabulary": [
+    "Ult / Ultimate: Hero's signature ability, charged from damage/healing.",
+    "Ult charge / Ult tracking: Track enemy ult percentages each round.",
+    "Ult chain: Sequential ult use for compounding damage.",
+    "Team-Up: Special combo ability between specific hero pairs.",
+    "Vanguard: Tank role (2 per team) — front-line shield/sustain.",
+    "Duelist: DPS role (2 per team) — damage dealers.",
+    "Strategist: Support role (2 per team) — heal + utility.",
+    "Convoy: Payload escort game mode.",
+    "Domination: Control point game mode.",
+    "Convergence: Hybrid cap + payload game mode.",
+    "Cap / Capture: Capping objective point.",
+    "Payload: Vehicle that moves when attackers near it.",
+    "Cooldown / CD: Time before ability can be reused.",
+    "Pocket: Healing/boosting a single DPS (Adam Warlock + Iron Man).",
+    "Peel: Defending teammate from flank (Strategist for Vanguard).",
+    "Dive comp: Mobile heroes (Spider-Man, Magik, Black Panther) for back-line.",
+    "Brawl comp: Sustained heroes (Hulk, Thor, Cap) for fights.",
+    "Poke comp: Long-range heroes (Hawkeye, Hela, Magneto) for chip.",
+    "Bunker comp: Stationary heroes (Magneto, Peni) for site holds.",
+    "Anti-dive: Strategist + Vanguard combo to counter dive.",
+    "Counter-pick: Swapping heroes to counter enemy comp.",
+    "Hard counter: Hero built to shut down another.",
+    "Soft counter: Hero with disadvantage but not insurmountable.",
+    "One-trick: Player who only plays one hero.",
+    "Headshot multiplier: 2x damage on most heroes.",
+    "Tempo: Speed of team commitment vs setup.",
+    "Tank-Up: Bringing more than 2 tanks.",
+    "Brawl tank: Hulk, Cap, Thor, Venom.",
+    "Off-tank: Doctor Strange, Magneto.",
+    "Main tank: Hulk, Cap, Thor (heavy front-line).",
+    "Off-strat: Loki, Jeff (specialized strategist).",
+    "Main strat: Adam Warlock, Luna, Mantis (main healer).",
+    "Off-DPS: Hawkeye, Hela (utility damage).",
+    "Main DPS: Iron Man, Storm, Punisher (sustained damage).",
+    "Anti-tank: Punisher, Iron Man (anti-Vanguard).",
+    "Anti-Strategist: Spider-Man, Black Panther (back-line dive).",
+    "Anti-flanker: Strategist + Vanguard peel."
+  ]
+}
