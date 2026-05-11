@@ -1,0 +1,952 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Valorant",
+    "short_name": "Val",
+    "tagline": "5v5 tactical FPS with hero abilities — bomb objective, ability-based playmaking, no respawn.",
+    "sides": {
+      "attack": "Attackers — plant the Spike (bomb) on A, B, or C site",
+      "defense": "Defenders — prevent the plant or defuse the Spike"
+    },
+    "character_vocab": "agents (Riot's term — agents have unique abilities, unlike CS2)",
+    "round_economy": "Pistol → Eco / Half-buy / Full buy. Credits cap at 9000. Save weapons across rounds.",
+    "round_format": "MR12 — first to 13 rounds wins. Halftime side swap. Overtime sudden death if 12-12.",
+    "key_mechanics": [
+      "Each agent has 4 abilities: Signature (free per round), 2 buyable (C and Q), and Ultimate (6-7 charges to use)",
+      "Ultimates are round-changing — track enemy ult points every round",
+      "Spike plant: 4-second animation, 45-second timer. Defuse: 7s full, 3.5s half (carrot)",
+      "Signature ability recharges per round — use it or lose it",
+      "First bullet accuracy: stand still for ~0.3s for accurate first shot",
+      "Headshot multiplier: 4x for most weapons (Vandal/Phantom 1-tap headshot at any range)",
+      "Agent roles: Duelist (entry), Initiator (info/flash), Controller (smokes), Sentinel (lockdown)"
+    ]
+  },
+  "maps": {
+    "bind": {
+      "name": "Bind",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Bath / Truck)",
+          "callouts": ["Bath", "Truck", "Default", "Heaven", "Showers", "Lamps", "Elbow", "U-Hall", "Tower"],
+          "common_attack_executes": [
+            "Default A: Controller smoke Heaven + Lamps, Duelist entry through Showers, Sentinel watches Lamps for flank",
+            "Bath teleporter execute: Initiator flash Bath, Duelist enters first, full team execute through Bath",
+            "Showers split: 3 Showers + 2 U-Hall split timing with smokes covering Heaven"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Showers + 1 mid + 2 B (Hookah, site)",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive U-Hall: 2 defenders push U-Hall early for info"
+          ],
+          "post_plant_positions": "Spike at Default: hold from Heaven, Lamps, and Truck with smoke covering Showers retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Hookah / Long)",
+          "callouts": ["Hookah", "Long", "Default", "Garden", "Window", "Truck", "Back Site", "Elbow"],
+          "common_attack_executes": [
+            "Default B: smoke Window + Default, push Long with 4 + 1 Hookah",
+            "Hookah teleporter execute: full team teleport through Hookah, fast plant",
+            "Long execute: smoke Window + Truck, push Long with 4 + 1 mid"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Hookah + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Hookah: 2 defenders push Hookah early for info"
+          ],
+          "post_plant_positions": "Spike at Back Site: hold from Window, Garden, and Hookah with smoke covering Default retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (Omen / Brimstone)", "Lamps smoke (Astra / Harbor)", "Showers wall (Sage / Phoenix)", "Hookah smoke (Omen / Brimstone)"],
+      "mid_control": "Bind has no traditional mid — replaced by two teleporters (Hookah and Bath). Teleporter control is the macro game.",
+      "unique_mechanic": "Teleporters (Bath and Hookah) allow fast rotates. Audio cue on teleporter use — enemy hears."
+    },
+    "haven": {
+      "name": "Haven",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Default)",
+          "callouts": ["Heaven", "Default", "Sewer", "Side", "Long", "Short", "A-Lobby", "Backsite"],
+          "common_attack_executes": [
+            "Default A: Controller smoke Heaven + Sewer, Duelist entry Short, full team execute",
+            "Long A: smoke Heaven, push Long with 4, plant Default",
+            "A-Lobby split: 3 A + 2 mid for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Short + 1 mid + 1 B + 1 C",
+            "Stack A: 3 A + 1 mid + 1 B/C",
+            "Aggressive Long: 2 defenders push Long early"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Long + Short with smoke covering retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Mid)",
+          "callouts": ["Mid", "Window", "Garage", "Default", "Doors", "Site", "B-Long"],
+          "common_attack_executes": [
+            "Mid default: smoke Window + Garage, push from mid with 4 + 1 A info",
+            "B Long execute: smoke Garage + Heaven, push B Long with 4",
+            "Mid contest: aggressive Window with Duelist for early pick"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Garage + 1 Window + 1 mid + 2 A/C",
+            "Stack B: 3 B + 1 mid + 1 A/C",
+            "Aggressive mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Default: hold from Window, Garage, and Doors with smoke covering Mid retake."
+        },
+        {
+          "id": "c-site",
+          "name": "C Site (Long / Lobby)",
+          "callouts": ["C-Long", "C-Lobby", "Default", "Garage", "Cubby", "Back Site"],
+          "common_attack_executes": [
+            "Default C: smoke C-Long + Garage, push C-Lobby with 4",
+            "C-Long execute: smoke Garage + Default, push Long with 4 + 1 mid",
+            "Mid + C split: 3 C + 2 mid for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 C-Long + 1 Site + 1 mid + 2 A/B",
+            "Stack C: 3 C + 1 mid + 1 A/B",
+            "Aggressive C-Long: 2 defenders push C-Long early"
+          ],
+          "post_plant_positions": "Spike at Default: hold C-Long + Garage + Cubby with smoke covering Lobby retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke", "Garage smoke", "Sewer smoke (A)", "Default smoke (any site)"],
+      "mid_control": "Haven has wide mid with multiple entries. Mid serves as A and C rotation lane.",
+      "unique_mechanic": "Three bomb sites instead of two — defenders must spread thinner. Rotations are longer."
+    },
+    "split": {
+      "name": "Split",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Tower)",
+          "callouts": ["Heaven", "Tower", "Site", "Ramps", "Screens", "Sewers", "Rafters", "Hell"],
+          "common_attack_executes": [
+            "Heaven take: smoke Hell + Site, push Heaven with 4",
+            "Default A: smoke Heaven + Tower, push Ramps with 4",
+            "A Main + Heaven split: 3 A Main + 2 Heaven for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Ramps: 2 defenders push Ramps for info"
+          ],
+          "post_plant_positions": "Spike Site: hold Heaven + Ramps + Screens with smoke covering retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Tower / Back)",
+          "callouts": ["Tower", "Site", "Back", "Mid", "Sewers", "B Main", "Garage", "Default"],
+          "common_attack_executes": [
+            "Default B: smoke Tower + Sewers, push B Main with 4",
+            "Tower take: smoke Site + Back, push Tower with 4 for vertical advantage",
+            "Sewers execute: smoke Mid + Tower, push Sewers with 4"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Tower + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Back: hold from Tower, Sewers, and Default with smoke covering Mid retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Tower smoke (B)", "Mid smoke", "Sewers smoke"],
+      "mid_control": "Split mid is tight chokes with Sewers and Vents flank options. Mid control gives both sites' rotations.",
+      "unique_mechanic": "Vertical layout — Heaven (A) and Tower (B) give significant high-ground advantage."
+    },
+    "ascent": {
+      "name": "Ascent",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Generator / Tree)",
+          "callouts": ["Generator", "Tree", "Heaven", "Catwalk", "Main", "Default", "Wine", "Hell"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Catwalk, push A Main with 4",
+            "Catwalk take: aggressive Catwalk for early picks",
+            "A Main + Heaven split: 3 A Main + 2 Tree for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Default + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Catwalk: 2 defenders push Catwalk early"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Tree + Catwalk with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Stairs / Logs)",
+          "callouts": ["Stairs", "Logs", "B-Main", "Switch", "Default", "Market", "Tube"],
+          "common_attack_executes": [
+            "Default B: smoke Market + Switch, push B Main with 4",
+            "Mid Switch take: control mid, push B with 5 from Switch",
+            "B Main + Market split: 3 B Main + 2 Market for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Stairs + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Switch: 2 defenders push Switch for mid info"
+          ],
+          "post_plant_positions": "Spike Default: hold Stairs + Switch + Logs with smoke covering B Main retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Catwalk smoke", "Switch smoke (Mid)", "Stairs smoke (B)"],
+      "mid_control": "Ascent mid (Switch + Tube) is the iconic Val mid. Switch doors are the only doors in Val — block sightlines temporarily.",
+      "unique_mechanic": "Doors on Switch can be shot open or closed — temporary mid blockers."
+    },
+    "icebox": {
+      "name": "Icebox",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Belt / Pipes)",
+          "callouts": ["Belt", "Pipes", "Site", "Screens", "Rafters", "Tube", "Maze", "Nest"],
+          "common_attack_executes": [
+            "Default A: smoke Rafters + Screens, push A Main with 4",
+            "Belt take: aggressive Belt rope for early pick",
+            "A Main + Nest split: 3 A Main + 2 Nest for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Rafters + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Belt: 2 defenders push Belt for early info"
+          ],
+          "post_plant_positions": "Spike Site: hold Belt + Rafters + Pipes with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Yellow / Green)",
+          "callouts": ["Yellow", "Green", "Site", "Tube", "Snowman", "Boiler", "Back Site", "Mid"],
+          "common_attack_executes": [
+            "Default B: smoke Yellow + Snowman, push B Main with 4",
+            "Mid Boiler take: control mid via Boiler, push B with 5",
+            "B Main + Snowman split: 3 B Main + 2 Snowman for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Snowman + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Boiler: 2 defenders push Boiler for mid info"
+          ],
+          "post_plant_positions": "Spike at Back Site: hold Yellow + Green + Snowman with smoke covering B Main retake."
+        }
+      ],
+      "key_smokes": ["Rafters smoke (A)", "Screens smoke", "Mid Boiler smoke", "Snowman smoke (B)"],
+      "mid_control": "Icebox mid is layered with Boiler and Mid Top. Control is critical for rotation reads.",
+      "unique_mechanic": "Vertical map — ropes and rafters create unique high-ground angles. Wall hugging matters."
+    },
+    "breeze": {
+      "name": "Breeze",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Default / Cave)",
+          "callouts": ["Default", "Cave", "Site", "Heaven", "Main", "Bridge", "Cubby", "Ropes"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Cave, push A Main with 4",
+            "Heaven take: smoke Cave + Site, push Heaven for vertical advantage",
+            "A Main + Bridge split: 3 A Main + 2 Bridge for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive A Main: 2 defenders push A Main for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Cave + Cubby with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Tunnel / Hall)",
+          "callouts": ["Tunnel", "Hall", "Site", "Default", "Pyramid", "Elbow", "Back", "Mid"],
+          "common_attack_executes": [
+            "Default B: smoke Elbow + Pyramid, push B Main with 4",
+            "Mid + B split: control mid, push B from mid with 5",
+            "B Tunnel rush: rush Tunnel with one flash — works on eco defenders"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Pyramid + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Back: hold Pyramid + Elbow + Tunnel with smoke covering retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Cave smoke", "Mid smoke", "Pyramid smoke (B)"],
+      "mid_control": "Breeze mid is the iconic long sightline — Operator/AWP territory. Mid control is round-defining.",
+      "unique_mechanic": "Long sightlines — Operator (sniper) is meta-defining on this map."
+    },
+    "lotus": {
+      "name": "Lotus",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Hut / Drop)",
+          "callouts": ["Hut", "Drop", "Site", "Heaven", "Main", "Default", "Tree", "Pillar"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Hut, push A Main with 4",
+            "Drop execute: drop through Drop with smokes on Heaven, fast plant",
+            "A Main + Tree split: 3 A Main + 2 Tree for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 1 B + 1 C",
+            "Stack A: 3 A + 1 mid + 1 B/C",
+            "Aggressive Tree: 2 defenders push Tree for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Tree + Drop with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Main / Hut)",
+          "callouts": ["B-Main", "Hut", "Site", "Default", "Pillar", "Window", "Back Site"],
+          "common_attack_executes": [
+            "Default B: smoke Window + Pillar, push B Main with 4",
+            "Mid Doors execute: control mid doors, push B with 5 from mid",
+            "B + C split: split timing between B and C bombsite"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Hut + 1 Site + 1 mid + 2 A/C",
+            "Stack B: 3 B + 1 mid + 1 A/C",
+            "Aggressive mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Back: hold Hut + Window + Pillar with smoke covering Main retake."
+        },
+        {
+          "id": "c-site",
+          "name": "C Site (Waterfall / Hall)",
+          "callouts": ["Waterfall", "Hall", "Site", "Default", "C-Main", "Heaven"],
+          "common_attack_executes": [
+            "Default C: smoke Heaven + Hall, push C Main with 4",
+            "Waterfall take: control Waterfall, push C with 5 from above",
+            "Mid Doors + C split: control mid + push C from both sides"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 A/B",
+            "Stack C: 3 C + 1 mid + 1 A/B",
+            "Aggressive C-Main: 2 defenders push C-Main for early info"
+          ],
+          "post_plant_positions": "Spike at Default: hold Heaven + Waterfall + Hall with smoke covering Main retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Hut smoke", "Mid Doors smoke", "Waterfall smoke (C)"],
+      "mid_control": "Lotus has rotating Mid Doors (Sage-style walls block doors). Mid control with door management is key.",
+      "unique_mechanic": "Three sites + Rotating Doors (Mid + B). Doors can be shot open/closed for sightline management."
+    },
+    "sunset": {
+      "name": "Sunset",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Default / Elbow)",
+          "callouts": ["Default", "Elbow", "Site", "Heaven", "Main", "Tree", "Back Site", "Mid"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Elbow, push A Main with 4",
+            "Mid take: control mid Top, push A from mid + Main split",
+            "A Main + Tree split: 3 A Main + 2 Tree for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Elbow: 2 defenders push Elbow for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Tree + Elbow with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Mall / Market)",
+          "callouts": ["Mall", "Market", "Site", "Default", "Long", "Back", "Mid", "Boba"],
+          "common_attack_executes": [
+            "Default B: smoke Long + Market, push B Main with 4",
+            "Mid Top + B split: control mid, push B from mid with 5",
+            "Market execute: smoke Long + Back, push Market with 4"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Long + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Default: hold Long + Market + Back with smoke covering retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Elbow smoke", "Mid smoke", "Long smoke (B)"],
+      "mid_control": "Sunset mid is critical — Mid Top is the rotation lane between both sites.",
+      "unique_mechanic": "Urban environment, long sightlines on B Long, tight corners on A. Operator viable."
+    },
+    "abyss": {
+      "name": "Abyss",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Default)",
+          "callouts": ["Heaven", "Default", "Site", "Main", "Drop", "Pit", "Cubby"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Pit, push A Main with 4 — careful of fall damage zones",
+            "Heaven take: smoke Default + Drop, push Heaven for vertical advantage",
+            "Drop play: drop on enemy from Heaven for surprise plays"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive A Main: 2 defenders push A Main for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Drop + Pit with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Plat / Default)",
+          "callouts": ["Plat", "Default", "Site", "Main", "Heaven", "Drop", "Cubby"],
+          "common_attack_executes": [
+            "Default B: smoke Plat + Heaven, push B Main with 4 — careful of fall zones",
+            "Plat take: control Plat, push B from Plat with 5",
+            "Mid + B split: control mid, push B from mid with 5"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Plat + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Plat + Heaven + Cubby with smoke covering Main retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Plat smoke (B)", "Mid smoke", "Drop smoke"],
+      "mid_control": "Abyss mid has long sightlines and fall zones. Mid control with smoke management is critical.",
+      "unique_mechanic": "Open-sided map — falling off the edge is instant death. Pushing must avoid fall zones."
+    },
+    "corrode": {
+      "name": "Corrode",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Default)",
+          "callouts": ["Heaven", "Default", "Site", "Main", "Drop", "Cubby", "Connector"],
+          "common_attack_executes": [
+            "Default A: smoke Heaven + Connector, push A Main with 4",
+            "Drop execute: drop on enemy from Heaven for vertical advantage",
+            "A Main + Connector split: 3 A Main + 2 Connector for split timing"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Connector: 2 defenders push Connector for info"
+          ],
+          "post_plant_positions": "Spike Default: hold Heaven + Connector + Cubby with smoke covering Main retake."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Main / Default)",
+          "callouts": ["B-Main", "Default", "Site", "Heaven", "Cubby", "Mid"],
+          "common_attack_executes": [
+            "Default B: smoke Heaven + Cubby, push B Main with 4",
+            "Mid + B split: control mid, push B from mid with 5",
+            "Heaven take: smoke Site + Cubby, push Heaven for vertical advantage"
+          ],
+          "common_defense_setups": [
+            "Default: 1 Heaven + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive mid: 2 defenders contest mid for info"
+          ],
+          "post_plant_positions": "Spike at Default: hold Heaven + Cubby + Site with smoke covering Main retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke (A)", "Connector smoke", "Mid smoke", "Cubby smoke (B)"],
+      "mid_control": "Corrode mid is the rotation lane. Mid control is critical for site reads.",
+      "unique_mechanic": "Industrial chemical plant aesthetic with verticality and corner-heavy layouts."
+    }
+  },
+  "agents": {
+    "Jett": {
+      "role": "Duelist",
+      "kit": {
+        "signature": "Tailwind (dash) — instant horizontal dash, recharges on 2 kills",
+        "c": "Cloudburst (smoke) — temporary smoke for self-cover",
+        "q": "Updraft (jump) — vertical boost for high-angle peeks",
+        "ult": "Blade Storm — 5 throwing knives, headshot 1-shot, reset on kill"
+      },
+      "common_mistakes": [
+        "Dashing into multiple enemies without team backup",
+        "Using ult mid-fight instead of pre-fight (no flash bind)",
+        "Updraft for awkward angles (telegraphs the play)",
+        "Saving dash on save round (use it for survival)",
+        "No utility coordination — solo entries"
+      ],
+      "ideal_use": "Entry first onto site using dash + smoke for self-cover. Updraft for off-angle peeks. Blade Storm for round-changing eco kills."
+    },
+    "Reyna": {
+      "role": "Duelist",
+      "kit": {
+        "signature": "Devour (orb consume for HP) / Dismiss (orb consume for invuln)",
+        "c": "Leer (eye flash) — directional flash with line of sight check",
+        "q": "Leer (flash)",
+        "ult": "Empress — speed boost + auto-Dismiss on kill"
+      },
+      "common_mistakes": [
+        "Leering own teammates",
+        "Not consuming orbs before next fight",
+        "Using Dismiss reactively (after taking damage) instead of pre-fight",
+        "Solo flashing without team trade behind",
+        "Ult on save round (overcommit)"
+      ],
+      "ideal_use": "Pop Leer through smoke for site execute. Consume orb for HP after engagement. Empress on critical retakes."
+    },
+    "Phoenix": {
+      "role": "Duelist",
+      "kit": {
+        "signature": "Hot Hands (molly) — heal molly that damages enemies",
+        "c": "Blaze (wall) — fire wall blocks vision + damages",
+        "q": "Curveball (flash) — curving flash",
+        "ult": "Run It Back — Phoenix dies, respawns at cast location"
+      },
+      "common_mistakes": [
+        "Wall blocking own teammates",
+        "Flash exposure when teammate isn't in trade position",
+        "Run It Back ult into 5 enemies (suicide ult)",
+        "Hot Hands on full HP (waste)",
+        "Curveball thrown without line of sight check"
+      ],
+      "ideal_use": "Blaze wall to block sightline. Curveball flash for entry. Run It Back for late-round scouting."
+    },
+    "Raze": {
+      "role": "Duelist",
+      "kit": {
+        "signature": "Boom Bot (explosive) — heat-seeking bomb",
+        "c": "Blast Pack (satchel) — propulsion + damage satchel",
+        "q": "Paint Shells (cluster) — cluster grenade",
+        "ult": "Showstopper — rocket launcher, 1-shot kill in radius"
+      },
+      "common_mistakes": [
+        "Satchel jumps into 5 enemies",
+        "Paint Shells into own teammates",
+        "Showstopper without line of sight (wasted shot)",
+        "Boom Bot in obvious paths (gets shot)",
+        "Solo satchel without team utility"
+      ],
+      "ideal_use": "Satchel for vertical entries. Boom Bot for info. Paint Shells on common holds. Showstopper round-changers."
+    },
+    "Sova": {
+      "role": "Initiator",
+      "kit": {
+        "signature": "Recon Bolt — wallhack arrow, reveals enemies in cone",
+        "c": "Owl Drone — controllable scout drone with tag",
+        "q": "Shock Bolt — damage arrow (lineups)",
+        "ult": "Hunter's Fury — 3 wall-piercing arrows for damage + reveal"
+      },
+      "common_mistakes": [
+        "Recon Bolt in random spots (no setup)",
+        "Owl Drone exposed without team coverage",
+        "Shock Bolt lineups not learned per map",
+        "Hunter's Fury without info (missed all 3 arrows)",
+        "No utility coordination — Recon used at wrong timing"
+      ],
+      "ideal_use": "Recon Bolt before site execute. Owl Drone for site info. Shock Bolt lineups for damage. Hunter's Fury on post-plant retake."
+    },
+    "Breach": {
+      "role": "Initiator",
+      "kit": {
+        "signature": "Aftershock (delayed pulse) — fault line damage",
+        "c": "Flashpoint (flash) — wall-pierce flash",
+        "q": "Fault Line (stun) — wall-pierce stun",
+        "ult": "Rolling Thunder — large area stun + damage"
+      },
+      "common_mistakes": [
+        "Flashing own teammates",
+        "Fault Line through random walls (no info on enemy positions)",
+        "Aftershock without follow-up commit",
+        "Rolling Thunder on eco round (wasted)",
+        "Solo entries — Breach needs team commit"
+      ],
+      "ideal_use": "Stun + flash chain through walls for entry. Aftershock on hold positions. Rolling Thunder on full team executes."
+    },
+    "Skye": {
+      "role": "Initiator",
+      "kit": {
+        "signature": "Guiding Light (bird flash) — flash bird with line of sight check",
+        "c": "Regrowth (heal) — channel team heal",
+        "q": "Trailblazer (tiger) — controllable scout + concussion",
+        "ult": "Seekers — 3 seeking enemies that near-sight"
+      },
+      "common_mistakes": [
+        "Flashing teammates with Guiding Light",
+        "Regrowth at wrong moment (during fight = wasted)",
+        "Trailblazer killed without info gained",
+        "Seekers not following enemy spawn rotation",
+        "No coordination on flash bind with Duelist"
+      ],
+      "ideal_use": "Guiding Light bind with Duelist for entries. Regrowth post-fight. Trailblazer for site info. Seekers for round-closing pressure."
+    },
+    "KAY/O": {
+      "role": "Initiator",
+      "kit": {
+        "signature": "Frag/Ment (damage) — bouncing damage grenade",
+        "c": "Flash/Drive — pop flash",
+        "q": "Zero/Point (suppress) — area suppression (blocks abilities)",
+        "ult": "Null/Cmd — area suppression + reveal"
+      },
+      "common_mistakes": [
+        "Zero/Point thrown without info (random suppression)",
+        "Flash/Drive without team trade behind",
+        "Ult on eco round (wasted)",
+        "Frag/Ment thrown into walls (no info)",
+        "No coordination on suppression timing"
+      ],
+      "ideal_use": "Zero/Point on enemy ult agent (block ult). Flash/Drive for entry. Null/Cmd on critical retake to disable team."
+    },
+    "Omen": {
+      "role": "Controller",
+      "kit": {
+        "signature": "Paranoia (blind) — directional near-sight",
+        "c": "Shrouded Step (teleport) — short teleport",
+        "q": "Dark Cover (smoke) — placeable smoke (recharges)",
+        "ult": "From the Shadows — global teleport (visible to enemy)"
+      },
+      "common_mistakes": [
+        "Paranoia through smoke (no LOS check)",
+        "Shrouded Step into known angles (gets pre-aimed)",
+        "Smoke timing wrong — too early (fade before execute) or too late",
+        "Ult into stack (instant death)",
+        "Wasting smoke recharges (always have one ready)"
+      ],
+      "ideal_use": "Dark Cover smoke on execute. Paranoia for entry. Shrouded Step for off-angle. Ult for round 1v3+ scouting."
+    },
+    "Brimstone": {
+      "role": "Controller",
+      "kit": {
+        "signature": "Sky Smoke (smoke) — 3 placeable smokes from map view",
+        "c": "Stim Beacon — team fire rate buff",
+        "q": "Incendiary (molly) — damage molly",
+        "ult": "Orbital Strike — 5-second damage zone"
+      },
+      "common_mistakes": [
+        "Smoke placement wrong from map view (off-target)",
+        "Stim Beacon used solo (no team to buff)",
+        "Incendiary on empty spots (no enemy in zone)",
+        "Orbital Strike not synced with team retake commit",
+        "Wasting all 3 smokes early — no late-round smoke"
+      ],
+      "ideal_use": "Sky Smoke on execute. Incendiary on plant deny. Orbital Strike on post-plant retake."
+    },
+    "Astra": {
+      "role": "Controller",
+      "kit": {
+        "signature": "Stars (5 stars) — placeable smoke/concuss/gravity from map view",
+        "abilities": "Each Star activates as Smoke / Concuss (concussion) / Gravity (vacuum)",
+        "ult": "Cosmic Divide — long wall blocking sightline + bullets"
+      },
+      "common_mistakes": [
+        "Star placement on wrong locations (slow rotation back)",
+        "Smoke / Concuss / Gravity activation timing off",
+        "Cosmic Divide for split execute (not used for round-changing)",
+        "Wasting Concuss on empty cubby",
+        "Gravity in open area (no kill follow-up)"
+      ],
+      "ideal_use": "Smoke stars on execute. Concuss for entry. Gravity for plant deny. Cosmic Divide for retake split."
+    },
+    "Viper": {
+      "role": "Controller",
+      "kit": {
+        "signature": "Toxic Screen — placeable line of fuel-based wall",
+        "c": "Snake Bite (molly) — toxic damage molly",
+        "q": "Poison Cloud (smoke) — fuel-based smoke (toggle on/off)",
+        "ult": "Viper's Pit — large toxic zone, decay enemies inside"
+      },
+      "common_mistakes": [
+        "Toxic Screen + Poison Cloud at same time = no fuel for late round",
+        "Snake Bite without commit",
+        "Pit too early — no retake setup",
+        "Pit obvious — enemy stays out",
+        "Not breaking enemy decay with HP buffer"
+      ],
+      "ideal_use": "Toxic Screen on execute wall. Poison Cloud for plant deny. Pit on post-plant retake hold."
+    },
+    "Harbor": {
+      "role": "Controller",
+      "kit": {
+        "signature": "High Tide (wall) — water wall blocks vision + slow",
+        "c": "Cove (smoke dome) — water dome blocks vision + bullets briefly",
+        "q": "Cascade (line wall) — water line wall slows",
+        "ult": "Reckoning — large area concuss + damage"
+      },
+      "common_mistakes": [
+        "Wall placement wrong (no entry coverage)",
+        "Cove dome dropped early (no enemy timing)",
+        "Cascade thrown into walls",
+        "Reckoning on eco (wasted)",
+        "No coordination with Duelist on entry timing"
+      ],
+      "ideal_use": "High Tide wall for execute. Cove for entry cover. Cascade for plant deny. Reckoning on critical retake."
+    },
+    "Cypher": {
+      "role": "Sentinel",
+      "kit": {
+        "signature": "Trapwire — placeable invisible trip",
+        "c": "Cyber Cage — smoke cage (multiple)",
+        "q": "Spycam — placeable scout camera",
+        "ult": "Neural Theft — reveal enemy positions after kill"
+      },
+      "common_mistakes": [
+        "Trapwire in obvious spots (enemy spams)",
+        "Spycam in known cam spots (enemy shoots)",
+        "Cyber Cage on wrong angle (no use)",
+        "Neural Theft on dead body in nowhere",
+        "No coordination on flank watch"
+      ],
+      "ideal_use": "Trapwire on flank routes. Spycam in unconventional spots. Cyber Cage on execute hold. Neural Theft for round-closing intel."
+    },
+    "Killjoy": {
+      "role": "Sentinel",
+      "kit": {
+        "signature": "Turret — auto-firing turret",
+        "c": "Nanoswarm (molly) — placeable damage swarm",
+        "q": "Alarmbot (slow) — auto-firing slowbot",
+        "ult": "Lockdown — area detain (8 sec lockdown)"
+      },
+      "common_mistakes": [
+        "Turret in obvious spots (gets destroyed)",
+        "Nanoswarm not synced with plant",
+        "Alarmbot in main entries (gets destroyed)",
+        "Lockdown without team retake (no win condition)",
+        "Solo lurk far from utility"
+      ],
+      "ideal_use": "Turret on site for flank info. Nanoswarm on plant deny. Alarmbot on cubby. Lockdown on post-plant retake."
+    },
+    "Sage": {
+      "role": "Sentinel",
+      "kit": {
+        "signature": "Healing Orb — heal teammate (channel)",
+        "c": "Barrier Orb (wall) — Sage wall (deployable wall)",
+        "q": "Slow Orb — area slow",
+        "ult": "Resurrection — revive dead teammate"
+      },
+      "common_mistakes": [
+        "Healing self instead of teammate (Heal is wasted)",
+        "Wall in own teammates' line of fire",
+        "Slow Orb on empty cubby (no enemy)",
+        "Resurrection on rifle teammate (no eco difference)",
+        "Solo lurk far from heal range"
+      ],
+      "ideal_use": "Wall for execute + plant deny. Slow Orb on entry. Resurrection on key teammate."
+    },
+    "Chamber": {
+      "role": "Sentinel",
+      "kit": {
+        "signature": "Trademark (trap) — placeable scan trap",
+        "c": "Headhunter — extra pistol with op-grade headshot damage",
+        "q": "Rendezvous — teleport between 2 placed anchors",
+        "ult": "Tour de Force — single-shot sniper (op-tier)"
+      },
+      "common_mistakes": [
+        "Trademark in obvious spots",
+        "Headhunter without commit",
+        "Rendezvous anchors placed in known spots",
+        "Tour de Force used on standard angles",
+        "Solo Chamber pick without team utility"
+      ],
+      "ideal_use": "Trademark for flank watch. Rendezvous for off-angle. Tour de Force on critical 1v1."
+    },
+    "Deadlock": {
+      "role": "Sentinel",
+      "kit": {
+        "signature": "GravNet — area slow + scan",
+        "c": "Sonic Sensor — area concuss on enemy footstep",
+        "q": "Barrier Mesh — placeable barrier walls",
+        "ult": "Annihilation — single-target track + kill"
+      },
+      "common_mistakes": [
+        "GravNet in random spots",
+        "Sonic Sensor placed on common entries (enemy detects)",
+        "Barrier Mesh on wrong angle (no use)",
+        "Annihilation on wrong target",
+        "Solo Deadlock with no team coverage"
+      ],
+      "ideal_use": "GravNet for entry. Sensor on flank. Barrier on plant deny. Annihilation on key target."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "iron": [
+      "Not using signature ability every round (forgets it exists)",
+      "Buying random weapons (Vandal vs Phantom — no preference)",
+      "Standing still while shooting (good — correct mechanic)",
+      "Spraying at any range (rifle = burst at 20m+)",
+      "Walking around the map (sprint instead = enemy hears)",
+      "No crosshair placement — looking at floor",
+      "Solo executes without team",
+      "Ignoring ult tracking — no idea who has ult",
+      "Wasting full save round buying flashbang only",
+      "No comms — full game in silence"
+    ],
+    "bronze": [
+      "Signature used but at wrong time (Tailwind for retreat = bad)",
+      "Weapon spray patterns not learned",
+      "Pre-aim at head level only sometimes",
+      "Random utility usage — flashing teammates",
+      "No round economy thinking — buy rifle on eco",
+      "Saving rifle on lost rounds instead of dropping",
+      "Holding angles past first kill (enemy knows position)",
+      "Crouching while shooting (loses accuracy)",
+      "Buying without team check — split economy",
+      "No utility coordination on execute"
+    ],
+    "silver": [
+      "Crosshair placement on map geometry, not enemy spawns",
+      "Half-flash exposure on entry",
+      "Smoke timing wrong on execute",
+      "No retake utility on defender side",
+      "Aggressive Operator holds without escape plan",
+      "Mid-round adapts not called",
+      "Buying full save + 1 utility (wasted)",
+      "Defaults too aggressive — over-committed to one site",
+      "Bait protection missing on retakes",
+      "Trade window missed (3+ second gap)"
+    ],
+    "gold": [
+      "Util execution timing on execute — smoke before flash",
+      "Operator picks on standard angles (no off-angle)",
+      "Half-buy spending — buying SMG without team plan",
+      "No anti-eco response on defender side",
+      "Late rotates without smoke cover",
+      "Bait teammate on retake — peeking after teammate dies",
+      "Round 1 pistol commit on every map (no economy thinking)",
+      "Crosshair placement on common angles — not adjusted",
+      "Lurker timing off",
+      "No comm on save round protection"
+    ],
+    "platinum": [
+      "Off-angle holds are obvious — enemy team has read them",
+      "Util execution timing — smoke fade timing wrong",
+      "No mid-round adjustment",
+      "Eco round commits — risk vs reward miscalculation",
+      "Operator rotates blocked by smoke timing",
+      "Plant position too aggressive",
+      "Late round info gathering — not adjusting",
+      "Buy decision based on round count, not economy",
+      "Trade kills missed by 1 second timing",
+      "Util coordination across team — overlapping waste"
+    ],
+    "diamond": [
+      "Pro-tier reads on enemy default — but predictable on own",
+      "Util discipline gaps — 1 wasted smoke per round",
+      "Mid-round comm overload — too many calls",
+      "Off-angle pre-aim — not adjusting per round",
+      "Lurker map info not relayed in time",
+      "Round economy: 1 credit shy on full buy",
+      "Operator positioning on retakes — caught out of position",
+      "Late round 1v1 management",
+      "Pistol round meta — playing standard",
+      "Crosshair sensitivity drift"
+    ],
+    "ascendant_immortal": [
+      "Ult tracking gaps — losing track of enemy ults",
+      "Util coordination across abilities — overlapping flashes/smokes",
+      "Off-angle picks on every round (predictable)",
+      "Late-round 1v1 management — taking unwinnable duels",
+      "Economy gaps — wrong save / buy decisions",
+      "Comms overload — too many calls drowning info",
+      "Lurk timing — too early or too late",
+      "Plant position not optimized for hold",
+      "Crosshair drift across long sessions",
+      "Mental fatigue affecting decision-making"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player crosshair at head level pre-aimed on the angle?",
+      "Is the player standing in a common angle or off-angle?",
+      "Is the player exposed to multiple sightlines simultaneously?",
+      "Is the player in a trade position with teammate?",
+      "If Sentinel: is the player playing the lockdown site with util?",
+      "If Duelist: is the player entrying with team utility behind?",
+      "If Controller: is the player smoking the right angles for the execute?",
+      "If Initiator: is the player using sig before the entry, not during?"
+    ],
+    "crosshair": [
+      "Is the crosshair at head level?",
+      "Is the crosshair pre-aimed at the common angle?",
+      "Is the player standing still or moving before shooting? (Stand still = accurate)",
+      "Is the player tapping / bursting / spraying based on distance?",
+      "Is the player flicking onto target or tracking?",
+      "Is the player using Vandal (1-tap headshot) or Phantom (suppressed)?"
+    ],
+    "utility": [
+      "Did the player use signature ability this round?",
+      "Was a flash used before the player peeked?",
+      "Was a smoke used to block the angle the player crossed?",
+      "Was the utility coordinated with team or solo-thrown?",
+      "Did the player save signature for retake or use early?",
+      "Was ult tracked across the team (enemy ults known)?",
+      "Did the player use ult at the right round (not on eco)?"
+    ],
+    "decisions": [
+      "Did the player buy aligned with team economy?",
+      "Did the player commit to the site execute or hesitate?",
+      "Did the player rotate when called or stay on dead site?",
+      "Did the player save weapon on lost round?",
+      "Did the player trade teammate's death within 2s?",
+      "Did the player engage 1v2+ without team backup (force loss)?",
+      "Did the player commit to flanking lurk or fold back?",
+      "Did the player use ult at the right time?",
+      "Did the player track enemy ult count before engaging?"
+    ]
+  },
+  "vocabulary": [
+    "Sig: Signature ability — free per round, recharges or one-use.",
+    "Ult / Ultimate: Special ability requiring 6-7 points to charge. Round-defining.",
+    "Ult econ / Ult tracking: Tracking enemy ult progress to know who has ult.",
+    "Lineup: Pre-determined throw angle for utility (Sova arrows, Brimstone mollys).",
+    "Pop flash: Quick flash that pops on the angle before enemy can turn away.",
+    "Bind flash: Flashing for a teammate's entry (Skye / Phoenix flash for Jett).",
+    "OP / Operator: Sniper rifle, 1-shot kill at any range.",
+    "Vandal: AK-equivalent, 1-tap headshot at any range, no falloff.",
+    "Phantom: M4-equivalent, suppressed, falloff at long range, 4 body shots = kill.",
+    "Half-buy / Force: Limited rifle/SMG buy on round 2 after loss.",
+    "Eco round: Full save with pistol + armor only.",
+    "Full buy: $4000+ team with rifles + utility + armor.",
+    "Pistol round: Round 1 and 13 with starting credits.",
+    "Spike: The bomb. Plant on A, B (or C on Haven/Lotus).",
+    "Plant: 4-second animation to plant Spike.",
+    "Defuse: 7-second to defuse, 3.5s half-defuse for carrot.",
+    "Carrot: Half-defuse where Spike has 0 timer left.",
+    "Lurk: Solo flanking play, no team support.",
+    "Anchor: Defender on a specific site, doesn't rotate.",
+    "Entry: Duelist taking first shot on site execute.",
+    "Trade: Killing the enemy who killed your teammate within 2-3s.",
+    "Crossfire: 2 teammates covering same angle for trade kills.",
+    "Off-angle: Position the enemy isn't expecting you to hold.",
+    "Common angle: Standard position 95% of players hold.",
+    "Pre-aim: Aiming crosshair at spot the enemy will appear.",
+    "Slice the pie: Peeking by stepping out slowly, exposing one angle at a time.",
+    "Flick: Fast crosshair adjustment for off-angle shot.",
+    "Tracking: Keeping crosshair on enemy as they move.",
+    "Burst: 3-4 round burst with rifle for mid-range.",
+    "Tap: Single shot for long-range accuracy.",
+    "Spray: Full-auto for close range.",
+    "First bullet accuracy: Stand still for 0.3s = accurate first shot.",
+    "Counter-strafe (Val): Release WASD before shooting for instant accuracy.",
+    "Stim Beacon: Brimstone fire-rate buff.",
+    "Smoke (Val): Persistent visual block, blocks bullets and sound partially.",
+    "Concuss: Daze enemy briefly (Breach, Astra).",
+    "Suppress: Block enemy abilities (KAY/O).",
+    "Detain: Lock enemy in place (Killjoy ult).",
+    "Resurrect: Revive dead teammate (Sage ult).",
+    "Dismiss / Devour: Reyna orb consume mechanic.",
+    "Tailwind: Jett dash ability.",
+    "Updraft: Jett vertical boost.",
+    "Empress: Jett ult — speed boost + auto-dismiss.",
+    "Run It Back: Phoenix ult — die + respawn at cast location.",
+    "Showstopper: Raze rocket launcher ult.",
+    "Hunter's Fury: Sova ult — 3 wall-piercing arrows.",
+    "Rolling Thunder: Breach ult — large area stun.",
+    "Seekers: Skye ult — 3 seeking enemies near-sight.",
+    "Null/Cmd: KAY/O ult — area suppression + reveal.",
+    "From the Shadows: Omen ult — global teleport.",
+    "Orbital Strike: Brimstone ult.",
+    "Cosmic Divide: Astra ult — long wall.",
+    "Viper's Pit: Viper ult — large toxic zone.",
+    "Reckoning: Harbor ult — large area concuss + damage.",
+    "Neural Theft: Cypher ult — reveal enemy positions.",
+    "Lockdown: Killjoy ult — area detain.",
+    "Resurrection: Sage ult — revive dead teammate.",
+    "Tour de Force: Chamber ult — single-shot sniper.",
+    "Annihilation: Deadlock ult — single-target track + kill."
+  ]
+}
