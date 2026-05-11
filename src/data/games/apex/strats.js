@@ -3433,6 +3433,601 @@ const STRATS = {
       },
     },
   },
+  "kings-canyon": {
+    "skull-town": {
+      attack: {
+        operators: [
+          { name: "Octane", role: "Skirmisher", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Skull Town is the OG hot drop — every squad lands here in pubs, half land in ranked. Octane jump-pads onto the skull, Bloodhound scans on touchdown for the contested-squad pick, Lifeline drops on the loot crater for the revive cycle. Skull-eye loot is the fastest tier-3 in the game.",
+        callouts: ["Skull Eye", "Pier", "Spider Cave", "Wall Jump", "Diving Board", "Skull Roof", "Beach"],
+        utility: [
+          "Octane: Stim + Jump Pad for rotates; Launch Pad for instant ring-2 escape",
+          "Bloodhound: Beast on drop = full POI scan; save ult for the third party",
+          "Lifeline: Drone heals on landing; Care Package on full team commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Skull Eye hot-drop", from: "Top of Skull", use: "Top tier-3 loot in 8s — drop angle the eye socket from the dropship arc." },
+            { spawn: "Pier edge drop", from: "Pier", use: "Safer fight — loot full kit on Pier before pushing into the Skull contest." },
+          ],
+          spawnKillSpots: [
+            { from: "Skull Roof", target: "diving squads mid-air", risk: "High — exposes you on rooftop", reward: "Free third-party kill while squad commits to bottom loot" },
+          ],
+          advancedSetups: [
+            "Jump Pad rotation: Octane drops Jump Pad on Beach after the loot phase — instant ring-2 commit, beats the squad fighting on top.",
+            "Beast scan + Pad combo: Bloodhound scans the contested squad, Octane jumps the back-line on the scan window.",
+            "Care Package timing: drop the Lifeline package post-fight for the heal + body shield combo, never pre-fight (gives away position).",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "essential" },
+          { name: "Vantage", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Endgame hold from Skull Town: Caustic gasses the loot pile entries, Newcastle mobile-shield the heal cycle, Vantage Sniper Mode picks rotators. Skull Eye is the high ground — own it or lose the zone. Beach approach is the open kill lane.",
+        callouts: ["Skull Eye", "Pier", "Spider Cave", "Wall Jump", "Diving Board", "Skull Roof", "Beach"],
+        utility: [
+          "Caustic: Gas trap every door + Nox Grenade on the ring-collapse push",
+          "Newcastle: Mobile Shield blocks the long sightline; Castle Wall for the revive cycle",
+          "Vantage: Sniper Mode marks targets; Echo for repositioning vertically",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Pier", target: "rotating squads on Beach", timing: "Ring 4 — punish the forced rotation through the open lane" },
+            { from: "Wall Jump", target: "flanking third squad", timing: "Mid-fight — peel for the heal-cycle teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim the Beach lane — every late-game rotation comes through the same corridor.",
+            "Save Vantage Echo for the final ring relocate, not the engage — preserves the off-angle.",
+            "Trade-stack Skull Eye with Newcastle Castle Wall — if the entry takes a duel, the trade kill is on a fixed crosshair placement.",
+          ],
+          advancedSetups: [
+            "Gas + Sniper combo: Caustic gases the loot pile, third party pushes through gas, Vantage Sniper marks for the team trade.",
+            "Off-angle anchor on Skull Roof forces push to clear vertical, buys teammates 2-3 seconds for utility cycle.",
+            "Final ring: hold Spider Cave for hard cover + heal corner, push out only on ring damage tick.",
+          ],
+        },
+      },
+    },
+    "capacitor": {
+      attack: {
+        operators: [
+          { name: "Pathfinder", role: "Skirmisher", priority: "essential" },
+          { name: "Crypto", role: "Recon", priority: "essential" },
+          { name: "Loba", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Capacitor is mid-rotation flexpoint with rotating walls. Pathfinder grapples to the rooftops on drop, Crypto drones the contested squad through walls, Loba places Black Market for tactical loot. The shifting walls make rotation reads everything — drone before push.",
+        callouts: ["Capacitor Top", "Walls", "Side Catwalks", "Loot Crates", "North Entry", "South Entry", "Roof"],
+        utility: [
+          "Pathfinder: Grappling Hook for vertical takes; Zipline for full team commit",
+          "Crypto: Drone scan walls + Drone EMP on contested squad",
+          "Loba: Black Market for ammo + healing; Translocate for the off-angle reposition",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Capacitor Top zipline", from: "Pathfinder grapple", use: "Zipline anchor on Top, full team rotates vertically on third-party signal." },
+            { spawn: "Loot crate cycle", from: "South Entry", use: "Loba Black Market the heal cycle, then push contest on full kit." },
+          ],
+          spawnKillSpots: [
+            { from: "Capacitor Top", target: "looting squad on rotation walls", risk: "Medium — third party from open ring", reward: "Squad wipe + loot consolidation" },
+          ],
+          advancedSetups: [
+            "Drone EMP + Grapple: Crypto EMPs the contest squad, Pathfinder grapples behind for the trade.",
+            "Wall rotation read: time the wall shift, push from the new corner pre-positioned.",
+            "Loba teleport flank: place Translocate behind enemy, full team rotates on the surprise angle.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Wattson", role: "Controller", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "essential" },
+          { name: "Seer", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Anchor Capacitor with Wattson fences on the entries, Newcastle Castle Wall for the heal cycle, Seer Focus of Attention to mark the contest squad. Walls shift — pre-place fences on the path the wall blocks, not the one it opens.",
+        callouts: ["Capacitor Top", "Walls", "Side Catwalks", "Loot Crates", "North Entry", "South Entry", "Roof"],
+        utility: [
+          "Wattson: Fence chain on entries; Pylon for shield regen + nade denial",
+          "Newcastle: Castle Wall for sustained holds; Mobile Shield for the rotate-in",
+          "Seer: Focus of Attention to mark + interrupt heals; Exhibit ult for full squad-wide reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Catwalks", target: "incoming rotation squad", timing: "Ring 3 close — punish forced rotation" },
+            { from: "Roof", target: "flanking third party", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim the South Entry — most pushes come from low ground first.",
+            "Save Seer Exhibit for the final fight, never the early contest.",
+          ],
+          advancedSetups: [
+            "Fence + Pylon combo: Wattson fences the entry, Pylon regens behind cover, Seer marks the push for the team trade.",
+            "Off-angle anchor in Roof forces push to clear vertical, buys 3s for the heal cycle.",
+            "Final ring: hold Capacitor Top with Newcastle ult on the push commit — wall blocks long sightline.",
+          ],
+        },
+      },
+    },
+    "artillery": {
+      attack: {
+        operators: [
+          { name: "Horizon", role: "Skirmisher", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Artillery has the highest tier-loot density on Kings Canyon — every squad pushes for the supply bins. Horizon lifts to the top for the vertical take, Bloodhound scans on landing, Lifeline drones the team heal in the loot crater. The bunker is a death-trap on third party.",
+        callouts: ["Bunker", "Top of Wall", "Outside Loot", "Supply Bins", "Ridge", "Gate", "Catwalks"],
+        utility: [
+          "Horizon: Gravity Lift for vertical engages; Black Hole for the team-fight commit",
+          "Bloodhound: Beast on drop, save White Raven for the third-party push",
+          "Lifeline: Drone in the loot crater; Care Package on full-team commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Top of Wall vertical take", from: "Horizon lift", use: "Lift onto the top wall for vertical loot + cover — first-mover wins the contest." },
+            { spawn: "Outside Loot perimeter", from: "Ridge", use: "Safer drop — loot the outer ring first, push Bunker on full kit." },
+          ],
+          spawnKillSpots: [
+            { from: "Top of Wall", target: "looting squad in Bunker", risk: "Medium — third party from Ridge", reward: "Drop frags + grenades on the contested squad" },
+          ],
+          advancedSetups: [
+            "Black Hole + Grenade combo: Horizon Black Holes the contest, team frags into the cluster.",
+            "Beast scan + Lift: Bloodhound scans, Horizon lifts behind enemy for the trade.",
+            "Care Package timing: drop after wipe for body-shield + heal combo, never pre-fight.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Gibraltar", role: "Support", priority: "essential" },
+          { name: "Vantage", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Anchor Artillery from the Bunker — Caustic gases the entries, Gibraltar Dome for the heal cycle, Vantage Sniper from Top of Wall picks rotators. Bunker hold is the strongest defensive POI on the map — third parties pay the price for entry.",
+        callouts: ["Bunker", "Top of Wall", "Outside Loot", "Supply Bins", "Ridge", "Gate", "Catwalks"],
+        utility: [
+          "Caustic: Gas trap every door + Nox Grenade on push",
+          "Gibraltar: Dome on heal cycle; Bombardment on full team commit",
+          "Vantage: Sniper Mode + Echo for vertical reposition",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Catwalks", target: "rotating squad on Ridge", timing: "Ring 4 close — punish forced rotation" },
+            { from: "Gate", target: "flanking third squad", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim the Gate lane — every entry pushes through the same choke.",
+            "Save Vantage Echo for the final ring relocate.",
+          ],
+          advancedSetups: [
+            "Gas + Bombardment combo: Caustic gases the entry, Gibraltar Bombardments the cluster on push.",
+            "Off-angle anchor on Top of Wall forces push to clear vertical, buys 3s for utility cycle.",
+            "Final ring: Gibraltar Dome on the cap, hold Bunker with full utility cycle.",
+          ],
+        },
+      },
+    },
+    "bunker": {
+      attack: {
+        operators: [
+          { name: "Ash", role: "Assault", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "essential" },
+          { name: "Loba", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Bunker is the tight-corridor POI — close-range trades and grenade spam. Ash phase-tears into the contest, Bloodhound scans for the wall-bang pick, Loba grabs loot from the open. The tunnels are a death-trap on grenade-spam — clear before pushing through.",
+        callouts: ["Tunnel A", "Tunnel B", "Central Room", "Loot Crate", "Outside Wall", "Hatch", "Ridge"],
+        utility: [
+          "Ash: Arc Snare for the chokepoint denial; Phase Tear for the team teleport commit",
+          "Bloodhound: Beast scan in tunnels — sees through walls",
+          "Loba: Translocate to the outside loot; Black Market for the heal cycle",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Tunnel A push", from: "Outside Wall", use: "Frag-throw the tunnel before commit — clears the standard hold." },
+            { spawn: "Hatch flank", from: "Ridge", use: "Drop through the Hatch for the off-angle flank — surprises the standard tunnel hold." },
+          ],
+          spawnKillSpots: [
+            { from: "Hatch", target: "looting squad on Central Room", risk: "High — exposes you on drop", reward: "Drop frag + isolation pick" },
+          ],
+          advancedSetups: [
+            "Phase Tear flank: Ash drops Phase Tear behind enemy hold, full team teleports for the back-line trade.",
+            "Beast + Snare: Bloodhound scans, Ash Snare on the held position — guaranteed pick.",
+            "Grenade chain: Frag → Thermite the cluster on the tunnel push.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "essential" },
+          { name: "Seer", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Bunker defense is gas-trap hell. Caustic gases every tunnel entry, Newcastle Castle Wall for the heal cycle, Seer Focus of Attention marks the rotating push. The tunnels do the work — enemies that push through gas are 60% HP on entry.",
+        callouts: ["Tunnel A", "Tunnel B", "Central Room", "Loot Crate", "Outside Wall", "Hatch", "Ridge"],
+        utility: [
+          "Caustic: Gas trap every tunnel; Nox Grenade on push commit",
+          "Newcastle: Castle Wall the heal cycle; Mobile Shield the rotate-in",
+          "Seer: Focus to mark + interrupt heals; Exhibit on full squad reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Hatch", target: "rotating squad on Ridge", timing: "Ring 4 close — punish rotation" },
+            { from: "Outside Wall", target: "flanking third squad", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim every tunnel — pushes commit through fixed chokes.",
+            "Save Seer Exhibit for the final fight, not early contest.",
+          ],
+          advancedSetups: [
+            "Gas + Seer combo: Caustic gases the tunnel, Seer Focus marks the push through smoke.",
+            "Off-angle anchor on Outside Wall forces push to clear top before tunnel commit.",
+            "Final ring: Newcastle Castle Wall on the cap, gas every approach.",
+          ],
+        },
+      },
+    },
+    "containment": {
+      attack: {
+        operators: [
+          { name: "Pathfinder", role: "Skirmisher", priority: "essential" },
+          { name: "Crypto", role: "Recon", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Containment is the elevated POI with platform loot. Pathfinder grapples top for the vertical take, Crypto drones the contest, Lifeline drones the team heal. The lower platforms are exposed — fight from the top down.",
+        callouts: ["Top Platform", "Mid Platform", "Bottom Loot", "Cliffside", "Ramp", "Side Doors", "Ridge"],
+        utility: [
+          "Pathfinder: Grapple for vertical takes; Zipline for full team commit",
+          "Crypto: Drone scan + EMP on contested squad",
+          "Lifeline: Drone in heal corner; Care Package on full commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Top Platform take", from: "Pathfinder grapple", use: "Vertical take wins the contest — control top loot before bottom commit." },
+            { spawn: "Cliffside flank", from: "Ridge", use: "Path zipline the Cliffside, force the standard hold to face two angles." },
+          ],
+          spawnKillSpots: [
+            { from: "Top Platform", target: "looting squad on Bottom", risk: "Medium — third party from Ridge", reward: "Drop frags + height advantage" },
+          ],
+          advancedSetups: [
+            "Drone EMP + Vertical: Crypto EMPs the contest squad, Pathfinder zips for the trade.",
+            "Care Package timing: drop post-fight for the heal cycle, never pre-fight.",
+            "Zipline rotation: anchor the top, full team commits on third-party signal.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Wattson", role: "Controller", priority: "essential" },
+          { name: "Gibraltar", role: "Support", priority: "essential" },
+          { name: "Vantage", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Anchor Containment from the top — Wattson fences the entries, Gibraltar Dome for heal cycle, Vantage Sniper picks rotators from the Cliffside. The platform layering is your shield — hold top, push down on rotation.",
+        callouts: ["Top Platform", "Mid Platform", "Bottom Loot", "Cliffside", "Ramp", "Side Doors", "Ridge"],
+        utility: [
+          "Wattson: Fence chain on entries; Pylon for shield regen",
+          "Gibraltar: Dome on the heal cycle; Bombardment on push commit",
+          "Vantage: Sniper Mode + Echo for vertical reposition",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Cliffside", target: "rotating squad on Ridge", timing: "Ring 4 close — punish forced rotation" },
+            { from: "Side Doors", target: "flanking third squad", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Ramp — every rotation pushes through the same lane.",
+            "Save Vantage Echo for the final ring relocate.",
+          ],
+          advancedSetups: [
+            "Fence + Bombardment: Wattson fences, Gibraltar Bombardments cluster on push.",
+            "Off-angle anchor on Top Platform forces clear of vertical, buys 3s for cycle.",
+            "Final ring: Gibraltar Dome on cap, full utility cycle on push.",
+          ],
+        },
+      },
+    },
+    "hydro-dam": {
+      attack: {
+        operators: [
+          { name: "Octane", role: "Skirmisher", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hydro Dam is the open-floor POI with elevated platforms. Octane stims the contested entry, Bloodhound scans for the pick, Newcastle Mobile Shield blocks the long sightline. Dam wall is the off-angle high-ground take.",
+        callouts: ["Dam Top", "Floor", "Loot Pile", "Side Catwalks", "Ridge", "Water Edge", "Power Room"],
+        utility: [
+          "Octane: Stim for entries; Jump Pad for rotates",
+          "Bloodhound: Beast scan on push, White Raven for the third-party trade",
+          "Newcastle: Mobile Shield blocks long sightline; Castle Wall for revive",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Dam Top vertical", from: "Octane Jump Pad", use: "Jump Pad onto Dam Top, vertical take wins contest." },
+            { spawn: "Water Edge flank", from: "Ridge", use: "Safer drop — loot full kit, push Floor on full kit." },
+          ],
+          spawnKillSpots: [
+            { from: "Dam Top", target: "looting squad on Floor", risk: "Medium — third party from Ridge", reward: "Drop frags + height advantage" },
+          ],
+          advancedSetups: [
+            "Stim + Pad combo: Octane stims, Jump Pad for vertical engage.",
+            "Beast scan + Pad: Bloodhound scans, Octane pads behind enemy for trade.",
+            "Newcastle shield wall: blocks Dam sightline, team pushes Floor on cover.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Loba", role: "Support", priority: "essential" },
+          { name: "Vantage", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Hydro Dam defense from Power Room: Caustic gases the side catwalks, Loba places Black Market for sustain, Vantage Sniper picks rotators. Power Room is your bunker — Floor is the kill lane for rotators.",
+        callouts: ["Dam Top", "Floor", "Loot Pile", "Side Catwalks", "Ridge", "Water Edge", "Power Room"],
+        utility: [
+          "Caustic: Gas trap Side Catwalks + Power Room doors",
+          "Loba: Black Market the heal cycle; Translocate for rotate",
+          "Vantage: Sniper Mode marks rotators; Echo for vertical reposition",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Side Catwalks", target: "rotating squad on Ridge", timing: "Ring 4 close — punish forced rotation" },
+            { from: "Water Edge", target: "flanking third squad", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Floor — every push commits through the open lane.",
+            "Save Vantage Echo for the final ring relocate.",
+          ],
+          advancedSetups: [
+            "Gas + Sniper combo: Caustic gases entry, Vantage Sniper marks for the team trade.",
+            "Off-angle anchor on Dam Top forces clear of vertical, buys 3s for cycle.",
+            "Final ring: Power Room is the hold — gas all entries, push out on ring damage.",
+          ],
+        },
+      },
+    },
+  },
+  "solace": {
+    "main-street": {
+      attack: {
+        operators: [
+          { name: "Octane", role: "Skirmisher", priority: "essential" },
+          { name: "Bangalore", role: "Assault", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Solace Mixtape — Main Street is the central engagement zone. Octane stims for the SMG rush, Bangalore Smoke covers the trade lane, Lifeline drones the respawn-cycle heal. Mixtape is respawn-arena — death is free but kill spread wins.",
+        callouts: ["Main Street", "Side Alley", "Building", "Rooftop", "Spawn Side", "Open Center", "Doorway"],
+        utility: [
+          "Octane: Stim for the rush; Jump Pad for the vertical re-engage",
+          "Bangalore: Smoke for cover; Double Time on damage taken",
+          "Lifeline: Drone heals; Care Package for the loot cycle (Mixtape only)",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Main Street rush", from: "Spawn Side", use: "Octane stims through Main, Bangalore Smoke covers the trade lane." },
+            { spawn: "Building flank", from: "Side Alley", use: "Bangalore Smoke + flank Building roof for the off-angle." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "respawning squad on Main", risk: "Medium — exposed to long sightline", reward: "Kill cycle on respawn = +2 kill spread" },
+          ],
+          advancedSetups: [
+            "Smoke + Stim: Bangalore Smoke covers the entry, Octane Stims through.",
+            "Kill spread focus: Mixtape rewards kills not survival — chase respawn cycle aggressively.",
+            "Care Package (Mixtape): drop for instant heal in the respawn-zone fight.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Rampart", role: "Controller", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Mixtape Main Street defense: Rampart cover walls block the long sightline, Newcastle Castle Wall the spawn-side angle, Bloodhound Beast scans the rotating squad. Defense in Mixtape = holding the kill-spread angle while team respawns.",
+        callouts: ["Main Street", "Side Alley", "Building", "Rooftop", "Spawn Side", "Open Center", "Doorway"],
+        utility: [
+          "Rampart: Cover Walls for the trade angle; Sheila for sustained shred",
+          "Newcastle: Castle Wall blocks sightline; Mobile Shield the rotate-in",
+          "Bloodhound: Beast on engage; White Raven for full team reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Building", target: "respawning enemy on Spawn Side", timing: "Respawn timer — punish forced re-engage" },
+            { from: "Rooftop", target: "flanking enemy", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Main lane — every push commits through the same corridor.",
+            "Hold the Sheila angle — sustained shred wins kill spread.",
+          ],
+          advancedSetups: [
+            "Cover + Sheila combo: Rampart walls + Sheila on Main = un-takeable angle.",
+            "Kill spread hold: Mixtape isn't BR — chase kills, don't camp.",
+            "Beast scan timing: scan on respawn cycle for the off-angle pick.",
+          ],
+        },
+      },
+    },
+    "plaza": {
+      attack: {
+        operators: [
+          { name: "Pathfinder", role: "Skirmisher", priority: "essential" },
+          { name: "Mad Maggie", role: "Assault", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Plaza is the open central area with elevated cover. Pathfinder grapples to the fountain for vertical, Mad Maggie Wrecking Ball flushes the corner camp, Lifeline drones the respawn-heal. Plaza is a brawl zone — full team trades win.",
+        callouts: ["Plaza Center", "Fountain", "Side Cafe", "Rooftop", "Spawn Side", "Doorway", "Open Steps"],
+        utility: [
+          "Pathfinder: Grapple to vertical; Zipline for full team commit",
+          "Mad Maggie: Wrecking Ball flushes corners; Riot Drill for wall denial",
+          "Lifeline: Drone heals; Care Package on commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Fountain vertical", from: "Pathfinder grapple", use: "Vertical take wins Plaza — Fountain is high-cover for the trade." },
+            { spawn: "Side Cafe flank", from: "Spawn Side", use: "Mad Maggie Wrecking Ball flushes Cafe, team commits on the flush." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "respawning enemy on Plaza Center", risk: "Medium — exposed to long sightline", reward: "Kill cycle on respawn = +2 spread" },
+          ],
+          advancedSetups: [
+            "Wrecking Ball + Zipline: Maggie flushes, Path zips for the trade.",
+            "Kill spread focus: Plaza is brawl zone, chase respawn-cycle kills.",
+            "Care Package timing: drop for the respawn-heal cycle.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Gibraltar", role: "Support", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Plaza defense: Caustic gases the cafe entries, Gibraltar Dome blocks the open center, Bloodhound scans for the kill cycle. Mixtape rewards kill spread — anchor Plaza with full utility cycle.",
+        callouts: ["Plaza Center", "Fountain", "Side Cafe", "Rooftop", "Spawn Side", "Doorway", "Open Steps"],
+        utility: [
+          "Caustic: Gas trap Side Cafe + Doorway",
+          "Gibraltar: Dome blocks Plaza Center sightline; Bombardment on commit",
+          "Bloodhound: Beast on engage; White Raven for team reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Rooftop", target: "respawning enemy on Spawn Side", timing: "Respawn timer — punish re-engage" },
+            { from: "Fountain", target: "flanking enemy", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Plaza Center — every push commits through open lane.",
+            "Hold Fountain off-angle for the kill spread.",
+          ],
+          advancedSetups: [
+            "Gas + Bombardment: Caustic gases entry, Gibraltar Bombardments cluster.",
+            "Kill spread: Mixtape isn't BR — chase respawn cycle.",
+            "Off-angle anchor on Fountain forces clear of vertical, buys 3s for utility cycle.",
+          ],
+        },
+      },
+    },
+    "apartments": {
+      attack: {
+        operators: [
+          { name: "Wraith", role: "Skirmisher", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "essential" },
+          { name: "Loba", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Apartments is the multi-floor close-quarters arena. Wraith phases through doorways, Bloodhound scans through walls, Loba places Black Market for the team heal cycle. Floors are tight — clear with grenades.",
+        callouts: ["Apt 1st", "Apt 2nd", "Stairwell", "Hallway", "Rooftop", "Spawn Side", "Doorway"],
+        utility: [
+          "Wraith: Phase through chokes; Dimensional Rift for full team flank",
+          "Bloodhound: Beast scans through walls; White Raven for full reveal",
+          "Loba: Black Market for heals; Translocate for the floor-skip flank",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Stairwell rush", from: "Spawn Side", use: "Wraith phases up Stairwell, team trades on the clear." },
+            { spawn: "Rooftop flank", from: "Pathfinder zipline", use: "Loba Translocate Rooftop for top-down kill cycle." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "respawning enemy on Stairwell", risk: "Medium — exposed to vertical", reward: "Kill cycle on respawn = +2 spread" },
+          ],
+          advancedSetups: [
+            "Phase + Beast: Wraith phases, Bloodhound scans for the trade.",
+            "Rift flank: Wraith Dimensional Rift for full team back-line commit.",
+            "Kill spread: chase respawn cycle, Mixtape isn't BR.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Caustic", role: "Controller", priority: "essential" },
+          { name: "Newcastle", role: "Support", priority: "essential" },
+          { name: "Seer", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Apartments defense: Caustic gases every doorway, Newcastle Castle Wall the stairwell, Seer Focus marks the rotating squad through walls. Tight quarters mean utility wins — never duel on equal footing.",
+        callouts: ["Apt 1st", "Apt 2nd", "Stairwell", "Hallway", "Rooftop", "Spawn Side", "Doorway"],
+        utility: [
+          "Caustic: Gas every doorway + stairwell",
+          "Newcastle: Castle Wall the stairwell; Mobile Shield the rotate-in",
+          "Seer: Focus to mark + interrupt heals; Exhibit on team reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Rooftop", target: "respawning enemy", timing: "Respawn timer — punish re-engage" },
+            { from: "Hallway", target: "flanking enemy", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim every doorway — pushes commit through fixed chokes.",
+            "Hold Stairwell off-angle for the kill spread.",
+          ],
+          advancedSetups: [
+            "Gas + Seer combo: Caustic gases, Seer marks through smoke.",
+            "Kill spread hold: chase kills, don't camp on Mixtape.",
+            "Off-angle anchor on Apt 2nd forces clear of vertical for kill cycle.",
+          ],
+        },
+      },
+    },
+    "marketplace": {
+      attack: {
+        operators: [
+          { name: "Octane", role: "Skirmisher", priority: "essential" },
+          { name: "Fuse", role: "Assault", priority: "essential" },
+          { name: "Lifeline", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Marketplace is the stall-cover central area. Octane stims through main, Fuse cluster bombs the stall cluster, Lifeline drones the heal cycle. Stalls give layered cover — peek between stalls for the safe trade.",
+        callouts: ["Market Stalls", "Side Cafe", "Rooftop", "Open Center", "Spawn Side", "Doorway", "Loot Pile"],
+        utility: [
+          "Octane: Stim for entries; Jump Pad for vertical re-engage",
+          "Fuse: Cluster Bomb the stall cluster; Knuckle Cluster for area denial",
+          "Lifeline: Drone heals; Care Package on commit",
+        ],
+        premiumTactics: {
+          attackSpawns: [
+            { spawn: "Market Stalls rush", from: "Spawn Side", use: "Octane stims, Fuse Cluster Bombs the stall cluster on commit." },
+            { spawn: "Side Cafe flank", from: "Spawn Side", use: "Fuse Motherlode flushes Cafe, team trades on commit." },
+          ],
+          spawnKillSpots: [
+            { from: "Rooftop", target: "respawning enemy on Stalls", risk: "Medium — exposed to long sightline", reward: "Kill cycle on respawn = +2 spread" },
+          ],
+          advancedSetups: [
+            "Cluster + Stim: Fuse Clusters the stall, Octane stims through.",
+            "Motherlode for area denial: Fuse ult on contested cluster.",
+            "Kill spread focus: chase respawn cycle, never camp on Mixtape.",
+          ],
+        },
+      },
+      defense: {
+        operators: [
+          { name: "Rampart", role: "Controller", priority: "essential" },
+          { name: "Gibraltar", role: "Support", priority: "essential" },
+          { name: "Bloodhound", role: "Recon", priority: "recommended" },
+        ],
+        strategy: "Marketplace defense: Rampart cover walls + Sheila on Stalls, Gibraltar Dome the heal cycle, Bloodhound scans the rotating squad. Stalls give cover both ways — control the long lane.",
+        callouts: ["Market Stalls", "Side Cafe", "Rooftop", "Open Center", "Spawn Side", "Doorway", "Loot Pile"],
+        utility: [
+          "Rampart: Cover Walls on Stalls; Sheila for sustained shred",
+          "Gibraltar: Dome on heal cycle; Bombardment on commit",
+          "Bloodhound: Beast on engage; White Raven for team reveal",
+        ],
+        premiumTactics: {
+          runouts: [
+            { from: "Rooftop", target: "respawning enemy on Spawn Side", timing: "Respawn timer — punish re-engage" },
+            { from: "Side Cafe", target: "flanking enemy", timing: "Mid-fight — peel teammate" },
+          ],
+          antiSpawnPeek: [
+            "Pre-aim Open Center — every push commits through the open lane.",
+            "Hold Stalls cover for kill spread.",
+          ],
+          advancedSetups: [
+            "Sheila + Dome combo: Rampart Sheila from Stalls cover, Gibraltar Dome blocks counter-fire.",
+            "Kill spread hold: Mixtape isn't BR — chase respawn cycle.",
+            "Bombardment on cluster: Gibraltar ult on contested cluster for the AoE kill spread.",
+          ],
+        },
+      },
+    },
+  },
 }
 
 export default STRATS
