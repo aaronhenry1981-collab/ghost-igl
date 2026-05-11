@@ -1,0 +1,454 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Rocket League",
+    "short_name": "RL",
+    "tagline": "Vehicular soccer — 1v1/2v2/3v3 rocket-powered cars hitting a giant ball into a goal. Mechanics-driven.",
+    "sides": {
+      "attack": "Pushing toward enemy goal, attempting to score",
+      "defense": "Backboard / net defense, denying the shot"
+    },
+    "character_vocab": "cars (cosmetic — Octane / Dominus / Fennec / etc. are functionally identical in modern RL)",
+    "round_economy": "No buy economy — boost is collected on field (small pads = 12, large pads = 100). 100 boost is the cap.",
+    "round_format": "5-minute game (or first to 1 in overtime). MMR-based ranking from Bronze → SSL.",
+    "key_mechanics": [
+      "Ball cam: locks camera to the ball — should be on 95%+ of match (toggle off only for boost grabbing)",
+      "Speedflip: fastest kickoff method, diagonal flip + air roll to flatten car for supersonic motion",
+      "Half-flip: reverse-drive + back diagonal flip + cancel = backwards-to-forward in 1.2s",
+      "Wave-dash: dodge while landing for instant forward momentum",
+      "Aerial: jump + boost + pitch up — basic mid-air play",
+      "Fast aerial: jump → immediately boost while pitching back (under 0.1s transition)",
+      "Power-slide: slide for sharp turns without losing speed",
+      "Flip reset: touch ball with all 4 wheels mid-air for fresh flip (Champion+ mechanic)",
+      "Musty flick: upside-down dodge flick for unpredictable shot (SSL signature)",
+      "Air dribble: stick ball to roof mid-air, fly with possession (GC+ mechanic)",
+      "Boost economy: never go below 30 boost on engagements, curve through small pads",
+      "Rotation: clockwise/counter-clockwise cycle through first/second/third man positions"
+    ],
+    "match_types": [
+      "Standard 3v3: 3v3 ranked",
+      "Standard 2v2 (Doubles): 2v2 ranked",
+      "Standard 1v1 (Duel): 1v1 ranked",
+      "Tournaments 3v3: Tournament bracket mode",
+      "Hoops: 2v2 basketball variant",
+      "Snow Day: 3v3 hockey variant with puck instead of ball",
+      "Dropshot: 3v3 with destructible floor",
+      "Rumble: 3v3 with power-ups (boot, tornado, magnet, etc.)"
+    ]
+  },
+  "maps": {
+    "standard-3v3": {
+      "name": "Standard 3v3",
+      "type": "Ranked Standard",
+      "phases": [
+        {
+          "id": "kickoff",
+          "name": "Kickoff",
+          "key_play": "Speedflip kickoff for fastest contact. Decide kickoff type before whistle: speedflip, fake flip cancel, or diagonal.",
+          "rotation_role": "Position 1: kickoff player. Position 2: mid-cheat. Position 3: full back."
+        },
+        {
+          "id": "possession",
+          "name": "Possession",
+          "key_play": "Hold ball on hood (dribble) or 50/50 contest. Pass to teammate for two-touch setup.",
+          "rotation_role": "Cycle clockwise. First man hits, rotates to last man. Second becomes first. Last becomes second."
+        },
+        {
+          "id": "transition",
+          "name": "Transition",
+          "key_play": "After 50/50 contest, read ball direction. If it goes to enemy, fall back to defense. If yours, push forward.",
+          "rotation_role": "Adapt rotation: if pushed back, regroup at back wall. If forward, set up shot."
+        },
+        {
+          "id": "defense",
+          "name": "Defense",
+          "key_play": "Backboard read: anticipate rebound bounce. Hold far post on cross-net shots. No panic clears.",
+          "rotation_role": "Last man on back post. Second man as backup. First man challenges ball."
+        }
+      ]
+    },
+    "standard-2v2": {
+      "name": "Standard 2v2 (Doubles)",
+      "type": "Ranked Doubles",
+      "phases": [
+        {
+          "id": "kickoff",
+          "name": "Kickoff",
+          "key_play": "Speedflip kickoff. One player cheats forward, one falls back for follow-up.",
+          "rotation_role": "Position 1: kickoff. Position 2: full back."
+        },
+        {
+          "id": "possession",
+          "name": "Possession",
+          "key_play": "2v2 is faster — possession is brief. Look for fast pass or shot, not long dribbles.",
+          "rotation_role": "One-back rotation: if teammate goes, you're last man."
+        },
+        {
+          "id": "defense",
+          "name": "Defense",
+          "key_play": "One-back rotation: if teammate is committed forward, you're full back. Anticipate enemy clear.",
+          "rotation_role": "Always have one man back. Never both forward."
+        }
+      ]
+    },
+    "standard-1v1": {
+      "name": "Standard 1v1 (Duel)",
+      "type": "Ranked Duel",
+      "phases": [
+        {
+          "id": "kickoff",
+          "name": "Kickoff",
+          "key_play": "Speedflip kickoff is critical. Win the kickoff = ~70% chance to win that round.",
+          "rotation_role": "1v1: no rotation. Hit and recover."
+        },
+        {
+          "id": "recovery",
+          "name": "Recovery / Boost",
+          "key_play": "Half-flip back to net after every touch. Grab corner 100 boost on the way back.",
+          "rotation_role": "1v1: solo recovery. Half-flip or wave-dash for fast back-to-goal."
+        },
+        {
+          "id": "defense",
+          "name": "Defense",
+          "key_play": "Backboard read: anticipate rebound. Goalie position on back post, not center net.",
+          "rotation_role": "1v1: hold back post for cross-shot defense, drive forward to challenge."
+        }
+      ]
+    },
+    "tournaments": {
+      "name": "Tournaments 3v3",
+      "type": "Tournament Mode",
+      "phases": [
+        {
+          "id": "series-start",
+          "name": "Series start",
+          "key_play": "Game 1 = scouting. Read opponent's kickoff style + rotation tendencies. Don't burn ult plays game 1.",
+          "rotation_role": "Standard 3v3 rotation."
+        },
+        {
+          "id": "comp-adjust",
+          "name": "Comp adjust",
+          "key_play": "Between games: adjust based on opponent reads. Counter their rotation patterns.",
+          "rotation_role": "Switch positions if comp adjustment requires (defender becomes mid, etc.)."
+        },
+        {
+          "id": "closeout",
+          "name": "Closeout",
+          "key_play": "Match-ending defense: pre-position for opponent's last-shot attempt. No risk plays. Run clock.",
+          "rotation_role": "Conservative rotation — always 2 back when leading."
+        }
+      ]
+    },
+    "hoops": {
+      "name": "Hoops",
+      "type": "Ranked Hoops (Basketball)",
+      "phases": [
+        {
+          "id": "dunk-setup",
+          "name": "Dunk setup",
+          "key_play": "Wall pop the ball into aerial position. Hold ball above rim for dunk angle.",
+          "rotation_role": "One player aerials, one waits at floor for rebound."
+        },
+        {
+          "id": "defense",
+          "name": "Net defense",
+          "key_play": "Below-rim hold: defenders stay below rim level. Block dunks by jumping at last second.",
+          "rotation_role": "Both defenders at rim height — one challenges, one rebounds."
+        }
+      ]
+    },
+    "snow-day": {
+      "name": "Snow Day",
+      "type": "Ranked Snow Day (Hockey)",
+      "phases": [
+        {
+          "id": "face-off",
+          "name": "Face-off",
+          "key_play": "Center puck kickoff. Puck slides further than ball — speed flip wins contest.",
+          "rotation_role": "Standard kickoff but adapted for puck physics."
+        },
+        {
+          "id": "possession",
+          "name": "Possession",
+          "key_play": "Puck slides on the ice — quick passes for offensive setup.",
+          "rotation_role": "Standard 3v3 rotation with hockey physics."
+        },
+        {
+          "id": "defense",
+          "name": "Defense",
+          "key_play": "Net + crease defense. Block low-angle shots — puck slides fast.",
+          "rotation_role": "Crease defender + back-up."
+        }
+      ]
+    },
+    "dropshot": {
+      "name": "Dropshot",
+      "type": "Ranked Dropshot (Tile floor)",
+      "phases": [
+        {
+          "id": "opening",
+          "name": "Opening the floor",
+          "key_play": "Build damage on tiles with ball touches. Damaged tiles break into goal pit.",
+          "rotation_role": "Attackers focus on damage tiles, defenders mend / cover broken tiles."
+        },
+        {
+          "id": "breaking",
+          "name": "Breaking tiles",
+          "key_play": "Charge ball for power shot (yellow charge), break tile cluster into goal pit.",
+          "rotation_role": "Power-shot player + cover."
+        },
+        {
+          "id": "defense",
+          "name": "Defense",
+          "key_play": "Cover broken tiles, mend with low-power touches.",
+          "rotation_role": "Tile defenders + ball intercept."
+        }
+      ]
+    },
+    "rumble": {
+      "name": "Rumble",
+      "type": "Ranked Rumble (Power-ups)",
+      "phases": [
+        {
+          "id": "power-up-advantage",
+          "name": "Power-up advantage",
+          "key_play": "Got the item: use it offensively or defensively based on context. Boot for enemy, Tornado for chaos, Magnet for ball control.",
+          "rotation_role": "Item user gets priority; teammates set up for follow-up."
+        },
+        {
+          "id": "scramble",
+          "name": "Scramble",
+          "key_play": "Item used / waiting for next: anticipate enemy item use, play safe rotations.",
+          "rotation_role": "Standard rotation with item awareness."
+        }
+      ]
+    }
+  },
+  "roles": {
+    "First Man": {
+      "description": "Closest to the ball, attacking it. Takes the touch, then rotates back to last man.",
+      "common_mistakes": [
+        "Hitting ball without aim direction (random touch)",
+        "Not rotating back after touch (double-touch)",
+        "Going for a 50/50 with no boost",
+        "Pushing too far forward in 3v3 (overcommit)",
+        "No directional touch (ball goes to enemy)"
+      ],
+      "ideal_use": "Take the contested touch, aim it toward goal or open midfield, rotate to last man."
+    },
+    "Second Man": {
+      "description": "Midfield, ready to follow up if first man misses or wins the 50/50.",
+      "common_mistakes": [
+        "Not committing on first man's miss (lost momentum)",
+        "Following first man too close (double-commit)",
+        "No boost grabs on rotation",
+        "Late on the follow-up",
+        "Wrong rotation direction"
+      ],
+      "ideal_use": "Cover the follow-up after first man, take the second touch, rotate forward."
+    },
+    "Last Man / Defender": {
+      "description": "Defends the goal, on the back wall. Last line of defense.",
+      "common_mistakes": [
+        "Pushing forward off the back wall (out of position for defense)",
+        "Panic-clearing every rebound (gives ball back to enemy)",
+        "Camping mid-net (loses cross-net shots)",
+        "No backboard reads (caught by rebound)",
+        "Solo challenge without team backup"
+      ],
+      "ideal_use": "Hold back post, anticipate rebounds, no panic clears — make directional clears."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "Ball cam off most of the match",
+      "Chasing ball instead of reading it",
+      "Double-flipping into every approach",
+      "No kickoff strategy",
+      "Boost-rushing 100 pads only (running out)",
+      "Challenging without boost or position",
+      "Camping mid-net",
+      "No team coordination",
+      "No quick chat usage",
+      "Looking at ground while moving"
+    ],
+    "silver": [
+      "Rotating through center of field (wrong direction)",
+      "Double-committing with teammate",
+      "No half-flip recovery (slow back-to-goal)",
+      "Going into challenges with under 30 boost",
+      "Random first-touch direction",
+      "No quick chat — team has no comm",
+      "Solo challenges without team trade",
+      "No off-angle awareness",
+      "Crouching during shots",
+      "Holding ball cam off too long"
+    ],
+    "gold": [
+      "Braking to turn instead of power-sliding",
+      "Slow jump → boost transitions (>0.3s)",
+      "No wave-dash recoveries (flat landings)",
+      "Camping mid-net on defense",
+      "Ball cam timing wrong",
+      "Reacting to rebounds instead of anticipating",
+      "Random clears with no direction",
+      "No boost economy planning",
+      "Aggressive plays without team",
+      "No fast aerial mastery"
+    ],
+    "platinum": [
+      "Speed-flip kickoff inconsistent (>20% miss)",
+      "Only pitch in aerials (flat shots)",
+      "Panic-clearing backboard rebounds",
+      "No hood dribble — every touch back to opponent",
+      "Random clears with no direction",
+      "Tilt-stacking 3+ losses",
+      "No counter for speedflip kickoffs",
+      "Predictable aerial approach",
+      "No yaw + roll in aerials",
+      "Boost denial absent"
+    ],
+    "diamond": [
+      "Inconsistent speedflip (>20% miss rate)",
+      "Double-touching after challenges",
+      "No boost denial on opponent",
+      "Quick chat spam beyond \"going\" / \"rotate\"",
+      "Reacting to shots instead of reading setups",
+      "Wasting boost on full-power aerials",
+      "Solo lurk timing wrong",
+      "No off-angle pre-aim",
+      "Tilt protocols incomplete",
+      "Late round 1v1 management"
+    ],
+    "champion": [
+      "No air-dribble threat (predictable offense)",
+      "Only speedflip kickoff (opponent reads)",
+      "Reactive defense — constant scrambling",
+      "Random teammates, no role coordination",
+      "Individual offense, no 2-touch setups",
+      "No pro VOD library",
+      "Air-dribble setup inconsistent",
+      "Wall reads predictable",
+      "No tournament closeout discipline",
+      "Late round 1v3+ management"
+    ],
+    "gc_ssl": [
+      "No flip-reset attempts in ranked",
+      "Predictable flicks — opponent reads",
+      "No pinch awareness — wasted opportunities",
+      "Speedflip timing off by 100ms+",
+      "Risky plays when ahead in final minutes",
+      "Falling for fake challenges and aerials",
+      "No pro coaching investment",
+      "Air dribble inconsistent",
+      "Wall-to-air-dribble setup wrong",
+      "Mental fatigue on long sessions"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is ball cam on (95%+ of time)?",
+      "Is the player in correct rotation position (first man, second, last)?",
+      "Is the player following clockwise / counter-clockwise rotation?",
+      "Is the player on back post (defense) or mid-net (suboptimal)?",
+      "Is the player ahead of teammate during rotation (overcommit)?",
+      "Is the player in cover when defending (no exposure to cross-net)?",
+      "Is the player using high ground for shot setup?"
+    ],
+    "mechanics": [
+      "Is the player using power-slide on corners (not braking)?",
+      "Is the speedflip kickoff landing 80%+?",
+      "Is the half-flip recovery clean and fast (1.2s)?",
+      "Is the wave-dash recovery used after aerials?",
+      "Is the player fast aerial transition under 0.1s?",
+      "Is yaw / pitch / roll used in aerials?",
+      "Is the player executing flip resets / musty flicks (Champion+)?"
+    ],
+    "shot_quality": [
+      "Is the player directional touch aimed at goal / open midfield?",
+      "Is the player using hood dribble for possession?",
+      "Is the player executing air dribbles (GC+)?",
+      "Is the player landing shots in upper 90 (corners)?",
+      "Is the player using shot fakes to draw enemy goalie?",
+      "Is the player setting up 2-touch passes with teammate?",
+      "Is the player using wall plays for unpredictable angles?"
+    ],
+    "decisions": [
+      "Did the player commit to ball or hesitate?",
+      "Did the player rotate back after touch?",
+      "Did the player challenge with boost or fall back?",
+      "Did the player take a 50/50 unwinnable?",
+      "Did the player anticipate the rebound or panic-clear?",
+      "Did the player double-commit with teammate?",
+      "Did the player track teammate boost levels?",
+      "Did the player call \"going\" / \"rotate\" on time?"
+    ]
+  },
+  "vocabulary": [
+    "Ball cam: Camera locked on the ball.",
+    "Free cam: Camera locked behind car (not ball).",
+    "Power-slide: Hold square/X for slide while turning.",
+    "Speedflip: Diagonal flip + air roll for fastest kickoff.",
+    "Half-flip: Reverse + back diagonal flip + cancel for fast back-to-front.",
+    "Wave-dash: Dodge while landing for forward momentum.",
+    "Aerial: Mid-air play.",
+    "Fast aerial: Jump → immediately boost while pitching back.",
+    "Flip: Double-tap jump for a dodge (8 directions).",
+    "Flip cancel: Pull stick opposite during flip to cancel it.",
+    "Flip reset: Touch ball with all 4 wheels mid-air for fresh flip.",
+    "Musty flick: Upside-down dodge flick for unpredictable shot.",
+    "Air dribble: Stick ball to roof mid-air, fly with possession.",
+    "Hood dribble: Hold ball on car's hood while driving.",
+    "Ceiling shot: Drive on ceiling, drop ball for surprise shot.",
+    "Wall play: Drive up wall for vertical entry.",
+    "Wall bounce: Off-wall recovery into shot.",
+    "Pinch: Two cars (or car + wall) compress ball for 2-3x speed.",
+    "Wall pinch: Hit ball into wall exactly when ball touches wall.",
+    "Corner pinch: Two teammates hit ball from opposite angles.",
+    "50/50: Contested ball where 2 cars both go for it.",
+    "Trade: Hitting ball back after enemy's touch.",
+    "Possession: Holding the ball with car (dribble / hood).",
+    "Rotation: Cycling between first / second / last man positions.",
+    "Clockwise rotation: Standard 3v3 rotation direction.",
+    "Counter-clockwise: Alternative rotation direction.",
+    "First man: Closest to ball.",
+    "Second man: Mid-position behind first.",
+    "Last man: Defender on back wall.",
+    "Double-commit: Two teammates going for ball at same time.",
+    "Boost economy: Managing boost across the match.",
+    "Big boost / 100 boost: Corner boost pad (full boost).",
+    "Small boost / 12 boost: Smaller pads (28 around the field).",
+    "Boost denial: Taking enemy's boost pads.",
+    "Mid-cheat: Forward position during kickoff for follow-up.",
+    "Full back: Back-wall position during kickoff.",
+    "Kickoff: Start of round after goal or start of game.",
+    "Fake flip cancel: Speedflip-look-alike kickoff that cancels.",
+    "Diagonal kickoff: Off-center kickoff from back-corner.",
+    "Speed kickoff: Straight-drive kickoff (no flip).",
+    "Boomer / Power shot: Hard rocket-powered shot.",
+    "Touch: Any contact between car and ball.",
+    "Directional touch: Touch aimed at specific direction (goal, open).",
+    "Demolition / Demo: Crashing into enemy car at supersonic speed (kills enemy).",
+    "Save: Blocking enemy shot.",
+    "Backboard: Back wall behind goal.",
+    "Backboard rebound: Ball bouncing off back wall.",
+    "Cross-net: Shot from one side of net to other.",
+    "Far post / Near post: Goal post sides.",
+    "Off-angle: Position enemy doesn't expect.",
+    "Reactive defense: Reacting after enemy shoots.",
+    "Anticipatory defense: Pre-positioning before enemy shoots.",
+    "Going / I got it: Quick chat — committing to ball.",
+    "Rotate: Quick chat — rotate back to position.",
+    "Defending: Quick chat — committing to defense.",
+    "Nice one: Positive quick chat (build morale).",
+    "What a save: Sarcastic quick chat (often toxic — be careful).",
+    "Supersonic: Maximum speed (2300 uu/s).",
+    "Air roll: Rotation around car's axis during aerial.",
+    "Yaw: Left/right rotation in air.",
+    "Pitch: Forward/back rotation (nose up/down).",
+    "Roll: Twist around car's axis.",
+    "BakkesMod: PC mod for training maps + custom features.",
+    "Workshop maps: Custom training maps via BakkesMod.",
+    "MMR: Matchmaking Rating, ranked metric."
+  ]
+}
