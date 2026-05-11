@@ -5379,13 +5379,714 @@ const FN_POSTS_GAPS = [
   },
 ]
 
+// ============================================================================
+// ROCKET LEAGUE POSTS (7)
+// ============================================================================
+// RL ranks: Bronze → Silver → Gold → Platinum → Diamond → Champion → GC → SSL.
+// Voice anchors on real mechanics (ball cam, half-flip, speedflip, fast aerial,
+// flip reset, musty flick, air dribble, etc.). Avoids "AI VOD" language —
+// uses "Pro reviews your screenshots" framing instead per content brief.
+const RL_POSTS = [
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Bronze',
+    toRank: 'Silver',
+    slug: 'rl-bronze-to-silver',
+    metaTitle: 'How to Climb from Bronze to Silver in Rocket League (2026)',
+    metaDescription: 'Rocket League Bronze-to-Silver — ball cam fundamentals, basic positioning, flip stop habits, and the kick-off setup that wins half your starts.',
+    intro: `<p>Bronze is where everyone starts after placements. You're not bad — you don't have ball cam dialed yet and you're chasing the ball instead of reading it. The Bronze-to-Silver gap closes the moment ball cam becomes default. Here's exactly what to fix, in order.</p>`,
+    sections: [
+      {
+        heading: 'Ball cam is on by default — every second',
+        html: `<p>The single most important Bronze habit is ball cam. Hold the ball cam toggle (default: spacebar on PC, right stick click on controller) so your camera is locked on the ball at all times. Most Bronze players camera-toggle by accident and end up looking the wrong way.</p>
+<ul>
+  <li>Set ball cam to <strong>toggle</strong>, not hold. Hit it once at the kickoff. Don't release.</li>
+  <li>The only time to break ball cam: when you're going for boost in a known-safe spot, or you've just hit the ball and need to read what's behind you.</li>
+  <li>If you ever feel "lost" — ball cam is off. Toggle it back on. Don't argue with yourself.</li>
+</ul>
+<p>Ball cam alone is worth ~200 MMR. Most Silvers have it, most Bronzes don't.</p>`,
+      },
+      {
+        heading: 'Basic positioning — first man, second man, last man',
+        html: `<p>RL is 3v3 by default (1v1, 2v2, and 3v3 all have ranked queues, but 3v3 is the standard). Bronze teammates all chase the ball; Silver teammates use rotation positions:</p>
+<ul>
+  <li><strong>First man:</strong> closest to the ball, attacking it.</li>
+  <li><strong>Second man:</strong> midfield, ready to follow up if first man misses.</li>
+  <li><strong>Last man:</strong> defending the goal, on your back wall.</li>
+</ul>
+<p>If two of you go for the ball at the same time, you're double-committing — that's the #1 way to give up easy goals at Bronze. If you see a teammate going, fall back to second man.</p>`,
+      },
+      {
+        heading: 'Flip stop — stop dodge-flipping into walls',
+        html: `<p>Every Bronze player double-jumps and flips into every challenge. You give up momentum, you stall in the air, and you lose your dodge for 1.5 seconds. The Silver habit: flip <em>only</em> when you're going to make contact with the ball.</p>
+<ul>
+  <li>Save your flip for the ball touch, not the approach. Sprint into challenges with boost, not flip.</li>
+  <li>If you flip and miss, you're a sitting duck. The opponent reads it and counters.</li>
+  <li>The exception: flipping to recover from a 90° angle (half-flip) or for distance on a long forward roll. Learn those last.</li>
+</ul>`,
+      },
+      {
+        heading: 'Kick-off basics — pick a position and commit',
+        html: `<p>RL kickoffs are 30% of your goals. Bronze players hesitate on kickoff and lose 50/50 fights. Pick one of these kickoff types and use it every time:</p>
+<ul>
+  <li><strong>Speed kickoff:</strong> drive straight, hold boost, no flip. Wins on contact 70% of the time.</li>
+  <li><strong>Flip kickoff:</strong> drive forward, flip into the ball at the last second. Adds power to your hit.</li>
+  <li><strong>Diagonal kickoff:</strong> if you're back-left/right, drive diagonally for a wider angle.</li>
+</ul>
+<p>Commit to one and run it for a week. Don't change kickoff strategies every match.</p>`,
+      },
+      {
+        heading: 'Boost management — small pads, not 100 boost',
+        html: `<p>Bronze players boost-rush every 100-pad and run out of boost in 5 seconds. Silver players grab <strong>small pads</strong> (12 boost each) constantly along the way. The map has 28 small pads — they're free boost.</p>
+<ul>
+  <li>Never drive in a straight line. Curve through small pads.</li>
+  <li>Don't take the 100 boost in your own corner if your teammate is defending — that's their boost, not yours.</li>
+  <li>30+ boost is enough for most plays. You don't need 100 to shoot.</li>
+</ul>`,
+      },
+      {
+        heading: 'Don\'t commit to challenges you can\'t win',
+        html: `<p>Bronze players boost into every challenge. The opponent's already in position with boost, you crash in, lose the 50/50, and they score on an open net. The Silver habit: <strong>if you can't win the challenge, don't take it</strong>.</p>
+<ul>
+  <li>If the opponent has boost and you don't, fall back. Let them touch first, then challenge.</li>
+  <li>If your teammate is in position to challenge, you go second man.</li>
+  <li>"Fake challenges" — drive at the ball but break off — bait the opponent into a flip they can't recover from.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'Ball cam off most of the match.',
+      'Double-committing with a teammate.',
+      'Flip-dodging into every approach.',
+      'Hesitating on kickoff — getting outpaced.',
+      'Boost-rushing 100 pads only.',
+      'Challenging without boost or position.',
+      'Camping in front of the goal.',
+    ],
+    drill: {
+      heading: 'Drill: Free Play, 15 minutes of ball cam + small pads',
+      html: `<p>Hit Training → Free Play. Spend 15 minutes driving around the field, ball cam locked on, only grabbing small pads. Don't touch the ball. Goal: ball cam becomes invisible. By the end you'll instinctively look at the ball, even when grabbing pads behind you. Repeat daily for a week.</p>`,
+    },
+    aiVodMention: `<p>Stuck on the same mistake every match? Drop a screenshot from your last ranked game — <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
+      { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 6,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Silver',
+    toRank: 'Gold',
+    slug: 'rl-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in Rocket League (2026)',
+    metaDescription: 'Rocket League Silver-to-Gold — rotation basics, the no-double-commit rule, half-flip recovery, and boost economy that wins 3v3 trades.',
+    intro: `<p>Silver means ball cam is locked in and your kickoffs aren't disasters. Gold demands real rotation, half-flip recovery, and boost economy. The Silver-to-Gold climb is about playing as a team, not three forwards trying to score the same goal.</p>`,
+    sections: [
+      {
+        heading: 'Rotation basics — clockwise around the field',
+        html: `<p>RL rotation is a clockwise (or counter-clockwise) cycle through three positions. After you hit the ball, you rotate back to second man. After the next teammate hits, they rotate back. The cycle never breaks.</p>
+<ul>
+  <li><strong>1st man hits ball → rotates back to 3rd man (last man).</strong></li>
+  <li><strong>2nd man becomes 1st man → goes for the next touch.</strong></li>
+  <li><strong>3rd man (you, post-hit) becomes 2nd man on the next cycle.</strong></li>
+</ul>
+<p>The mistake at Silver: people rotate <em>through the center of the field</em>. Wrong. Rotate <strong>through the corners</strong>. Cut across mid only if you have no boost and need to grab a small pad fast.</p>`,
+      },
+      {
+        heading: 'The no-double-commit rule',
+        html: `<p>If your teammate is going for the ball with momentum, you do not also go. You will:</p>
+<ul>
+  <li>Bump them, killing their shot.</li>
+  <li>Take their boost.</li>
+  <li>Leave a gaping hole behind you.</li>
+</ul>
+<p>The cue: if your teammate is closer to the ball <em>and</em> facing it, they're going. You fall back to second man. Spam the "I got it" quick chat <strong>before</strong> you commit, not after.</p>`,
+      },
+      {
+        heading: 'Half-flip recovery — backwards-into-forwards in 1.2 seconds',
+        html: `<p>The half-flip is the first "intermediate" RL mechanic and the single highest-impact one for Silver-to-Gold. It lets you rotate backwards (after defending a shot) into forwards motion in 1.2 seconds, instead of doing a 3-second arc turn.</p>
+<ul>
+  <li>Reverse-drive backwards.</li>
+  <li>Hit jump → diagonal back stick → second jump → cancel the flip by pulling the stick forward.</li>
+  <li>You land facing forward, sprinting.</li>
+</ul>
+<p>Practice this in Free Play for 10 minutes a day for a week. Once it's muscle memory, your recoveries are twice as fast — that's the difference between getting back in goal in time or watching the open-net tap-in.</p>`,
+      },
+      {
+        heading: 'Boost economy — never below 30',
+        html: `<p>Gold players manage boost like a budget. Specifics:</p>
+<ul>
+  <li>Never go into a challenge with under 30 boost. You can't recover, you can't follow up.</li>
+  <li>Grab the corner 100 only when you're rotating back — never as a detour during attack.</li>
+  <li>Small pads on your rotation path are free. Always curve through them.</li>
+  <li>If you're at 0 boost in your defensive third, your job is to be a wall, not chase the ball.</li>
+</ul>`,
+      },
+      {
+        heading: 'First-touch shots — directional power',
+        html: `<p>Bronze and Silver players hit the ball wherever they happen to be aimed. Gold players aim their first touch:</p>
+<ul>
+  <li>If you're approaching from your offensive third, aim your touch <strong>toward the goal</strong>, not straight up.</li>
+  <li>Use the corner of your car to push the ball cross-net — this is a "directional touch," not a dribble.</li>
+  <li>If you can't shoot, push the ball to the opponent's corner to set up a teammate.</li>
+</ul>`,
+      },
+      {
+        heading: 'Reading teammates — fast-chat shortcuts',
+        html: `<p>RL quick chat is your comm system. Memorize four:</p>
+<ul>
+  <li>"I got it!" — committing to the ball.</li>
+  <li>"Take the shot!" — passing or letting them have it.</li>
+  <li>"Defending!" — you're going back, they can push.</li>
+  <li>"Nice one!" — positive comm builds momentum. Don't toxic-chat.</li>
+</ul>
+<p>The bind: set "I got it" and "Defending" to your most reachable buttons. Spam them every play.</p>`,
+      },
+    ],
+    mistakes: [
+      'Rotating through the middle of the field.',
+      'Double-committing on every offensive play.',
+      'No half-flip — slow recoveries from defense.',
+      'Going into challenges with 5 boost.',
+      'Random first-touch direction.',
+      'No quick chat — your team has no idea what you\'re doing.',
+    ],
+    drill: {
+      heading: 'Drill: Workshop Half-Flip + Rotation (Free Play)',
+      html: `<p>Free Play, 10 minutes daily for a week: 50 half-flips off the back wall, then run the rotation cycle solo (drive corner → mid → corner → repeat). By day 7 your half-flip lands clean every time and your rotation muscle memory feels automatic. This is the single highest-value drill at Silver.</p>`,
+    },
+    aiVodMention: `<p>If your rotations feel right but you keep losing — <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Bronze to Silver', url: '/blog/rl-bronze-to-silver.html' },
+      { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 7,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Gold',
+    toRank: 'Platinum',
+    slug: 'rl-gold-to-platinum',
+    metaTitle: 'How to Climb from Gold to Platinum in Rocket League (2026)',
+    metaDescription: 'Rocket League Gold-to-Plat — power slide cornering, fast aerial inputs, wave-dash recovery, defensive positioning, and ball-cam toggling.',
+    intro: `<p>Gold is where mechanics start mattering. You have rotation down; now you need aerial control, wave-dash recovery, and power-slide cornering. The Gold-to-Plat jump is the first real "skill" climb — opponents stop crashing into each other and start setting up actual plays.</p>`,
+    sections: [
+      {
+        heading: 'Power slide cornering — sharp turns without slowing down',
+        html: `<p>Bronze and Silver players brake to turn. Gold players power-slide:</p>
+<ul>
+  <li>Hold the power-slide button (default: square / X) while turning. Your car slides instead of decelerating.</li>
+  <li>Use power-slides for cornering at speed — turning around the back wall, cutting through midfield without losing momentum.</li>
+  <li>Don't power-slide on straightaways; you'll just lose grip.</li>
+</ul>
+<p>Practice: in Free Play, drive in figure-8s around two boost pads. Hold power-slide on every corner. By minute 30 it's muscle memory.</p>`,
+      },
+      {
+        heading: 'Fast aerial inputs — jump + boost order',
+        html: `<p>A "fast aerial" is the basic aerial mechanic at Plat+. You hit jump, then <em>immediately</em> press boost while pulling back on the stick. The order:</p>
+<ol>
+  <li>Jump (single tap).</li>
+  <li>Hold boost.</li>
+  <li>Pull back on the stick to pitch your nose up.</li>
+  <li>Once airborne, double-jump if you need extra height.</li>
+</ol>
+<p>The trick is the speed of the jump→boost transition. Goal: under 0.1s. Practice this in Free Play with the "AirRoll Right" workshop map or just by aerialing the ball off the ground 50 times in a row.</p>`,
+      },
+      {
+        heading: 'Wave-dash recovery — landing into momentum',
+        html: `<p>When you land from an aerial, you usually lose your dodge and stall. A wave-dash is a dodge while landing that converts the landing into forward momentum:</p>
+<ul>
+  <li>Just before landing, pull back on the stick and dodge (jump while in the air).</li>
+  <li>Your car lands flat with momentum equivalent to a flip.</li>
+  <li>Use this after every aerial that doesn't end in a save.</li>
+</ul>
+<p>Wave-dash recoveries shave 1-2 seconds off every aerial play. At Plat that's the difference between getting back in goal or watching the rebound goal.</p>`,
+      },
+      {
+        heading: 'Defensive positioning — back post, not mid net',
+        html: `<p>Most Gold defenders camp the center of the goal. Plat defenders park on the <strong>far post</strong> (opposite side from where the ball is coming from):</p>
+<ul>
+  <li>If ball is on left wing, you sit back-right post.</li>
+  <li>This denies the cross-net shot, which is 70% of Plat goals.</li>
+  <li>You can drive forward to defend a center shot — you can't drive sideways to defend a cross.</li>
+</ul>
+<p>This single positioning shift wins half your defenses. Don't camp mid-net.</p>`,
+      },
+      {
+        heading: 'Ball-cam toggling — strategic, not constant',
+        html: `<p>At Plat you're allowed to break ball cam — but strategically:</p>
+<ul>
+  <li>Ball cam OFF when you're collecting boost and need to read your surroundings.</li>
+  <li>Ball cam OFF when recovering after an aerial — you need to land facing forward.</li>
+  <li>Ball cam ON every other moment.</li>
+</ul>
+<p>The pattern: ball cam on by default, toggle off for max 1-2 seconds, then back on. If you forget to toggle back on for 5+ seconds, you're playing blind.</p>`,
+      },
+      {
+        heading: 'Reading the rebound — anticipate, don\'t react',
+        html: `<p>Plat play involves a lot of save → rebound → save cycles. Plat defenders anticipate the rebound direction based on the incoming shot angle:</p>
+<ul>
+  <li>Incoming shot from left = rebound bounces right. Pre-rotate to the right.</li>
+  <li>If the shot is dead-center, rebound bounces back at the shooter. They get a follow-up — challenge them before they recover.</li>
+  <li>If the shot is along the wall, rebound bounces on a wall track — pre-position on the wall.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'Braking to turn instead of power-sliding.',
+      'Slow jump → boost transitions (>0.3s).',
+      'No wave-dash recoveries — flat landings.',
+      'Camping mid-net on defense.',
+      'Ball cam constantly off, then constantly on — no rhythm.',
+      'Reacting to rebounds instead of anticipating.',
+    ],
+    drill: {
+      heading: 'Drill: Workshop Aerial Training (Beginner pack)',
+      html: `<p>Search "Aerial Training - Beginner" in custom training. 50 shots per day for a week. Goal: hit 35+/50 by day 7. Combines fast aerial + ball direction + recovery in one practice loop. Pair with 10 minutes of figure-8 power-slides in Free Play. By the end of the week the mechanics are loaded.</p>`,
+    },
+    aiVodMention: `<p>Mechanics feel locked but you keep getting outplayed? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 7,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Platinum',
+    toRank: 'Diamond',
+    slug: 'rl-platinum-to-diamond',
+    metaTitle: 'How to Climb from Platinum to Diamond in Rocket League (2026)',
+    metaDescription: 'Rocket League Plat-to-Diamond — speedflip kickoff intro, aerial control (yaw, pitch, roll), backboard reads, possession holding, no panic clears.',
+    intro: `<p>Plat is where you have mechanics — fast aerial, half-flip, wave-dash, power-slide. Diamond is where mechanics become accuracy. Speedflip kickoffs win the contest before it starts, aerial control means hitting the upper 90 instead of the goalie's hood, and possession-holding stops giving the ball back. The Plat-to-Diamond climb is precision.</p>`,
+    sections: [
+      {
+        heading: 'Speedflip kickoff — the Diamond-tier kickoff',
+        html: `<p>The speedflip is the fastest possible kickoff in RL. It uses a diagonal flip with a roll to convert the flip into supersonic-speed forward motion before the ball arrives.</p>
+<ul>
+  <li>Hold boost from start.</li>
+  <li>Around 1.5 seconds in, flip diagonally forward-right (or left).</li>
+  <li>Air-roll opposite during the flip to flatten your car.</li>
+  <li>Land facing forward, sprinting, hit the ball at supersonic.</li>
+</ul>
+<p>This wins ~70% of kickoffs against non-speedflip players. Drill it in the "Speedflip Trainer" workshop map. Goal: clean speedflip 8/10 attempts before queueing ranked.</p>`,
+      },
+      {
+        heading: 'Aerial control — yaw, pitch, roll',
+        html: `<p>Diamond aerials are 3D-controlled — yaw (left/right), pitch (forward/back), and roll (rotate around your axis). Plat players use only pitch. Diamond players use all three:</p>
+<ul>
+  <li><strong>Yaw:</strong> stick left/right in the air. Rotates your car horizontally.</li>
+  <li><strong>Pitch:</strong> stick forward/back. Tips your nose up/down.</li>
+  <li><strong>Roll:</strong> shoulder buttons (or AirRoll right/left). Rotates around your axis.</li>
+</ul>
+<p>Practice "Aerial Hits" custom training pack. Focus on hitting the corners of the goal, not the center. Yaw + pitch combinations let you redirect the ball mid-air.</p>`,
+      },
+      {
+        heading: 'Backboard reads — clearing rebounds proactively',
+        html: `<p>Plat games are full of backboard rebounds — the ball hits your back wall and bounces back into play. Plat players panic-clear; Diamond players read the bounce:</p>
+<ul>
+  <li>Watch the angle the ball hit the backboard. Steep = bounces forward fast. Shallow = bounces high and slow.</li>
+  <li>Pre-position to <strong>catch</strong> the rebound on the dribble, not just clear it.</li>
+  <li>If you can catch the rebound and turn it into a fast counter, you flip momentum.</li>
+</ul>
+<p>This shift — from clearing to catching — is the single biggest possession upgrade at Plat→Diamond.</p>`,
+      },
+      {
+        heading: 'Possession holding — dribbling on the hood',
+        html: `<p>A hood dribble keeps the ball on your car's hood, letting you control where it goes. Basics:</p>
+<ul>
+  <li>Get the ball on your hood by hitting it gently from below.</li>
+  <li>Drive forward at medium speed. Pitch slightly down to keep the ball balanced.</li>
+  <li>Use micro-jumps to keep the ball alive.</li>
+</ul>
+<p>You don't need flicks yet — that's Champion-tier. You just need to hold possession for 2-3 seconds before passing or shooting. Holding possession denies the opponent counter-play.</p>`,
+      },
+      {
+        heading: 'No panic clears — make a decision',
+        html: `<p>Diamond defenders don't panic-clear. They decide:</p>
+<ul>
+  <li><strong>Pass to a teammate</strong> via a directional clear (aim toward open midfield).</li>
+  <li><strong>Convert to a counter</strong> by catching the ball on the hood (see above).</li>
+  <li><strong>Boost-clear high</strong> only as a last resort, never as default.</li>
+</ul>
+<p>The panic clear gives the ball straight back to the opponent in their offensive third. Diamond defense is decisive, not panicked.</p>`,
+      },
+      {
+        heading: 'Wall reads — coming off the wall with momentum',
+        html: `<p>RL fields have wall-driving. Diamond players use the wall offensively:</p>
+<ul>
+  <li>Drive up the side wall to gain speed for an aerial approach.</li>
+  <li>Use the wall to dodge a challenge — drive up, jump off the wall, redirect.</li>
+  <li>Wall plays are unpredictable for opponents who fixate on ground play.</li>
+</ul>
+<p>Practice in Free Play: drive up the wall, jump off, hit the ball mid-air. By rep 50 it feels natural.</p>`,
+      },
+      {
+        heading: 'Mental — accept the loss streak',
+        html: `<p>Diamond is the first rank where tilt-stacking matters. Specific:</p>
+<ul>
+  <li>If you lose 3 ranked in a row, stop. Take 10 minutes off.</li>
+  <li>Don't blame teammates in chat — it's a 50% solo-queue. Quick-chat positive only.</li>
+  <li>Track session win rate. End sessions above 50%.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'Standard flip kickoffs (lose to speedflips 70% of the time).',
+      'Only using pitch in aerials — flat shots.',
+      'Panic-clearing every backboard rebound.',
+      'No hood dribble — every touch goes back to opponent.',
+      'Random clears with no direction.',
+      'Tilt-stacking 5+ losses.',
+    ],
+    drill: {
+      heading: 'Drill: Workshop Speedflip Trainer + 100 aerial reps daily',
+      html: `<p>Search "Speedflip Trainer" in workshop maps (BakkesMod required on PC, custom training on console). 100 speedflip attempts per day for two weeks. Track success rate. Goal: 80%+ clean speedflips by week 2. Pair with the "Aerial Shots Intermediate" custom training pack — 50 reps daily. By week 2 the speedflip + aerial accuracy combo is loaded.</p>`,
+    },
+    aiVodMention: `<p>Speedflip won't lock in? Aerials still inconsistent? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
+      { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Diamond',
+    toRank: 'Champion',
+    slug: 'rl-diamond-to-champion',
+    metaTitle: 'How to Climb from Diamond to Champion in Rocket League (2026)',
+    metaDescription: 'Rocket League Diamond-to-Champion — speedflip mastery, advanced aerial mechanics, rotation discipline, boost denial, and callout discipline.',
+    intro: `<p>Diamond means mechanics are functional — your speedflip lands, your aerials hit clean, your defense is decisive. Champion is where mechanics meet macro. Rotation becomes discipline, boost denial becomes strategy, and "going" / "rotate" callouts replace random chat. The Diamond-to-Champion climb is the leap from "I can hit shots" to "I make my team better."</p>`,
+    sections: [
+      {
+        heading: 'Speedflip mastery — every kickoff, every time',
+        html: `<p>At Diamond, your speedflip lands 80% of the time. At Champion, 95%+. The difference is consistency under pressure:</p>
+<ul>
+  <li>Practice speedflips after losing — when you're tilted. That's when Champion players still land them.</li>
+  <li>Mix in diagonal-left and diagonal-right speedflips so you can read the opponent's kickoff direction and counter.</li>
+  <li>If you're on a back-corner kickoff, use the "corner speedflip" — same mechanic, different angle.</li>
+</ul>
+<p>Lose the kickoff = give up 30% of round outcomes. Champion = win the kickoff every time.</p>`,
+      },
+      {
+        heading: 'Advanced aerial mechanics — air dribble starter, fast aerial reads',
+        html: `<p>Champion-tier aerials introduce the air-dribble starter — holding the ball on your car's roof while flying through the air:</p>
+<ul>
+  <li>Hit the ball gently into the air at a low angle. Stick to it with boost from below.</li>
+  <li>Use micro-stick movements to keep the ball balanced on your roof.</li>
+  <li>Once you're set up, you can shoot or pass at 2x normal speed.</li>
+</ul>
+<p>The air dribble is a Champion-tier offensive mechanic. You don't need to master it — but knowing when an opponent is setting one up (and when to challenge it) is the defensive skill that wins games.</p>`,
+      },
+      {
+        heading: 'Rotation discipline — no exceptions',
+        html: `<p>Diamond rotations are 80% correct; Champion rotations are 95%. The discipline:</p>
+<ul>
+  <li>Every touch → rotate back to last man immediately. No exceptions.</li>
+  <li>If you double-touch (hit ball twice in a row), you've made a critical rotation error.</li>
+  <li>If teammate hits ball, you become second man IMMEDIATELY — don't wait to see what happens.</li>
+</ul>
+<p>This is the macro-skill that separates Diamond from Champion. Mechanics are equal at this level — discipline wins.</p>`,
+      },
+      {
+        heading: 'Boost denial — control the map\'s economy',
+        html: `<p>Champion players don\'t just grab their own boost — they deny the opponent's:</p>
+<ul>
+  <li>If the enemy's nearest 100 boost is open and you can grab it on your rotation, take it. Even if you don't need it.</li>
+  <li>If you see an opponent low on boost in midfield, drive at them — force them off their pad.</li>
+  <li>Track who has boost. The team with more boost wins 70% of trades.</li>
+</ul>
+<p>Boost denial is a Champion-tier concept that doesn't show up in highlights — but it's why some Champions seem to always have boost while their opponents are stuck on small pads.</p>`,
+      },
+      {
+        heading: 'Callouts — "going" and "rotate"',
+        html: `<p>Champion-tier comm is just two words:</p>
+<ul>
+  <li>"Going" — bound to your most reachable button. Spam it any time you're committing to the ball.</li>
+  <li>"Rotate" — bound to a backup button. Use it when your teammate needs to fall back.</li>
+</ul>
+<p>Forget every other quick chat. These two prevent 90% of double-commits. Bind them, spam them, win 100 MMR.</p>`,
+      },
+      {
+        heading: 'Reading shot setups — anticipate, don\'t react',
+        html: `<p>Champion defenders read the setup, not the shot:</p>
+<ul>
+  <li>Ball on opponent\'s wing → they\'re setting up a cross. Pre-position center for the cross-net.</li>
+  <li>Ball on opponent's back wall → they're setting up a backboard pass. Pre-position to catch.</li>
+  <li>Opponent on the wall driving up → they're setting up an aerial. Pre-position high.</li>
+</ul>
+<p>Diamond defenders react to the shot. Champion defenders are already in position when the shot happens.</p>`,
+      },
+      {
+        heading: 'Mid-air boost management',
+        html: `<p>Champion aerials are boost-efficient. Tips:</p>
+<ul>
+  <li>Don't hold boost the entire aerial — pulse it in 0.2s bursts.</li>
+  <li>Pitch up to gain height passively (gravity-vs-momentum trades).</li>
+  <li>Land at 20+ boost so you can immediately re-aerial if needed.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'Inconsistent speedflip (>20% miss rate).',
+      'Double-touching after challenges.',
+      'No boost denial — letting opponent stockpile.',
+      'Quick chat spam beyond "going" / "rotate."',
+      'Reacting to shots instead of reading setups.',
+      'Wasting boost on full-power aerials.',
+    ],
+    drill: {
+      heading: 'Drill: Workshop Striker Drill 2.0 (60 mins daily)',
+      html: `<p>Search "Striker Drill 2.0" in BakkesMod workshop maps (PC) or use the equivalent "Tournament Custom Training" pack on console. 60 minutes daily for 14 days. Drill covers speedflip, aerial accuracy, redirect shots, and rotation reads. Track shot conversion %. Goal: 60%+ shot conversion by day 14. Pair with one ranked-tournament VOD per day — watch how Champion-level players rotate after every touch.</p>`,
+    },
+    aiVodMention: `<p>Champion gap won\'t close? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank — often it's not mechanics but a rotation or boost-denial pattern. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
+      { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Champion',
+    toRank: 'Grand Champion',
+    slug: 'rl-champion-to-gc',
+    metaTitle: 'How to Climb from Champion to Grand Champion in Rocket League (2026)',
+    metaDescription: 'Rocket League Champion-to-GC — air dribble basics, advanced kickoff plays (fake-flip-cancel), pre-position vs reactive defense, and team comp coordination.',
+    intro: `<p>Champion means rotations are disciplined, speedflips are consistent, and your defense is decisive. Grand Champion is where the air dribble enters your offense, kickoff mind games matter, and pre-positioning replaces reactive defense. This is the first rank where macro-strategy decides games more than mechanics.</p>`,
+    sections: [
+      {
+        heading: 'Air dribble basics — sticking the ball to your roof',
+        html: `<p>The air dribble is the signature GC-tier mechanic. You stick the ball to your car's roof and fly with it, controlling exactly where it goes:</p>
+<ul>
+  <li>Start with a low ball touch off the wall or off your own dribble.</li>
+  <li>Aerial after the ball, getting underneath it.</li>
+  <li>Hold boost lightly, use yaw + pitch to keep the ball balanced on your roof.</li>
+  <li>Shoot or pass at maximum unpredictability.</li>
+</ul>
+<p>GC players don't need to land every air dribble — they need to <em>threaten</em> the air dribble so opponents fear it. The threat alone bends opponent positioning.</p>`,
+      },
+      {
+        heading: 'Advanced kickoff plays — fake-flip-cancel',
+        html: `<p>At GC, opponents read your speedflip. The counter: fake the flip, cancel it, change the kickoff line at the last second:</p>
+<ul>
+  <li>Begin the speedflip motion (jump + diagonal stick).</li>
+  <li>Cancel the flip by pulling the stick the opposite way before the dodge fires.</li>
+  <li>Boost forward without flipping — you arrive a fraction later but on an unexpected line.</li>
+</ul>
+<p>The fake-flip-cancel wins kickoffs against opponents expecting a standard speedflip — about 30% of GC matches. Use sparingly so opponents can't read the pattern.</p>`,
+      },
+      {
+        heading: 'Pre-position vs reactive defense',
+        html: `<p>Champion defenders react to where the ball goes. GC defenders pre-position before the opponent's touch:</p>
+<ul>
+  <li>Read the opponent's pre-touch body language. Are they coiled to flip? Going for power?</li>
+  <li>Pre-rotate to where their shot is likely to go — not where the ball currently is.</li>
+  <li>Position so you're already in the save spot before the shot is taken.</li>
+</ul>
+<p>This is anticipation, not reaction. GC defense looks effortless because they\'re already there. Champion defense is constant scrambling.</p>`,
+      },
+      {
+        heading: 'Team comp coordination — pre-game setup',
+        html: `<p>GC matches are won in lobby before the kickoff. Specifics:</p>
+<ul>
+  <li>If you\'re in a 3-stack: agree on roles (striker, mid, fixer/defender).</li>
+  <li>Agree on kickoff cheats (one player goes for kickoff, others rotate to predict).</li>
+  <li>Agree on quick-chat patterns (who calls "going," who supports).</li>
+</ul>
+<p>Random-queue at GC is a coinflip; 3-stack at GC is dominant. If you can find consistent teammates, your MMR jumps 100-200 immediately.</p>`,
+      },
+      {
+        heading: 'Setting up the air dribble — the pass',
+        html: `<p>Air dribble offense usually requires a setup pass. The pattern:</p>
+<ul>
+  <li>Teammate dribbles the ball into the corner.</li>
+  <li>Teammate passes the ball off the back wall at a specific angle.</li>
+  <li>You (set up off the wall) catch the ball mid-air on your roof.</li>
+  <li>You air-dribble toward goal.</li>
+</ul>
+<p>This 2-touch setup is what separates GC offense from Champion. Champion duos rely on individual offense; GC duos chain plays.</p>`,
+      },
+      {
+        heading: 'Wall reads at GC — wall-to-air-dribbles',
+        html: `<p>GC players use the wall to set up air dribbles:</p>
+<ul>
+  <li>Drive up the wall toward the corner.</li>
+  <li>Hit the ball off the wall at a low diagonal angle.</li>
+  <li>Aerial off the wall, catch the ball, air-dribble.</li>
+</ul>
+<p>Practice in Free Play: 50 wall-to-air-dribble attempts daily. By rep 200 the timing is muscle memory.</p>`,
+      },
+      {
+        heading: 'Mental — pro VOD pattern library',
+        html: `<p>Champion-to-GC climb requires watching pro RL gameplay. Watch RLCS matches:</p>
+<ul>
+  <li>1 match per day, pause every minute. Predict what each player will do.</li>
+  <li>Track 3 patterns per match (e.g., "pro X always pre-rotates on opponent kickoff fail").</li>
+  <li>Build a 50-pattern library over 6 weeks.</li>
+</ul>
+<p>GC players have an internalized macro-library from pro VODs. Champion players play instinct.</p>`,
+      },
+    ],
+    mistakes: [
+      'No air-dribble threat — predictable offense.',
+      'Only speedflip kickoff (opponent reads it).',
+      'Reactive defense — constant scrambling.',
+      'Random teammates, no role coordination.',
+      'Individual offense, no 2-touch setups.',
+      'No pro VOD library.',
+    ],
+    drill: {
+      heading: 'Drill: BakkesMod Air-Dribble Trainer + 1 RLCS match/day',
+      html: `<p>BakkesMod (PC) or custom training packs (console) — search "Air Dribble Single" pack. 50 reps daily for two weeks. Goal: 30/50 clean by day 14. Pair with 1 RLCS VOD per day — pause every minute and predict the play. By day 14 you have an air-dribble threat AND a 14-pattern pro library. That's the GC-tier package.</p>`,
+    },
+    aiVodMention: `<p>Air dribbles inconsistent? Pre-positioning still feels random? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic or read is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
+      { name: 'How to Climb from GC to SSL', url: '/blog/rl-gc-to-ssl.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'rl',
+    gameLabel: 'Rocket League',
+    fromRank: 'Grand Champion',
+    toRank: 'Supersonic Legend',
+    slug: 'rl-gc-to-ssl',
+    metaTitle: 'How to Climb from Grand Champion to Supersonic Legend in Rocket League (2026)',
+    metaDescription: 'Rocket League GC-to-SSL — flip resets, musty flicks, pinch pass setups, frame-perfect mechanics, and tournament-level closeout discipline.',
+    intro: `<p>Grand Champion is the top 5%. Supersonic Legend is the top 0.2% — the pro-adjacent rank. The GC-to-SSL climb is frame-perfect mechanics (flip resets, musty flicks, pinches) and tournament-level discipline. Every wasted boost pad costs MMR. Every panic touch costs a series. This is where mechanics become art.</p>`,
+    sections: [
+      {
+        heading: 'Flip resets — regaining your flip in mid-air',
+        html: `<p>The flip reset is the signature SSL mechanic. When you touch the ball with all four wheels, you reset your flip mid-air, letting you double-flip in a single aerial:</p>
+<ul>
+  <li>Aerial under the ball.</li>
+  <li>Touch the ball with all four wheels (car upside down).</li>
+  <li>Your flip resets — you have a fresh dodge.</li>
+  <li>Use the second flip to power the shot.</li>
+</ul>
+<p>Flip resets are the SSL signature offensive mechanic. Practice in BakkesMod's "Flip Reset Training" pack — 100 reps daily for a month. By week 4 you'll land 1 in 10 in ranked. By month 3, 1 in 3.</p>`,
+      },
+      {
+        heading: 'Musty flicks — the upside-down dodge',
+        html: `<p>The musty flick is a dribble-shot variant that adds unpredictability:</p>
+<ul>
+  <li>Hood-dribble the ball.</li>
+  <li>Just before shooting, pitch the car forward (nose-down) while jumping and dodging back.</li>
+  <li>Your car flips backwards while the ball flicks forward at unexpected speed.</li>
+</ul>
+<p>Used by Musty (the YouTuber/pro). Hard to block because of the deceptive car motion. SSL goalkeepers prepare for it — but if you can chain a musty with a flip reset, you've broken through any defense.</p>`,
+      },
+      {
+        heading: 'Pinch pass setups — wall pinches and corner pinches',
+        html: `<p>A pinch is when two cars (or a car and the wall) compress the ball between them, sending it at 2-3x normal speed:</p>
+<ul>
+  <li><strong>Wall pinch:</strong> hit the ball into the wall at the exact moment the ball is touching the wall — sends it at 4000+ uu/s.</li>
+  <li><strong>Corner pinch:</strong> two teammates hit the ball at the same instant from opposite angles.</li>
+  <li><strong>Aerial pinch:</strong> hit the ball into a teammate driving up the wall.</li>
+</ul>
+<p>Pinches are SSL's main "1-touch goal" tool. Practice in Free Play. They're 30% setup, 70% timing.</p>`,
+      },
+      {
+        heading: 'Frame-perfect mechanics — milliseconds matter',
+        html: `<p>At SSL every input is timed to the frame:</p>
+<ul>
+  <li>Speedflips land at the exact 1.5s mark of kickoff.</li>
+  <li>Flicks fire at the exact moment of dodge windup.</li>
+  <li>Half-flips chain into wave-dashes for instant recovery.</li>
+</ul>
+<p>This requires obsessive practice. Most SSLs grind 4+ hours daily for years. If you're not willing to commit, you'll plateau at high GC.</p>`,
+      },
+      {
+        heading: 'Tournament-level closeout discipline',
+        html: `<p>At SSL, mechanics are equal. Games are won by closeout discipline:</p>
+<ul>
+  <li>When ahead by 1 in the final 2 minutes — do NOT take risks. Sit back, deny the opponent\'s offense, run the clock.</li>
+  <li>When tied with 30s left — set up an air dribble OR force a kickoff with a deep clear.</li>
+  <li>Overtime: first touch wins games. Pre-aim the kickoff line with conviction.</li>
+</ul>
+<p>Tournament-level players close games. SSLs who can\'t close stall at low SSL forever.</p>`,
+      },
+      {
+        heading: 'Reading SSL-tier mindgames',
+        html: `<p>SSL opponents bait you constantly:</p>
+<ul>
+  <li><strong>Fake challenges:</strong> they drive at the ball but break off, baiting your flip.</li>
+  <li><strong>Fake aerials:</strong> they aerial without intent to touch — baiting you off the ground.</li>
+  <li><strong>Fake possession:</strong> they dribble away from goal to bait you into chasing, then pass back to a teammate.</li>
+</ul>
+<p>The counter: don't react to opponent body language. React to actual ball touches and committed boost.</p>`,
+      },
+      {
+        heading: 'Pro coaching — when to invest',
+        html: `<p>At SSL the marginal improvements require expert guidance:</p>
+<ul>
+  <li>Get a 1-on-1 with a pro coach. Cost: $50-150/hr. 2-3 sessions is enough for a major tier-1 patterns review.</li>
+  <li>Join an SSL community Discord. The replay sharing and pro feedback is invaluable.</li>
+  <li>Watch RLCS Grand Finals VODs — every clip is SSL-tier macro.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'No flip-reset attempts in ranked.',
+      'Predictable flicks — opponent reads them.',
+      'No pinch awareness — wasted offensive opportunities.',
+      'Speedflip timing off by 100ms+.',
+      'Risky plays when ahead in final minutes.',
+      'Falling for fake challenges and aerials.',
+      'No pro coaching investment.',
+    ],
+    drill: {
+      heading: 'Drill: BakkesMod Pro Training Pack (90 mins daily) + 1 RLCS VOD',
+      html: `<p>BakkesMod\'s "Pro Training" pack: flip resets, musty flicks, pinch pass setups, double-touch aerials. 90 minutes daily for 60 days. Goal: land flip reset in ranked 1/3 attempts, pinch attempts 1/5, musty flicks 50%. Pair with 1 RLCS Grand Finals VOD per day, pausing every minute to predict the play. By day 60 you have a complete SSL-tier mechanical package AND a 60-clip pro pattern library. Most SSL climbers take 6-12 months at this drill volume; the consistency matters more than intensity.</p>`,
+    },
+    aiVodMention: `<p>SSL gap won\'t close? Mechanics solid but games slip away in closeout? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic, read, or closeout pattern is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
+      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Rocket League Home', url: '/games/rl/' },
+      { name: 'Recon+ Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+]
+
 // ---------- MAIN ----------
 
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // Stage 5: all 10 games. R6 (7) + CS2 (7) + Valorant (7) + OW2 (4) + Apex (3) + MVR (3) + Halo (3) + Finals (2) + CoD (2) + Fortnite (2) = 40 posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS]
+  // All supported games, ranked tier coverage. Rocket League (7) added as the
+  // 11th game. RL had zero blog posts until now — these match the depth of the
+  // other 70 R6/CS2/Val/OW2/Apex/MVR/Halo/Finals/CoD/Fortnite posts.
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS, ...RL_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -5402,4 +6103,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, FN_POSTS_GAPS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, FN_POSTS_GAPS, RL_POSTS, htmlShell, renderPost, renderIndex }
