@@ -1,0 +1,792 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Overwatch 2",
+    "short_name": "OW2",
+    "tagline": "5v5 team-based hero shooter — point capture / escort / control / push / flashpoint / clash modes, role queue (1 Tank / 2 DPS / 2 Support).",
+    "sides": {
+      "attack": "Offensive side — push payload / cap point / commit to objective",
+      "defense": "Defending side — stop the cap / payload / objective"
+    },
+    "character_vocab": "heroes",
+    "round_economy": "No economy — abilities recharge on cooldown. Ult charges from damage / healing dealt.",
+    "round_format": "Best of 3 (or 5) maps. Most gametypes: 2 rounds (attack + defense) per map. Control = first to 2 captures.",
+    "key_mechanics": [
+      "Role lock: 1 Tank + 2 DPS + 2 Support per team",
+      "Ultimate abilities charge from damage and healing — track enemy ults",
+      "Hero swaps mid-match are allowed and meta — counter-pick is critical",
+      "Tank: high HP, takes space; DPS: dealers; Support: heals + utility ults",
+      "Cooldown management: abilities have 5-12s cooldowns, sequence them",
+      "Sustainability: most fights last 8-15 seconds, ult chain decides team fights",
+      "Headshot multiplier: 2x damage on most heroes (some bodies-only)",
+      "Match types: Control (point caps), Hybrid (cap + payload), Escort (payload), Push (TS-1 robot), Flashpoint (5 rotating points), Clash (5 sequential points)"
+    ]
+  },
+  "maps": {
+    "antarctic-peninsula": {
+      "name": "Antarctic Peninsula",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "icebreaker",
+          "name": "Icebreaker",
+          "callouts": ["Point", "Bridge", "Crow's Nest", "Dock", "Hangar", "Icebreaker", "Sub-Level"],
+          "attack_comps": "Winston/Tracer dive comp; Mauga/Ana brawl alt",
+          "defense_comps": "Sigma/Bastion bunker; Rein/Brig brawl",
+          "key_ult_chains": "Lúcio amp → Tracer Pulse Bomb → Sojourn Visor for trade kill"
+        },
+        {
+          "id": "sub-level",
+          "name": "Sub-Level",
+          "callouts": ["Point", "Crane", "Pipes", "Side Room", "High Ground", "Sub-Level"],
+          "attack_comps": "Dive (Winston/Sojourn/Lúcio) for Crane high ground",
+          "defense_comps": "Anchor on Point with Sigma + Ana Anti-Nade",
+          "key_ult_chains": "Sojourn Visor + Nano for solo carry"
+        },
+        {
+          "id": "labs",
+          "name": "Labs",
+          "callouts": ["Point", "Server Room", "Catwalk", "Side Path", "Spawn Hall"],
+          "attack_comps": "Dive (Catwalk vertical commit) or brawl Server Room",
+          "defense_comps": "Hold Catwalk with hitscan + Server Room anchor",
+          "key_ult_chains": "Sound Barrier on cap defense"
+        }
+      ]
+    },
+    "kings-row": {
+      "name": "King's Row",
+      "type": "Hybrid",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Point A (Statue)",
+          "callouts": ["Point", "Statue", "Choke", "Side Alley", "High Ground", "Spawn"],
+          "attack_comps": "Rein/Brig brawl for choke break, Reaper for back-line",
+          "defense_comps": "Sigma + Bastion bunker the choke",
+          "key_ult_chains": "Nano + Earthshatter on the choke contest"
+        },
+        {
+          "id": "payload-1",
+          "name": "Payload — Underground",
+          "callouts": ["Payload", "Underground", "Side Door", "Stairs", "Tunnel"],
+          "attack_comps": "Brawl (Rein/Mauga + Brig/Bap) to escort payload",
+          "defense_comps": "Stack tank + Widow on long sightline",
+          "key_ult_chains": "Sound Barrier on payload final push"
+        },
+        {
+          "id": "payload-2",
+          "name": "Payload — Final Bridge",
+          "callouts": ["Payload", "Final Cap", "Bridge", "Cliffside", "Spawn"],
+          "attack_comps": "Pharah-Mercy + Soldier for sky control",
+          "defense_comps": "Cassidy + Ana anti-Pharah",
+          "key_ult_chains": "Pharah Barrage + Lúcio amp on final cap"
+        }
+      ]
+    },
+    "lijiang-tower": {
+      "name": "Lijiang Tower",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "night-market",
+          "name": "Night Market",
+          "callouts": ["Point", "Bridge", "Stalls", "Side Room", "High Ground", "Cubby"],
+          "attack_comps": "Dive (Winston/Tracer) through Bridge",
+          "defense_comps": "Anchor Point with stalls cover, Sojourn off-angle",
+          "key_ult_chains": "Kitsune Rush + Pulse Bomb on cap contest"
+        },
+        {
+          "id": "garden",
+          "name": "Garden",
+          "callouts": ["Point", "Bridge", "Side", "Waterfall", "Cubby"],
+          "attack_comps": "Ramattra + Reaper brawl, Hanzo poke",
+          "defense_comps": "Sigma + Ana anchor with Hanzo Bridge sightline",
+          "key_ult_chains": "Sonic Arrow + Nano + Annihilation"
+        },
+        {
+          "id": "control-center",
+          "name": "Control Center",
+          "callouts": ["Point", "Rooftop", "Bridge", "Well", "Side Wing"],
+          "attack_comps": "Dive (Winston/Genji + Lúcio boop)",
+          "defense_comps": "Soldier + Bap from Bridge",
+          "key_ult_chains": "Dragonblade + Mercy boost on cap commit"
+        }
+      ]
+    },
+    "oasis": {
+      "name": "Oasis",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "city-center",
+          "name": "City Center",
+          "callouts": ["Point", "Bar", "Library", "Cars", "Side Tunnel"],
+          "attack_comps": "Pharah-Mercy + dive tank for sky control",
+          "defense_comps": "Cassidy + Ana hold airspace",
+          "key_ult_chains": "Barrage + Sound Barrier on cap",
+          "hazard": "Cars in middle = instant kill on collision; boop enemies into them"
+        },
+        {
+          "id": "gardens",
+          "name": "Gardens",
+          "callouts": ["Point", "Greenhouse", "Hazard", "Side Garden", "Bridge"],
+          "attack_comps": "Brawl (Rein + Reaper) with Bastion shred",
+          "defense_comps": "Sigma + Bap bunker",
+          "key_ult_chains": "Nano + Earthshatter on cap commit",
+          "hazard": "Planter hazards = boop enemies for instant kills"
+        },
+        {
+          "id": "university",
+          "name": "University",
+          "callouts": ["Point", "Library", "Catwalk", "Side Hall", "Atrium"],
+          "attack_comps": "Dive (Winston + Sojourn) via Library",
+          "defense_comps": "Widow Library + Brig anti-dive",
+          "key_ult_chains": "Kitsune Rush + Visor"
+        }
+      ]
+    },
+    "hanamura": {
+      "name": "Hanamura",
+      "type": "Hybrid",
+      "sites": [
+        {
+          "id": "point-a",
+          "name": "Point A",
+          "callouts": ["Point A", "Main Choke", "Side Door", "Courtyard", "Killbox"],
+          "attack_comps": "Rein/Brig brawl + Mei wall split",
+          "defense_comps": "Sigma + Bastion bunker the choke",
+          "key_ult_chains": "Nano + Earthshatter on cap"
+        },
+        {
+          "id": "point-b",
+          "name": "Point B",
+          "callouts": ["Point B", "Window", "Side Hall", "Back Stairs", "Anchor Room"],
+          "attack_comps": "Dive (Winston + Tracer) for back-line",
+          "defense_comps": "Sigma + Widow Window",
+          "key_ult_chains": "Pulse Bomb + Visor"
+        }
+      ]
+    },
+    "ilios": {
+      "name": "Ilios",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "lighthouse",
+          "name": "Lighthouse",
+          "callouts": ["Point", "Lighthouse", "Side Stairs", "Mid", "Ledge"],
+          "attack_comps": "Dive (Winston/Lúcio for boop into water)",
+          "defense_comps": "Hold Point with Cassidy + Brig",
+          "key_ult_chains": "Sound Barrier on cap contest",
+          "hazard": "Water hazard on edges — boop enemies in"
+        },
+        {
+          "id": "ruins",
+          "name": "Ruins",
+          "callouts": ["Point", "Well", "Side Ruins", "Bridge"],
+          "attack_comps": "Brawl through main, Reaper Side Ruins",
+          "defense_comps": "Anchor Point with Bap Lamp",
+          "key_ult_chains": "Anti-Nade + Visor"
+        },
+        {
+          "id": "well",
+          "name": "Well",
+          "callouts": ["Point", "Well", "Bridge", "Side Stairs"],
+          "attack_comps": "Lúcio boop comp for well kills",
+          "defense_comps": "Sigma + Widow",
+          "key_ult_chains": "Sound Barrier on cap",
+          "hazard": "Well hazard — boop into well for instant kill"
+        }
+      ]
+    },
+    "nepal": {
+      "name": "Nepal",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "village",
+          "name": "Village",
+          "callouts": ["Point", "Side Roofs", "Bridge", "Houses"],
+          "attack_comps": "Dive (Winston for back-line) + Lúcio boop",
+          "defense_comps": "Bap Lamp + Sigma anchor",
+          "key_ult_chains": "Pulse Bomb + Kitsune"
+        },
+        {
+          "id": "shrine",
+          "name": "Shrine",
+          "callouts": ["Point", "Shrine", "Side Bridge", "Stairs"],
+          "attack_comps": "Brawl through main, Reaper flank",
+          "defense_comps": "Sigma + Ana anchor",
+          "key_ult_chains": "Anti-Nade + Nano + Earthshatter"
+        },
+        {
+          "id": "sanctum",
+          "name": "Sanctum",
+          "callouts": ["Point", "Sanctum", "Side Cliff", "Bridge"],
+          "attack_comps": "Lúcio boop into cliff",
+          "defense_comps": "Anti-dive (Brig + Cassidy)",
+          "key_ult_chains": "Sound Barrier on cap",
+          "hazard": "Cliff hazard — boop enemies off the edge"
+        }
+      ]
+    },
+    "busan": {
+      "name": "Busan",
+      "type": "Control",
+      "sites": [
+        {
+          "id": "sanctuary",
+          "name": "Sanctuary",
+          "callouts": ["Point", "Sanctuary", "Side Path", "High Ground"],
+          "attack_comps": "Brawl + Mei wall split",
+          "defense_comps": "Sigma + Bap anchor",
+          "key_ult_chains": "Anti-Nade + Earthshatter"
+        },
+        {
+          "id": "downtown",
+          "name": "Downtown",
+          "callouts": ["Point", "Side Streets", "High Ground", "Rooftops"],
+          "attack_comps": "Pharah-Mercy + Soldier",
+          "defense_comps": "Cassidy + Ana anti-Pharah",
+          "key_ult_chains": "Barrage + Sound Barrier"
+        },
+        {
+          "id": "meka-base",
+          "name": "MEKA Base",
+          "callouts": ["Point", "Side Lift", "Bridge", "Hangar"],
+          "attack_comps": "Dive (Winston) for back-line",
+          "defense_comps": "Sigma + Widow long sightline",
+          "key_ult_chains": "Pulse Bomb + Kitsune"
+        }
+      ]
+    }
+  },
+  "heroes": {
+    "tanks": {
+      "Reinhardt": {
+        "role": "Tank — Brawl",
+        "kit": "Barrier Field (shield), Charge (engage), Fire Strike (poke), Earthshatter (ult)",
+        "common_mistakes": [
+          "Charging into 5 without team commit",
+          "Earthshatter without Nano (gets stopped by Sigma stone, Cassidy stun)",
+          "Holding shield too long = ult slow",
+          "No Fire Strike chip damage",
+          "Charging off cliffs"
+        ],
+        "ideal_use": "Brawl tank — break choke with shield, Earthshatter on cap commit, Fire Strike for poke charge"
+      },
+      "Winston": {
+        "role": "Tank — Dive",
+        "kit": "Jump Pack, Barrier Projector, Tesla Cannon, Primal Rage (ult)",
+        "common_mistakes": [
+          "Diving without team backup",
+          "Primal Rage without team commit",
+          "Bubble timing wrong (too early = wasted)",
+          "Jumping into Bastion/Mei without swap",
+          "Solo back-line dives"
+        ],
+        "ideal_use": "Dive back-line supports, bubble for team trade, Primal Rage for ult chain or escape"
+      },
+      "Sigma": {
+        "role": "Tank — Poke/Anchor",
+        "kit": "Experimental Barrier, Kinetic Grasp, Accretion (stun), Gravitic Flux (ult)",
+        "common_mistakes": [
+          "Barrier on wrong angle (no team coverage)",
+          "Accretion missed on tank (wasted stun)",
+          "Kinetic Grasp without enemy fire (wasted)",
+          "Gravitic Flux on eco (wasted)",
+          "Solo poke without team"
+        ],
+        "ideal_use": "Anchor with Barrier, Accretion stun on engage tank, Kinetic Grasp on Reaper/Bastion, Flux on full team commit"
+      },
+      "Orisa": {
+        "role": "Tank — Push",
+        "kit": "Energy Javelin, Javelin Spin, Fortify, Terra Surge (ult)",
+        "common_mistakes": [
+          "Javelin missed on tank",
+          "Javelin Spin without commit",
+          "Fortify too early (wasted on small damage)",
+          "Terra Surge on eco",
+          "Solo push without team"
+        ],
+        "ideal_use": "Push choke with Javelin Spin, Fortify for sustain, Terra Surge for cap commit"
+      },
+      "D.Va": {
+        "role": "Tank — Dive",
+        "kit": "Boosters, Defense Matrix, Micro Missiles, Self-Destruct (ult)",
+        "common_mistakes": [
+          "Defense Matrix wasted on small projectiles",
+          "Boosters into 5 enemies",
+          "Self-Destruct without team commit",
+          "Solo dives without backup",
+          "Demech without retreat plan"
+        ],
+        "ideal_use": "Dive back-line with Boosters, Defense Matrix saves teammates, Self-Destruct for forced retake"
+      },
+      "Roadhog": {
+        "role": "Tank — Brawl Solo",
+        "kit": "Chain Hook, Take a Breather, Pig Pen, Whole Hog (ult)",
+        "common_mistakes": [
+          "Hook missed on tank",
+          "Take a Breather mid-fight (predictable)",
+          "Pig Pen in random spots",
+          "Whole Hog without commit",
+          "Solo dives without team"
+        ],
+        "ideal_use": "Hook + Pig Pen combo for kills, Take a Breather for sustain, Whole Hog for forced cap"
+      },
+      "Junker Queen": {
+        "role": "Tank — Brawl",
+        "kit": "Jagged Blade, Commanding Shout, Carnage, Rampage (ult)",
+        "common_mistakes": [
+          "Jagged Blade missed",
+          "Shout solo (no team to buff)",
+          "Carnage on shield",
+          "Rampage without team commit",
+          "Solo brawl without team"
+        ],
+        "ideal_use": "Brawl with team, Shout for team HP boost, Rampage on Anti-Nade for kill chain"
+      },
+      "Ramattra": {
+        "role": "Tank — Flex",
+        "kit": "Void Barrier, Ravenous Vortex, Nemesis Form, Annihilation (ult)",
+        "common_mistakes": [
+          "Void Barrier on wrong angle",
+          "Vortex without commit",
+          "Nemesis Form solo",
+          "Annihilation without Nano",
+          "Solo poke without team"
+        ],
+        "ideal_use": "Poke phase with Vortex + Barrier, Nemesis for engage, Annihilation for cap"
+      },
+      "Mauga": {
+        "role": "Tank — Sustain",
+        "kit": "Overrun, Cardiac Overdrive, Berserker, Cage Fight (ult)",
+        "common_mistakes": [
+          "Overrun missed on tank",
+          "Cardiac timing wrong (no enemy damage = wasted)",
+          "Cage Fight on eco",
+          "Solo brawl without team",
+          "No anti-tank swap"
+        ],
+        "ideal_use": "Sustain brawl with Cardiac, Cage Fight for forced cap, Overrun for forced engages"
+      }
+    },
+    "dps": {
+      "Tracer": {
+        "role": "DPS — Flank",
+        "kit": "Blink, Recall, Pulse Pistols, Pulse Bomb (ult)",
+        "common_mistakes": [
+          "Recalling too late (already dead)",
+          "Pulse Bomb on tank only (wasted single-target)",
+          "Solo dives without team",
+          "No flank info to team",
+          "Holding Blinks (use them for survival)"
+        ],
+        "ideal_use": "Harass back-line, Recall for escape, Pulse Bomb on cluster for ult chain"
+      },
+      "Sojourn": {
+        "role": "DPS — Hitscan",
+        "kit": "Power Slide, Disruptor Shot, Railgun, Overclock (ult)",
+        "common_mistakes": [
+          "Railgun missed (wasted charge)",
+          "Slide into 5 enemies",
+          "Disruptor without commit",
+          "Overclock without team",
+          "No off-angle for Railgun"
+        ],
+        "ideal_use": "Slide for engage + Railgun off-angle, Disruptor on cap, Overclock for solo carry"
+      },
+      "Cassidy": {
+        "role": "DPS — Mid-range",
+        "kit": "Combat Roll, Magnetic Grenade, Deadeye (ult)",
+        "common_mistakes": [
+          "Magnetic missed on tank",
+          "Roll without commit",
+          "Deadeye without barrier",
+          "No off-angle hold",
+          "Solo without team"
+        ],
+        "ideal_use": "Mid-range trade, Magnetic on tank engage, Deadeye on overtime cap"
+      },
+      "Soldier: 76": {
+        "role": "DPS — Hitscan",
+        "kit": "Sprint, Helix Rockets, Biotic Field, Tactical Visor (ult)",
+        "common_mistakes": [
+          "Helix missed",
+          "Biotic Field in obvious spots",
+          "Visor without Nano",
+          "Solo dives without team",
+          "No off-angle"
+        ],
+        "ideal_use": "Mid-range hitscan, Helix for chip damage, Visor + Nano for cap"
+      },
+      "Ashe": {
+        "role": "DPS — Hitscan/Long",
+        "kit": "Coach Gun, Dynamite, B.O.B. (ult)",
+        "common_mistakes": [
+          "Dynamite missed",
+          "Coach Gun without commit",
+          "B.O.B. on eco",
+          "Aim Down Sights too long (telegraphs)",
+          "Solo without team"
+        ],
+        "ideal_use": "Long-range trade, Dynamite on cluster, B.O.B. for cap commit"
+      },
+      "Widowmaker": {
+        "role": "DPS — Sniper",
+        "kit": "Grappling Hook, Venom Mine, Widow's Kiss, Infra-Sight (ult)",
+        "common_mistakes": [
+          "Holding same angle past first kill",
+          "Grapple into known angle (gets shot)",
+          "Mine in obvious spots",
+          "Infra-Sight on eco",
+          "Solo without team protection"
+        ],
+        "ideal_use": "Long-range pick, Grapple for reposition, Mine for flank watch, Infra-Sight for team push"
+      },
+      "Pharah": {
+        "role": "DPS — Air",
+        "kit": "Jump Jet, Concussive Blast, Rocket Launcher, Barrage (ult)",
+        "common_mistakes": [
+          "Barrage without cover (gets countered)",
+          "Jump Jet predictable",
+          "Concussive Blast without team trade",
+          "Solo aerial without Mercy",
+          "No swap when anti-Pharah comp"
+        ],
+        "ideal_use": "Air control with Mercy pocket, Concussive Blast for cap deny, Barrage on Sound Barrier trade"
+      },
+      "Genji": {
+        "role": "DPS — Flank",
+        "kit": "Swift Strike, Deflect, Shuriken, Dragonblade (ult)",
+        "common_mistakes": [
+          "Dragonblade without Nano",
+          "Deflect mid-fight (predictable)",
+          "Swift Strike into 5",
+          "Solo dives without team",
+          "No reset on Swift Strike kill"
+        ],
+        "ideal_use": "Flank back-line, Deflect Anti-Nade, Dragonblade + Mercy boost for ult chain"
+      },
+      "Reaper": {
+        "role": "DPS — Brawl",
+        "kit": "Wraith Form, Shadow Step, Hellfire Shotguns, Death Blossom (ult)",
+        "common_mistakes": [
+          "Death Blossom in open (gets shredded)",
+          "Wraith mid-fight (predictable)",
+          "Shadow Step into known angles",
+          "Solo brawl without team",
+          "No team trade on flank"
+        ],
+        "ideal_use": "Flank back-line with Shadow Step, Death Blossom on team cap commit, Wraith for escape"
+      },
+      "Sombra": {
+        "role": "DPS — Hack/Flank",
+        "kit": "Hack, Stealth, Translocator, EMP (ult)",
+        "common_mistakes": [
+          "Hack on tank only (waste)",
+          "EMP without team commit",
+          "Stealth predictable",
+          "Translocator in obvious spots",
+          "Solo flank without team"
+        ],
+        "ideal_use": "Hack Suzu before push, EMP on cap commit, Stealth for back-line flank"
+      },
+      "Mei": {
+        "role": "DPS — Control",
+        "kit": "Cryo-Freeze, Ice Wall, Endothermic Blaster, Blizzard (ult)",
+        "common_mistakes": [
+          "Ice Wall blocks own teammates",
+          "Cryo too early",
+          "Blizzard without Nano",
+          "Wall in random spots",
+          "Solo without team trade"
+        ],
+        "ideal_use": "Wall split for cap, Cryo for survival, Blizzard for forced cap"
+      },
+      "Hanzo": {
+        "role": "DPS — Sniper/Flex",
+        "kit": "Storm Arrow, Sonic Arrow, Lunge, Dragonstrike (ult)",
+        "common_mistakes": [
+          "Dragonstrike on shield",
+          "Sonic Arrow in random spots",
+          "Storm Arrow without commit",
+          "Lunge into known angles",
+          "Solo without team"
+        ],
+        "ideal_use": "Long-range pick + Sonic Arrow, Dragonstrike on cap with team commit"
+      },
+      "Bastion": {
+        "role": "DPS — Bunker",
+        "kit": "A-36 Tactical Grenade, Configuration: Assault, Configuration: Artillery (ult), Self-Repair",
+        "common_mistakes": [
+          "Sentry form in open (gets shredded)",
+          "Artillery on shield",
+          "Solo without team",
+          "No swap when countered",
+          "Repair in fight"
+        ],
+        "ideal_use": "Sentry from cover for tank shred, Grenade for chip, Artillery on cluster"
+      }
+    },
+    "supports": {
+      "Ana": {
+        "role": "Support — Nano/Anti",
+        "kit": "Sleep Dart, Biotic Grenade (anti+heal), Biotic Rifle, Nano Boost (ult)",
+        "common_mistakes": [
+          "Anti-Nade missed on cap",
+          "Sleep Dart missed on commit",
+          "Nano on wrong target (giving Nano to bait)",
+          "Solo positioning without team coverage",
+          "No coordination on Nano + ult chain"
+        ],
+        "ideal_use": "Anti-Nade on cap, Sleep Dart on commit, Nano on tank for Earthshatter / Pulse / Visor"
+      },
+      "Kiriko": {
+        "role": "Support — Utility",
+        "kit": "Swift Step, Protection Suzu (cleanse), Healing Ofuda, Kitsune Rush (ult)",
+        "common_mistakes": [
+          "Suzu missed on Anti-Nade",
+          "Kitsune without team commit",
+          "Swift Step solo (no escape)",
+          "No heal coordination",
+          "Solo flank with Swift Step"
+        ],
+        "ideal_use": "Suzu on Anti-Nade, Kitsune for cap commit, Swift Step for escape"
+      },
+      "Mercy": {
+        "role": "Support — Pocket",
+        "kit": "Guardian Angel, Resurrect, Caduceus Staff (heal+boost), Valkyrie (ult)",
+        "common_mistakes": [
+          "Boost on bait teammate",
+          "Resurrect in open (gets shredded)",
+          "GA into 5 enemies",
+          "Valkyrie solo (no pocket target)",
+          "No coordination on Boost + ult chain"
+        ],
+        "ideal_use": "Boost main DPS for ult chain, Resurrect on key teammate, Valkyrie for re-engage"
+      },
+      "Lúcio": {
+        "role": "Support — Speed",
+        "kit": "Crossfade (heal/speed aura), Amp It Up, Sonic Amplifier (boop), Sound Barrier (ult)",
+        "common_mistakes": [
+          "Amp wrong aura (heal when need speed)",
+          "Sound Barrier on eco",
+          "Boop teammates off cliffs",
+          "Solo without team",
+          "No coordination on speed engage"
+        ],
+        "ideal_use": "Speed-amp engages, Sound Barrier on cap commit, Boop enemies into hazards"
+      },
+      "Baptiste": {
+        "role": "Support — Sustain",
+        "kit": "Regenerative Burst, Immortality Field (lamp), Biotic Launcher, Amplification Matrix (ult)",
+        "common_mistakes": [
+          "Lamp in random spots",
+          "Amp Matrix without team commit",
+          "Burst solo (no team in range)",
+          "Solo positioning",
+          "No coordination on Amp + ult chain"
+        ],
+        "ideal_use": "Lamp on cap, Amp Matrix for ult chain damage, Burst for sustain"
+      },
+      "Brigitte": {
+        "role": "Support — Anti-dive",
+        "kit": "Whip Shot, Repair Pack, Barrier Shield, Rally (ult)",
+        "common_mistakes": [
+          "Whip Shot missed",
+          "Repair Pack on full HP",
+          "Rally without team commit",
+          "Shield broken alone",
+          "Solo without team trade"
+        ],
+        "ideal_use": "Anti-dive with Whip Shot, Repair Pack on tank, Rally for cap commit"
+      },
+      "Zenyatta": {
+        "role": "Support — Damage/Discord",
+        "kit": "Orb of Discord (20% bonus damage), Orb of Harmony (heal), Snap Kick, Transcendence (ult)",
+        "common_mistakes": [
+          "Discord on wrong target",
+          "Trans on eco",
+          "Solo positioning without team",
+          "No coordination on Discord swap",
+          "Snap Kick into 5 enemies"
+        ],
+        "ideal_use": "Discord tank for shred, Harmony on tank, Trans on cap contest"
+      }
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "No role discipline — DPS + Tank both diving",
+      "Hero pick not adjusted (one-trick into counters)",
+      "Ult tracking missing — no idea who has ult",
+      "Cooldowns wasted (e.g., Tracer Blink + Recall both used on entry)",
+      "No team coordination on ult chains",
+      "Hero swaps not made (no counter-pick)",
+      "Solo flanking without team commit",
+      "No callouts in voice",
+      "Holding shields without ult chain",
+      "Buying time alone (no team trade)"
+    ],
+    "silver": [
+      "Ult tracking inconsistent",
+      "Counter-pick swaps slow (1+ round delay)",
+      "Cooldown rotation wrong (Tank ult before DPS)",
+      "No coordination on Sound Barrier + ult chains",
+      "Brawl vs dive comp mismatch (no swap)",
+      "No retake utility on attack final cap",
+      "Aggressive Widow holds without escape plan",
+      "Mid-fight comm overload",
+      "Buy decision (no swap to counter Bastion)",
+      "Solo dives without team commit"
+    ],
+    "gold": [
+      "Ult economy: 5 ults charged, but no coordination on use",
+      "Counter-pick depth — knowing 2-3 counters per hero",
+      "Tank synergy with Support (Nano + Earthshatter, etc.)",
+      "Late rotates without smoke / cover",
+      "Bait teammate on retake",
+      "Random utility usage (Anti-Nade in empty cap)",
+      "No off-angle hero picks",
+      "Lurker timing on flank wrong",
+      "Comms on save round not helping team",
+      "Crosshair placement on common angles only"
+    ],
+    "platinum": [
+      "Off-angle picks predictable",
+      "Util execution timing wrong",
+      "No mid-round adjustment",
+      "Eco round commits — wrong hero swap",
+      "Tank ult chain timing off",
+      "Plant position too aggressive",
+      "Late round info gathering",
+      "Buy / swap decision based on rounds, not ult diff",
+      "Trade kills missed by 1 second",
+      "Util coordination across team overlapping"
+    ],
+    "diamond": [
+      "Ult chain timing — 1 ult wasted per round",
+      "Comm overload — too many calls",
+      "Off-angle pre-aim not adjusted per round",
+      "Hero swap timing — too early or too late",
+      "Lurker map info not relayed",
+      "Buy / swap decision: 1 ult shy",
+      "Late round 1v1 management",
+      "Tank ult vs DPS ult priority confusion",
+      "Sensitivity drift across long sessions",
+      "Solo carries on eco rounds"
+    ],
+    "master_gm": [
+      "Pro-tier reads on enemy comp, but predictable on own",
+      "Ult tracking gaps — 1 ult un-tracked per round",
+      "Counter-pick on every round (predictable swaps)",
+      "Cooldown management across all 5 players",
+      "Mid-round adjustment timing",
+      "Comm discipline — too many calls or too few",
+      "Tank ult priority in chain",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Comp comp comp — staying static comp vs counter swap"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player in a trade position with teammate (within 5m)?",
+      "Is the tank pushing or holding choke based on team comp?",
+      "Are the supports peeling for the tank or sustaining DPS?",
+      "Is the DPS off-angle or playing the standard angle?",
+      "Is the player in line of sight of the heal target / tank?",
+      "Is the player exposed to multiple sightlines?",
+      "Did the player hold the ult chain position or commit early?"
+    ],
+    "crosshair": [
+      "Is the crosshair pre-aimed at head level on the angle?",
+      "Is the player tracking on hitscan or projectile leading?",
+      "Is the crosshair on the tank (priority target) or DPS?",
+      "Is the player aiming through smoke without info (wasted bullets)?",
+      "Is the player landing the Sleep Dart / Magnetic / Hook?",
+      "Is the player landing headshots at distance (sniper / hitscan)?"
+    ],
+    "utility": [
+      "Did the tank use abilities to engage or escape?",
+      "Did the DPS use cooldowns proactively or reactively?",
+      "Did the supports use Anti-Nade / Suzu / Lamp at the right time?",
+      "Was ult tracked across team (enemy ults known)?",
+      "Was the ult used at the right moment (chain or solo)?",
+      "Did the player save signature ability for the engage or burn it early?"
+    ],
+    "decisions": [
+      "Did the player swap to a counter when called?",
+      "Did the player commit to the cap or hesitate?",
+      "Did the player rotate when called or stay on dead site?",
+      "Did the player trade teammate's death within 3s?",
+      "Did the player engage 1v3+ without team backup?",
+      "Did the player track ult diff before engaging?",
+      "Did the player commit to the ult chain or save for next fight?"
+    ]
+  },
+  "vocabulary": [
+    "Ult / Ultimate: Hero's signature ability, charged from damage/healing.",
+    "Ult charge / Ult tracking: Track enemy ult percentages each round.",
+    "Ult chain: Sequential ult use for compounding damage (Nano + Earthshatter, etc.).",
+    "Nano: Ana's Nano Boost — 50% damage reduction + 50% damage boost.",
+    "Anti-Nade: Ana's Biotic Grenade — prevents healing on enemy hit.",
+    "Sleep Dart: Ana ability — sleeps enemy for ~5s.",
+    "Suzu: Kiriko's Protection Suzu — cleanses team + brief invuln.",
+    "Lamp: Baptiste's Immortality Field — prevents teammates from dying for 3.5s.",
+    "Sound Barrier: Lúcio ult — full team gets 750 temp shield.",
+    "Resurrect: Mercy's resurrect — revive dead teammate.",
+    "Earthshatter: Rein's ult — knocks down enemies in front.",
+    "Primal Rage: Winston's ult — large form, melee only.",
+    "Pulse Bomb: Tracer ult — sticky bomb 1-shot kill in radius.",
+    "Visor: Soldier 76 ult — auto-aim for 6 seconds.",
+    "Deadeye: Cassidy ult — lock-on, kills based on charge.",
+    "Dragonblade: Genji ult — sword for 6s, 120 damage per swing.",
+    "Death Blossom: Reaper ult — 360 spin attack.",
+    "EMP: Sombra ult — large radius hack + 50% HP damage.",
+    "Self-Destruct: D.Va ult — mech explodes, area damage.",
+    "Whole Hog: Roadhog ult — knockback shotgun spam.",
+    "Rampage: Junker Queen ult — speed + applies bleed.",
+    "Annihilation: Ramattra ult — Nemesis form spawns spirit damage.",
+    "Cage Fight: Mauga ult — circle barrier traps enemies inside.",
+    "Discord: Zenyatta's orb of discord — 20% bonus damage on target.",
+    "Harmony: Zenyatta's heal orb on teammate.",
+    "Transcendence: Zenyatta ult — heal aura, channels for 6s.",
+    "Rally: Brigitte ult — gives temp shield + speed to team.",
+    "Valkyrie: Mercy ult — flight + multi-target heal.",
+    "Beat / Beat drop: Lúcio Sound Barrier use.",
+    "Bubble: Winston's barrier projector / Zarya particle barriers.",
+    "Hack: Sombra ability — disables abilities for ~5s.",
+    "Stealth: Sombra invisibility.",
+    "Translocator: Sombra escape tool.",
+    "Boop: Pushback damage (Lúcio, Pharah, Brig Whip Shot).",
+    "Knock: Knockback effect, often into hazards/cliffs.",
+    "Peel: Defending teammate from dive (Brig, Mei).",
+    "Pocket: Healing/boosting a single DPS (Mercy + Pharah classic).",
+    "Comp: Composition — 1 tank + 2 DPS + 2 support hero selection.",
+    "Dive comp: Mobile heroes (Winston, Genji, Tracer) for back-line engages.",
+    "Brawl comp: Slow heroes (Rein, Reaper, Brig, Bap) for sustained fights.",
+    "Poke comp: Long-range heroes (Hanzo, Soldier, Ana, Sigma) for chip damage.",
+    "Bunker comp: Stationary heroes (Bastion, Sigma, Ana, Lamp) for site holds.",
+    "Anti-dive: Brigitte + Cassidy + Mei to counter dive comps.",
+    "Anti-Pharah: Cassidy / Soldier / Ashe to counter sky play.",
+    "Pirate ship: Bastion on payload for shred (anti-meta).",
+    "Counter-pick: Swapping heroes to counter enemy comp.",
+    "Hard counter: Hero specifically built to shut down another (Sombra vs Mercy).",
+    "Soft counter: Hero with disadvantage but not insurmountable.",
+    "One-trick: Player who only plays one hero (penalized in counter-meta).",
+    "Skill ceiling: How hard a hero is to master.",
+    "Tempo: Speed of team commitment vs setup.",
+    "Cap / Capture: Capping the objective point.",
+    "Payload: Vehicle that moves when attackers near it.",
+    "Push: Push mode robot TS-1 that pushes ahead based on team control.",
+    "Flashpoint: Game mode with 5 rotating points; first team to 3 caps wins.",
+    "Clash: Game mode with 5 sequential points; first team to 5 wins.",
+    "Control: Game mode with rotating point caps; first to 2 captures.",
+    "Hybrid: Cap + payload combo.",
+    "Escort: Pure payload escort mode.",
+    "Cooldown / CD: Time before an ability can be used again."
+  ]
+}
