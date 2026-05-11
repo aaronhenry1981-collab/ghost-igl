@@ -1,0 +1,767 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Apex Legends",
+    "short_name": "Apex",
+    "tagline": "3-stack BR — 20 squads, drop pick, looting, rotating zones, endgame circle.",
+    "sides": {
+      "attack": "Pushing / contesting other squads, taking POIs",
+      "defense": "Holding loot / endgame zone, third-party setups"
+    },
+    "character_vocab": "legends",
+    "round_economy": "Loot-based — tier-1/2/3 weapons, attachments, helmets, body armor. No buy phases.",
+    "round_format": "BR — 20 squads, 1 winner. Ring closes over ~25 minutes. Top-3 = ranked LP.",
+    "key_mechanics": [
+      "Legend abilities: passive (always on), tactical (cooldown), ultimate (charges over time + healing accelerates)",
+      "Armor system: white (50) → blue (75) → purple (100) → red (Evo full charge)",
+      "Healing: syringes (25 HP, 5s), med kits (full HP, 8s), shield cells (25 shield, 3s), shield batteries (full shield, 5s)",
+      "Movement: slide-jump for speed, wall-bounce for vertical, super-glide for advanced repositioning",
+      "Recoil: each weapon has unique pattern, gold attachments reduce recoil, sniper requires lead",
+      "Squad comp: 3-stack ideal — 1 entry, 1 anchor, 1 support",
+      "Ring damage: ring 1-2 = 2 HP/tick, ring 3+ scales up to 25 HP/tick — staying out = death",
+      "Knockdown system: down → revive (5s) → respawn (60s at beacon)"
+    ]
+  },
+  "maps": {
+    "storm-point": {
+      "name": "Storm Point",
+      "type": "BR",
+      "sites": [
+        {
+          "id": "storm-catcher",
+          "name": "Storm Catcher",
+          "callouts": ["Center Tower", "Outer Buildings", "Loot Bins", "Trident Spawn", "Gravity Cannon", "Coast"],
+          "drop_priority": "Hot drop — top tier-3 loot in Center Tower",
+          "rotation_routes": "Gravity Cannon to next ring, Trident to coast for safe rotation"
+        },
+        {
+          "id": "antenna",
+          "name": "Antenna",
+          "callouts": ["Tower", "Loot Houses", "Gravity Cannon", "Trident Path"],
+          "drop_priority": "Tier-2 loot, less contested than Storm Catcher",
+          "rotation_routes": "Gravity Cannon for fast rotation; Tower top for vertical"
+        },
+        {
+          "id": "lightning-rod",
+          "name": "Lightning Rod",
+          "callouts": ["Rod Top", "Loot Bins", "Cliffside", "Side Approach"],
+          "drop_priority": "Tier-2, vertical play viable",
+          "rotation_routes": "Cliffside for safe rotation, Rod Top for high-ground"
+        },
+        {
+          "id": "barometer",
+          "name": "Barometer",
+          "callouts": ["Center", "Outer Buildings", "Rooftop", "Side Door"],
+          "drop_priority": "Tier-2, suburban POI",
+          "rotation_routes": "Standard ground rotation"
+        },
+        {
+          "id": "fish-farms",
+          "name": "Fish Farms",
+          "callouts": ["Fish Farms", "Water Edge", "Inland", "Side Path"],
+          "drop_priority": "Tier-1/2 — beach drop",
+          "rotation_routes": "Water rotation viable, Inland for ring closer"
+        },
+        {
+          "id": "thunder-watch",
+          "name": "Thunder Watch",
+          "callouts": ["Tower", "Outpost", "Cliffside", "Side Path"],
+          "drop_priority": "Tier-2, vertical POI",
+          "rotation_routes": "Cliffside rotate, Outpost for endgame"
+        },
+        {
+          "id": "cascade-falls",
+          "name": "Cascade Falls",
+          "callouts": ["Waterfall", "Cave", "Cliff", "Side Trail"],
+          "drop_priority": "Tier-2, waterfall play",
+          "rotation_routes": "Cave for safe rotate, Waterfall for vertical"
+        },
+        {
+          "id": "launch-pad",
+          "name": "Launch Pad",
+          "callouts": ["Pad", "Tower", "Side Buildings", "Loot Pile"],
+          "drop_priority": "Tier-3 — high-tier loot worth contesting",
+          "rotation_routes": "Pad launch for fast rotation"
+        },
+        {
+          "id": "highpoint",
+          "name": "Highpoint",
+          "callouts": ["Peak", "Cliffside", "Side Trail", "Cave"],
+          "drop_priority": "Tier-2, vertical POI",
+          "rotation_routes": "Peak top for vertical, Cave for safe rotate"
+        },
+        {
+          "id": "mill",
+          "name": "The Mill",
+          "callouts": ["Mill Center", "Side Buildings", "Loot Pile", "Open"],
+          "drop_priority": "Tier-2, central POI",
+          "rotation_routes": "Standard ground rotation"
+        }
+      ]
+    },
+    "worlds-edge": {
+      "name": "World's Edge",
+      "type": "BR",
+      "sites": [
+        {
+          "id": "skyhook",
+          "name": "Skyhook",
+          "callouts": ["Skyhook Building", "Streets", "Side Buildings", "Open"],
+          "drop_priority": "Tier-3 hot drop, contested",
+          "rotation_routes": "Train rotation, Trident rotation"
+        },
+        {
+          "id": "fragment-east",
+          "name": "Fragment East",
+          "callouts": ["East Tower", "Side Streets", "Open Plaza", "Cubby"],
+          "drop_priority": "Tier-2/3 hot drop, very contested",
+          "rotation_routes": "Streets for ground, Tower for vertical"
+        },
+        {
+          "id": "fragment-west",
+          "name": "Fragment West",
+          "callouts": ["West Tower", "Side Streets", "Open Plaza", "Cubby"],
+          "drop_priority": "Tier-2/3 hot drop, very contested",
+          "rotation_routes": "Streets for ground, Tower for vertical"
+        },
+        {
+          "id": "lava-city",
+          "name": "Lava City",
+          "callouts": ["Lava Center", "Side Buildings", "Tower", "Open"],
+          "drop_priority": "Tier-2, hot drop",
+          "rotation_routes": "Standard ground"
+        },
+        {
+          "id": "trials",
+          "name": "The Trials",
+          "callouts": ["Trials Center", "Side Buildings", "Loot Pile", "Open"],
+          "drop_priority": "Tier-2, hot drop",
+          "rotation_routes": "Standard ground"
+        }
+      ]
+    },
+    "olympus": {
+      "name": "Olympus",
+      "type": "BR",
+      "sites": [
+        {
+          "id": "hammond-labs",
+          "name": "Hammond Labs",
+          "callouts": ["Labs Center", "Side Buildings", "Rooftop", "Side Door"],
+          "drop_priority": "Tier-3 hot drop",
+          "rotation_routes": "Phase Driver rotation"
+        },
+        {
+          "id": "energy-depot",
+          "name": "Energy Depot",
+          "callouts": ["Depot Center", "Tower", "Side Buildings", "Open"],
+          "drop_priority": "Tier-2/3",
+          "rotation_routes": "Standard rotation"
+        },
+        {
+          "id": "solar-array",
+          "name": "Solar Array",
+          "callouts": ["Array Center", "Side Panels", "Tower", "Open"],
+          "drop_priority": "Tier-2",
+          "rotation_routes": "Standard rotation"
+        }
+      ]
+    },
+    "kings-canyon": {
+      "name": "Kings Canyon",
+      "type": "BR",
+      "sites": [
+        {
+          "id": "skull-town",
+          "name": "Skull Town",
+          "callouts": ["Skull Eye", "Pier", "Spider Cave", "Wall Jump", "Diving Board", "Skull Roof"],
+          "drop_priority": "Tier-3 — iconic hot drop, very contested",
+          "rotation_routes": "Pier rotation, Coast rotation"
+        },
+        {
+          "id": "capacitor",
+          "name": "Capacitor",
+          "callouts": ["Capacitor Top", "Walls", "Side Catwalks", "Loot Crates"],
+          "drop_priority": "Tier-2 — mid-game POI with moving walls",
+          "rotation_routes": "Walls rotate, Vertical commit"
+        },
+        {
+          "id": "artillery",
+          "name": "Artillery",
+          "callouts": ["Bunker", "Top of Wall", "Outside Loot", "Ridge"],
+          "drop_priority": "Tier-3 hot drop — supply bin loot is iconic",
+          "rotation_routes": "Bunker hold, Ridge rotate"
+        }
+      ]
+    }
+  },
+  "legends": {
+    "skirmishers": {
+      "Octane": {
+        "role": "Skirmisher — Mobility",
+        "kit": {
+          "passive": "Swift Mend — passive HP regen",
+          "tactical": "Stim — 30% speed for 6s, loses HP",
+          "ult": "Launch Pad — placeable jump pad"
+        },
+        "common_mistakes": [
+          "Stim mid-fight (loses HP, dies)",
+          "Jump Pad in obvious spots (gets shot mid-air)",
+          "Solo Stims without team commit",
+          "No Pad placement for rotation",
+          "Stim before fight without HP"
+        ],
+        "ideal_use": "Stim for fast rotates, Jump Pad for vertical engages + team rotation"
+      },
+      "Wraith": {
+        "role": "Skirmisher — Recon",
+        "kit": {
+          "passive": "Voices from the Void — warning on being aimed at",
+          "tactical": "Into the Void — phase shift, invuln for 4s",
+          "ult": "Dimensional Rift — team portal for 60s"
+        },
+        "common_mistakes": [
+          "Void mid-fight (no escape, dies after)",
+          "Rift without team commit",
+          "Solo flank with Void",
+          "Voices ignored (no rotate)",
+          "Rift in obvious spots"
+        ],
+        "ideal_use": "Void for save + rotate, Rift for team flank, Voices for ambush warning"
+      },
+      "Pathfinder": {
+        "role": "Skirmisher — Vertical",
+        "kit": {
+          "passive": "Insider Knowledge — scan beacon for ring info",
+          "tactical": "Grappling Hook — grapple to surface, 15s CD",
+          "ult": "Zipline Gun — team zipline 120m"
+        },
+        "common_mistakes": [
+          "Grapple into obvious spots",
+          "Solo grapple without team",
+          "Zipline in random spots",
+          "No beacon scan (lost ring info)",
+          "Grapple mid-fight (predictable)"
+        ],
+        "ideal_use": "Grapple for vertical, Zipline for team commit, Beacon scan for ring info"
+      },
+      "Horizon": {
+        "role": "Skirmisher — Aerial",
+        "kit": {
+          "passive": "Spacewalk — slow fall, drift while in air",
+          "tactical": "Gravity Lift — vertical lift for team",
+          "ult": "Black Hole — area gravity, pulls enemies in"
+        },
+        "common_mistakes": [
+          "Black Hole on cover (enemy escapes)",
+          "Solo Lift without team",
+          "Lift in obvious spots",
+          "No coordination on Black Hole + Frag",
+          "Solo aerial without team"
+        ],
+        "ideal_use": "Lift for vertical engages, Black Hole + Grenade chain for team cap"
+      },
+      "Valkyrie": {
+        "role": "Skirmisher — Flight",
+        "kit": {
+          "passive": "VTOL Jets — limited flight (~5s)",
+          "tactical": "Missile Swarm — area damage missiles",
+          "ult": "Skyward Dive — team flight for 30s"
+        },
+        "common_mistakes": [
+          "Solo flight without team",
+          "Skyward Dive in middle of fight (mid-air vulnerable)",
+          "Missile Swarm without commit",
+          "Jets for repositioning when low HP",
+          "No coordination on team flight"
+        ],
+        "ideal_use": "Jets for vertical engages, Missile Swarm for cap deny, Skyward Dive for team rotation"
+      },
+      "Ash": {
+        "role": "Skirmisher — Aggressive",
+        "kit": {
+          "passive": "Marked for Death — scan dead enemies for kills",
+          "tactical": "Arc Snare — placeable trap that snares enemies",
+          "ult": "Phase Breach — team teleport 50m + drag enemy"
+        },
+        "common_mistakes": [
+          "Arc Snare in obvious spots",
+          "Phase Breach without team commit",
+          "Solo Phase Breach into 5 enemies",
+          "No coordination on Snare + commit",
+          "Marked for Death ignored"
+        ],
+        "ideal_use": "Snare for area denial, Phase Breach for team flank commit, Marked for Death for intel"
+      },
+      "Alter": {
+        "role": "Skirmisher — Mobility",
+        "kit": {
+          "passive": "Phase Walker — quick mobility through walls",
+          "tactical": "From Below — vertical escape route",
+          "ult": "Echo Phantom — clone for misdirection"
+        },
+        "common_mistakes": [
+          "Phase Walker into 5 enemies",
+          "Echo Phantom in obvious spots",
+          "Solo phase without team",
+          "Vertical escape predictable",
+          "No coordination on team rotation"
+        ],
+        "ideal_use": "Phase for fast rotates, Echo for misdirection, Vertical escape for save"
+      }
+    },
+    "recon": {
+      "Bloodhound": {
+        "role": "Recon — Tracker",
+        "kit": {
+          "passive": "Tracker — sees recent enemy footprints",
+          "tactical": "Eye of the Allfather — scan area for enemies",
+          "ult": "Beast of the Hunt — speed + see enemy heat signatures"
+        },
+        "common_mistakes": [
+          "Scan in random spots (no commit)",
+          "Solo scans without team coverage",
+          "Beast on eco (wasted)",
+          "Footprint info ignored",
+          "Scan during fight (no info while shooting)"
+        ],
+        "ideal_use": "Scan before push, Beast for team commit, Footprint for chase / flee"
+      },
+      "Crypto": {
+        "role": "Recon — Drone",
+        "kit": {
+          "passive": "Neurolink — drone shares enemy positions",
+          "tactical": "Surveillance Drone — scout drone",
+          "ult": "Drone EMP — disable shields + slow enemies"
+        },
+        "common_mistakes": [
+          "Drone in obvious spots (gets shot)",
+          "Solo drone without team",
+          "EMP without commit",
+          "Drone exposed (no cover)",
+          "No coordination on EMP + push"
+        ],
+        "ideal_use": "Drone for site intel, EMP for cap commit (shields broken), Neurolink for shared intel"
+      },
+      "Seer": {
+        "role": "Recon — Intel",
+        "kit": {
+          "passive": "Heart Seeker — detect enemy heartbeats",
+          "tactical": "Focus of Attention — single-target reveal + interrupt",
+          "ult": "Exhibit — large area reveal + scan"
+        },
+        "common_mistakes": [
+          "Focus on wrong target",
+          "Exhibit on eco",
+          "Solo Focus without team",
+          "Heart Seeker ignored",
+          "No coordination on Focus + commit"
+        ],
+        "ideal_use": "Focus on enemy commit, Exhibit for team reveal, Heart Seeker for stealth"
+      },
+      "Vantage": {
+        "role": "Recon — Sniper",
+        "kit": {
+          "passive": "Spotter's Lens — binocular scan",
+          "tactical": "Echo Relocation — recall Echo, teleport to her",
+          "ult": "Sniper's Mark — auto-locked sniper rifle, marks targets"
+        },
+        "common_mistakes": [
+          "Echo in obvious spots",
+          "Sniper's Mark without commit",
+          "Solo without team",
+          "No high-ground play",
+          "Sniper's Mark wasted on cover"
+        ],
+        "ideal_use": "High-ground sniper, Echo for vertical mobility, Sniper's Mark for cluster damage + reveal"
+      }
+    },
+    "support": {
+      "Lifeline": {
+        "role": "Support — Healer",
+        "kit": {
+          "passive": "Combat Revive — drone revives teammate",
+          "tactical": "D.O.C. Heal Drone — area healing",
+          "ult": "Care Package — drops loot crate"
+        },
+        "common_mistakes": [
+          "Drone in obvious spots (gets shot)",
+          "Care Package in random spot (no rotation)",
+          "Combat Revive in open (enemy interrupts)",
+          "Solo without team",
+          "No coordination on Drone + commit"
+        ],
+        "ideal_use": "Drone for fight sustain, Care Package for loot upgrade, Combat Revive for save"
+      },
+      "Gibraltar": {
+        "role": "Support — Tank",
+        "kit": {
+          "passive": "Gun Shield — passive shield while ADS",
+          "tactical": "Dome of Protection — bullet shield 18s",
+          "ult": "Defensive Bombardment — area damage"
+        },
+        "common_mistakes": [
+          "Dome in wrong spot (no protection)",
+          "Bombardment on cover",
+          "Solo without team",
+          "Gun Shield ignored",
+          "No coordination on Dome + push"
+        ],
+        "ideal_use": "Dome for revive cycle, Bombardment for team cap commit, Gun Shield for mid-range trades"
+      },
+      "Loba": {
+        "role": "Support — Looter",
+        "kit": {
+          "passive": "Eye for Quality — see nearby loot",
+          "tactical": "Burglar's Best Friend — teleport throw",
+          "ult": "Black Market — place loot market"
+        },
+        "common_mistakes": [
+          "Teleport in obvious spots",
+          "Black Market in open (gets shot)",
+          "Solo flank with Teleport",
+          "No coordination on Market for team",
+          "Eye for Quality ignored"
+        ],
+        "ideal_use": "Teleport for repositioning, Market for team heal cycle, Loot intel for rotation"
+      },
+      "Newcastle": {
+        "role": "Support — Defender",
+        "kit": {
+          "passive": "Retrieve the Wounded — drag downed teammate while reviving",
+          "tactical": "Mobile Shield — portable shield",
+          "ult": "Castle Wall — large barricade wall"
+        },
+        "common_mistakes": [
+          "Mobile Shield in wrong spot",
+          "Castle Wall on eco",
+          "Solo revive without cover",
+          "Wall blocks own team",
+          "No coordination on Wall + retake"
+        ],
+        "ideal_use": "Mobile Shield for revive cycle, Castle Wall for team cap commit, Retrieve for save"
+      },
+      "Conduit": {
+        "role": "Support — Sustain",
+        "kit": {
+          "passive": "HP Regen — passive shield regen",
+          "tactical": "Radiant Transfer — shield boost teammate",
+          "ult": "Energy Barricade — slow + damage zone"
+        },
+        "common_mistakes": [
+          "Radiant Transfer on full HP",
+          "Energy Barricade in random spots",
+          "Solo without team",
+          "Passive ignored",
+          "No coordination on team sustain"
+        ],
+        "ideal_use": "Radiant Transfer for sustain, Energy Barricade for area denial, Passive for resilience"
+      }
+    },
+    "controller": {
+      "Wattson": {
+        "role": "Controller — Denier",
+        "kit": {
+          "passive": "Spark of Genius — Ult Accelerants charge ult fully",
+          "tactical": "Perimeter Security — placeable electric fence",
+          "ult": "Interception Pylon — destroys grenades + restores shields"
+        },
+        "common_mistakes": [
+          "Fences in obvious spots",
+          "Pylon in random location",
+          "Solo without team",
+          "No fence chain on entries",
+          "Wasted Ult Accelerant"
+        ],
+        "ideal_use": "Fence entries for site hold, Pylon for shield regen, Spark for ult chain"
+      },
+      "Caustic": {
+        "role": "Controller — Gas",
+        "kit": {
+          "passive": "Nox Vision — see enemies through own gas",
+          "tactical": "Nox Gas Trap — placeable gas trap",
+          "ult": "Nox Gas Grenade — throwable gas grenade"
+        },
+        "common_mistakes": [
+          "Traps in obvious spots",
+          "Grenade on cover (no enemy)",
+          "Solo without team",
+          "No trap chain on entries",
+          "Trap exposed (shot before use)"
+        ],
+        "ideal_use": "Trap entries for site hold, Grenade for area denial, Nox Vision for through-smoke kills"
+      },
+      "Catalyst": {
+        "role": "Controller — Wall",
+        "kit": {
+          "passive": "Barricade — reinforces doors",
+          "tactical": "Piercing Spikes — placeable spike trap",
+          "ult": "Dark Veil — large smoke wall"
+        },
+        "common_mistakes": [
+          "Spike traps in obvious spots",
+          "Veil in wrong area (no protection)",
+          "Solo without team",
+          "No coordination on Veil + commit",
+          "Barricade ignored"
+        ],
+        "ideal_use": "Spikes for entry slow, Veil for team cap commit, Barricade for door hold"
+      },
+      "Rampart": {
+        "role": "Controller — Walls",
+        "kit": {
+          "passive": "Modded Loader — bigger LMG mags",
+          "tactical": "Amped Cover — deployable wall",
+          "ult": "Mobile Minigun 'Sheila' — placeable minigun"
+        },
+        "common_mistakes": [
+          "Walls in obvious spots",
+          "Sheila in wrong area (no sightline)",
+          "Solo without team",
+          "Wasted walls on cover",
+          "No coordination on Sheila + push"
+        ],
+        "ideal_use": "Walls for entry cover, Sheila for sustained shred, Mods for mag advantage"
+      }
+    },
+    "assault": {
+      "Bangalore": {
+        "role": "Assault — Smoke",
+        "kit": {
+          "passive": "Double Time — speed boost when shot at",
+          "tactical": "Smoke Launcher — area smoke",
+          "ult": "Rolling Thunder — area artillery damage"
+        },
+        "common_mistakes": [
+          "Smoke on own team",
+          "Rolling Thunder on cover",
+          "Solo without team",
+          "No coordination on smoke + commit",
+          "Speed boost ignored"
+        ],
+        "ideal_use": "Smoke for cover, Rolling Thunder for cap commit, Double Time for escape"
+      },
+      "Fuse": {
+        "role": "Assault — Explosives",
+        "kit": {
+          "passive": "Grenadier — extra grenade per stack",
+          "tactical": "Knuckle Cluster — cluster bomb",
+          "ult": "The Motherlode — fire ring trap"
+        },
+        "common_mistakes": [
+          "Knuckle Cluster on cover",
+          "Motherlode in open (enemy escapes)",
+          "Solo without team",
+          "No coordination on Cluster + push",
+          "Grenade overstack ignored"
+        ],
+        "ideal_use": "Knuckle Cluster for cap denial, Motherlode for area lock, Grenade overstack for damage"
+      },
+      "Revenant": {
+        "role": "Assault — Shadow",
+        "kit": {
+          "passive": "Stalker — climb taller walls + sneak",
+          "tactical": "Silence — disable enemy abilities",
+          "ult": "Forged Shadows — temp shadow form"
+        },
+        "common_mistakes": [
+          "Silence on wrong target",
+          "Forged Shadows without commit",
+          "Solo without team",
+          "No coordination on Silence + commit",
+          "Climb ignored"
+        ],
+        "ideal_use": "Silence for cap commit, Forged Shadows for tank engage, Climb for high-ground"
+      },
+      "Mad Maggie": {
+        "role": "Assault — Aggressive",
+        "kit": {
+          "passive": "Warlord's Ire — see low HP enemies through walls",
+          "tactical": "Riot Drill — wall-pierce damage tool",
+          "ult": "Wrecking Ball — sphere that pushes through obstacles"
+        },
+        "common_mistakes": [
+          "Riot Drill on wrong wall",
+          "Wrecking Ball in open (no impact)",
+          "Solo without team",
+          "No coordination on Drill + push",
+          "Warlord's Ire ignored"
+        ],
+        "ideal_use": "Riot Drill for cap deny, Wrecking Ball for cluster flush, Warlord's Ire for chase intel"
+      },
+      "Ballistic": {
+        "role": "Assault — Loadout",
+        "kit": {
+          "passive": "Sling — carry a third weapon",
+          "tactical": "Whistler — auto-firing smart projectile",
+          "ult": "Tempest — gold-tier gear for team"
+        },
+        "common_mistakes": [
+          "Sling wrong weapon",
+          "Whistler in random spots",
+          "Tempest on eco",
+          "Solo without team",
+          "No coordination on Tempest + push"
+        ],
+        "ideal_use": "Sling for loadout depth, Whistler for chip damage, Tempest for team gold upgrade"
+      }
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "Hot dropping every game (low survival rate)",
+      "No legend role specialization",
+      "Ignoring loot for kills",
+      "No team coordination on rotates",
+      "Solo Pads / Grapples without team",
+      "Holding loot instead of healing",
+      "No ring damage awareness — dying on edge",
+      "No comms — full game in silence",
+      "Looting in open after fight",
+      "Solo dives without team support"
+    ],
+    "silver": [
+      "Predictable POI choices (always hot drop)",
+      "Ult tracking missing (no idea who has ult)",
+      "Solo fight engagements without team trade",
+      "No legend swap to counter enemy comp",
+      "Holding angles past first kill",
+      "Loot prioritization (attachments before kit)",
+      "Rotation timing — too late = dying on ring",
+      "No revive coverage on team",
+      "Crosshair placement on map geometry",
+      "Buying rifle / sniper for wrong range"
+    ],
+    "gold": [
+      "Third-party timing missed (waiting too long)",
+      "Half-team rotates (split engagement)",
+      "Solo engages without team backup",
+      "Ult save vs use decision wrong",
+      "Late rotates without smoke",
+      "No mid-game heal cycle plan",
+      "Holding loot when need rotation",
+      "Solo flank without team trade",
+      "No coordination on smoke + push",
+      "Buy / loot decision: 1 attachment shy"
+    ],
+    "platinum": [
+      "Pre-fight legend ability usage (predictable)",
+      "Ult tracking inconsistent on enemy",
+      "Off-angle picks predictable",
+      "Late round info gathering",
+      "Buy / loot decision based on round count",
+      "Trade kills missed by 1 second",
+      "Util coordination across team overlapping",
+      "Late ring rotates",
+      "Solo lurks at endgame",
+      "No anti-third-party setup"
+    ],
+    "diamond": [
+      "Pro-tier reads on enemy comp — but predictable on own",
+      "Ult discipline gaps — 1 wasted ult per round",
+      "Mid-round comm overload",
+      "Off-angle pre-aim not adjusted",
+      "Legend swap timing — too early or too late",
+      "Late round 1v1 management",
+      "Sensitivity drift",
+      "Solo carries on eco rounds",
+      "Tank ult vs DPS ult priority confusion",
+      "Mental fatigue affecting decisions"
+    ],
+    "master_pred": [
+      "Pro-tier comp reads on every round (predictable)",
+      "Ult tracking gaps — 1 ult untracked per round",
+      "Counter-pick on every round (predictable swaps)",
+      "Cooldown management across all 3 players",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Tank ult priority in chain",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Comp staying static vs counter swap"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player in a trade position with squad (within 10m)?",
+      "Is the player exposed to multiple sightlines simultaneously?",
+      "Is the team holding high ground or low ground?",
+      "Is the team on the correct side of the ring (closer to next zone)?",
+      "Is the player using cover (rock, tree, building) or in open?",
+      "Did the player commit to a rotation or stay in a contested zone?"
+    ],
+    "crosshair": [
+      "Is the crosshair pre-aimed at head level on the angle?",
+      "Is the player tracking on hitscan or projectile leading on sniper?",
+      "Is the player using the right weapon class for the engagement range?",
+      "Is the recoil pattern being pulled correctly?",
+      "Is the player using ADS for mid-range or hipfire for close?",
+      "Is the player landing 1-tap headshots or sustained damage?"
+    ],
+    "utility": [
+      "Did the player use legend tactical proactively or reactively?",
+      "Did the player save ult for the team commit?",
+      "Was the legend role utility shared (Lifeline drone, Gibraltar dome)?",
+      "Did the player track enemy legend cooldowns?",
+      "Did the player use ult at the right round (endgame vs mid-game)?",
+      "Was the team coordinated on ult use?"
+    ],
+    "decisions": [
+      "Did the player drop the right POI (hot vs safe)?",
+      "Did the team commit to the fight or rotate?",
+      "Did the player engage 1v2+ without team backup?",
+      "Did the player save weapon on knock (correct vs full save)?",
+      "Did the player commit to the team push or split engagement?",
+      "Did the player track ring damage and rotate in time?",
+      "Did the player choose to third-party or hold position?"
+    ]
+  },
+  "vocabulary": [
+    "Hot drop: POI where 3+ squads land at start.",
+    "Edge drop: POI on map edge with fewer contesters.",
+    "Tier-1/2/3 loot: Loot quality tiers — tier-3 is best (purple/gold attachments).",
+    "Evo: Evo Shield system — armor that levels up with damage dealt.",
+    "Red armor: Fully evolved armor (max tier).",
+    "Knock: Knocked down, can be revived; 200 HP shield until full bleed-out.",
+    "Bleed-out: Final HP timer after knock, ~60s.",
+    "Respawn: 60s at respawn beacon after death (banner pickup needed).",
+    "Beacon: Survey beacon scanning for ring info, or respawn beacon for revival.",
+    "Banner: Dead teammate's player banner, picked up to respawn.",
+    "Third-party: Squad pushing into existing fight, often dominant.",
+    "Anti-third-party: Pre-positioning for the inevitable third squad.",
+    "Rotation / Rotate: Moving from current position to next ring zone.",
+    "Ring: Storm/zone closing in over time.",
+    "Ring damage: HP loss per tick when outside ring.",
+    "Endgame / Zone: Final ring with 2-3 squads remaining.",
+    "Top-3: Final 3 squads — ranked LP bonus.",
+    "Top-1: Champion squad — win the BR.",
+    "Squad wipe: Killing all 3 enemies in a squad.",
+    "Team flank: Coordinated rotate behind enemy.",
+    "Solo flank: 1 player rotates alone.",
+    "Anchor: Squad holding fixed position.",
+    "Skirmisher: Mobility-focused legend (Octane, Wraith, Path).",
+    "Recon: Information legend (Bloodhound, Crypto, Seer, Vantage).",
+    "Support: Heal/utility legend (Lifeline, Gibraltar, Loba, Newcastle).",
+    "Controller: Area denial legend (Wattson, Caustic, Catalyst).",
+    "Assault: Aggressive damage legend (Bangalore, Fuse, Revenant).",
+    "Tactical / Tac: Legend's tactical ability (cooldown).",
+    "Ult / Ultimate: Legend's ultimate ability (charges over time).",
+    "Passive: Legend's always-on ability.",
+    "Slide-jump: Slide + jump for speed.",
+    "Wall-bounce: Jump off wall for vertical/horizontal momentum.",
+    "Super-glide: Advanced slide-jump for max speed.",
+    "Tap-strafe: Macro/keyboard movement for fast direction change (some platforms).",
+    "Crouch-spam: Rapid crouch toggling for evasion.",
+    "Healing: Syringe (25 HP), Med Kit (full HP), Shield Cell (25 shield), Battery (full shield).",
+    "ADS: Aim Down Sights for accuracy.",
+    "Hipfire: No-scope shooting for close range.",
+    "Recoil pattern: Each weapon has unique pattern.",
+    "Hop-up: Special attachment for unique weapon perks.",
+    "Mag: Magazine attachment.",
+    "Stock: Reduces ADS / draw time.",
+    "Bolt: Sniper reload speed.",
+    "Care Package: Lifeline ult drops, or supply drop for high-tier loot.",
+    "Loot Tick / Crate: Inanimate loot container.",
+    "Death Box: Loot from killed enemies."
+  ]
+}
