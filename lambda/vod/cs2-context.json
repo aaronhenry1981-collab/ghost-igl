@@ -1,0 +1,548 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Counter-Strike 2",
+    "short_name": "CS2",
+    "tagline": "5v5 tactical FPS — buy economy, bomb objective, no respawn.",
+    "sides": {
+      "attack": "T (Terrorists) — plant the bomb on A or B site",
+      "defense": "CT (Counter-Terrorists) — prevent the plant or defuse"
+    },
+    "character_vocab": "agents (but mechanically all agents play identically; pick is cosmetic, not tactical)",
+    "round_economy": "Pistol (R1) → Anti-eco / Force buy / Eco / Half-buy / Full buy. Always check teammate money before deciding your buy.",
+    "round_format": "MR12 — first to 13 rounds wins. Halftime side swap after 12 rounds.",
+    "key_mechanics": [
+      "Spray patterns: each rifle has a unique spray pattern that must be counter-pulled to control",
+      "One-tap headshots with rifles (AK / M4) at any range",
+      "Smokes are volumetric and persistent (~18 seconds); HE grenades can clear them",
+      "Bomb plant: 3.2s plant animation, 40s timer (35s with defuse kit + 5s = 10s defuse)",
+      "Movement: counter-strafe (release WASD before peeking) for instant accuracy",
+      "Sound cues: footsteps, weapon switches, reloads, defuse beeps are critical"
+    ]
+  },
+  "maps": {
+    "mirage": {
+      "name": "Mirage",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Default / Triple)",
+          "callouts": ["Default", "Triple", "Stairs", "CT", "Connector", "Palace", "Ramp", "Tetris", "Ninja", "Sandwich"],
+          "common_t_executes": [
+            "Default setup: smoke CT, smoke Stairs, smoke Jungle, flash over Palace, 3-man Ramp + 2-man Palace split",
+            "Fast A: Ramp rush with mid smoke for Connector, no utility wasted on Palace",
+            "Late A through Palace: split timing on Connector smoke + Palace flash, post-plant near Sandwich"
+          ],
+          "common_ct_setups": [
+            "Default: 1 CT + 1 Connector + 1 mid (window) + 2 B (apps + site)",
+            "Stack A: 3 A (1 CT, 1 Triple, 1 Connector) + 1 mid + 1 B if reading aggressive default",
+            "Aggressive mid: 1 window peek + Connector for early info"
+          ],
+          "post_plant_positions": "Bomb in Default: hold from Sandwich, Tetris, and Ninja with smoke at Stairs."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Apartments)",
+          "callouts": ["Apps", "Apartments", "Short", "Tunnel", "Kitchen", "Window", "Bench", "Truck", "Underpass"],
+          "common_t_executes": [
+            "Default Apps: smoke Window + Short, flash through Apps door, 4-man execute",
+            "Fast Apps: rush short + apps with one flash, no smokes — works on eco CTs",
+            "B through Mid: smoke Connector + Top-mid, split Apps + Short"
+          ],
+          "common_ct_setups": [
+            "Default: 2 B (1 Bench, 1 Kitchen) + 1 Window + 1 Connector + 1 A",
+            "Aggressive Apps: CT pushes Apps for early info, risky vs full buy",
+            "Stack B: 3 B + 1 mid + 1 A — if reading B-heavy"
+          ],
+          "post_plant_positions": "Bomb behind boxes: hold from Bench, Kitchen, Short with smoke covering CT retake angle."
+        }
+      ],
+      "key_smokes": ["CT smoke from T-spawn", "Stairs smoke from T-ramp", "Jungle smoke from T-ramp", "Window smoke from T-spawn", "Connector smoke from mid"],
+      "mid_control": "Mid is contested first 15s of every round. Window control (CT side) gives Connector + Top-mid. Window-take with smoke + flash is the standard T mid play."
+    },
+    "inferno": {
+      "name": "Inferno",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Pit / Default)",
+          "callouts": ["Pit", "Default", "Library", "Arch", "Graveyard", "Truck", "Boiler", "Balcony", "Short"],
+          "common_t_executes": [
+            "Default A: smoke CT, smoke Library, molly Arch, flash over Pit, 4-man Apartments + 1 Short",
+            "Apps push: smoke Library + Arch, flash + execute from Apps with no Short presence",
+            "Short A: smoke Arch + Pit, push Short for the Arch trade — needs Apartments control first"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Pit + 1 Arch + 1 Library + 1 Banana + 1 mid",
+            "Stack A: 3 A + 1 Banana + 1 mid",
+            "Aggressive Apps: CT pushes Apartments early for info — high risk"
+          ],
+          "post_plant_positions": "Bomb in Default: hold Apps, Short, Arch with molly over CT spawn rotation."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Banana)",
+          "callouts": ["Banana", "Car", "New Box", "Coffins", "Sandbags", "CT", "Dark", "Site"],
+          "common_t_executes": [
+            "Banana control: molly Car + Coffins, smoke CT + Dark, push 5-man through Banana",
+            "Default B: 4-man Banana + 1 mid info, control top-Banana, execute on CT smoke",
+            "Fake A real B: utility commit to Apps with 1 player, real 4-man B execute"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Car + 1 site + 1 mid + 2 A",
+            "Aggressive Banana: 2 CT push Banana for early info + early kill",
+            "Stack B: 3 B (Car, Sandbags, CT) + 1 mid + 1 A"
+          ],
+          "post_plant_positions": "Bomb behind Sandbags: hold from Banana flash-out angle, Dark, and CT spawn rotate."
+        }
+      ],
+      "key_smokes": ["CT smoke from Top of Banana", "Library smoke from T-Apartments", "Arch smoke from T-spawn", "Coffins molly from T-spawn"],
+      "mid_control": "Inferno mid is short/quiet. Mid serves as info-gathering for both sites. CT mid takes are rare."
+    },
+    "anubis": {
+      "name": "Anubis",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Connector)",
+          "callouts": ["Heaven", "Connector", "Palace", "Pillar", "Boxes", "CT", "Mid Doors", "Big Window"],
+          "common_t_executes": [
+            "Palace + Connector split: flash Heaven, smoke CT, push from both sides",
+            "Default A: smoke CT, molly Connector, push Palace with 4",
+            "Fake mid real A: utility through mid, real execute Palace + Connector"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Heaven + 1 Connector + 1 Palace + 1 mid + 1 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Mid control: 2 CT contest mid early for info"
+          ],
+          "post_plant_positions": "Bomb on Boxes: hold from Pillar, Big Window, and Heaven angle with smoke covering Connector."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Bridge / Water)",
+          "callouts": ["Bridge", "Water", "Mid Doors", "B Doors", "Heaven", "Default", "CT", "Walkway", "Tetris"],
+          "common_t_executes": [
+            "Bridge default: molly Default, smoke Heaven, push Bridge with 4 + 1 mid",
+            "Water flank: smoke B Doors, push Water for the flank trade",
+            "Default B execute: smoke Heaven + B Doors, push Walkway with mid info"
+          ],
+          "common_ct_setups": [
+            "Default: 1 B Default + 1 Heaven + 1 mid + 2 A",
+            "Aggressive Bridge: 2 CT push Bridge early for info",
+            "Stack B: 3 B + 1 mid + 1 A"
+          ],
+          "post_plant_positions": "Bomb at Default: hold from Tetris, Heaven, and Walkway with smoke covering CT push lane."
+        }
+      ],
+      "key_smokes": ["CT smoke from T-spawn", "Heaven smoke from B-doors", "Mid Doors smoke from mid", "Connector molly from T-spawn"],
+      "mid_control": "Anubis mid is wide-open with multiple entries. Mid Doors take is the key opening play — control mid for both sites' rotation."
+    },
+    "nuke": {
+      "name": "Nuke",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Upper / Heaven)",
+          "callouts": ["Heaven", "Hut", "Squeaky", "Rafters", "Site", "Mini", "Big Box", "Ramp", "Mountain"],
+          "common_t_executes": [
+            "Outside take + Squeaky: smoke Heaven, push Squeaky for upper site execute",
+            "Heaven take: lurk through Squeaky, flash Heaven, hold Heaven for the post-plant",
+            "Fast A: rush Outside + Squeaky with two flashes, no smokes — works on eco CTs"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Heaven + 1 Site + 1 Hut + 1 Outside + 1 B (Vents/Ramp)",
+            "Stack Outside: 2 CT contest Outside early for info",
+            "Aggressive Heaven: CT plays Heaven angle for the off-angle pick"
+          ],
+          "post_plant_positions": "Bomb at Site: hold Heaven + Hut + Ramp with smoke covering CT rotate from B."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Lower / Vent)",
+          "callouts": ["Lower", "Vent", "Site", "Window", "Big Box", "Lockers", "Tunnel", "Sneaky"],
+          "common_t_executes": [
+            "Vent execute: drop through Vent with smokes on Window + Lockers, push from above",
+            "Outside + Vent split: 3 Outside + 2 Vent for split timing execute",
+            "Tunnel rush: rush Tunnel with flashes, fast plant — risky vs full buy CT"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Vent + 1 Window + 1 mid + 2 A",
+            "Stack B: 3 B (Vent, Window, Site) + 1 mid + 1 A",
+            "Aggressive Outside: 2 CT push Outside early for info"
+          ],
+          "post_plant_positions": "Bomb behind Box: hold Window + Lockers + Tunnel with smoke covering Vent."
+        }
+      ],
+      "key_smokes": ["Heaven smoke from Outside", "Outside smoke from T-spawn", "Vent denial molly from Window", "Hut smoke from Squeaky"],
+      "mid_control": "Nuke has no traditional mid — the 'mid' is Outside Yard, which connects A and B vertically. Outside control = both sites."
+    },
+    "ancient": {
+      "name": "Ancient",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Heaven / Donut)",
+          "callouts": ["Heaven", "Donut", "CT", "Cave", "Site", "Ramp", "Default", "Temple", "Mid"],
+          "common_t_executes": [
+            "Donut take: smoke Heaven, flash Cave, push Donut for site execute",
+            "Default A: smoke Heaven + CT, push Ramp with 4 + 1 mid",
+            "Temple split: 3 Temple + 2 Donut for split timing execute"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Heaven + 1 Donut + 1 mid + 1 Cave + 1 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Cave: CT plays Cave early for the flank pick"
+          ],
+          "post_plant_positions": "Bomb at Default: hold Donut + Cave + Heaven with smoke covering CT rotate."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Pillar)",
+          "callouts": ["Pillar", "Site", "Heaven", "House", "Tunnel", "Default", "Side", "Stairs"],
+          "common_t_executes": [
+            "Default B: smoke Heaven, smoke Side, push Tunnel + House with 4",
+            "Fast B: rush Tunnel with one flash, no smokes — works on eco CTs",
+            "Mid split: 3 mid + 2 Tunnel for B split timing"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Heaven + 1 Pillar + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive mid: 2 CT contest mid for info"
+          ],
+          "post_plant_positions": "Bomb at Default: hold Stairs + Heaven + Side with smoke covering Tunnel retake."
+        }
+      ],
+      "key_smokes": ["Heaven smoke from T-spawn", "CT smoke from Ramp", "Mid Doors smoke from mid", "Donut flash from T-spawn"],
+      "mid_control": "Ancient mid is the standard map's tightest mid. Mid control gives both A (via Temple) and B (via Tunnel)."
+    },
+    "vertigo": {
+      "name": "Vertigo",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Ramp / Heaven)",
+          "callouts": ["Ramp", "Heaven", "Site", "Sandbags", "B-Site View", "Connector", "T-Spawn Side"],
+          "common_t_executes": [
+            "Ramp default: smoke Heaven, smoke Connector, push Ramp with 4",
+            "B-site through A: split timing with B push + A push for late rotate",
+            "Fast Ramp: rush Ramp with two flashes — works on eco CTs"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Heaven + 1 Site + 1 Connector + 2 B",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Connector: CT plays Connector for early info"
+          ],
+          "post_plant_positions": "Bomb at Site: hold Heaven + Connector + Ramp with smoke covering CT spawn."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Generator / Catwalk)",
+          "callouts": ["Generator", "Catwalk", "Site", "T-Stairs", "Ladder", "CT", "Bombsite", "Window"],
+          "common_t_executes": [
+            "Ladder Room rush: smoke Window + Catwalk, push from Ladder Room with 4",
+            "Default B: smoke CT + Catwalk, push T-Stairs with 4 + 1 mid",
+            "Fake A real B: 1 player Apps utility, 4-man real B execute"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Catwalk + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive T-Stairs: CT pushes T-Stairs early for info"
+          ],
+          "post_plant_positions": "Bomb at Site: hold Catwalk + Window + CT with smoke covering rotation."
+        }
+      ],
+      "key_smokes": ["Heaven smoke from Ramp", "Connector smoke from T-spawn", "Catwalk smoke from B", "Window smoke from B"],
+      "mid_control": "Vertigo has tight mid. Mid control gives info on rotates. Ladder Room flank is the unique map play."
+    },
+    "dust2": {
+      "name": "Dust 2",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Long / Short)",
+          "callouts": ["Long", "Short", "Site", "CT", "Ramp", "Goose", "Pit", "Default", "Ninja"],
+          "common_t_executes": [
+            "Long default: smoke CT + Ramp, flash Long, push Long with 4 — risky if CT pushes Long",
+            "Short default: smoke Ramp + Site, push Short with 4 + 1 Long info",
+            "Long + Short split: 3 Long + 2 Short for split timing execute"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Long + 1 Short + 1 mid + 2 B (Tuns + Door)",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Long: 2 CT push Long for early Long control"
+          ],
+          "post_plant_positions": "Bomb at Default: hold Long + Short + Ninja with smoke covering CT rotate."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Tunnels / Door)",
+          "callouts": ["Tunnels", "Door", "Site", "Back", "Window", "Plat", "CT"],
+          "common_t_executes": [
+            "Tunnels default: smoke Door + Window, push Tunnels with 4",
+            "Fast B: rush Tunnels with flashes — works on eco CTs",
+            "Window + Tunnels split: 3 Tunnels + 2 Door for split timing"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Door + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive Tunnels: CT pushes Tunnels early for info"
+          ],
+          "post_plant_positions": "Bomb at Back: hold from Tunnels exit, Window, and Door with smoke covering CT rotate."
+        }
+      ],
+      "key_smokes": ["Xbox smoke from T-spawn", "CT cross smoke from T-mid", "Ramp smoke from T-spawn", "Door smoke from Tunnels"],
+      "mid_control": "Dust 2 mid is the iconic Xbox + Catwalk fight. Mid control gives B Door + A Short rotations."
+    },
+    "train": {
+      "name": "Train",
+      "sites": [
+        {
+          "id": "a-site",
+          "name": "A Site (Z / Halls)",
+          "callouts": ["Z Connector", "Halls", "Ivy", "Hell", "Heaven", "Site", "T-Roof", "Mountain"],
+          "common_t_executes": [
+            "Z + Ivy split: smoke Hell + Heaven, push Z + Ivy split timing",
+            "Halls default: smoke Halls + Z, push Halls with 4",
+            "T-Roof play: aggressive T-Roof for the early pick on Heaven"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Halls + 1 Ivy + 1 mid + 1 B + 1 floating",
+            "Stack A: 3 A + 1 mid + 1 B",
+            "Aggressive Ivy: CT pushes Ivy early for info"
+          ],
+          "post_plant_positions": "Bomb at Site: hold Ivy + Halls + Heaven with smoke covering CT rotate."
+        },
+        {
+          "id": "b-site",
+          "name": "B Site (Upper / Lower)",
+          "callouts": ["Upper", "Lower", "Site", "Pop Dog", "Sandwich", "Back Train", "Ladder"],
+          "common_t_executes": [
+            "Lower default: smoke Pop Dog + Ladder, push Lower with 4",
+            "Upper take: rush Upper for the flank trade",
+            "Pop Dog split: 3 Lower + 2 Pop Dog for split timing"
+          ],
+          "common_ct_setups": [
+            "Default: 1 Pop Dog + 1 Site + 1 mid + 2 A",
+            "Stack B: 3 B + 1 mid + 1 A",
+            "Aggressive mid: 2 CT contest mid for early info"
+          ],
+          "post_plant_positions": "Bomb at Back Train: hold from Ladder, Sandwich, and Pop Dog with smoke covering CT spawn."
+        }
+      ],
+      "key_smokes": ["Hell smoke from T-spawn", "Heaven smoke from T-spawn", "Ivy smoke from T-spawn", "Pop Dog smoke from Lower"],
+      "mid_control": "Train mid is layered. Pop Dog gives info on both sites' rotations."
+    }
+  },
+  "agents": {
+    "note": "CS2 agents are cosmetic only — kit and gameplay are identical for all. The 'role' is the in-game position the player takes, not the agent skin selected.",
+    "roles": {
+      "Entry Fragger": {
+        "description": "First player into the site on execute. Trades aggression for utility coverage.",
+        "kit": "AK-47 / M4A4 (rifle); flashbang for entry; smoke from teammate",
+        "common_mistakes": [
+          "Pushing without a flash from teammate",
+          "Entrying without team trade position",
+          "Trying to clear all angles before teammates enter"
+        ],
+        "ideal_use": "Push first on team's flash, take the duel, die or trade. Survival is bonus."
+      },
+      "Awper": {
+        "description": "Player on the AWP — controls long sightlines, holds map control angles.",
+        "kit": "AWP (sniper) + Deagle / pistol; smoke for repositioning",
+        "common_mistakes": [
+          "Holding an angle for too long after enemy knows position",
+          "Peeking without crosshair pre-aimed",
+          "Saving AWP on lost rounds (drop = round-losing)"
+        ],
+        "ideal_use": "Hold a long sightline early round (Mirage Window, Inferno Banana), trade for info, reposition after first kill."
+      },
+      "Support / Lurker": {
+        "description": "Plays utility behind entry. Lurks for late-round flanks or trade kills.",
+        "kit": "Rifle (AK / M4) + smoke + flash + molly",
+        "common_mistakes": [
+          "Throwing all utility before team executes (no late support)",
+          "Lurking too deep — can't trade entry",
+          "No molly for post-plant"
+        ],
+        "ideal_use": "Pop smoke during execute, flash for trade, lurk apartments / connector for late-round trade frags."
+      },
+      "Anchor": {
+        "description": "CT site holder. Plays the bomb site, doesn't rotate unless called.",
+        "kit": "AK / M4 + smoke + molly + flash",
+        "common_mistakes": [
+          "Pushing off-site (anchor = bomb site only)",
+          "No molly for plant deny",
+          "Rotating early — losing site to fake"
+        ],
+        "ideal_use": "Hold a site angle, save molly for plant deny, trade with secondary CT on entry."
+      },
+      "IGL": {
+        "description": "In-Game Leader. Calls mid-round adjustments and reads enemy economy.",
+        "kit": "Rifle + utility based on call",
+        "common_mistakes": [
+          "Calling commits without economy check",
+          "Calling the same default every round (predictable)",
+          "Not adapting to enemy reads"
+        ],
+        "ideal_use": "Read enemy buy from sound + kill feed, call mid-round adjustments, save utility for late-round trades."
+      }
+    }
+  },
+  "common_mistakes_by_rank": {
+    "silver": [
+      "Spraying with mouse 1 held — no recoil control",
+      "Buying AWP on eco / force buy without team eco buy",
+      "Pushing common angles without flash / smoke",
+      "Crosshair placement too low or random (default)",
+      "Walking around the map (sprinting all the time, no audio control)",
+      "Buying armor only every other round (always buy full kevlar + helmet)",
+      "Saving rifle on lost rounds instead of dropping for teammate",
+      "No comms — full game in silence",
+      "Wasting nades — throwing every smoke without a plan",
+      "Crossfire-blind: peeking without checking teammate trade position"
+    ],
+    "nova": [
+      "Spray patterns not learned — pulling random direction",
+      "No crosshair placement discipline — looking at the ground while moving",
+      "Pre-aim at head level but at wrong distance (peeking at body level)",
+      "No utility coordination — random flashes / smokes during execute",
+      "Rotating too late — caught in mid on rotation",
+      "Eco round commits: trying to win pistol-tier round with AK eco",
+      "Holding angles past first kill — enemy knows position",
+      "No round economy: full buy after losing pistol = pre-loss",
+      "Saving without telling team — split economy",
+      "Crouching while shooting (loses accuracy on rifles)"
+    ],
+    "mg": [
+      "Crosshair placement on map geometry, not enemy spawns",
+      "Half-flash exposure — flashed teammate trade falls apart",
+      "Smoke timing on execute — late smoke = caught in spam",
+      "No retake utility on CT side (no molly for retake)",
+      "Aggressive AWP holds without escape plan",
+      "Mid-round adapts not called",
+      "Buying full save + 1 utility (wasted)",
+      "Defaults too aggressive — over-committed to one site",
+      "No bait protection on retakes",
+      "Trade window missed (3+ second gap between entry and follow-up)"
+    ],
+    "dmg": [
+      "Util usage on execute — out of order (smoke before flash + molly = wasted)",
+      "AWP picks on standard angles (not off-angles)",
+      "Half-buy spending — buying SMG without team plan",
+      "No anti-eco response (eco round CT side = passive default, T side = stack)",
+      "Late rotates without smoke cover",
+      "Bait CT on retake — peeking after teammate dies = trade fail",
+      "Round 1 pistol commit on every map (no economy thinking)",
+      "Crosshair placement on common angles — not adjusted for map",
+      "Lurker timing off — too early (no info), too late (trade missed)",
+      "No comm on save round protection — solo save = info denial fail"
+    ],
+    "le_lem": [
+      "Off-angle holds are obvious — enemy team has read them",
+      "Util execution timing — smoke fade timing wrong",
+      "No mid-round adjustment — sticking to fail default",
+      "Eco round commits — risk vs reward miscalculation",
+      "AWP rotates blocked by smoke timing",
+      "Plant position too aggressive — caught in retake spray",
+      "Late round info gathering — not adjusting from teammate death",
+      "Buy decision based on round count, not economy difference",
+      "Trade kills missed by 1 second timing window",
+      "Util coordination across team — overlapping utility waste"
+    ],
+    "supreme_global": [
+      "Pro-tier reads on enemy default — but predictable on own default",
+      "Util discipline gaps — 1 wasted smoke per round",
+      "Mid-round comm overload — too many calls, lost info",
+      "Off-angle pre-aim — not adjusting per round",
+      "Lurker map info not relayed in time",
+      "Round economy: 1 dollar shy on full buy = 4-utility instead of 5",
+      "AWP positioning on retakes — caught out of position",
+      "Late round 1v1 management — taking unwinnable duels",
+      "Pistol round meta — playing standard instead of map-specific cheese",
+      "Crosshair sensitivity drift — needs recalibration"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player crosshair placed at head level on the angle they're about to peek?",
+      "Is the player standing in a known common angle (pre-aimable) or off-angle (forces enemy to clear)?",
+      "Is the player exposed to multiple sightlines simultaneously? (1 angle = trade-able, 2+ = bad)",
+      "Is the player in a trade position with teammate (within 3 seconds of teammate's contact)?",
+      "If CT anchor: is the player playing off-default (not the obvious site spot)?",
+      "If T entry: is the player using cover to peek (slice the pie) or running straight in?"
+    ],
+    "crosshair": [
+      "Is the crosshair at head level?",
+      "Is the crosshair pre-aimed at the common angle (not the floor, not the sky)?",
+      "Is the player counter-strafing before shooting (releasing WASD before mouse 1)?",
+      "Is the spray pulled correctly for the weapon (AK pulls down + slight right; M4 pulls down)?",
+      "Is the player tapping at distance (>20m), bursting at mid-range, spraying at close)?",
+      "Is the player flicking onto target (high mouse sens) or tracking (low mouse sens)?"
+    ],
+    "utility": [
+      "Was a flash used before the player peeked? (or did they peek without prep)",
+      "Was a smoke used to block the angle the player crossed?",
+      "Was a molly used on the post-plant position?",
+      "Did the player throw utility BEFORE the execute or AFTER (correct = before)?",
+      "Was the utility coordinated with team or solo-thrown?",
+      "On retake: did the team use 2+ utility for the execute (correct) or 0 (suicide retake)?"
+    ],
+    "decisions": [
+      "Did the player buy aligned with team economy (full buy / eco / force)?",
+      "Did the player commit to the site execute or hesitate (commit halfway)?",
+      "Did the player rotate when called or stay on dead site?",
+      "Did the player save weapon on lost round (correct vs full buy CT)?",
+      "Did the player trade teammate's death (peek within 2s) or hesitate?",
+      "Did the player engage 1v2+ without team backup (force loss) or save?",
+      "Did the player commit to flanking lurk or fold back when team executes?"
+    ]
+  },
+  "vocabulary": [
+    "Spray pattern: bullet trajectory pattern for full-auto fire. Each weapon has unique pattern.",
+    "Counter-strafe: releasing WASD before mouse 1 for instant accuracy.",
+    "Pre-aim: aiming crosshair at the spot the enemy will appear before peeking.",
+    "Off-angle: a position the enemy isn't expecting you to hold (not the obvious spot).",
+    "Common angle: the standard position 95% of players hold — enemies pre-aim it.",
+    "Slice the pie: peeking by stepping out slowly, exposing 1 angle at a time.",
+    "Crossfire / Trade position: setup where 2 teammates cover same angle; one dies, the other trades.",
+    "Trade kill: killing the enemy who just killed your teammate within 2-3 seconds.",
+    "Eco round: round where team has $2000 or less; usually pistols + armor or full save.",
+    "Force buy: half-buy with limited rifles, used to break enemy economy after a loss.",
+    "Full buy: $4000+ team buy with rifles + full utility + armor.",
+    "Save round: round where team intentionally saves weapons for next round, often after losing pistol.",
+    "Anti-eco: full-buy round vs enemy eco; CT side stacks long, T side runs fast executes.",
+    "Pistol round: round 1 and round 13 (after halftime). Glock vs USP-S — winner often gets economy snowball.",
+    "Default: standard slow execute where T side takes map control over 60+ seconds.",
+    "Execute: planned fast hit on a site with full utility.",
+    "Lurk: solo player playing slow rotations, looking for flank trade kills.",
+    "Awper: player using the AWP sniper rifle.",
+    "Entry: first player into the site on execute.",
+    "Anchor: CT site holder who doesn't rotate.",
+    "IGL: In-Game Leader, calls mid-round adjustments.",
+    "Bomb plant: 3.2 second animation, 40 second timer.",
+    "Bait teammate: a teammate killed because you didn't trade them (and you survived).",
+    "Plant for: planting in a spot that helps a specific post-plant position.",
+    "Post-plant: 40-second timer after bomb plant — CT must retake, T holds.",
+    "Wallbang: shooting through walls / smokes / floors with high-penetration weapon (AWP, AK).",
+    "Stack: putting 3+ players on one site, leaving 1-2 on the other.",
+    "Default setup: balanced 2-1-2 (2 site, 1 mid, 2 site) CT setup.",
+    "Rush: T side runs fast at a site with no utility coordination — works on eco CTs.",
+    "Mid control: holding map mid (between A and B) for rotation info.",
+    "Boost: 2 players stand on each other for a higher angle / new sightline.",
+    "OneTap: single-shot headshot kill with a rifle.",
+    "Flick: fast crosshair adjustment for off-angle pick.",
+    "Tracking: keeping crosshair on enemy as they move.",
+    "Burst: 3-4 round burst with rifle (mid-range engagements).",
+    "Tap: single shot for long-range accuracy.",
+    "Spray: full-auto fire for close-range engagements.",
+    "Flashbang / Pop flash: grenade that blinds for 2-3 seconds.",
+    "Smoke grenade: blocks vision and bullets for ~18 seconds.",
+    "HE grenade: high-explosive, deals 50+ damage in a 6m radius.",
+    "Molotov / Incendiary / Molly: fire grenade, deals damage over time.",
+    "Decoy: distraction grenade that mimics gunfire.",
+    "Defuse kit: $400 utility that halves defuse time (10s → 5s).",
+    "Headshot: 4x damage multiplier; most rifles 1-shot to the head.",
+    "Tagging: hit detection slows enemy movement during fights."
+  ]
+}
