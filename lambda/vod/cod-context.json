@@ -1,0 +1,498 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "Call of Duty",
+    "short_name": "CoD",
+    "tagline": "FPS franchise — Warzone BR, Resurgence, 6v6 multiplayer (Hardpoint, Domination, Search & Destroy).",
+    "sides": {
+      "attack": "Pushing objectives / contesting Hardpoints / capturing Domination flags",
+      "defense": "Holding objectives / defending Hardpoints / defending flags"
+    },
+    "character_vocab": "operators (cosmetic — mechanics identical)",
+    "round_economy": "MP modes: no economy. Killstreaks earned by kill streaks. BR: loot economy with cash + loadout drops.",
+    "round_format": "Hardpoint: Score limit (250). Domination: First to score limit (200). S&D: First to 4 round wins. BR: Last squad standing.",
+    "key_mechanics": [
+      "Killstreaks: UAV (4 kills), Counter-UAV (5), Cluster Strike (7), Cruise Missile (8), Precision Airstrike (9), VTOL (12), Chopper Gunner (16)",
+      "Loadouts: Custom class with primary + secondary + perks + tactical/lethal grenades + field upgrade",
+      "Perks: Tier 1 (Scavenger, Battle Hardened, Cold-Blooded), Tier 2 (Tracker, Hardline), Tier 3 (Tempered, Ghost)",
+      "Tactical equipment: Stun, Flash, Smoke, Decoy, Snapshot, Stim",
+      "Lethal: Frag, Semtex, Throwing Knife, Thermite, C4, Drill Charge",
+      "Spawn flips: in MP, killing too many enemies in one direction flips their spawn",
+      "Recoil patterns: each weapon has unique pattern, attachments reduce recoil",
+      "Movement: tactical sprint (limited burst), slide-jump, dolphin dive, mantling"
+    ],
+    "match_types": [
+      "Multiplayer 6v6: Team Deathmatch, Hardpoint, Domination, Search & Destroy, Control, Kill Confirmed",
+      "Warzone BR: 100+ players, 4-player squads, ring closing, loadout drops",
+      "Resurgence: Smaller map BR with respawn timers",
+      "Plunder: Cash collection mode",
+      "Gulag: 1v1 respawn arena after first death"
+    ]
+  },
+  "maps": {
+    "rebirth-island": {
+      "name": "Rebirth Island",
+      "type": "Resurgence BR",
+      "sites": [
+        {
+          "id": "prison",
+          "name": "Prison Block",
+          "callouts": ["Prison Cells", "Yard", "Tower", "Side Roof", "Tunnel"],
+          "strategy": "Prison Block hot drop. Tower for vertical, Yard exposed."
+        },
+        {
+          "id": "security",
+          "name": "Security Area",
+          "callouts": ["Security Building", "Loot Bins", "Rooftop", "Side Door", "Streets"],
+          "strategy": "Security adjacent to Prison. Rooftop entry from adjacent buildings."
+        },
+        {
+          "id": "headquarters",
+          "name": "Headquarters",
+          "callouts": ["HQ", "Loot Pile", "Rooftop", "Side Entry", "Tunnel"],
+          "strategy": "HQ for mid-game loot. Rooftop for vertical."
+        },
+        {
+          "id": "living-quarters",
+          "name": "Living Quarters",
+          "callouts": ["Living Quarters", "Stairwell", "Side Doors", "Apartments"],
+          "strategy": "Tight close-range. Apartments for cover."
+        },
+        {
+          "id": "industry",
+          "name": "Industry",
+          "callouts": ["Industry", "Warehouse", "Side Doors", "Rooftop"],
+          "strategy": "Industry edge POI for safer loot."
+        }
+      ]
+    },
+    "verdansk": {
+      "name": "Verdansk",
+      "type": "BR",
+      "sites": [
+        {
+          "id": "downtown",
+          "name": "Downtown",
+          "callouts": ["Downtown", "Streets", "Rooftops", "Side Buildings"],
+          "strategy": "Hot drop — high-tier loot, very contested."
+        },
+        {
+          "id": "superstore",
+          "name": "Superstore",
+          "callouts": ["Superstore", "Parking", "Side Entry", "Rooftop"],
+          "strategy": "Tier-3 loot inside. Iconic Warzone POI."
+        },
+        {
+          "id": "airport",
+          "name": "Airport",
+          "callouts": ["Airport", "Tower", "Plane", "Hangar"],
+          "strategy": "Open layout, vehicles."
+        },
+        {
+          "id": "farmland",
+          "name": "Farmland",
+          "callouts": ["Farmland", "Houses", "Open Fields", "Barn"],
+          "strategy": "Safe drop, rural POI."
+        },
+        {
+          "id": "stadium",
+          "name": "Stadium",
+          "callouts": ["Stadium", "Top Deck", "Field", "Side Concourse"],
+          "strategy": "Vertical layout, tier-2 loot."
+        },
+        {
+          "id": "dam",
+          "name": "Dam",
+          "callouts": ["Dam", "Tunnel", "Top Dam", "Side Cliffs"],
+          "strategy": "Vertical layout, tier-2 loot."
+        },
+        {
+          "id": "hospital",
+          "name": "Hospital",
+          "callouts": ["Hospital", "Top Floor", "Side Buildings", "Stairs"],
+          "strategy": "Vertical layout, tier-2/3 loot."
+        }
+      ]
+    },
+    "shipment": {
+      "name": "Shipment",
+      "type": "6v6 / 24/7",
+      "sites": [
+        {
+          "id": "red-spawn",
+          "name": "Red Spawn",
+          "callouts": ["Red Spawn", "Center Containers", "Side Container", "Corner"],
+          "strategy": "Iconic 24/7 chaos map. Spawn-flip every 5 seconds. Fast SMG kills."
+        },
+        {
+          "id": "blue-spawn",
+          "name": "Blue Spawn",
+          "callouts": ["Blue Spawn", "Center Containers", "Side Container", "Corner"],
+          "strategy": "Mirror Red Spawn. Spawn-flip aggressive play."
+        },
+        {
+          "id": "center",
+          "name": "Center",
+          "callouts": ["Center", "Container Cover", "Spawn Doors", "Side Path"],
+          "strategy": "Cross-map AR + Frag spam zone."
+        }
+      ]
+    },
+    "nuketown": {
+      "name": "Nuketown",
+      "type": "6v6 / Iconic",
+      "sites": [
+        {
+          "id": "yellow-house",
+          "name": "Yellow House",
+          "callouts": ["Yellow House", "Front Yard", "Garage", "Back Yard", "Side Bunker"],
+          "strategy": "Two-house map. Yellow House (Red team)."
+        },
+        {
+          "id": "green-house",
+          "name": "Green House",
+          "callouts": ["Green House", "Front Yard", "Garage", "Back Yard", "Side Bunker"],
+          "strategy": "Mirror Yellow House (Blue team)."
+        },
+        {
+          "id": "center",
+          "name": "Center",
+          "callouts": ["Center", "Bus", "Side Bunker", "Driveways", "Open"],
+          "strategy": "Iconic central kill-zone. AR cross-map."
+        },
+        {
+          "id": "backyard",
+          "name": "Backyard",
+          "callouts": ["Backyard", "Fence", "Pool", "Side Yard", "Back Entry"],
+          "strategy": "Off-angle flank route."
+        }
+      ]
+    },
+    "hijacked": {
+      "name": "Hijacked",
+      "type": "6v6 / Hardpoint",
+      "sites": [
+        {
+          "id": "yacht-stern",
+          "name": "Yacht Stern",
+          "callouts": ["Yacht Stern", "Center Deck", "Stairs", "Galley", "Top Deck"],
+          "strategy": "Iconic Hardpoint zone. Back of yacht."
+        },
+        {
+          "id": "yacht-bow",
+          "name": "Yacht Bow",
+          "callouts": ["Yacht Bow", "Center Deck", "Stairs", "Galley", "Top Deck"],
+          "strategy": "Front Hardpoint. Front of yacht."
+        },
+        {
+          "id": "top-deck",
+          "name": "Top Deck",
+          "callouts": ["Top Deck", "Sniper Spot", "Stairs", "Side Cover", "Bow View"],
+          "strategy": "Elevated Hardpoint, Sniper-friendly."
+        },
+        {
+          "id": "galley",
+          "name": "Galley",
+          "callouts": ["Galley", "Stairs Down", "Side Doors", "Hallway", "Stern Door"],
+          "strategy": "Interior tight quarters."
+        }
+      ]
+    },
+    "standoff": {
+      "name": "Standoff",
+      "type": "6v6 / Hardpoint",
+      "sites": [
+        {
+          "id": "truck",
+          "name": "Truck",
+          "callouts": ["Truck", "Mid Lane", "House", "Warehouse", "Side Path"],
+          "strategy": "Central Hardpoint."
+        },
+        {
+          "id": "warehouse",
+          "name": "Warehouse",
+          "callouts": ["Warehouse", "Loading Dock", "Side Doors", "Office", "Roof"],
+          "strategy": "Interior tight Hardpoint."
+        },
+        {
+          "id": "op-2",
+          "name": "OP-2",
+          "callouts": ["OP-2", "Sniper Spot", "Stairs", "Side Cover", "Lower Floor"],
+          "strategy": "Elevated Hardpoint, Sniper-friendly."
+        },
+        {
+          "id": "boneyard",
+          "name": "Boneyard",
+          "callouts": ["Boneyard", "Junk Pile", "Side Pile", "Tank Cover", "Open Field"],
+          "strategy": "Open junk-vehicle field."
+        }
+      ]
+    },
+    "vondel": {
+      "name": "Vondel",
+      "type": "Resurgence",
+      "sites": [
+        {
+          "id": "city-center",
+          "name": "City Center",
+          "callouts": ["City Center", "Plaza", "Side Streets", "Rooftop"],
+          "strategy": "Dense urban POI, tight chokes."
+        },
+        {
+          "id": "cathedral",
+          "name": "Cathedral",
+          "callouts": ["Cathedral", "Bell Tower", "Nave", "Side Door", "Roof"],
+          "strategy": "Vertical, Sniper from Bell Tower."
+        },
+        {
+          "id": "marina",
+          "name": "Marina",
+          "callouts": ["Marina", "Boat Dock", "Dock Tower", "Side Path", "Water Edge"],
+          "strategy": "Water rotation route."
+        },
+        {
+          "id": "stadium",
+          "name": "Stadium",
+          "callouts": ["Stadium", "Center Field", "Stadium Seats", "Tunnels", "Press Box"],
+          "strategy": "Open arena POI."
+        }
+      ]
+    },
+    "gulag": {
+      "name": "Gulag (1v1)",
+      "type": "Gulag",
+      "sites": [
+        {
+          "id": "main-floor",
+          "name": "Main Floor",
+          "callouts": ["Main Floor", "Center", "Side Doors", "Cubby", "Stairs Up"],
+          "strategy": "1v1 ground engagement. Pistol / SMG. Reaction + audio."
+        },
+        {
+          "id": "catwalk",
+          "name": "Catwalk",
+          "callouts": ["Catwalk", "Catwalk Top", "Stairs Up", "Drop Point", "Side"],
+          "strategy": "Elevated flank route. Drop on enemy below."
+        }
+      ]
+    }
+  },
+  "operator_roles": {
+    "AR Anchor": {
+      "description": "Mid-range AR for sustained damage. Anchors Hardpoint or holds defensive angles.",
+      "loadout": "M4 / AK-74 / Kilo / Cold War AK + Frag Grenade + Stim + Trophy System",
+      "common_mistakes": [
+        "Single-shot tap at close range (lose to SMG)",
+        "Holding same angle past first kill",
+        "No grenade pre-throw on entries",
+        "ADS scope wasted at close range",
+        "No team trade on entry"
+      ],
+      "ideal_use": "Mid-range Hardpoint / Domination flag hold. Frag grenade for chip. Trophy System for grenade denial."
+    },
+    "SMG Rusher": {
+      "description": "Close-range high-rate-of-fire SMG for entry frags and aggressive pushes.",
+      "loadout": "MP5 / MX9 / Vector / Cold War MP5 + Stun + Throwing Knife",
+      "common_mistakes": [
+        "Pushing without flash / stun for entry",
+        "Engaging mid-range with SMG (loses to AR)",
+        "No Dead Silence / silent footsteps",
+        "Solo flank without team trade",
+        "No off-angle pre-aim"
+      ],
+      "ideal_use": "Aggressive entry with Stun + Flash chain. Throwing Knife for chip damage. Dead Silence for silent footsteps."
+    },
+    "Sniper / Marksman": {
+      "description": "Long-range one-shot or fast scoping for picks. Holds elevated angles.",
+      "loadout": "Kar98 / SP-R 208 / SVD + Sniper Rifle Pistol Loadout",
+      "common_mistakes": [
+        "Holding same angle past first kill",
+        "ADS scope without commit",
+        "No off-angle holds",
+        "Solo Sniper without team cover",
+        "Wasting bullets on body (1-shot only on headshot)"
+      ],
+      "ideal_use": "Long-range pick, reposition after first kill, hold elevated angle. Quick-scope for mid-range trades."
+    },
+    "Support / Tactical": {
+      "description": "Player running Recon Drone, Trophy System, Smoke for team utility.",
+      "loadout": "AR + Smoke + Trophy System + Recon Drone",
+      "common_mistakes": [
+        "Trophy in wrong angle (no protection)",
+        "Recon Drone in obvious spots",
+        "Smoke wasted on cover",
+        "No coordination on Recon + push",
+        "Solo lurk without team coverage"
+      ],
+      "ideal_use": "Recon Drone for site info, Trophy for grenade denial, Smoke for cover push."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "Random class loadouts",
+      "No grenade usage",
+      "No team coordination on Hardpoint",
+      "Walking everywhere (no Tactical Sprint)",
+      "No off-angle holds",
+      "Random weapon usage for range",
+      "Crouching while shooting (loses accuracy)",
+      "No spawn flip awareness",
+      "Solo dives without team trade",
+      "No callouts in voice"
+    ],
+    "silver": [
+      "Class loadout for one weapon (not range-flexible)",
+      "Killstreaks ignored (no UAV / Counter-UAV usage)",
+      "Random utility usage (Stun on empty angle)",
+      "No team commit on Hardpoint",
+      "Aggressive Sniper holds without cover",
+      "Crosshair placement on map geometry",
+      "No anti-grenade Trophy positioning",
+      "Aggressive solo plays without team trade",
+      "Buy / loot decision random in BR",
+      "Mid-fight comm overload"
+    ],
+    "gold": [
+      "Killstreak combo (UAV → Counter-UAV → Cluster Strike) timing off",
+      "Loadout drop timing off in BR",
+      "Smoke cover on push (timing wrong)",
+      "Solo flank without team trade",
+      "No off-angle holds",
+      "Late rotations in BR",
+      "Random utility cycle",
+      "Bait teammate on retake",
+      "No off-angle Sniper positioning",
+      "No team commit on Hardpoint"
+    ],
+    "platinum": [
+      "Off-angle holds predictable",
+      "Util execution timing wrong",
+      "No mid-round adjustment",
+      "Aggressive Sniper holds without escape plan",
+      "Plant position too aggressive",
+      "Late round info gathering",
+      "Buy / loot decision based on round count",
+      "Trade kills missed by 1 second",
+      "Util coordination across team overlapping",
+      "No anti-third-party setup (BR)"
+    ],
+    "diamond": [
+      "Pro-tier reads on enemy comp — predictable on own",
+      "Util discipline gaps — 1 wasted grenade per round",
+      "Mid-round comm overload",
+      "Off-angle pre-aim not adjusted per round",
+      "Lurker map info not relayed",
+      "Buy / loot decision: 1 attachment shy",
+      "Late round 1v1 management",
+      "Sensitivity drift",
+      "Solo carries on eco rounds",
+      "Mental fatigue affecting decisions"
+    ],
+    "iridescent_top250": [
+      "Pro-tier reads on enemy comp on every round",
+      "Util tracking gaps — 1 grenade untracked per round",
+      "Cooldown management across all 6 players",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Comp staying static vs counter",
+      "Sensitivity drift across long sessions",
+      "Pickup attempt without team coverage"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the player crosshair pre-aimed at head level?",
+      "Is the player in trade position with teammate?",
+      "Is the player off-angle or on common angle?",
+      "Is the player exposed to multiple sightlines?",
+      "Did the player commit to the Hardpoint hold or hesitate?",
+      "Is the player using cover (corner, lift, building) or in open?",
+      "Did the player track spawn flips after kills?"
+    ],
+    "crosshair": [
+      "Is the crosshair at head level?",
+      "Is the player tracking on hitscan?",
+      "Is the player using the right weapon for the engagement range?",
+      "Is the recoil pattern being pulled correctly?",
+      "Is the player ADS for mid-range or hipfire for close?",
+      "Is the player landing 1-tap headshots with Sniper?",
+      "Is the player counter-strafing before shooting?"
+    ],
+    "utility": [
+      "Did the player use grenades proactively?",
+      "Did the player use field upgrade (Trophy, Recon Drone) at the right time?",
+      "Was the team coordinated on killstreak combo?",
+      "Did the player save grenades for the post-kill follow-up?",
+      "Was the team coordinated on smoke cover push?",
+      "Did the player track enemy killstreaks (UAV, Counter-UAV)?"
+    ],
+    "decisions": [
+      "Did the player commit to the Hardpoint hold or hesitate?",
+      "Did the player rotate when called?",
+      "Did the player engage 1v2+ without team backup?",
+      "Did the player save weapon on knock (BR)?",
+      "Did the player commit to the flag grab or hesitate?",
+      "Did the player coordinate spawn flip?",
+      "Did the player call out enemy killstreak in use?",
+      "In BR: did the player track ring damage and rotate in time?"
+    ]
+  },
+  "vocabulary": [
+    "Hardpoint: Hold-the-zone mode, 60s timer per zone.",
+    "Domination: Cap 3 flags, score over time.",
+    "S&D / Search and Destroy: Round-based, plant bomb or kill all.",
+    "Killstreak: Reward for kill streak — UAV, Cluster, VTOL, etc.",
+    "UAV: Mini-map reveal of enemies (4 kills).",
+    "Counter-UAV: Block enemy minimap (5 kills).",
+    "Cluster Strike: Area damage strike (7 kills).",
+    "Cruise Missile: Player-piloted missile (8 kills).",
+    "Precision Airstrike: Area damage strike (9 kills).",
+    "VTOL: Hovering attack aircraft (12 kills).",
+    "Chopper Gunner: Player-piloted attack helicopter (16 kills).",
+    "Perks: Tier 1/2/3 passive effects.",
+    "Scavenger: Refills ammo from kills (Tier 1).",
+    "Battle Hardened: Reduces tactical effect (Tier 1).",
+    "Cold-Blooded: Hides from UAV / Recon (Tier 1).",
+    "Tracker: See enemy footprints (Tier 2).",
+    "Hardline: Killstreaks 1 kill cheaper (Tier 2).",
+    "Ghost: Hidden from UAV (Tier 3).",
+    "Tempered: 2-hit kill resistance (Tier 3).",
+    "Stun: Tactical grenade — slows + blurs.",
+    "Flash: Tactical grenade — blinds + concuss.",
+    "Smoke: Tactical grenade — area vision block.",
+    "Decoy: Tactical grenade — fake gunfire.",
+    "Snapshot: Tactical grenade — see enemies through walls.",
+    "Stim: Tactical — instant heal.",
+    "Frag: Lethal grenade — explosive.",
+    "Semtex: Sticky grenade.",
+    "Throwing Knife: Lethal — instant kill on direct.",
+    "Thermite: Sticky fire grenade — sticks to surface.",
+    "C4: Placeable explosive.",
+    "Drill Charge: Wall-pierce explosive.",
+    "Trophy System: Auto-destroys incoming grenades (2 use).",
+    "Recon Drone: Scout drone for site intel.",
+    "Tactical Sprint: Limited fast sprint (3-5s).",
+    "Slide-jump: Slide + jump for movement.",
+    "Dolphin Dive: Diving prone for cover.",
+    "Mantling: Climbing onto edges.",
+    "Loadout Drop: BR — drops your custom class kit.",
+    "Plate / Armor Plate: BR — adds 50 HP buffer (max 3 plates = 150 HP).",
+    "Buy Station: BR — buy killstreaks / equipment with cash.",
+    "Gulag: 1v1 respawn after first BR death.",
+    "Specialist Box: Equipment box for loot.",
+    "Cash: BR currency.",
+    "Loot: BR weapons / attachments.",
+    "Resurgence: Smaller-map BR with respawn timers.",
+    "Ring / Storm: BR closing zone — damage when outside.",
+    "Spawn flip: Forcing enemy spawn in different direction.",
+    "Spawn cycle: Tracking respawn timing.",
+    "Cross-map shot: Long-range kill from one side to another.",
+    "Quick-scope: Fast ADS + shot with Sniper.",
+    "Tap-fire: Single shot at distance for accuracy.",
+    "ADS: Aim Down Sights.",
+    "Hip-fire: Shooting without ADS.",
+    "Recoil pattern: Each weapon's unique pattern."
+  ]
+}
