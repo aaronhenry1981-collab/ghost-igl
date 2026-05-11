@@ -1,0 +1,396 @@
+{
+  "generated_at": "2026-05-11T00:00:00.000Z",
+  "game_meta": {
+    "name": "The Finals",
+    "short_name": "Finals",
+    "tagline": "3v3v3v3 (4-team) FPS — stealing cash, defending cashouts, fully destructible environments.",
+    "sides": {
+      "attack": "Stealing / contesting cashouts and vaults",
+      "defense": "Defending the active cashout extraction"
+    },
+    "character_vocab": "contestants (build-based — Light / Medium / Heavy)",
+    "round_economy": "Build classes have fixed HP and gadget choices. No traditional buy phase.",
+    "round_format": "World Tour: 1 match = multiple rounds (cashout cycles). Tournament: best of multiple matches.",
+    "key_mechanics": [
+      "Build classes: Light (150 HP, max mobility), Medium (250 HP, healer/utility), Heavy (350 HP, tank)",
+      "Destructible environment — every wall, floor, and ceiling can be destroyed",
+      "Cashout = take an unlocked vault to a Cashout statue, hold 30s to extract",
+      "Contest = wait for two teams to fight over Cashout, third-party the winner",
+      "Defib (Medium) = revive teammate anywhere on map",
+      "Heal Beam (Medium) = sustained healing during fights",
+      "Mesh Shield (Heavy) = bullet-blocking front shield",
+      "Cloak (Light) = invisibility for flanking",
+      "Grappling Hook (Light) = vertical mobility",
+      "Goo Gun (Heavy) = seal entries / glue enemies",
+      "Pyro Grenade = fire damage zone",
+      "RPG (Heavy) = single-shot rocket launcher"
+    ]
+  },
+  "maps": {
+    "las-vegas": {
+      "name": "Las Vegas",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "casino-vault",
+          "name": "Casino Vault",
+          "callouts": ["Casino Floor", "Vault", "Penthouse", "Pool", "Garage"],
+          "team_strategy": "Heavy carries vault via rooftop route, Light grapples for vertical picks, Medium heal-beams behind."
+        },
+        {
+          "id": "strip-cashout",
+          "name": "Strip Cashout",
+          "callouts": ["Strip", "Plaza", "Rooftops", "Streets", "Garage"],
+          "team_strategy": "Open Strip = exposed. Heavy commits front, Light flanks via Plaza"
+        },
+        {
+          "id": "penthouse-cashout",
+          "name": "Penthouse Cashout",
+          "callouts": ["Penthouse", "Stairs", "Vault View", "Side Door", "Rooftop"],
+          "team_strategy": "Vertical multi-floor hold. Heavy on Cashout, Medium Jump Pad up, Light rooftop SR-84"
+        }
+      ]
+    },
+    "monaco": {
+      "name": "Monaco",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "yacht-vault",
+          "name": "Yacht Vault",
+          "callouts": ["Yacht", "Plaza", "Harbor", "Side Pier", "Rooftop"],
+          "team_strategy": "Yacht is destructible — Heavy can RPG holes for new entries"
+        },
+        {
+          "id": "plaza-cashout",
+          "name": "Plaza Cashout",
+          "callouts": ["Plaza", "Cafe", "Fountain", "Side Buildings", "Rooftop"],
+          "team_strategy": "Open Plaza — Heavy uses Fountain as cover, Light vertical picks"
+        },
+        {
+          "id": "harbor-cashout",
+          "name": "Harbor Cashout",
+          "callouts": ["Harbor", "Pier", "Boat", "Side Buildings", "Rooftop"],
+          "team_strategy": "Pier rotation route to Harbor. Less contested than Plaza."
+        }
+      ]
+    },
+    "seoul": {
+      "name": "Seoul",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "mall-vault",
+          "name": "Mall Vault",
+          "callouts": ["Mall", "Plaza", "Subway", "Side Stores", "Rooftop"],
+          "team_strategy": "Subway tunnel for fast carry. Avoid Streets."
+        },
+        {
+          "id": "plaza-cashout",
+          "name": "Plaza Cashout",
+          "callouts": ["Plaza", "Center Fountain", "Side Buildings", "Rooftop"],
+          "team_strategy": "Open Plaza — Heavy uses Fountain cover, Light grapples for vertical"
+        },
+        {
+          "id": "tower-cashout",
+          "name": "Tower Cashout",
+          "callouts": ["Tower", "Top Floor", "Stairs", "Side Doors", "Rooftop"],
+          "team_strategy": "Vertical hold — multi-floor stack"
+        }
+      ]
+    },
+    "kyoto": {
+      "name": "Kyoto",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "temple-vault",
+          "name": "Temple Vault",
+          "callouts": ["Temple", "Garden", "Side Pillars", "Rooftop", "Stream"],
+          "team_strategy": "Garden cover route, Stream water for fast rotation"
+        },
+        {
+          "id": "plaza-cashout",
+          "name": "Plaza Cashout",
+          "callouts": ["Plaza", "Temple Entry", "Side Stores", "Rooftop"],
+          "team_strategy": "Plaza open — Heavy uses pillars for cover"
+        },
+        {
+          "id": "rooftop-cashout",
+          "name": "Rooftop Cashout",
+          "callouts": ["Rooftop", "Side Ramps", "Drop Down", "Heaven", "Sub-Roof"],
+          "team_strategy": "Vertical hold — Light grapples for vertical advantage"
+        }
+      ]
+    },
+    "sys-horizon": {
+      "name": "SYS$HORIZON",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "grid-vault",
+          "name": "Grid Vault",
+          "callouts": ["Grid Room", "Side Servers", "Catwalks", "Cooling Pipes", "Door"],
+          "team_strategy": "Digital aesthetic, neon corridors. Heavy mesh-carries between racks"
+        },
+        {
+          "id": "tower-cashout",
+          "name": "Tower Cashout",
+          "callouts": ["Tower", "Top Floor", "Stairs", "Side Doors", "Rooftop"],
+          "team_strategy": "Vertical hold"
+        },
+        {
+          "id": "rooftop-cashout",
+          "name": "Rooftop Cashout",
+          "callouts": ["Rooftop", "Side Ramps", "Drop Down", "Heaven"],
+          "team_strategy": "Vertical hold"
+        }
+      ]
+    },
+    "bernal": {
+      "name": "Bernal",
+      "type": "Cashout",
+      "sites": [
+        {
+          "id": "mining-vault",
+          "name": "Mining Vault",
+          "callouts": ["Mining", "Side Tunnels", "Cave", "Rooftop", "Ore Pile"],
+          "team_strategy": "Tight tunnel layout — Heavy uses Mesh Shield + Goo Gun"
+        },
+        {
+          "id": "plaza-cashout",
+          "name": "Plaza Cashout",
+          "callouts": ["Plaza", "Side Buildings", "Rooftop", "Cubby"],
+          "team_strategy": "Open Plaza — Heavy uses cover, Light vertical picks"
+        },
+        {
+          "id": "rooftop-cashout",
+          "name": "Rooftop Cashout",
+          "callouts": ["Rooftop", "Side Ramps", "Heaven"],
+          "team_strategy": "Vertical hold"
+        }
+      ]
+    }
+  },
+  "builds": {
+    "Light": {
+      "hp": 150,
+      "role": "Flank / Pick / Scout",
+      "weapons": ["SR-84 (sniper)", "V9S (pistol)", "M11 (SMG)", "XP-54 (SMG)", "LH1 (DMR)", "Sword (melee)"],
+      "gadgets": ["Cloak", "Grappling Hook", "Stun Gun", "Glitch Grenade", "Vanishing Bomb", "Flashbang", "Sonar Grenade"],
+      "ult": "Cloaking Device (Cloak) or specialized gadgets",
+      "common_mistakes": [
+        "Solo dives without team cover (150 HP dies fast)",
+        "Cloak in obvious spots",
+        "SR-84 holding same angle past first kill",
+        "Grappling Hook into 5 enemies",
+        "Stun Gun on tank only (wasted on Heavy)",
+        "Glitch Grenade in random spots (wastes Defib disable opportunity)",
+        "No team coordination on flank timing",
+        "Vanishing Bomb on cover (no impact)",
+        "Solo SR-84 without team trade",
+        "No off-angle picks"
+      ],
+      "ideal_use": "Flank back-line with Cloak + Grapple. SR-84 from rooftop. Stun Gun on Medium / Light. Glitch Grenade to disable Defib mid-fight."
+    },
+    "Medium": {
+      "hp": 250,
+      "role": "Healer / Utility / Backbone",
+      "weapons": ["AKM (AR)", "FCAR (BR)", "Model 1887 (shotgun)", "R.357 (revolver)", "CL-40 (cluster launcher)"],
+      "gadgets": ["Healing Beam (essential)", "Defibrillator (essential)", "APS Turret", "Goo Grenade", "Pyro Grenade", "Jump Pad", "Glitch Grenade"],
+      "ult": "Healing Beam (sustained heal) or Defib chain",
+      "common_mistakes": [
+        "Healing Beam on full HP teammate",
+        "Defib on a teammate who's not actually dead",
+        "Defib mid-fight (gets killed during channel)",
+        "APS Turret in wrong angle (no protection)",
+        "Goo Grenade in random spots",
+        "Pyro Grenade on cover (no kill)",
+        "Jump Pad in obvious spots",
+        "Solo Medium without team coverage",
+        "No coordination on Defib timing (anticipate vs reactive)",
+        "Healing Beam on Light (Light should be flanking, not sustained)"
+      ],
+      "ideal_use": "Heal Beam Heavy through engagements. Defib BEFORE wipe (anticipate). APS Turret on Cashout. Goo Gun for entry seal."
+    },
+    "Heavy": {
+      "hp": 350,
+      "role": "Anchor / Vault Carrier / Tank",
+      "weapons": ["M60 (LMG)", "SA1216 (auto-shotgun)", "Sledgehammer (melee)", "MGL-32 (grenade launcher)", "Lewis Gun (LMG)"],
+      "gadgets": ["Mesh Shield (essential)", "Barricade", "RPG", "C4", "Goo Gun", "Anti-Gravity Cube", "Charge 'N' Slam"],
+      "ult": "Mesh Shield + RPG combo",
+      "common_mistakes": [
+        "Mesh Shield wrong direction (no protection)",
+        "RPG wasted on Light (Light has 150 HP, easier kill)",
+        "C4 on cover (no damage)",
+        "Goo Gun on wrong entry (didn't seal)",
+        "Anti-Grav Cube in random spots",
+        "Charge 'N' Slam into 5 enemies (suicidal)",
+        "Sledgehammer whiff in open",
+        "Solo Heavy without team backup",
+        "No coordination on Mesh Shield + carry route",
+        "RPG on full HP team (waste on tank)"
+      ],
+      "ideal_use": "Mesh Shield front + carry vault. RPG for Light / Medium back-line. C4 + Goo Gun for entry seal. Charge 'N' Slam for forced engagements."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze": [
+      "Random build choice (no specialization)",
+      "Solo cashout contests",
+      "No third-team awareness",
+      "Defib on full-HP teammate",
+      "No destructible environment usage",
+      "Defib mid-fight without cover",
+      "Medium without Heal Beam + Defib loadout",
+      "Heavy without Mesh Shield loadout",
+      "Light without Cloak + Grapple loadout",
+      "No comms in voice"
+    ],
+    "silver": [
+      "Build specialization but bouncing kits",
+      "Cashout contests random",
+      "Third-team timing missed",
+      "Defib timing reactive (after wipe)",
+      "No vault carry route planning",
+      "Solo Heavy without team trade",
+      "Medium positioning behind tank but not in LOS",
+      "Light flanking but no team trade",
+      "No multi-floor hold awareness",
+      "Buy / build decision random"
+    ],
+    "gold": [
+      "Build synergy in 3-stack random",
+      "Vault carry routes obvious",
+      "Defib anticipation off",
+      "No third-team rotation tracking",
+      "Anti-grenade positioning random",
+      "Cashout contest reads slow",
+      "Pro VOD habits absent",
+      "Map destructibility under-used",
+      "Mental tilt management absent",
+      "No coordinated 3-stack play"
+    ],
+    "platinum": [
+      "3-stack synergy gaps",
+      "Carry routes still predictable",
+      "Defib timing 1 second off",
+      "Anti-grenade positioning 1 angle off",
+      "Cashout contest reads — late",
+      "Pro VOD habits limited (1 match/day)",
+      "Map destructibility tactical but predictable",
+      "Tilt protocols incomplete",
+      "No anti-third-party setup",
+      "Late round 1v1 management"
+    ],
+    "diamond": [
+      "Pro-tier reads — predictable on own",
+      "Defib discipline — 1 wasted Defib per round",
+      "Mid-round comm overload",
+      "Off-angle positioning not adjusted",
+      "Build swap timing — too early or too late",
+      "Late round 1v1 management",
+      "Sensitivity drift",
+      "Solo carries on eco rounds",
+      "Cashout positioning aggressive",
+      "Mental fatigue on long sessions"
+    ],
+    "ruby": [
+      "Pro-tier reads on every round (predictable)",
+      "Defib gaps — 1 timing miss per round",
+      "Cooldown management across 3 players",
+      "Mid-round adjustment timing",
+      "Comm discipline overload",
+      "Late round 1v3+ management",
+      "Mental fatigue on long sessions",
+      "Comp staying static vs counter",
+      "Pickup attempt without team coverage",
+      "Round economy decision: 1 second shy"
+    ]
+  },
+  "review_template": {
+    "positioning": [
+      "Is the Heavy mesh-shielding the front?",
+      "Is the Medium in LOS of Heavy for Heal Beam?",
+      "Is the Light flanking with Cloak / Grapple?",
+      "Is the team using multi-floor hold (vertical) on Cashout?",
+      "Is the team using destructible cover (Sledgehammer holes, RPG holes)?",
+      "Is the team anticipating third-team rotation?",
+      "Did the team commit to vault carry route or hesitate?"
+    ],
+    "crosshair": [
+      "Is the crosshair pre-aimed at head level on the angle?",
+      "Is the Heavy hipfire (close) or ADS (mid-range)?",
+      "Is the Medium AKM / FCAR for mid-range?",
+      "Is the Light SR-84 / V9S for range?",
+      "Is the player landing key shots (Heavy melee, Medium AKM, Light SR-84)?",
+      "Is the crosshair on priority target (Defibbing Medium, carrying Heavy)?"
+    ],
+    "utility": [
+      "Did the Heavy use Mesh Shield + RPG?",
+      "Did the Medium use Heal Beam + Defib?",
+      "Did the Light use Cloak + Grapple?",
+      "Was the team coordinated on multi-floor + entry seal?",
+      "Was Defib anticipated vs reactive?",
+      "Was Glitch Grenade used to disable Defib mid-fight?",
+      "Was Goo Gun used to seal entries?",
+      "Was RPG / C4 used for entry breach?"
+    ],
+    "decisions": [
+      "Did the team commit to Cashout or hesitate?",
+      "Did the team rotate to next vault on contest?",
+      "Did the team time third-party correctly?",
+      "Did the player engage 1v2+ without team backup?",
+      "Did the team coordinate Defib chain on wipe?",
+      "Did the team use destructible cover proactively?",
+      "Did the team save Mesh Shield + RPG for cap commit?"
+    ]
+  },
+  "vocabulary": [
+    "Cashout: Vault extracted at the Cashout statue, 30s extraction timer.",
+    "Vault: Locked safe containing the cash; carry to Cashout to extract.",
+    "Extract: Successful 30s Cashout completion.",
+    "Contest: Stealing the Cashout from another team.",
+    "Re-steal: Stealing the Cashout after it's been stolen from you.",
+    "Third-party: 4-team mode — third team waiting for two to engage, then steal.",
+    "Fourth-party: Final team waiting for chaos to end.",
+    "Build / Class: Light / Medium / Heavy.",
+    "Light: 150 HP, max mobility build.",
+    "Medium: 250 HP, healer/utility build.",
+    "Heavy: 350 HP, tank build.",
+    "Mesh Shield: Heavy's bullet-blocking front shield.",
+    "Heal Beam: Medium's sustained heal ability.",
+    "Defib / Defibrillator: Medium's revive teammate ability.",
+    "Cloak: Light's invisibility ability.",
+    "Grapple / Grappling Hook: Light's vertical mobility.",
+    "Glitch Grenade: Disables enemy abilities (including Defib).",
+    "Goo Gun: Heavy's wall-creating gun (seals entries, blocks bullets).",
+    "Pyro Grenade: Fire damage zone.",
+    "C4: Placeable explosive for breach / kills.",
+    "RPG: Heavy's rocket launcher.",
+    "Sledgehammer: Heavy's melee weapon, destroys walls.",
+    "Anti-Gravity Cube: Floats enemies / objects, denies cover.",
+    "Charge 'N' Slam: Heavy's leap attack.",
+    "Jump Pad: Medium's portable mobility.",
+    "APS Turret: Medium's auto-fire turret.",
+    "Stun Gun: Light's electric stun.",
+    "Vanishing Bomb: Light's exploding cloak grenade.",
+    "Sonar Grenade: Light's enemy reveal grenade.",
+    "AKM: Medium AR.",
+    "FCAR: Medium burst rifle.",
+    "Model 1887: Medium shotgun.",
+    "M60: Heavy LMG.",
+    "SA1216: Heavy auto-shotgun.",
+    "SR-84: Light sniper rifle.",
+    "V9S: Light pistol.",
+    "M11: Light SMG.",
+    "Healing channel: Defib reviving teammate (3s channel).",
+    "Multi-floor hold: Splitting team across multiple floors of Cashout building.",
+    "Carry route: Path the Heavy takes to extract vault.",
+    "Vault destruction: Heavy can destroy walls during vault carry for shortcut routes.",
+    "Pyro chain: Heavy goos entry, Medium Pyros the goo for fire damage.",
+    "Defib chain: Repeated Defib usage to maintain team in fight.",
+    "Reset hold: Pre-positioning for the inevitable wipe to Defib + re-engage.",
+    "Anti-third party: Pre-positioning for the third team arrival."
+  ]
+}
