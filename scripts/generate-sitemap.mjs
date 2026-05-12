@@ -49,6 +49,18 @@ const STATIC_URLS = [
   { loc: '/games/halo/', freq: 'weekly', pri: 0.85 },
   { loc: '/games/fn/', freq: 'weekly', pri: 0.85 },
   { loc: '/games/rl/', freq: 'weekly', pri: 0.85 },
+  // Early-access 9 game landing pages (LoL, Dota 2, EA FC, Tekken 8, SF6,
+  // PUBG, Deadlock, Naraka, NBA 2K). Catalog + structure live; deep content
+  // growing. Priority 0.75 (slightly lower than core 11 until content lands).
+  { loc: '/games/lol/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/dota2/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/eafc/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/tk8/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/sf6/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/pubg/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/deadlock/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/naraka/', freq: 'weekly', pri: 0.75 },
+  { loc: '/games/nba2k/', freq: 'weekly', pri: 0.75 },
   // Per-game loadouts pages — captures "<game> loadouts" / "best <game>
   // weapons" queries which are extremely high-volume search terms.
   { loc: '/games/r6/loadouts.html', freq: 'monthly', pri: 0.85 },
@@ -241,6 +253,10 @@ async function main() {
     'ow2-plat-to-diamond',
     'ow2-diamond-to-master',
     'ow2-master-to-gm',
+    'ow2-stadium-guide',
+    'ow2-stadium-tier-list',
+    'ow2-stadium-items-guide',
+    'ow2-stadium-economy',
     // Apex
     'apex-bronze-to-silver',
     'apex-silver-to-gold',
@@ -290,6 +306,36 @@ async function main() {
     'rl-diamond-to-champion',
     'rl-champion-to-gc',
     'rl-gc-to-ssl',
+    // League of Legends
+    'lol-beginner-guide-2026',
+    'lol-champion-tier-list-2026',
+    'lol-itemization-guide',
+    'lol-gold-to-platinum',
+    'lol-top-lane-matchups',
+    // EA Sports FC
+    'eafc-beginner-guide-2026',
+    'eafc-best-formations-2026',
+    'eafc-fut-chemistry-guide',
+    'eafc-div5-to-elite',
+    'eafc-custom-tactics-guide',
+    // Tekken 8
+    'tekken-8-beginner-guide-2026',
+    'tekken-8-tier-list-2026',
+    'tekken-8-bnb-combos-guide',
+    'tekken-8-1st-dan-to-king',
+    'tekken-8-matchup-chart-2026',
+    // PUBG
+    'pubg-beginner-guide-2026',
+    'pubg-best-drops-2026',
+    'pubg-weapon-tier-list-2026',
+    'pubg-silver-to-gold',
+    'pubg-endgame-strategy',
+    // Dota 2
+    'dota-2-beginner-guide-2026',
+    'dota-2-hero-tier-list-2026',
+    'dota-2-item-builds-guide',
+    'dota-2-crusader-to-archon',
+    'dota-2-warding-guide-2026',
     // R6 operator deep-dives (47 posts)
     'r6-operator-ace', 'r6-operator-alibi', 'r6-operator-aruni', 'r6-operator-ash', 'r6-operator-azami',
     'r6-operator-bandit', 'r6-operator-buck', 'r6-operator-capitao', 'r6-operator-castle', 'r6-operator-caveira',
