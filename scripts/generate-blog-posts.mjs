@@ -48,7 +48,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   <meta property="og:image" content="${escape(ogImageUrl)}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="Recon+" />
+  <meta property="og:site_name" content="Recon 6" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="${escape(ogImageUrl)}" />
   ${jsonLdHtml}
@@ -111,7 +111,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     ${bodyInner}
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon+ — AI-powered FPS coaching across 10 games. <a href="${SITE_URL}/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 — coaching across 20 competitive games. <a href="${SITE_URL}/">r6coaching.com</a></p>
   </div>
 </body>
 </html>`
@@ -193,7 +193,7 @@ const R6_POSTS = [
 </ul>
 <p>If you commit to fundamentals — small op pool, drone before push, smart reinforcements, trade fragging — you'll exit Copper inside two weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning mistakes per round — useful when you know you're losing but can't see why.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
@@ -279,7 +279,7 @@ const R6_POSTS = [
 </ul>
 <p>By session 9, you'll position better than any Bronze player. Map knowledge is the Silver gap.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can tell you which positions you held that pros don't — useful for spotting predictable habits before your opponents do.</p>`,
+    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can tell you which positions you held that pros don't — useful for spotting predictable habits before your opponents do.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
@@ -354,7 +354,7 @@ const R6_POSTS = [
       html: `<p>Load Bank in Custom Game with a friend. Practice peeking from CEO window at the 0:08 and 0:30 round-timer marks. There's a window where attackers always cross the truck spawn — you can read it and pick the entry fragger before they have utility ready.</p>
 <p>After 20 reps, this becomes muscle memory. You'll get free round-opener picks in ranked.</p>`,
     },
-    aiVodMention: `<p>Utility timing mismatches are hard to spot in the moment. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your Thatcher / Thermite sync and flags rounds where your timing was off — actionable feedback you can apply the next match.</p>`,
+    aiVodMention: `<p>Utility timing mismatches are hard to spot in the moment. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your Thatcher / Thermite sync and flags rounds where your timing was off — actionable feedback you can apply the next match.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
@@ -443,7 +443,7 @@ const R6_POSTS = [
       html: `<p>Set up a 5-on-5 Custom Game on Bank CEO. As defenders, plant the bomb and intentionally let it stand for the full timer. Practice cycling utility every 5 seconds to stop defuse for the entire 45-second post-plant window.</p>
 <p>After 5 reps, your team will have a synced cycle. Apply it in ranked. You'll win 2-3 extra post-plant rounds per match.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks utility cycles per round and flags gaps in your post-plant timing — useful for finding the rounds where your team's coordination broke down without a teammate being obviously at fault.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks utility cycles per round and flags gaps in your post-plant timing — useful for finding the rounds where your team's coordination broke down without a teammate being obviously at fault.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
@@ -536,7 +536,7 @@ const R6_POSTS = [
 </ol>
 <p>Each round forces a different muscle memory. Mix this into your scrim routine and you'll start auto-adapting per-round in ranked.</p>`,
     },
-    aiVodMention: `<p>At this elo, finding the predictable habits in your own play is the climb. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tags rounds where you held the same anchor twice in a row or used identical exec timing — the patterns Emerald opponents will exploit.</p>`,
+    aiVodMention: `<p>At this elo, finding the predictable habits in your own play is the climb. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tags rounds where you held the same anchor twice in a row or used identical exec timing — the patterns Emerald opponents will exploit.</p>`,
     relatedLinks: [
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
       { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
@@ -662,7 +662,7 @@ const R6_POSTS = [
 </ul>
 <p>Build a mental model of common opponent patterns. After 10 ranked games of note-taking, you'll start anticipating instead of reacting. Diamond is an information game.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can extract opponent habits across multiple matches — useful for spotting tendencies that you can't track in real-time but are obvious in aggregate.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can extract opponent habits across multiple matches — useful for spotting tendencies that you can't track in real-time but are obvious in aggregate.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
@@ -737,13 +737,13 @@ const R6_POSTS = [
 <p>By game 5 you'll start anticipating instead of reacting. The pro players are using the exact reads you should be making — once you can predict their decisions, you've internalized the same decision-making framework.</p>
 <p>Recommended VODs: Six Invitational finals from the past 2 years. The prep level is highest, the macro is most refined, and the comp swaps round-to-round are textbook.</p>`,
     },
-    aiVodMention: `<p>At Diamond+, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p>At Diamond+, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
       { name: 'R6 Operator Comparison Tool', url: '/#/operators' },
-      { name: 'Recon+ Pricing & Plans', url: '/#pricing' },
+      { name: 'Recon 6 Pricing & Plans', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -753,7 +753,7 @@ const R6_POSTS = [
 
 function renderBreadcrumb(post) {
   return `<nav class="breadcrumb">
-    <a href="/">Recon+</a> ›
+    <a href="/">Recon 6</a> ›
     <a href="/blog/">Blog</a> ›
     <a href="/blog/?game=${post.game}">${escape(post.gameLabel)}</a> ›
     <span>${escape(post.fromRank)} → ${escape(post.toRank)}</span>
@@ -783,14 +783,14 @@ function renderPost(post) {
 
   const relatedHtml = post.relatedLinks && post.relatedLinks.length ? `
     <div class="related">
-      <h3>Related Recon+ guides</h3>
+      <h3>Related Recon 6 guides</h3>
       <ul>${post.relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
     </div>` : ''
 
   const ctaHtml = `
     <div class="intro-cta">
       <h3>Want AI-powered VOD review on your own gameplay?</h3>
-      <p>Recon+ Pro reads your replays and flags positioning, utility, and decision mistakes round-by-round. Founding rate $9/mo.</p>
+      <p>Recon 6 Pro reads your replays and flags positioning, utility, and decision mistakes round-by-round. Founding rate $9/mo.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
@@ -823,8 +823,8 @@ function renderPost(post) {
       '@type': 'Article',
       headline: post.metaTitle,
       description: post.metaDescription,
-      author: { '@type': 'Organization', name: 'Recon+' },
-      publisher: { '@type': 'Organization', name: 'Recon+', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
+      author: { '@type': 'Organization', name: 'Recon 6' },
+      publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
       datePublished: '2026-05-10',
       dateModified: '2026-05-10',
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
@@ -849,7 +849,7 @@ function renderPost(post) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Recon+', item: SITE_URL },
+        { '@type': 'ListItem', position: 1, name: 'Recon 6', item: SITE_URL },
         { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
         { '@type': 'ListItem', position: 3, name: post.gameLabel, item: `${SITE_URL}/blog/?game=${post.game}` },
         { '@type': 'ListItem', position: 4, name: `${post.fromRank} to ${post.toRank}`, item: canonical },
@@ -889,12 +889,12 @@ function renderIndex(allPosts) {
     </section>`).join('')
 
   const bodyInner = `
-    <h1>Recon+ Blog — Rank-Up Guides for 10 FPS Games</h1>
+    <h1>Recon 6 Blog — Rank-Up Guides for 11 Tactical Games</h1>
     <p style="color: rgba(230,233,239,0.8)">Tactical rank-up guides for every supported title. Each guide targets a specific rank gap with operators, callouts, common mistakes, and drills you can run today.</p>
     ${sectionsHtml}
     <div class="intro-cta">
       <h3>Want AI VOD review on top of these guides?</h3>
-      <p>Recon+ Pro reads your replays and flags positioning + utility mistakes per round. $9/mo founding rate before May 8.</p>
+      <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round. $9/mo founding rate before May 8.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
@@ -902,23 +902,23 @@ function renderIndex(allPosts) {
     {
       '@context': 'https://schema.org',
       '@type': 'Blog',
-      name: 'Recon+ Blog',
+      name: 'Recon 6 Blog',
       description: 'Tactical rank-up guides for 10 supported FPS games — R6 Siege, CS2, Valorant, OW2, and more.',
       url: `${SITE_URL}/blog/`,
-      publisher: { '@type': 'Organization', name: 'Recon+', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
+      publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Recon+', item: SITE_URL },
+        { '@type': 'ListItem', position: 1, name: 'Recon 6', item: SITE_URL },
         { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
       ],
     },
   ]
 
   return htmlShell({
-    title: 'Rank-Up Guides for 10 FPS Games — Recon+ Blog',
+    title: 'Rank-Up Guides for 11 Tactical Games — Recon 6 Blog',
     description: 'Tactical guides for every rank gap across R6 Siege, CS2, Valorant, OW2, Apex, Marvel Rivals, Halo, The Finals, CoD, and Fortnite.',
     canonical: `${SITE_URL}/blog/`,
     bodyInner,
@@ -1013,13 +1013,13 @@ const CS2_POSTS = [
 </ol>
 <p>Each lineup takes 5 minutes to learn. After 20 minutes you have the most-used T-side execute on the most-played CS2 map. Apply in matchmaking.</p>`,
     },
-    aiVodMention: `<p>If you're losing rounds and can't tell why, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + utility mistakes round by round — useful for catching the habit you don't know you have.</p>`,
+    aiVodMention: `<p>If you're losing rounds and can't tell why, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility mistakes round by round — useful for catching the habit you don't know you have.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Nova to Master Guardian', url: '/blog/cs2-nova-to-mg.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 7,
   },
@@ -1111,13 +1111,13 @@ const CS2_POSTS = [
 </ol>
 <p>Run this timing 10 times offline. By rep 10 you have the standard MG-level B exec. Apply in matchmaking with your stack.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on lineups, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your trade-frag distance was off — useful when you don't know why a 4v3 became a 0v3.</p>`,
+    aiVodMention: `<p>Once you're confident on lineups, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your trade-frag distance was off — useful when you don't know why a 4v3 became a 0v3.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Nova', url: '/blog/cs2-silver-to-nova.html' },
       { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -1208,13 +1208,13 @@ const CS2_POSTS = [
       html: `<p>Mirage Window peek (CT side) catches A pushers at 0:08 timer mark. Practice in offline mode: peek Window at 0:08 with crosshair at head height pre-aimed at the standard A Ramp player position. Hit the peek 20 times until muscle memory.</p>
 <p>Apply in ranked. You'll get a free round-opener pick on most A executes — flips the round economy.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your smoke placement vs pro placement on the same map — useful for spotting where your smokes are blocking the wrong angle.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your smoke placement vs pro placement on the same map — useful for spotting where your smokes are blocking the wrong angle.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Nova to MG', url: '/blog/cs2-nova-to-mg.html' },
       { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -1308,13 +1308,13 @@ const CS2_POSTS = [
 </ol>
 <p>Catches LE-tier defenders out of position 50%+ of attempts. Run it as a stack 5-10 times for the timing.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your AWP angle variation across the match — useful for spotting when you've held the same spot 3 rounds in a row without realizing it.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your AWP angle variation across the match — useful for spotting when you've held the same spot 3 rounds in a row without realizing it.</p>`,
     relatedLinks: [
       { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
       { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
       { name: 'CS2 Anubis Guide', url: '/games/cs2/anubis.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -1395,13 +1395,13 @@ const CS2_POSTS = [
 </ol>
 <p>Track headshot % weekly via the stats screen. If you're not at 28%+ after 2 weeks, extend to 4 weeks. Aim is the foundation — utility doesn't fix lost duels.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compute your headshot rate by weapon and map — useful for finding the gun-map combination that's holding back your stats.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your headshot rate by weapon and map — useful for finding the gun-map combination that's holding back your stats.</p>`,
     relatedLinks: [
       { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
       { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -1499,13 +1499,13 @@ const CS2_POSTS = [
       html: `<p>Watch one tier-1 CS2 match per day for 30 days. Tracking sheet on your phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways: utility timings, default plant spots, anti-eco buys, half-time reads.</p>
 <p>This is the practice routine that bridges LEM to Supreme. The gap isn't aim — it's pattern recognition at the pro level.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compare your decision patterns against pro-tier reads round-by-round — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compare your decision patterns against pro-tier reads round-by-round — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
       { name: 'How to Climb from Supreme to Global', url: '/blog/cs2-supreme-to-global.html' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -1606,13 +1606,13 @@ const CS2_POSTS = [
       html: `<p>Track per-match: headshot %, K/D, ADR (average damage per round). If numbers are flat over 30 matches, fix the aim regimen first before trying to climb on macro.</p>
 <p>Aim is the foundation that lets the macro work. Without 30%+ headshot rate, your reads don't matter — you're losing duels even when you read correctly.</p>`,
     },
-    aiVodMention: `<p>At the Global queue level, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation (round 1-3 vs round 4-6) against pro-tier patterns — useful for finding the rounds where you should have switched strat but didn't.</p>`,
+    aiVodMention: `<p>At the Global queue level, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation (round 1-3 vs round 4-6) against pro-tier patterns — useful for finding the rounds where you should have switched strat but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'CS2 Mirage Guide', url: '/games/cs2/mirage.html' },
       { name: 'CS2 Inferno Guide', url: '/games/cs2/inferno.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -1700,13 +1700,13 @@ const VALORANT_POSTS = [
 </ul>
 <p>If you commit to fundamentals — small agent pool, head-height crosshair, save-don't-force, trade fragging — you'll exit Iron inside two weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + ability usage mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ability usage mistakes per round — useful when you know you're losing but can't see why.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
       { name: 'Valorant Haven Guide', url: '/games/valorant/haven.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 7,
   },
@@ -1800,7 +1800,7 @@ const VALORANT_POSTS = [
 </ul>
 <p>Repeat for 3 maps × 1 week. By end of week you've put 9+ hours into 3 maps. Map knowledge is the Silver gap.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your positioning telegraphed your push direction — useful for spotting predictable habits.</p>`,
+    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your positioning telegraphed your push direction — useful for spotting predictable habits.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Iron to Bronze', url: '/blog/valorant-iron-to-bronze.html' },
       { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
@@ -1905,13 +1905,13 @@ const VALORANT_POSTS = [
       heading: 'Drill: Bind A synced execute',
       html: `<p>Stack 5 in Custom Game. Run the Bind A exec sequence above 10 times. Each rep, the IGL counts the timer; utility hits on the count. After 10 reps the timing is muscle memory.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks utility timing per round and flags rounds where your team's exec was off-tempo.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks utility timing per round and flags rounds where your team's exec was off-tempo.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
       { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
       { name: 'Valorant Haven Guide', url: '/games/valorant/haven.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -2017,7 +2017,7 @@ const VALORANT_POSTS = [
       heading: 'Drill: 5 Sova lineups in 30 minutes',
       html: `<p>Watch a YouTube Sova lineup video for your 3 main maps. Practice in Custom mode for 30 minutes total — 5 lineups memorized. Apply in ranked. Round-opener picks 30%+ of the time on the maps you know.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your team's comp was missing a role and the round was lost on synergy, not aim.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your team's comp was missing a role and the round was lost on synergy, not aim.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
@@ -2118,13 +2118,13 @@ const VALORANT_POSTS = [
       html: `<p>Load Range with bots set to "easy" (so they don't track). Practice jiggle-peeking: 1 A tap → 1 D tap → step forward 1 frame → step back. Repeat 50 times. The motion becomes muscle memory.</p>
 <p>Apply in ranked when peeking AWPs or known angle holders. Bait the first shot, peek wide for the trade.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where you held the same anchor angle 3+ rounds in a row — predictable habits Diamond opponents will exploit.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you held the same anchor angle 3+ rounds in a row — predictable habits Diamond opponents will exploit.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
       { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
       { name: 'Valorant Icebox Guide', url: '/games/valorant/icebox.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -2224,13 +2224,13 @@ const VALORANT_POSTS = [
       html: `<p>Every match, the IGL announces 3 reads on round 1: "Their Cypher has TP trips. Their Killjoy has Lockdown. Their Sova has recon lineups." Team adjusts setup accordingly.</p>
 <p>Practice this for 10 matches. After 10 matches, the comp-read protocol is automatic.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your comp adaptations across the match — useful for spotting rounds where the right call was obvious but you played default.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your comp adaptations across the match — useful for spotting rounds where the right call was obvious but you played default.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
       { name: 'How to Climb from Ascendant to Immortal', url: '/blog/valorant-ascendant-to-immortal.html' },
       { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
       { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -2327,13 +2327,13 @@ const VALORANT_POSTS = [
       heading: 'Drill: 30 days of pro-VOD-per-day',
       html: `<p>Watch one tier-1 VCT match per day for 30 days. Tracking sheet on phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways.</p>`,
     },
-    aiVodMention: `<p>At Immortal queue, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p>At Immortal queue, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Valorant Ascent Guide', url: '/games/valorant/ascent.html' },
       { name: 'Valorant Bind Guide', url: '/games/valorant/bind.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -2424,13 +2424,13 @@ const OW2_POSTS = [
 </ul>
 <p>If you commit to fundamentals — role specialization, small hero pool, head-height crosshair, ult tracking — you'll exit Bronze inside 3-4 weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why team fights feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + ult timing mistakes per fight.</p>`,
+    aiVodMention: `<p>If you can't tell why team fights feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ult timing mistakes per fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List', url: '/blog/ow2-stadium-tier-list.html' },
       { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -2529,13 +2529,13 @@ const OW2_POSTS = [
 </ul>
 <p>Even if you're flexing, you'll learn how each comp wins the fight. After 15 games you'll auto-recognize comps from the round 1 lock-in screen.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy — useful for spotting "I should have switched" moments.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy — useful for spotting "I should have switched" moments.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/ow2-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
-      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Items Guide', url: '/blog/ow2-stadium-items-guide.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -2644,13 +2644,13 @@ const OW2_POSTS = [
 </ul>
 <p>By game 5 you'll have 10+ counter-pick scenarios under your belt. Apply in ranked. The swap habit is the Plat-to-Diamond bridge — it's worth more rank than mechanical aim improvement at this stage.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your hero swap timing and flags rounds where you should have counter-picked but didn't.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your hero swap timing and flags rounds where you should have counter-picked but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
-      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -2748,13 +2748,13 @@ const OW2_POSTS = [
       html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match. By day 30 you'll have 30 specific patterns memorized.</p>
 <p>Examples: "OWCS team uses Sound Barrier on the regroup, not the engage." "Pro IGL always swaps tank from Reinhardt to Sigma between Point A and B on King's Row."</p>`,
     },
-    aiVodMention: `<p>At Diamond, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one.</p>`,
+    aiVodMention: `<p>At Diamond, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Items Guide', url: '/blog/ow2-stadium-items-guide.html' },
       { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Junkertown Guide', url: '/games/ow2/junkertown.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -2839,13 +2839,13 @@ const OW2_POSTS_HIGH = [
       'Tilt-stacking 3+ match losing streaks.',
     ],
     drill: { heading: 'Drill: 30-day pro VOD-per-day library build', html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match — pattern, ult timing, comp swap, positioning detail. By day 30 you have 30 patterns.</p><p>Test it: at day 30, watch a new pro match and predict 5 calls before they happen. Hit rate should be 60%+. If it's lower, your library is shallow — keep watching for another 30 days.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compute your hero-swap timing across matches and flag rounds where you should have swapped mid-fight but didn't. Useful for finding the Diamond plateau pattern of "stuck on main hero" that Master players have already broken.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your hero-swap timing across matches and flag rounds where you should have swapped mid-fight but didn't. Useful for finding the Diamond plateau pattern of "stuck on main hero" that Master players have already broken.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
       { name: 'How to Climb from Master to GM', url: '/blog/ow2-master-to-gm.html' },
-      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Eichenwalde Guide', url: '/games/ow2/eichenwalde.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -2933,15 +2933,477 @@ const OW2_POSTS_HIGH = [
       'No tilt protocol for round 13+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days, 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, sleep dart hit rate (if Ana), crit rate per role. If numbers plateau before day 90, fix sensitivity or ergonomics before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against OWCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern that separates Master plateau from GM ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against OWCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern that separates Master plateau from GM ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Master', url: '/blog/ow2-diamond-to-master.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
-      { name: 'OW2 King\'s Row Guide', url: '/games/ow2/kings-row.html' },
-      { name: 'OW2 Junkertown Guide', url: '/games/ow2/junkertown.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'OW2 Stadium Economy Guide', url: '/blog/ow2-stadium-economy.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  // OW2 STADIUM — high-priority SEO bet. Stadium (S16 launch, April 2025)
+  // is the newest, lowest-competition keyword cluster in OW2. Search demand
+  // is high ("stadium builds", "stadium powers", "stadium ow2"), and the
+  // major coaching sites haven't covered it deeply yet. This is a
+  // first-mover content opportunity, not a saturated topic.
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Stadium',
+    toRank: 'Mastery',
+    slug: 'ow2-stadium-guide',
+    metaTitle: 'OW2 Stadium Guide — Best Builds, Powers & Economy (2026)',
+    metaDescription: 'Complete Overwatch 2 Stadium guide: how the BO7 round economy works, best Powers per hero, Item shop priorities (Weapon Power / Ability Power / Armor / CDR / Life Steal / Move Speed), tank vs DPS vs support build paths, and the round-economy mistakes that cost you the match.',
+    intro: `<p>Stadium is OW2's round-based 5v5 mode added in Season 16. First team to 4 round wins in a best-of-7 takes the match. Between rounds you spend Cash (won via round outcome + kills + objective time) on hero-specific Powers (4 unlocked at rounds 1/3/5/7 — permanent once picked) and stat Items in a shop. Build path matters more than mechanical aim past Diamond — picking the wrong Power chain or stat curve loses rounds even with a 60% hero win rate. This guide breaks down the round economy, the six Item categories, archetype build paths for the most common picks, and the round-economy mistakes that quietly cost you the match.</p>`,
+    sections: [
+      {
+        heading: 'How the round economy actually works',
+        html: `<p>Stadium is a best-of-7 format. First team to 4 round wins takes the match. Each round you earn Cash you spend in the next round's shop:</p>
+<ul>
+  <li><strong>Round win:</strong> ~3,500–4,500 Cash (scales with contribution + match length).</li>
+  <li><strong>Round loss:</strong> ~2,500–3,000 Cash. Loss bonus is intentional — it's anti-snowball, not punishment.</li>
+  <li><strong>Eliminations:</strong> ~100–250 each. Round MVP +500. Assists ~50 each. Objective time ~10/sec.</li>
+</ul>
+<p>The shop opens for ~30 seconds between every round. Powers are unlocked at the end of rounds 1, 3, 5, and 7. Once a Power is locked, you can't swap it — wrong R1 picks compound through R7. This is the most common silver-to-plat Stadium mistake: picking a "looks strong" Power without checking whether the Items you can afford this round actually support it.</p>
+<p><strong>Critical rule:</strong> never enter Round 7 with more than ~1,000 unspent Cash. Unspent Cash is forfeited at match end. The single most common throw in low-rank Stadium is hoarding Cash that's never deployed.</p>`,
+      },
+      {
+        heading: 'The six Item categories and which hero each one fits',
+        html: `<p>The shop offers six stat categories, each in Common / Rare / Epic tiers. Common items are cheapest but suffer hard diminishing returns past three stacks of the same stat — past Round 3 you should be eyeing Rare and Epic upgrades, not stacking your fourth Common.</p>
+<ul>
+  <li><strong>Weapon Power</strong> — percent damage boost on primary fire. Best for hitscan DPS (Soldier 76, Cassidy, Ashe, Sojourn). Weakest on tanks because of hero-tag damage reduction.</li>
+  <li><strong>Ability Power</strong> — percent boost on ability damage, healing, and utility effects. Best for ability-driven heroes (Ana, Sigma, Mei, Junkrat, Symmetra, Reinhardt for Earthshatter scaling).</li>
+  <li><strong>Armor / Health</strong> — flat HP or armor layer. Armor reduces incoming damage 30% on shots ≤10 damage (the bullet-armor rule). Best for tanks and brawl DPS (Reaper, Mauga, Junker Queen).</li>
+  <li><strong>Cooldown Reduction</strong> — percent off ability cooldowns. Best for cooldown-driven heroes (Brigitte, Ana, Lúcio, D.Va for Defense Matrix uptime).</li>
+  <li><strong>Life Steal</strong> — heal for percent of damage dealt. Best for sustain DPS (Reaper, Mauga, Mei) who win 1v1s by out-lasting trades.</li>
+  <li><strong>Move Speed</strong> — base movement boost. Best for flank DPS (Reaper, Sombra) and mobile supports.</li>
+</ul>
+<p><strong>The single biggest stat-allocation mistake:</strong> tanks buying Weapon Power. Tank damage gets hit by hero-tag damage reduction in Stadium — Weapon Power is the worst dollar-per-impact category for any tank that isn't Mauga. Buy Armor and Cooldown Reduction first; ignore Weapon Power until your defensive stack is set.</p>`,
+      },
+      {
+        heading: 'Reinhardt build — Brawl Tank baseline path',
+        html: `<p>Reinhardt is the most build-stable Stadium tank. Build for survivability + Earthshatter scaling, not raw damage:</p>
+<ul>
+  <li><strong>R1 Power:</strong> Charging Rhino (Charge cooldown reduction). Lets you reposition the choke faster.</li>
+  <li><strong>R3 Power:</strong> Steadfast (knockback resistance during Charge). Lets you commit Charge through bumps and CC.</li>
+  <li><strong>R5 Power:</strong> Earthsplitter (Earthshatter AoE expansion). The fight-winner — bigger AoE = more guaranteed knockdowns.</li>
+  <li><strong>R7 Power:</strong> Crusader Resurgence (heal-on-Earthshatter-hit). Survive the post-shatter team fight.</li>
+</ul>
+<p><strong>Item path:</strong> R1 — 2× Armor Common · R2 — 1× Cooldown Reduction Rare · R3 — 1× Armor Epic (Bulwark) · R4 — 1× Ability Power Rare (scales Earthshatter damage) · R5 — 1× Cooldown Reduction Epic · R6 — top up Armor + 1× Move Speed Common.</p>
+<p>By Round 5 your Earthshatter has bigger AoE, your Charge cooldown is short enough to reposition twice per fight, and you're hard to kill behind Bulwark armor stacks. Round 7 wins on the heal-on-shatter Power flipping the post-shatter cleanup.</p>`,
+      },
+      {
+        heading: 'Soldier 76 build — Hitscan DPS baseline path',
+        html: `<p>Soldier is the most build-portable hitscan in Stadium. He scales with Weapon Power harder than almost anyone else:</p>
+<ul>
+  <li><strong>R1 Power:</strong> Steady Aim (recoil control). Improves your headshot rate from Round 1.</li>
+  <li><strong>R3 Power:</strong> Anti-Gravity Pulse (Helix Rockets gain knockback). Pairs with team-fight engages.</li>
+  <li><strong>R5 Power:</strong> Stim Sprint (sprint heals while moving). Sustain through poke fights.</li>
+  <li><strong>R7 Power:</strong> Tactical Visor Overload (longer Tac Visor, faster fire rate). One-shots the round.</li>
+</ul>
+<p><strong>Item path:</strong> R1 — 2× Weapon Power Common · R2 — 1× Weapon Power Rare · R3 — 1× Life Steal Common · R4 — 1× Cooldown Reduction Rare (Helix uptime) · R5 — 1× Weapon Power Epic (Crit Bonus) · R6 — 1× Armor Common.</p>
+<p>Tac Visor in Round 5+ should win the round outright. The Weapon Power stack is your win condition; never substitute it for Ability Power on Soldier — Helix is utility, not your damage core.</p>`,
+      },
+      {
+        heading: 'Ana build — Spell Support baseline path',
+        html: `<p>Ana is Stadium's highest-scaling support because her kit is 100% ability-driven. Heal numbers, sleep duration, and Nano impact all scale with Ability Power:</p>
+<ul>
+  <li><strong>R1 Power:</strong> Eye in the Sky (rifle scope speed). Helps you land sleep darts and biotic shots in fights.</li>
+  <li><strong>R3 Power:</strong> Nano Boost: Combined Arms (Nano boosts Ana too). Turns Ana into a third DPS while supporting.</li>
+  <li><strong>R5 Power:</strong> Sleep Dart: Lullaby (sleep duration + small AoE). Reliable single-target lock.</li>
+  <li><strong>R7 Power:</strong> Mother (Biotic Grenade heals twice). Doubles your peel value in late-round fights.</li>
+</ul>
+<p><strong>Item path:</strong> R1 — 2× Ability Power Common · R2 — 1× Cooldown Reduction Rare · R3 — 1× Ability Power Rare · R4 — 1× Cooldown Reduction Common · R5 — 1× Ability Power Epic (Nano scaling) · R6 — 1× Move Speed Common.</p>
+<p>Ana wins Stadium support 1v1s through sleep-dart trades. Combined Arms in Round 3 + Mother in Round 7 makes you a third DPS in the late game while still healing peak numbers.</p>`,
+      },
+      {
+        heading: 'Tracer, D.Va, Reaper — quick build paths for the meta',
+        html: `<p>Tracer dive DPS: R1 Quantum Entanglement (Recall heals) · R3 Pulse Bomb: Final Blow (crit boost on Pulse) · R5 Blink: Slipstream (third blink) · R7 Pulse Maelstrom (Pulse at half cooldown). Item path: Weapon Power → Cooldown Reduction → Life Steal → Move Speed.</p>
+<p>D.Va anti-dive tank: R1 Boostrr (Boosters refresh on kill) · R3 Defense Matrix: Reformat (DM regen rate) · R5 Micro Missiles: Resupply (faster cooldown after kill) · R7 Mech Rage (Self-Destruct armor while charging). Item path: Armor → Cooldown Reduction → Armor Epic → Weapon Power Common.</p>
+<p>Reaper brawl DPS: R1 Soul Globe Generosity · R3 From The Shadows (Wraith DR) · R5 Death Blossom: Lifeblood (Blossom heals on hit) · R7 Shadowstep: Phase Lurk (faster Shadow Step + invis). Item path: Life Steal → Weapon Power → Armor → Move Speed.</p>`,
+      },
+      {
+        heading: 'The five round-economy mistakes that cost you the match',
+        html: `<ul>
+  <li><strong>Picking the highest-damage R1 Power without checking your Item stack.</strong> Anti-Gravity Pulse with no Cooldown Reduction items is a 12-second cooldown the whole round — wasted Power slot.</li>
+  <li><strong>Over-stacking Commons past Round 3.</strong> Diminishing returns are real: 5× Common Weapon Power = roughly 3.5× effective Weapon Power. Switch to Rare/Epic by R4.</li>
+  <li><strong>Tanks buying Weapon Power.</strong> Hero-tag DR makes it the worst dollar spend on every tank except Mauga. Armor and Cooldown first.</li>
+  <li><strong>Saving Cash for Round 7 then leaving 2,000+ unspent.</strong> Unspent Cash is forfeited at match end. Always enter Round 7 with under ~1,000 banked.</li>
+  <li><strong>Throwing Round 1 for the loss bonus.</strong> The comp/Power lead from a Round 1 win compounds — it's worth more than the ~1,000 extra Cash.</li>
+</ul>`,
+      },
+      {
+        heading: 'Stat priorities by role — the cheat sheet',
+        html: `<p><strong>Tank:</strong> Armor > Cooldown Reduction > Ability Power (Mauga is the only tank where Weapon Power leads). Pick Powers that extend survivability; raw-damage Powers on tank lose rounds.</p>
+<p><strong>DPS:</strong> Weapon Power > Life Steal (brawl) OR Cooldown Reduction (ability-heavy) > Armor. Pick one damage vector, stack toward it; don't split.</p>
+<p><strong>Support:</strong> Ability Power > Cooldown Reduction > Armor. Powers should scale your CC and heal output, not your damage — supports who pick raw-damage Powers feed the enemy DPS.</p>`,
+      },
+    ],
+    mistakes: [
+      'Picking damage Powers as a tank instead of survivability Powers.',
+      'Stacking 4+ Common items in one category past Round 3 (diminishing returns).',
+      'Buying Weapon Power on every tank (Mauga is the only exception).',
+      'Entering Round 7 with 2,000+ unspent Cash — it\'s forfeited.',
+      'Throwing Round 1 intentionally for loss bonus — comp/Power lead beats Cash lead.',
+    ],
+    drill: {
+      heading: 'Drill: 7-day Stadium build literacy regimen',
+      html: `<ul>
+  <li><strong>Day 1-2:</strong> Pick ONE hero and play 5 Stadium matches with the same build path. Don't deviate — feel the rhythm of when Powers come online.</li>
+  <li><strong>Day 3-4:</strong> Same hero, swap the R3 Power. Notice which one wins more rounds. Track it.</li>
+  <li><strong>Day 5-7:</strong> Switch to a different role (tank → support, or DPS → tank). Test build literacy across archetypes.</li>
+</ul>
+<p>By the end of the week you'll know your home hero's Power tree cold, and you'll have the framework to learn any new hero's build in 2-3 matches instead of 10.</p>`,
+    },
+    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads Stadium HUD cues — Cash counter, equipped Powers, Item stack — and flags build-vs-Power mismatches automatically. Useful when you know a round felt wrong but can't pinpoint whether it was your build, your positioning, or both.</p>`,
+    relatedLinks: [
+      { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
+      { name: 'OW2 Stadium Economy Guide — Cash & Round Strategy', url: '/blog/ow2-stadium-economy.html' },
+      { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  // OW2 STADIUM CLUSTER POST #2 — TIER LIST
+  // Tier lists get pinned in Discords, shared on Reddit, and ranked for
+  // high-volume "best X" queries. Lower commercial intent than the build
+  // guide but huge top-of-funnel pull.
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Stadium',
+    toRank: 'Meta',
+    slug: 'ow2-stadium-tier-list',
+    metaTitle: 'OW2 Stadium Tier List 2026 — Best Heroes Per Role',
+    metaDescription: 'Updated Overwatch 2 Stadium tier list: S/A/B/C tiers for every hero in the Stadium pool, ranked by build ceiling, Power synergy, and BO7 round impact. Tank, DPS, and support breakdowns with reasoning per pick.',
+    intro: `<p>Stadium tier lists from May 2025 are wrong by now — Powers have been rebalanced, the hero pool has shifted, and the round economy got patched twice. This is an updated 2026 tier list based on current Stadium pick rates at Diamond+ and Power synergy data. Tier criteria: build ceiling (how strong does this hero get with their full 4-Power kit), Power-Item synergy (do affordable Items support the Powers), and BO7 round impact (do they close out rounds 5-7 when fights matter most). Heroes that scale poorly with Items or have weak R7 Powers drop tiers regardless of base kit strength.</p>`,
+    sections: [
+      {
+        heading: 'How this tier list is built',
+        html: `<p>Stadium tier lists need different criteria than ranked tier lists. In ranked, raw hero strength wins. In Stadium, build scaling wins. A hero with a mediocre base kit but excellent Power tree (Ana, D.Va) tiers higher than a hero with a strong base kit but weak Powers (Bastion, Roadhog).</p>
+<p>Three weighted factors:</p>
+<ul>
+  <li><strong>Build ceiling (40%)</strong> — how much does the hero gain across R1→R7 Power picks. Tracer with full Powers is a different hero; Soldier with full Powers is the same hero with more damage. Build ceiling weighs ability-driven heroes heavier.</li>
+  <li><strong>Item economy (30%)</strong> — can the hero hit their power-spike build inside a ~13,000 Cash budget? Heroes that need 3+ Epic items to function (most Common-stack heroes) tier lower than heroes that scale linearly with cheap stacking (Soldier, Ana).</li>
+  <li><strong>BO7 round impact (30%)</strong> — does the R7 Power win the round? Heroes whose R7 is a stat boost (yawn) tier lower than heroes whose R7 fundamentally changes their kit (Tracer Pulse Maelstrom, Ana Mother, Reinhardt Resurgence).</li>
+</ul>
+<p>S-tier = wins games. A-tier = wins matches with right team. B-tier = playable in the right comp. C-tier = throw pick unless map/comp specifically favors.</p>`,
+      },
+      {
+        heading: 'S-Tier — Stadium-defining picks',
+        html: `<ul>
+  <li><strong>Ana (Support)</strong> — best support in Stadium. Combined Arms (R3) makes her a third DPS while supporting. Mother (R7) doubles peel value. Lullaby (R5) is the single most reliable lockdown CD in the game. Items: Ability Power → Cooldown Reduction stack. Wins R1, scales through R7.</li>
+  <li><strong>Reinhardt (Tank)</strong> — best tank in Stadium. Earthsplitter + Crusader Resurgence in late rounds is the closest thing to a guaranteed round win. Armor stacking economy is cheap and effective. Hard to throw with — even bad Rein wins R1-R3 because Armor stacks aren't gated.</li>
+  <li><strong>Tracer (DPS)</strong> — Pulse Maelstrom (R7) at half cooldown is the single most broken late-game Power in Stadium. Three blinks (Slipstream) at R5 makes her uncatchable. Item economy is cheap (Weapon Power Commons stack well). High skill floor but ceiling is "carries the BO7."</li>
+</ul>`,
+      },
+      {
+        heading: 'A-Tier — Strong picks with map/comp dependencies',
+        html: `<ul>
+  <li><strong>D.Va (Tank)</strong> — Reformat (R3) keeps DM uptime ~70% of fights. Anti-dive specialist. Drops to B against poke comps where DM matters less.</li>
+  <li><strong>Soldier 76 (DPS)</strong> — Weapon Power scales linearly, Tac Visor Overload (R7) wins R7 outright. Drops to B against heavy-shield comps.</li>
+  <li><strong>Reaper (DPS)</strong> — Death Blossom: Lifeblood (R5) gives full heal + 2 picks per Blossom. Strong on closed-corner maps. Drops to B on open-sightline maps.</li>
+  <li><strong>Kiriko (Support)</strong> — Suzu (R3 Power enhancement) is mandatory peel. Lower ceiling than Ana but easier to execute. Cleanse uptime decides team fights.</li>
+  <li><strong>Cassidy (DPS)</strong> — Magnetic Grenade scaling on Ability Power Items makes him a poke threat at any range. R7 Power varies by patch.</li>
+</ul>`,
+      },
+      {
+        heading: 'B-Tier — Playable but conditional',
+        html: `<ul>
+  <li><strong>Junker Queen (Tank)</strong> — Carnage scaling on Ability Power makes her viable, but Reinhardt does the brawl job better. Pick into dive comps.</li>
+  <li><strong>Mauga (Tank)</strong> — only tank where Weapon Power is the correct primary stat. Sustains 1v2s on Life Steal items. Drops against shield/DR comps.</li>
+  <li><strong>Genji (DPS)</strong> — Dragonblade scales with Powers but requires Nano synergy from Ana. Drops to C without team coordination.</li>
+  <li><strong>Lúcio (Support)</strong> — Speed Boost amped is map-dependent. Strong on Push/Esperança, mediocre on Control.</li>
+  <li><strong>Sigma (Tank)</strong> — Ability Power on Hyperspheres gives the highest tank DPS in Stadium. But fragile under dive. Map-dependent.</li>
+  <li><strong>Brigitte (Support)</strong> — Whip Shot CDR (Cooldown Reduction) Items make her oppressive at close range. Falls off at range. Stadium maps are closed enough that B-tier holds.</li>
+</ul>`,
+      },
+      {
+        heading: 'C-Tier — Avoid unless niche pick',
+        html: `<ul>
+  <li><strong>Roadhog (Tank)</strong> — no synergy with Weapon Power (hero-tag DR), no Ability Power scaling. R7 Power is underwhelming. Throw pick into Reinhardt.</li>
+  <li><strong>Bastion (DPS)</strong> — Sentry damage caps because of DR scaling. R7 Power doesn't change his core gameplay.</li>
+  <li><strong>Symmetra (DPS)</strong> — Turret scaling with Ability Power exists but ult is heavily nerfed in Stadium format.</li>
+  <li><strong>Mercy (Support)</strong> — single-target pocket doesn't scale with Items. Resurrection is round-decisive once per round, not enough to outweigh Ana/Kiriko.</li>
+  <li><strong>Moira (Support)</strong> — fade healing doesn't scale, primary heal beam falls off vs. Ana's burst peel. Throw pick.</li>
+</ul>`,
+      },
+      {
+        heading: 'Why "best hero" depends on round number',
+        html: `<p>One mistake players make with tier lists is treating them as static. In Stadium, the strongest hero in R1 isn't the strongest in R7. Reinhardt and Soldier are R1 monsters because their base kits don't need Powers to function. Tracer and Ana scale into R7 monsters because their R5+R7 Powers fundamentally change what they do.</p>
+<p>If you're playing first to 4 and lose R1-R2, you've still got R3-R7 where late-scaling heroes pull ahead. If you're up 2-0 after R1-R2, double down on R1-strong picks to close fast. Tier list reads should adapt — early-game vs. late-game ceilings are different stats.</p>`,
+      },
+      {
+        heading: 'Bans, swaps, and counter-picking',
+        html: `<p>Stadium has hero bans mid-match. Ban priority for most teams:</p>
+<ol>
+  <li><strong>Tracer</strong> — late-game ceiling is too high. Ban if your team can't deal with dive.</li>
+  <li><strong>Ana</strong> — too much value across all 7 rounds. Ban if you don't have a second sleep-immune hero.</li>
+  <li><strong>Reinhardt</strong> — only ban if your tank player doesn't have a Reinhardt counter pocket. Otherwise leave him; your team can match.</li>
+</ol>
+<p>Counter-picking matters less than build-picking in Stadium. A Rein with full Armor stacks beats a Mauga with full Life Steal regardless of "the match-up." Trust the build path, not the hero matchup chart.</p>`,
+      },
+    ],
+    mistakes: [
+      'Treating ranked tier lists as Stadium tier lists — different game, different criteria.',
+      'Picking S-tier heroes you can\'t play well. C-tier-on-main beats S-tier you\'ve never touched.',
+      'Banning Tracer or Ana without a backup pick — you waste a ban if their player just swaps to the same archetype.',
+      'Picking a late-game hero (Tracer) when you\'re down 0-2 — you don\'t reach the late game without R3-R4 fight wins.',
+      'Forcing a meta tank pick when your team comp wants the off-meta one (e.g., picking Rein into a poke comp because he\'s "S-tier").',
+    ],
+    drill: {
+      heading: 'Drill: 5-day tier list ladder test',
+      html: `<ul>
+  <li><strong>Day 1:</strong> Play 5 matches with your S-tier home hero. Track win rate.</li>
+  <li><strong>Day 2:</strong> Same with your A-tier secondary. Track win rate.</li>
+  <li><strong>Day 3:</strong> Same with a B-tier you'd normally avoid. Track win rate.</li>
+  <li><strong>Day 4:</strong> Replay round 5-7 of three matches and identify which hero closed each round.</li>
+  <li><strong>Day 5:</strong> Build your personal tier list based on YOUR win rate, not Reddit's.</li>
+</ul>
+<p>By Day 5 you'll know whether the meta tier list matches your skill — most players' personal tier lists differ by 2-3 spots from meta. Trust your tier list, not theirs.</p>`,
+    },
+    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> catches per-round impact — flags rounds where your hero pick contributed less than the team needed. Useful for tier-list calibration: if your S-tier pick is showing C-tier round impact, you've found the gap between "meta says strong" and "your gameplay supports it."</p>`,
+    relatedLinks: [
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
+      { name: 'OW2 Stadium Economy Guide', url: '/blog/ow2-stadium-economy.html' },
+      { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+    ],
+    readMinutes: 10,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  // OW2 STADIUM CLUSTER POST #3 — ITEMS DEEP DIVE
+  // High-intent informational query. Targets "stadium items guide",
+  // "stadium item priorities", "stadium [stat] items".
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Stadium',
+    toRank: 'Items',
+    slug: 'ow2-stadium-items-guide',
+    metaTitle: 'OW2 Stadium Items Guide — When to Buy What (2026)',
+    metaDescription: 'Complete OW2 Stadium item shop guide: Common vs Rare vs Epic tier strategy, diminishing returns per stat, hero-specific buy paths, and the round-by-round Cash budget that maximizes power-spike timing.',
+    intro: `<p>Stadium has six Item categories in the shop and three tiers per category (Common / Rare / Epic). On paper that's 18 buy options per shop visit. In practice, only 3-4 of them help your hero — the other 14 are noise. This guide breaks down which Items fit which hero, when to buy Common vs. Rare vs. Epic, and the Cash-budget rhythm that hits your power-spike right when fights matter.</p>`,
+    sections: [
+      {
+        heading: 'The 6 Item categories — what each one actually does',
+        html: `<p>Stadium's shop offers six stat categories. Every Item is one of these stats at one of three tiers. The Common-Rare-Epic gap isn't just a price scale; Epics have unique secondary effects that change how the stat plays.</p>
+<ul>
+  <li><strong>Weapon Power</strong> — percent damage boost on primary fire. Common: ~6% per stack. Rare: ~14% with minor crit chance. Epic: ~22% with significant secondary (e.g. armor pierce, headshot bonus, splash damage). Best for hitscan DPS.</li>
+  <li><strong>Ability Power</strong> — percent damage/heal/utility boost on cooldown abilities. Same tier curve. Best for ability-driven heroes.</li>
+  <li><strong>Armor / Health</strong> — flat HP boost OR armor layer. Common: 15-25 HP. Rare: 50 HP + small DR. Epic: 75-100 HP + significant DR. Armor specifically punishes hitscan because armor blocks 30% of damage on shots ≤10.</li>
+  <li><strong>Cooldown Reduction</strong> — percent off ability cooldowns. Stacks multiplicatively. Best for cooldown-driven heroes.</li>
+  <li><strong>Life Steal</strong> — heal for percent of damage dealt. Common: 5-7%. Rare: 12% + minor on-kill heal. Epic: 18% + significant on-kill heal.</li>
+  <li><strong>Move Speed</strong> — base movement boost. Common: 5%. Rare: 10% + sprint heal. Epic: 15% + minor on-kill speed.</li>
+</ul>`,
+      },
+      {
+        heading: 'Diminishing returns — when Commons stop scaling',
+        html: `<p>The single most important Items concept: <strong>diminishing returns past 3 stacks of the same Common tier in one category.</strong> Specifically:</p>
+<ul>
+  <li><strong>Stacks 1-3:</strong> ~100% efficiency. Linear scaling.</li>
+  <li><strong>Stacks 4-5:</strong> ~70% efficiency per additional stack.</li>
+  <li><strong>Stacks 6+:</strong> ~40% efficiency. You're burning Cash.</li>
+</ul>
+<p>This means by Round 3-4 you should be looking at Rare upgrades, not your 4th Common. Selling 2-3 Commons to fund 1 Rare nets you more stat value than stacking the 4th and 5th Commons.</p>
+<p>Epics break diminishing-returns scaling for their category. An Epic Weapon Power on top of 3 Common Weapon Power stacks correctly — they're treated as separate "tiers" in the scaling formula. This is why most top-tier builds end with: 3× Common (R1-R3) → 1× Rare (R4) → 1× Epic (R5-R6) per primary stat.</p>`,
+      },
+      {
+        heading: 'Selling and refunding Items',
+        html: `<p>Items can be sold mid-match between rounds. You recover ~75% of the original cost (a "rebuy fee" of 25% applies). This is the most-underused Stadium mechanic.</p>
+<p>When to sell:</p>
+<ul>
+  <li><strong>Stat misallocation.</strong> You bought 4× Common Weapon Power on tank, realized hero-tag DR was eating your value. Sell two of them, buy Cooldown Reduction Rare.</li>
+  <li><strong>Power swap incoming.</strong> R3 Power unlocks and the Power changes your scaling priority. Sell off the now-irrelevant stat stack, buy into the new vector.</li>
+  <li><strong>Tier upgrade.</strong> Sell 2× Common to fund 1× Rare in the same category. Net effective stat boost is ~20-30% higher even after the rebuy fee.</li>
+</ul>
+<p><strong>Don't sell:</strong> Items that match your Power-locked synergy. If you've picked Soldier's Tac Visor Overload R7 Power, Weapon Power Items are core — never sell those mid-match.</p>`,
+      },
+      {
+        heading: 'Hero-specific Item priorities (10 most common picks)',
+        html: `<ul>
+  <li><strong>Reinhardt:</strong> Armor (Bulwark Epic R3) > Cooldown Reduction > Ability Power (Earthshatter scaling). Skip Weapon Power entirely.</li>
+  <li><strong>D.Va:</strong> Cooldown Reduction (DM uptime) > Armor > Weapon Power Common. Don't buy Move Speed — Boosters give you the mobility.</li>
+  <li><strong>Mauga:</strong> Life Steal Rare > Weapon Power > Armor. The only tank that prioritizes Weapon Power. Skip Cooldown Reduction.</li>
+  <li><strong>Soldier 76:</strong> Weapon Power x3 Common → Rare → Epic. Single-vector build. Cooldown Reduction Rare for Helix uptime if you have spare Cash.</li>
+  <li><strong>Cassidy:</strong> Weapon Power > Ability Power (Magnetic Grenade) > Armor Common. Split-vector if you want flexibility.</li>
+  <li><strong>Tracer:</strong> Weapon Power Common stack → Rare → Cooldown Reduction Epic (Blink). Life Steal Common for sustain. Skip Armor — your survival is positioning.</li>
+  <li><strong>Reaper:</strong> Life Steal + Weapon Power evenly. Armor Common Round 3+. Skip Ability Power — Wraith doesn't scale.</li>
+  <li><strong>Ana:</strong> Ability Power x3 Common → Rare → Epic. Cooldown Reduction Rare for sleep dart uptime. Skip Armor — Ana's value is range positioning.</li>
+  <li><strong>Kiriko:</strong> Ability Power (Suzu scaling) + Cooldown Reduction (Suzu uptime). Weapon Power Common Round 4+ for late-round DPS contribution.</li>
+  <li><strong>Lúcio:</strong> Cooldown Reduction Rare (Speed amp uptime) + Ability Power (boop scaling) + Move Speed Common. Skip Armor — speed is the survival stat.</li>
+</ul>`,
+      },
+      {
+        heading: 'The Cash budget rhythm — power-spike timing',
+        html: `<p>Stadium Cash budgets are ~13,000 total across rounds 1-6. Spent correctly, the budget hits a power spike at R5 — exactly when fights get decisive in a BO7.</p>
+<ul>
+  <li><strong>R1 budget (~3,000):</strong> 2× Common in your primary stat. Don't full-spend. Save 500-1,000 for R2 top-up.</li>
+  <li><strong>R2 budget (~3,500):</strong> 1× Rare in your primary stat. This is the first power spike.</li>
+  <li><strong>R3 budget (~3,500):</strong> Secondary-stat Common (Cooldown Reduction or Armor depending on hero) OR upgrade existing Common to Rare via sell.</li>
+  <li><strong>R4 budget (~4,000):</strong> Save for R5 Epic. Buy 1 Common at most.</li>
+  <li><strong>R5 budget (~4,500):</strong> 1× Epic in primary stat. This is the round-5 power spike — your win condition for closing R5-R7.</li>
+  <li><strong>R6 budget (~3,000):</strong> Top-up. Buy whatever Common rounds out the build.</li>
+</ul>
+<p><strong>R7 rule:</strong> never enter Round 7 with more than 1,000 unspent Cash. Spend everything — even on suboptimal Commons. Unspent Cash is forfeited at match end.</p>`,
+      },
+      {
+        heading: 'Common mistakes — the 30% efficiency tax',
+        html: `<ul>
+  <li><strong>Buying 4-5 Commons in one stat past R3.</strong> Diminishing returns turn 5× Common = ~3.5× effective. Switch to Rare/Epic by R4.</li>
+  <li><strong>Splitting between 2 primary stats.</strong> Stadium rewards single-vector builds. 4× Weapon Power beats 2× Weapon + 2× Ability Power for hitscan DPS — even though "balanced" looks safer.</li>
+  <li><strong>Tanks buying Weapon Power (except Mauga).</strong> Hero-tag DR makes it the worst dollar spend on every other tank.</li>
+  <li><strong>Saving Cash for an Epic that you never afford.</strong> If you're at R5 with no Epic budget, spend on 2× Rare instead. Hoarded Cash is wasted.</li>
+  <li><strong>Forgetting Items reset between matches.</strong> A perfect R7 build gets you nothing in the NEXT match — Stadium economy resets per match. Don't try to "save up" between matches.</li>
+</ul>`,
+      },
+    ],
+    mistakes: [
+      'Stacking 4+ Commons of the same stat past Round 3 — diminishing returns cost you ~30% efficiency.',
+      'Splitting between two damage stats (Weapon + Ability Power) instead of single-vector building.',
+      'Tanks buying Weapon Power. Only Mauga benefits — every other tank prioritizes Armor/Cooldown.',
+      'Hoarding Cash for an Epic that never gets purchased. 2× Rare beats 1 saved-but-unspent Epic budget.',
+      'Forgetting to sell mismatched Items mid-match. The 25% rebuy fee is almost always worth the stat upgrade.',
+    ],
+    drill: {
+      heading: 'Drill: 3-match Item literacy test',
+      html: `<ul>
+      <li><strong>Match 1:</strong> Play your home hero, buy ONLY Common Items. Track power spike round.</li>
+      <li><strong>Match 2:</strong> Same hero, buy Common R1-R3, Rare R4, Epic R5+. Track power spike round.</li>
+      <li><strong>Match 3:</strong> Same hero, build "split-vector" — split between 2 stats. Track round wins.</li>
+    </ul>
+<p>By the end of three matches you'll feel the difference single-vector builds make. The all-Common run will be sluggish past Round 4. The split-vector run will feel "fine" until R7 when nothing pops off. The Rare-Epic ladder is the winning rhythm.</p>`,
+    },
+    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your equipped Items vs. Powers and flags mismatches — e.g., "you bought Weapon Power on Ana but her Powers scale with Ability Power; reallocate next match." Useful for catching the 30% efficiency tax before it costs you 3 round losses.</p>`,
+    relatedLinks: [
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'OW2 Stadium Economy Guide', url: '/blog/ow2-stadium-economy.html' },
+      { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+    ],
+    readMinutes: 11,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  // OW2 STADIUM CLUSTER POST #4 — ECONOMY
+  // Niche but high-intent. Targets "stadium economy", "stadium cash",
+  // "stadium round strategy", "loss bonus stadium".
+  // ──────────────────────────────────────────────────────────────────────
+  {
+    game: 'ow2',
+    gameLabel: 'Overwatch 2',
+    fromRank: 'Stadium',
+    toRank: 'Economy',
+    slug: 'ow2-stadium-economy',
+    metaTitle: 'OW2 Stadium Economy Guide — Cash & Round Strategy (2026)',
+    metaDescription: 'How OW2 Stadium\'s Cash economy works: round win/loss payouts, contribution bonuses, when to save vs spend, the loss-bonus trap, and the 6-round Cash budget that hits a power spike at R5.',
+    intro: `<p>Stadium isn't just hero picks and Powers — it's an economy game. Round wins and losses pay you Cash, which you spend in the shop between rounds. Knowing the Cash math separates Diamond-stuck players from GM-tier Stadium climbers. This guide breaks down exactly how Cash works, when to save vs. spend, the loss-bonus trap, and the round-by-round budget rhythm that wins matches.</p>`,
+    sections: [
+      {
+        heading: 'Cash sources — what pays you what',
+        html: `<p>Every round you earn Cash from four buckets:</p>
+<ul>
+  <li><strong>Round outcome.</strong> Win pays ~3,500–4,500. Loss pays ~2,500–3,000. Loss is intentional — it's anti-snowball.</li>
+  <li><strong>Eliminations.</strong> Each elim pays ~100–250 Cash. Final blows pay more than assists (~50). Roles equalize: tanks earn comparable Cash to DPS even with lower elim count, because objective contribution evens it out.</li>
+  <li><strong>Objective time.</strong> ~10 Cash per second on point/payload. This is the silent earner — tanks who hold point during overtime out-earn DPS who farm kills off-objective.</li>
+  <li><strong>Round MVP.</strong> +500 to whoever the system flags as round MVP (usually a combination of damage, healing, elims, and objective contribution).</li>
+</ul>
+<p>Average match total budget across 6 rounds: ~13,000-15,000 Cash if you play well, ~11,000-12,000 if you have poor rounds. This is your total spending pool for the entire BO7.</p>`,
+      },
+      {
+        heading: 'The loss bonus is not a free win',
+        html: `<p>The most-debated Stadium economy concept is the loss bonus. Losing a round pays ~70-80% of what winning pays. New players see this and think "if I throw R1 for the loss bonus, I can come back stronger in R2." This is wrong.</p>
+<p>Three reasons the loss bonus trap loses you the match:</p>
+<ul>
+  <li><strong>Power lead compounds.</strong> The winning team picks their R1 Power first (or in parallel). Their R1 Power kicks in for R2. Yours kicks in R2 also, but they have momentum and you're rebuilding.</li>
+  <li><strong>Cash gap is only ~1,000.</strong> That's 1× Common item. Not enough to flip a R2 fight on its own.</li>
+  <li><strong>Mental tilt.</strong> Players who tell themselves "we'll come back" rarely do. The team that wins R1 picks confidently for R3; the losing team second-guesses.</li>
+</ul>
+<p>The correct read: play R1 to win. If you lose, take the bonus and adapt — but don't throw rounds intentionally for it. The cash differential isn't worth the comp/Power lead.</p>`,
+      },
+      {
+        heading: 'When to save vs spend per round',
+        html: `<p>Every round-end you face a save-or-spend decision. Here's the framework:</p>
+<ul>
+  <li><strong>R1 → R2:</strong> Spend ~70% of R1 Cash on Common Items. Save 500-1,000 for R2 top-up.</li>
+  <li><strong>R2 → R3:</strong> Spend full. Buy 1× Rare in your primary stat. R2 is your first power spike.</li>
+  <li><strong>R3 → R4:</strong> If under 3,000 Cash on hand, spend. If over 5,000, save toward R5 Epic. The middle ground (3,000-5,000) — buy a Rare in your secondary stat.</li>
+  <li><strong>R4 → R5:</strong> Save toward R5 Epic. Buy at most 1× Common. This is the "spend feels wrong" round but pays off in R5-R7.</li>
+  <li><strong>R5 → R6:</strong> Spend on Epic. Whatever's left, buy Commons in your secondary stat.</li>
+  <li><strong>R6 → R7:</strong> Spend ALL remaining Cash. Unspent Cash is forfeited at match end. Even on suboptimal Commons, spend it.</li>
+</ul>`,
+      },
+      {
+        heading: 'Power-spike rounds — when fights become unfair',
+        html: `<p>A "power spike" is a round where your hero's effective strength jumps because a Power unlocked + the Items finally clicked. Power-spike rounds win 70%+ even against equally-skilled opponents.</p>
+<ul>
+  <li><strong>R3 spike:</strong> Your R3 Power unlocks. If it synergizes with your R1-R2 Item stack, you're at first peak power. Otherwise R3 is rebuild.</li>
+  <li><strong>R5 spike:</strong> Epic Items + R5 Power. This is the biggest spike in Stadium — most heroes hit their "fun build" here. Win R5, win the BO7.</li>
+  <li><strong>R7 spike:</strong> R7 Power locks in. For heroes like Tracer (Pulse Maelstrom) or Ana (Mother), this is a round-winning shift in raw power.</li>
+</ul>
+<p>Identifying YOUR hero's spike round changes how you play earlier rounds. If your spike is R5 (Tracer, Ana), play conservatively in R3-R4 to make sure you reach R5. If your spike is R3 (Reinhardt, Soldier base), play aggressive earlier to close out fast.</p>`,
+      },
+      {
+        heading: 'Reading the enemy economy — when they\'re forced into bad buys',
+        html: `<p>You can roughly estimate enemy team Cash by tracking round outcomes + their visible Items. Useful reads:</p>
+<ul>
+  <li><strong>Enemy is on a 2-round loss streak.</strong> They have higher loss-bonus Cash than your team — expect them to hit a power spike a round earlier.</li>
+  <li><strong>Enemy tank has only Common Items visible at R4.</strong> They\'re behind. Push fights before R5 — they can\'t out-build you yet.</li>
+  <li><strong>Enemy DPS has Epic Items at R3.</strong> They threw R1 for loss bonus (mistake) or got Round MVP bonus (skilled). Either way, expect a strong R4 from them.</li>
+</ul>
+<p>This isn't perfectly readable mid-match (you can't see full enemy builds), but the visible Items + round outcomes give you enough to estimate. At Diamond+ Stadium, players check enemy loadouts in the spawn-room cycle between rounds — make this a habit.</p>`,
+      },
+      {
+        heading: 'Final-round economy — the R7 endgame',
+        html: `<p>If the match reaches R7, both teams are evenly matched at 3-3. The R7 decision is purely economy + Power synergy:</p>
+<ul>
+  <li><strong>Spend EVERY Cash dollar.</strong> Even on Commons. Even on stats you don\'t need.</li>
+  <li><strong>Don\'t buy your secondary stat — buy MORE of your primary.</strong> R7 is one round. You want max impact for that one round, not balanced longevity.</li>
+  <li><strong>If down 3-0 on Power slots,</strong> don\'t buy a stat your R7 Power doesn\'t use. Buy Armor instead — survive longer, contribute more on objective.</li>
+  <li><strong>Sell mismatched Items for the rebuy fee.</strong> R7 is the round where the 25% sell penalty is most worth eating.</li>
+</ul>
+<p>R7 economy is the most punishing for hoarders. Top Stadium players enter R7 with ≤1,000 banked Cash, buy aggressively, and trust the build. Players who hoard 3,000+ "in case" lose R7 to a team that fully kitted out.</p>`,
+      },
+    ],
+    mistakes: [
+      'Throwing Round 1 for the loss bonus — comp/Power lead beats ~1,000 Cash bonus.',
+      'Saving Cash through Rounds 4-5 for an Epic you never actually buy.',
+      'Spending evenly across two primary stats instead of single-vector building.',
+      'Entering Round 7 with 2,000+ unspent Cash — it\'s forfeited at match end.',
+      'Not reading enemy economy via visible Items + round outcomes — you\'re flying blind on power-spike timing.',
+    ],
+    drill: {
+      heading: 'Drill: 5-match Cash tracking regimen',
+      html: `<ul>
+  <li><strong>Match 1:</strong> Write down your Cash at the start of every round (post-round payout). Track total across the match.</li>
+  <li><strong>Match 2:</strong> Same, but also note enemy visible Items per round. Practice estimating their Cash.</li>
+  <li><strong>Match 3:</strong> Force yourself to enter R7 with ≤500 Cash. Spend whatever R5-R6 paid out fully.</li>
+  <li><strong>Match 4-5:</strong> Identify YOUR hero\'s power spike round and adjust earlier-round spending to maximize that spike.</li>
+</ul>
+<p>After 5 matches you\'ll have a working economy intuition. Most players can\'t tell you their R3 Cash balance without checking — you\'ll be able to estimate within 500.</p>`,
+    },
+    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> flags economy mistakes per match — e.g., "you held 3,200 Cash going into Round 7 — that\'s a wasted Epic upgrade." Useful when you suspect builds are letting you down but can\'t tell whether it\'s your Powers, your Items, or your Cash management.</p>`,
+    relatedLinks: [
+      { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
+      { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
+      { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
+      { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+    ],
+    readMinutes: 10,
   },
 ]
 
@@ -2966,13 +3428,13 @@ const APEX_POSTS = [
     ],
     mistakes: ['Hot-dropping with 12 squads.','Solo pushing without squad.','Looting through Ring 3.','No body armor before fight.','Picking 5+ legends — no specialization.','Running flat-footed — no slide-jump.','Playing with footstep volume too low.'],
     drill: { heading: 'Drill: 10 Firing Range movement reps', html: `<p>10 minutes daily in Firing Range. Practice slide-jumping down hills, mantle-jumping over crates, and tap-strafing direction changes. After 7 days movement becomes muscle memory and you'll out-rotate every Bronze opponent.</p>` },
-    aiVodMention: `<p>If you can't tell why specific squad fights feel off, the <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + rotation mistakes per squad fight.</p>`,
+    aiVodMention: `<p>If you can't tell why specific squad fights feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + rotation mistakes per squad fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/apex-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
       { name: 'Apex World\'s Edge Guide', url: '/games/apex/worlds-edge.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -2994,13 +3456,13 @@ const APEX_POSTS = [
     ],
     mistakes: ['Three solo plays per fight.','Ignoring kill feed (third-party blind).','Fighting without ults.','Running zone damage instead of pre-rotating.','Healing in wrong order.','Engaging full-kit squads on white armor.','No squad role designation.','Audio at default volume.'],
     drill: { heading: 'Drill: 5-game ult tracking', html: `<p>For 5 games, track your ult cycles + your squad's ult cycles. Note when each ult comes off cooldown. By game 5 you'll auto-call "ults in 30 seconds" before engages — the Gold-tier engagement timing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks squad cohesion (distance between teammates during fights) and flags rounds where the squad split into solo plays.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks squad cohesion (distance between teammates during fights) and flags rounds where the squad split into solo plays.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/apex-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/apex-gold-to-plat.html' },
       { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
       { name: 'Apex World\'s Edge Guide', url: '/games/apex/worlds-edge.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3022,13 +3484,13 @@ const APEX_POSTS = [
     ],
     mistakes: ['Fighting on flat ground in Ring 4.','Solo ulting — no chain.','Open-ground beaming.','Ignoring lurker audio cues.','Committing into crystal endgame first.','No rear-watcher in squad fights.','No pro VOD prep.','Tilt-stacking losses.'],
     drill: { heading: 'Drill: 5 ranked games of Ring 4+ decision tracking', html: `<p>For 5 ranked games, focus only on Ring 4+ decisions. Note: did you take high ground? Did you have cover? Did you commit at the right moment? After 5 games you'll have a decision framework that auto-applies in clutch moments.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where you committed to fights without ult-chain support — useful for spotting the decisions that lost the round.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without ult-chain support — useful for spotting the decisions that lost the round.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/apex-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Apex Olympus Guide', url: '/games/apex/olympus.html' },
       { name: 'Apex Broken Moon Guide', url: '/games/apex/broken-moon.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -3109,13 +3571,13 @@ const APEX_POSTS_HIGH = [
       'No ALGS VOD prep.',
     ],
     drill: { heading: 'Drill: 5-game pre-rotation tracking', html: `<p>5 ranked Apex games. For each, mark the 60-second-before-ring-close moment in your head and call the next zone center. Track whether you actually pre-rotated or whether you reacted to ring damage.</p><p>By game 5 the pre-rotation habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your engagement decisions across matches and flags the rounds where you fought a battle you couldn't win — useful for catching the Plat plateau pattern of "engaging on instinct."</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your engagement decisions across matches and flags the rounds where you fought a battle you couldn't win — useful for catching the Plat plateau pattern of "engaging on instinct."</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/apex-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
       { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
       { name: 'Apex World\'s Edge Guide', url: '/games/apex/worlds-edge.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -3194,13 +3656,13 @@ const APEX_POSTS_HIGH = [
       'Tilt-stacking 3+ matches.',
     ],
     drill: { heading: 'Drill: 5 games of match-macro tracking', html: `<p>5 ranked games. For each, write down (1) drop time, (2) first kit complete time, (3) Ring 3 position, (4) final-ring high-ground status. Compare your timeline to the Master script (5:00 / 10:00 / 15:00 markers).</p><p>If you're lagging on any phase, that's where to focus practice.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag the rounds where you took an unfavorable engagement that didn't fit the match script — particularly useful for spotting the Diamond plateau of "engaging on instinct" that Master macro discipline solves.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag the rounds where you took an unfavorable engagement that didn't fit the match script — particularly useful for spotting the Diamond plateau of "engaging on instinct" that Master macro discipline solves.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/apex-plat-to-diamond.html' },
       { name: 'How to Climb from Master to Predator', url: '/blog/apex-master-to-pred.html' },
       { name: 'Apex Olympus Guide', url: '/games/apex/olympus.html' },
       { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -3279,13 +3741,13 @@ const APEX_POSTS_HIGH = [
       'Pro VOD library at 30 patterns, not 100+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 ALGS match per day. By day 90 you have a 100-pattern library AND your aim is at Predator benchmarks.</p><p>Track weekly: tracking %, headshot rate per weapon, reaction time. If numbers plateau before day 90, fix sensitivity or ergonomics first.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against ALGS-tier reads — particularly useful for finding the rounds where you knew the right call but committed to the wrong one. The exact pattern that separates Master plateau from Predator ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against ALGS-tier reads — particularly useful for finding the rounds where you knew the right call but committed to the wrong one. The exact pattern that separates Master plateau from Predator ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Apex Storm Point Guide', url: '/games/apex/storm-point.html' },
       { name: 'Apex Olympus Guide', url: '/games/apex/olympus.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -3313,13 +3775,13 @@ const MVR_POSTS = [
     ],
     mistakes: ['Queueing Flex — no specialization.','Hero pool of 8+ heroes.','Solo ulting.','Picking 4 Duelists, 0 Vanguards.','Ignoring team-ups.','Strategist out of range of teammates.','Playing all 12 maps shallowly.','Trickling into reset fights.'],
     drill: { heading: 'Drill: 10 games role-locked', html: `<p>Queue role-locked for 10 games on your chosen role. Use only your 2-3 hero pool. Track win rate. By game 10 you'll have foundational map + hero patterns Silver players take for granted.</p><p>If your win rate is 50%+ after 10 games, expand the pool to 4 heroes. If it's 40-50%, keep the 3 and play 10 more. If it's <40%, switch role — your aim or game sense doesn't fit this role.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags ult-coordination mistakes per team fight.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags ult-coordination mistakes per team fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/mvr-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3341,13 +3803,13 @@ const MVR_POSTS = [
     ],
     mistakes: ['Same hero every map — no archetype matching.','Solo ulting (no chain).','Brawling on flat ground.','One-tricking through counter-picks.','Healing ults reactive, not anticipative.','Trickling into reset fights.','Comms full of commentary, not decisions.','No spawn timing reads.'],
     drill: { heading: 'Drill: 5-game map-comp practice', html: `<p>Play 5 games on each map archetype (15 games total). Brawl on Convoy, mixed on Convergence, poke on Domination. By game 15 you auto-recognize the right comp from the load screen.</p><p>Track per-game: did you pick the right archetype? Did your team comp synergize? After 15 games you'll have direct map → comp mappings memorized.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy. Useful for spotting the games where your team had 4 Duelists and you didn't swap to fill — a common Silver-to-Gold mistake that's invisible without an outside review.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy. Useful for spotting the games where your team had 4 Duelists and you didn't swap to fill — a common Silver-to-Gold mistake that's invisible without an outside review.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/mvr-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/mvr-gold-to-plat.html' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3369,13 +3831,13 @@ const MVR_POSTS = [
     ],
     mistakes: ['Same comp every round.','No ult tracking.','Healing ults reactive.','No pro VOD prep.','No mid-match comp swap.','Comm-overload.','Tilt-stacks losses.','No anti-stack reads.'],
     drill: { heading: 'Drill: 30 days of pro-VOD-per-day', html: `<p>Watch one tier-1 MVR match per day for 30 days. Note 1 takeaway per match. By day 30 you have 30 specific tactical patterns memorized.</p><p>Examples of takeaways: "Pro Hela ults always paired with Magneto pull." "Pro Strange portal goes to enemy back-line, not your high ground." "Pro Adam Warlock revive used after the second wipe, not the first." Each pattern compounds across the 30-day cycle.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptations against pro-tier patterns — flags rounds where you should have swapped comp but didn't. Particularly useful for spotting whether your team's comp synergized with the map's archetype on each round, or whether you ran the same comp regardless.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptations against pro-tier patterns — flags rounds where you should have swapped comp but didn't. Particularly useful for spotting whether your team's comp synergized with the map's archetype on each round, or whether you ran the same comp regardless.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/mvr-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Wakanda Guide', url: '/games/mvr/birnin-tchalla.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3460,13 +3922,13 @@ const MVR_POSTS_HIGH = [
       'Comms full of commentary, not decisions.',
     ],
     drill: { heading: 'Drill: 5-game team-up combo audit', html: `<p>5 ranked games. Pre-match, identify which 2-3 hero pairs in your team comp have team-up bonuses. Post-match, check whether you actually picked complementary heroes.</p><p>By game 5 you'll auto-pick around team-up combos in lobby — the Diamond differentiator that Plat IGLs ignore.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your hero-swap timing and team-up combo usage across matches. Useful for spotting the Plat plateau pattern of "stuck on main hero through whole match" that Diamond mid-fight swaps solve.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your hero-swap timing and team-up combo usage across matches. Useful for spotting the Plat plateau pattern of "stuck on main hero through whole match" that Diamond mid-fight swaps solve.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/mvr-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -3553,13 +4015,13 @@ const MVR_POSTS_HIGH = [
       'No tilt protocol for round 13+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, healing per game (Strategists), damage per game (Duelists). If numbers plateau before day 90, fix sensitivity or ergonomics first before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation patterns against tier-1 reads — flags rounds where you should have swapped comp but didn't. The Diamond plateau pattern that GM macro discipline solves. Recon+ also reads ult timing across the full match — useful for spotting whether your healing-ult anticipation actually beats the enemy damage ult window.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation patterns against tier-1 reads — flags rounds where you should have swapped comp but didn't. The Diamond plateau pattern that GM macro discipline solves. Recon 6 also reads ult timing across the full match — useful for spotting whether your healing-ult anticipation actually beats the enemy damage ult window.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/mvr-plat-to-diamond.html' },
       { name: 'How to Climb from GM to Celestial', url: '/blog/mvr-gm-to-celestial.html' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Wakanda Guide', url: '/games/mvr/birnin-tchalla.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -3646,13 +4108,13 @@ const MVR_POSTS_HIGH = [
       '1v1 reads using only 1-2 data points instead of 5-6.',
     ],
     drill: { heading: 'Drill: 30-day stat tracking', html: `<p>Track per-match: headshot rate, K/D, healing per game (Strategists), damage per game (Duelists). If numbers are flat over 30 matches, fix aim regimen first before chasing macro.</p>` },
-    aiVodMention: `<p>At Celestial, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match adaptation against tournament-tier patterns — flags rounds where you should have switched comp but didn't.</p>`,
+    aiVodMention: `<p>At Celestial, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation against tournament-tier patterns — flags rounds where you should have switched comp but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'MVR Tokyo 2099 Guide', url: '/games/mvr/shin-shibuya.html' },
       { name: 'MVR Yggsgard Guide', url: '/games/mvr/yggdrasill-path.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -3680,13 +4142,13 @@ const HALO_POSTS = [
     ],
     mistakes: ['BR full-auto at long range.','Crosshair at chest height.','Ignoring power weapon timers.','Pushing rooms without grenades.','No comms — 4 solo players.','Sitting in your base instead of pushing top mid.','Flat-footed movement (no clamber, slide).','Same strategy across all modes.'],
     drill: { heading: 'Drill: 30 min BR75 Range practice', html: `<p>Halo Range or custom games for 30 minutes. Practice tap-firing the BR at long range, full-auto at close range. By session 7 the spray pattern + tap-firing rhythm is muscle memory.</p><p>Specific routine: 10 min tap-firing the BR at 30+m targets (count headshots). 10 min burst-firing at 15m. 10 min CQB combat with bots. Track headshot accuracy weekly.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + grenade timing mistakes per round.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + grenade timing mistakes per round.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/halo-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Halo Aquarius Guide', url: '/games/halo/aquarius.html' },
       { name: 'Halo Live Fire Guide', url: '/games/halo/live-fire.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3708,13 +4170,13 @@ const HALO_POSTS = [
     ],
     mistakes: ['Power weapon timers ignored.','Equipment unused.','Grenades thrown blindly.','1-player power weapon contests.','No spawn timing reads.','Trading Sword in CQB.','No role designation in 4-stack.','Ignoring Overshield / Active Camo timers.'],
     drill: { heading: 'Drill: 5 ranked games tracking power weapon timers', html: `<p>For 5 games, set a mental timer (or use stopwatch) for each power weapon respawn. Be at the spawn 5 seconds early. Track win-rate of power weapon contests. By game 5 you'll auto-track timers.</p><p>Specific habit: when a power weapon is picked up (yours or enemy's), start a 90-second timer in your head. At 80 seconds, communicate "Sniper in 10." At 90 seconds, contest the spawn.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your power weapon contest win rate and flags rounds where the rotation broke down. Useful for spotting the maps where you consistently lose the Sniper contest — usually a positioning issue you can fix once you know which map's contest you're losing.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate and flags rounds where the rotation broke down. Useful for spotting the maps where you consistently lose the Sniper contest — usually a positioning issue you can fix once you know which map's contest you're losing.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/halo-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/halo-gold-to-plat.html' },
       { name: 'Halo Recharge Guide', url: '/games/halo/recharge.html' },
       { name: 'Halo Streets Guide', url: '/games/halo/streets.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -3736,13 +4198,13 @@ const HALO_POSTS = [
     ],
     mistakes: ['1-player power weapon contests.','No spawn-flip awareness.','Grenades 2 seconds late.','No anti-grapple prep.','No pro VOD prep.','No role designations pre-match.','Same strategy on every mode.','Tilt-stacking 3+ matches.'],
     drill: { heading: 'Drill: 30 days of HCS pro-VOD-per-day', html: `<p>Watch one HCS match per day for 30 days. Note 1 takeaway per match. By day 30 you have 30 specific tactical patterns memorized.</p><p>Examples: "Pro team designates power-weapon controller pre-match." "Pro IGL calls grenade-cook timing on the count: 'Frag in 2, 1, throw.'" "Pro team always full-heals + reloads between fights." The 30-day discipline is the Plat-to-Onyx bridge.</p><p>If 30 minutes per day is too much, watch in 5-minute chunks. Each chunk = 1 takeaway. The pattern compounds.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against pro-tier reads for power weapon contests. Particularly useful for finding the rounds where you contested a power weapon solo when your team was 30+ meters away — the most common Plat-tier mistake that costs games to Onyx-tier opponents.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads for power weapon contests. Particularly useful for finding the rounds where you contested a power weapon solo when your team was 30+ meters away — the most common Plat-tier mistake that costs games to Onyx-tier opponents.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/halo-silver-to-gold.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Halo Bazaar Guide', url: '/games/halo/bazaar.html' },
       { name: 'Halo Empyrean Guide', url: '/games/halo/empyrean.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -3837,13 +4299,13 @@ const HALO_POSTS_HIGH = [
       'Comms full of commentary, not decisions.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking power-up timers', html: `<p>For 5 ranked games, set a mental timer for each power weapon AND power-up respawn. Be at the spawn 5 seconds early. Track win-rate of power-up + power-weapon contests.</p><p>By game 5 you'll auto-track timers. Apply in matchmaking — the 90-second cycle is the Diamond differentiator.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your power weapon contest win rate per map and flags rounds where the rotation broke down. Useful for spotting which maps have the worst contest win rates so you can study them specifically.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate per map and flags rounds where the rotation broke down. Useful for spotting which maps have the worst contest win rates so you can study them specifically.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/halo-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
       { name: 'Halo Aquarius Guide', url: '/games/halo/aquarius.html' },
       { name: 'Halo Live Fire Guide', url: '/games/halo/live-fire.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -3937,13 +4399,13 @@ const HALO_POSTS_HIGH = [
       'No tilt protocol for objective overtime rounds.',
     ],
     drill: { heading: 'Drill: 30-day HCS pro VOD-per-day + role-locked sessions', html: `<p>30 days of 1 HCS match per day + 4-stack practice with explicit role designation. By day 30 you have 30 patterns memorized + role coordination muscle memory.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against HCS-tier reads for power weapon contests + spawn flips. Useful for finding the rounds where you missed a spawn flip your team should have called.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads for power weapon contests + spawn flips. Useful for finding the rounds where you missed a spawn flip your team should have called.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/halo-plat-to-diamond.html' },
       { name: 'How to Climb from Onyx to Champion', url: '/blog/halo-onyx-to-champion.html' },
       { name: 'Halo Recharge Guide', url: '/games/halo/recharge.html' },
       { name: 'Halo Empyrean Guide', url: '/games/halo/empyrean.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -4032,13 +4494,13 @@ const HALO_POSTS_HIGH = [
       'No enemy pattern tracking across rounds.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 HCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, contest win rate, K/D.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against HCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Onyx plateau from Champion ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Onyx plateau from Champion ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Halo Bazaar Guide', url: '/games/halo/bazaar.html' },
       { name: 'Halo Empyrean Guide', url: '/games/halo/empyrean.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -4066,13 +4528,13 @@ const FINALS_POSTS = [
     ],
     mistakes: ['Bouncing builds — no specialization.','Stealing every vault, including contested ones.','Ignoring destructibility.','No third-team awareness.','Defib-ing full-HP teammates.','3 solo plays per fight.','Flat-footed movement.','Audio at default volume.'],
     drill: { heading: 'Drill: 5 ranked games as Medium build', html: `<p>Lock in Medium build for 5 games. Practice Healing Beam + Defib + AKM. By game 5 your role muscle memory is foundational.</p><p>Specific focus per game: game 1, master AKM recoil + ADS. Game 2, master Defib timing (revive teammate before they finish bleed-out). Game 3, master Healing Beam — sustain a Heavy through prolonged fights. Games 4-5, integrate all three.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags squad-coordination mistakes per fight.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags squad-coordination mistakes per fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'The Finals Las Vegas Guide', url: '/games/finals/las-vegas.html' },
       { name: 'The Finals Monaco Guide', url: '/games/finals/monaco.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -4094,13 +4556,13 @@ const FINALS_POSTS = [
     ],
     mistakes: ['Random builds in 3-stack.','Carrying via the obvious route.','Defib reactive, not anticipative.','Standing in grenade arc spots.','No Cashout contest read.','No pro VOD prep.','Ignoring map destructibility.','Tilt-stacking matches.'],
     drill: { heading: 'Drill: 5 ranked games on Las Vegas with carry-route practice', html: `<p>Play 5 ranked games on Las Vegas. Each match, practice carrying the vault via the rooftop route, not the Streets. Track success rate. By game 5 the route is muscle memory.</p><p>Specific pattern: Heavy carries the cashout via Pool → Rooftop → Streets corner → Cashout statue. Avoid the open Strip. Heavy + Mesh Shield can survive ranged shots from rooftops; the bigger threat is third-party squads on the ground.</p><p>After Las Vegas, repeat the drill on Monaco (Yacht → Harbor → Plaza route) and Seoul (Mall → Subway → Plaza route). Each map's carry route is unique; pro squads have all 6 memorized.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe — both are common Plat-tier mistakes that don't show up in standard kill-cam review.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe — both are common Plat-tier mistakes that don't show up in standard kill-cam review.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/finals-bronze-to-silver.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'The Finals Seoul Guide', url: '/games/finals/seoul.html' },
       { name: 'The Finals Kyoto Guide', url: '/games/finals/kyoto.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -4192,13 +4654,13 @@ const FINALS_POSTS_GAPS = [
       'Default sensitivity / FOV.',
     ],
     drill: { heading: 'Drill: 5-game build mastery focus', html: `<p>Pick one build and play 5 ranked games with it. Track your kit usage per round — did you use Mesh Shield in every contest? Did you Defib at the right moment? After 5 games your build feels reflexive.</p><p>Specific tracking: write 1 line per game on what worked and what didn't. Re-read your notes before queueing the next session — patterns emerge fast when you keep notes.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks your kit usage timing across matches and flags rounds where the engage was uncoordinated. Useful for spotting Silver-tier "3 solo plays" patterns vs Gold-tier synced engagements.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your kit usage timing across matches and flags rounds where the engage was uncoordinated. Useful for spotting Silver-tier "3 solo plays" patterns vs Gold-tier synced engagements.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/finals-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
       { name: 'The Finals Las Vegas Guide', url: '/games/finals/las-vegas.html' },
       { name: 'The Finals Monaco Guide', url: '/games/finals/monaco.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -4285,13 +4747,13 @@ const FINALS_POSTS_GAPS = [
       'Tilt-stacking matches.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking Defib accuracy', html: `<p>5 ranked games as Medium. Track per game: how many Defibs were "anticipative" (before bleed) vs "reactive" (after bleed). Goal: 80%+ anticipative by game 5.</p><p>If you're not playing Medium, run the drill on your Heavy Mesh Shield commit timing or Light Cloak-flank-stun chain instead. The principle is the same: track kit usage per round, refine via review.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Ruby', url: '/blog/finals-diamond-to-ruby.html' },
       { name: 'The Finals Seoul Guide', url: '/games/finals/seoul.html' },
       { name: 'The Finals Kyoto Guide', url: '/games/finals/kyoto.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -4387,13 +4849,13 @@ const FINALS_POSTS_GAPS = [
       'Default sensitivity / FOV.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 TFCS match per day. By day 90 you have a 100-pattern library AND your aim is at Ruby benchmarks. Track weekly: headshot rate per weapon, Defib accuracy (Mediums), session win rate.</p>` },
-    aiVodMention: `<p>At Ruby, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against tournament-tier reads — flags rounds where you knew the right call but committed to the wrong one. The Diamond plateau pattern that Ruby macro discipline solves.</p>`,
+    aiVodMention: `<p>At Ruby, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against tournament-tier reads — flags rounds where you knew the right call but committed to the wrong one. The Diamond plateau pattern that Ruby macro discipline solves.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/finals-plat-to-diamond.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'The Finals Las Vegas Guide', url: '/games/finals/las-vegas.html' },
       { name: 'The Finals Bernal Guide', url: '/games/finals/bernal.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -4422,13 +4884,13 @@ const COD_POSTS = [
     ],
     mistakes: ['Random loadouts.','Hot-dropping with 12 squads.','Spraying full-auto at long range.','No slide-cancel — flat-footed.','Looting through Ring 3.','Crosshair at chest height.','Default sensitivity / FOV.','Random killstreak picks.'],
     drill: { heading: 'Drill: 30 min Firing Range recoil control', html: `<p>30 minutes daily in Firing Range. Use the meta AR. Practice tap-firing at distance, full-auto at close, with manual recoil compensation. After 7 days the recoil pattern is automatic.</p><p>Specific routine: 10 min tap-firing at the 50m target (3-shot bursts, count headshots). 10 min full-auto at 25m (mag dump, learn the spray). 10 min tracking moving targets (set bots to "running" difficulty if available).</p><p>Track tracker percentage weekly. By week 2 your aim consistency should jump 10-15%.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Bronze and Silver-tier aim consistency.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Bronze and Silver-tier aim consistency.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -4451,13 +4913,13 @@ const COD_POSTS = [
     ],
     mistakes: ['Loadout drop too early or too late.','Spamming killstreaks instead of saving for clutch.','Looting in the open after fights.','Pushing first in crystal endgame.','No pro VOD prep.','Always running meta — never countering.','3 IGLs in trio.','Reviewing kill cams too long.'],
     drill: { heading: 'Drill: 5 Warzone games tracking loadout timing', html: `<p>Play 5 Warzone games. For each, note when you bought the loadout and how the timing affected the round. By game 5 you'll have a feel for the optimal buy window for your playstyle.</p><p>Specific tracking sheet: write down (1) when you bought the loadout (Ring 1 / Ring 2 / Ring 3+), (2) whether you survived to Ring 4, (3) whether you got 5+ kills with the loadout. Patterns emerge by game 3.</p><p>Most players find their sweet spot at Ring 2 close. Some aggressive players prefer Ring 1 (riskier but lets them control buy stations). Find your style.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can compute your loadout-drop timing efficiency across matches.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your loadout-drop timing efficiency across matches.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/cod-bronze-to-silver.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -4560,13 +5022,13 @@ const COD_POSTS_GAPS = [
       '1 loadout for every map and momentum.',
     ],
     drill: { heading: 'Drill: 30 min recoil + 30 min slide-cancel daily', html: `<p>Daily routine:</p><ul><li>30 min in Firing Range with meta AR — practice recoil pull patterns at 50m+ targets.</li><li>30 min in private match practicing slide-cancel + mantle-jumps.</li></ul><p>After 7 days both become muscle memory. Apply in ranked.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Silver and Gold-tier aim consistency.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Silver and Gold-tier aim consistency.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/cod-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/cod-gold-to-plat.html' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -4663,13 +5125,13 @@ const COD_POSTS_GAPS = [
       'Tilt-stacking matches.',
     ],
     drill: { heading: 'Drill: 5-game role-designated stack', html: `<p>If you queue with a 4-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>By game 5 the role coordination is automatic. The IGL discipline is the conversion lever for ranked SnD.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> tracks anchor position win rates per map. Useful for spotting which maps have your worst hold percentages so you can study CDL pro positioning specifically for those maps.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks anchor position win rates per map. Useful for spotting which maps have your worst hold percentages so you can study CDL pro positioning specifically for those maps.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/cod-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -4769,13 +5231,13 @@ const COD_POSTS_GAPS = [
       'No queue veto.',
     ],
     drill: { heading: 'Drill: 90-day CDL-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 CDL match per day. By day 90 you have a 60+ pattern library AND your aim is at Iridescent benchmarks.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against CDL-tier reads. Useful for finding the rounds where your killstreak banking decision was wrong (used too early or saved too late) — the exact macro pattern that separates Diamond plateau from Iridescent climb.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads. Useful for finding the rounds where your killstreak banking decision was wrong (used too early or saved too late) — the exact macro pattern that separates Diamond plateau from Iridescent climb.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
       { name: 'How to Climb from Iridescent to Top 250', url: '/blog/cod-iri-to-top250.html' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -4872,13 +5334,13 @@ const COD_POSTS_GAPS = [
       'Round-to-round play instead of match-to-match macro.',
     ],
     drill: { heading: 'Drill: 90-day CDL pro VOD library + aim regimen', html: `<p>90 days of 90 min daily aim + 1 CDL match per day. By day 90 you have a 100-pattern library AND your aim is at Top 250 benchmarks. Track weekly: headshot rate per weapon, K/D, ADR.</p>` },
-    aiVodMention: `<p>At Top 250 the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against CDL-tier reads round-by-round. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Iridescent plateau from Top 250 ceiling.</p>`,
+    aiVodMention: `<p>At Top 250 the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads round-by-round. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Iridescent plateau from Top 250 ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Iridescent', url: '/blog/cod-diamond-to-iri.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'CoD Rebirth Island Guide', url: '/games/cod/rebirth-island.html' },
       { name: 'CoD Verdansk Guide', url: '/games/cod/verdansk.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -4907,12 +5369,12 @@ const FN_POSTS = [
     ],
     mistakes: ['Hot-dropping into hot zones.','Looting random weapons — no loadout priority.','Healing in the open.','Saving mobility items "for later."','Running zone damage.','Crosshair at chest height.','3 IGLs in trio.','Default sensitivity / FOV.'],
     drill: { heading: 'Drill: 10 games of edge-drop discipline', html: `<p>10 ranked games. Each game, edge-drop a different POI. Track how many full-loot 1v1s you survive. By game 10 your loot priority is automatic.</p><p>Specific pattern: ranked game 1, edge-drop a low-contest POI like Magic Mosses or Hidden Hollow. Game 2, edge-drop Foxy Floodgate. Game 3, edge-drop Open-Air Onsen. Each game, focus on the loot sequence (shotgun → AR → 2 heals → mobility) before pushing any contested zone.</p><p>By game 10, you've trained drop discipline + loot priority + 1v1 survival simultaneously. The compound effect is rank-decisive.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match. Particularly useful for catching the rounds where you healed in the open and got punished — the most common Bronze-tier death pattern in Zero Build.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match. Particularly useful for catching the rounds where you healed in the open and got punished — the most common Bronze-tier death pattern in Zero Build.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 7,
   },
@@ -4935,12 +5397,12 @@ const FN_POSTS = [
     ],
     mistakes: ['Fighting on flat in Ring 4.','Saving mobility items unused.','Ignoring lurker audio cues.','Random loot loadouts.','Pushing first in crystal endgame.','No pro VOD prep.','No loadout swap as match progresses.','Tilt-stacking losses.'],
     drill: { heading: 'Drill: 5 ranked games tracking Ring 4+ positioning', html: `<p>5 ranked games. For each, focus on Ring 4 high-ground take. By game 5 you'll auto-position before zone closes.</p><p>Specific pattern: at Ring 3 close, identify the next zone center on the map. Plan the high-ground spot in that zone. Use mobility items (Crash Pad / Launch Pad) to claim it 60+ seconds before zone forces.</p><p>Track your Ring 4+ survival rate. If you're being eliminated before final ring 80%+ of games, fix positioning before chasing aim improvements.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where your endgame positioning broke down. Useful for finding the specific Ring 4 decisions that lost you the game — high-ground neglect, mobility item hoarding, or pushing first into crystal endgame are common Plat-tier patterns the review surfaces.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your endgame positioning broke down. Useful for finding the specific Ring 4 decisions that lost you the game — high-ground neglect, mobility item hoarding, or pushing first into crystal endgame are common Plat-tier patterns the review surfaces.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/fn-bronze-to-silver.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -5048,12 +5510,12 @@ const FN_POSTS_GAPS = [
       'Trade-fragger too far back.',
     ],
     drill: { heading: 'Drill: 5-game role-locked trio + Creative warm-up', html: `<p>If you queue with a 3-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>Before each session, 15 min Creative aim courses (search "Aim Trainer Zero Build" maps). Warm up shotgun headshots + AR tracking. By session 5 the warm-up + role coordination compounds into a +10% win rate.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/fn-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/fn-gold-to-plat.html' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -5150,12 +5612,12 @@ const FN_POSTS_GAPS = [
       'Same drop POI every game.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking endgame positioning', html: `<p>5 ranked games. For each, focus on Ring 4 high-ground take. Did you claim elevation before zone forced? Did you use a mobility item to get there?</p><p>By game 5 the pre-positioning habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p><p>Track per-game: Ring 4 high-ground claim time, third-party encounter count, mobility items used. Patterns emerge by game 3.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> can flag rounds where you committed to fights without high-ground positioning. Useful for finding the rounds where your placement was lost on macro, not aim.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without high-ground positioning. Useful for finding the rounds where your placement was lost on macro, not aim.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/fn-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -5260,12 +5722,12 @@ const FN_POSTS_GAPS = [
       'Pushing first in crystal endgame.',
     ],
     drill: { heading: 'Drill: 90-day FNCS-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 FNCS match per day. By day 90 you have a 60+ pattern library AND your aim is at Elite benchmarks.</p><p>Track weekly: shotgun headshot rate, AR tracking percentage, sniper accuracy at long range. If numbers plateau before day 90, fix sensitivity or technique before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your in-match decisions against FNCS-tier reads. Useful for finding the rounds where your endgame positioning broke down — the macro pattern that separates Diamond plateau from Elite climb. Particularly useful for spotting whether your mobility chain rotations were proactive or reactive.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match decisions against FNCS-tier reads. Useful for finding the rounds where your endgame positioning broke down — the macro pattern that separates Diamond plateau from Elite climb. Particularly useful for spotting whether your mobility chain rotations were proactive or reactive.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
       { name: 'How to Climb from Elite to Champion', url: '/blog/fn-elite-to-champion.html' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -5368,12 +5830,12 @@ const FN_POSTS_GAPS = [
       'Reactive mobility item use.',
     ],
     drill: { heading: 'Drill: 90-day FNCS pro VOD + aim regimen', html: `<p>90 days of 90 min daily aim + 1 FNCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, top-3 placement rate, session win rate.</p><p>If aim numbers plateau at Elite benchmarks for 4+ weeks, the issue is sensitivity, ergonomics, or technique. Get a coach review or try a sensitivity audit (compare to pro players' eDPI numbers).</p>` },
-    aiVodMention: `<p>At Champion the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> compares your decision patterns against FNCS-tier reads. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Elite plateau from Champion ceiling.</p>`,
+    aiVodMention: `<p>At Champion the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against FNCS-tier reads. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Elite plateau from Champion ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Elite', url: '/blog/fn-diamond-to-elite.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Fortnite Map Guide', url: '/games/fn/current-chapter.html' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
   },
@@ -5468,13 +5930,13 @@ const RL_POSTS = [
       heading: 'Drill: Free Play, 15 minutes of ball cam + small pads',
       html: `<p>Hit Training → Free Play. Spend 15 minutes driving around the field, ball cam locked on, only grabbing small pads. Don't touch the ball. Goal: ball cam becomes invisible. By the end you'll instinctively look at the ball, even when grabbing pads behind you. Repeat daily for a week.</p>`,
     },
-    aiVodMention: `<p>Stuck on the same mistake every match? Drop a screenshot from your last ranked game — <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck on the same mistake every match? Drop a screenshot from your last ranked game — <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 6,
   },
@@ -5561,13 +6023,13 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Half-Flip + Rotation (Free Play)',
       html: `<p>Free Play, 10 minutes daily for a week: 50 half-flips off the back wall, then run the rotation cycle solo (drive corner → mid → corner → repeat). By day 7 your half-flip lands clean every time and your rotation muscle memory feels automatic. This is the single highest-value drill at Silver.</p>`,
     },
-    aiVodMention: `<p>If your rotations feel right but you keep losing — <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>If your rotations feel right but you keep losing — <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/rl-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 7,
   },
@@ -5654,13 +6116,13 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Aerial Training (Beginner pack)',
       html: `<p>Search "Aerial Training - Beginner" in custom training. 50 shots per day for a week. Goal: hit 35+/50 by day 7. Combines fast aerial + ball direction + recovery in one practice loop. Pair with 10 minutes of figure-8 power-slides in Free Play. By the end of the week the mechanics are loaded.</p>`,
     },
-    aiVodMention: `<p>Mechanics feel locked but you keep getting outplayed? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Mechanics feel locked but you keep getting outplayed? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 7,
   },
@@ -5757,13 +6219,13 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Speedflip Trainer + 100 aerial reps daily',
       html: `<p>Search "Speedflip Trainer" in workshop maps (BakkesMod required on PC, custom training on console). 100 speedflip attempts per day for two weeks. Track success rate. Goal: 80%+ clean speedflips by week 2. Pair with the "Aerial Shots Intermediate" custom training pack — 50 reps daily. By week 2 the speedflip + aerial accuracy combo is loaded.</p>`,
     },
-    aiVodMention: `<p>Speedflip won't lock in? Aerials still inconsistent? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Speedflip won't lock in? Aerials still inconsistent? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
       { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 8,
   },
@@ -5858,13 +6320,13 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Striker Drill 2.0 (60 mins daily)',
       html: `<p>Search "Striker Drill 2.0" in BakkesMod workshop maps (PC) or use the equivalent "Tournament Custom Training" pack on console. 60 minutes daily for 14 days. Drill covers speedflip, aerial accuracy, redirect shots, and rotation reads. Track shot conversion %. Goal: 60%+ shot conversion by day 14. Pair with one ranked-tournament VOD per day — watch how Champion-level players rotate after every touch.</p>`,
     },
-    aiVodMention: `<p>Champion gap won\'t close? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank — often it's not mechanics but a rotation or boost-denial pattern. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Champion gap won\'t close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank — often it's not mechanics but a rotation or boost-denial pattern. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
       { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 9,
   },
@@ -5963,13 +6425,13 @@ const RL_POSTS = [
       heading: 'Drill: BakkesMod Air-Dribble Trainer + 1 RLCS match/day',
       html: `<p>BakkesMod (PC) or custom training packs (console) — search "Air Dribble Single" pack. 50 reps daily for two weeks. Goal: 30/50 clean by day 14. Pair with 1 RLCS VOD per day — pause every minute and predict the play. By day 14 you have an air-dribble threat AND a 14-pattern pro library. That's the GC-tier package.</p>`,
     },
-    aiVodMention: `<p>Air dribbles inconsistent? Pre-positioning still feels random? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic or read is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Air dribbles inconsistent? Pre-positioning still feels random? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic or read is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
       { name: 'How to Climb from GC to SSL', url: '/blog/rl-gc-to-ssl.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 10,
   },
@@ -6067,14 +6529,2138 @@ const RL_POSTS = [
       heading: 'Drill: BakkesMod Pro Training Pack (90 mins daily) + 1 RLCS VOD',
       html: `<p>BakkesMod\'s "Pro Training" pack: flip resets, musty flicks, pinch pass setups, double-touch aerials. 90 minutes daily for 60 days. Goal: land flip reset in ranked 1/3 attempts, pinch attempts 1/5, musty flicks 50%. Pair with 1 RLCS Grand Finals VOD per day, pausing every minute to predict the play. By day 60 you have a complete SSL-tier mechanical package AND a 60-clip pro pattern library. Most SSL climbers take 6-12 months at this drill volume; the consistency matters more than intensity.</p>`,
     },
-    aiVodMention: `<p>SSL gap won\'t close? Mechanics solid but games slip away in closeout? <a href="${SITE_URL}/#/vod">Recon+ Pro reviews your screenshots</a> and tells you exactly which mechanic, read, or closeout pattern is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>SSL gap won\'t close? Mechanics solid but games slip away in closeout? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic, read, or closeout pattern is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
-      { name: 'Recon+ Blog — All Rank-Up Guides', url: '/blog/' },
+      { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
       { name: 'Rocket League Home', url: '/games/rl/' },
-      { name: 'Recon+ Pricing', url: '/#pricing' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
     ],
     readMinutes: 11,
+  },
+]
+
+// ============================================================================
+// LEAGUE OF LEGENDS POSTS (5)
+// ============================================================================
+// Pillar guide + tier list + itemization deep-dive + rank-up + top-lane
+// matchup cluster. Cross-linked for topical authority. Targets ~480M MAU
+// LoL TAM — biggest single-game audience on the platform.
+const LOL_POSTS = [
+  {
+    game: 'lol', gameLabel: 'League of Legends', fromRank: 'Iron', toRank: 'Bronze',
+    slug: 'lol-beginner-guide-2026',
+    metaTitle: 'League of Legends Beginner Guide 2026 — Climb Out of Iron',
+    metaDescription: 'LoL beginner guide for 2026: champion picks per role, last-hitting basics, lane phase fundamentals, jungle paths, objective control, and the 10 habits that get you to Bronze.',
+    intro: `<p>If you've just hit Iron in League of Legends, the fastest way out isn't "play more games" — it's fixing four things: champion pool, last-hitting CS, map awareness, and objective priority. This guide covers the fundamentals that 90% of Iron players ignore. Read it once, drill the habits for two weeks, and Bronze is unavoidable.</p>`,
+    sections: [
+      { heading: 'Pick a small champion pool — not the whole roster', html: `<p>LoL has 165+ champions. You'll never get good at all of them. Pick three per role and stay there until you've played 30 games on each:</p>
+<ul>
+  <li><strong>Top:</strong> Garen (point-and-click silence, sustain) or Malphite (R AoE engage). Both forgiving, both winning at Iron.</li>
+  <li><strong>Jungle:</strong> Warwick or Master Yi. Forgiving clears, kill pressure from level 6.</li>
+  <li><strong>Mid:</strong> Annie (point-and-click stun, R AoE) or Garen (off-meta but works). Burst beats kiting at low elo.</li>
+  <li><strong>ADC:</strong> Caitlyn (longest auto range, lane bully) or Miss Fortune (R AoE wave clear).</li>
+  <li><strong>Support:</strong> Soraka (heals, peel) or Leona (point-and-click R, easy engage).</li>
+</ul>
+<p>Don't bounce. Iron-to-Bronze winners pick a champ and grind it. Stop trying to play 30 different champions in 100 games.</p>` },
+      { heading: 'Last-hitting (CS) — the single biggest skill gap', html: `<p>CS = creep score = minion kills. Each minion is ~20 gold. At 10 minutes you should have 70+ CS. Iron players average 30. That's 40 CS × 20 gold = 800 gold deficit — one component item difference.</p>
+<p>Drill: open custom game, last-hit minions for 10 minutes. Goal: 50 CS by 5 minutes solo. Practice tapping the right-click for the last-hit, not auto-attacking through the wave.</p>
+<p>The CS gap is the single highest-impact stat in low elo. If you can last-hit 70+ CS at 10 minutes, you'll out-gold 90% of Iron opponents and snowball every game.</p>` },
+      { heading: 'Map awareness — check the minimap every 5 seconds', html: `<p>Iron players stare at their lane the entire game. Bronze players check the minimap. Drill: every time minions meet, glance at minimap. Every time you take a tower plate, glance at minimap. Every time you ult, glance at minimap.</p>
+<ul>
+  <li>See enemy jungler bot? Mid lane can push up safely.</li>
+  <li>See enemy top lane missing? Jungle / mid is in danger — back off.</li>
+  <li>See ally jungler near you? Push wave for dive setup.</li>
+</ul>
+<p>You're not vision-impaired. You just need to look. Glance every 5 seconds; you'll be ahead of Iron forever.</p>` },
+      { heading: 'Lane phase: trade at minion advantage, recall on plate proc', html: `<p>Don't trade randomly. Trade when your minions outnumber theirs (their auto-attacks distract). Don't trade under enemy tower. Don't dive without ally backup or 50% HP advantage.</p>
+<p>Recall rules: 1300+ gold for component item, OR after taking a tower plate (free time), OR after a kill (no wave pressure). Never recall on equal wave with no resources earned.</p>
+<p>This single habit — trade on advantage, recall on plate — gets you Bronze. Iron players recall randomly, lose plates, lose CS, lose lane.</p>` },
+      { heading: 'Objective priority: drake > Baron > tower', html: `<p>First drake at 7:30. Soul at 4 drakes. Baron at 25 minutes. Towers anytime. Objective priority for an Iron-to-Bronze player:</p>
+<ul>
+  <li>Drake spawn at 7:30: have a ward at 7:00 in pit.</li>
+  <li>Push wave before drake — bring teammates to the fight with minion pressure.</li>
+  <li>Never solo-fight drake without team — getting smited off is a free objective for enemy.</li>
+  <li>Baron at 25+ minutes: only commit with 4+ team members + vision around pit.</li>
+</ul>
+<p>Bronze players fight every objective; Gold players take objectives uncontested. Even at Iron, just being aware of drake spawn timer puts you ahead.</p>` },
+      { heading: 'Jungle pathing for beginners — Warwick / Master Yi clear', html: `<p>If you're playing jungle: full clear before ganking. Red → Blue → Krugs → Raptors → Wolves → Gromp → Scuttle Crab. By 3:30 you're level 4 with full mana, ready to gank a pushed lane.</p>
+<p>Gank windows: 3:30, 5:00, 6:00 (R unlocked). Look for pushed lanes where enemy is past river. Use Smite to confirm Smite — you'll lose 50% of duels without it.</p>
+<p>Counter-jungle at Bronze: take enemy raptor/krug if you see enemy jungler opposite side on the map. Easy XP gain.</p>` },
+      { heading: 'The 10 habits that get you to Bronze', html: `<ul>
+  <li>Pick a 3-champion pool per role; never deviate for 30 games.</li>
+  <li>Last-hit 70+ CS by 10 minutes.</li>
+  <li>Check minimap every 5 seconds.</li>
+  <li>Trade at minion advantage; recall on plate proc.</li>
+  <li>Use both summoner spells (Flash + Teleport/Ignite for kill pressure).</li>
+  <li>Ward river bush at minute 3 (top side or bot side).</li>
+  <li>Set up drake control at 7:00 (pit ward).</li>
+  <li>Never solo-fight at 30%+ HP disadvantage.</li>
+  <li>Build defensive boots after Mythic (Tabis vs AD, Mercury's vs AP/CC).</li>
+  <li>Don't surrender early — Iron games come back from 10k gold deficits.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Bouncing champions — playing 30 different picks in 100 games',
+      'Auto-attacking through minions instead of last-hitting',
+      'Staring at lane, never glancing at minimap',
+      'Recalling on equal wave with no resources earned',
+      'Solo-fighting objectives without team or vision',
+    ],
+    drill: {
+      heading: 'Drill: 14-day fundamentals regimen',
+      html: `<ul>
+  <li><strong>Day 1-3:</strong> Custom games for last-hitting. Goal: 70 CS by 10 min, no champion abilities used.</li>
+  <li><strong>Day 4-7:</strong> Ranked games with chosen champion pool only. Track CS per minute, deaths per game.</li>
+  <li><strong>Day 8-10:</strong> Drake / Baron objective focus. Ward pit 30 seconds before spawn every game.</li>
+  <li><strong>Day 11-14:</strong> Map awareness drill. Pause replays every 5 minutes; count how many enemies you knew the position of.</li>
+</ul>
+<p>By day 14 you'll be in Bronze. Most Iron players stay because they refuse to drill fundamentals — they keep playing for fun and losing.</p>`,
+    },
+    aiVodMention: `<p>Stuck despite drilling fundamentals? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your match screenshots</a> and flags the exact CS gap, vision pattern, or fight commitment that's capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
+      { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
+      { name: 'How to Climb from Gold to Platinum in LoL', url: '/blog/lol-gold-to-platinum.html' },
+      { name: 'LoL Top Lane Matchups — 10 Counter Picks', url: '/blog/lol-top-lane-matchups.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 12,
+  },
+  {
+    game: 'lol', gameLabel: 'League of Legends', fromRank: 'Tier List', toRank: '2026 Meta',
+    slug: 'lol-champion-tier-list-2026',
+    metaTitle: 'LoL Champion Tier List 2026 — Best Picks Per Role',
+    metaDescription: 'LoL 2026 champion tier list across all 5 roles. S-tier dive, A-tier balanced, B-tier situational. Updated for the current meta with win rates and pick rationale.',
+    intro: `<p>Tier lists in League of Legends shift every patch. This is the 2026 meta snapshot: S-tier (must-pick / must-ban), A-tier (strong meta), B-tier (situational). Tiered by win rate × pick rate × climb-ability for solo queue. Pro play differs — this is solo Q meta, not LCS.</p>`,
+    sections: [
+      { heading: 'Top Lane — S, A, B tiers', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Darius</strong> — 5-stack hemorrhage execute, level 1 all-in. Iron-to-Plat top pick.</li>
+  <li><strong>Sett</strong> — W true damage execute, R displacement engage. Brawl scaling perfect for solo Q chaos.</li>
+  <li><strong>Camille</strong> — E hookshot engage, R isolate. Strong vs squishies + brawlers.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Garen</strong> — Conqueror sustain, point-and-click silence. Forgiving, scales well.</li>
+  <li><strong>Fiora</strong> — vital duelist, 1v1 monster. High skill cap.</li>
+  <li><strong>Ornn</strong> — team-wide passive items, R global slow. Best team-fight tank top.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Malphite</strong> — R AoE engage is huge, but lane phase weak vs bruisers.</li>
+  <li><strong>Riven</strong> — high mechanical ceiling, low floor. Skip if not 100+ games invested.</li>
+</ul>` },
+      { heading: 'Jungle — S, A, B tiers', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Hecarim</strong> — E run-down knockback, R fear engage. Best snowball jungler in meta.</li>
+  <li><strong>Kha'Zix</strong> — isolation passive Q, R invisibility. Picks squishies all game.</li>
+  <li><strong>Sejuani</strong> — R AoE stun engage, frostbite shred. Best team-fight jungle tank.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Lee Sin</strong> — Q insec kick + early gank pressure. Falls off after 20 min but dominates early.</li>
+  <li><strong>Vi</strong> — R lock-on ult, point-and-click target access. Solid tank-bruiser.</li>
+  <li><strong>Bel'Veth</strong> — true damage Q, attack speed scaling. Late-game monster.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Master Yi</strong> — Solo Q snowball if uncontested. Hard counters destroy.</li>
+  <li><strong>Karthus</strong> — global R, scaling jungler. Needs comp synergy.</li>
+</ul>` },
+      { heading: 'Mid Lane — S, A, B tiers', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Akali</strong> — invisibility shroud, R double-cast execute. Highest carry mid.</li>
+  <li><strong>Sylas</strong> — steals enemy ult, sustain bruiser. Always strong.</li>
+  <li><strong>Zed</strong> — shadow clone burst, R mark execute. Snowball assassin.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Ahri</strong> — charm CC, R triple-dash mobility. Roams + scales.</li>
+  <li><strong>Yasuo</strong> — wind wall blocks projectiles. Skill-dependent.</li>
+  <li><strong>Syndra</strong> — point-and-click stun, R execute. Late-game threat.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Orianna</strong> — ball management requires team coordination. Strong in pro play, weaker in solo Q.</li>
+  <li><strong>Vladimir</strong> — Pool dodge + sustain. Late-game scaling, weak laning.</li>
+</ul>` },
+      { heading: 'ADC — S, A, B tiers', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Caitlyn</strong> — longest auto range, trap setup. Lane bully + late scaling.</li>
+  <li><strong>Jinx</strong> — hyper-carry, R global execute. Best scaling ADC.</li>
+  <li><strong>Kai'Sa</strong> — evolution passive, R dash. Hybrid AP/AD damage.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Jhin</strong> — 4-shot reload, R sniper execute. 1-shot crit damage.</li>
+  <li><strong>Aphelios</strong> — 5-weapon rotation. Highest skill floor in role.</li>
+  <li><strong>Senna</strong> — heals + scaling soul collection. Hybrid carry/support.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Vayne</strong> — late-game hyper-carry. Hard counter to tanks; needs babysitting early.</li>
+  <li><strong>Draven</strong> — high-skill axe-catching. Snowball if mastered.</li>
+</ul>` },
+      { heading: 'Support — S, A, B tiers', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Thresh</strong> — Q hook engage, lantern save, soul-stacking. Skill expression.</li>
+  <li><strong>Lulu</strong> — W polymorph/peel, R ally HP burst. Best enchanter for ADC carries.</li>
+  <li><strong>Nautilus</strong> — point-and-click R lock-on. Best easy-engage support.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Leona</strong> — point-and-click R, tankiest engage. Solo Q hard carry.</li>
+  <li><strong>Janna</strong> — disengage queen, R AoE knockback. Anti-dive support.</li>
+  <li><strong>Pyke</strong> — R execute heals team gold. Highest roam impact.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Soraka</strong> — heals, peel. Beginner-friendly but punished by dive.</li>
+  <li><strong>Senna</strong> — hybrid carry. Strong but contested with ADC.</li>
+</ul>` },
+      { heading: 'Counter-pick matrix — 5 key matchups', html: `<ul>
+  <li><strong>Malphite > Yasuo</strong> — Point-and-click stun + AP burst destroys wind wall.</li>
+  <li><strong>Vayne > Darius</strong> — Range kite stops 5-stack hemorrhage.</li>
+  <li><strong>Lissandra > Zed</strong> — R suppress + hard CC locks down all-in.</li>
+  <li><strong>Brand > Lulu</strong> — AoE damage support out-trades enchanter pre-6.</li>
+  <li><strong>Caitlyn > Jinx</strong> — Lane bullies stop scaling hyper-carry.</li>
+</ul>
+<p>Counter-picking lane is the single biggest win condition in low elo. Use Champion Select to deny opponent's pick or counter directly. See <a href="/blog/lol-top-lane-matchups.html">LoL Top Lane Matchups</a> for the full counter-pick guide.</p>` },
+    ],
+    mistakes: [
+      'Picking B-tier champions despite their lower win rate (chasing personal favorites over meta)',
+      'No counter-pick consideration in champion select',
+      'One-tricking outside the S-tier list (assuming "all picks are viable" is solo Q cope)',
+      'Following pro-play picks (Orianna in LCS ≠ Orianna in solo Q)',
+      'Ignoring patch notes — meta shifts every 2 weeks',
+    ],
+    drill: {
+      heading: 'Drill: 1 S-tier pick per role per week',
+      html: `<p>Pick one S-tier champ from this list. Play 20 ranked games on it. Don't deviate. Track win rate per week. By month 4 you've mastered 5 S-tier picks across roles and you can flex into any role solo Q forces you into. This is the climbing path — not "play whatever champ I like."</p>`,
+    },
+    aiVodMention: `<p>Got the picks right but still losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags specific lane phase mistakes (CS gap, wave management, gank windows). Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
+      { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
+      { name: 'How to Climb from Gold to Platinum in LoL', url: '/blog/lol-gold-to-platinum.html' },
+      { name: 'LoL Top Lane Matchups — 10 Counter Picks', url: '/blog/lol-top-lane-matchups.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'lol', gameLabel: 'League of Legends', fromRank: 'Build', toRank: 'Mastery',
+    slug: 'lol-itemization-guide',
+    metaTitle: 'LoL Itemization Guide 2026 — Mythics, Components, Build Paths',
+    metaDescription: 'LoL itemization guide: Mythic Items, component spike paths, role-specific build orders, situational defensive items, and the build mistakes that cost you 30% of your damage.',
+    intro: `<p>Itemization wins games more than mechanics past Silver. The wrong Mythic on Yasuo loses you 4,000 effective damage over a fight. The right defensive item against an Akali turns a 100-0 burst into a 90-50 survive-then-kill trade. This guide breaks down Mythic item choices per role, component spike timing, and the situational defensives every LoL player needs.</p>`,
+    sections: [
+      { heading: 'How Mythic Items work — the 1-item meta', html: `<p>Mythic Items are the cornerstone of LoL itemization. You can only own one at a time. Each Mythic passive scales with subsequent Legendary items, so the wrong Mythic compounds over your entire build.</p>
+<ul>
+  <li><strong>Mythic = your build identity.</strong> Stridebreaker on Camille is bruiser-engage; Eclipse is burst-assassin. Different champions, different Mythics.</li>
+  <li><strong>Mythic passive scales per Legendary.</strong> Each subsequent item adds bonus stats from the Mythic's passive.</li>
+  <li><strong>Buy Mythic by component priority.</strong> Don't buy it first. Buy components (BF Sword, Pickaxe, Sapphire Crystal) until you can complete the Mythic with the recall gold.</li>
+</ul>` },
+      { heading: 'Top lane Mythic choice — Stridebreaker vs Eclipse vs Trinity', html: `<ul>
+  <li><strong>Stridebreaker</strong> — Bruiser. Camille, Darius, Sett. Movement speed + slow + bonus damage.</li>
+  <li><strong>Eclipse</strong> — Burst bruiser/assassin. Renekton, Pantheon. Spell-shield-piercing damage spikes.</li>
+  <li><strong>Trinity Force</strong> — Flex bruiser. Irelia, Jax, Camille. Sheen procs + AS + movement speed.</li>
+  <li><strong>Goredrinker</strong> — Sustained bruiser. Darius (old build), Trundle. Heal-on-damage in fights.</li>
+</ul>
+<p>Choose by champion archetype: Stridebreaker for movement-heavy bruisers, Eclipse for burst, Trinity for sustained DPS, Goredrinker for sustain.</p>` },
+      { heading: 'Jungle Mythic choice — Eclipse vs Ravenous Hydra vs Sunfire', html: `<ul>
+  <li><strong>Eclipse</strong> — Assassin jungle. Kha'Zix, Lee Sin. Burst damage spikes.</li>
+  <li><strong>Stridebreaker</strong> — Engage jungler. Hecarim. Movement speed + AoE slow.</li>
+  <li><strong>Sunfire Aegis</strong> — Tank jungle. Sejuani, Maokai. AoE damage + defensive stats.</li>
+  <li><strong>Goredrinker</strong> — Sustain jungler. Warwick. Heal-on-damage.</li>
+</ul>` },
+      { heading: "Mid Mage Mythic choice — Luden's vs Liandry's vs Riftmaker", html: `<ul>
+  <li><strong>Luden's Companion</strong> — Burst mage. Syndra, Ahri, Lux. Big damage on cooldown spells.</li>
+  <li><strong>Liandry's Anguish</strong> — Sustained mage. Zyra, Ryze. DoT damage on champions.</li>
+  <li><strong>Everfrost</strong> — Control mage. Lissandra, Anivia. Frost field utility.</li>
+  <li><strong>Riftmaker</strong> — Bruiser mage. Sylas, Mordekaiser. Omnivamp + bonus damage.</li>
+</ul>
+<p>Choose by playstyle: Luden's for burst combos, Liandry's for sustained damage, Everfrost for CC, Riftmaker for hybrid bruiser play.</p>` },
+      { heading: 'ADC Mythic choice — Galeforce vs Kraken Slayer vs Yun Tal Wildarrows', html: `<ul>
+  <li><strong>Galeforce</strong> — Mobile ADC. Caitlyn, Lucian. Dash gap-closer + AoE damage.</li>
+  <li><strong>Kraken Slayer</strong> — Hyper-carry. Jinx, Vayne. 3rd auto true damage.</li>
+  <li><strong>Yun Tal Wildarrows</strong> — Crit ADC. Jhin. Crit scaling bonus.</li>
+  <li><strong>Immortal Shieldbow</strong> — Bursty ADC. Twitch, Tristana. Bonus shield + omnivamp.</li>
+</ul>
+<p>For solo Q ADC at low elo: Galeforce on mobile carries, Kraken Slayer on scaling hyper-carries. Yun Tal Wildarrows is Jhin-specific.</p>` },
+      { heading: "Support Mythic choice — Moonstone vs Locket vs Shurelya's", html: `<ul>
+  <li><strong>Moonstone Renewer</strong> — Enchanter peel. Lulu, Janna, Soraka. Continuous team healing.</li>
+  <li><strong>Locket of the Iron Solari</strong> — Engage tank support. Leona, Nautilus, Thresh. Bonus team shield.</li>
+  <li><strong>Shurelya's Battlesong</strong> — Roaming support. Pyke, Senna. Active speed boost.</li>
+  <li><strong>Imperial Mandate</strong> — Damage support. Lux, Karma. Mark + ally damage boost.</li>
+</ul>` },
+      { heading: 'Defensive items — when to deviate from the meta build', html: `<p>Don't sleep on defensive items. They turn fights:</p>
+<ul>
+  <li><strong>Thornmail</strong> — vs heavy auto-attack ADC (Jinx, Vayne). Reflect damage + Grievous Wounds on tank.</li>
+  <li><strong>Tabi Boots</strong> — vs full AD comp. 12% auto attack damage reduction.</li>
+  <li><strong>Mercury's Treads</strong> — vs AP / CC comp. Tenacity + magic resistance.</li>
+  <li><strong>Maw of Malmortius</strong> — bruiser vs full AP. Spell shield + bonus AD on low HP.</li>
+  <li><strong>Zhonya's Hourglass</strong> — mage vs assassin. Stasis for 2.5 seconds + armor.</li>
+  <li><strong>Mercurial Scimitar</strong> — ADC vs hard CC (Zed R, Malzahar R). Removes CC + cleanses.</li>
+  <li><strong>Guardian Angel</strong> — ADC late game. Revive after death (4 minute cooldown).</li>
+</ul>
+<p>Buy 1 defensive item by Item 3 every game. Iron players rush 6 damage items and die in 0.8 seconds to Zed.</p>` },
+      { heading: 'Component spike paths — when to fight before Mythic', html: `<ul>
+  <li><strong>BF Sword</strong> (1300 gold) — first component for AD carries. 40 AD spike.</li>
+  <li><strong>Sapphire Crystal</strong> (350 gold) — first mana for mages. 300 mana to spam Q.</li>
+  <li><strong>Pickaxe</strong> (875 gold) — 25 AD for ADCs. Lane combat spike.</li>
+  <li><strong>Tear of the Goddess</strong> (400 gold) — Manamune stacking start for mid mage.</li>
+  <li><strong>Vampiric Scepter</strong> (900 gold) — ADC sustain start. 10% lifesteal.</li>
+</ul>
+<p>Don't recall on equal wave with no resources. Wait for 1300+ gold to recall and buy a meaningful component. The component spike (BF or Pickaxe) is where you should fight; the Mythic completion is where you should team fight.</p>` },
+    ],
+    mistakes: [
+      'Building 6 damage items, dying to assassins in 0.8s',
+      'Wrong Mythic for champion archetype (Eclipse on tank, Stridebreaker on assassin)',
+      'No defensive boots by Item 2 (Tabis or Mercury\'s)',
+      'Buying Item 1 → Item 2 → Item 3 without checking enemy comp damage type',
+      'Recalling with 600 gold instead of waiting for 1300 component spike',
+    ],
+    drill: {
+      heading: 'Drill: Build path consistency for 10 games',
+      html: `<p>Pick one champion. Build the same path 10 games in a row. Track win rate. Then swap one item per game and compare. By game 30 you've tested 3 build paths and know which one is highest win rate FOR YOU on that champion. This is how pros build their item knowledge — not by copying OP.GG blindly, but by testing in their solo Q matches.</p>`,
+    },
+    aiVodMention: `<p>Build path right but still losing fights? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per team fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
+      { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
+      { name: 'How to Climb from Gold to Platinum in LoL', url: '/blog/lol-gold-to-platinum.html' },
+      { name: 'LoL Top Lane Matchups — 10 Counter Picks', url: '/blog/lol-top-lane-matchups.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'lol', gameLabel: 'League of Legends', fromRank: 'Gold', toRank: 'Platinum',
+    slug: 'lol-gold-to-platinum',
+    metaTitle: 'How to Climb from Gold to Platinum in LoL (2026)',
+    metaDescription: 'LoL Gold-to-Plat — wave management, vision priority, jungle pathing reads, objective coordination, and the mid-round adapts that flip games at the Plat threshold.',
+    intro: `<p>Gold-to-Platinum in LoL is the first rank where macro decisions out-weigh mechanics. At Gold, you can last-hit cleanly and play a champion pool — that's not enough. Plat demands wave management, vision priority, jungle pathing reads, and objective coordination. The gap closes when you stop playing your lane and start playing the map.</p>`,
+    sections: [
+      { heading: 'Wave management — the Plat-level skill gap', html: `<p>Gold players push wave or freeze randomly. Plat players manage waves intentionally:</p>
+<ul>
+  <li><strong>Push wave to enemy tower</strong> when you want to recall + take resources.</li>
+  <li><strong>Freeze wave near your tower</strong> when enemy has TP cooldown or jungle pressure.</li>
+  <li><strong>Slow-push wave</strong> by letting their wave bigger than yours; build a 30-minion wave to crash for tower plate.</li>
+  <li><strong>Don't shove + roam in lane phase</strong>; you give XP + gold lead to enemy laner.</li>
+</ul>
+<p>Wave management = 30% of your CS and tower plate gold. Plat players bank an extra 800 gold over Gold opponents through wave control alone.</p>` },
+      { heading: 'Vision priority — wards win games at Plat', html: `<p>Gold players ward defensively (jungle entrances). Plat players ward offensively (enemy jungle, objective pits).</p>
+<ul>
+  <li><strong>Pink ward enemy jungle entrance</strong> at minute 8 — denies enemy ward, gives team intel.</li>
+  <li><strong>Ward enemy raptor/krug</strong> when you have lane priority. See enemy jungler path.</li>
+  <li><strong>Deep ward Baron pit at 22:00</strong> for 25:00 Baron spawn vision setup.</li>
+  <li><strong>Sweep enemy wards</strong> with Control Ward before objectives — denies them vision.</li>
+</ul>
+<p>Vision differential is the single biggest macro skill. Plat players have 50% more vision score than Gold opponents. Buy Control Wards every recall.</p>` },
+      { heading: 'Jungle pathing reads — track enemy jungler position', html: `<p>Plat players track enemy jungler every minute. Methods:</p>
+<ul>
+  <li>Pause replay every 2 min, count enemy jungler\'s position based on side they ganked.</li>
+  <li>Enemy bot pushed wave but mid lane is back wave — jungler is mid side.</li>
+  <li>You see Smite cooldown audio on enemy buff — they took it.</li>
+  <li>Enemy raptor/krug not warded but you see no ally pass through — enemy jungler took it.</li>
+</ul>
+<p>If you know enemy jungler position, you can play 2-3 screens forward in lane safely. If you don't, you stay back and lose CS to over-conservative trades.</p>` },
+      { heading: 'Objective coordination — get the team to the pit on time', html: `<p>Gold players solo-fight objectives. Plat players bring the team:</p>
+<ul>
+  <li><strong>Drake at 7:30</strong> — push side waves at 7:00 so team can rotate.</li>
+  <li><strong>Baron at 25:00</strong> — set up vision 22-23 min, push 1-2 lanes, force enemy split.</li>
+  <li><strong>Elder dragon (post-soul)</strong> — never solo-fight; full team commit only.</li>
+  <li><strong>Rift Herald at 10:00</strong> — call team rotation early; use for tower plate gold.</li>
+</ul>
+<p>Solo-killing a drake at 7:30 with no team coordination = throwing summoner spells + missing a kill window. Coordinate via ping at minute 6 for drake at 7:30.</p>` },
+      { heading: 'Mid-round adapts — when to abandon a lane phase plan', html: `<p>Plat players adapt mid-game. If your top is hard-losing 0/5, don't commit to top dive — write that lane off, force mid + bot lead. If your jungler is 0/3, don\'t expect ganks; play safer in lane.</p>
+<p>Mid-round adapt rules:</p>
+<ul>
+  <li>If 1 lane is 4+ kills behind: don't rotate to help, force the other 2 lanes to win.</li>
+  <li>If enemy jungler is fed: don't farm — group with team at 15:00.</li>
+  <li>If you're behind: defensive item priority over damage (Tabis + Maw vs assassins).</li>
+  <li>If you're ahead: snowball + force fights before enemy items spike.</li>
+</ul>` },
+      { heading: 'Comp matchup reads — when to fight vs when to scale', html: `<p>Plat players read enemy comp:</p>
+<ul>
+  <li><strong>Enemy hyper-carry (Vayne, Jinx)</strong>: force fights pre-25 min before they item spike.</li>
+  <li><strong>Enemy dive comp (Malphite + Yasuo R wombo)</strong>: stay split, don't team fight unless you have disengage.</li>
+  <li><strong>Enemy split push (Fiora, Camille)</strong>: 1-3-1 with hard tank to side-pressure.</li>
+  <li><strong>Enemy poke (Caitlyn, Xerath)</strong>: tank engage immediately; can't out-poke.</li>
+</ul>
+<p>If you can identify enemy comp archetype in 5 minutes and plan around it, you're playing at Plat level. See <a href="/blog/lol-champion-tier-list-2026.html">our 2026 tier list</a> for comp archetypes.</p>` },
+      { heading: 'The Plat plateau — 6 habits to break out', html: `<ul>
+  <li>Track CS per minute every game (target: 7+ CS/min).</li>
+  <li>Buy Control Ward every recall.</li>
+  <li>Identify enemy comp archetype in first 5 minutes.</li>
+  <li>Use minimap to track enemy jungler every 2 minutes.</li>
+  <li>Force team rotations to objectives (minute 6 ping for 7:30 drake).</li>
+  <li>Buy 1 defensive item by Item 3.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Pushing wave + roaming without lane priority (giving up XP/gold)',
+      'Defensive warding only — never warding enemy jungle',
+      'Solo-fighting objectives without team coordination',
+      'Sticking with lane phase plan when teammate hard-loses',
+      'Buying 6 damage items, dying to assassins in 0.8s',
+      'Not buying Control Ward every recall (vision denial loss)',
+    ],
+    drill: {
+      heading: 'Drill: 7-day macro regimen',
+      html: `<ul>
+  <li><strong>Day 1-2:</strong> Track CS per minute in 5 games. Goal: 7+ CS/min by game 5.</li>
+  <li><strong>Day 3-4:</strong> Buy Control Ward every recall in 5 games. Track vision score.</li>
+  <li><strong>Day 5-6:</strong> Pause replay every 2 min. Identify enemy jungler position from memory.</li>
+  <li><strong>Day 7:</strong> Play 3 games coordinating objectives — ping team 1 min before drake spawn.</li>
+</ul>
+<p>By day 7, you'll have macro instincts that put you at Plat threshold. Mechanics matter less than these habits.</p>`,
+    },
+    aiVodMention: `<p>Macro feels right but still hard-stuck Gold? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags fight commit timing, position errors, and team-fight crosshair placement. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
+      { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
+      { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
+      { name: 'LoL Top Lane Matchups — 10 Counter Picks', url: '/blog/lol-top-lane-matchups.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'lol', gameLabel: 'League of Legends', fromRank: 'Top Lane', toRank: 'Matchups',
+    slug: 'lol-top-lane-matchups',
+    metaTitle: 'LoL Top Lane Matchups 2026 — 10 Counter Picks That Win Lanes',
+    metaDescription: 'LoL top lane counter-pick guide for 2026. 10 matchup-defining picks across bruiser, tank, and skirmisher classes. Counter Darius, Camille, Fiora, Sett, and more.',
+    intro: `<p>Top lane is the island lane — once it starts, you're locked in 1v1 with minimal jungle interaction. Counter-picking in champion select is the single highest-impact decision you make all game. This guide covers the 10 matchups that win or lose lane in 2026's meta. Use it in champion select, not after the game.</p>`,
+    sections: [
+      { heading: 'Counter pick #1 — Vayne vs Darius', html: `<p><strong>Why it works:</strong> Vayne kites Darius before he Q-pulls into 5-stack hemorrhage. Vayne W procs (true damage every 3rd attack) shred Darius armor. Vayne R invisibility removes Darius all-in pressure.</p>
+<p><strong>Lane play:</strong> Stay max auto range. Trade with W procs only. Push wave 1 to draw Darius into bad positions. Item: Berserker's Greaves → Kraken Slayer → IE.</p>
+<p><strong>Counter-counter:</strong> If Vayne struggles, swap to Quinn for the longer range bully or Kennen for the AoE shock.</p>` },
+      { heading: 'Counter pick #2 — Renekton vs Camille', html: `<p><strong>Why it works:</strong> Renekton W stun + Q sustain shut down Camille E hookshot engage before she scales. Renekton scales lane phase better; Camille scales post-Item 2.</p>
+<p><strong>Lane play:</strong> Push wave 1, all-in level 3 (after first Stridebreaker component). Force Camille flash, then snowball lane.</p>
+<p><strong>Counter-counter:</strong> If Renekton can't kill Camille pre-6, swap to Tryndamere for the scaling 1v1.</p>` },
+      { heading: 'Counter pick #3 — Malphite vs Yasuo', html: `<p><strong>Why it works:</strong> Malphite R is point-and-click AoE. Yasuo wind wall blocks projectiles but doesn't block point-and-click. Malphite passive shield + AP burst destroys Yasuo all-in.</p>
+<p><strong>Lane play:</strong> Build full AP Malphite. Push wave, R Yasuo when he flashes. Easy lane to plate first tower.</p>
+<p><strong>Counter-counter:</strong> If Yasuo plays back, swap to Pantheon for the early all-in.</p>` },
+      { heading: 'Counter pick #4 — Quinn vs Fiora', html: `<p><strong>Why it works:</strong> Quinn range outranges Fiora vital duelist kit. Quinn R global lets her roam mid + bot when Fiora can't follow.</p>
+<p><strong>Lane play:</strong> Stay max range. Skip 50/50 trades. Roam mid at 5:00 when Quinn R unlocks.</p>
+<p><strong>Counter-counter:</strong> If Fiora dodges Quinn poke, swap to Jax for the tank-buster matchup.</p>` },
+      { heading: 'Counter pick #5 — Cho\'Gath vs Fiora', html: `<p><strong>Why it works:</strong> Cho R execute counters Fiora R vital damage. Cho passive HP stacking makes Fiora vitals worthless. Cho silence Q disables Fiora R parry.</p>
+<p><strong>Lane play:</strong> Q silence when Fiora dashes in. R execute at level 6 if she's below 50% HP.</p>
+<p><strong>Counter-counter:</strong> If Cho can't kill Fiora, swap to Malphite for the tank-bust matchup.</p>` },
+      { heading: 'Counter pick #6 — Renekton vs Camille (deep alternative)', html: `<p><strong>Why it works:</strong> Same matchup, different engagement timing. Pantheon E parry blocks Camille E hookshot, then Pantheon W stun + R global engages.</p>
+<p><strong>Lane play:</strong> Pantheon level 3 all-in. Trade Q + W + auto chain. R global for jungle gank setup.</p>` },
+      { heading: 'Counter pick #7 — Garen vs Sett', html: `<p><strong>Why it works:</strong> Garen passive HP regen out-sustains Sett W execute. Garen W shield blocks Sett R displacement. Garen Q silence kills Sett before he can W execute back.</p>
+<p><strong>Lane play:</strong> Garen full tank build. Out-sustain Sett until Item 2. Snowball with Conqueror.</p>` },
+      { heading: 'Counter pick #8 — Tryndamere vs Camille', html: `<p><strong>Why it works:</strong> Trynda R invincibility (5s undying) shuts down Camille all-in. Trynda E spin gap-closer matches Camille E hookshot.</p>
+<p><strong>Lane play:</strong> Trynda all-in level 6. Trade with E spin reset. Scale to Lethal Tempo + Infinity Edge for 1v9.</p>` },
+      { heading: 'Counter pick #9 — Ornn vs Most Bruisers', html: `<p><strong>Why it works:</strong> Ornn tank build with team-wide passive upgrades makes him strong vs Darius/Sett/Fiora. R global slow gives team-fight value top lacks.</p>
+<p><strong>Lane play:</strong> Trade with Q + W combo. Build Frozen Heart vs Crit ADC, Thornmail vs heavy auto comps.</p>` },
+      { heading: 'Counter pick #10 — Jax vs Most Top Picks', html: `<p><strong>Why it works:</strong> Jax E counter-strike is parry. Jax R passive splash damage shreds AS and AD users. Jax scales hard.</p>
+<p><strong>Lane play:</strong> Trade with E parry on enemy auto. Scale to Trinity Force + Steark's. Late game Jax 1v9.</p>` },
+      { heading: 'How to use this in champion select', html: `<p>Pick this guide up before queueing. In champion select, after enemy locks top:</p>
+<ul>
+  <li>If enemy Darius: lock Vayne.</li>
+  <li>If enemy Camille: lock Renekton or Pantheon.</li>
+  <li>If enemy Yasuo: lock Malphite.</li>
+  <li>If enemy Fiora: lock Quinn or Cho\'Gath.</li>
+  <li>If enemy Sett: lock Garen.</li>
+</ul>
+<p>Don't lock your favorite champion if it's counter-picked. Adapt or lose lane. See <a href="/blog/lol-champion-tier-list-2026.html">our 2026 tier list</a> for the meta picks per role.</p>` },
+    ],
+    mistakes: [
+      'Locking your main champion despite hard counter (e.g., Yasuo into Malphite)',
+      'Picking before enemy locks top — gives them counter-pick advantage',
+      'Ignoring matchup data after losing 5 games to same matchup',
+      'Building the same items every game regardless of opponent',
+      'Not adjusting wave management based on counter-pick relationship',
+    ],
+    drill: {
+      heading: 'Drill: 10 matchup mastery',
+      html: `<p>Pick 10 champions from this list. Play 3 games on each matchup in custom games (vs bot). Goal: feel the lane phase rhythm of each counter. By the end of 30 games you've internalized the counter-pick map and can adapt in champion select.</p>`,
+    },
+    aiVodMention: `<p>Counter-pick right but still losing lane? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase positioning, trade timing, and recall windows. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
+      { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
+      { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
+      { name: 'How to Climb from Gold to Platinum in LoL', url: '/blog/lol-gold-to-platinum.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+]
+
+// ============================================================================
+// EA SPORTS FC POSTS (5)
+// ============================================================================
+// FUT-focused content cluster — Division Rivals + Champions are the main
+// competitive paths. Targets the ~50M EAFC TAM.
+const EAFC_POSTS = [
+  {
+    game: 'eafc', gameLabel: 'EA Sports FC', fromRank: 'Beginner', toRank: 'Division 5',
+    slug: 'eafc-beginner-guide-2026',
+    metaTitle: 'EA Sports FC 26 Beginner Guide — Climb FUT Rivals From Div 10',
+    metaDescription: 'EAFC beginner guide for 2026: formation picks, custom tactics, FUT Rivals progression, skill move basics, defending controls, and the habits that get you to Division 5.',
+    intro: `<p>If you're new to EA Sports FC, the fastest way to climb FUT Division Rivals isn't playing more games — it's fixing four things: formation, custom tactics, defending controls, and skill move basics. This guide covers the fundamentals that 90% of Division 10 players ignore. Drill these for 2 weeks and Division 5 is automatic.</p>`,
+    sections: [
+      { heading: 'Pick one formation — not five', html: `<p>EAFC has 30+ formations. You'll never master all of them. Pick one and grind it until Division 5:</p>
+<ul>
+  <li><strong>4-2-3-1 Wide</strong> — most balanced; CAM playmaker + 2 CDMs hold midfield. Beginner-friendly.</li>
+  <li><strong>4-3-3 Attack</strong> — pace wingers + attacking full-backs. Higher skill ceiling.</li>
+  <li><strong>5-3-2</strong> — defensive shell with counter-attack pace. Hard to crack but slower play.</li>
+</ul>
+<p>Don't bounce. Pick one, learn its rhythm, master it. The formation-switching habit at Division 10 is the #1 reason players don't climb.</p>` },
+      { heading: 'Set 3 custom tactics presets', html: `<p>Custom Tactics 1 / 2 / 3 are L1 + D-pad up/right/down in-match. Set them:</p>
+<ul>
+  <li><strong>Tactic 1 — High Press:</strong> Depth 85, Width 50, Aggressive Interceptions. Use when losing.</li>
+  <li><strong>Tactic 2 — Balanced (default):</strong> Depth 65, Width 50, Pressure on Heavy Touch.</li>
+  <li><strong>Tactic 3 — Park Bus:</strong> Depth 45, Width 35, Drop Back, Counter-Attack. Use when winning 1-0 in last 5 min.</li>
+</ul>
+<p>Swap tactics every 15-20 minutes based on score. This is the single biggest macro habit Division 5+ players have.</p>` },
+      { heading: 'Defending controls — the Division 10 skill gap', html: `<p>Beginner defending = slide tackle everything. Pro defending = stand-up tackle, jockey, manual select.</p>
+<ul>
+  <li><strong>Stand-up tackle (X / Press button):</strong> Default tackle. Used 90% of the time.</li>
+  <li><strong>Jockey (L2):</strong> Back off and angle the striker to weak foot.</li>
+  <li><strong>Manual CB select (L1 + R-stick):</strong> Switch to the right defender on the run.</li>
+  <li><strong>L2 + R-stick (manual defender):</strong> Free-control any player on defense.</li>
+</ul>
+<p>Never slide-tackle in the penalty box — 80% chance of conceding a penalty. Stand up, jockey, force the bad angle.</p>` },
+      { heading: 'Attack basics — scoring patterns that work', html: `<p>Three reliable scoring patterns at any rank:</p>
+<ul>
+  <li><strong>Cut-back cross:</strong> LB/RB to byline → cross-back to CAM late run → finesse shot.</li>
+  <li><strong>Cut-inside skill:</strong> 5-star winger R1+R2 toward goal → low driven shot from 18 yards.</li>
+  <li><strong>Through-ball pace:</strong> CAM L1 + through-ball → pace striker run behind → 1v1 GK.</li>
+</ul>
+<p>Don't shoot from outside the box unless you have a 5-star weak foot striker. Don't chain skill moves — defenders read multi-skill combos. One skill move + finish is meta.</p>` },
+      { heading: 'FUT chemistry basics', html: `<p>FUT chemistry adds stat boosts to players in your squad. You need 5+ chemistry per player; 23+ total for full team boost.</p>
+<ul>
+  <li>Same league = 1 chemistry link</li>
+  <li>Same nation = 1 chemistry link</li>
+  <li>Same club = 2 chemistry links</li>
+  <li>Icon Cards = link to anyone same nation OR club</li>
+  <li>Hero Cards = +2 chem for matching league</li>
+</ul>
+<p>Build a team where most players share 1-2 leagues + nations. Don't mix 6 leagues for the "best" players if it tanks chemistry — 80-rated players with full chem outperform 88-rated with 4 chem.</p>` },
+      { heading: 'Division Rivals weekly objectives', html: `<p>Rivals is the weekly grind to Champions Qualifier:</p>
+<ul>
+  <li>First 3 wins = qualifier points + objective rewards</li>
+  <li>5 wins = 1 player pack + 200 Rivals points</li>
+  <li>10 wins = Champions Qualifier slot</li>
+  <li>Champions Qualifier wins → Champions Finals slot (top tier)</li>
+</ul>
+<p>Pace yourself: 3 games per session, 2-3 sessions per week. Total ~10 wins. Skip if losing 3+ in a row — tilt-stack costs you 5+ wins.</p>` },
+      { heading: 'The 8 habits that get you to Division 5', html: `<ul>
+  <li>Pick one formation; never switch in Division 10.</li>
+  <li>Set 3 custom tactics presets.</li>
+  <li>Use stand-up tackle (X), not slide (Square).</li>
+  <li>Manual CB select (L1+R-stick) on box entries.</li>
+  <li>Build chemistry — 23+ total, 5+ per player.</li>
+  <li>Score via cut-back, cut-inside, or through-ball — not from distance.</li>
+  <li>Swap tactics every 15 min based on score.</li>
+  <li>Stop playing after 3 losses (tilt protocols).</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Bouncing formations every 2 games',
+      'Slide-tackling in the box (penalty machine)',
+      'Building team for "best players" not chemistry',
+      'Shooting from outside the box without 5-star weak foot',
+      'Playing through 3+ losses despite tilt',
+    ],
+    drill: {
+      heading: 'Drill: 14-day fundamentals regimen',
+      html: `<ul>
+  <li><strong>Day 1-3:</strong> Lock in one formation. Play 10 Squad Battle games to feel rhythm.</li>
+  <li><strong>Day 4-7:</strong> Practice defending in Squad Battles. Stand-up tackle only.</li>
+  <li><strong>Day 8-10:</strong> Score 3 cut-back goals per game. Force the cut-back pattern.</li>
+  <li><strong>Day 11-14:</strong> Rivals games. Tactic 1 if losing, Tactic 3 if winning last 5 min.</li>
+</ul>
+<p>By day 14 you're in Division 5. Most Division 10 players stay there because they refuse to drill fundamentals.</p>`,
+    },
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags formation, tactic, or defending mistakes per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'EAFC Best Formations 2026', url: '/blog/eafc-best-formations-2026.html' },
+      { name: 'EAFC FUT Chemistry Deep Dive', url: '/blog/eafc-fut-chemistry-guide.html' },
+      { name: 'How to Climb from Division 5 to Elite in EAFC', url: '/blog/eafc-div5-to-elite.html' },
+      { name: 'EAFC Custom Tactics Guide — Press / Balanced / Park-Bus', url: '/blog/eafc-custom-tactics-guide.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'eafc', gameLabel: 'EA Sports FC', fromRank: 'Formation', toRank: 'Tier List',
+    slug: 'eafc-best-formations-2026',
+    metaTitle: 'EAFC 26 Best Formations Tier List — FUT Rivals & Champions Meta',
+    metaDescription: 'EA Sports FC formation tier list 2026: S-tier 4-2-3-1 Wide, A-tier 4-3-3 Attack, situational 5-3-2 + 3-4-3. Tactical breakdown per division and game state.',
+    intro: `<p>Formation choice is the most important pre-match decision you make in EA Sports FC. 2026's meta is defined by 4-2-3-1 Wide's flexibility, 4-3-3 Attack's pace, and 5-3-2's defensive shell. This is the 2026 tier list — S/A/B with breakdown of when to pick each.</p>`,
+    sections: [
+      { heading: 'S-tier — 4-2-3-1 Wide', html: `<p>The most balanced formation in EAFC 26. Two CDMs hold midfield, CAM creates centrally, 2 wide forwards attack channels.</p>
+<ul>
+  <li><strong>Strengths:</strong> defensive solidity from double CDM; CAM-anchored attack; wing channels for crosses.</li>
+  <li><strong>Weaknesses:</strong> wide attack relies on full-back overlap; ST isolated without CAM support.</li>
+  <li><strong>Meta picks:</strong> Mbappé ST + Bellingham CAM + Saka/Vinícius LW + Salah RW + Rodri + Kanté CDMs.</li>
+  <li><strong>Win condition:</strong> Patient build-up, CAM through-balls, cut-back finishing.</li>
+</ul>` },
+      { heading: 'S-tier — 4-3-3 Attack', html: `<p>High-press, pacey wingers, attacking full-backs. Higher skill ceiling than 4-2-3-1; faster game state.</p>
+<ul>
+  <li><strong>Strengths:</strong> Pace cut-inside wingers; attacking full-backs for overlaps; 3-forward press.</li>
+  <li><strong>Weaknesses:</strong> Vulnerable to counter-attack (high line); needs Rodri-tier CDM.</li>
+  <li><strong>Meta picks:</strong> Mbappé ST + Vinícius LW + Salah RW + Bellingham + Pedri + Rodri.</li>
+  <li><strong>Win condition:</strong> Fast tempo, pace wingers cut inside, 4-1-2-1-2 dynamic.</li>
+</ul>` },
+      { heading: 'A-tier — 5-3-2 (Park-the-Bus)', html: `<p>Defensive shell with 3 CBs and 2 wing-backs. Counter-attack on turnovers.</p>
+<ul>
+  <li><strong>Strengths:</strong> Almost uncrackable defense; counter-attack with wing-backs forward; 2 forwards.</li>
+  <li><strong>Weaknesses:</strong> Slow build-up; opponent dictates possession.</li>
+  <li><strong>Meta picks:</strong> Mbappé + Haaland forwards; Bellingham + Rodri + Pedri midfield; Van Dijk + Rüdiger + Saliba CBs; Theo + Hakimi wing-backs.</li>
+  <li><strong>Win condition:</strong> Park bus 70 minutes, counter-attack 1 goal, hold lead.</li>
+</ul>` },
+      { heading: 'A-tier — 4-4-2 Flat', html: `<p>Two banks of 4, fast forwards on counter. Pre-2024 meta still effective in 2026.</p>
+<ul>
+  <li><strong>Strengths:</strong> Defensive shape; 2-striker partnership; counter-attack pace.</li>
+  <li><strong>Weaknesses:</strong> No CAM = limited central build-up; wide spaces between midfield + attack.</li>
+  <li><strong>Meta picks:</strong> Mbappé + Haaland forwards; Bellingham + Saka wide mids; Rodri + Kanté central; Van Dijk + Rüdiger CBs.</li>
+  <li><strong>Win condition:</strong> Long-ball to strikers, defensive shape, counter on turnover.</li>
+</ul>` },
+      { heading: 'B-tier — 3-4-3 Wide Wingback', html: `<p>Wingback-heavy with 3 CBs. High risk / high reward.</p>
+<ul>
+  <li><strong>Strengths:</strong> Attacking wingbacks (Theo / Hakimi) create overload wide; 3 forwards.</li>
+  <li><strong>Weaknesses:</strong> Vulnerable to counter-attack on wings if wingback caught forward.</li>
+  <li><strong>Meta picks:</strong> Mbappé + Vinícius + Salah forwards; Bellingham + Rodri mids; Theo + Hakimi wingbacks.</li>
+  <li><strong>Win condition:</strong> Wingback overlap creates 3v2 wide; cut-back to forwards.</li>
+</ul>` },
+      { heading: 'When to pick each formation', html: `<ul>
+  <li><strong>Division 10-7:</strong> 4-2-3-1 Wide (forgiving, balanced).</li>
+  <li><strong>Division 6-4:</strong> 4-3-3 Attack (pace meta; punishes slow defenders).</li>
+  <li><strong>Division 3-1:</strong> 4-2-3-1 Wide or 5-3-2 (meta vs Elite players).</li>
+  <li><strong>Champions Qualifier:</strong> 4-2-3-1 Wide (consistent under pressure).</li>
+  <li><strong>Trailing in match:</strong> Switch to 4-3-3 Attack high press.</li>
+  <li><strong>Leading 1-0 last 5 min:</strong> Switch to 5-3-2 park bus.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Picking 4-3-3 in Division 10 (too aggressive for beginner)',
+      'Sticking with one formation despite hard-losing 5 in a row',
+      'Picking 3-4-3 without elite wingback (Theo/Hakimi tier)',
+      'Park-bus 5-3-2 with no pace striker (no counter)',
+      'Switching mid-match to a formation you haven\'t practiced',
+    ],
+    drill: {
+      heading: 'Drill: One formation per week mastery',
+      html: `<p>Pick S-tier 4-2-3-1 Wide. Play 30 Rivals games with it. Don't deviate. Track win rate. Then test A-tier 5-3-2 for the same 30 games. Compare. By month 2 you've mastered 2 formations and know when to swap. Most Division 5 players bounce 5+ formations weekly — that's the climb killer.</p>`,
+    },
+    aiVodMention: `<p>Formation right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical execution + player positioning per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
+      { name: 'EAFC FUT Chemistry Deep Dive', url: '/blog/eafc-fut-chemistry-guide.html' },
+      { name: 'How to Climb from Division 5 to Elite in EAFC', url: '/blog/eafc-div5-to-elite.html' },
+      { name: 'EAFC Custom Tactics Guide', url: '/blog/eafc-custom-tactics-guide.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'eafc', gameLabel: 'EA Sports FC', fromRank: 'FUT', toRank: 'Chemistry Mastery',
+    slug: 'eafc-fut-chemistry-guide',
+    metaTitle: 'EAFC 26 FUT Chemistry Guide — Maximize Stats & Build the Meta',
+    metaDescription: 'EAFC 2026 chemistry guide: link rules, Hero & Icon impact, position cards, 23-chem squad building, meta chemistry chains for Mbappé / Haaland / Bellingham.',
+    intro: `<p>FUT Chemistry is the most misunderstood mechanic in EA Sports FC. Players at Division 5 build for highest-rated card, ignoring chem — an 88-rated card with 5 chemistry plays at 80-rated stats. This guide breaks down how chem works in 2026, the link rules, and how to build squads where every player hits full chemistry.</p>`,
+    sections: [
+      { heading: 'How chemistry works in EAFC 26', html: `<p>Each player has a chemistry score from 0-10. The squad chemistry is the total of all 11 players (max 33). Player chemistry boosts their stats — 5 chem = full boost.</p>
+<ul>
+  <li>Each player needs 5+ chemistry to play at full stats.</li>
+  <li>Squad chemistry doesn't matter as much as individual chem.</li>
+  <li>Below 5 chem = significant stat penalty (-3 to -5 across all stats).</li>
+  <li>Manager bonuses add +1 chemistry to all players matching nation.</li>
+</ul>` },
+      { heading: 'The 4 chemistry link types', html: `<ul>
+  <li><strong>League link (1 chem):</strong> Same Premier League / La Liga / Serie A etc. Most common link.</li>
+  <li><strong>Nation link (1 chem):</strong> Same country. Cross-league.</li>
+  <li><strong>Club link (2 chem):</strong> Same club (Real Madrid + Real Madrid). Highest single link.</li>
+  <li><strong>Icon link:</strong> Icon cards count as link to any nation OR club.</li>
+</ul>
+<p>Build squads where every player has at least 2 links to other players. Example: Mbappé (France/Real Madrid) links to Bellingham (England/Real Madrid via club) AND Hernández (France via nation). Mbappé hits 3 chem easily.</p>` },
+      { heading: 'Hero & Icon cards — chemistry game-changers', html: `<p>Hero Cards (mid-tier collectibles) and Icon Cards (legends) change chemistry math:</p>
+<ul>
+  <li><strong>Hero Cards</strong> — +2 chem boost to all players matching their league.</li>
+  <li><strong>Icon Cards</strong> — links to any nation OR club (count as both).</li>
+  <li><strong>Best meta Heroes:</strong> Premier League Heroes (link to massive PL pool); Bundesliga Heroes (link to Bayern/Dortmund stars).</li>
+  <li><strong>Best meta Icons:</strong> Pelé, Cruyff, Maradona, Henry — link to any nation/club + stat-pumped.</li>
+</ul>
+<p>Building around Heroes/Icons lets you mix leagues without losing chem. Build a "Premier League + 1 Hero" squad with players from any league as long as Hero unlocks the chem.</p>` },
+      { heading: 'Position cards — chemistry tax', html: `<p>Players in their preferred position get full chemistry. Out-of-position players lose chemistry unless you use a Position Card.</p>
+<ul>
+  <li><strong>Buy Position Cards</strong> at the SBC menu (cheap, ~500 coins each).</li>
+  <li><strong>Lock in positions</strong> for players you've built around. Don't waste cards on rotation players.</li>
+  <li><strong>Multi-position cards</strong> let some players play 2 positions (e.g., Bellingham plays CAM + CM).</li>
+</ul>` },
+      { heading: 'Meta chemistry chains for top players', html: `<p>Build squads around these meta chemistry chains:</p>
+<ul>
+  <li><strong>Mbappé (France/Real Madrid):</strong> + Bellingham (England/Real Madrid via club) + Theo Hernández (France via nation) + Vinícius (Brazil/Real Madrid via club). 4 players, 6 chem links.</li>
+  <li><strong>Haaland (Norway/Man City):</strong> + Rodri (Spain/Man City via club) + De Bruyne (Belgium/Man City via club) + Ederson (Brazil/Man City via club). 4 players, 6 chem links.</li>
+  <li><strong>Bellingham + Saka (England):</strong> + Trent (England/Liverpool via nation) + Foden (England/Man City via nation). 4 England players, 6 chem links.</li>
+</ul>` },
+      { heading: 'Mixed-league squads — the Hero hack', html: `<p>If you want top-rated players from multiple leagues:</p>
+<ul>
+  <li>Add a Premier League Hero (Drogba / Vidic / Henry-style cards).</li>
+  <li>Add an Icon (Pelé / Cruyff).</li>
+  <li>Use them as chemistry "bridge" — links to any nation + club + league simultaneously.</li>
+  <li>Result: Mbappé + Haaland + Vinícius can all be in the same squad with full chem.</li>
+</ul>` },
+      { heading: 'The 23-chem checklist', html: `<ul>
+  <li>Each player has 5+ chemistry individually.</li>
+  <li>Front 3 forwards: 3 chem each (full attack stats).</li>
+  <li>Midfield 3: 3 chem each (full passing + dribbling stats).</li>
+  <li>Defense 4: 3 chem each (full defending + physical stats).</li>
+  <li>GK: 1 chem (Diving + Handling + Reflexes).</li>
+  <li>Total: 23+ chem with attacking + defensive balance.</li>
+</ul>
+<p>Don't build for 33 chem at the cost of 78-rated players. 80-rated with 23 chem outperforms 88-rated with 18 chem.</p>` },
+    ],
+    mistakes: [
+      'Building for highest-rated cards, ignoring chemistry',
+      'Mixing 6 leagues without a chemistry-bridge Icon/Hero',
+      'Not buying Position Cards (out-of-position chemistry loss)',
+      'Stacking same league for "easy" chem (player rating cap)',
+      'Not using Manager bonus chemistry boost',
+    ],
+    drill: {
+      heading: 'Drill: Build 3 squads, track win rate',
+      html: `<p>Build 3 squads: 1 high-rated low-chem, 1 mid-rated high-chem, 1 mixed-league Hero-bridge. Play 10 Rivals games each. Track win rate. The winning squad shows you chemistry > rating in 2026. Iterate.</p>`,
+    },
+    aiVodMention: `<p>Chemistry right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical + player-pick errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
+      { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
+      { name: 'How to Climb from Division 5 to Elite', url: '/blog/eafc-div5-to-elite.html' },
+      { name: 'EAFC Custom Tactics Guide', url: '/blog/eafc-custom-tactics-guide.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'eafc', gameLabel: 'EA Sports FC', fromRank: 'Division 5', toRank: 'Elite Division',
+    slug: 'eafc-div5-to-elite',
+    metaTitle: 'How to Climb from Division 5 to Elite in EAFC 26',
+    metaDescription: 'EAFC Division 5 to Elite — advanced skill move combos, pro defending, tactic switching mid-game, FUT Champions prep, and the mental game that wins the weekend tournament.',
+    intro: `<p>Division 5 to Elite Division is the biggest skill jump in EAFC. Beginner habits won't cut it. Elite players have skill move combos, pro defending instincts, tactical adapts every 15 minutes, and tournament-grade mental management. This guide breaks down what separates Division 5 from Elite.</p>`,
+    sections: [
+      { heading: 'Skill move combos — the 5-star meta', html: `<p>5-star skill move strikers (Mbappé, Vinícius, Salah, Saka) unlock the cut-inside meta. Combos:</p>
+<ul>
+  <li><strong>Cut-inside finesse:</strong> R1 + R-stick toward goal → Finesse Shot (Square). Top corner from 18 yards.</li>
+  <li><strong>Heel-to-heel:</strong> L1 + L1 (heel flick) → Shot. Skip past CB.</li>
+  <li><strong>Rainbow flick:</strong> L1 + R-stick up. Unguardable but high-risk.</li>
+  <li><strong>Ball roll + through ball:</strong> L1 + R-stick across → L1 + Cross. Split-second through-ball setup.</li>
+</ul>
+<p>Drill each combo 100 times in skill games before using in Rivals. Half-baked execution gives ball away.</p>` },
+      { heading: 'Pro defending — manual select + jockey discipline', html: `<p>Elite defending is manual control:</p>
+<ul>
+  <li><strong>Manual CB select (L1 + R-stick):</strong> Switch to the right defender on every counter-attack.</li>
+  <li><strong>Jockey (L2):</strong> Back off + angle attacker to weak foot.</li>
+  <li><strong>L2 + R-stick (full manual):</strong> Position your defender precisely on box entry.</li>
+  <li><strong>Stand-up tackle (X / Press):</strong> Default tackle; never slide in box.</li>
+  <li><strong>Container press:</strong> R1 + auto-pressure on 2nd attacker.</li>
+</ul>
+<p>At Elite, you control every defender manually during box entries. Auto-defense at Division 5 is throwing.</p>` },
+      { heading: 'Tactic switching — every 15 minutes', html: `<p>Elite players adapt tactics 3-5 times per match. Triggers:</p>
+<ul>
+  <li><strong>0-0 at 30 min:</strong> Stay default Balanced (Tactic 2).</li>
+  <li><strong>Losing 0-1 at 60 min:</strong> Switch to High Press (Tactic 1). Depth 85, Aggressive Interceptions.</li>
+  <li><strong>Winning 1-0 at 80 min:</strong> Switch to Park Bus (Tactic 3). Depth 45, Drop Back.</li>
+  <li><strong>Drawn 1-1 in extra time:</strong> High Press + Counter-Attack. Risky but Elite-tier decisive.</li>
+</ul>` },
+      { heading: 'FUT Champions weekend prep', html: `<p>FUT Champions is the weekend tournament. 10-15 games over 2 days. Rewards scale steeply.</p>
+<ul>
+  <li>Take 2-day prep: practice 4-5 Rivals games, no more (avoid tilt).</li>
+  <li>Sleep 8 hours before tournament weekend.</li>
+  <li>Hydrate + minimal caffeine (smooth reflexes).</li>
+  <li>Between games: 5-minute breaks (no scrolling Twitter).</li>
+  <li>Track wins/losses per session; stop after 3 losses in a row.</li>
+</ul>
+<p>Tournament tilt is the biggest Elite-tier killer. Mental game is 40% of Champions performance.</p>` },
+      { heading: 'Counter-attack timing — the Elite finishing move', html: `<p>Elite players score 60% of goals on counter-attacks. Setup:</p>
+<ul>
+  <li>Defensive turnover (interception or block).</li>
+  <li>Quick pass to CDM (R1 + Pass).</li>
+  <li>CDM long ball to ST/winger break.</li>
+  <li>Pace striker run behind defense.</li>
+  <li>Finish: 1v1 GK or cut-back to onrushing CAM.</li>
+</ul>
+<p>Counter-attack scoring rate at Elite is 70%+; at Division 5 it's 25%. The gap is pace timing + finishing efficiency.</p>` },
+      { heading: 'Mental game — the Elite plateau breaker', html: `<p>At Elite, mechanics are equal. Mental wins games:</p>
+<ul>
+  <li>Track wins/losses per session.</li>
+  <li>Stop playing after 3 losses (tilt protocols).</li>
+  <li>Don't chase wins in last 30 min of session.</li>
+  <li>Don't blame teammates in Pro Clubs (kills morale).</li>
+  <li>Watch pro EAFC streamers between matches (passive learning).</li>
+</ul>` },
+      { heading: 'The 6 habits separating Division 5 from Elite', html: `<ul>
+  <li>5-star skill move combos drilled 100+ reps.</li>
+  <li>Manual defender select on every box entry.</li>
+  <li>Tactic switching every 15 min based on score.</li>
+  <li>Counter-attack scoring rate 60%+.</li>
+  <li>FUT Champions prep — sleep + breaks + tilt protocols.</li>
+  <li>Custom tactics + formation specialization (1 main + 1 backup).</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Spamming skill moves in Rivals (predictable + risky)',
+      'Auto-defending instead of manual select',
+      'Sticking with default tactics 90 minutes',
+      'Playing through 5+ losses despite tilt',
+      'Counter-attack scoring rate below 40%',
+      'Switching formations every game in Division 3-1',
+    ],
+    drill: {
+      heading: 'Drill: 30-day Elite Division regimen',
+      html: `<ul>
+  <li><strong>Week 1:</strong> 5-star skill move combos in skill games — 100 reps each.</li>
+  <li><strong>Week 2:</strong> Manual defender select drill in Rivals — 10 games tracked.</li>
+  <li><strong>Week 3:</strong> Tactic switching practice — 10 games with 3 tactical adapts each.</li>
+  <li><strong>Week 4:</strong> FUT Champions prep weekend — full tournament with all habits.</li>
+</ul>
+<p>By day 30 you've trained Elite habits. Most Division 5 players plateau because they don't drill consistently.</p>`,
+    },
+    aiVodMention: `<p>Elite gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags decision-making, formation choice, or skill move timing errors per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
+      { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
+      { name: 'EAFC FUT Chemistry Guide', url: '/blog/eafc-fut-chemistry-guide.html' },
+      { name: 'EAFC Custom Tactics Guide', url: '/blog/eafc-custom-tactics-guide.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 11,
+  },
+  {
+    game: 'eafc', gameLabel: 'EA Sports FC', fromRank: 'Tactics', toRank: 'Mastery',
+    slug: 'eafc-custom-tactics-guide',
+    metaTitle: 'EAFC 26 Custom Tactics Guide — High Press / Balanced / Park Bus',
+    metaDescription: 'EAFC custom tactics guide: 3 presets (High Press, Balanced, Park Bus), depth + width settings, player instructions, when to switch in-match.',
+    intro: `<p>Custom Tactics in EA Sports FC are how Elite players adapt mid-match. Setting them right is more impactful than your formation choice. This guide gives you 3 preset Custom Tactics (slots 1/2/3 in-match), the depth + width math, and the exact triggers for switching.</p>`,
+    sections: [
+      { heading: 'How Custom Tactics work in EAFC 26', html: `<p>You have 5 Custom Tactic slots per squad. Set them in Squad Management. In-match: L1 + D-pad up/right/down/left activates Tactic 1/2/3/4. Two types of settings:</p>
+<ul>
+  <li><strong>Defensive Style</strong> — Drop Back / Pressure on Heavy Touch / Aggressive Interceptions / Constant Pressure.</li>
+  <li><strong>Offensive Style</strong> — Counter-Attack / Quick Build Up / Balanced / Possession.</li>
+  <li><strong>Depth (1-100)</strong> — how high your defensive line sits. Higher = more aggressive press but more counter-attack risk.</li>
+  <li><strong>Width (1-100)</strong> — how wide your players spread. Higher = wider attacks but more central gaps.</li>
+</ul>` },
+      { heading: 'Tactic 1 — High Press preset', html: `<ul>
+  <li><strong>Defensive Style:</strong> Aggressive Interceptions</li>
+  <li><strong>Offensive Style:</strong> Quick Build Up, Direct Passing</li>
+  <li><strong>Depth:</strong> 85</li>
+  <li><strong>Width:</strong> 50</li>
+  <li><strong>Player Instructions:</strong> Wingers — Stay Wide. CDM — Stay Back. CAM — Get Forward. STs — Get in Behind.</li>
+</ul>
+<p><strong>Triggers:</strong> Losing 0-1 at 60+ min; need to force goals; opponent parking the bus.</p>
+<p>High Press wins late goals but bleeds counter-attack damage. Don't use full match.</p>` },
+      { heading: 'Tactic 2 — Balanced preset (default)', html: `<ul>
+  <li><strong>Defensive Style:</strong> Pressure on Heavy Touch</li>
+  <li><strong>Offensive Style:</strong> Balanced, Mixed Passing</li>
+  <li><strong>Depth:</strong> 65</li>
+  <li><strong>Width:</strong> 50</li>
+  <li><strong>Player Instructions:</strong> Wingers — Mixed. CDMs — Stay Back. CAM — Free Roam. STs — Stay Forward.</li>
+</ul>
+<p><strong>Triggers:</strong> Default 1st half setting; 0-0 game state; balanced opponent.</p>
+<p>This is your home base. Switch to Tactic 1 or 3 based on game state.</p>` },
+      { heading: 'Tactic 3 — Park the Bus preset', html: `<ul>
+  <li><strong>Defensive Style:</strong> Drop Back, Compact Lines</li>
+  <li><strong>Offensive Style:</strong> Counter-Attack, Long Ball</li>
+  <li><strong>Depth:</strong> 45</li>
+  <li><strong>Width:</strong> 35</li>
+  <li><strong>Player Instructions:</strong> Wingers — Stay Wide. CDMs — Cover Center. CAM — Stay Back. STs — Get in Behind.</li>
+</ul>
+<p><strong>Triggers:</strong> Winning 1-0 in last 5 minutes; vs faster opponent; vs Elite player with skill-move attack.</p>
+<p>Park Bus is throwing 50-50 if you don't have pace counter-attackers. Mbappé / Haaland on counter is meta.</p>` },
+      { heading: 'Optional Tactic 4 — Possession preset', html: `<ul>
+  <li><strong>Defensive Style:</strong> Drop Back</li>
+  <li><strong>Offensive Style:</strong> Possession, Short Passing</li>
+  <li><strong>Depth:</strong> 55</li>
+  <li><strong>Width:</strong> 60</li>
+  <li><strong>Player Instructions:</strong> CDMs — Press on Heavy Touch. CAM — Free Roam. STs — Drop Back.</li>
+</ul>
+<p><strong>Triggers:</strong> Possession comp (Pedri + De Bruyne in midfield); vs aggressive opponent who needs to chase.</p>` },
+      { heading: 'Tactic-switching triggers — the 5 mid-match cues', html: `<ul>
+  <li><strong>Score 1-0 lead at 75 min:</strong> Switch to Tactic 3 (Park Bus) immediately.</li>
+  <li><strong>Concede 0-1 at 60 min:</strong> Switch to Tactic 1 (High Press) and force tempo.</li>
+  <li><strong>Drawn 1-1 in last 10 min:</strong> Tactic 1 + push for winner (high risk/high reward).</li>
+  <li><strong>Winning 2-0 at 70 min:</strong> Tactic 3 (Park Bus) immediately; preserve lead.</li>
+  <li><strong>0-0 stalemate at 50 min:</strong> Stay on Tactic 2 Balanced; don't over-commit.</li>
+</ul>` },
+      { heading: 'The Elite tactic-switching habit', html: `<p>Elite players switch tactics 3-5 times per match. Division 5 players stick with one tactic and lose 50% of games on poor adaptation. Practice switching with muscle memory: L1 + D-pad up = Tactic 1, D-pad right = Tactic 2, D-pad down = Tactic 3. Repeat in skill games until automatic.</p>` },
+    ],
+    mistakes: [
+      'Sticking with default Tactic 2 for full 90 minutes',
+      'Switching to High Press at 0-0 (lose counter risk)',
+      'Park-Bus 5-3-2 with no pace striker',
+      'Not setting Custom Tactics 1/3 at all (only Tactic 2 default)',
+      'Switching tactics every 5 minutes (no commit)',
+    ],
+    drill: {
+      heading: 'Drill: 7-day tactic-switching mastery',
+      html: `<p>Day 1-2: Set up Custom Tactics 1/2/3 with the presets above. Day 3-4: Play 5 Squad Battle games practicing the switch (Tactic 1 if losing, Tactic 3 if winning last 5 min). Day 5-7: Play 5 Rivals games tracking tactic-switches per match. Target: 3-5 switches per game. By day 7 the switch is muscle memory.</p>`,
+    },
+    aiVodMention: `<p>Tactics right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags timing of tactic switches per goal conceded. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
+      { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
+      { name: 'EAFC FUT Chemistry Guide', url: '/blog/eafc-fut-chemistry-guide.html' },
+      { name: 'How to Climb from Division 5 to Elite', url: '/blog/eafc-div5-to-elite.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+]
+
+// ============================================================================
+// TEKKEN 8 POSTS (5)
+// ============================================================================
+// Fighting game cluster — Tekken 8 ranked is the most coachable game on the
+// platform (frame data, matchups, BnBs are all explicit).
+const TK8_POSTS = [
+  {
+    game: 'tk8', gameLabel: 'Tekken 8', fromRank: 'Beginner', toRank: '1st Dan',
+    slug: 'tekken-8-beginner-guide-2026',
+    metaTitle: 'Tekken 8 Beginner Guide — Climb From Beginner to 1st Dan',
+    metaDescription: 'Tekken 8 beginner guide: character picks, BnB combos, defensive basics (sidestep, parry, KBD), Heat system, ranked progression. Get out of Beginner ranks.',
+    intro: `<p>Tekken 8 has the steepest learning curve in fighting games. 30 ranks, 30+ characters, 100+ moves per character, frame data that determines every interaction. But the climb from Beginner to 1st Dan only requires four things: pick a character, learn 2 BnB combos, learn to sidestep, learn to KBD. Drill these for two weeks and 1st Dan is automatic.</p>`,
+    sections: [
+      { heading: 'Pick one character — not the whole roster', html: `<p>Tekken 8 has 32+ characters as of 2026. You'll never master all of them. Pick one and stay for 100+ ranked matches:</p>
+<ul>
+  <li><strong>Beginner-friendly:</strong> Paul, Jin, Lars — easy BnBs, strong baseline mid-range game.</li>
+  <li><strong>Aggressive:</strong> Hwoarang, Lars — multiple stance pressure, oki specialist.</li>
+  <li><strong>Defensive:</strong> Asuka, Jun — parry kicks, sidestep punisher, reactive defense.</li>
+  <li><strong>Mishima (hard):</strong> Kazuya, Heihachi, Reina — Electric Wind God Fist execution required.</li>
+</ul>
+<p>If unsure: pick Paul. His Deathfist (qcf+2) is easy, his BnB is df+1+2 → 1,2,1 → Deathfist → wall. Master him in 100 matches, then expand.</p>` },
+      { heading: 'Learn 2 BnB combos — not 30', html: `<p>BnB = "bread and butter" — the combo every Tekken player needs. Pick a launcher (df+2 for most chars), pick a wall ender, learn the connection:</p>
+<ul>
+  <li><strong>Paul BnB:</strong> df+1+2 → 1,2,1 → Deathfist → wall.</li>
+  <li><strong>Jin BnB:</strong> df+2 → 1,4 → b+3,1 → Heat Engager → ZEN combo → wall.</li>
+  <li><strong>Asuka BnB:</strong> df+2 → 1,4 → b+4 → Heat Engager → wall.</li>
+</ul>
+<p>Drill in Practice Mode 100 times per combo. Don't move on until you can land it 8/10 attempts. BnB execution is the single biggest skill gap in Tekken Beginner ranks.</p>` },
+      { heading: 'Sidestepping — the #1 defensive skill', html: `<p>Tekken has 3D movement. Sidestep (SS+L for left, SS+R for right) lets you dodge linear strings. 60% of moves in Tekken 8 are sidesteppable.</p>
+<ul>
+  <li>Tap up to step right, down to step left (in default config).</li>
+  <li>Sidestep during opponent's commit (their string is 5+ frames).</li>
+  <li>After sidestep, punish with df+2 launcher or 1, 4 combo.</li>
+  <li>Sidewalk (SS-walk hold) for sustained spacing.</li>
+</ul>
+<p>Beginner players block everything; 1st Dan players sidestep. This is the gateway skill.</p>` },
+      { heading: 'KBD (Korean Backdash) — spacing essential', html: `<p>KBD = Korean Backdash. Press back-back-back-back rapidly to chain backdashes faster than walking forward. Keeps you at whiff-punish range.</p>
+<ul>
+  <li>Default input: b, b, b, b (or back-cancel-back-cancel).</li>
+  <li>Practice for 10 min/day in training mode until automatic.</li>
+  <li>Used to escape pressure + maintain whiff-punish range (~15 frames).</li>
+  <li>Counter-spacing: when KBD'd, opponent's committed move whiffs.</li>
+</ul>` },
+      { heading: 'The Heat system — Tekken 8\'s new mechanic', html: `<p>Heat is the new Tekken 8 system. Heat gauge fills passively + on offense.</p>
+<ul>
+  <li><strong>Heat Engager:</strong> special move that enters Heat on hit.</li>
+  <li><strong>Heat Burst:</strong> instant burst, ends Heat.</li>
+  <li><strong>Heat Smash:</strong> devastating finish during Heat (R1+R2).</li>
+  <li><strong>Duration:</strong> ~15 seconds; combo damage boosted.</li>
+</ul>
+<p>Save Heat for round-deciding moments. Don't burn it on the round opener.</p>` },
+      { heading: 'Ranked progression — Beginner to 1st Dan', html: `<p>Tekken 8 ranks: Beginner → 1st Dan → 5th Dan → Bushin → Tenrai → Tekken King → Tekken Emperor → Tekken God.</p>
+<ul>
+  <li>Beginner (0-9): Learn 1 character; play 50 ranked matches.</li>
+  <li>1st Dan: BnB combo mastery + sidestep practice.</li>
+  <li>Win rate above 55% over 10 matches = ready to climb.</li>
+  <li>Skip if losing 3 in a row (tilt-stack costs 5+ matches).</li>
+</ul>` },
+      { heading: 'The 8 habits that get you to 1st Dan', html: `<ul>
+  <li>Pick 1 character; never deviate for 100 matches.</li>
+  <li>Master 2 BnB combos to 8/10 execution rate.</li>
+  <li>Sidestep linear strings in every match.</li>
+  <li>Practice KBD 10 min/day until automatic.</li>
+  <li>Use Heat Engager → wall combo for round-deciding damage.</li>
+  <li>Watch pro VOD between sessions (Knee, Arslan Ash matches).</li>
+  <li>Stop after 3 losses (tilt protocols).</li>
+  <li>15 minutes of Practice Mode before every session.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Bouncing characters every 5 matches',
+      'Learning 20 combos instead of mastering 2',
+      'Block-everything defense (no sidestep)',
+      'Burning Heat at round start',
+      'No Practice Mode warm-up before ranked',
+    ],
+    drill: {
+      heading: 'Drill: 14-day Tekken fundamentals',
+      html: `<ul>
+  <li><strong>Day 1-3:</strong> Pick character. Drill 2 BnB combos to 8/10 execution.</li>
+  <li><strong>Day 4-7:</strong> 100 KBD reps daily. Sidestep practice (sidestep 5 times every match).</li>
+  <li><strong>Day 8-10:</strong> Ranked matches. Track win rate. Pause replays to identify mistakes.</li>
+  <li><strong>Day 11-14:</strong> Heat management practice + wall combo refinement.</li>
+</ul>
+<p>By day 14 you're 1st Dan or higher. Most Beginner players stay because they refuse to drill consistently.</p>`,
+    },
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags specific frame disadvantage or sidestep miss patterns. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
+      { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
+      { name: 'How to Climb from 1st Dan to Tekken King', url: '/blog/tekken-8-1st-dan-to-king.html' },
+      { name: 'Tekken 8 Matchup Chart 2026', url: '/blog/tekken-8-matchup-chart-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'tk8', gameLabel: 'Tekken 8', fromRank: 'Character', toRank: 'Tier List',
+    slug: 'tekken-8-tier-list-2026',
+    metaTitle: 'Tekken 8 Character Tier List 2026 — Best Picks for Ranked',
+    metaDescription: 'Tekken 8 tier list 2026: S-tier Mishimas + Hwoarang, A-tier Kazuya + Jin + King, B-tier mains. Pick rationale, win rate, matchup notes per character.',
+    intro: `<p>Tekken 8 has 32+ characters as of 2026. This is the ranked tier list — S/A/B with breakdown of what each character excels at. Tournament picks differ from ranked picks; this is the ranked grind meta.</p>`,
+    sections: [
+      { heading: 'S-Tier — Top 5 ranked picks', html: `<ul>
+  <li><strong>Hwoarang</strong> — Stance pressure + multi-kick mix-ups. Highest win-rate stance character.</li>
+  <li><strong>Reina</strong> — Mishima newcomer. Wind God Step Lite + Senjutsu stance. Easy execution Mishima.</li>
+  <li><strong>King</strong> — Grappler. Chain throws (Rolling Death Cradle), oki specialist.</li>
+  <li><strong>Bryan</strong> — Counter-hit god. Snake Edge + Taunt setup makes opponents block.</li>
+  <li><strong>Steve</strong> — Boxer. Flicker stance, mid-range frame trap, easy to climb with.</li>
+</ul>` },
+      { heading: 'A-Tier — Strong meta picks', html: `<ul>
+  <li><strong>Kazuya</strong> — Classic Mishima. Hard but rewarding; Electric Wind God Fist (EWGF) is the climbing tool.</li>
+  <li><strong>Jin</strong> — All-Rounder. ZEN stance, balanced kit, beginner-friendly.</li>
+  <li><strong>Heihachi</strong> — Mishima. Similar to Kazuya but slightly different mix-up game.</li>
+  <li><strong>Lars</strong> — Rushdown. Dynamic Entry stance, easy Heat-burst combos.</li>
+  <li><strong>Yoshimitsu</strong> — Mix-Up specialist. Manji stance, sword pokes, suicide unblockable.</li>
+  <li><strong>Lee</strong> — Hitman stance specialist; frame-perfect mix-ups for advanced players.</li>
+  <li><strong>Devil Jin</strong> — Mishima variant with air mobility. Laser sweep mix-up.</li>
+  <li><strong>Asuka</strong> — Defensive Counter. Parry game + sidestep punisher.</li>
+</ul>` },
+      { heading: 'B-Tier — Strong but specialized', html: `<ul>
+  <li><strong>Paul</strong> — Beginner-friendly damage striker. Deathfist (qcf+2) does massive damage.</li>
+  <li><strong>Jun</strong> — Defensive footsie character. Parry + spacing.</li>
+  <li><strong>Lili</strong> — Whiff-punish queen. Sidestep specialist.</li>
+  <li><strong>Marduk</strong> — Grappler 2. Anaconda throw + brawler pressure.</li>
+  <li><strong>Nina</strong> — Assassin. Command grabs + frame traps.</li>
+  <li><strong>Kuma</strong> — Grappler 3. Hunting Bear stance + fart cancel mind games.</li>
+  <li><strong>Anna</strong> — Counter-hit specialist with gunshot zoning.</li>
+  <li><strong>Eddy Gordo</strong> — Capoeira stance pressure.</li>
+  <li><strong>Azucena</strong> — Heat Burst specialist; Libertador stance.</li>
+  <li><strong>Victor</strong> — Sword + gun pokes; sniper-zone character.</li>
+</ul>` },
+      { heading: 'Why S-tier wins in ranked', html: `<p>S-tier characters have low-execution mix-ups + high reward. Hwoarang's stance pressure beats most defensive characters. Reina's Wind God Step Lite gives Mishima access without EWGF execution. King's grappler kit has chain throws that swing rounds with one read. Bryan's counter-hit game punishes opponents who try to interrupt. Steve has the cleanest frame-trap pressure in the game.</p>
+<p>Don't pick an A or B character if you can flex to S — ranked rewards efficiency, not flair. See <a href="/blog/tekken-8-matchup-chart-2026.html">our matchup chart</a> for matchup advantages.</p>` },
+      { heading: 'Beginner vs Veteran tier list differences', html: `<p>For beginners: pick easy A-tier (Jin, Paul, Lars). For veterans: optimize S-tier (Hwoarang, Reina, King). The execution gap between these is significant — a beginner Hwoarang loses to a beginner Paul, but a veteran Hwoarang demolishes a veteran Paul.</p>
+<p>Pick by your execution comfort, not just tier. A "weaker" character you play well beats an "S-tier" you struggle to execute.</p>` },
+    ],
+    mistakes: [
+      'Picking S-tier despite no execution capacity (Kazuya without EWGF)',
+      'Picking your "main" because of looks/lore (Yoshimitsu fan disservice)',
+      'Bouncing tier list rankings every patch',
+      'Picking B-tier for "uniqueness" in a competitive ladder',
+      'Ignoring matchup chart when picking character',
+    ],
+    drill: {
+      heading: 'Drill: Pick 1 character per month',
+      html: `<p>Pick one S-tier character (Hwoarang or Reina recommended for accessibility). Play 100 ranked matches. Track win rate. Then test one A-tier (Jin or Kazuya). Compare. By month 3 you've mastered 2 characters at S/A level and know when to pick which.</p>`,
+    },
+    aiVodMention: `<p>Character pick right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags execution / sidestep / Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
+      { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
+      { name: 'How to Climb from 1st Dan to Tekken King', url: '/blog/tekken-8-1st-dan-to-king.html' },
+      { name: 'Tekken 8 Matchup Chart 2026', url: '/blog/tekken-8-matchup-chart-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'tk8', gameLabel: 'Tekken 8', fromRank: 'Combos', toRank: 'Mastery',
+    slug: 'tekken-8-bnb-combos-guide',
+    metaTitle: 'Tekken 8 BnB Combos Guide — Essential Combos Per Character',
+    metaDescription: 'Tekken 8 BnB combos for every meta character. Paul, Jin, Kazuya, King, Hwoarang, Reina, Asuka. Damage, difficulty, Heat extensions, wall enders.',
+    intro: `<p>BnB combos (Bread-and-Butter) are the foundation of Tekken 8 damage. Every character has 2-3 essential combos — learn these before adding flair. This guide covers BnBs for the 10 meta characters with damage numbers, difficulty, and wall extensions.</p>`,
+    sections: [
+      { heading: 'How combos work in Tekken 8', html: `<p>Tekken combos follow a structure: launcher (df+2, ws+2, etc.) → juggle filler → Heat Engager (optional) → wall splat → wall combo.</p>
+<ul>
+  <li><strong>Launcher:</strong> Move that puts opponent in air state. Most universal: df+2.</li>
+  <li><strong>Juggle:</strong> Multi-hit string while opponent is airborne (~3-4 hits).</li>
+  <li><strong>Heat Engager:</strong> Optional Heat-entering move (specific to character).</li>
+  <li><strong>Wall Splat (W!):</strong> Hit opponent against the wall for additional damage.</li>
+  <li><strong>Wall Combo:</strong> Multi-hit string after wall splat (~3-4 more hits).</li>
+</ul>
+<p>Each character has 1-3 launchers and unique juggle paths. Learn one BnB per launcher.</p>` },
+      { heading: 'Paul BnB combos', html: `<ul>
+  <li><strong>Basic:</strong> df+1+2 (launcher) → 1, 2, 1 → Deathfist (qcf+2) → wall splat. Damage ~75. <strong>Difficulty: Easy</strong></li>
+  <li><strong>Heat Engager:</strong> df+1+2 → 1, 2, 1 → Heat Engager (b+1,2) → dash → Deathfist → wall. Damage ~95. <strong>Difficulty: Medium</strong></li>
+  <li><strong>Wall combo:</strong> Wall splat → 1, 2 → Deathfist. Damage +30.</li>
+</ul>
+<p>Paul's Deathfist (qcf+2) is the easiest high-damage move in the game. Drill the Deathfist canceling for 100 reps.</p>` },
+      { heading: 'Jin BnB combos', html: `<ul>
+  <li><strong>Basic:</strong> df+2 (launcher) → 1, 4 → b+3, 1 → Heat Engager (uf+4) → ZEN combo. Damage ~70. <strong>Difficulty: Medium</strong></li>
+  <li><strong>Heat extension:</strong> Heat Engager → ZEN combo → wall splat. Damage ~85. <strong>Difficulty: Medium</strong></li>
+  <li><strong>Wall combo:</strong> Wall splat → b+3, 1 → ZEN combo. Damage +35.</li>
+</ul>` },
+      { heading: 'Kazuya BnB combos', html: `<ul>
+  <li><strong>Electric Wind God Fist (EWGF):</strong> f, n, d, df+2 (just-frame execution). Damage 30 launcher. <strong>Difficulty: Hard</strong></li>
+  <li><strong>Mishima BnB:</strong> EWGF (launcher) → b+3 → dash → f+4 → Heat Engager → wall. Damage ~80. <strong>Difficulty: Hard</strong></li>
+  <li><strong>Wall combo:</strong> Wall splat → 1, 1, 2 → Twin Pistons (qcf+1+2). Damage +40.</li>
+</ul>
+<p>EWGF requires just-frame execution. Practice in training mode for 200+ reps until consistent.</p>` },
+      { heading: 'King BnB combos', html: `<ul>
+  <li><strong>Basic:</strong> df+2 (launcher) → ff+2, 1 → S! (Slap) → 1+3 (grab) → 2+4 (grab) → 1+3 (grab). Damage ~85 (chain throw). <strong>Difficulty: Medium</strong></li>
+  <li><strong>Heat Engager:</strong> ff+2, 1 → Heat Engager (b+1+2) → chain throw. Damage ~95.</li>
+  <li><strong>Wall combo:</strong> Wall splat → 1, 2 → Rolling Death Cradle (qcb+2). Damage +50.</li>
+</ul>` },
+      { heading: 'Hwoarang BnB combos', html: `<ul>
+  <li><strong>Basic:</strong> df+3, 2 (launcher) → Right Flamingo (RFS) → 4, 4 → Heat Engager → wall. Damage ~65. <strong>Difficulty: Medium</strong></li>
+  <li><strong>RFS Pressure:</strong> RFS → 3, 4 → LFS (Left Flamingo) → kick string. Block pressure setup.</li>
+  <li><strong>Wall combo:</strong> Wall splat → 1, 3 → RFS kick string. Damage +30.</li>
+</ul>` },
+      { heading: 'Reina BnB combos', html: `<ul>
+  <li><strong>Wind God Step Lite:</strong> f, n, d, df+2 (similar to EWGF but easier). Damage 30. <strong>Difficulty: Hard</strong></li>
+  <li><strong>Mishima BnB:</strong> WGS Lite → b+3, 4 → dash → Heat Engager → wall. Damage ~70.</li>
+  <li><strong>Senjutsu Stance:</strong> Cancel into Senjutsu (b+1+2) → kick string for pressure.</li>
+</ul>` },
+      { heading: 'Asuka BnB combos', html: `<ul>
+  <li><strong>Basic:</strong> df+2 (launcher) → 1, 4 → b+4 → Heat Engager → wall. Damage ~60. <strong>Difficulty: Medium</strong></li>
+  <li><strong>Parry combo:</strong> Parry (1+2) → df+2 → 1, 4 → wall. Damage ~70.</li>
+  <li><strong>Wall combo:</strong> Wall splat → 1, 4 → b+4. Damage +25.</li>
+</ul>` },
+      { heading: 'Practice mode regimen — 100 reps per combo', html: `<p>Tekken 8 has built-in combo recording in Practice Mode. Record opponent at "block" or "neutral guard" position. Drill BnB combo:</p>
+<ul>
+  <li>Day 1: 100 reps; pause if losing rhythm.</li>
+  <li>Day 2: 100 reps; aim for 8/10 execution rate.</li>
+  <li>Day 3: 100 reps; integrate wall extension.</li>
+  <li>Day 4: 100 reps; integrate Heat extension.</li>
+  <li>Day 5+: Apply in ranked matches.</li>
+</ul>
+<p>Don't skip Practice. BnB execution at 8/10 hit rate is the difference between 1st Dan and Bushin rank.</p>` },
+    ],
+    mistakes: [
+      'Learning 20 combos shallow vs 2 combos deep',
+      'No Practice Mode reps before ranked',
+      'Dropping combos in ranked due to no muscle memory',
+      'Skipping wall extension (50% damage missed)',
+      'Burning Heat outside Heat Engager combo',
+    ],
+    drill: {
+      heading: 'Drill: 7-day BnB mastery',
+      html: `<p>Pick 2 BnB combos for your character. Drill 100 reps per day in Practice Mode for 7 days. By day 7, execution should be 8/10+. Apply in ranked. Track win rate; BnB execution alone gives you 1-2 ranks.</p>`,
+    },
+    aiVodMention: `<p>Combos right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags whiff-punish opportunities + defensive sidestep misses. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
+      { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
+      { name: 'How to Climb from 1st Dan to Tekken King', url: '/blog/tekken-8-1st-dan-to-king.html' },
+      { name: 'Tekken 8 Matchup Chart 2026', url: '/blog/tekken-8-matchup-chart-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'tk8', gameLabel: 'Tekken 8', fromRank: '1st Dan', toRank: 'Tekken King',
+    slug: 'tekken-8-1st-dan-to-king',
+    metaTitle: 'How to Climb from 1st Dan to Tekken King in Tekken 8',
+    metaDescription: 'Tekken 8 1st Dan to Tekken King — frame data basics, matchup-specific punishes, oki mix-up game, Heat management, mental discipline for ranked grind.',
+    intro: `<p>1st Dan to Tekken King is the biggest skill jump in Tekken 8. Beginner habits won't cut it. Tekken King players have frame data knowledge, matchup-specific punishes, oki mix-up game, and tournament-tier mental management. This guide breaks down what separates 1st Dan from Tekken King.</p>`,
+    sections: [
+      { heading: 'Frame data — the language of Tekken', html: `<p>Every Tekken 8 move has frame data: startup frames, on-block advantage, on-hit advantage. Tekken King players know frame data for their character's 20 most-used moves.</p>
+<ul>
+  <li><strong>Startup:</strong> Frames before the move hits (10-frame jab = fast).</li>
+  <li><strong>On-block:</strong> If +0 or worse, opponent has frame advantage; if -10 or worse, opponent can launch.</li>
+  <li><strong>On-hit:</strong> Frame advantage when move hits (positive = combo into next move).</li>
+</ul>
+<p>Learn your character's launchable moves (-10 or worse on block) — these get punished if blocked. Avoid them in unsafe situations. Use moves at +0 or better for frame trap pressure.</p>` },
+      { heading: 'Matchup-specific punishes', html: `<p>Each opponent character has 5-10 moves that are launch-punishable. Learn the punishes:</p>
+<ul>
+  <li><strong>vs Kazuya:</strong> Blocked Hellsweep (df+4) = launch with df+2.</li>
+  <li><strong>vs Hwoarang:</strong> Blocked RFS kick string = launch.</li>
+  <li><strong>vs King:</strong> Whiffed throw (1+3 / 2+4) = launch with df+2.</li>
+  <li><strong>vs Paul:</strong> Blocked Deathfist (qcf+2) = launch with character-specific.</li>
+  <li><strong>vs Bryan:</strong> Blocked Snake Edge = launch.</li>
+</ul>
+<p>Practice these punishes in training mode for 50 reps per matchup. Tekken King is matchup knowledge first, execution second.</p>` },
+      { heading: 'Oki mix-up game — the post-knockdown play', html: `<p>Oki = post-knockdown setup. After your opponent gets up, you mix-up their options:</p>
+<ul>
+  <li><strong>Stand block:</strong> Standard get-up. Blocks mid; can be low-hit.</li>
+  <li><strong>Get-up kick (3+4):</strong> Counter-attack on rise. Blockable but pressures.</li>
+  <li><strong>Tech-roll:</strong> Roll back; escapes oki but gives ground.</li>
+  <li><strong>Stay down:</strong> Wait; vulnerable to ground hit.</li>
+</ul>
+<p>Mix-up: high attack vs stand block. Low attack vs late get-up. Grab vs tech-roll. Force opponent to guess. Tekken King players have 3-4 oki setups per character.</p>` },
+      { heading: 'Heat management — Tekken 8 round-deciding', html: `<p>Heat is your win condition. Save Heat for round-deciding moments:</p>
+<ul>
+  <li><strong>Heat Engager hit:</strong> Extend combo for 30%+ damage.</li>
+  <li><strong>Defensive Heat Burst:</strong> Escape pressure when cornered.</li>
+  <li><strong>Heat Smash (R1+R2):</strong> Devastating finish — save for kill.</li>
+  <li><strong>Don't burn Heat:</strong> at round-start; on early opener.</li>
+</ul>
+<p>Tekken King players track opponent's Heat gauge too. If opponent has Heat available + low HP, they'll Heat Smash you. Defensively, sidestep or break the mix-up.</p>` },
+      { heading: 'Mental discipline — the Tekken King mindset', html: `<p>Tekken King requires tournament-tier mental:</p>
+<ul>
+  <li>Pause after every loss; analyze before queuing.</li>
+  <li>Track losses per session; stop after 3 consecutive losses.</li>
+  <li>Practice mode warm-up 15 min before ranked.</li>
+  <li>Watch pro VOD (Knee, Arslan Ash, JDCR) for matchup study.</li>
+  <li>Don't blame "lag" or "delay-based netcode" — focus on improvement.</li>
+</ul>` },
+      { heading: 'The 6 habits separating 1st Dan from Tekken King', html: `<ul>
+  <li>Frame data knowledge for top 20 character moves.</li>
+  <li>Matchup-specific punishes (5+ characters memorized).</li>
+  <li>Oki mix-up game (3-4 setups per character).</li>
+  <li>Heat management — save for round-deciding moments.</li>
+  <li>Tilt protocols — stop after 3 losses.</li>
+  <li>Pro VOD watching — 1 match per day, paused for analysis.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'No frame data knowledge (random move selection)',
+      'No matchup-specific punishes',
+      'Skipping oki mix-up (free escape for opponent)',
+      'Burning Heat on opener',
+      'Playing through 5+ losses despite tilt',
+    ],
+    drill: {
+      heading: 'Drill: 30-day Tekken King regimen',
+      html: `<ul>
+  <li><strong>Week 1:</strong> Frame data study for your character\'s top 20 moves.</li>
+  <li><strong>Week 2:</strong> Matchup-specific punish drilling vs 5 opponent characters.</li>
+  <li><strong>Week 3:</strong> Oki mix-up setups — 3-4 per character.</li>
+  <li><strong>Week 4:</strong> Heat management practice + ranked matches with all skills applied.</li>
+</ul>
+<p>By day 30 you've trained Tekken King habits. Most 1st Dan players plateau because they don\'t drill consistently.</p>`,
+    },
+    aiVodMention: `<p>Tekken King gap won\'t close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags frame-trap exposure + Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
+      { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
+      { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
+      { name: 'Tekken 8 Matchup Chart 2026', url: '/blog/tekken-8-matchup-chart-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'tk8', gameLabel: 'Tekken 8', fromRank: 'Matchup', toRank: 'Chart',
+    slug: 'tekken-8-matchup-chart-2026',
+    metaTitle: 'Tekken 8 Matchup Chart 2026 — Hard / Even / Favorable Matchups',
+    metaDescription: 'Tekken 8 matchup chart 2026 across S-tier and A-tier characters. Hwoarang vs Kazuya, King vs Lili, Bryan vs Jin, and the top 30 matchups every Tekken player needs.',
+    intro: `<p>Tekken 8 matchups are the macro-game. Two equally skilled players have different win rates based purely on character matchup. This guide covers the 30 most impactful matchups in the 2026 meta — favorable, even, and hard matchups for the top 10 characters.</p>`,
+    sections: [
+      { heading: 'Why matchups matter in Tekken 8', html: `<p>Tekken 8 character vs character matchups can be 60-40 to 70-30 in skill-equal matches. Matchup knowledge can swing 1-2 ranks of effective skill. Tournament players track matchups to choose secondaries; ranked players track matchups to identify which characters to grind against.</p>` },
+      { heading: 'Hwoarang matchups', html: `<ul>
+  <li><strong>Hwoarang vs King:</strong> 70-30 Hwoarang. Stance pressure beats grappler entry. King can\'t land grab mid-pressure.</li>
+  <li><strong>Hwoarang vs Steve:</strong> 50-50. Counter-hit game vs stance pressure — coinflip matchup.</li>
+  <li><strong>Hwoarang vs Lili:</strong> 40-60 Lili. Spacing kite beats stance commits. Hard matchup for Hwoarang.</li>
+  <li><strong>Hwoarang vs Kazuya:</strong> 55-45 Hwoarang. Stance pressure beats Mishima electric commits at close range.</li>
+</ul>` },
+      { heading: 'Kazuya matchups', html: `<ul>
+  <li><strong>Kazuya vs Lars:</strong> 60-40 Kazuya. Mishima electric beats Dynamic Entry stance.</li>
+  <li><strong>Kazuya vs Yoshimitsu:</strong> 40-60 Yoshimitsu. Manji stance parries beat Electric attempts.</li>
+  <li><strong>Kazuya vs Paul:</strong> 55-45 Kazuya. Hellsweep mix-up beats Paul counter-hit setups.</li>
+  <li><strong>Kazuya vs Jin:</strong> 50-50. Mirror matchup; pure execution game.</li>
+</ul>` },
+      { heading: 'King matchups', html: `<ul>
+  <li><strong>King vs Asuka:</strong> 60-40 King. Grab mix-up overloads Asuka\'s reactive defense.</li>
+  <li><strong>King vs Yoshimitsu:</strong> 45-55 Yoshi. Manji stance grab break + parry beats King chain throws.</li>
+  <li><strong>King vs Lili:</strong> 50-50. King grabs vs Lili spacing — coinflip.</li>
+</ul>` },
+      { heading: 'Bryan matchups', html: `<ul>
+  <li><strong>Bryan vs Jin:</strong> 60-40 Bryan. Counter-hit game beats Jin neutral; Taunt setup destroys Jin oki.</li>
+  <li><strong>Bryan vs Paul:</strong> 55-45 Bryan. Counter-hit vs Deathfist commits.</li>
+  <li><strong>Bryan vs Asuka:</strong> 40-60 Asuka. Parry kicks beat Bryan\'s mid-range commits; reversal launcher beats Snake Edge.</li>
+</ul>` },
+      { heading: 'Steve matchups', html: `<ul>
+  <li><strong>Steve vs Hwoarang:</strong> 55-45 Steve. Counter-hit beats stance commits.</li>
+  <li><strong>Steve vs Jun:</strong> 40-60 Jun. Jun parry blocks Steve counter-hit attempts; spacing footsies win.</li>
+  <li><strong>Steve vs Bryan:</strong> 50-50. Both counter-hit kings; pure execution.</li>
+</ul>` },
+      { heading: 'Reina matchups', html: `<ul>
+  <li><strong>Reina vs Paul:</strong> 60-40 Reina. Wind God Step Lite beats Paul linear committed moves.</li>
+  <li><strong>Reina vs Asuka:</strong> 50-50. Mishima mix-up vs parry/reversal game.</li>
+  <li><strong>Reina vs Lars:</strong> 55-45 Reina. WGS Lite beats Dynamic Entry stance.</li>
+</ul>` },
+      { heading: 'Lili matchups', html: `<ul>
+  <li><strong>Lili vs Paul:</strong> 60-40 Lili. Lili sidesteps Deathfist, whiff-punishes 50%+ damage.</li>
+  <li><strong>Lili vs Hwoarang:</strong> 60-40 Lili. Spacing kite beats stance commits.</li>
+  <li><strong>Lili vs King:</strong> 50-50. Spacing vs grab — coinflip.</li>
+</ul>` },
+      { heading: 'How to use this matchup chart in ranked', html: `<p>Apply this knowledge in three ways:</p>
+<ul>
+  <li><strong>Pick character to climb:</strong> Identify your secondary that wins your hard matchups.</li>
+  <li><strong>Identify hard matchups:</strong> Avoid playing your main into 40-60 disadvantage matchups; pick secondary.</li>
+  <li><strong>Study secondary opponent matchups:</strong> Play against AI / friends with hard-matchup characters before ranked.</li>
+</ul>
+<p>Tekken King players have a 90% character vs character knowledge map. 1st Dan players ignore matchups entirely.</p>` },
+    ],
+    mistakes: [
+      'Ignoring matchup chart when picking character',
+      'Playing main into 40-60 disadvantage matchup',
+      'No secondary character for hard matchups',
+      'Not studying opponent character\'s top 5 moves',
+      'Blaming losses on "lag" instead of matchup',
+    ],
+    drill: {
+      heading: 'Drill: Matchup-specific training',
+      html: `<p>Pick one hard matchup (e.g., Hwoarang vs Lili). Play 30 matches against AI/friends with hard-matchup character. Track win rate. By 30 matches you\'ve mapped the punishes + understood timing. Apply in ranked. Repeat for top 5 matchups.</p>`,
+    },
+    aiVodMention: `<p>Matchup knowledge right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags character-specific punish opportunities you missed. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
+      { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
+      { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
+      { name: 'How to Climb from 1st Dan to Tekken King', url: '/blog/tekken-8-1st-dan-to-king.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+]
+
+// ============================================================================
+// PUBG POSTS (5)
+// ============================================================================
+// BR coaching cluster — Erangel + Miramar are the meta maps.
+const PUBG_POSTS = [
+  {
+    game: 'pubg', gameLabel: 'PUBG: Battlegrounds', fromRank: 'Bronze', toRank: 'Silver',
+    slug: 'pubg-beginner-guide-2026',
+    metaTitle: 'PUBG Beginner Guide 2026 — Climb From Bronze to Silver',
+    metaDescription: 'PUBG beginner guide: drop strategy, loot priority, squad roles, basic gunplay, circle awareness. Get out of Bronze in 2 weeks.',
+    intro: `<p>PUBG: Battlegrounds is the original Battle Royale. 100 players, 4-stack squads, shrinking circle, last squad standing. The Bronze-to-Silver climb requires fixing four things: drop strategy, loot priority, squad role assignment, and basic gunplay. Drill these for 2 weeks and Silver is automatic.</p>`,
+    sections: [
+      { heading: 'Drop strategy — hot vs edge', html: `<p>Drop choice = game outcome. Two strategies:</p>
+<ul>
+  <li><strong>Hot drop:</strong> Pochinki / Bootcamp / Pecado. 3-5 squads, fast action. 60% wipe rate, high adrenaline.</li>
+  <li><strong>Edge drop:</strong> Primorsk / Crater Fields / Goroka. 0-1 squad, safer loot. 90% survival to mid-game.</li>
+</ul>
+<p>For Bronze climbing: alternate hot drops 50% / edge drops 50%. Hot drops teach gunplay; edge drops teach rotation. Both skills required.</p>` },
+      { heading: 'Loot priority — 60 seconds to gear up', html: `<p>You need full kit within 60 seconds of landing. Priority order:</p>
+<ul>
+  <li>Armor (helmet level 2 + vest level 2 minimum).</li>
+  <li>Primary weapon (AR — M416 / AKM / Beryl).</li>
+  <li>Secondary weapon (Sniper Kar98k or SMG UMP45).</li>
+  <li>Heals (8 bandages + 4 first-aid + 2 medkits).</li>
+  <li>Boost items (2 painkillers + 2 energy drinks).</li>
+  <li>Grenades (2 frags + 2 smokes minimum).</li>
+</ul>
+<p>Don't loot all bodies. Grab essentials, rotate. Looting time = death.</p>` },
+      { heading: 'Squad roles — assign before queue', html: `<p>4-stack squads need 4 roles:</p>
+<ul>
+  <li><strong>IGL / Caller:</strong> Drop spot, rotation calls, engagement decisions.</li>
+  <li><strong>Fragger:</strong> First push, close-range duels, top-K player.</li>
+  <li><strong>Sniper:</strong> Long-range pick-off, cover during rotation.</li>
+  <li><strong>Support:</strong> Heals, smokes, revives, mid-range backup.</li>
+</ul>
+<p>Discuss roles before queue. Random squads = 4 solo players; coordinated squads have 50% higher win rate.</p>` },
+      { heading: 'Basic gunplay — single-fire mid-range, burst close', html: `<p>PUBG bullets have travel time and drop. At Bronze, learn:</p>
+<ul>
+  <li><strong>Single-fire</strong> mid-range (100-200m) with AR. Reduces recoil.</li>
+  <li><strong>Burst-fire</strong> close-range (under 100m) with AR. 3-5 round bursts.</li>
+  <li><strong>Sniper</strong> long-range (200m+) with Kar98k. Aim for head; helmet 2 = 1-shot.</li>
+  <li><strong>ADS</strong> (right-click) for accuracy.</li>
+  <li><strong>Hipfire</strong> only at point-blank with SMG.</li>
+</ul>
+<p>Recoil control: pull mouse down slightly during full-auto. Practice in Training Mode for 30 minutes before ranked.</p>` },
+      { heading: 'Circle awareness — rotate before damage', html: `<p>Most Bronze deaths are circle damage, not gunfire. Circle phases:</p>
+<ul>
+  <li>White circle = next safe zone (visible at start).</li>
+  <li>Yellow countdown = circle moves in 1 minute.</li>
+  <li>Blue circle = current safe zone (damage if outside).</li>
+  <li>Damage scales with phase: phase 1 = 1 HP/tick, phase 6 = 25 HP/tick.</li>
+</ul>
+<p>Rule: always rotate 30 seconds before circle close. Pre-position on cover before circle damage starts.</p>` },
+      { heading: 'The 8 habits that get you to Silver', html: `<ul>
+  <li>Alternate hot drops (gunplay) and edge drops (rotation).</li>
+  <li>Loot full kit in 60 seconds.</li>
+  <li>Assign squad roles pre-queue.</li>
+  <li>Single-fire mid-range, burst close, snipe long.</li>
+  <li>Pre-position 30 seconds before circle close.</li>
+  <li>Boost items stacked (painkillers + energy drink).</li>
+  <li>Vehicle rotation for long open ground.</li>
+  <li>Watch kill feed for 3rd-party timing.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Random drops without strategy',
+      'Looting all bodies instead of essentials',
+      'No squad role assignment',
+      'Spraying full-auto at long range',
+      'Rotating last-second into circle damage',
+    ],
+    drill: {
+      heading: 'Drill: 14-day fundamentals regimen',
+      html: `<ul>
+  <li><strong>Day 1-3:</strong> Training Mode for gunplay. Single-fire / burst / spray practice.</li>
+  <li><strong>Day 4-7:</strong> 5 ranked games hot-dropping Pochinki / Bootcamp. Practice loot speed.</li>
+  <li><strong>Day 8-10:</strong> 5 ranked games edge-dropping. Practice rotation timing.</li>
+  <li><strong>Day 11-14:</strong> Squad coordination ranked games with role assignment.</li>
+</ul>`,
+    },
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags drop / loot / rotation mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
+      { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
+      { name: 'How to Climb from Silver to Gold in PUBG', url: '/blog/pubg-silver-to-gold.html' },
+      { name: 'PUBG Endgame Strategy — Final Circle Tactics', url: '/blog/pubg-endgame-strategy.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'pubg', gameLabel: 'PUBG: Battlegrounds', fromRank: 'Drops', toRank: 'Strategy',
+    slug: 'pubg-best-drops-2026',
+    metaTitle: 'PUBG Best Drop Spots Per Map 2026 — Hot, Mid, Edge Drops',
+    metaDescription: 'PUBG drop guide 2026 across Erangel, Miramar, Sanhok, Vikendi, Taego, Deston. Hot drops for action, mid drops for tier-3, edge drops for safety.',
+    intro: `<p>Drop choice is the most important pre-game decision in PUBG. This guide covers hot drops, mid drops, and edge drops across all 6 ranked maps in 2026. Pick drops based on your squad's strategy + skill level.</p>`,
+    sections: [
+      { heading: 'Erangel drops — Pochinki vs Military vs Primorsk', html: `<ul>
+  <li><strong>Hot drops:</strong> Pochinki (center, 3-5 squads), School (5-7 squads tier-2), Georgopol (north-west tier-2).</li>
+  <li><strong>Mid drops:</strong> Mylta (east town, 1-2 squads), Rozhok (center town, 1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Primorsk (south coast, 0-1 squad), Lipovka (east, 0-1 squad).</li>
+  <li><strong>Tier-3 loot:</strong> Military Base (south), School roof, Georgopol Crates.</li>
+</ul>` },
+      { heading: 'Miramar drops — Pecado vs Hacienda vs Crater', html: `<ul>
+  <li><strong>Hot drops:</strong> Pecado (center, 3-5 squads), Hacienda del Patrón (tier-3 castle), Los Leones (largest city).</li>
+  <li><strong>Mid drops:</strong> San Martín (1-2 squads), El Pozo (1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Crater Fields (north), Tuna Park (south).</li>
+  <li><strong>Vehicle rotation:</strong> Mandatory — Miramar is the largest map.</li>
+</ul>` },
+      { heading: 'Sanhok drops — Bootcamp vs Paradise vs Ruins', html: `<ul>
+  <li><strong>Hot drops:</strong> Bootcamp (center, 5-7 squads), Paradise Resort (5-7 squads), Ruins (cave).</li>
+  <li><strong>Mid drops:</strong> Ha Tinh (north-east, 1-2 squads), Camp Charlie (west, 1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Lakawi (south, 0-1 squad).</li>
+  <li><strong>Note:</strong> Small map = fast circles; edge drops can be risky.</li>
+</ul>` },
+      { heading: 'Vikendi drops — Castle vs Cosmodrome vs Goroka', html: `<ul>
+  <li><strong>Hot drops:</strong> Castle (center vertical), Cosmodrome (tier-3), Villa.</li>
+  <li><strong>Mid drops:</strong> Mount Kreznic (1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Goroka (south, 0-1 squad), Tovar (north-west, 0-1 squad).</li>
+  <li><strong>Snow tracks:</strong> Visible to enemies — stick to roads if possible.</li>
+</ul>` },
+      { heading: 'Taego drops — Shipyard vs Hosan vs Pyungwon', html: `<ul>
+  <li><strong>Hot drops:</strong> Shipyard (tier-3, 3-5 squads), Hosan Town (3-5 squads).</li>
+  <li><strong>Mid drops:</strong> Go-Sang Village (1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Pyungwon (south, 0-1 squad).</li>
+  <li><strong>Comeback BR:</strong> Use to revive teammates in extended ranked.</li>
+</ul>` },
+      { heading: 'Deston drops — Amusement Park vs Rig vs Ascent', html: `<ul>
+  <li><strong>Hot drops:</strong> Amusement Park (center, 3-5 squads), Off-Shore Rig (tier-3 vertical), Ripton.</li>
+  <li><strong>Mid drops:</strong> Tomb (1-2 squads).</li>
+  <li><strong>Edge drops:</strong> Ascent (south-west, 0-1 squad).</li>
+  <li><strong>Off-Shore Rig:</strong> Unique vertical POI — boats / parachutes only.</li>
+</ul>` },
+      { heading: 'Drop strategy by squad skill level', html: `<ul>
+  <li><strong>Bronze / Silver:</strong> 70% edge drops, 30% hot drops. Survival + loot focus.</li>
+  <li><strong>Gold / Platinum:</strong> 50% hot drops, 50% edge. Balance combat + survival.</li>
+  <li><strong>Diamond+:</strong> 70% hot drops for K/D + scrim practice.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Random drops without team comm',
+      'All-edge drops at Diamond+ (no combat practice)',
+      'All-hot drops at Bronze (low survival)',
+      'Drop near another squad without backup',
+      'Drop spots based on personal preference, not map meta',
+    ],
+    drill: {
+      heading: 'Drill: Drop spot mastery per map',
+      html: `<p>Pick 1 hot drop per map. Play 10 games landing there. Track squad wipe rate + loot speed. Then pick 1 edge drop per map. Compare. By 60 games you've mapped drop preferences for all 6 maps.</p>`,
+    },
+    aiVodMention: `<p>Drop choice right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags loot priority + rotation mistakes per game. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
+      { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
+      { name: 'How to Climb from Silver to Gold in PUBG', url: '/blog/pubg-silver-to-gold.html' },
+      { name: 'PUBG Endgame Strategy', url: '/blog/pubg-endgame-strategy.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'pubg', gameLabel: 'PUBG: Battlegrounds', fromRank: 'Weapons', toRank: 'Tier List',
+    slug: 'pubg-weapon-tier-list-2026',
+    metaTitle: 'PUBG Weapon Tier List 2026 — Best AR, Sniper, SMG Picks',
+    metaDescription: 'PUBG weapon tier list 2026: S-tier Beryl + M416 + Kar98k + AWM. A-tier AKM + SLR + UMP45. Loadout combos for ranked.',
+    intro: `<p>Weapon meta in PUBG is stable across patches. S-tier ARs are Beryl M762, M416, AKM. S-tier snipers are AWM, Kar98k. SMG meta is UMP45 + Vector. This guide ranks all weapons + builds loadout combos for ranked play.</p>`,
+    sections: [
+      { heading: 'AR tier list — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Beryl M762</strong> — Highest-damage AR (5.56). Heavy recoil but 2-shot kills.</li>
+  <li><strong>M416</strong> — Versatile, low recoil, mid-range king. Universal pick.</li>
+  <li><strong>AKM</strong> — High damage, hard recoil. Close-mid range.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Groza</strong> — Care Package, best AR in the game. Drop only.</li>
+  <li><strong>SCAR-L</strong> — Low-recoil beginner pick.</li>
+  <li><strong>Famas</strong> — Semi-auto burst (3-round).</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>QBZ</strong> — Sanhok variant. Mid-tier.</li>
+  <li><strong>G36C</strong> — Vikendi variant. Mid-tier.</li>
+</ul>` },
+      { heading: 'Sniper tier list — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>AWM</strong> — Care Package, 1-shot any helmet. Drop only.</li>
+  <li><strong>Kar98k</strong> — Helmet 2 1-shot. Most common bolt-action.</li>
+  <li><strong>Mosin</strong> — Kar98 alternative; bolt-action, same damage.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>SLR</strong> — Semi-auto marksman. Fast follow-up shots.</li>
+  <li><strong>Mk14</strong> — Care Package DMR. Semi/full-auto, highest DMR damage.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>VSS</strong> — Suppressed marksman. Mid-tier damage.</li>
+  <li><strong>M21</strong> — Marksman; falls off at long range.</li>
+</ul>` },
+      { heading: 'SMG / Shotgun tier list — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>UMP45</strong> — Versatile mid-range SMG. Low recoil.</li>
+  <li><strong>S686</strong> — Instant breach kill (double barrel).</li>
+  <li><strong>P90</strong> — 50-round mag, high DPS close-range.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Uzi</strong> — Fastest fire-rate, point-blank duel.</li>
+  <li><strong>MP5K</strong> — Vikendi variant. Mid-tier.</li>
+</ul>
+<h3>B-tier</h3>
+<ul>
+  <li><strong>Vector</strong> — Low ammo mag (13 rounds), high DPS but bad reload.</li>
+  <li><strong>Tommy Gun</strong> — Low range, niche pick.</li>
+</ul>` },
+      { heading: 'Loadout combos for ranked', html: `<ul>
+  <li><strong>Aggressive Fragger:</strong> Beryl M762 + UMP45. Close-mid range duels.</li>
+  <li><strong>Versatile All-Rounder:</strong> M416 + Kar98k. Mid + long range coverage.</li>
+  <li><strong>Sniper Specialist:</strong> Kar98k + SCAR-L. Long-range pick-off + mid backup.</li>
+  <li><strong>Brawler:</strong> AKM + S686. Close-range domination.</li>
+  <li><strong>Endgame Tournament:</strong> M416 + SLR. Long-range marksman duo.</li>
+</ul>` },
+      { heading: 'Care Package weapon priority', html: `<p>Care Packages drop tier-3+ loot. Priority order:</p>
+<ul>
+  <li><strong>AWM</strong> — 1-shot kill any helmet level. Top priority.</li>
+  <li><strong>Groza</strong> — Best AR. Mid priority.</li>
+  <li><strong>Mk14</strong> — Best DMR. Mid priority.</li>
+  <li><strong>Tier-3 Armor</strong> — Helmet level 3 + Vest level 3. Survival priority.</li>
+</ul>
+<p>Don't fight at Care Package — wait for 1-2 squads to engage, then 3rd-party. The drop attracts squads for 1-2 minutes.</p>` },
+    ],
+    mistakes: [
+      'Using AR for long-range (200m+) — switch to Sniper or DMR',
+      'Sniping with SMG-tier weapon at close range',
+      'No SMG/Shotgun backup for close engagements',
+      'Care Package fight without 3rd-party plan',
+      'No attachments — bare weapons = 50% damage loss',
+    ],
+    drill: {
+      heading: 'Drill: Recoil training per weapon',
+      html: `<p>Training Mode practice: 100 bullets fired per weapon, recoil pattern memorized. M416 / AKM / Beryl recoil patterns are different — drill each separately. Goal: full 30-round mag headshot at 50m range.</p>`,
+    },
+    aiVodMention: `<p>Loadout right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags engagement-range mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
+      { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
+      { name: 'How to Climb from Silver to Gold in PUBG', url: '/blog/pubg-silver-to-gold.html' },
+      { name: 'PUBG Endgame Strategy', url: '/blog/pubg-endgame-strategy.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+  {
+    game: 'pubg', gameLabel: 'PUBG: Battlegrounds', fromRank: 'Silver', toRank: 'Gold',
+    slug: 'pubg-silver-to-gold',
+    metaTitle: 'How to Climb from Silver to Gold in PUBG (2026)',
+    metaDescription: 'PUBG Silver-to-Gold guide: rotation reads, 3rd-party timing, compound holds, gunplay accuracy, squad coordination calls.',
+    intro: `<p>Silver-to-Gold in PUBG is the first real macro skill jump. Beginner habits aren't enough. Gold players read rotations, identify 3rd parties, hold compounds correctly, and use squad coordination calls. This guide breaks down what separates Silver from Gold.</p>`,
+    sections: [
+      { heading: 'Rotation reads — track circle vs other squads', html: `<p>Gold players track 2-3 squads at all times. Methods:</p>
+<ul>
+  <li>Kill feed shows where squads are dying (rough position).</li>
+  <li>Vehicle audio = nearby rotation (gunshot in distance = engagement happening).</li>
+  <li>Pre-position 60 seconds before circle close.</li>
+  <li>Identify "highway" routes between circle phases.</li>
+</ul>` },
+      { heading: '3rd-party timing — wait for 2 squads to engage', html: `<p>Gold players let other squads fight first, then 3rd-party the survivor.</p>
+<ul>
+  <li>Listen for sustained gunfire (1+ minute of fight = both squads weakened).</li>
+  <li>Approach from elevated angle.</li>
+  <li>Push the winning squad after they've used heals.</li>
+  <li>Loot both squads' bodies after wipe.</li>
+</ul>
+<p>3rd-party kill ratio at Gold = 70%+. At Silver = 30%.</p>` },
+      { heading: 'Compound holds — pre-position cover', html: `<p>When you take a building/compound, hold properly:</p>
+<ul>
+  <li>Pre-position windows for incoming sight lines.</li>
+  <li>Frag denial on stair entries.</li>
+  <li>Smoke cover for revives + rotations.</li>
+  <li>Sniper covers exit route from elevated angle.</li>
+</ul>` },
+      { heading: 'Gunplay accuracy — burst-fire mid-range mastery', html: `<p>Gold players land 80%+ accuracy at mid-range. Drills:</p>
+<ul>
+  <li>Training Mode burst-fire practice (3-5 round bursts at 100m).</li>
+  <li>Single-fire at 150m+ for recoil control.</li>
+  <li>Sniper head-aim — helmet level 2 = 1-shot kill.</li>
+  <li>SMG hipfire at point-blank.</li>
+</ul>` },
+      { heading: 'Squad coordination calls — comm discipline', html: `<p>Gold squads have 4-5 specific call types:</p>
+<ul>
+  <li>"Going east, kar98 100m" — direction + weapon + range.</li>
+  <li>"Rotation now, follow me" — squad rotate command.</li>
+  <li>"Push left house, I cover stairs" — engagement coordination.</li>
+  <li>"Wipe complete, looting 30 seconds" — phase update.</li>
+  <li>"Hold this position, circle in 90 seconds" — pre-position.</li>
+</ul>
+<p>No commentary, no chat. Information only. Silver squads have 1-2 calls per game; Gold has 30+.</p>` },
+      { heading: 'The 6 habits separating Silver from Gold', html: `<ul>
+  <li>Rotation reads at every circle close (60-second early pre-position).</li>
+  <li>3rd-party timing on sustained engagements.</li>
+  <li>Compound holds with frag/smoke discipline.</li>
+  <li>80%+ accuracy mid-range burst-fire.</li>
+  <li>30+ squad calls per match.</li>
+  <li>Endgame elevation positioning (high ground wins 70% of finals).</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Engaging without 3rd-party setup',
+      'Holding compound with no pre-positioning',
+      'Spraying full-auto mid-range',
+      'No squad calls (4 solo players in voice)',
+      'Endgame in open field (low ground)',
+    ],
+    drill: {
+      heading: 'Drill: 30-day Gold regimen',
+      html: `<ul>
+  <li><strong>Week 1:</strong> Training Mode accuracy — 80%+ at 100m.</li>
+  <li><strong>Week 2:</strong> Compound hold practice in custom games.</li>
+  <li><strong>Week 3:</strong> 3rd-party timing in ranked — wait for sustained fights.</li>
+  <li><strong>Week 4:</strong> Squad coordination calls regimen — track call count per match.</li>
+</ul>`,
+    },
+    aiVodMention: `<p>Gold gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags rotation + 3rd-party timing errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
+      { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
+      { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
+      { name: 'PUBG Endgame Strategy', url: '/blog/pubg-endgame-strategy.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'pubg', gameLabel: 'PUBG: Battlegrounds', fromRank: 'Endgame', toRank: 'Chicken Dinner',
+    slug: 'pubg-endgame-strategy',
+    metaTitle: 'PUBG Endgame Strategy Guide — Final Circle Tactics for the Win',
+    metaDescription: 'PUBG endgame strategy: positioning for final circles, 3v1/4v1 finishes, smoke + grenade chains, high-ground holds, 1v4 clutch tactics.',
+    intro: `<p>Endgame in PUBG is everything. Top-10 placements are easy; final 5 squads is where the real game is. This guide breaks down endgame positioning, smoke/grenade chains, high-ground holds, and the 1v4 clutch tactics that win the Chicken Dinner.</p>`,
+    sections: [
+      { heading: 'Final 5 squads — pre-position 90 seconds early', html: `<p>When 5 squads remain (about 22-24 minutes in), positioning matters more than firepower:</p>
+<ul>
+  <li>Watch the white circle 90 seconds before close.</li>
+  <li>Identify high ground in the circle.</li>
+  <li>Rotate to the most defensible cover BEFORE circle close.</li>
+  <li>Pre-position frag grenades on common rotation paths.</li>
+  <li>Smoke cover for revives and rotation under fire.</li>
+</ul>` },
+      { heading: 'High-ground holds — 70% of finals won here', html: `<p>Elevation = win condition. Final circles 4-6 reward high-ground holds.</p>
+<ul>
+  <li>Hill / building / rock = vertical advantage.</li>
+  <li>Prone on hilltop for stealth.</li>
+  <li>Squad-split: 2 on hill, 2 covering retreat (or 4 stacked).</li>
+  <li>Watch for 1-2 squads pushing hill simultaneously.</li>
+</ul>` },
+      { heading: 'Smoke + grenade chains — controlled engagements', html: `<p>Smoke cover lets you control engagement timing.</p>
+<ul>
+  <li>Smoke approach to enemy compound for safe push.</li>
+  <li>Frag grenade chain on enemy compound entry.</li>
+  <li>Smoke + revive cycle when teammate downed.</li>
+  <li>Smoke escape from bad positions (open ground).</li>
+</ul>` },
+      { heading: 'Final 3 squads — the kill-or-be-killed phase', html: `<p>3 squads, 9 players, 1 winner. Tactics:</p>
+<ul>
+  <li>Identify enemy positions via gunshot / kill feed.</li>
+  <li>3rd-party the engagement: let 2 squads fight, push the survivor.</li>
+  <li>Squad-split aggressive: 2 push, 2 cover from elevated angle.</li>
+  <li>Heal cycle: full HP + boost gauge before engaging.</li>
+</ul>` },
+      { heading: '1v4 clutch tactics — win the Chicken Dinner alone', html: `<p>If teammates die and you're 1 vs 4 enemies:</p>
+<ul>
+  <li>Stealth — prone, no movement, wait for circle to force enemy commit.</li>
+  <li>Isolation — split enemy squad with grenade chains.</li>
+  <li>High ground — hill / rooftop advantage.</li>
+  <li>Heal stack — Painkillers + Energy Drink + Adrenaline for boost gauge.</li>
+  <li>Pick off one enemy at a time via long-range Sniper.</li>
+  <li>Don't engage all 4 at once — split squad through isolation.</li>
+</ul>` },
+      { heading: 'Final circle (10x10m) — the death zone', html: `<p>Final circle (phase 7-8) is tiny. Last 2-3 players left:</p>
+<ul>
+  <li>Prone in cover (rock, bush, building edge).</li>
+  <li>Bullet-tracking on enemy direction.</li>
+  <li>Wait for enemy commit; counter-shoot.</li>
+  <li>Boost items mandatory — circle damage = 25 HP/tick.</li>
+  <li>Final 1v1: head-aim with AR + crouch.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Engaging top-10 placements in open field',
+      'No high-ground hold in finals',
+      'Pushing all 4 enemies simultaneously',
+      'No smoke + revive cycle setup',
+      'Endgame in low ground / no cover',
+    ],
+    drill: {
+      heading: 'Drill: Custom games endgame practice',
+      html: `<p>Custom games with 4-stack squad. Drop in pre-final circle position. Practice 4v4 vs 4v4 in final 2 circles. Track wipe rate. Repeat 30 games. By game 30 you've practiced endgame instincts that win Chicken Dinners.</p>`,
+    },
+    aiVodMention: `<p>Final circle losses? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + grenade chain errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
+      { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
+      { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
+      { name: 'How to Climb from Silver to Gold in PUBG', url: '/blog/pubg-silver-to-gold.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
+  },
+]
+
+// ============================================================================
+// DOTA 2 POSTS (5)
+// ============================================================================
+// MOBA coaching cluster — positions 1-5 system + heavy macro game.
+const DOTA2_POSTS = [
+  {
+    game: 'dota2', gameLabel: 'Dota 2', fromRank: 'Herald', toRank: 'Guardian',
+    slug: 'dota-2-beginner-guide-2026',
+    metaTitle: 'Dota 2 Beginner Guide 2026 — Climb From Herald to Guardian',
+    metaDescription: 'Dota 2 beginner guide: pick a position, learn last-hitting, understand the 5-role system, ward basics, hero pool. Climb out of Herald.',
+    intro: `<p>Dota 2 has the steepest learning curve in MOBAs. 124+ heroes, 5 positions (1-5), 100+ items, lane-by-lane macro, Roshan timing, runes. The Herald-to-Guardian climb requires fixing four things: pick a position, learn last-hitting, master the 5-role system, basic warding. Drill these for 2 weeks and Guardian is automatic.</p>`,
+    sections: [
+      { heading: 'Pick one position — not all 5', html: `<p>Dota 2 has 5 positions: Pos 1 (Carry), Pos 2 (Mid), Pos 3 (Offlaner), Pos 4 (Soft Support), Pos 5 (Hard Support).</p>
+<ul>
+  <li><strong>Pos 5 (recommended for beginners):</strong> Wards + heals + carry babysit. Lowest gold/XP priority but easiest to learn.</li>
+  <li><strong>Pos 4:</strong> Roaming gank support. Mid-game playmaker.</li>
+  <li><strong>Pos 3 (Offlaner):</strong> 1v2 lane survival, mid-game initiator.</li>
+  <li><strong>Pos 2 (Mid):</strong> Snowball role, 1v1 mid for rune control.</li>
+  <li><strong>Pos 1 (Carry):</strong> Late-game scaling, last-hits in safe lane.</li>
+</ul>
+<p>Pick one and stay for 100+ matches. Don't bounce positions — each has unique mechanics.</p>` },
+      { heading: 'Last-hitting — the Herald skill gap', html: `<p>Last-hitting = killing creeps at 1 HP for gold. Each creep = 35-60 gold.</p>
+<ul>
+  <li>Tap right-click when creep is at 1 HP for last-hit (no auto-attack).</li>
+  <li>Deny own creep at 50% HP (right-click on your own creep) — enemy gets less XP.</li>
+  <li>Practice in custom games or "Last Hit Trainer" workshop maps.</li>
+  <li>Target: 50+ CS by 10 minutes for Pos 1 carry.</li>
+</ul>` },
+      { heading: 'The 5-role system — gold + XP priority', html: `<p>Each position has gold/XP priority:</p>
+<ul>
+  <li>Pos 1 = 1st priority. Farms freely; team protects.</li>
+  <li>Pos 2 = 2nd priority. Mid lane solo.</li>
+  <li>Pos 3 = 3rd priority. Offlaner survives 1v2.</li>
+  <li>Pos 4 = 4th priority. Roams + ganks.</li>
+  <li>Pos 5 = 5th priority. Wards + heals; lowest gold.</li>
+</ul>
+<p>Don't steal Carry farm. Don't take Mid runes. Stay in your position lane.</p>` },
+      { heading: 'Ward basics — where + when', html: `<p>Vision wins games. Pos 5 / Pos 4 buy wards:</p>
+<ul>
+  <li><strong>Observer Ward (Pos 5):</strong> Place at high ground / rune spawns / tri-bush.</li>
+  <li><strong>Sentry Ward (Pos 5):</strong> Counter-ward enemy invisible heroes (Pudge / Riki / Bounty Hunter).</li>
+  <li>Place 1 Observer at lane bush at 0:00, 1 at rune spawn before 2:00.</li>
+  <li>Reward Sentry at minute 5+ at enemy jungle entrance.</li>
+</ul>` },
+      { heading: 'Hero pool — pick 3-5 per position', html: `<p>Don't learn 30 heroes. Pick 3-5 for your position:</p>
+<ul>
+  <li><strong>Pos 5 picks:</strong> Crystal Maiden, Lion, Lich, Witch Doctor, Treant Protector.</li>
+  <li><strong>Pos 4 picks:</strong> Pudge, Mirana, Tusk, Earth Spirit.</li>
+  <li><strong>Pos 3 picks:</strong> Axe, Centaur Warrunner, Tidehunter, Bristleback.</li>
+  <li><strong>Pos 2 picks:</strong> Invoker, Shadow Fiend, Storm Spirit, Puck.</li>
+  <li><strong>Pos 1 picks:</strong> Anti-Mage, Spectre, Faceless Void, Wraith King.</li>
+</ul>` },
+      { heading: 'Lane phase basics — minute 0-15', html: `<p>Lane phase = 0-15 minutes. Each position has goals:</p>
+<ul>
+  <li>Pos 1: Last-hit 50+ CS by 10 min. Hit level 6 for ult.</li>
+  <li>Pos 2: Win 1v1 mid. Rune control via Bottle.</li>
+  <li>Pos 3: Survive 1v2 lane. Don't die.</li>
+  <li>Pos 4: Smoke gank at 5:00 with Pos 3.</li>
+  <li>Pos 5: Ward + heal + harass enemy offlaner.</li>
+</ul>` },
+      { heading: 'The 8 habits that get you to Guardian', html: `<ul>
+  <li>Pick 1 position; stay 100 matches.</li>
+  <li>Master 3-5 heroes per position.</li>
+  <li>Last-hit 50+ CS by 10 minutes.</li>
+  <li>Buy wards every 4 minutes (Observer + Sentry).</li>
+  <li>Smoke gank coordinated with team.</li>
+  <li>TP Scroll in inventory after 5:00.</li>
+  <li>Track enemy hero positions (minimap awareness).</li>
+  <li>Don't dive without backup.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Bouncing positions every game',
+      'Auto-attacking creeps instead of last-hitting',
+      'No ward placement',
+      'Diving without team',
+      'Picking 20 different heroes shallow',
+    ],
+    drill: {
+      heading: 'Drill: 14-day fundamentals',
+      html: `<ul>
+  <li><strong>Day 1-3:</strong> Last-hit Trainer 100 reps per day. Goal: 50 CS in 10 minutes.</li>
+  <li><strong>Day 4-7:</strong> Custom games as Pos 5 hero (Crystal Maiden). Ward practice.</li>
+  <li><strong>Day 8-10:</strong> 5 ranked games sticking to position role.</li>
+  <li><strong>Day 11-14:</strong> Practice smoke gank coordination + lane phase.</li>
+</ul>`,
+    },
+    aiVodMention: `<p>Stuck? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags last-hit + warding + rotation errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
+      { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
+      { name: 'How to Climb from Crusader to Archon in Dota 2', url: '/blog/dota-2-crusader-to-archon.html' },
+      { name: 'Dota 2 Warding Guide — Vision Wins Games', url: '/blog/dota-2-warding-guide-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 10,
+  },
+  {
+    game: 'dota2', gameLabel: 'Dota 2', fromRank: 'Hero', toRank: 'Tier List',
+    slug: 'dota-2-hero-tier-list-2026',
+    metaTitle: 'Dota 2 Hero Tier List 2026 — Best Picks Per Position',
+    metaDescription: 'Dota 2 hero tier list 2026 by position. S-tier Pos 1 carries, A-tier Pos 2 mids, situational Pos 3/4/5 picks. Solo Q meta breakdown.',
+    intro: `<p>Dota 2 has 124+ heroes across 5 positions. This is the 2026 ranked tier list — S/A/B per position, optimized for solo Q ladder climbing.</p>`,
+    sections: [
+      { heading: 'Pos 1 Carry — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Anti-Mage</strong> — Mana Break + Manta + Blink. Late-game 1v9.</li>
+  <li><strong>Faceless Void</strong> — Time Lock crit, Chronosphere AoE.</li>
+  <li><strong>Spectre</strong> — Haunt global teleport, Radiance scaling.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Phantom Assassin</strong> — Coup de Grace crit, Phantom Strike blink.</li>
+  <li><strong>Wraith King</strong> — Reincarnation 2 lives, Skeleton army ult.</li>
+  <li><strong>Juggernaut</strong> — Healing Ward + Blade Fury, Omnislash ult.</li>
+  <li><strong>Sven</strong> — Storm Hammer stun + God's Strength.</li>
+</ul>` },
+      { heading: 'Pos 2 Mid — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Invoker</strong> — 10 invokable spells. Highest skill ceiling.</li>
+  <li><strong>Shadow Fiend</strong> — Necromastery + Requiem of Souls.</li>
+  <li><strong>Storm Spirit</strong> — Ball Lightning mobility.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Puck</strong> — Phase Shift + Illusory Orb.</li>
+  <li><strong>Tinker</strong> — Rearm cooldown reset.</li>
+  <li><strong>Queen of Pain</strong> — Blink + Scream of Pain.</li>
+  <li><strong>Outworld Destroyer</strong> — Astral Imprisonment.</li>
+</ul>` },
+      { heading: 'Pos 3 Offlaner — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Axe</strong> — Berserker's Call AoE taunt.</li>
+  <li><strong>Centaur Warrunner</strong> — Hoof Stomp + Stampede.</li>
+  <li><strong>Tidehunter</strong> — Ravage 5-man stun ult.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Bristleback</strong> — Quill Spray damage stacks.</li>
+  <li><strong>Mars</strong> — Spear of Mars + Arena of Blood.</li>
+  <li><strong>Dark Seer</strong> — Vacuum + Wall of Replica.</li>
+</ul>` },
+      { heading: 'Pos 4 Roamer — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Pudge</strong> — Meat Hook gank specialist.</li>
+  <li><strong>Mirana</strong> — Sacred Arrow stun, Leap mobility.</li>
+  <li><strong>Tusk</strong> — Snowball gap-closer.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Earth Spirit</strong> — Boulder Smash + stones.</li>
+  <li><strong>Bounty Hunter</strong> — Track ult gold bounty.</li>
+</ul>` },
+      { heading: 'Pos 5 Hard Support — S, A, B', html: `<h3>S-tier</h3>
+<ul>
+  <li><strong>Crystal Maiden</strong> — Crystal Nova + Frostbite + Freezing Field.</li>
+  <li><strong>Lion</strong> — Earth Spike chain + Finger of Death execute.</li>
+  <li><strong>Treant Protector</strong> — Living Armor team heal + Overgrowth root.</li>
+</ul>
+<h3>A-tier</h3>
+<ul>
+  <li><strong>Lich</strong> — Frost Blast + Chain Frost bounce.</li>
+  <li><strong>Warlock</strong> — Fatal Bonds + Chaotic Offering golem.</li>
+  <li><strong>Witch Doctor</strong> — Maledict + Death Ward.</li>
+  <li><strong>Dazzle</strong> — Shallow Grave invuln save.</li>
+  <li><strong>Oracle</strong> — False Promise save.</li>
+</ul>` },
+      { heading: 'How to use this tier list', html: `<p>Pick S-tier in your position. Master 3-5 picks per position. Tier lists shift every patch — check OP.GG / DOTABUFF for current win rates. This is the 2026 baseline.</p>
+<p>For climbing: pick S-tier Pos 5 (Crystal Maiden / Lion). Easiest to learn + highest win rate. Once mastered, expand to Pos 4 / Pos 3 / Pos 2 / Pos 1.</p>` },
+    ],
+    mistakes: [
+      'Picking B-tier heroes despite lower win rate',
+      'No counter-pick consideration in draft phase',
+      'Following pro-play picks (LCS meta ≠ solo Q meta)',
+      'Ignoring patch notes — meta shifts every 2 weeks',
+      'One-tricking outside S-tier list',
+    ],
+    drill: {
+      heading: 'Drill: Master 5 S-tier picks per month',
+      html: `<p>Pick 5 S-tier heroes from this list. Play 20 ranked games on each. Track win rate. By month 4 you've mastered 5 picks across positions and can flex into any role solo Q forces.</p>`,
+    },
+    aiVodMention: `<p>Hero picks right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + mid-game decision errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
+      { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
+      { name: 'How to Climb from Crusader to Archon in Dota 2', url: '/blog/dota-2-crusader-to-archon.html' },
+      { name: 'Dota 2 Warding Guide', url: '/blog/dota-2-warding-guide-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'dota2', gameLabel: 'Dota 2', fromRank: 'Items', toRank: 'Mastery',
+    slug: 'dota-2-item-builds-guide',
+    metaTitle: 'Dota 2 Item Builds Guide 2026 — Best Items Per Position',
+    metaDescription: 'Dota 2 item builds guide 2026: Pos 1 Battle Fury / Manta / Black King Bar paths. Pos 5 ward + sentry + force staff. Itemization for ranked.',
+    intro: `<p>Item builds in Dota 2 are position-specific. Pos 1 Carry stacks damage; Pos 5 Hard Support stacks utility. This guide breaks down core item paths per position + situational items for matchup adapt.</p>`,
+    sections: [
+      { heading: 'Pos 1 Carry item paths', html: `<ul>
+  <li><strong>Starting:</strong> Iron Branch x3, Tango, Healing Salve</li>
+  <li><strong>Early:</strong> Wraith Band → Power Treads → Battle Fury (or Manta Style)</li>
+  <li><strong>Mid:</strong> Manta Style → Skadi → Black King Bar</li>
+  <li><strong>Late:</strong> Butterfly → Daedalus → Abyssal Blade</li>
+  <li><strong>Situational:</strong> Linken's Sphere vs single-target, Aegis from Roshan</li>
+</ul>` },
+      { heading: 'Pos 2 Mid item paths', html: `<ul>
+  <li><strong>Starting:</strong> Tango, Iron Branch, Mango</li>
+  <li><strong>Early:</strong> Bottle → Boots → Hand of Midas</li>
+  <li><strong>Mid:</strong> Aether Lens → Aghs Shard → Force Staff</li>
+  <li><strong>Late:</strong> Refresher Orb → Octarine Core</li>
+  <li><strong>Situational:</strong> Black King Bar vs CC, Eul's Scepter for setup</li>
+</ul>` },
+      { heading: 'Pos 3 Offlaner item paths', html: `<ul>
+  <li><strong>Starting:</strong> Iron Branch, Bracer, Quelling Blade</li>
+  <li><strong>Early:</strong> Phase Boots → Vanguard → Blade Mail</li>
+  <li><strong>Mid:</strong> Blink Dagger → Black King Bar → Crimson Guard</li>
+  <li><strong>Late:</strong> Heart of Tarrasque → Lotus Orb → Aghs Scepter</li>
+  <li><strong>Situational:</strong> Pipe of Insight vs AP, Force Staff for save</li>
+</ul>` },
+      { heading: 'Pos 4 Roamer item paths', html: `<ul>
+  <li><strong>Starting:</strong> Iron Branch, Tango, Smoke of Deceit</li>
+  <li><strong>Early:</strong> Boots → Magic Wand → Smoke of Deceit (always 1 in inventory)</li>
+  <li><strong>Mid:</strong> Aether Lens → Force Staff → Glimmer Cape</li>
+  <li><strong>Late:</strong> Octarine Core → Aeon Disk → Aghs Shard</li>
+  <li><strong>Situational:</strong> Eul's Scepter for setup, Solar Crest vs strong carry</li>
+</ul>` },
+      { heading: 'Pos 5 Hard Support item paths', html: `<ul>
+  <li><strong>Starting:</strong> Observer Ward, Sentry Ward, Tango</li>
+  <li><strong>Early:</strong> Tranquil Boots → Magic Wand → Force Staff</li>
+  <li><strong>Mid:</strong> Aether Lens → Glimmer Cape → Aghs Shard</li>
+  <li><strong>Late:</strong> Aeon Disk → Refresher Orb → Octarine Core</li>
+  <li><strong>Situational:</strong> Mekansm for team heal, Pipe of Insight vs AP, Solar Crest for ally buff</li>
+</ul>` },
+      { heading: 'Universal items — every hero needs', html: `<ul>
+  <li><strong>TP Scroll</strong> — always 1 in inventory after 5:00. Tower defense + objective rotation.</li>
+  <li><strong>Magic Stick / Wand</strong> — burst mana from enemy spell stacks.</li>
+  <li><strong>Smoke of Deceit</strong> — invisibility for 5-man approach.</li>
+  <li><strong>Black King Bar (BKB)</strong> — anti-disable spell immunity. Essential for cores.</li>
+  <li><strong>Aghanim's Scepter / Shard</strong> — ult upgrade.</li>
+</ul>` },
+      { heading: 'Situational items — matchup adapt', html: `<ul>
+  <li><strong>vs Heavy AP:</strong> Pipe of Insight, Mekansm</li>
+  <li><strong>vs Heavy AD:</strong> Plate Mail, Heart of Tarrasque, Crimson Guard</li>
+  <li><strong>vs CC chain:</strong> Black King Bar (BKB)</li>
+  <li><strong>vs Invisibility (Riki/BH):</strong> Sentry Ward, Gem of True Sight</li>
+  <li><strong>vs Hexers (Lion):</strong> Linken's Sphere</li>
+  <li><strong>vs Long-range nukes (Sniper):</strong> Force Staff, Blink Dagger escape</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Wrong Mythic for hero archetype',
+      'No defensive item by Item 3',
+      'Skipping TP Scroll (lose tower)',
+      'No BKB on Pos 1 Carry vs CC',
+      'Pos 5 buying damage items (waste of gold)',
+    ],
+    drill: {
+      heading: 'Drill: Build path testing',
+      html: `<p>Pick 1 hero. Play 10 games with same build path. Then test 1 alternative item. Track win rate. By 30 games you've tested 3 paths and know which is highest win rate for your playstyle.</p>`,
+    },
+    aiVodMention: `<p>Build right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
+      { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
+      { name: 'How to Climb from Crusader to Archon in Dota 2', url: '/blog/dota-2-crusader-to-archon.html' },
+      { name: 'Dota 2 Warding Guide', url: '/blog/dota-2-warding-guide-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'dota2', gameLabel: 'Dota 2', fromRank: 'Crusader', toRank: 'Archon',
+    slug: 'dota-2-crusader-to-archon',
+    metaTitle: 'How to Climb from Crusader to Archon in Dota 2 (2026)',
+    metaDescription: 'Dota 2 Crusader-to-Archon — lane phase efficiency, Roshan timing, smoke gank coordination, ward priority, mid-game team fight reads.',
+    intro: `<p>Crusader-to-Archon in Dota 2 is the first real macro skill jump. Beginner habits aren't enough. Archon players have lane phase efficiency, Roshan timing reads, smoke gank coordination, and mid-game team-fight commitment. This guide breaks down what separates Crusader from Archon.</p>`,
+    sections: [
+      { heading: 'Lane phase efficiency — minute 0-15', html: `<p>Crusader = lane survival. Archon = lane dominance. Specifics:</p>
+<ul>
+  <li>Last-hit 70+ CS by 10 minutes for Pos 1.</li>
+  <li>Denies 30+ creep at 10 minutes.</li>
+  <li>Pos 5 deward enemy ward at minute 5.</li>
+  <li>Pos 4 smoke gank at minute 4-5 lane.</li>
+  <li>Pos 3 offlaner doesn't die more than 1 time in lane.</li>
+</ul>` },
+      { heading: 'Roshan timing — Aegis priority', html: `<p>Roshan spawn at 7:30, then 8-11 minute cycle. Archon teams take Roshan:</p>
+<ul>
+  <li>First Rosh at 15-20 min with full 5-man team.</li>
+  <li>Smoke approach + deward enemy.</li>
+  <li>Pos 3 Offlaner tanks Roshan.</li>
+  <li>Pos 1 Carry takes Aegis last-hit.</li>
+  <li>Push high ground siege after Aegis.</li>
+</ul>` },
+      { heading: 'Smoke gank coordination', html: `<p>Smoke of Deceit grants invisibility for 5-man approach. Archon teams:</p>
+<ul>
+  <li>Use Smoke 2-3 times per game.</li>
+  <li>Smoke through enemy jungle / forest.</li>
+  <li>Coordinate Smoke gank with team voice/ping.</li>
+  <li>Always Smoke for Roshan approach.</li>
+  <li>Always Smoke for mid-game pickoffs.</li>
+</ul>` },
+      { heading: 'Ward priority — vision wins games', html: `<p>Archon Pos 5 places 50+ wards per game.</p>
+<ul>
+  <li>Observer at rune spawn at 0:00 + 2:00 cycle.</li>
+  <li>Observer at tri-bush minute 0.</li>
+  <li>Sentry at enemy jungle entrance for ganking.</li>
+  <li>Sentry at Roshan pit for vision denial.</li>
+  <li>Deward enemy wards every minute 5-10.</li>
+</ul>` },
+      { heading: 'Mid-game team fight reads', html: `<p>Mid-game (15-25 min) = team-fight commit. Archon players:</p>
+<ul>
+  <li>Identify enemy ult cooldowns (track Pos 1 BKB, Pos 3 Blink, Pos 5 Force).</li>
+  <li>5-man team fight setup with initiator ult.</li>
+  <li>Don't 4v5 — wait for full team.</li>
+  <li>Position 2-3 screens behind tank for back-line peel.</li>
+  <li>Buy-back if Aegis-less.</li>
+</ul>` },
+      { heading: 'The 6 habits separating Crusader from Archon', html: `<ul>
+  <li>Lane phase efficiency (70+ CS by 10 min Pos 1).</li>
+  <li>Roshan timing tracking (first Rosh at 15-20 min).</li>
+  <li>Smoke gank coordination (2-3 per game).</li>
+  <li>Ward placement (50+ wards per game Pos 5).</li>
+  <li>Mid-game 5-man team fight commitment.</li>
+  <li>Track enemy ult cooldowns + Aegis status.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Solo Roshan attempt (no team)',
+      'No Smoke gank coordination',
+      'Pos 5 not warding enemy jungle',
+      'Mid-game 4v5 commit (1 player missing)',
+      'Not buy-back after wipe',
+    ],
+    drill: {
+      heading: 'Drill: 30-day Archon regimen',
+      html: `<ul>
+  <li><strong>Week 1:</strong> Lane phase practice — 70 CS by 10 min Pos 1.</li>
+  <li><strong>Week 2:</strong> Smoke gank coordination + Roshan setup.</li>
+  <li><strong>Week 3:</strong> Ward placement + dewarding regimen.</li>
+  <li><strong>Week 4:</strong> Mid-game 5-man team fight practice.</li>
+</ul>`,
+    },
+    aiVodMention: `<p>Archon gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + Rosh timing + smoke gank errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
+      { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
+      { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
+      { name: 'Dota 2 Warding Guide', url: '/blog/dota-2-warding-guide-2026.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 9,
+  },
+  {
+    game: 'dota2', gameLabel: 'Dota 2', fromRank: 'Vision', toRank: 'Mastery',
+    slug: 'dota-2-warding-guide-2026',
+    metaTitle: 'Dota 2 Warding Guide 2026 — Vision Wins Games',
+    metaDescription: 'Dota 2 warding guide: Observer + Sentry ward placement, rune spawn vision, anti-Pudge dewarding, Roshan pit vision, jungle ganking.',
+    intro: `<p>Vision wins Dota 2. 50% of pro games are decided by ward placement. This guide breaks down Observer + Sentry placements per phase, dewarding strategy, rune control vision, and Roshan pit setup.</p>`,
+    sections: [
+      { heading: 'Observer Ward placements', html: `<ul>
+  <li><strong>Rune spawn high ground</strong> — top + bottom rune spawns at minutes 0, 2, 4, 6 cycle.</li>
+  <li><strong>Tri-bush (between lane + jungle)</strong> — enemy gank vision.</li>
+  <li><strong>Ancient camp</strong> — scout enemy roam Pos 4.</li>
+  <li><strong>Roshan pit high ground</strong> — minute 7+ Aegis prep.</li>
+  <li><strong>Tier-2 tower side</strong> — mid-game gank vision.</li>
+</ul>` },
+      { heading: 'Sentry Ward placements', html: `<ul>
+  <li><strong>Anti-Pudge dewarding mid lane</strong> — at high ground bush.</li>
+  <li><strong>Anti-invisibility heroes (Riki / Bounty Hunter)</strong> — at lane.</li>
+  <li><strong>Roshan pit deward</strong> — deny enemy vision.</li>
+  <li><strong>Smoke gank route</strong> — catch invisible enemy.</li>
+  <li><strong>Enemy jungle entrance</strong> — track enemy Pos 4 roam.</li>
+</ul>` },
+      { heading: 'Rune control — minutes 0/2/4/6 cycle', html: `<p>Runes spawn every 2 minutes. Vision = control:</p>
+<ul>
+  <li>Minute 0:00 — Bounty Rune (Top + Bottom). Ward at 0:00 / take rune at 0:00.</li>
+  <li>Minute 2:00 — Power Rune. Mid heroes Bottle the rune.</li>
+  <li>Minute 4:00, 6:00, 8:00 — Power Rune cycle.</li>
+  <li>Minute 6:00+ — Bounty Rune spawns every 5 min.</li>
+</ul>
+<p>Ward both rune spawns at 0:00 for first 2 cycles. Adjusts vision priority.</p>` },
+      { heading: 'Roshan pit setup', html: `<p>Roshan first spawn 7:30, then 8-11 minute cycle.</p>
+<ul>
+  <li>Observer Ward at high ground for vision (deny enemy approach).</li>
+  <li>Sentry Ward in pit to deward enemy.</li>
+  <li>Deep ward enemy jungle around pit at 22 minutes pre-spawn.</li>
+  <li>Smoke approach for 5-man take.</li>
+  <li>Force Staff in inventory for last-hit Aegis.</li>
+</ul>` },
+      { heading: 'Dewarding strategy — deny enemy vision', html: `<p>Dewarding = destroying enemy Observer wards.</p>
+<ul>
+  <li>Buy Sentry Ward at every minute 5+ recall.</li>
+  <li>Identify enemy ward spots via minimap (mini-icon).</li>
+  <li>Deward 3-4 wards per 5-minute period.</li>
+  <li>Don't deward without team — enemy will gank ward attempt.</li>
+  <li>Glimmer Cape for stealth deward approach.</li>
+</ul>` },
+      { heading: 'High-ground ward placements (post-Roshan)', html: `<p>After taking Rosh, push high ground requires vision.</p>
+<ul>
+  <li>Observer at tier-3 tower entry — track enemy buy-back.</li>
+  <li>Sentry at high ground for invisible Pudge / Bounty.</li>
+  <li>Smoke approach with team for high-ground siege.</li>
+  <li>Maintain vision for 5-min siege window.</li>
+</ul>` },
+      { heading: 'The 7 vision habits separating Crusader from Archon', html: `<ul>
+  <li>50+ wards placed per game as Pos 5.</li>
+  <li>Rune spawn warding at 0:00 / 2:00 cycle.</li>
+  <li>Sentry deward at 5-minute intervals.</li>
+  <li>Roshan pit vision at minute 7+.</li>
+  <li>Smoke approach for ganks.</li>
+  <li>High-ground vision pre-siege.</li>
+  <li>Anti-invisibility Sentry vs Pudge / Riki / BH.</li>
+</ul>` },
+    ],
+    mistakes: [
+      'Less than 30 wards per game',
+      'Wards in obvious spots (enemy dewards)',
+      'No Sentry against invisible heroes',
+      'No Roshan pit vision setup',
+      'No high-ground vision for siege',
+    ],
+    drill: {
+      heading: 'Drill: 7-day warding regimen',
+      html: `<p>Play 10 ranked games as Pos 5 Crystal Maiden. Goal: 50+ wards placed per game. Track ward stat at end of match. By game 10 ward placement is muscle memory.</p>`,
+    },
+    aiVodMention: `<p>Wards right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags vision gaps + smoke gank errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    relatedLinks: [
+      { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
+      { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
+      { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
+      { name: 'How to Climb from Crusader to Archon in Dota 2', url: '/blog/dota-2-crusader-to-archon.html' },
+      { name: 'Recon 6 Pricing', url: '/#pricing' },
+    ],
+    readMinutes: 8,
   },
 ]
 
@@ -6083,10 +8669,9 @@ const RL_POSTS = [
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // All supported games, ranked tier coverage. Rocket League (7) added as the
-  // 11th game. RL had zero blog posts until now — these match the depth of the
-  // other 70 R6/CS2/Val/OW2/Apex/MVR/Halo/Finals/CoD/Fortnite posts.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS, ...RL_POSTS]
+  // All supported games + 5 new game clusters (LoL + EAFC + TK8 + PUBG + Dota2 = 25 posts).
+  // Total ~98 posts across 16 games.
+  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS, ...RL_POSTS, ...LOL_POSTS, ...EAFC_POSTS, ...TK8_POSTS, ...PUBG_POSTS, ...DOTA2_POSTS]
 
   let written = 0
   for (const post of allPosts) {
@@ -6103,4 +8688,4 @@ function main() {
 
 main()
 
-export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, FN_POSTS_GAPS, RL_POSTS, htmlShell, renderPost, renderIndex }
+export { R6_POSTS, CS2_POSTS, VALORANT_POSTS, OW2_POSTS, OW2_POSTS_HIGH, APEX_POSTS, APEX_POSTS_HIGH, MVR_POSTS, MVR_POSTS_HIGH, HALO_POSTS, HALO_POSTS_HIGH, FINALS_POSTS, FINALS_POSTS_GAPS, COD_POSTS, COD_POSTS_GAPS, FN_POSTS, FN_POSTS_GAPS, RL_POSTS, LOL_POSTS, EAFC_POSTS, TK8_POSTS, PUBG_POSTS, DOTA2_POSTS, htmlShell, renderPost, renderIndex }
