@@ -7,6 +7,12 @@ const CAST = [
   { id: "lmg-pin", name: "LMG Pinner", role: "LMG / Suppression", side: null, kit: ["LMG", "Claymore", "Smoke Grenade", "Cold-Blooded", "Bomb Squad"] },
   { id: "sniper", name: "Sniper / Marksman", role: "Sniper / Long-range", side: null, kit: ["Sniper Rifle / Marksman Rifle", "Pistol (secondary)", "Smoke Grenade", "Cold-Blooded", "Ghost"] },
   { id: "support", name: "Support / Tactical", role: "Support", side: null, kit: ["Battle Rifle / SMG", "Smoke Grenade", "Stim", "Recon Drone", "Trophy System"] },
+  {
+    id: "tactical-objective",
+    name: "Tactical Objective",
+    role: "Hardpoint / SnD Specialist",
+    kit: ["Hardpoint timing","plant/defuse precision","objective slaying with team-coordinated loadout"],
+  },
 ]
 
 export default CAST

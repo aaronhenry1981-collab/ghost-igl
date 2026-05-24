@@ -6137,6 +6137,1315 @@ const STRATS = {
       },
     },
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // STADIUM MODE — BO7 round-based with Cash economy + Powers + Item shop.
+  //
+  // Mode mechanics that shape every Stadium strat:
+  //   • Powers (4 hero-specific perks): picked round 1, 3, 5, 7. These are the
+  //     identity of your build — Reinhardt's "Charge through walls" or Ana's
+  //     "Sleep Dart bounces" change how the hero plays.
+  //   • Items (Common $1,000 / Rare $4,000 / Epic $10,000): bought between
+  //     rounds. Stack stats — armor, weapon power, cooldown, ult charge.
+  //   • Cash earnings: round win > round loss, kills $$$, objective time $$.
+  //     Losing 3 in a row = econ deficit. Buying Epic on round 2 = greed
+  //     read; usually wrong unless you're stomping.
+  //   • Hero pool: ~22 heroes (subset of live OW2). No swapping mid-round.
+  //   • First-person default; third-person is a setting.
+  //   • BO7 → first to 4. Round 7 is game point — full builds, ult economy
+  //     decides it.
+  //
+  // Strats below cover all 11 ranked Stadium maps. Each site lists the
+  // mode-relevant call (mid bank flip on Clash, point hold on Control, robot
+  // push on Push) plus Power/Item build hints in `utility`.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  "stadium-hanaoka": {
+    "mid": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Clash mid is the round-opener — first to cap flips momentum. Reinhardt shield-walks the lane while Soldier holds long-range pressure. Round 1: skip Epic items, take a damage Power and bank Cash for round 3. Round 3+: full commit with Powers online, swing for the bank cap.",
+        callouts: ["Mid Bank", "Lane Left", "Lane Right", "Garden", "Pagoda HG", "Spawn", "Side Door"],
+        utility: [
+          "Reinhardt (Tank): R1 Power = Shield regen on melee — sustains the lane war",
+          "Soldier (DPS): R1 Power = Helix Rocket spam — pokes Mid before commit",
+          "Ashe (DPS): bank Cash to round 3 for Coach Gun reload Power, dynamite zone",
+          "Mercy (Support): Valkyrie Power lifts the team off Mid when shields drop",
+          "Ana (Support): Sleep Dart bounce Power = round 5+ tempo flip",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Defending Mid means buying time — every second the attacker isn't on the bank is Cash they're not earning. Mei walls split the entry, Rein anchors body-block. Don't burn ults round 1, you're playing the economy not the round. Take the next bank-flip clean.",
+        callouts: ["Mid Bank", "Lane Left", "Lane Right", "Garden", "Pagoda HG", "Spawn", "Side Door"],
+        utility: [
+          "Reinhardt (Tank): Charge Power = bank-shove disengage tool",
+          "Mei (DPS): Cryo-Freeze AoE Power round 3+ = lane denial",
+          "Soldier (DPS): pickoffs from Pagoda HG before commit",
+          "Lúcio (Support): Speed boost the disengage — never die on mid bank",
+          "Ana (Support): Anti-Nade saved for attacker Rein Earthshatter window",
+        ],
+      },
+    },
+    "attacker-bank": {
+      attack: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Defending your home bank = the cheap round. Set up before the round timer ends, hold close angles, force the attacker to commit Cash. Reaper flank from Garden punishes anyone overextending. Save ults for the bank contest — never burn pre-engage.",
+        callouts: ["Home Bank", "Garden Flank", "Spawn Door", "Side Window"],
+        utility: [
+          "Junker Queen (Tank): Carnage bleed Power scales the hold mid-round",
+          "Soldier (DPS): suppressive lane fire, pick Helix-cooldown Power",
+          "Reaper (DPS): Wraith-into-Garden flank tool",
+          "Kiriko (Support): Suzu the bank contest — saves a round-losing pick",
+          "Lúcio (Support): Sound Barrier saved for attacker ult dump",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Attacking the enemy home bank = the expensive round, but the round you swing momentum. Funnel through Garden with Rein shield, Genji shred backline, Mercy res anchors the trade. Round 5+ buy Rare/Epic damage items — outgun the hold.",
+        callouts: ["Enemy Bank", "Garden Approach", "Spawn Door", "Side Window"],
+        utility: [
+          "Reinhardt (Tank): R3+ Earthshatter range Power = bank-contest finisher",
+          "Ashe (DPS): Bob the bank for body-block on cap",
+          "Genji (DPS): Dragonblade saved for post-Earthshatter clean",
+          "Mercy (Support): Pocket Genji into Blade, then Valk-cycle the trade",
+          "Ana (Support): Nano the tank engage on bank-contest second wave",
+        ],
+      },
+    },
+    "defender-bank": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "The tiebreaker bank — usually round 4-5 when builds are online. Ult economy matters: count the defender's Power tier, count their saved ults, then commit only when you outpace 2:1. Soldier biotic field on the contest, Kiriko Suzu the cap.",
+        callouts: ["Enemy Home Bank", "Mid Re-route", "Side Window", "Spawn Door"],
+        utility: [
+          "Reinhardt (Tank): Pin Power = jump on the support on cap",
+          "Soldier (DPS): Tac Visor + Nano = round-ending burst",
+          "Ashe (DPS): bank Cash for Epic Coach Gun Power on round 5",
+          "Kiriko (Support): Suzu first, then Kitsune Rush the cap",
+          "Lúcio (Support): Speed the re-route through Mid — confuses the hold",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Your home bank in a tiebreaker = save the series. Pre-set angles, hold close, do NOT chase. Mei walls the re-route, Reaper wraith-flanks the support, Ana nano the JQ shout-engage. Round 7 game point: full Epic build, no economizing.",
+        callouts: ["Home Bank", "Mid Re-route", "Side Window", "Spawn Door"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power = bank-clear ult on contest",
+          "Mei (DPS): Blizzard saved for attacker commit timing",
+          "Reaper (DPS): Death Blossom on stacked group when wall lands",
+          "Ana (Support): Bio Grenade on the JQ shout engage",
+          "Lúcio (Support): Sound Barrier on contest = trade the cap",
+        ],
+      },
+    },
+  },
+
+  "stadium-throne-of-anubis": {
+    "mid": {
+      attack: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+        ],
+        strategy: "Throne Mid is long sightlines — Ashe + Orisa lane control. Round 1 buy weapon power not survivability; you outrange the entry, you don't tank it. Mercy beam-pocket Ashe through the bank lockdown. Win Mid, the side banks fall.",
+        callouts: ["Mid Bank", "Tomb Side", "Pyramid Side", "High Pillar", "Mid Tunnel", "Spawn"],
+        utility: [
+          "Orisa (Tank): Javelin Spin Power = Mid-lane shield uptime",
+          "Ashe (DPS): scope-damage Power round 1 — outpoke the defense",
+          "Soldier (DPS): biotic field on the bank tap",
+          "Ana (Support): Sleep Dart saves Ashe from Tomb-flank Genji",
+          "Mercy (Support): full Ashe pocket — R3 buy beam-power Item",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Sigma shield-shred + Ashe pickoffs starve the Mid push of resources. Mei wall closes Tomb flank route. Round 2 onward, defender Cash advantage means earlier Epic items — convert to damage power, not survival.",
+        callouts: ["Mid Bank", "Tomb Side", "Pyramid Side", "High Pillar", "Mid Tunnel", "Spawn"],
+        utility: [
+          "Sigma (Tank): Accretion-stun Power = Ashe engage cancel",
+          "Ashe (DPS): Coach Gun Power round 3 = HG knock-off",
+          "Mei (DPS): Cryo-Freeze regen Power = solo lane hold",
+          "Kiriko (Support): Suzu the Sigma rock-stun trade",
+          "Lúcio (Support): Speed disengage if Mid breaks — reset for next round",
+        ],
+      },
+    },
+    "tomb": {
+      attack: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Tomb side flank route — dive comp shines here. D.Va boost in, Tracer pulse the support, Genji blade clean. This is the build-online round (R3+) — pick the cooldown-stacking Powers and commit. Round 1, just poke from Tomb HG.",
+        callouts: ["Tomb Side", "Tomb HG", "Sarcophagus", "Wall Gap", "Mid Re-route"],
+        utility: [
+          "D.Va (Tank): Boosters cooldown Power = dive frequency",
+          "Tracer (DPS): Recall cooldown Power R3 = double-pulse the support",
+          "Genji (DPS): Dragonblade duration Power round 5",
+          "Lúcio (Support): Wallride speed Power = dive support tempo",
+          "Kiriko (Support): Swift Step to Genji on blade engage",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Zarya", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anti-dive setup. Zarya bubbles eat the Tracer dive, Soldier helix-burst the D.Va mech, Ana sleep stops the Genji blade. Cash priority: bubble-charge Items first round, weapon power round 3.",
+        callouts: ["Tomb Side", "Tomb HG", "Sarcophagus", "Wall Gap", "Mid Re-route"],
+        utility: [
+          "Zarya (Tank): Bubble charge-retention Power = sustain Graviton-fuel",
+          "Soldier (DPS): Visor saved for post-Grav clean",
+          "Ashe (DPS): Bob on Grav-stacked group",
+          "Ana (Support): Anti-Nade in Grav window",
+          "Mercy (Support): Damage-boost Soldier through Visor",
+        ],
+      },
+    },
+    "pyramid": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Pyramid is the close-bank flank — Reaper shotguns rule the geometry. Rein shield-walks the entry, Reaper wraith-cycle the cap, Ana nano boosts the shatter or the Reaper Death Blossom. Round 5+ is the commit window with Epic items.",
+        callouts: ["Pyramid Side", "Pyramid Steps", "Wall Gap", "Mid Re-route"],
+        utility: [
+          "Reinhardt (Tank): Shield-regen Power round 3 = sustained push",
+          "Soldier (DPS): suppressive fire on retreaters",
+          "Reaper (DPS): Wraith cooldown Power = double-flank pressure",
+          "Ana (Support): Nano on Death Blossom for round 5 commit",
+          "Lúcio (Support): Sound Barrier saved for the bank contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pyramid is a death funnel for defenders who pre-aim. Orisa Javelin Spin the entry, Ashe scope-shot from Steps, Mei wall the choke. Don't chase out of the bank — every meter you give is Cash for the attacker.",
+        callouts: ["Pyramid Side", "Pyramid Steps", "Wall Gap", "Mid Re-route"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5 = bank-contest ult",
+          "Ashe (DPS): Bob the choke",
+          "Mei (DPS): Blizzard saved for attacker Earthshatter",
+          "Kiriko (Support): Suzu the Surge trade",
+          "Ana (Support): Anti on Reaper Death Blossom — kills the wraith escape",
+        ],
+      },
+    },
+  },
+
+  "stadium-busan": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Downtown Point is a dive arena — Winston jump from Rooftop HG, Tracer + Genji pulse the back line. Round 1 = poke and prove the dive route. Round 3+ Powers online, full commit on cap. Cash floor: keep $4k saved for Rare item swing rounds.",
+        callouts: ["Downtown Point", "Rooftop HG", "Spawn Flank", "Cafe", "Bus", "Mid Lane"],
+        utility: [
+          "Winston (Tank): Jump Pack cooldown Power = repeated dive",
+          "Tracer (DPS): Pulse Bomb stick-arming Power round 3",
+          "Genji (DPS): Deflect uptime Power round 5",
+          "Lúcio (Support): Speed boost on cap reset",
+          "Kiriko (Support): Suzu on dive engage, save Kitsune for trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anti-dive hold. D.Va defense-matrix the Pulse Bomb, Ana sleep the Genji blade, Mei wall splits the Winston bubble. Hold close — every meter on Point is your Cash. Round 2 Ana Bio Grenade with Powers online breaks dive sustain.",
+        callouts: ["Downtown Point", "Rooftop HG", "Spawn Flank", "Cafe", "Bus", "Mid Lane"],
+        utility: [
+          "D.Va (Tank): DM cooldown Power = pulse-eat tempo",
+          "Ashe (DPS): scope shots on Winston bubble retreat",
+          "Mei (DPS): Cryo regen Power = solo hold lane",
+          "Ana (Support): Anti-Nade on dive group commit",
+          "Lúcio (Support): boop the Winston off cap",
+        ],
+      },
+    },
+    "high-ground": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Take Rooftop first — the dive needs HG to commit. Winston bubble-engage, Genji shuriken-poke from below. Cash priority: mobility Powers round 1, weapon damage round 3.",
+        callouts: ["Rooftop HG", "Roof Vent", "Ladder", "Side Door"],
+        utility: [
+          "Winston (Tank): Primal Rage Power round 5 = boop chain",
+          "Genji (DPS): Climb cooldown Power for HG re-engages",
+          "Tracer (DPS): Blink charge Power = HG repositioning",
+          "Mercy (Support): GA cooldown reduction Power = stay with dive",
+          "Lúcio (Support): Wallride speed Power = HG flank",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Deny HG = deny dive. Sigma rock-stun the Winston engage, Ashe + Soldier outrange the climb, Kiriko Swift Step the support if dive lands. Pre-aim the Roof Vent — every Tracer dive uses it.",
+        callouts: ["Rooftop HG", "Roof Vent", "Ladder", "Side Door"],
+        utility: [
+          "Sigma (Tank): Accretion damage Power round 3 = engage cancel",
+          "Ashe (DPS): Coach Gun knock Power = HG denial",
+          "Soldier (DPS): Visor through Sigma Gravitic Flux setup",
+          "Kiriko (Support): Suzu the Sigma rock-stun trade",
+          "Ana (Support): Sleep Dart the dive support",
+        ],
+      },
+    },
+    "spawn-flank": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Spawn-side flank is the off-route — defenders won't expect a Brawl comp on a dive map. Rein anchor, Reaper wraith-flank from Cafe, Ana nano shatter. Surprise comp wins round 2 outright; round 4+ defenders adapt.",
+        callouts: ["Spawn Flank", "Cafe", "Bus", "Side Wall"],
+        utility: [
+          "Reinhardt (Tank): Shatter range Power round 5 = comp-killer",
+          "Soldier (DPS): Helix burst on flank entry",
+          "Reaper (DPS): Wraith mobility Power = double-flank",
+          "Ana (Support): Nano the shatter for free round 2",
+          "Lúcio (Support): Sound Barrier on Point contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Counter-flank read. If they're going Spawn route, you mirror the dive there. Tracer pulse the Cafe choke, D.Va boost the Reaper, Ana anti the Nano shatter. Don't all-collapse — leave a Point anchor.",
+        callouts: ["Spawn Flank", "Cafe", "Bus", "Side Wall"],
+        utility: [
+          "D.Va (Tank): DM tempo Power = eats the Shatter setup",
+          "Tracer (DPS): Pulse Bomb on flank stack",
+          "Soldier (DPS): suppressive Cafe lane",
+          "Ana (Support): Anti the Nano window",
+          "Kiriko (Support): Suzu the Point anchor if collapse fails",
+        ],
+      },
+    },
+  },
+
+  "stadium-nepal": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Sanctum is open dive paradise — Winston jump in from Catwalk, Tracer + Genji clean the back line. Side Rooms route is the secondary commit. Round 1 invest in dive Powers (Jump Pack cooldown, Pulse charge); skip Epic items until round 4.",
+        callouts: ["Sanctum Point", "Catwalk HG", "Side Rooms", "Bell", "Spawn Tunnel"],
+        utility: [
+          "Winston (Tank): Bubble HP Power round 3 = sustained dive",
+          "Tracer (DPS): Blink count Power round 5 = re-engage tempo",
+          "Genji (DPS): Deflect duration Power",
+          "Lúcio (Support): Beat-Drop saved for cap-contest trade",
+          "Kiriko (Support): Swift Step to dive lead on Pulse confirm",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Zarya", role: "Tank", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Stack the Point cap, force dive to commit through Mei wall + Zarya bubble. Anti-dive Item priority: cooldown reduction for bubble charge, Ana scoped damage round 3. Bait Pulse with bubbled tank, then Anti the Genji blade.",
+        callouts: ["Sanctum Point", "Catwalk HG", "Side Rooms", "Bell", "Spawn Tunnel"],
+        utility: [
+          "Zarya (Tank): Bubble retention Power = sustain Grav charge",
+          "Mei (DPS): Wall split the dive group",
+          "Ashe (DPS): Bob saved for Point-contest trade",
+          "Ana (Support): Anti-Nade on Grav stack",
+          "Lúcio (Support): boop dives off Bell ledge",
+        ],
+      },
+    },
+    "side-rooms": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Brawl comp through Side Rooms — tight geometry favors shotguns. Reaper wraith into the back of the room, Rein shatter the stack, Mei wall the Point retreat. This is the round-2 round-3 anti-dive swing.",
+        callouts: ["Side Rooms", "Right Wing", "Left Wing", "Choke"],
+        utility: [
+          "Reinhardt (Tank): Earthshatter range Power round 5",
+          "Reaper (DPS): Wraith cooldown Power = double engage",
+          "Mei (DPS): Cryo regen Power",
+          "Ana (Support): Nano on Death Blossom",
+          "Kiriko (Support): Suzu the shatter trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold Side Rooms with sight-line denial. Sigma rock the Rein entry, Ashe scope-stack the choke, Soldier suppress. If they shatter, Lúcio Sound Barrier the trade. Don't get caught in the room — it's a kill funnel for both sides.",
+        callouts: ["Side Rooms", "Right Wing", "Left Wing", "Choke"],
+        utility: [
+          "Sigma (Tank): Rock damage Power = Rein engage cancel",
+          "Ashe (DPS): Coach Gun knock off the wing",
+          "Soldier (DPS): Visor through the choke",
+          "Lúcio (Support): Sound Barrier the shatter trade",
+          "Mercy (Support): Valk lift the team out if room collapses",
+        ],
+      },
+    },
+    "high-ground": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Catwalk HG controls the entire Sanctum sightline. Take it first round, all rounds. Winston bubble on the climb, Genji shuriken-clear, Mercy pocket the HG damage. Defender response is Hitscan — they'll buy a Power to evict, so re-take if pushed off.",
+        callouts: ["Catwalk HG", "HG Ladder", "Bell View", "Sanctum-Down"],
+        utility: [
+          "Winston (Tank): Jump Pack reset Power = HG re-take",
+          "Genji (DPS): Climb Power = vertical mobility",
+          "Tracer (DPS): Blink charge Power",
+          "Mercy (Support): Valk uptime Power round 5",
+          "Lúcio (Support): Wallride into HG flank",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Don't let them have Catwalk free. Pre-set Orisa Javelin to evict the Winston, Ashe sniped the Mercy. If you lose HG, drop to Point — never trade up at 4HP.",
+        callouts: ["Catwalk HG", "HG Ladder", "Bell View", "Sanctum-Down"],
+        utility: [
+          "Orisa (Tank): Javelin damage Power = Winston evict",
+          "Ashe (DPS): Mercy pick clears the dive sustain",
+          "Soldier (DPS): biotic field on the HG retake",
+          "Kiriko (Support): Swift Step to a downed teammate on HG",
+          "Ana (Support): Sleep Dart the Genji blade approach",
+        ],
+      },
+    },
+  },
+
+  "stadium-antarctic": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Icebreaker Point — open ice arena. Rein shield through Bridge approach, Ashe headshots from HG, Mei walls the Sub-Level flank route. Cash priority: Item shop — buy Cryo armor round 2, weapon power round 4.",
+        callouts: ["Icebreaker Point", "Bridge HG", "Sub-Level", "Crow's Nest", "Spawn"],
+        utility: [
+          "Reinhardt (Tank): Charge cooldown Power = engage tempo",
+          "Ashe (DPS): scope shots from Bridge",
+          "Mei (DPS): Blizzard saved for cap-contest trade",
+          "Mercy (Support): Damage-boost Ashe through Bob",
+          "Lúcio (Support): Speed boost the cap reset",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Zarya", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Stack Point + Crow's Nest. Zarya bubble eats Mei wall splits, Soldier helix burst the Rein entry, Reaper Sub-Level flank. Round 2-3 buy Anti-Nade timing items, round 5 Graviton-fuel items.",
+        callouts: ["Icebreaker Point", "Bridge HG", "Sub-Level", "Crow's Nest", "Spawn"],
+        utility: [
+          "Zarya (Tank): Bubble charge Power = Grav-fuel tempo",
+          "Soldier (DPS): Visor through Grav stack",
+          "Reaper (DPS): Sub-Level flank pressure",
+          "Ana (Support): Anti-Nade the Grav window",
+          "Kiriko (Support): Suzu the trade",
+        ],
+      },
+    },
+    "high-ground": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Bridge HG locks the Point. Winston jump from Crow's Nest, Tracer pulse the support, Mercy GA-chain through. Take HG round 1 even if you don't cap — it sets up round 3 commit.",
+        callouts: ["Bridge HG", "Bridge Ladder", "Crow Approach", "HG Side"],
+        utility: [
+          "Winston (Tank): Bubble HP Power round 3",
+          "Tracer (DPS): Pulse stick-arm Power round 5",
+          "Genji (DPS): Dragonblade duration Power",
+          "Mercy (Support): Valk uptime — HG cycle the engage",
+          "Kiriko (Support): Swift Step to dive lead",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pre-aim the Bridge ladder. Sigma rock the climb, Ashe scope-shot the Winston bubble retreat, Soldier suppress the HG ledge. Anti-dive Item priority round 2.",
+        callouts: ["Bridge HG", "Bridge Ladder", "Crow Approach", "HG Side"],
+        utility: [
+          "Sigma (Tank): Accretion damage Power = climb cancel",
+          "Ashe (DPS): Coach Gun knock Power = HG denial",
+          "Soldier (DPS): Helix burst the dive lead",
+          "Ana (Support): Sleep Dart the Genji approach",
+          "Lúcio (Support): boop dives off Bridge ledge",
+        ],
+      },
+    },
+    "underground": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Sub-Level is the secondary commit — close-range brawl funnel. Reaper wraith through the corridor, Rein shatter the stack, Mei wall the retreat. Round 4+ this is the anti-dive swing.",
+        callouts: ["Sub-Level", "Corridor", "Vent", "Underground HG"],
+        utility: [
+          "Reinhardt (Tank): Earthshatter range Power round 5",
+          "Reaper (DPS): Wraith cooldown Power = double engage",
+          "Mei (DPS): Cryo armor Power",
+          "Ana (Support): Nano on Death Blossom",
+          "Lúcio (Support): Sound Barrier on shatter trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold the corridor entry. JQ Carnage bleeds the entry, Ashe Bob the choke, Mei wall splits the stack. Don't chase into the Underground HG — it's a Reaper trap.",
+        callouts: ["Sub-Level", "Corridor", "Vent", "Underground HG"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power = corridor clear ult",
+          "Ashe (DPS): Coach Gun knock off the corridor",
+          "Mei (DPS): Blizzard saved for shatter cancel",
+          "Kiriko (Support): Suzu the Rampage trade",
+          "Ana (Support): Anti-Nade on the Brawl stack",
+        ],
+      },
+    },
+  },
+
+  "stadium-ilios": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Lighthouse Point is the boop-zone — get enemies near the edge, Lúcio boop them off. D.Va boost in to displace, Tracer pulse the support. Round 1 dive Powers, round 3 Pulse-charge Items.",
+        callouts: ["Lighthouse Point", "Tower HG", "Well", "Edge", "Spawn"],
+        utility: [
+          "D.Va (Tank): Boosters cooldown Power = boop frequency",
+          "Tracer (DPS): Pulse stick-arming Power round 3",
+          "Soldier (DPS): biotic field for cap sustain",
+          "Lúcio (Support): boop Power Items round 1 — environmental kills",
+          "Kiriko (Support): Suzu the boop-trade window",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Zarya", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anti-boop hold. Zarya bubble eats Lúcio amp, Mei wall the edge, Ashe scope-headshots from Well. Stand away from edges, force them to commit deep.",
+        callouts: ["Lighthouse Point", "Tower HG", "Well", "Edge", "Spawn"],
+        utility: [
+          "Zarya (Tank): Bubble cooldown Power = anti-boop sustain",
+          "Ashe (DPS): scope through Tower sightline",
+          "Mei (DPS): Wall the boop angle",
+          "Ana (Support): Anti the Grav stack",
+          "Mercy (Support): Damage boost Ashe through Bob",
+        ],
+      },
+    },
+    "high-ground": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Tower HG is the entire map's view. Winston bubble-jump in, Genji shuriken-poke, Mercy pocket the HG damage. Take it round 1 even at cost — the rounds compound from holding it.",
+        callouts: ["Tower HG", "Tower Stairs", "HG Side", "Lighthouse-Down"],
+        utility: [
+          "Winston (Tank): Primal Rage Power round 5 = HG boop chain",
+          "Genji (DPS): Climb Power = vertical re-engage",
+          "Tracer (DPS): Blink charge Power",
+          "Mercy (Support): GA cooldown Power",
+          "Lúcio (Support): Wallride into Tower flank",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold Tower stairs, deny the Winston climb. Sigma rock-cancels the engage, Ashe long-range pickoff. Round 5+ buy Coach Gun knock Power for HG eviction.",
+        callouts: ["Tower HG", "Tower Stairs", "HG Side", "Lighthouse-Down"],
+        utility: [
+          "Sigma (Tank): Accretion-stun Power",
+          "Ashe (DPS): Coach Gun knock Power = HG denial",
+          "Soldier (DPS): suppressive Stairs lane",
+          "Kiriko (Support): Suzu the HG retake trade",
+          "Lúcio (Support): boop dives off Tower",
+        ],
+      },
+    },
+    "well": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Well corridor — close brawl funnel. Reaper wraith-flank from Well-side, Rein shatter the stack on Point re-take. Round 3+ commit, the Brawl Powers come online.",
+        callouts: ["Well", "Well Corridor", "Well Stairs", "Point-Approach"],
+        utility: [
+          "Reinhardt (Tank): Shatter range Power",
+          "Reaper (DPS): Wraith Power cooldown",
+          "Mei (DPS): Wall splits the choke",
+          "Ana (Support): Nano on Death Blossom",
+          "Kiriko (Support): Suzu the shatter trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pre-aim the Well corridor. Orisa Javelin Spin shreds the entry, Soldier helix burst, Mei wall the wraith escape. Don't push out — bait the commit.",
+        callouts: ["Well", "Well Corridor", "Well Stairs", "Point-Approach"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5",
+          "Soldier (DPS): Visor through Surge setup",
+          "Mei (DPS): Blizzard the shatter cancel",
+          "Ana (Support): Anti the Brawl stack",
+          "Lúcio (Support): Sound Barrier on Point contest",
+        ],
+      },
+    },
+  },
+
+  "stadium-oasis": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "City Center Point — dive lane through Rooftop. Winston jump from above, Tracer + Genji clean the back line. Cars-side flank is the secondary route. Round 1 dive Powers, round 3 Item shop = Pulse stick-arming.",
+        callouts: ["City Center Point", "Rooftop HG", "Cars Flank", "Pillar", "Spawn"],
+        utility: [
+          "Winston (Tank): Jump Pack reset Power round 3",
+          "Tracer (DPS): Recall cooldown Power round 5",
+          "Genji (DPS): Deflect uptime Power",
+          "Lúcio (Support): Beat-Drop saved for cap-contest",
+          "Kiriko (Support): Swift Step to dive lead",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Anti-dive Point hold. D.Va eats Pulse and Tracer dive, Ashe scopes from Pillar, Ana sleep the Genji blade. Don't get sucked to the Cars flank — leave a Point anchor.",
+        callouts: ["City Center Point", "Rooftop HG", "Cars Flank", "Pillar", "Spawn"],
+        utility: [
+          "D.Va (Tank): DM tempo Power = pulse-eat sustain",
+          "Ashe (DPS): scope-shots from Pillar",
+          "Soldier (DPS): biotic field on cap defense",
+          "Ana (Support): Anti the dive commit stack",
+          "Lúcio (Support): boop the Winston off Point",
+        ],
+      },
+    },
+    "high-ground": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Take Rooftop first — dive needs HG to commit. Winston bubble-jump, Genji shuriken-clear the support, Mercy GA-chain through. Defender response is hitscan — re-take if pushed off.",
+        callouts: ["Rooftop HG", "Roof Stairs", "Side Door", "Pillar View"],
+        utility: [
+          "Winston (Tank): Primal Rage Power round 5",
+          "Genji (DPS): Climb cooldown Power = vertical re-engage",
+          "Tracer (DPS): Blink charge Power",
+          "Mercy (Support): Valk uptime Power",
+          "Lúcio (Support): Wallride into Roof flank",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Deny Rooftop = deny dive. Sigma rock the Winston bubble engage, Ashe headshot the Mercy. Anti-dive Item priority: cooldown Items round 2, Coach Gun knock round 4.",
+        callouts: ["Rooftop HG", "Roof Stairs", "Side Door", "Pillar View"],
+        utility: [
+          "Sigma (Tank): Accretion damage Power",
+          "Ashe (DPS): Coach Gun knock Power",
+          "Soldier (DPS): Helix on dive lead",
+          "Kiriko (Support): Swift Step to downed HG teammate",
+          "Ana (Support): Sleep Dart Genji on climb",
+        ],
+      },
+    },
+    "cars": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Cars flank is the off-route — defenders pre-aim Rooftop, not here. Rein anchor, Reaper wraith past Cars cover, Ana nano shatter. Round 2 surprise comp wins clean; round 4 they adapt.",
+        callouts: ["Cars Flank", "Car Cover", "Side Wall", "Pillar Re-route"],
+        utility: [
+          "Reinhardt (Tank): Earthshatter range Power round 5",
+          "Soldier (DPS): Helix burst on flank entry",
+          "Reaper (DPS): Wraith cooldown Power = double-flank",
+          "Ana (Support): Nano on Shatter for round-2 swing",
+          "Lúcio (Support): Sound Barrier on Point contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "D.Va", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Counter-flank read. If they're going Cars, mirror the pressure. Tracer pulse the Cars stack, D.Va boost the Reaper, Ana anti the Nano shatter. Hold a Point anchor — never full collapse.",
+        callouts: ["Cars Flank", "Car Cover", "Side Wall", "Pillar Re-route"],
+        utility: [
+          "D.Va (Tank): DM eats the Shatter setup",
+          "Tracer (DPS): Pulse Bomb on flank stack",
+          "Mei (DPS): Wall splits the Brawl stack",
+          "Ana (Support): Anti the Nano window",
+          "Kiriko (Support): Suzu the Point anchor",
+        ],
+      },
+    },
+  },
+
+  "stadium-samoa": {
+    "point": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "essential" },
+        ],
+        strategy: "Samoa Downtown Point — long sightlines + Temple HG controls top. Rein shield-walk through Mid, Soldier + Ashe lane control. Round 1 buy weapon Items, save Cash for round 3 Powers.",
+        callouts: ["Downtown Point", "Temple HG", "Beach Flank", "Bridge", "Spawn"],
+        utility: [
+          "Reinhardt (Tank): Shield-regen Power round 3",
+          "Soldier (DPS): Helix cooldown Power",
+          "Ashe (DPS): scope damage Power round 5",
+          "Mercy (Support): Damage boost Ashe through Bob",
+          "Ana (Support): Anti-Nade saved for cap contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold Temple HG, deny Point entry. Sigma shield + rock-stun, Ashe scope-shots, Mei wall the Beach flank. Round 5+ buy Accretion damage Power — kills entry tanks.",
+        callouts: ["Downtown Point", "Temple HG", "Beach Flank", "Bridge", "Spawn"],
+        utility: [
+          "Sigma (Tank): Gravitic Flux Power round 5 = wipe ult",
+          "Ashe (DPS): Coach Gun off Bridge ledge",
+          "Mei (DPS): Wall the Brawl entry",
+          "Kiriko (Support): Suzu the Flux trade",
+          "Lúcio (Support): Sound Barrier on cap contest",
+        ],
+      },
+    },
+    "temple": {
+      attack: {
+        operators: [
+          { name: "Winston", role: "Tank", priority: "essential" },
+          { name: "Tracer", role: "DPS", priority: "essential" },
+          { name: "Genji", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Temple HG is the Samoa decider. Winston bubble-jump the climb, Genji shuriken-poke from below, Tracer pulse the support behind cover. Take it round 1 even at cost.",
+        callouts: ["Temple HG", "Temple Stairs", "HG Side", "Point-Down"],
+        utility: [
+          "Winston (Tank): Jump Pack cooldown Power",
+          "Tracer (DPS): Blink count Power",
+          "Genji (DPS): Climb Power round 3",
+          "Mercy (Support): GA cooldown Power",
+          "Lúcio (Support): Wallride into Temple flank",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Pre-aim Temple Stairs. Orisa Javelin Spin shreds Winston, Ashe headshots the climb, Soldier helix burst. Round 3 buy Javelin damage Power = engage cancel.",
+        callouts: ["Temple HG", "Temple Stairs", "HG Side", "Point-Down"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5",
+          "Ashe (DPS): Coach Gun off Temple ledge",
+          "Soldier (DPS): Visor through Surge",
+          "Ana (Support): Sleep Dart Genji on climb",
+          "Kiriko (Support): Swift Step to downed Temple anchor",
+        ],
+      },
+    },
+    "beach-flank": {
+      attack: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Beach flank is the secondary commit — JQ Carnage bleed + Reaper wraith shred. Round 2-3 surprise the dive defense expecting Temple commit. Round 5 they'll adapt — pivot back to Temple.",
+        callouts: ["Beach Flank", "Beach Side", "Bridge Re-route", "Side Wall"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power round 5",
+          "Reaper (DPS): Wraith cooldown Power = double-flank",
+          "Soldier (DPS): suppressive Beach lane",
+          "Ana (Support): Nano on Rampage = wipe potential",
+          "Lúcio (Support): Sound Barrier on Point contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Zarya", role: "Tank", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Kiriko", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold the Beach choke. Zarya bubble-charge through the Carnage burst, Mei wall the Reaper wraith escape, Ana anti-nade the Nano stack. Don't push to Beach — bait commit.",
+        callouts: ["Beach Flank", "Beach Side", "Bridge Re-route", "Side Wall"],
+        utility: [
+          "Zarya (Tank): Bubble retention Power = Grav-fuel",
+          "Mei (DPS): Blizzard the Rampage cancel",
+          "Ashe (DPS): Bob on Brawl stack",
+          "Ana (Support): Anti the Nano window",
+          "Kiriko (Support): Suzu the Grav trade",
+        ],
+      },
+    },
+  },
+
+  "stadium-colosseo": {
+    "mid": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push Mid is the round-start fight for robot control. Whoever wins the Arch contest dictates the push direction for the entire round. Brawl comp dominates — Rein shield through Arch, Ashe rifle-poke. Round 1: skip Powers on Push, take Item shop weapon damage instead.",
+        callouts: ["Mid Arch", "Robot", "High Walk", "Side Lane", "Spawn"],
+        utility: [
+          "Reinhardt (Tank): Shield regen Power round 3",
+          "Soldier (DPS): Helix burst on robot contest",
+          "Ashe (DPS): scope damage Power",
+          "Mercy (Support): Damage boost Ashe on Bob",
+          "Lúcio (Support): Speed boost the robot escort",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Win Mid = decide where the robot goes. Sigma shield denies the Brawl, Ashe scope from High Walk, Mei wall the Arch entry. On Push, defending Mid round 1 banks Cash for a swing round 3.",
+        callouts: ["Mid Arch", "Robot", "High Walk", "Side Lane", "Spawn"],
+        utility: [
+          "Sigma (Tank): Accretion damage Power = Rein cancel",
+          "Ashe (DPS): Coach Gun off High Walk",
+          "Mei (DPS): Wall splits the Arch entry",
+          "Kiriko (Support): Suzu the rock-stun trade",
+          "Ana (Support): Anti the Nano commit",
+        ],
+      },
+    },
+    "attacker-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward attacker side means defender is rolling. Set up cover, contest the robot from cover lanes, force a duel you outrange. Round 4+ Items: Reaper Wraith cooldown round 5 = back-line shred.",
+        callouts: ["Attacker Checkpoint", "Robot Path", "Side Cover", "Spawn Re-engage"],
+        utility: [
+          "Reinhardt (Tank): Charge Power = robot reset displacement",
+          "Reaper (DPS): Wraith Power for back-line dive",
+          "Soldier (DPS): biotic field on the robot contest",
+          "Ana (Support): Nano on Death Blossom on robot",
+          "Lúcio (Support): Sound Barrier on contest trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "You're pushing the robot toward attacker spawn — keep the heat on. Orisa Javelin Spin sustains the choke, Ashe scope-stack the back line. Round 5+ Terra Surge into Push robot = round-winning ult.",
+        callouts: ["Attacker Checkpoint", "Robot Path", "Side Cover", "Spawn Re-engage"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5",
+          "Ashe (DPS): scope damage Power round 3",
+          "Mei (DPS): Wall splits the Brawl re-engage",
+          "Kiriko (Support): Suzu the Surge trade",
+          "Mercy (Support): Pocket Ashe through Bob",
+        ],
+      },
+    },
+    "defender-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward defender side — you're losing distance, fight to reset Mid. JQ Carnage bleed sustains the disengage, Reaper wraith cycle. Round 7 game point: full Epic, Nano commit on the contest.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power round 5 = reset ult",
+          "Soldier (DPS): Visor on the robot contest",
+          "Reaper (DPS): Wraith cooldown Power = double-engage",
+          "Lúcio (Support): Speed disengage to reset Mid",
+          "Ana (Support): Nano on Rampage = wipe potential",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold defender side — the round is yours if you defend the robot from advancing. Sigma shield-shred the entry, Mei wall the Brawl re-engage, Ana Anti-Nade the Nano window. Don't chase — bait commit.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Sigma (Tank): Gravitic Flux Power round 5",
+          "Ashe (DPS): scope damage Power",
+          "Mei (DPS): Blizzard the Rampage cancel",
+          "Ana (Support): Anti the Nano stack",
+          "Lúcio (Support): Sound Barrier on robot contest",
+        ],
+      },
+    },
+  },
+
+  "stadium-esperanca": {
+    "mid": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "essential" },
+        ],
+        strategy: "Esperança Plaza is the round-start contest. Win Mid = robot direction for the round. Rein shield through Plaza, Soldier suppressive fire, Ashe scope from High Side. Round 1 = no Powers on Push; Item shop weapon damage banks the round.",
+        callouts: ["Mid Plaza", "Robot", "High Side", "Cantina", "Spawn"],
+        utility: [
+          "Reinhardt (Tank): Shield regen Power round 3",
+          "Soldier (DPS): Helix cooldown Power",
+          "Ashe (DPS): Coach Gun off High Side",
+          "Mercy (Support): Damage boost Ashe through Bob",
+          "Ana (Support): Sleep Dart saved for Nano-Shatter cancel",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold the Plaza, deny Mid contest. Orisa Javelin Spin uptime, Ashe scope-stack from High Side, Soldier helix burst on Rein entry. Round 3+ Javelin damage Power kills entries.",
+        callouts: ["Mid Plaza", "Robot", "High Side", "Cantina", "Spawn"],
+        utility: [
+          "Orisa (Tank): Javelin damage Power round 3",
+          "Ashe (DPS): scope damage Power round 5",
+          "Soldier (DPS): Visor on Plaza commit",
+          "Kiriko (Support): Suzu the Javelin trade",
+          "Lúcio (Support): Speed disengage on Plaza loss",
+        ],
+      },
+    },
+    "attacker-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward attacker side — defender rolling, swing the robot through Cantina. JQ Carnage bleeds the choke, Reaper Wraith past Cantina cover. Round 5 commit window = Nano Rampage on robot contest.",
+        callouts: ["Attacker Checkpoint", "Cantina", "Robot Path", "Side Wall"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power round 5",
+          "Reaper (DPS): Wraith cooldown Power",
+          "Mei (DPS): Wall splits the back line",
+          "Ana (Support): Nano Rampage = robot push wipe",
+          "Lúcio (Support): Sound Barrier on contest",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "You're pushing toward enemy spawn — keep momentum. Sigma rock-cancels disengage attempts, Ashe scope-stacks, Soldier suppresses. Round 5+ Gravitic Flux on robot contest = round-winning ult.",
+        callouts: ["Attacker Checkpoint", "Cantina", "Robot Path", "Side Wall"],
+        utility: [
+          "Sigma (Tank): Gravitic Flux Power round 5",
+          "Ashe (DPS): scope damage Power",
+          "Soldier (DPS): Visor through Flux setup",
+          "Kiriko (Support): Suzu the Flux trade",
+          "Ana (Support): Anti-Nade the Rampage cancel",
+        ],
+      },
+    },
+    "defender-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward defender side — robot pushed back, fight to reset Mid. Rein anchor, Reaper wraith-cycle, Ana nano Shatter. Round 7: full commit, no economy.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Reinhardt (Tank): Earthshatter range Power round 5",
+          "Soldier (DPS): Visor on commit",
+          "Reaper (DPS): Wraith cooldown Power",
+          "Ana (Support): Nano Shatter = round saver",
+          "Lúcio (Support): Sound Barrier on Shatter trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold defender side, deny robot advance. Orisa Javelin Spin sustains the choke, Mei wall splits the Brawl, Ashe long-range. Don't push out — bait commit, win on attrition.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5",
+          "Ashe (DPS): scope damage Power",
+          "Mei (DPS): Blizzard cancels Shatter ult",
+          "Ana (Support): Anti the Nano window",
+          "Mercy (Support): Pocket Ashe through Bob",
+        ],
+      },
+    },
+  },
+
+  "stadium-runasapi": {
+    "mid": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "recommended" },
+          { name: "Mercy", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Runasapi Mid is the round-opener — robot control decides direction. Rein shield-walks the Mid lane, Ashe scope-poke from High Walk. Round 1: Item shop weapon damage; bank Cash for round 3 commit Powers.",
+        callouts: ["Mid", "Robot", "High Walk", "Side Lane", "Spawn"],
+        utility: [
+          "Reinhardt (Tank): Shield regen Power round 3",
+          "Ashe (DPS): scope damage Power round 3",
+          "Soldier (DPS): Helix burst on Mid contest",
+          "Mercy (Support): Damage boost Ashe — round-winning combo",
+          "Lúcio (Support): Speed boost the robot escort",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Ana", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Win Mid = decide robot direction. Sigma shield-shred the Brawl, Soldier helix burst, Mei wall the lane. Round 3+ Accretion damage Power = Rein engage cancel.",
+        callouts: ["Mid", "Robot", "High Walk", "Side Lane", "Spawn"],
+        utility: [
+          "Sigma (Tank): Accretion damage Power round 3",
+          "Soldier (DPS): Visor on robot contest",
+          "Mei (DPS): Wall splits the entry",
+          "Kiriko (Support): Suzu the Accretion trade",
+          "Ana (Support): Anti the Brawl stack",
+        ],
+      },
+    },
+    "attacker-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Reinhardt", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward attacker spawn — defender rolling. Set up cover, sustain robot escort, win the trade fights. Round 5+ Reaper Wraith cooldown = back-line shred.",
+        callouts: ["Attacker Checkpoint", "Robot Path", "Side Cover", "Spawn Re-engage"],
+        utility: [
+          "Reinhardt (Tank): Earthshatter range Power round 5",
+          "Soldier (DPS): biotic field on robot contest",
+          "Reaper (DPS): Wraith cooldown Power = double-flank",
+          "Ana (Support): Nano Death Blossom on contest",
+          "Lúcio (Support): Sound Barrier on trade window",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Orisa", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Kiriko", role: "Support", priority: "essential" },
+          { name: "Mercy", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Push the robot — keep the heat on attacker spawn. Orisa Javelin Spin sustains the push, Ashe scope-stack the back line, Mei wall the Brawl reset. Round 5 Terra Surge on robot contest.",
+        callouts: ["Attacker Checkpoint", "Robot Path", "Side Cover", "Spawn Re-engage"],
+        utility: [
+          "Orisa (Tank): Terra Surge Power round 5",
+          "Ashe (DPS): scope damage Power",
+          "Mei (DPS): Wall splits the Brawl re-engage",
+          "Kiriko (Support): Suzu the Surge trade",
+          "Mercy (Support): Pocket Ashe through Bob",
+        ],
+      },
+    },
+    "defender-checkpoint": {
+      attack: {
+        operators: [
+          { name: "Junker Queen", role: "Tank", priority: "essential" },
+          { name: "Soldier: 76", role: "DPS", priority: "essential" },
+          { name: "Reaper", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "essential" },
+        ],
+        strategy: "Push toward defender side — robot pushed back, fight to reset Mid. JQ Carnage sustains, Reaper Wraith cycle, Ana Nano Rampage. Round 7 game point: Epic builds, full commit.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Junker Queen (Tank): Rampage Power round 5 = reset ult",
+          "Soldier (DPS): Visor on robot contest",
+          "Reaper (DPS): Wraith cooldown Power = double-engage",
+          "Ana (Support): Nano Rampage = wipe potential",
+          "Lúcio (Support): Sound Barrier on contest trade",
+        ],
+      },
+      defense: {
+        operators: [
+          { name: "Sigma", role: "Tank", priority: "essential" },
+          { name: "Ashe", role: "DPS", priority: "essential" },
+          { name: "Mei", role: "DPS", priority: "recommended" },
+          { name: "Ana", role: "Support", priority: "essential" },
+          { name: "Lúcio", role: "Support", priority: "recommended" },
+        ],
+        strategy: "Hold defender side, deny robot advance. Sigma shield-shred, Mei wall the re-engage, Ashe scope-stack. Round 5+ Gravitic Flux Power = round-winning wipe ult.",
+        callouts: ["Defender Checkpoint", "Robot Path", "Side Cover", "Spawn-Re-engage"],
+        utility: [
+          "Sigma (Tank): Gravitic Flux Power round 5",
+          "Ashe (DPS): scope damage Power",
+          "Mei (DPS): Blizzard the Rampage cancel",
+          "Ana (Support): Anti the Nano window",
+          "Lúcio (Support): Sound Barrier on robot contest",
+        ],
+      },
+    },
+  },
 }
 
 export default STRATS

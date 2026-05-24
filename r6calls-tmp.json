@@ -1,0 +1,661 @@
+{
+  "titlebarControls": [
+    {
+      "short": "discord",
+      "full": "Join Discord",
+      "link": "https://discord.gg/uFXfpMnD57"
+    },
+    {
+      "short": "minimize",
+      "full": "Minimize"
+    },
+    {
+      "short": "maximize",
+      "full": "Maximize"
+    },
+    {
+      "short": "close",
+      "full": "Close"
+    }
+  ],
+  "hotkeys": {
+    "site": [],
+    "desktop": [],
+    "second": [
+      {
+        "short": "toggle",
+        "full": "Show/Hide"
+      },
+      {
+        "short": "second-screen",
+        "full": "Toggle Second Screen"
+      }
+    ],
+    "ingame": [
+      {
+        "short": "toggle",
+        "full": "Show/Hide"
+      },
+      {
+        "short": "second-screen",
+        "full": "Toggle Second Screen"
+      }
+    ]
+  },
+  "tiles": {
+    "site": [
+      {
+        "short": "home",
+        "full": "Home"
+      },
+      {
+        "short": "map",
+        "full": "Map"
+      },
+      {
+        "short": "operators",
+        "full": "Operators"
+      },
+      {
+        "short": "calls",
+        "full": "Calls"
+      },
+      {
+        "short": "help",
+        "full": "Help"
+      },
+      {
+        "short": "about",
+        "full": "About"
+      },
+      {
+        "short": "settings",
+        "full": "Settings"
+      }
+    ],
+    "desktop": [
+      {
+        "short": "home",
+        "full": "Home"
+      },
+      {
+        "short": "map",
+        "full": "Map"
+      },
+      {
+        "short": "operators",
+        "full": "Operators"
+      },
+      {
+        "short": "calls",
+        "full": "Calls"
+      },
+      {
+        "short": "help",
+        "full": "Help"
+      },
+      {
+        "short": "about",
+        "full": "About"
+      },
+      {
+        "short": "settings",
+        "full": "Settings"
+      }
+    ],
+    "second": [
+      {
+        "short": "home",
+        "full": "Home"
+      },
+      {
+        "short": "map",
+        "full": "Map"
+      },
+      {
+        "short": "operators",
+        "full": "Operators"
+      },
+      {
+        "short": "calls",
+        "full": "Calls"
+      },
+      {
+        "short": "help",
+        "full": "Help"
+      },
+      {
+        "short": "about",
+        "full": "About"
+      },
+      {
+        "short": "settings",
+        "full": "Settings"
+      }
+    ],
+    "ingame": [
+      {
+        "short": "home",
+        "full": "Home"
+      },
+      {
+        "short": "map",
+        "full": "Map"
+      },
+      {
+        "short": "operators",
+        "full": "Operators"
+      },
+      {
+        "short": "calls",
+        "full": "Calls"
+      },
+      {
+        "short": "help",
+        "full": "Help"
+      },
+      {
+        "short": "about",
+        "full": "About"
+      },
+      {
+        "short": "settings",
+        "full": "Settings"
+      }
+    ]
+  },
+  "displayModes": [
+    {
+      "short": "explore",
+      "full": "Explore"
+    },
+    {
+      "short": "learn",
+      "full": "Learn"
+    },
+    {
+      "short": "strat",
+      "full": "Strategize"
+    }
+  ],
+  "floorTerms": {
+    "-1": {
+      "name": "Sub-Basement",
+      "css": "neg-one"
+    },
+    "0": {
+      "name": "Basement",
+      "css": "zero"
+    },
+    "1": {
+      "name": "1st Floor",
+      "css": "one"
+    },
+    "2": {
+      "name": "2nd Floor",
+      "css": "two"
+    },
+    "3": {
+      "name": "3rd Floor",
+      "css": "three"
+    },
+    "4": {
+      "name": "4th Floor",
+      "css": "four"
+    },
+    "5": {
+      "name": "5th Floor",
+      "css": "five"
+    },
+    "10": {
+      "name": "Roof"
+    }
+  },
+  "directions": [
+    {
+      "short": "down",
+      "full": "Look Down"
+    },
+    {
+      "short": "up",
+      "full": "Look Up"
+    }
+  ],
+  "mapLayers": [
+    {
+      "short": "bmb",
+      "full": "Bomb",
+      "default": true
+    },
+    {
+      "short": "sec",
+      "full": "Secure",
+      "default": false
+    },
+    {
+      "short": "hst",
+      "full": "Hostage",
+      "default": false
+    },
+    {
+      "short": "fh",
+      "full": "Floor hatch",
+      "default": true
+    },
+    {
+      "short": "ch",
+      "full": "Ceiling hatch",
+      "default": true
+    },
+    {
+      "short": "bw",
+      "full": "Breakable wall",
+      "default": true
+    },
+    {
+      "short": "losw",
+      "full": "Line of sight wall",
+      "default": true
+    },
+    {
+      "short": "losf",
+      "full": "Line of sight floor",
+      "default": true
+    },
+    {
+      "short": "sl",
+      "full": "Skylight",
+      "default": true
+    },
+    {
+      "short": "dt",
+      "full": "Drone tunnel",
+      "default": true
+    },
+    {
+      "short": "cam",
+      "full": "Security camera",
+      "default": true
+    },
+    {
+      "short": "ld",
+      "full": "Ladder",
+      "default": true
+    },
+    {
+      "short": "fe",
+      "full": "Fire extinguisher",
+      "default": true
+    },
+    {
+      "short": "gp",
+      "full": "Gas pipe",
+      "default": true
+    },
+    {
+      "short": "ip",
+      "full": "Insertion point",
+      "default": true
+    },
+    {
+      "short": "txt",
+      "full": "Label",
+      "default": true
+    },
+    {
+      "short": "cmp",
+      "full": "Compass",
+      "default": true
+    },
+    {
+      "short": "lg",
+      "full": "Legend",
+      "default": true
+    }
+  ],
+  "staticMapLayers": [
+    {
+      "full": "Wall"
+    },
+    {
+      "full": "Door"
+    },
+    {
+      "full": "Double door"
+    },
+    {
+      "full": "Window"
+    },
+    {
+      "full": "Double window"
+    }
+  ],
+  "mapData": {
+    "bank": {
+      "revision": 8,
+      "name": "Bank",
+      "imgUrlPrefix": "bank",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "border": {
+      "revision": 9,
+      "name": "Border",
+      "imgUrlPrefix": "border",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "chalet": {
+      "revision": 8,
+      "name": "Chalet",
+      "imgUrlPrefix": "chalet",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "closequarters": {
+      "revision": 2,
+      "name": "Close Quarters",
+      "imgUrlPrefix": "closequarters",
+      "minFloor": 1,
+      "maxFloor": 2,
+      "scaleFactor": 2
+    },
+    "club": {
+      "revision": 6,
+      "name": "Club House",
+      "imgUrlPrefix": "club",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "coastline": {
+      "revision": 5,
+      "name": "Coastline",
+      "imgUrlPrefix": "coastline",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "consulate": {
+      "revision": 8,
+      "name": "Consulate",
+      "imgUrlPrefix": "consulate",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "district": {
+      "revision": 1,
+      "name": "District",
+      "imgUrlPrefix": "district",
+      "minFloor": 1,
+      "maxFloor": 1,
+      "scaleFactor": 2
+    },
+    "emerald": {
+      "revision": 6,
+      "name": "Emerald Plains",
+      "imgUrlPrefix": "emerald",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "favela": {
+      "revision": 3,
+      "name": "Favela",
+      "imgUrlPrefix": "favela",
+      "minFloor": 0,
+      "maxFloor": 4,
+      "scaleFactor": 2
+    },
+    "fortress": {
+      "revision": 9,
+      "name": "Fortress",
+      "imgUrlPrefix": "fortress",
+      "minFloor": 1,
+      "maxFloor": 5,
+      "scaleFactor": 2
+    },
+    "hereford": {
+      "revision": 5,
+      "name": "Hereford Base",
+      "imgUrlPrefix": "hereford",
+      "minFloor": 0,
+      "maxFloor": 4,
+      "scaleFactor": 1
+    },
+    "house": {
+      "revision": 4,
+      "name": "House",
+      "imgUrlPrefix": "house",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 1
+    },
+    "kafe": {
+      "revision": 5,
+      "name": "Kafe Dostoyevsky",
+      "imgUrlPrefix": "kafe",
+      "minFloor": 1,
+      "maxFloor": 4,
+      "scaleFactor": 2
+    },
+    "kanal": {
+      "revision": 3,
+      "name": "Kanal",
+      "imgUrlPrefix": "kanal",
+      "minFloor": -1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "lair": {
+      "revision": 8,
+      "name": "Lair",
+      "imgUrlPrefix": "lair",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "labs": {
+      "revision": 6,
+      "name": "Nighthaven Labs",
+      "imgUrlPrefix": "labs",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "oregon": {
+      "revision": 5,
+      "name": "Oregon",
+      "imgUrlPrefix": "oregon",
+      "minFloor": 0,
+      "maxFloor": 4,
+      "scaleFactor": 2
+    },
+    "outback": {
+      "revision": 3,
+      "name": "Outback",
+      "imgUrlPrefix": "outback",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "plane": {
+      "revision": 3,
+      "name": "Presidential Plane",
+      "imgUrlPrefix": "plane",
+      "minFloor": 1,
+      "maxFloor": 4,
+      "scaleFactor": 2
+    },
+    "skyscraper": {
+      "revision": 6,
+      "name": "Skyscraper",
+      "imgUrlPrefix": "skyscraper",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "stadiumalpha": {
+      "revision": 2,
+      "name": "Stadium Alpha",
+      "imgUrlPrefix": "stadiumalpha",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "stadiumbravo": {
+      "revision": 5,
+      "name": "Stadium Bravo",
+      "imgUrlPrefix": "stadiumbravo",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "themepark": {
+      "revision": 6,
+      "name": "Theme Park",
+      "imgUrlPrefix": "themepark",
+      "minFloor": 1,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "tower": {
+      "revision": 2,
+      "name": "Tower",
+      "imgUrlPrefix": "tower",
+      "minFloor": 1,
+      "maxFloor": 5,
+      "scaleFactor": 2
+    },
+    "villa": {
+      "revision": 8,
+      "name": "Villa",
+      "imgUrlPrefix": "villa",
+      "minFloor": 0,
+      "maxFloor": 3,
+      "scaleFactor": 2
+    },
+    "yacht": {
+      "revision": 2,
+      "name": "Yacht",
+      "imgUrlPrefix": "yacht",
+      "minFloor": 1,
+      "maxFloor": 5,
+      "scaleFactor": 2
+    }
+  },
+  "poolData": {
+    "quick": {
+      "name": "Quick Play",
+      "mapPool": [
+        "bank",
+        "border",
+        "chalet",
+        "club",
+        "coastline",
+        "consulate",
+        "emerald",
+        "favela",
+        "fortress",
+        "house",
+        "kafe",
+        "kanal",
+        "lair",
+        "labs",
+        "oregon",
+        "outback",
+        "plane",
+        "skyscraper",
+        "stadiumalpha",
+        "stadiumbravo",
+        "themepark",
+        "tower",
+        "villa",
+        "yacht"
+      ]
+    },
+    "unranked": {
+      "name": "Unranked",
+      "mapPool": [
+        "bank",
+        "border",
+        "chalet",
+        "club",
+        "coastline",
+        "consulate",
+        "emerald",
+        "favela",
+        "fortress",
+        "house",
+        "kafe",
+        "kanal",
+        "lair",
+        "labs",
+        "oregon",
+        "outback",
+        "plane",
+        "skyscraper",
+        "stadiumalpha",
+        "stadiumbravo",
+        "themepark",
+        "tower",
+        "villa",
+        "yacht"
+      ]
+    },
+    "ranked": {
+      "name": "Ranked",
+      "mapPool": [
+        "bank",
+        "border",
+        "chalet",
+        "club",
+        "coastline",
+        "consulate",
+        "emerald",
+        "kafe",
+        "kanal",
+        "lair",
+        "labs",
+        "oregon",
+        "outback",
+        "skyscraper",
+        "themepark",
+        "villa"
+      ]
+    },
+    "all": {
+      "name": "All",
+      "mapPool": [
+        "bank",
+        "border",
+        "chalet",
+        "club",
+        "coastline",
+        "consulate",
+        "emerald",
+        "favela",
+        "fortress",
+        "house",
+        "kafe",
+        "kanal",
+        "lair",
+        "labs",
+        "oregon",
+        "outback",
+        "plane",
+        "skyscraper",
+        "stadiumalpha",
+        "stadiumbravo",
+        "themepark",
+        "tower",
+        "villa",
+        "yacht"
+      ]
+    }
+  }
+}

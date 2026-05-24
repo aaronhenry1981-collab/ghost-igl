@@ -1,0 +1,140 @@
+.game-ops-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+.game-ops-loading,
+.game-ops-empty {
+  text-align: center; padding: 4rem 1rem; color: rgba(230,233,239,0.6);
+}
+.game-ops-empty h1 { color: var(--text-h, #fff); margin: 0 0 0.5rem; }
+
+.game-ops-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.game-ops-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.game-ops-header h1 { margin: 0 0 0.5rem; font-size: 2.15rem; line-height: 1.15; }
+.game-ops-header p { margin: 0; color: rgba(230,233,239,0.78); max-width: 720px; line-height: 1.55; }
+
+.game-ops-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+.game-ops-search {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  color: var(--text-h, #fff);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.game-ops-search:focus {
+  outline: none;
+  border-color: var(--accent, #00e5ff);
+}
+.game-ops-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.game-ops-role-btn {
+  padding: 0.35rem 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  color: var(--text, #c8cdd6);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.game-ops-role-btn:hover { background: rgba(255,255,255,0.05); }
+.game-ops-role-btn.active { background: rgba(0,229,255,0.06); }
+
+.game-ops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+.game-ops-card {
+  display: block;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--accent, #00e5ff);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-h, #fff);
+  transition: transform 0.12s, border-color 0.12s, background 0.12s;
+}
+.game-ops-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.04);
+}
+.game-ops-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 6px;
+}
+.game-ops-card-head strong { font-size: 1.02rem; }
+.game-ops-card-role {
+  font-size: 0.72rem;
+  color: rgba(230,233,239,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.game-ops-card-desc {
+  margin: 0 0 0.5rem;
+  color: rgba(230,233,239,0.75);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+.game-ops-card-abilities {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: 0.25rem;
+}
+.game-ops-card-abilities li {
+  padding: 2px 8px;
+  background: rgba(0,229,255,0.06);
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  color: rgba(230,233,239,0.85);
+}
+
+.game-ops-empty-block {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  color: rgba(230,233,239,0.6);
+}
+.game-ops-empty-block p { margin: 0 0 0.85rem; }
+
+.game-ops-foot {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.92rem;
+  color: rgba(230,233,239,0.7);
+}
+.game-ops-foot p { margin: 0; }

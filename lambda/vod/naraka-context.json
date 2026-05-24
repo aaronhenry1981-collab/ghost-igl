@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-05-12T06:55:11.893Z",
+  "game_meta": {
+    "name": "Naraka: Bladepoint",
+    "short_name": "Naraka",
+    "tagline": "Martial-arts battle royale. Melee-focused with parkour + grappling hook.",
+    "sides": {
+      "attack": "Pushing",
+      "defense": "Holding (high ground)"
+    },
+    "character_vocab": "heroes (10+, each with unique active + ultimate skills)",
+    "round_format": "BR match ~20-30 minutes. Solo, duo, or trio modes.",
+    "key_mechanics": [
+      "Melee timing — parry (blue), focus attack (red), grab break",
+      "Grappling hook (Zipline + free aim) — mobility-defining",
+      "Weapon types — sword, longsword, katana, polearm, dual halberds, greatsword",
+      "Soul Jade enhancements (passive perks)",
+      "Bow/musket for ranged engagements",
+      "Sound design — listen for steps, weapon swings"
+    ]
+  },
+  "maps": {
+    "morus": {
+      "name": "Morus Isle",
+      "notes": "Original trios map."
+    },
+    "holoroth": {
+      "name": "Holoroth",
+      "notes": "Larger trios map with more verticality."
+    },
+    "solo-arena": {
+      "name": "Solo Showdown",
+      "notes": "Faster-pace solo BR."
+    }
+  },
+  "operator_roles": {
+    "Mobile Assassin": {
+      "roles": [
+        "Burst"
+      ],
+      "side": "attack",
+      "notes": "Viper Ning, Matari. Hit-and-run dueling."
+    },
+    "Tank Grappler": {
+      "roles": [
+        "Initiator"
+      ],
+      "side": "defense",
+      "notes": "Tianhai. Holds ground + initiates."
+    },
+    "Rush Striker": {
+      "roles": [
+        "Aggressor"
+      ],
+      "side": "attack",
+      "notes": "Yueshan. Closes distance fast."
+    },
+    "Dueler": {
+      "roles": [
+        "1v1 Specialist"
+      ],
+      "side": "attack",
+      "notes": "Yoto Hime, Tarka Ji. Pure duel win-rate."
+    },
+    "Support": {
+      "roles": [
+        "Heal + Defense"
+      ],
+      "side": "defense",
+      "notes": "Justina Gu, Wuchen. Team-keep-alive."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "low": [
+      "Spamming attack — eaten by parry every time",
+      "Bad grapple landing (out of stamina mid-fight)",
+      "Loot in the open"
+    ],
+    "mid": [
+      "Wrong weapon for situation (greatsword in tight quarters)",
+      "No focus attack reads",
+      "Predictable grapple angles"
+    ],
+    "high": [
+      "Sub-optimal Soul Jade selection",
+      "Bad rotation away from final zone",
+      "Engaging duels when team is third-partying"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

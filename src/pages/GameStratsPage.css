@@ -1,0 +1,470 @@
+/* GameStratsPage — generic game-aware strats viewer for non-R6 games. */
+
+.game-strats-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+.game-strats-loading,
+.game-strats-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: rgba(230,233,239,0.6);
+}
+.game-strats-empty h1 { color: var(--text-h, #fff); margin: 0 0 0.5rem; }
+.game-strats-empty p { max-width: 520px; margin: 0 auto; line-height: 1.55; }
+
+.game-strats-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.game-strats-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.game-strats-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.15rem;
+  line-height: 1.15;
+}
+.game-strats-header p {
+  margin: 0;
+  color: rgba(230,233,239,0.78);
+  max-width: 720px;
+  line-height: 1.55;
+}
+
+/* Map grid — replaced the native <select> dropdown so every map (incl.
+   Stadium maps with Pro badges) is visible at once. Inline Pro / coming-
+   soon suffixes render as small badges next to the map name. */
+.game-strats-mapgrid-wrap {
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 12px;
+  margin-bottom: 0.85rem;
+}
+.game-strats-mapgrid-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.6);
+  margin-bottom: 0.5rem;
+}
+.game-strats-mapgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.3rem;
+}
+.game-strats-mapgrid-btn {
+  position: relative;
+  padding: 0.5rem 0.65rem;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  border-radius: 6px;
+  color: #ecedf3;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.game-strats-mapgrid-btn:hover {
+  background: rgba(0, 229, 255, 0.14);
+  border-color: rgba(0, 229, 255, 0.55);
+  transform: translateY(-1px);
+}
+.game-strats-mapgrid-btn.active {
+  background: rgba(0, 229, 255, 0.22);
+  border-color: #00e5ff;
+  color: #00e5ff;
+  font-weight: 700;
+}
+.game-strats-mapgrid-btn.empty {
+  opacity: 0.55;
+  border-style: dashed;
+}
+.game-strats-mapgrid-btn.stadium {
+  border-left: 3px solid #ffc97a;
+}
+.game-strats-mapgrid-suffix {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.game-strats-mapgrid-suffix.pro {
+  background: rgba(255, 201, 122, 0.18);
+  color: #ffc97a;
+  border: 1px solid rgba(255, 201, 122, 0.4);
+}
+.game-strats-mapgrid-suffix.coming {
+  background: rgba(230, 233, 239, 0.08);
+  color: rgba(230, 233, 239, 0.55);
+}
+
+.game-strats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+.game-strats-mapselect {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+.game-strats-mapselect span {
+  font-size: 0.7rem;
+  color: rgba(230,233,239,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.game-strats-mapselect select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  color: var(--text-h, #fff);
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.game-strats-side-toggle {
+  display: flex;
+  gap: 0.4rem;
+}
+.game-strats-side-btn {
+  padding: 0.5rem 1.1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 8px;
+  color: var(--text, #c8cdd6);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.game-strats-side-btn:hover { background: rgba(255,255,255,0.05); }
+.game-strats-side-btn.active { background: rgba(0,229,255,0.05); }
+
+.game-strats-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .game-strats-layout { grid-template-columns: 1fr; }
+}
+
+.game-strats-sites {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: sticky;
+  top: 1rem;
+}
+@media (max-width: 820px) {
+  .game-strats-sites {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+.game-strats-sites-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(230,233,239,0.5);
+  font-weight: 700;
+  padding: 4px 6px;
+}
+.game-strats-site-btn {
+  text-align: left;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  color: var(--text, #c8cdd6);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font: inherit;
+  transition: background 0.12s, border-color 0.12s;
+}
+.game-strats-site-btn:hover { background: rgba(255,255,255,0.04); }
+.game-strats-site-btn.active {
+  background: rgba(0,229,255,0.05);
+  border-left-color: var(--accent, #00e5ff);
+  font-weight: 600;
+}
+.game-strats-site-btn strong { font-size: 0.92rem; color: var(--text-h, #fff); }
+.game-strats-site-btn span { font-size: 0.72rem; color: rgba(230,233,239,0.55); }
+.game-strats-site-btn.empty { opacity: 0.55; }
+.game-strats-site-coming {
+  font-size: 0.65rem !important;
+  color: rgba(230,233,239,0.4) !important;
+  font-style: italic;
+}
+
+.game-strats-content {
+  min-width: 0;
+}
+.game-strats-empty-block {
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  color: rgba(230,233,239,0.7);
+}
+.game-strats-empty-block p { margin: 0; }
+
+.game-strat-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.game-strat-card > header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 0.85rem;
+}
+.game-strat-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  flex: 1;
+  min-width: 0;
+}
+.game-strat-side-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid;
+}
+.game-strat-floor {
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.55);
+}
+.game-strat-card section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(230,233,239,0.5);
+  font-weight: 700;
+}
+.game-strat-card section p {
+  margin: 0;
+  color: rgba(230,233,239,0.88);
+  line-height: 1.55;
+}
+.game-strat-ops {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.game-strat-ops li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+.game-strat-ops li strong { color: var(--text-h, #fff); }
+.op-role {
+  color: rgba(230,233,239,0.6);
+  font-size: 0.82rem;
+  flex: 1;
+}
+.op-prio {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+.op-prio-essential { color: #ff8a50; background: rgba(255,138,80,0.12); border-color: rgba(255,138,80,0.4); }
+.op-prio-recommended { color: #00e5ff; background: rgba(0,229,255,0.10); border-color: rgba(0,229,255,0.4); }
+.op-prio-flex { color: rgba(230,233,239,0.7); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); }
+
+.game-strat-callouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.game-strat-callout-pill {
+  padding: 4px 10px;
+  background: rgba(0,229,255,0.06);
+  border: 1px solid rgba(0,229,255,0.25);
+  color: #66f2ff;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.game-strat-util {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.game-strat-util li {
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.025);
+  border-left: 2px solid var(--accent, #00e5ff);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  color: rgba(230,233,239,0.85);
+}
+
+.game-strats-foot {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.92rem;
+  color: rgba(230,233,239,0.7);
+}
+.game-strats-foot p { margin: 0; }
+
+/* Premium tactics — Champion-tier deep tactical content (spawn-kills,
+   runouts, anti-execute setups, advanced lineups). Mirrors the R6
+   premium-tactics design but works for any game in the registry. */
+.game-strat-premium,
+.game-strat-premium-locked {
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(180, 140, 255, 0.06), rgba(0, 229, 255, 0.05));
+  border: 1px solid;
+  border-radius: 12px;
+  position: relative;
+}
+.game-strat-premium-locked {
+  text-align: center;
+  padding: 1.5rem 1.75rem;
+}
+.game-strat-premium-locked h3 { margin: 0.4rem 0 0.6rem; font-size: 1.1rem; }
+.game-strat-premium-locked p {
+  margin: 0 0 1rem;
+  color: rgba(230,233,239,0.78);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+.game-strat-premium-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+.game-strat-premium-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+.game-strat-premium-head h3 { margin: 0; font-size: 1.05rem; }
+.game-strat-premium-block {
+  margin-bottom: 0.95rem;
+}
+.game-strat-premium-block:last-child { margin-bottom: 0; }
+.game-strat-premium-block h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(230,233,239,0.6);
+  font-weight: 700;
+}
+.game-strat-premium-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.game-strat-premium-list li {
+  padding: 0.55rem 0.75rem;
+  background: rgba(0, 0, 0, 0.22);
+  border-left: 2px solid rgba(180, 140, 255, 0.45);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  color: rgba(230,233,239,0.88);
+  line-height: 1.5;
+}
+.game-strat-premium-list strong { color: var(--text-h, #fff); }
+.game-strat-premium-list p {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: rgba(230,233,239,0.7);
+}
+.game-strat-premium-list .premium-from { color: rgba(230,233,239,0.55); }
+.game-strat-premium-list .premium-target { color: #ffa67a; font-weight: 600; }
+.game-strat-premium-list .premium-risk { color: #ff8a50; }
+.game-strat-premium-list .premium-reward { color: #7ee2a4; }
+.game-strat-premium-list-simple {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.game-strat-premium-list-simple li {
+  padding: 0.45rem 0.7rem;
+  background: rgba(0, 0, 0, 0.22);
+  border-left: 2px solid rgba(180, 140, 255, 0.45);
+  border-radius: 6px;
+  font-size: 0.86rem;
+  color: rgba(230,233,239,0.88);
+  line-height: 1.5;
+}

@@ -1,0 +1,597 @@
+/* MatchPrepPage — pre-round prep cheatsheet. Built to feel like a card you'd
+   pin in a Discord or print and bring to ranked. Print styles keep the card
+   intact and drop the chrome (nav, controls, upsell). */
+
+.match-prep-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 4rem;
+}
+
+.match-prep-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.match-prep-header h1 {
+  font-size: 2.4rem;
+  margin: 0.4rem 0 0.6rem;
+  line-height: 1.1;
+}
+.match-prep-header h1 .accent { color: var(--accent); }
+.match-prep-header p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* Map grid — replaced the native <select> dropdown so users can see
+   every map at once. Same visual language as LiveCoach's compact map
+   grid for consistency. */
+.match-prep-mapgrid-wrap {
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 12px 12px 0 0;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.match-prep-mapgrid-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.6);
+  margin-bottom: 0.5rem;
+}
+.match-prep-mapgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.3rem;
+}
+.match-prep-mapgrid-btn {
+  padding: 0.45rem 0.65rem;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  border-radius: 6px;
+  color: #ecedf3;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+}
+.match-prep-mapgrid-btn:hover {
+  background: rgba(0, 229, 255, 0.14);
+  border-color: rgba(0, 229, 255, 0.55);
+  transform: translateY(-1px);
+}
+.match-prep-mapgrid-btn.active {
+  background: rgba(0, 229, 255, 0.22);
+  border-color: #00e5ff;
+  color: #00e5ff;
+  font-weight: 700;
+}
+
+.match-prep-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+}
+.match-prep-mapselect {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+.match-prep-mapselect span {
+  font-size: 0.7rem;
+  color: rgba(230,233,239,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.match-prep-mapselect select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.match-prep-mapselect select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(0,229,255,0.18);
+}
+.match-prep-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.match-prep-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.35);
+}
+
+.match-prep-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1.1rem 1.5rem;
+  background: linear-gradient(90deg, rgba(0,229,255,0.10), rgba(180,140,255,0.08));
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.match-prep-card-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.match-prep-card-head h2 {
+  margin: 0;
+  font-size: 1.85rem;
+}
+.match-prep-card-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(230,233,239,0.65);
+}
+
+.match-prep-section {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.match-prep-section:first-of-type { border-top: none; }
+.match-prep-section h3 {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(230,233,239,0.62);
+  margin: 0 0 0.85rem;
+  font-weight: 700;
+}
+
+.match-prep-side-label {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+.match-prep-side-attack {
+  color: #ffa67a;
+  background: rgba(255,138,80,0.12);
+  border: 1px solid rgba(255,138,80,0.4);
+}
+.match-prep-side-defense {
+  color: #7aaaff;
+  background: rgba(80,180,255,0.12);
+  border: 1px solid rgba(80,180,255,0.4);
+}
+
+.match-prep-bans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.match-prep-bans-col {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+.match-prep-ban-row {
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.06);
+}
+.match-prep-ban-row:last-child { border-bottom: none; padding-bottom: 0; }
+.match-prep-ban-row strong {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  color: var(--text-h);
+}
+.match-prep-ban-row p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(230,233,239,0.78);
+}
+.match-prep-empty-line {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(230,233,239,0.55);
+}
+
+.match-prep-picks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.match-prep-picks-col {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+.match-prep-pick-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.match-prep-pick-list li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+  font-size: 0.9rem;
+}
+.match-prep-pick-list li:last-child { border-bottom: none; }
+.match-prep-pick-rank {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(230,233,239,0.5);
+}
+.match-prep-pick-name {
+  font-weight: 600;
+  color: var(--text-h);
+  text-decoration: none;
+}
+.match-prep-pick-name:hover { color: var(--accent); }
+.match-prep-pick-role {
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.6);
+  white-space: nowrap;
+}
+.match-prep-pick-sites {
+  font-size: 0.75rem;
+  color: rgba(230,233,239,0.5);
+  white-space: nowrap;
+}
+
+.match-prep-sites {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+.match-prep-site {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.match-prep-site header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.match-prep-site h4 {
+  margin: 0;
+  font-size: 1.02rem;
+  color: var(--text-h);
+}
+.match-prep-site-floor {
+  font-size: 0.72rem;
+  color: rgba(230,233,239,0.55);
+  white-space: nowrap;
+}
+.match-prep-site-row {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(230,233,239,0.85);
+}
+.match-prep-site-row ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.2rem 0 0;
+}
+.match-prep-site-row ul li {
+  padding: 2px 0;
+  font-size: 0.82rem;
+  color: rgba(230,233,239,0.78);
+}
+.match-prep-row-label {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(230,233,239,0.7);
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.match-prep-row-atk {
+  color: #ffa67a;
+  background: rgba(255,138,80,0.12);
+}
+.match-prep-row-def {
+  color: #7aaaff;
+  background: rgba(80,180,255,0.12);
+}
+.match-prep-site-link {
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+.match-prep-site-link:hover { text-decoration: underline; }
+
+.match-prep-card-foot {
+  padding: 0.85rem 1.5rem;
+  background: rgba(0,0,0,0.25);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.55);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.match-prep-upsell {
+  margin: 1.75rem 0 1rem;
+}
+.match-prep-upsell-inner {
+  padding: 1.4rem 1.6rem;
+  background: linear-gradient(135deg, rgba(0,229,255,0.10), rgba(180,140,255,0.10));
+  border: 1px solid rgba(0,229,255,0.4);
+  border-radius: 14px;
+}
+.match-prep-upsell h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+.match-prep-upsell p {
+  margin: 0 0 0.85rem;
+  color: rgba(230,233,239,0.85);
+  line-height: 1.5;
+}
+.match-prep-upsell-cta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.match-prep-other-maps {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+.match-prep-other-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(230,233,239,0.55);
+  margin-bottom: 0.6rem;
+}
+.match-prep-other-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.match-prep-other-pill {
+  padding: 0.45rem 0.85rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 999px;
+  color: var(--text-h);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.match-prep-other-pill:hover {
+  border-color: var(--accent);
+  background: rgba(0,229,255,0.08);
+  color: var(--accent);
+}
+
+.match-prep-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+@media (max-width: 720px) {
+  .match-prep-bans, .match-prep-picks {
+    grid-template-columns: 1fr;
+  }
+  .match-prep-pick-list li {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+  }
+  .match-prep-pick-list li .match-prep-pick-sites { display: none; }
+}
+
+/* Sticky jump-nav — sits between the section header and the site cards.
+   Stays pinned near the top of the viewport while you scroll the cards
+   below, so you can hop sites with one tap during the ready-up window.
+   Auto-hidden on print (only useful on-screen during a match). */
+.match-prep-jump-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 10px;
+  position: sticky;
+  top: 60px;          /* clears the site navbar */
+  z-index: 5;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.match-prep-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 999px;
+  color: rgba(0, 229, 255, 0.95);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.12s ease, transform 0.12s ease, border-color 0.12s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.match-prep-jump-btn:hover,
+.match-prep-jump-btn:focus-visible {
+  background: rgba(0, 229, 255, 0.18);
+  border-color: rgba(0, 229, 255, 0.55);
+  transform: translateY(-1px);
+}
+.match-prep-jump-floor {
+  font-size: 0.7rem;
+  opacity: 0.65;
+  font-weight: 500;
+}
+
+/* Smooth scroll anchor — match-prep section ids are scroll targets for
+   the jump nav. The 80px scroll offset is applied in JS but this also
+   ensures any browser-native anchor navigation feels right. */
+.match-prep-site {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 720px) {
+  .match-prep-jump-nav {
+    top: 56px;
+    padding: 0.5rem 0.55rem;
+    gap: 4px;
+  }
+  .match-prep-jump-btn {
+    font-size: 0.76rem;
+    padding: 4px 10px;
+  }
+}
+
+/* Print styles — when a player hits Print, give them a clean printable
+   card and drop the page chrome (nav, controls, upsell, etc.). */
+@media print {
+  .match-prep-jump-nav { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .navbar, .footer, .announcement-banner,
+  .match-prep-controls, .match-prep-upsell, .match-prep-other-maps,
+  .match-prep-header { display: none !important; }
+  .match-prep-page { padding: 0; max-width: none; }
+  .match-prep-card {
+    background: #fff !important;
+    color: #000 !important;
+    border: 2px solid #000 !important;
+    box-shadow: none !important;
+  }
+  .match-prep-card-head {
+    background: #f0f0f0 !important;
+    border-bottom: 2px solid #000 !important;
+  }
+  .match-prep-card-eyebrow { color: #444 !important; }
+  .match-prep-card-head h2,
+  .match-prep-section h3,
+  .match-prep-site h4,
+  .match-prep-ban-row strong,
+  .match-prep-pick-name { color: #000 !important; }
+  .match-prep-section h3 { color: #555 !important; }
+  .match-prep-bans-col, .match-prep-picks-col, .match-prep-site {
+    background: #fafafa !important;
+    border: 1px solid #999 !important;
+  }
+  .match-prep-site { border-left-color: #333 !important; }
+  .match-prep-side-attack, .match-prep-row-atk { color: #c44 !important; background: #fee !important; border-color: #c44 !important; }
+  .match-prep-side-defense, .match-prep-row-def { color: #246 !important; background: #def !important; border-color: #246 !important; }
+  .match-prep-ban-row p, .match-prep-site-row, .match-prep-site-row ul li,
+  .match-prep-pick-role { color: #222 !important; }
+  .match-prep-site-link { display: none; }
+  .match-prep-card-foot {
+    background: #f0f0f0 !important;
+    color: #555 !important;
+    border-top: 1px solid #999 !important;
+  }
+  .match-prep-embed-pitch { display: none; }
+}
+
+/* Embed pitch — collapsed disclosure under the cheatsheet that gives
+   content creators the iframe snippet for embedding this map's prep on
+   their own R6 guide site / Discord channel page. Every embed = a
+   permanent inbound link to our domain. */
+.match-prep-embed-pitch {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 10px;
+}
+.match-prep-embed-pitch summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: rgba(0, 229, 255, 0.95);
+  list-style: none;
+  padding-right: 1rem;
+  position: relative;
+}
+.match-prep-embed-pitch summary::after {
+  content: '+';
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.match-prep-embed-pitch[open] summary::after { content: '−'; }
+.match-prep-embed-pitch p {
+  font-size: 0.85rem;
+  color: rgba(230, 233, 239, 0.75);
+  margin: 0.7rem 0 0.5rem;
+}
+.match-prep-embed-snippet {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 6px;
+  color: #ecedf3;
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+.match-prep-embed-pitch small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: rgba(230, 233, 239, 0.55);
+}
+.match-prep-embed-pitch small a { color: #00e5ff; }

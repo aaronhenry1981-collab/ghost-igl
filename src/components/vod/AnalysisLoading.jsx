@@ -23,7 +23,7 @@ export default function AnalysisLoading() {
     <div className="analysis-loading">
       <div className="loading-spinner" />
       <h3 style={{ color: 'var(--text-h)', marginBottom: 8 }}>Analyzing Your Gameplay</h3>
-      <p style={{ color: 'var(--text)', fontSize: '0.9rem' }}>Ghost IGL is reviewing your screenshot...</p>
+      <p style={{ color: 'var(--text)', fontSize: '0.9rem' }}>Recon 6 is reviewing your screenshot...</p>
       <ul className="loading-steps">
         {STEPS.map((s, i) => (
           <li key={s} className={i < step ? 'done' : i === step ? 'active' : ''}>

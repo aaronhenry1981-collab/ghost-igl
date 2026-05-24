@@ -7,16 +7,33 @@ import {
   getSession,
   getIdToken,
   API_URL
-} from '../lib/supabase'
+} from '../lib/cognito'
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
 
 const AuthContext = createContext(null)
-const ADMIN_EMAILS = ['aaronhenry1981@gmail.com']
+
+function computeIsAdmin(payload) {
+  const groups = payload?.['cognito:groups'] || []
+  return Array.isArray(groups) && groups.includes('admins')
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isPro, setIsPro] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [plan, setPlan] = useState('free')
+  // tier_scope: 'single' = subscription unlocks one game; 'all_access' =
+  // all 20 games. Free users default to 'all_access' since gating doesn't
+  // apply to browse-only content. Admins always all_access.
+  const [tierScope, setTierScope] = useState('all_access')
+  const [profile, setProfile] = useState(null)
+  const [profileComplete, setProfileComplete] = useState(false)
   const [loading, setLoading] = useState(true)
+  // VOD session usage: { used, limit, remaining, is_trial, period_end, unlimited }.
+  // null for non-Pro users (they can't hit the endpoint anyway). Updated on
+  // every /me fetch + bumped client-side after a successful VOD analyze so
+  // the UI reflects the new count without a re-fetch.
+  const [vodUsage, setVodUsage] = useState(null)
 
   useEffect(() => {
     if (!userPool) {
@@ -24,7 +41,12 @@ export function AuthProvider({ children }) {
       return
     }
 
-    // Check current session on mount
+    // Check current session on mount. We MUST await checkProStatus before
+    // flipping loading=false — otherwise consumers like ProfileSetupModal
+    // briefly see `loading=false, user={...}, profileComplete=false` (the
+    // initial state) while /me is still in flight, then flip to
+    // profileComplete=true a moment later. That race flashed the profile-
+    // setup popup on every refresh.
     const cognitoUser = getCurrentUser()
     if (cognitoUser) {
       getSession(cognitoUser)
@@ -37,11 +59,16 @@ export function AuthProvider({ children }) {
             session,
           }
           setUser(userData)
-          checkProStatus(userData.id, userData.email, session)
+          setIsAdmin(computeIsAdmin(payload))
+          // Return the promise so .finally waits for /me to resolve before
+          // clearing the loading flag. No more first-paint flash.
+          return checkProStatus(userData.id, payload, session)
         })
         .catch(() => {
           setUser(null)
           setIsPro(false)
+          setIsAdmin(false)
+          setPlan('free')
         })
         .finally(() => setLoading(false))
     } else {
@@ -49,27 +76,54 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  async function checkProStatus(userId, email, session) {
-    if (ADMIN_EMAILS.includes(email?.toLowerCase())) {
-      setIsPro(true)
-      return
-    }
-
+  // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
+  // /me returns { plan, sub_status, profile, profile_complete } so consumers can
+  // gate UI like the onboarding modal on profile_complete without an extra round trip.
+  async function checkProStatus(userId, payload, session) {
     if (!API_URL) return
 
     try {
       const token = getIdToken(session)
-      const res = await fetch(`${API_URL}/subscription`, {
+      const res = await fetch(`${API_URL}/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
         const data = await res.json()
-        setIsPro(data?.plan === 'pro' || data?.plan === 'champion')
+        const p = data?.plan === 'pro' || data?.plan === 'champion' ? data.plan : 'free'
+        setPlan(p)
+        setIsPro(p === 'pro' || p === 'champion')
+        setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
+        setProfile(data?.profile || null)
+        setProfileComplete(!!data?.profile_complete)
+        setVodUsage(data?.vod_usage || null)
       } else {
-        setIsPro(false)
+        // Admins still get champion access even if /me fails — fall back to JWT claim.
+        if (computeIsAdmin(payload)) {
+          setIsPro(true); setPlan('champion')
+        } else {
+          setPlan('free'); setIsPro(false)
+        }
       }
     } catch {
-      setIsPro(false)
+      if (computeIsAdmin(payload)) {
+        setIsPro(true); setPlan('champion')
+      } else {
+        setPlan('free'); setIsPro(false)
+      }
+    }
+  }
+
+  // Re-fetch /me — call after the user updates their profile so consumers
+  // (like the onboarding modal) see the new state without a full reload.
+  async function refreshProfile() {
+    const cognitoUser = getCurrentUser()
+    if (!cognitoUser) return
+    try {
+      const session = await getSession(cognitoUser)
+      const payload = session.getIdToken().decodePayload()
+      await checkProStatus(payload.sub, payload, session)
+    } catch (err) {
+      console.warn('refreshProfile failed:', err)
     }
   }
 
@@ -108,12 +162,43 @@ export function AuthProvider({ children }) {
             session,
           }
           setUser(userData)
-          checkProStatus(userData.id, userData.email, session)
+          setIsAdmin(computeIsAdmin(payload))
+          checkProStatus(userData.id, payload, session)
           resolve({ data: { user: userData, session }, error: null })
         },
         onFailure: (err) => {
           resolve({ data: null, error: { message: err.message } })
         },
+      })
+    })
+  }
+
+  async function confirmSignUp(email, code) {
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const cognitoUser = getCognitoUser(email)
+      cognitoUser.confirmRegistration(code, true, (err, result) => {
+        if (err) {
+          resolve({ data: null, error: { message: err.message } })
+        } else {
+          resolve({ data: result, error: null })
+        }
+      })
+    })
+  }
+
+  async function resendConfirmationCode(email) {
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const cognitoUser = getCognitoUser(email)
+      cognitoUser.resendConfirmationCode((err, result) => {
+        if (err) {
+          resolve({ data: null, error: { message: err.message } })
+        } else {
+          resolve({ data: result, error: null })
+        }
       })
     })
   }
@@ -125,10 +210,38 @@ export function AuthProvider({ children }) {
     }
     setUser(null)
     setIsPro(false)
+    setIsAdmin(false)
+    setPlan('free')
+  }
+
+  // Step 1 of password reset: emails the user a 6-digit code.
+  async function forgotPassword(email) {
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const cognitoUser = getCognitoUser(email)
+      cognitoUser.forgotPassword({
+        onSuccess: (data) => resolve({ data, error: null }),
+        onFailure: (err) => resolve({ data: null, error: { message: err.message } }),
+      })
+    })
+  }
+
+  // Step 2 of password reset: verifies the code and sets a new password.
+  async function confirmForgotPassword(email, code, newPassword) {
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+
+    return new Promise((resolve) => {
+      const cognitoUser = getCognitoUser(email)
+      cognitoUser.confirmPassword(code, newPassword, {
+        onSuccess: () => resolve({ data: { ok: true }, error: null }),
+        onFailure: (err) => resolve({ data: null, error: { message: err.message } }),
+      })
+    })
   }
 
   return (
-    <AuthContext.Provider value={{ user, isPro, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isPro, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, loading, signUp, signIn, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   )

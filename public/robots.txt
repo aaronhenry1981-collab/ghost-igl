@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# Disallow authenticated and activation-only routes (hash-routed, mostly cosmetic)
+Disallow: /admin
+Disallow: /account
+Disallow: /activate
+
+# Encourage faster crawling for major search engines
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 0
+
+User-agent: Yandex
+Crawl-delay: 1
+
+# Block known SEO-tool scrapers — they don't drive traffic but burn crawl budget
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+Sitemap: https://r6coaching.com/sitemap.xml

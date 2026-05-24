@@ -22,14 +22,51 @@ Parameters:
     Type: String
     NoEcho: true
     Description: Stripe webhook signing secret (whsec_...)
+  DesktopTokenSecret:
+    Type: String
+    NoEcho: true
+    Description: HMAC secret for signing desktop activation tokens (random 48+ bytes, base64url)
   StripePriceIdPro:
     Type: String
     Default: price_pro
-    Description: Stripe Price ID for the Pro plan
+    Description: Stripe Price ID for the Pro plan (regular post-launch rate)
   StripePriceIdChampion:
     Type: String
     Default: price_champion
-    Description: Stripe Price ID for the Champion plan
+    Description: Stripe Price ID for the Champion plan (founding-rate $29 today, regular $39 after May 8)
+  StripePriceIdProFounding:
+    Type: String
+    Default: price_pro_founding
+    Description: Stripe Price ID for the Pro founding rate ($9 — pre-May 8)
+  StripePriceIdChampionRegular:
+    Type: String
+    Default: price_champion_regular
+    Description: Stripe Price ID for the Champion regular rate ($39 — post-May 8)
+  ProPlanAmountCents:
+    Type: Number
+    Default: 1500
+    Description: Pro plan price in cents (used for MRR calculation)
+  ChampionPlanAmountCents:
+    Type: Number
+    Default: 3500
+    Description: Champion plan price in cents (used for MRR calculation)
+  VodModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Bedrock model ID used for VOD screenshot analysis
+  DiscordPublicKey:
+    Type: String
+    Default: ''
+    Description: Discord application public key (hex). Leave empty until bot is created.
+  DiscordBotToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+    Description: Discord bot token. Leave empty until bot is created.
+  DiscordApplicationId:
+    Type: String
+    Default: ''
+    Description: Discord application ID. Leave empty until bot is created.
 
 Globals:
   Function:
@@ -161,6 +198,14 @@ Resources:
         - ALLOW_REFRESH_TOKEN_AUTH
         - ALLOW_USER_SRP_AUTH
 
+  AdminsGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: admins
+      UserPoolId: !Ref UserPool
+      Description: Users with access to admin dashboard
+      Precedence: 1
+
   SubscriptionsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -182,6 +227,30 @@ Resources:
           Projection:
             ProjectionType: ALL
 
+  ProfilesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ghost-igl-profiles
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+
+  AnnouncementsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ghost-igl-announcements
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
   WebhookFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -194,6 +263,8 @@ Resources:
           STRIPE_WEBHOOK_SECRET: !Ref StripeWebhookSecret
           STRIPE_PRO_PRICE_ID: !Ref StripePriceIdPro
           STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
+          STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
+          STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SubscriptionsTable
@@ -215,9 +286,15 @@ Resources:
         Variables:
           COGNITO_USER_POOL_ID: !Ref UserPool
           COGNITO_CLIENT_ID: !Ref UserPoolClient
+          PROFILES_TABLE: !Ref ProfilesTable
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          PORTAL_RETURN_URL: !Sub https://${DomainName}/#/account
+          DESKTOP_TOKEN_SECRET: !Ref DesktopTokenSecret
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref SubscriptionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProfilesTable
       Events:
         GetSub:
           Type: HttpApi
@@ -230,6 +307,236 @@ Resources:
           Properties:
             ApiId: !Ref HttpApi
             Path: /subscription
+            Method: OPTIONS
+        GetMe:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me
+            Method: GET
+        PutMe:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me
+            Method: PUT
+        MeOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me
+            Method: OPTIONS
+        PostPortal:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/billing-portal
+            Method: POST
+        PortalOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/billing-portal
+            Method: OPTIONS
+        DesktopVerify:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /desktop/verify
+            Method: POST
+        DesktopVerifyOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /desktop/verify
+            Method: OPTIONS
+        PostActivationToken:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/activation-token
+            Method: POST
+        ActivationTokenOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/activation-token
+            Method: OPTIONS
+
+  AnnouncementsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-announcements-api
+      CodeUri: ../lambda/announcements/
+      Handler: index.handler
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref UserPool
+          COGNITO_CLIENT_ID: !Ref UserPoolClient
+          ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AnnouncementsTable
+      Events:
+        GetPublic:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /announcements, Method: GET }
+        PublicOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /announcements, Method: OPTIONS }
+        GetAdmin:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/announcements, Method: GET }
+        PostAdmin:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/announcements, Method: POST }
+        AdminOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/announcements, Method: OPTIONS }
+        DeleteAdmin:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/announcements/{id}
+            Method: DELETE
+        DeleteOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/announcements/{id}
+            Method: OPTIONS
+
+  DiscordFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-discord-bot
+      CodeUri: ../lambda/discord/
+      Handler: index.handler
+      Timeout: 10
+      Environment:
+        Variables:
+          DISCORD_PUBLIC_KEY: !Ref DiscordPublicKey
+          DISCORD_BOT_TOKEN: !Ref DiscordBotToken
+          DISCORD_APPLICATION_ID: !Ref DiscordApplicationId
+          SITE_URL: !Sub https://${DomainName}
+      Events:
+        Interactions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /discord/interactions, Method: POST }
+
+  VodFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-vod-api
+      CodeUri: ../lambda/vod/
+      Handler: index.handler
+      Timeout: 60
+      MemorySize: 512
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref UserPool
+          COGNITO_CLIENT_ID: !Ref UserPoolClient
+          VOD_MODEL_ID: !Ref VodModelId
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref SubscriptionsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+              Resource:
+                - arn:aws:bedrock:*::foundation-model/*
+                - !Sub arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/*
+      Events:
+        Analyze:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /vod/analyze
+            Method: POST
+        AnalyzeOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /vod/analyze
+            Method: OPTIONS
+
+  AdminFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-admin-api
+      CodeUri: ../lambda/admin/
+      Handler: index.handler
+      Timeout: 60
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref UserPool
+          COGNITO_CLIENT_ID: !Ref UserPoolClient
+          PRO_PLAN_AMOUNT_CENTS: !Ref ProPlanAmountCents
+          CHAMPION_PLAN_AMOUNT_CENTS: !Ref ChampionPlanAmountCents
+          STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          STRIPE_PRO_PRICE_ID: !Ref StripePriceIdPro
+          STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
+          STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
+          STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SubscriptionsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - cognito-idp:ListUsers
+                - cognito-idp:ListUsersInGroup
+                - cognito-idp:AdminListGroupsForUser
+              Resource: !GetAtt UserPool.Arn
+      Events:
+        GetSubs:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/subscriptions
+            Method: GET
+        SubsOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/subscriptions
+            Method: OPTIONS
+        GetUsers:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/users
+            Method: GET
+        UsersOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/users
+            Method: OPTIONS
+        PostBackfill:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/backfill
+            Method: POST
+        BackfillOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/backfill
+            Method: OPTIONS
+        PostComp:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/comp
+            Method: POST
+        CompOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/comp
             Method: OPTIONS
 
   HttpApi:
@@ -247,6 +554,8 @@ Resources:
         AllowMethods:
           - GET
           - POST
+          - PUT
+          - DELETE
           - OPTIONS
 
 Outputs:

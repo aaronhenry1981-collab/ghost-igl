@@ -1,0 +1,212 @@
+/* polish.css — site-wide aesthetic & accessibility refinements layered
+   on top of the existing design system. Imported once in main.jsx so
+   the rules cascade after App.css component styles. */
+
+/* ─── Focus rings — visible keyboard nav, hidden on mouse use ─── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--accent, #00e5ff);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  box-shadow:
+    0 0 0 3px rgba(0, 229, 255, 0.25),
+    0 0 0 1px var(--accent, #00e5ff);
+  outline: none;
+}
+
+/* ─── Reduced motion — respect OS-level accessibility preferences ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection — premium high-contrast pill ─── */
+::selection {
+  background: rgba(0, 229, 255, 0.32);
+  color: #fff;
+  text-shadow: none;
+}
+
+/* ─── Skeleton loading utility — replaces "Loading..." text with a
+   subtle shimmer that hints at the shape of incoming content. Use on
+   any element by adding class "skeleton" + sizing rules. */
+.skeleton {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+  min-height: 1em;
+}
+@keyframes skel-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-line { height: 0.95rem; width: 100%; margin: 6px 0; }
+.skeleton-line.short { width: 35%; }
+.skeleton-line.medium { width: 65%; }
+.skeleton-line.title { height: 1.6rem; width: 45%; margin: 12px 0 8px; }
+.skeleton-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+}
+
+/* ─── Reveal-on-scroll — drop-in opacity/translate animation that
+   plays when an element scrolls into view. Used by useReveal hook. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 0.7s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Cards — universal hover lift across the site. Any element with
+   class "card-hover" gets a subtle elevation on hover. Quietly raises
+   the perceived quality across dozens of cards without per-component
+   rules. */
+.card-hover {
+  transition:
+    transform 0.18s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ─── Form inputs — consistent baseline so signup / profile inputs
+   stop looking like raw browser defaults. */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 8px;
+  color: var(--text-h, #ecedf3);
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.85rem;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+textarea:hover,
+select:hover {
+  border-color: rgba(255, 255, 255, 0.20);
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent, #00e5ff);
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.16);
+}
+::placeholder { color: rgba(230, 233, 239, 0.4); }
+label { color: rgba(230, 233, 239, 0.85); font-size: 0.85rem; font-weight: 500; }
+
+/* ─── Section dividers — subtle gradient breaks instead of hard lines
+   where landing-page sections meet. Quiet visual rhythm. */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 35%,
+    rgba(255, 255, 255, 0.08) 65%,
+    transparent 100%
+  );
+  border: none;
+  margin: 0;
+}
+
+/* ─── Better link hover — underline-on-hover for inline links instead
+   of the existing opacity fade, which reads as "broken link" to users
+   used to web conventions. */
+.content a,
+.legal-page a,
+.dashboard-page a:not(.btn):not(.dashboard-card):not(.dashboard-blog-card):not(.dashboard-recent),
+.match-prep-page a:not(.btn):not(.match-prep-site-link),
+.loadouts-page a:not(.btn) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(0, 229, 255, 0.45);
+  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+.content a:hover,
+.legal-page a:hover {
+  text-decoration-color: var(--accent, #00e5ff);
+}
+
+/* ─── Modals — consistent backdrop blur so every dialog feels like the
+   same surface, not a hodge-podge of components. */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.78);
+  backdrop-filter: blur(6px) saturate(1.1);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  z-index: 4000;
+  animation: backdrop-fade 0.18s ease;
+}
+@keyframes backdrop-fade {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to { opacity: 1; backdrop-filter: blur(6px); }
+}
+
+/* ─── Container — consistent max-widths for content-heavy pages so
+   nothing stretches past readable line length on ultra-wide displays. */
+.container-md { max-width: 880px; margin-inline: auto; padding-inline: 1.25rem; }
+.container-lg { max-width: 1100px; margin-inline: auto; padding-inline: 1.25rem; }
+
+/* ─── Empty state — universal pattern for "no data yet" surfaces so
+   they don't read as broken. */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: rgba(230, 233, 239, 0.65);
+}
+.empty-state h3 { margin: 0 0 0.5rem; color: var(--text-h, #fff); }
+.empty-state p { margin: 0 auto 1rem; max-width: 460px; line-height: 1.55; }

@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-05-12T06:55:11.885Z",
+  "game_meta": {
+    "name": "Dota 2",
+    "short_name": "Dota",
+    "tagline": "5v5 MOBA — destroy the enemy Ancient. Deeper mechanic ceiling than LoL (denying, couriers, neutral items, illusion mechanics).",
+    "sides": {
+      "attack": "Radiant (bottom-left)",
+      "defense": "Dire (top-right)"
+    },
+    "character_vocab": "heroes (120+, 5 picked per match across 5 positions, numbered 1-5 from hard-carry to position 5 support)",
+    "round_format": "BO1, BO3, or BO5 (tournament). Single match ~30-60 minutes. No rounds.",
+    "key_mechanics": [
+      "Last-hitting + denying (deny own creeps to starve enemy XP)",
+      "Position 1-5 system: carry / mid / offlaner / soft support / hard support",
+      "Courier management + item couriering",
+      "Roshan timer + Aegis of the Immortal",
+      "Neutral items (drops from neutral camps every X min)",
+      "High-ground defense via shrines + buybacks"
+    ]
+  },
+  "maps": {
+    "dota-map": {
+      "name": "The Dota Map",
+      "notes": "Single map. Two sides (Radiant SW / Dire NE), three lanes, jungle camps, Roshan pit."
+    }
+  },
+  "operator_roles": {
+    "Position 1 Carry": {
+      "roles": [
+        "Hard Carry"
+      ],
+      "side": "mixed",
+      "notes": "Farms gold/XP, scales into late-game wincon. Safe lane."
+    },
+    "Position 2 Mid": {
+      "roles": [
+        "Tempo Controller"
+      ],
+      "side": "mixed",
+      "notes": "Solo mid lane. Rotates to side lanes earliest."
+    },
+    "Position 3 Offlaner": {
+      "roles": [
+        "Initiator",
+        "Disruptor"
+      ],
+      "side": "mixed",
+      "notes": "Off lane. Tanks the lane, initiates fights."
+    },
+    "Position 4 Roamer": {
+      "roles": [
+        "Soft Support"
+      ],
+      "side": "mixed",
+      "notes": "Roams + early ganks + neutral item priority."
+    },
+    "Position 5 Hard Support": {
+      "roles": [
+        "Babysitter",
+        "Sentry"
+      ],
+      "side": "mixed",
+      "notes": "Wards the map, peels carry, sacrifices farm."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "herald_guardian": [
+      "Not denying creeps",
+      "Buying TPs only after the fight",
+      "Buying wrong items for hero/comp"
+    ],
+    "crusader_archon": [
+      "Buyback used too early",
+      "Wrong Aegis pickup priority",
+      "Pos 4-5 building carry items"
+    ],
+    "legend_plus": [
+      "Sub-optimal smoke-gank timing",
+      "Wrong neutral item selection",
+      "Bad rotation reads on enemy mid"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

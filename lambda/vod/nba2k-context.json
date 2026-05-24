@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-05-12T06:55:11.894Z",
+  "game_meta": {
+    "name": "NBA 2K",
+    "short_name": "2K",
+    "tagline": "Basketball simulation. Player-controlled (MyCareer / Pro-Am) or team-controlled (MyTeam, Play Now).",
+    "sides": {
+      "attack": "Offense (with ball)",
+      "defense": "Defense (without ball)"
+    },
+    "character_vocab": "builds — Point Guard (Playmaker / 3-Level Scorer), Shooting Guard, Small Forward (Slasher), Power Forward (2-Way Lockdown), Center (Glass Cleaner / Stretch Big)",
+    "round_format": "4 quarters x 8-12 minutes. Real-time minutes only in MyTeam Limited.",
+    "key_mechanics": [
+      "Shot meter timing — green release = guaranteed make at high stats",
+      "Pick and roll execution — pass, dive, fade reads",
+      "Defensive stance + on-ball pressure intensity",
+      "Stamina management — sprinting drains, affects shot %",
+      "Set plays + freelance offense — running designed actions",
+      "Badges system — passive boosts to specific actions (Catch & Shoot, Limitless Range, etc.)"
+    ]
+  },
+  "maps": {
+    "mycareer": {
+      "name": "MyCareer / The City",
+      "notes": "Online open-world hub with Rec Center 5v5, Park 3v3, Pro-Am."
+    },
+    "myteam": {
+      "name": "MyTeam",
+      "notes": "Card collection mode. Triple Threat 3v3, Unlimited 5v5, Limited weekend."
+    },
+    "play-now": {
+      "name": "Play Now Online",
+      "notes": "Direct online 5v5 with real NBA teams."
+    }
+  },
+  "builds": {
+    "PG Playmaker": {
+      "roles": [
+        "Floor General"
+      ],
+      "side": "attack",
+      "notes": "High ball-handle + pass accuracy. Sets up team."
+    },
+    "PG 3-Level Scorer": {
+      "roles": [
+        "Score-First Guard"
+      ],
+      "side": "attack",
+      "notes": "Three + mid + finish. Self-create."
+    },
+    "SG Sharpshooter": {
+      "roles": [
+        "Catch & Shoot"
+      ],
+      "side": "attack",
+      "notes": "Spot-up 3 specialist."
+    },
+    "SF Slasher": {
+      "roles": [
+        "Finisher"
+      ],
+      "side": "attack",
+      "notes": "Drives the lane. Posters + dunk packages."
+    },
+    "PF 2-Way Lockdown": {
+      "roles": [
+        "Wing Defender"
+      ],
+      "side": "defense",
+      "notes": "Guards 1-4. Steals + contests."
+    },
+    "C Glass Cleaner": {
+      "roles": [
+        "Rebounder"
+      ],
+      "side": "defense",
+      "notes": "Offensive + defensive board specialist."
+    },
+    "C Stretch Big": {
+      "roles": [
+        "Stretch"
+      ],
+      "side": "attack",
+      "notes": "Pop after pick-and-roll. Trail 3."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "rookie": [
+      "Shooting outside green window every time",
+      "No defensive stance on ball — getting blown by",
+      "Spamming dribble moves without setting up shot"
+    ],
+    "starter": [
+      "Bad pick-and-roll reads — picking wrong defender side",
+      "Forcing 3s instead of mid-range with high mid-range stats",
+      "Not using freelance for spacing"
+    ],
+    "veteran": [
+      "Sub-optimal play calling vs defensive matchup",
+      "Bad fatigue management — running starters into 4th quarter",
+      "Wrong badge load-out for build archetype"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

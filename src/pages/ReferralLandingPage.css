@@ -1,0 +1,87 @@
+.ref-landing {
+  max-width: 720px;
+  margin: 3rem auto;
+  padding: 0 1.25rem 4rem;
+}
+.ref-loading {
+  text-align: center;
+  color: rgba(230, 233, 239, 0.65);
+  padding: 4rem 1rem;
+}
+.ref-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  border-radius: 16px;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+.ref-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent, #00e5ff);
+  margin-bottom: 8px;
+}
+.ref-card h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+.ref-name {
+  color: #fff;
+}
+.ref-accent {
+  background: linear-gradient(120deg, #00e5ff, #66f2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.ref-lead {
+  margin: 0 0 1.5rem;
+  color: rgba(230, 233, 239, 0.85);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+.ref-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.ref-perks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(230, 233, 239, 0.92);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.ref-perks strong {
+  color: #fff;
+}
+.ref-check {
+  flex: 0 0 18px;
+  font-weight: 700;
+  color: var(--accent, #00e5ff);
+  margin-top: 1px;
+}
+.ref-cta-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.ref-foot {
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.ref-foot p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(230, 233, 239, 0.6);
+  line-height: 1.6;
+}

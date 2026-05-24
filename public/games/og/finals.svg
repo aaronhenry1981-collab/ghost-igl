@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06070b"/>
+      <stop offset="1" stop-color="#666600"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.15" cy="0.2" r="0.7">
+      <stop offset="0" stop-color="#FFFF00" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFF00" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.9" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#FFFF00" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FFFF00" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0" stop-color="#FFFF00"/>
+      <stop offset="0.6" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#FFFF00"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFF00" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Top-left brand -->
+  <g transform="translate(64 60)">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4" fill="#ecedf3">RECON<tspan fill="#FFFF00">6</tspan></text>
+    <text y="26" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="rgba(230,233,239,0.55)">AI COACHING · 20 GAMES</text>
+  </g>
+
+  <!-- Top-right kicker -->
+  <g transform="translate(1136 60)" text-anchor="end">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="14" letter-spacing="6" fill="#FFFF00">STRATEGY GUIDE</text>
+    <text y="26" font-family="Inter, sans-serif" font-size="14" fill="rgba(230,233,239,0.55)">12 arenas · 3 builds · Steal + Extract</text>
+  </g>
+
+  <!-- Game title -->
+  <g transform="translate(64 280)">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="800" font-size="110" letter-spacing="-3" fill="url(#title)">The Finals</text>
+    <text y="56" font-family="Inter, sans-serif" font-size="28" fill="#ecedf3" opacity="0.85">Every arena · Every build · Every callout</text>
+  </g>
+
+  <!-- Tactic chips row -->
+  <g transform="translate(64 460)">
+    <g transform="translate(0 0)">
+      <rect width="200" height="48" rx="10" fill="#FFFF00" fill-opacity="0.12" stroke="#FFFF00" stroke-width="1.5"/>
+      <text x="100" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#FFFF00" letter-spacing="2">STEAL STRATS</text>
+    </g>
+    <g transform="translate(216 0)">
+      <rect width="200" height="48" rx="10" fill="#FFFF00" fill-opacity="0.12" stroke="#FFFF00" stroke-width="1.5"/>
+      <text x="100" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#FFFF00" letter-spacing="2">EXTRACT SETUPS</text>
+    </g>
+    <g transform="translate(432 0)">
+      <rect width="200" height="48" rx="10" fill="#FFFF00" fill-opacity="0.12" stroke="#FFFF00" stroke-width="1.5"/>
+      <text x="100" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#FFFF00" letter-spacing="2">AI VOD REVIEW</text>
+    </g>
+    <g transform="translate(648 0)">
+      <rect width="200" height="48" rx="10" fill="#FFFF00" fill-opacity="0.12" stroke="#FFFF00" stroke-width="1.5"/>
+      <text x="100" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#FFFF00" letter-spacing="2">RANK UP</text>
+    </g>
+  </g>
+
+  <!-- Bottom URL bar -->
+  <g transform="translate(64 566)">
+    <text font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#ecedf3">r6coaching.com<tspan fill="rgba(230,233,239,0.55)">/games/finals/</tspan></text>
+  </g>
+  <g transform="translate(1136 566)" text-anchor="end">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#FFFF00">FREE · NO SIGNUP</text>
+  </g>
+
+  <!-- Bottom accent bar -->
+  <rect x="0" y="624" width="1200" height="6" fill="#FFFF00"/>
+</svg>

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Generates v1 CS2 data files for the Recon+ multi-game expansion.
+// Generates v1 CS2 data files for the Recon 6 multi-game expansion.
 // Mirrors the templating approach in scripts/generate-comingsoon-strats.mjs
 // but emits to disk (multi-file) rather than stdout. Re-running is idempotent.
 //

@@ -34,7 +34,7 @@ export default function PrivacyPage() {
       </ul>
 
       <h2>5. Cookies</h2>
-      <p>Ghost IGL uses minimal cookies for essential functionality only (session management, authentication). We use Plausible Analytics which does not use cookies and does not track users across sites.</p>
+      <p>Recon 6 uses minimal cookies for essential functionality only (session management, authentication). We use Plausible Analytics which does not use cookies and does not track users across sites.</p>
 
       <h2>6. Your Rights</h2>
       <p>You have the right to:</p>

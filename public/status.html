@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Status — Recon 6</title>
+  <meta name="description" content="Live operational status for Recon 6. Auto-refreshes every 60 seconds." />
+  <link rel="canonical" href="https://r6coaching.com/status.html" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="robots" content="noindex, follow" />
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 720px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .nav a { color: #00e5ff; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    h1 { font-size: 1.8rem; margin: 1.5rem 0 0.5rem; }
+    .subtitle { color: rgba(230,233,239,0.6); font-size: 0.95rem; margin-bottom: 2rem; }
+    .check {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.85rem 1rem; margin-bottom: 6px;
+      background: rgba(255,255,255,0.03); border-radius: 8px;
+      border-left: 4px solid rgba(255,255,255,0.1);
+    }
+    .check.ok { border-left-color: #50c878; }
+    .check.fail { border-left-color: #ff5a5a; }
+    .check.pending { border-left-color: rgba(255,255,255,0.3); }
+    .check-name { font-weight: 600; color: #e6e9ef; }
+    .check-pill {
+      font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .pill-ok { background: rgba(80,200,120,0.18); color: #7ee2a4; }
+    .pill-fail { background: rgba(255,90,90,0.2); color: #ff8a8a; }
+    .pill-pending { background: rgba(180,180,180,0.18); color: #aaa; }
+    .summary {
+      padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+      background: rgba(80,200,120,0.08); border: 1px solid #50c878; border-radius: 10px;
+      font-size: 1.1rem; font-weight: 600; color: #7ee2a4;
+    }
+    .summary.degraded { background: rgba(255,180,80,0.08); border-color: #ffb450; color: #ffc97a; }
+    .summary.outage { background: rgba(255,90,90,0.1); border-color: #ff5a5a; color: #ff8a8a; }
+    .footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    .last-checked { font-size: 0.85rem; color: rgba(230,233,239,0.55); margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">Map Guides</a>
+      <a href="/guides/operators/">Operators</a>
+    </div>
+    <h1>System Status</h1>
+    <p class="subtitle">Live operational status. Auto-refreshes every 60 seconds.</p>
+
+    <div id="summary" class="summary">All systems operational</div>
+
+    <div id="checks">
+      
+        <div class="check pending" data-idx="0">
+          <span class="check-name">Site (CloudFront)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="1">
+          <span class="check-name">Strats data (cached chunk)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="2">
+          <span class="check-name">API: announcements</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="3">
+          <span class="check-name">API: testimonials</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="4">
+          <span class="check-name">API: demo-video</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="5">
+          <span class="check-name">API: /me (auth gate)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="6">
+          <span class="check-name">API: /admin (auth gate)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="7">
+          <span class="check-name">Stripe checkout (Pro)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+
+        <div class="check pending" data-idx="8">
+          <span class="check-name">Stripe checkout (Champion)</span>
+          <span class="check-pill pill-pending">Checking…</span>
+        </div>
+    </div>
+
+    <p class="last-checked" id="last-checked">Last checked: never</p>
+
+    <div class="footer">
+      <p>Status checks run client-side from your browser. If you see degraded status here but everything works for you, you may be hitting a cached path.</p>
+    </div>
+  </div>
+
+  <script>
+    const CHECKS = [{"name":"Site (CloudFront)","url":"https://r6coaching.com/","expect":200},{"name":"Strats data (cached chunk)","url":"https://r6coaching.com/sitemap.xml","expect":200},{"name":"API: announcements","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements","expect":200},{"name":"API: testimonials","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials","expect":200},{"name":"API: demo-video","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/demo-video","expect":200},{"name":"API: /me (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/me","expect":401},{"name":"API: /admin (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/admin/users","expect":401},{"name":"Stripe checkout (Pro)","url":"https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f","expect":200},{"name":"Stripe checkout (Champion)","url":"https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d","expect":200}];
+
+    async function probe(url, expect) {
+      try {
+        // no-cors fallback for cross-origin opaque responses (Stripe etc.)
+        const t0 = performance.now();
+        const res = await fetch(url, { cache: 'no-store' }).catch(() => null);
+        const dt = Math.round(performance.now() - t0);
+        if (!res) return { ok: false, status: 0, ms: dt };
+        return { ok: res.status === expect, status: res.status, ms: dt };
+      } catch (err) {
+        return { ok: false, status: 0, ms: 0, err: err.message };
+      }
+    }
+
+    async function runAll() {
+      const summaryEl = document.getElementById('summary');
+      const lastCheckedEl = document.getElementById('last-checked');
+      let okCount = 0, failCount = 0;
+      for (let i = 0; i < CHECKS.length; i++) {
+        const c = CHECKS[i];
+        const result = await probe(c.url, c.expect);
+        const el = document.querySelector(`[data-idx="${i}"]`);
+        if (!el) continue;
+        el.classList.remove('pending');
+        const pill = el.querySelector('.check-pill');
+        pill.classList.remove('pill-pending');
+        if (result.ok) {
+          el.classList.add('ok');
+          pill.classList.add('pill-ok');
+          pill.textContent = `OK · ${result.ms}ms`;
+          okCount++;
+        } else {
+          el.classList.add('fail');
+          pill.classList.add('pill-fail');
+          pill.textContent = result.status ? `HTTP ${result.status}` : 'UNREACHABLE';
+          failCount++;
+        }
+      }
+      summaryEl.textContent = failCount === 0
+        ? 'All systems operational'
+        : failCount < CHECKS.length / 2
+          ? `Degraded — ${failCount} of ${CHECKS.length} checks failing`
+          : `Major outage — ${failCount} of ${CHECKS.length} checks failing`;
+      summaryEl.className = 'summary' + (failCount === 0 ? '' : (failCount < CHECKS.length / 2 ? ' degraded' : ' outage'));
+      lastCheckedEl.textContent = 'Last checked: ' + new Date().toLocaleTimeString();
+    }
+
+    runAll();
+    setInterval(runAll, 60_000);
+  </script>
+</body>
+</html>

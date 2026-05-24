@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overwatch 2 Strategy Guide &amp; AI VOD Analysis | Recon 6</title>
+  <meta name="description" content="Overwatch 2 strategy guide for ranked play. Maps, heros, callouts, and round-by-round VOD breakdowns. Recon 6 covers Overwatch 2 as part of the All-Access subscription." />
+  <link rel="canonical" href="https://r6coaching.com/games/ow2/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#F99E1A" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Overwatch 2 Strategy Guide &amp; AI VOD Analysis | Recon 6" />
+  <meta property="og:description" content="Overwatch 2 strategy guide for ranked play. Maps, heros, callouts, and round-by-round VOD breakdowns. Recon 6 covers Overwatch 2 as part of the All-Access subscription." />
+  <meta property="og:url" content="https://r6coaching.com/games/ow2/" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/ow2.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/ow2.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Overwatch 2","description":"Overwatch 2 strategy guide for ranked play. Maps, heros, callouts, and round-by-round VOD breakdowns. Recon 6 covers Overwatch 2 as part of the All-Access subscription.","publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"url":"https://r6coaching.com/games/ow2/","genre":"First Person Shooter"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"Overwatch 2","item":"https://r6coaching.com/games/ow2/"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #F99E1A; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .game-hero { padding: 2.5rem 0; text-align: center; }
+    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); margin-bottom: 1rem; }
+    h1 { font-size: 2.5rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.15rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-primary { background: var(--accent); color: #0a0f19; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+    h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+    .stat-row { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+    .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem 1.25rem; min-width: 140px; text-align: center; }
+    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 4px; }
+    .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin: 1rem 0; }
+    .grid-item { padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.9rem; }
+    .grid-item strong { color: #fff; }
+    .grid-item span { color: rgba(230,233,239,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(180,140,255,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="game-hero">
+      <div class="badge">Overwatch 2 on Recon 6 · Live</div>
+      <h1>Overwatch 2 <span class="accent">Coaching</span></h1>
+      <p class="lead">
+        38 Maps ·
+        43 heros ·
+        38 strategy breakdowns. Live in-app today.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://r6coaching.com/#/strats">Open Overwatch 2 in-app →</a>
+        <a class="btn btn-outline" href="https://r6coaching.com/#pricing">See pricing</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-label">Maps</div><div class="stat-val">38</div></div>
+        <div class="stat"><div class="stat-label">Heros</div><div class="stat-val">43</div></div>
+        <div class="stat"><div class="stat-label">Strats</div><div class="stat-val">38</div></div>
+      </div>
+    </div>
+
+    <div class="pricing-callout">
+      <h3 style="margin-top:0">Why Overwatch 2 on Recon 6?</h3>
+      <p>Same AI VOD analysis that's live for R6 today — drop a screenshot, get specific feedback referencing the map, your operator/agent/hero, and the actual strats. Recon 6 All-Access ($19/mo Pro, $49/mo Champion) unlocks Overwatch 2 the moment it goes live, plus all 19 other supported games.</p>
+      <a class="btn btn-primary" href="https://r6coaching.com/#pricing">See pricing →</a>
+    </div>
+
+    
+    <h2>Overwatch 2 Maps</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Antarctic Peninsula</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Busan</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ilios</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Nepal</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Eichenwalde</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>King's Row</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Midtown</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Numbani</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Circuit Royal</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Dorado</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Junkertown</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Watchpoint: Gibraltar</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Colosseo</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Esperança</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Suravasa</strong>
+          <span>5 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hanaoka</strong>
+          <span>5 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Lijiang Tower</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Oasis</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Samoa</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hanamura</strong>
+          <span>2 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hollywood</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Paraíso</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Rialto</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Havana</strong>
+          <span>3 Objectives</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>Overwatch 2 Heros</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>D.Va</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Doomfist</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hazard</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Junker Queen</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Mauga</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Orisa</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ramattra</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Reinhardt</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Roadhog</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sigma</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Winston</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Wrecking Ball</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Zarya</strong>
+          <span>Tank</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ashe</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Bastion</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Cassidy</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Echo</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Freja</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Genji</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hanzo</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Junkrat</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Mei</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Pharah</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Reaper</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sojourn</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Soldier: 76</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sombra</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Symmetra</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Torbjörn</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Tracer</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Venture</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Widowmaker</strong>
+          <span>DPS</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ana</strong>
+          <span>Support</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Baptiste</strong>
+          <span>Support</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Brigitte</strong>
+          <span>Support</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Illari</strong>
+          <span>Support</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>Overwatch 2 Loadouts</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
+      <a href="/#/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
+    </p>
+    <div class="grid">
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Hero Compositions</strong>
+          <span>Team comp archetypes</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Pick your comp by looking at the opposing 5. Three core archetypes: dive, brawl, poke. Mismatch = lose.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Ult Tracking</strong>
+          <span>Charge order + combo timing</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Knowing when YOUR team has ults — and when THEIRS does — wins more fights than mechanical aim.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Counter Picks</strong>
+          <span>Hard counters by hero</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">When you're losing fights, switch. OW2 lets you swap mid-match — use it.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Cooldown Tracking</strong>
+          <span>When to push</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">OW2 fights are won on cooldowns, not aim. Track key cooldowns on your team and the enemy.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Stadium</strong>
+          <span>Round economy + builds for the BO5/BO7 mode</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Stadium is round-based 5v5 with a per-round Cash budget you spend on hero-specific Powers (4 total chosen across rounds 1/3/5/7) and stat It…</div>
+        </a>
+      
+    </div>
+  
+    
+    <h2>Overwatch 2 Rank-Up Guides</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">Step-by-step guides for climbing each rank tier in Overwatch 2 — what to focus on, common mistakes, and drills.</p>
+    <div class="grid">
+      
+        <a href="/blog/ow2-bronze-to-silver.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Bronze to Silver in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-diamond-to-master.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Diamond to Master in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-gold-to-plat.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Gold to Platinum in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-master-to-gm.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Master to Grandmaster in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-plat-to-diamond.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Platinum to Diamond in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-silver-to-gold.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Silver to Gold in Overwatch 2 (2026 Guide)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-stadium-economy.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>OW2 Stadium Economy Guide — Cash &amp;amp; Round Strategy (2026)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-stadium-guide.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>OW2 Stadium Guide — Best Builds, Powers &amp;amp; Economy (2026)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-stadium-items-guide.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>OW2 Stadium Items Guide — When to Buy What (2026)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/ow2-stadium-tier-list.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>OW2 Stadium Tier List 2026 — Best Heroes Per Role</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+    </div>
+  
+
+    <h2>What you get for Overwatch 2</h2>
+    <ul>
+      <li><strong>Site-by-site strats</strong> — 38+ tactical breakdowns by map and objective, with picks, callouts, and utility</li>
+      <li><strong>Loadouts</strong> — weapon priorities, ability combos, and team-comp synergies tuned for Overwatch 2</li>
+      <li><strong>Match Prep cheatsheet</strong> — bans, top picks, and callouts on one screen before you ready up</li>
+      <li><strong>Cast catalog</strong> — 43 heros indexed by role and kit</li>
+      <li><strong>Meta board</strong> — top picks + most-banned across the active Overwatch 2 meta</li>
+      <li><strong>Discord coaching channels</strong> — Recon 6 Discord with Overwatch 2-specific rooms</li>
+    </ul>
+  
+    <footer>
+      <p>Recon 6 — coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans →</a></p>
+    </footer>
+  </div>
+</body>
+</html>

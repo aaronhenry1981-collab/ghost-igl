@@ -2,7 +2,7 @@
 .vod-page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 120px 24px 80px;
+  padding: 0;
 }
 
 .vod-header {
@@ -341,7 +341,7 @@
 /* ─── Responsive ─── */
 @media (max-width: 600px) {
   .vod-page {
-    padding: 100px 16px 60px;
+    padding: 0;
   }
   .vod-header h1 {
     font-size: 1.8rem;
@@ -355,4 +355,206 @@
   .link-input-wrap {
     flex-direction: column;
   }
+}
+
+/* ─── Gate state (free users, signed out) ─── */
+.vod-gate {
+  text-align: center;
+  padding: 48px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.vod-gate h3 {
+  margin-bottom: 8px;
+}
+.vod-gate p {
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+.vod-gate-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.vod-demo-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* ─── Demo-end conversion card ───
+   This is the conversion moment for the hero's primary "Try AI VOD
+   Review" CTA — a logged-out visitor sees the sample, then hits this.
+   Built as a real card (not a lone button) with reframe headline,
+   founding-rate urgency, dual CTA, and trust row. */
+.vod-demo-convert {
+  margin-top: 28px;
+  padding: 28px 24px;
+  text-align: center;
+  background: linear-gradient(160deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
+  border: 1px solid rgba(0,229,255,0.35);
+  border-radius: 16px;
+}
+.vod-demo-convert-eyebrow {
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(0,229,255,0.9);
+  margin-bottom: 6px;
+}
+.vod-demo-convert h3 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.vod-demo-convert h3 em { color: #00e5ff; font-style: italic; }
+.vod-demo-convert p {
+  font-size: 0.92rem;
+  color: rgba(230,233,239,0.8);
+  max-width: 52ch;
+  margin: 0 auto 18px;
+  line-height: 1.55;
+}
+.vod-demo-convert-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.vod-demo-convert-urgency {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffc97a;
+}
+.vod-demo-convert-trust {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.6);
+}
+
+/* ─── Detected chips on results ─── */
+.analysis-detected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 24px;
+}
+.analysis-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 245, 255, 0.08);
+  border: 1px solid rgba(0, 245, 255, 0.25);
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+.analysis-chip-label {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+.analysis-chip-value {
+  color: var(--accent, #00f5ff);
+  font-weight: 600;
+}
+
+/* ─── Demo hint + banner ─── */
+.vod-demo-hint {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim, rgba(200, 200, 220, 0.6));
+}
+.vod-demo-link {
+  background: none;
+  border: none;
+  color: var(--accent, #00f5ff);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+.vod-demo-link:hover { text-decoration: underline; }
+
+.vod-demo-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  background: rgba(155, 89, 255, 0.1);
+  border: 1px solid rgba(155, 89, 255, 0.35);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #c5a7ff;
+}
+.vod-demo-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  background: linear-gradient(90deg, #9b59ff, #c5a7ff);
+  color: #0a0f19;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.vod-demo-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.65;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.vod-demo-close:hover { opacity: 1; }
+
+/* ─── Friendly error states ─── */
+.vod-error-pending {
+  text-align: center;
+  padding: 36px 28px;
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.04), rgba(10, 15, 25, 0.7));
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 12px;
+}
+.vod-error-icon {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+.vod-error-pending h3 {
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+  color: var(--text-h, #fff);
+}
+.vod-error-pending p {
+  color: var(--text, rgba(200, 200, 220, 0.85));
+  margin: 0 auto 10px;
+  max-width: 480px;
+}
+.vod-error-sub {
+  font-size: 0.88rem;
+  opacity: 0.8;
+}
+.vod-error-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 18px;
 }

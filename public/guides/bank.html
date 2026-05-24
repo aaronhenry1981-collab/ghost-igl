@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bank Strategy Guide — Recon 6 (R6 Siege)</title>
+  <meta name="description" content="Complete Rainbow Six Siege strategy guide for Bank: operator picks, callouts, utility usage, and ban recommendations for every bomb site (CEO Office / Executive Lounge, Open Area / Staff Room, Teller's Office / Archives, Lockers / CCTV Room). Attack and defense strats for ranked play." />
+  <link rel="canonical" href="https://r6coaching.com/guides/bank.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0a0f19" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Bank Strategy Guide — Recon 6 (R6 Siege)" />
+  <meta property="og:description" content="Complete Rainbow Six Siege strategy guide for Bank: operator picks, callouts, utility usage, and ban recommendations for every bomb site (CEO Office / Executive Lounge, Open Area / Staff Room, Teller's Office / Archives, Lockers / CCTV Room). Attack and defense strats for ranked play." />
+  <meta property="og:url" content="https://r6coaching.com/guides/bank.html" />
+  <meta property="og:image" content="https://r6coaching.com/guides/og/bank.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/guides/og/bank.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Bank — Complete Rainbow Six Siege Strategy Guide","description":"Complete Rainbow Six Siege strategy guide for Bank: operator picks, callouts, utility usage, and ban recommendations for every bomb site (CEO Office / Executive Lounge, Open Area / Staff Room, Teller's Office / Archives, Lockers / CCTV Room). Attack and defense strats for ranked play.","author":{"@type":"Organization","name":"Recon 6"},"publisher":{"@type":"Organization","name":"Recon 6","logo":{"@type":"ImageObject","url":"https://r6coaching.com/og-image.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://r6coaching.com/guides/bank.html"},"inLanguage":"en-US"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Map Guides","item":"https://r6coaching.com/guides/"},{"@type":"ListItem","position":3,"name":"Bank","item":"https://r6coaching.com/guides/bank.html"}]}</script>
+  
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #0a0f19;
+      color: #e6e9ef;
+      line-height: 1.6;
+    }
+    a { color: #00e5ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff; text-decoration: none; }
+    .brand span { color: #00e5ff; }
+    .nav-links a { margin-left: 18px; color: rgba(230,233,239,0.85); font-size: 0.9rem; }
+    main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-size: 2rem; margin: 0 0 8px; }
+    .sub { color: rgba(230,233,239,0.7); margin-bottom: 24px; font-size: 0.95rem; }
+    .cta-top {
+      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #00e5ff, #00b4d8);
+      color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
+    }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 10px; }
+    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
+    .side { margin: 18px 0; padding: 14px 16px; background: rgba(10,15,25,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .side.attack { border-left-color: #ff8060; }
+    .side.defense { border-left-color: #50b4ff; }
+    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h3 { color: #ff8060; }
+    .side.defense h3 { color: #50b4ff; }
+    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .op { padding: 4px 10px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3); border-radius: 4px; font-size: 0.85rem; color: #c0f4fc; }
+    .op.essential { background: rgba(0,229,255,0.16); border-color: #00e5ff; font-weight: 700; }
+    .strategy { margin: 8px 0; color: rgba(230,233,239,0.9); }
+    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(230,233,239,0.85); }
+    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
+    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .bans ul { margin: 0; padding-left: 18px; }
+    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
+    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(10,15,25,0.6)); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
+    .intro-cta h3 { margin: 0 0 6px; }
+    .intro-cta p { margin: 0 0 12px; color: rgba(230,233,239,0.8); }
+    .btn { display: inline-block; padding: 10px 20px; background: #00e5ff; color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(230,233,239,0.5); font-size: 0.82rem; text-align: center; }
+    @media (max-width: 600px) {
+      main { padding: 20px 16px 40px; }
+      h1 { font-size: 1.5rem; }
+      .site { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="https://r6coaching.com/">RECON<span>6</span></a>
+    <div class="nav-links">
+      <a href="https://r6coaching.com/guides/">All guides</a>
+      <a href="https://r6coaching.com/#/strats">Interactive strats</a>
+      <a href="https://r6coaching.com/#pricing">Pricing</a>
+    </div>
+  </nav>
+  <main>
+    
+    <h1>Bank — Complete Strategy Guide</h1>
+    <p class="sub">Operator picks, callouts, utility, and ban recommendations for every bomb site. Free tactical guide from Recon 6.</p>
+    <a class="cta-top" href="https://r6coaching.com/#/strats/bank">Open interactive Bank strats &rarr;</a>
+    
+      <div class="bans">
+        <h4>Ban recommendations</h4>
+        <ul>
+          <li><strong>Thatcher</strong> (attack) — Removes all electronic denial on reinforced walls — without him, hard breachers struggle to open CEO and basement walls.</li><li><strong>Maverick</strong> (attack) — Can silently open reinforced walls without any counter. Eliminates Bandit/Kaid tricking entirely.</li>
+          <li><strong>Mira</strong> (defense) — Black Mirrors on key walls give defenders massive intel advantage and deny safe pushes on multiple sites.</li><li><strong>Valkyrie</strong> (defense) — Hidden cameras throughout Bank's tight hallways provide too much roamer intel and C4 kills.</li>
+        </ul>
+      </div>
+    
+        <section class="site" id="ceo">
+          <h2>2F &mdash; CEO Office / Executive Lounge</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Thermite</span><span class="op essential">Thatcher</span>
+        <span class="op">Sledge</span><span class="op">Nomad</span>
+        <span class="op">Iana</span>
+      </div>
+      <p class="strategy">Open the CEO wall with Thermite while Thatcher clears anti-breach. Sledge plays vertical from above to force defenders off the site. Nomad covers flanks from spiral and back stairs. Iana drones out remaining defenders before the execute.</p>
+      <div class="callouts">
+        <span class="callout">CEO</span><span class="callout">Executive Lounge</span><span class="callout">Janitor</span><span class="callout">Skylight</span><span class="callout">Server</span><span class="callout">Spiral Stairs</span><span class="callout">Front Door</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Kaid</span><span class="op essential">Smoke</span>
+        <span class="op">Mute</span><span class="op">Vigil</span>
+        <span class="op">Valkyrie</span>
+      </div>
+      <p class="strategy">Reinforce CEO wall and electrify with Kaid from the floor below or behind a shield. Smoke holds doorways and denies plant attempts. Mute covers drone holes and reinforced walls. Vigil roams to waste attacker time. Valkyrie places cameras in key hallways.</p>
+      <div class="callouts">
+        <span class="callout">CEO</span><span class="callout">Executive Lounge</span><span class="callout">Janitor</span><span class="callout">Skylight</span><span class="callout">Server</span><span class="callout">Spiral Stairs</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/bank/ceo/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="open-area">
+          <h2>1F &mdash; Open Area / Staff Room</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Hibana</span><span class="op essential">Capitao</span>
+        <span class="op">Zofia</span><span class="op">Ash</span>
+        <span class="op">Flores</span>
+      </div>
+      <p class="strategy">Hibana opens the reinforced wall between open area and teller side. Capitao uses fire bolts to deny anchor positions. Zofia clears utility and opens rotations. Ash pushes from lobby. Flores drones and destroys defender gadgets.</p>
+      <div class="callouts">
+        <span class="callout">Open Area</span><span class="callout">Staff Room</span><span class="callout">Electrical</span><span class="callout">Admin</span><span class="callout">Lobby</span><span class="callout">Main Stairs</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Bandit</span><span class="op essential">Maestro</span>
+        <span class="op">Jager</span><span class="op">Alibi</span>
+        <span class="op">Thunderbird</span>
+      </div>
+      <p class="strategy">Bandit tricking on the reinforced wall is critical. Maestro places Evil Eyes to deny plant and provide intel. Jager's ADS protect against flashbangs and projectiles. Alibi roams basement and lobby to slow the push. Thunderbird provides healing in high-traffic rotation spots.</p>
+      <div class="callouts">
+        <span class="callout">Open Area</span><span class="callout">Staff Room</span><span class="callout">Electrical</span><span class="callout">Admin</span><span class="callout">Lobby</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/bank/open-area/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="tellers">
+          <h2>1F &mdash; Teller's Office / Archives</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Ace</span><span class="op essential">Twitch</span>
+        <span class="op">Sledge</span><span class="op">Nomad</span>
+        <span class="op">Dokkaebi</span>
+      </div>
+      <p class="strategy">Ace opens the reinforced wall from the lobby side. Twitch drone clears gadgets before breach. Sledge opens the floor above for vertical pressure on archives. Nomad watches lobby and main stairs. Dokkaebi calls phones to reveal anchor positions.</p>
+      <div class="callouts">
+        <span class="callout">Teller's</span><span class="callout">Archives</span><span class="callout">Lobby</span><span class="callout">Main Stairs</span><span class="callout">Admin</span><span class="callout">Square</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Bandit</span><span class="op essential">Lesion</span>
+        <span class="op">Jager</span><span class="op">Pulse</span>
+        <span class="op">Aruni</span>
+      </div>
+      <p class="strategy">Bandit trick the teller wall. Lesion mines cover all entry points for early warning. Jager ADS protect the site from projectiles. Pulse plays below to give vertical intel and C4. Aruni gates on critical doorways to slow the push.</p>
+      <div class="callouts">
+        <span class="callout">Teller's</span><span class="callout">Archives</span><span class="callout">Lobby</span><span class="callout">Main Stairs</span><span class="callout">Admin</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/bank/tellers/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="basement">
+          <h2>B &mdash; Lockers / CCTV Room</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Thermite</span><span class="op essential">Thatcher</span>
+        <span class="op">Buck</span><span class="op">Gridlock</span>
+        <span class="op">Lion</span>
+      </div>
+      <p class="strategy">Open the server wall with Thermite. Buck plays vertical from above to open the floor over CCTV. Gridlock covers flanks with trax. Lion scans to catch rotating defenders. Control garage and tunnel for a clean execute.</p>
+      <div class="callouts">
+        <span class="callout">Lockers</span><span class="callout">CCTV</span><span class="callout">Server Stairs</span><span class="callout">Tunnel</span><span class="callout">Garage</span><span class="callout">Elevator</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Mira</span><span class="op essential">Smoke</span>
+        <span class="op">Mozzie</span><span class="op">Ela</span>
+        <span class="op">Castle</span>
+      </div>
+      <p class="strategy">Mira window on the wall between server and lockers for intel. Smoke denies tunnel push and plant. Mozzie captures attacker drones for counter-intel. Ela roams topside to waste time. Castle barricades slow pushes through server stairs.</p>
+      <div class="callouts">
+        <span class="callout">Lockers</span><span class="callout">CCTV</span><span class="callout">Server Stairs</span><span class="callout">Tunnel</span><span class="callout">Garage</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/bank/basement/attack">Open full interactive strat &rarr;</a>
+        </section>
+    <div class="intro-cta">
+      <h3>Want the full utility breakdown + AI VOD review?</h3>
+      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis for $9/mo (R6 only) or $19/mo All-Access (10 games).</p>
+      <a class="btn" href="https://r6coaching.com/#pricing">See plans</a>
+    </div>
+
+    <!-- Multi-game cross-link: R6 visitors who also play other tactical FPS see
+         the All-Access value prop here. Doesn't hurt R6-only conversion since
+         it's below the fold, after the strats they came for. -->
+    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #00e5ff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Recon 6 Multi-Game</div>
+      <h3 style="margin: 0 0 8px;">Also play CS2, Valorant, or another tactical FPS?</h3>
+      <p style="margin: 0 0 12px; color: rgba(230,233,239,0.8);">Recon 6 covers 10 games with the same AI VOD analysis and map-aware feedback. All-Access ($19/mo Pro+) unlocks every game as it launches.</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://r6coaching.com/games/cs2/" style="padding: 6px 12px; background: rgba(245,184,0,0.12); color: #f5b800; border: 1px solid rgba(245,184,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">CS2 →</a>
+        <a href="https://r6coaching.com/games/valorant/" style="padding: 6px 12px; background: rgba(255,70,85,0.12); color: #ff4655; border: 1px solid rgba(255,70,85,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Valorant →</a>
+        <a href="https://r6coaching.com/games/apex/" style="padding: 6px 12px; background: rgba(155,81,224,0.12); color: #9b51e0; border: 1px solid rgba(155,81,224,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Apex →</a>
+        <a href="https://r6coaching.com/games/ow2/" style="padding: 6px 12px; background: rgba(255,140,0,0.12); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">OW2 →</a>
+        <a href="https://r6coaching.com/games/" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: rgba(230,233,239,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">All 10 →</a>
+      </div>
+    </div>
+  </main>
+  <div class="footer-strip">
+    <p>&copy; Recon 6 — AI-powered Rainbow Six Siege coaching. <a href="https://r6coaching.com/">r6coaching.com</a></p>
+  </div>
+</body>
+</html>

@@ -1,64 +1,79 @@
 import { useState } from 'react'
-import { analyzeScreenshotApi } from '../api/vodApi'
+import { analyzeSessionApi } from '../api/vodApi'
+import { useAuth } from './useAuth'
 
-// Mock analysis for demo when no backend is configured
-function generateMockAnalysis() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        score: 72,
-        overview: 'You appear to be holding a post-plant position on the second floor. The operator choice is solid for this site, but your positioning exposes you to multiple angles simultaneously.',
-        positioning: 'Your current position gives you a sightline on the doorway, but you\'re exposed to a window peek from your left. Consider repositioning behind the desk for better cover while maintaining the same angle. This reduces the number of angles you need to hold from 3 to 1.',
-        crosshair: 'Crosshair placement is slightly low — you\'re aiming at chest level rather than head height. At this distance and angle, raising your crosshair by about 10% would significantly improve your time-to-kill on any peek.',
-        utility: 'You still have a reinforcement and a deployable shield available. The shield could be placed in the doorway to force attackers into a predictable vault animation, giving you an easy kill. Don\'t forget to use all your utility before the round gets late.',
-        improvements: [
-          'Reposition to reduce the number of angles you\'re exposed to',
-          'Raise crosshair placement to head level for faster kills',
-          'Deploy remaining utility (shield) to strengthen your position',
-          'Consider using a camera or intel gadget to watch the flank',
-        ],
-        strengths: [
-          'Good site anchor position with sightline on main entry point',
-          'Operator choice is appropriate for this site and role',
-          'Health and ammo are in good shape for a late-round hold',
-        ],
-      })
-    }, 8000)
-  })
-}
-
+// VOD analysis hook — supports multi-image sessions with optional context
+// hints (game_id, map, side, character) plus session-cap awareness.
+//
+// Returns the session-shaped response from the rebuilt VOD Lambda:
+//   { session, per_image, patterns, practice_plan, character_feedback, usage }
+//
+// On 429 usage_limit_exceeded, we set errorCode='usage_limit' so the UI can
+// show the dedicated over-limit modal with the right upsell + reset date.
+// On 200 success the response includes a fresh usage payload — we push it
+// into the auth context so the Account page + upload-zone counter update
+// without a /me re-fetch.
 export function useVodAnalysis() {
+  const { setVodUsage } = useAuth()
   const [analysis, setAnalysis] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [errorCode, setErrorCode] = useState(null)
+  const [usageError, setUsageError] = useState(null)
 
-  async function analyzeScreenshot(file) {
+  async function analyzeSession(files, context = {}) {
     setLoading(true)
     setError(null)
+    setErrorCode(null)
+    setUsageError(null)
     setAnalysis(null)
 
     try {
-      // Try real API first, fall back to mock demo
-      let result
-      try {
-        result = await analyzeScreenshotApi(file)
-      } catch {
-        // No backend configured — use mock analysis for demo
-        result = await generateMockAnalysis()
+      const result = await analyzeSessionApi(files, context)
+      if (result?.error === 'not_siege' || result?.error === 'wrong_game') {
+        setError(result.message || "These screenshots don't look like the active game's gameplay.")
+        setErrorCode(result.error)
+      } else {
+        setAnalysis(result)
+        // Bump the usage counter in auth context so the UI reflects the
+        // newly-spent session immediately (no /me re-fetch needed).
+        if (result?.usage && typeof setVodUsage === 'function') {
+          setVodUsage(result.usage)
+        }
       }
-      setAnalysis(result)
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.')
+      // The api helper attaches err.code from the response body when present.
+      if (err.code === 'usage_limit_exceeded') {
+        setUsageError({
+          message: err.message,
+          used: err.used,
+          limit: err.limit,
+          isTrial: err.is_trial,
+          periodEnd: err.period_end,
+          upgradeUrl: err.upgrade_url,
+        })
+        setErrorCode('usage_limit')
+        setError(err.message || 'You\'ve used all your VOD sessions for this period.')
+      } else {
+        setError(err.message || 'Something went wrong. Please try again.')
+        setErrorCode(err.code || null)
+      }
     } finally {
       setLoading(false)
     }
+  }
+
+  async function analyzeScreenshot(file, context = {}) {
+    return analyzeSession([file], context)
   }
 
   function reset() {
     setAnalysis(null)
     setLoading(false)
     setError(null)
+    setErrorCode(null)
+    setUsageError(null)
   }
 
-  return { analysis, loading, error, analyzeScreenshot, reset }
+  return { analysis, loading, error, errorCode, usageError, analyzeSession, analyzeScreenshot, reset }
 }

@@ -1,0 +1,80 @@
+.game-meta-page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+.game-meta-loading, .game-meta-empty { text-align: center; padding: 4rem 1rem; color: rgba(230,233,239,0.6); }
+.game-meta-empty h1 { color: var(--text-h, #fff); margin: 0 0 0.5rem; }
+
+.game-meta-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+.game-meta-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.game-meta-header h1 { margin: 0 0 0.5rem; font-size: 2.15rem; line-height: 1.15; }
+.game-meta-header p { margin: 0; color: rgba(230,233,239,0.78); max-width: 720px; line-height: 1.55; }
+
+.game-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1rem;
+}
+.game-meta-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+}
+.game-meta-card h2 { margin: 0 0 4px; font-size: 1.15rem; }
+.game-meta-card-sub {
+  margin: 0 0 1rem;
+  color: rgba(230,233,239,0.6);
+  font-size: 0.85rem;
+}
+
+.game-meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.game-meta-list li {
+  display: grid;
+  grid-template-columns: 24px 1fr auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.game-meta-rank { color: rgba(230,233,239,0.4); font-weight: 700; font-size: 0.78rem; }
+.game-meta-name { font-weight: 600; color: var(--text-h, #fff); }
+.game-meta-role {
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.55);
+}
+.game-meta-stats {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.game-meta-stat-essential { color: #ff8a50; }
+.game-meta-stat-recommended { color: #00e5ff; }
+.game-meta-stat-flex { color: rgba(230,233,239,0.5); }
+
+.game-meta-foot {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.92rem;
+  color: rgba(230,233,239,0.7);
+}
+.game-meta-foot p { margin: 0; }

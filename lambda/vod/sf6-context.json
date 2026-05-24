@@ -1,0 +1,102 @@
+{
+  "generated_at": "2026-05-12T06:55:11.887Z",
+  "game_meta": {
+    "name": "Street Fighter 6",
+    "short_name": "SF6",
+    "tagline": "1v1 2D fighting game. Best-of-3 rounds. Drive system + Modern/Classic control schemes.",
+    "sides": {
+      "attack": "P1 (left side)",
+      "defense": "P2 (right side)"
+    },
+    "character_vocab": "characters (22+ roster), played on Classic (full inputs) or Modern (simplified) controls",
+    "round_format": "Best of 3 rounds (FT2). Each round ~99 seconds in-game.",
+    "key_mechanics": [
+      "Drive Gauge — Drive Rush, Drive Impact, Drive Parry, Drive Reversal, OD (super) versions",
+      "Burnout state — when Drive Gauge empties, you take chip damage + lose throw escapes",
+      "SA1/SA2/SA3 super arts",
+      "Drive Rush cancel from normals for combo extensions",
+      "Parry / Perfect Parry timing windows",
+      "Charge vs motion inputs (Guile/Honda vs Ryu/Ken)"
+    ]
+  },
+  "maps": {
+    "genbu-temple": {
+      "name": "Genbu Temple",
+      "notes": "Walled stage. Corner carry matters."
+    },
+    "metro-city-downtown": {
+      "name": "Metro City Downtown",
+      "notes": "Walled stage. Standard online pick."
+    }
+  },
+  "operator_roles": {
+    "Shoto": {
+      "roles": [
+        "Fireball Footsies",
+        "Fundamentals"
+      ],
+      "side": "mixed",
+      "notes": "Ryu, Ken, Luke. Hadoken + DP + tatsu. Classic toolkit."
+    },
+    "Rushdown": {
+      "roles": [
+        "Pressure"
+      ],
+      "side": "mixed",
+      "notes": "Cammy, Ken, Kim. Frame traps + tick throws + safe pressure."
+    },
+    "Zoner": {
+      "roles": [
+        "Keep-Away"
+      ],
+      "side": "mixed",
+      "notes": "JP, Guile, Dhalsim. Trap setters + projectiles + anti-airs."
+    },
+    "Grappler": {
+      "roles": [
+        "Throw Mixup"
+      ],
+      "side": "mixed",
+      "notes": "Manon, Marisa, Zangief. Command grabs + frame traps to setup grabs."
+    },
+    "Charge Specialist": {
+      "roles": [
+        "Spacing Charge"
+      ],
+      "side": "mixed",
+      "notes": "Guile, Dee Jay, Honda. Charge inputs reward patient defense."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "rookie_iron": [
+      "Mashing reversal DP on every blockstring",
+      "Not punishing -8 or worse moves on block",
+      "Throwing in Burnout state (no escape)"
+    ],
+    "bronze_silver": [
+      "Sub-optimal Drive resource use — burning all 6 bars in one combo",
+      "Wrong button after Drive Rush — too slow for combo confirm",
+      "Missing Drive Parry timing on obvious projectiles"
+    ],
+    "gold_plus": [
+      "Bad SA3 timing — using before opponent is in punishable state",
+      "Wrong combo route ending position (corner vs midscreen)",
+      "Predictable wakeup option select"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}
