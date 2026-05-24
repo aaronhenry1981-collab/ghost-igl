@@ -1,0 +1,229 @@
+/* LoadoutsPage — game-aware loadouts viewer. Designed to render any
+   game's LOADOUTS data structure (CS2 economy buys, OW2 hero comps,
+   Apex weapon tiers, R6 operator weapons) without per-game UI code. */
+
+.loadouts-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+.loadouts-header {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+.loadouts-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.loadouts-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+.loadouts-header p {
+  margin: 0;
+  color: rgba(230,233,239,0.78);
+  max-width: 720px;
+  line-height: 1.55;
+}
+
+.loadouts-loading,
+.loadouts-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: rgba(230,233,239,0.6);
+}
+.loadouts-empty h1 { color: var(--text-h, #fff); margin: 0 0 0.5rem; }
+.loadouts-empty p { max-width: 520px; margin: 0 auto 1rem; line-height: 1.55; }
+
+.loadouts-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .loadouts-layout { grid-template-columns: 1fr; }
+}
+
+.loadouts-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: sticky;
+  top: 1rem;
+}
+@media (max-width: 820px) {
+  .loadouts-nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: auto;
+  }
+}
+.loadouts-nav-btn {
+  text-align: left;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid transparent;
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  color: var(--text, #c8cdd6);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background 0.15s, border-color 0.15s;
+  font: inherit;
+}
+.loadouts-nav-btn:hover {
+  background: rgba(255,255,255,0.04);
+}
+.loadouts-nav-btn.active {
+  background: rgba(0,229,255,0.06);
+  border-left-width: 3px;
+  font-weight: 600;
+}
+.loadouts-nav-name {
+  font-size: 0.92rem;
+  color: var(--text-h, #fff);
+}
+.loadouts-nav-role {
+  font-size: 0.72rem;
+  color: rgba(230,233,239,0.55);
+}
+
+.loadouts-content {
+  min-width: 0;
+}
+
+.loadout-section {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem;
+}
+.loadout-section-head {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 0.85rem;
+  margin-bottom: 1rem;
+}
+.loadout-section-title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  color: var(--text-h, #fff);
+}
+.loadout-section-role {
+  font-size: 0.78rem;
+  color: rgba(230,233,239,0.6);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.loadout-section-summary {
+  margin: 0 0 1.25rem;
+  color: rgba(230,233,239,0.85);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.loadout-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.loadout-block {
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 0.95rem 1.1rem;
+}
+.loadout-block-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(230,233,239,0.55);
+  font-weight: 700;
+}
+
+.loadout-text {
+  margin: 0 0 0.4rem;
+  color: rgba(230,233,239,0.88);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+.loadout-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: rgba(230,233,239,0.85);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.loadout-list li { padding: 2px 0; }
+
+.loadout-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.loadout-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+.loadout-row-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.loadout-row-key {
+  font-size: 0.68rem;
+  color: rgba(230,233,239,0.5);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.loadout-row-val {
+  font-size: 0.9rem;
+  color: var(--text-h, #fff);
+  word-break: break-word;
+}
+
+.loadout-subgroup {
+  display: grid;
+  gap: 0.85rem;
+}
+.loadout-subentry {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 0.7rem 0.95rem;
+}
+.loadout-subkey {
+  margin: 0 0 0.45rem;
+  font-size: 0.85rem;
+  color: var(--text-h, #fff);
+  font-weight: 700;
+}
+
+.loadouts-foot {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.loadouts-foot p {
+  margin: 0 0 0.85rem;
+  color: rgba(230,233,239,0.75);
+  font-size: 0.92rem;
+}

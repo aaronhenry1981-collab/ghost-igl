@@ -15,6 +15,7 @@ import MAPS from '../../maps.js'
 import STRATS from '../../strats.js'
 import BANS from '../../bans.js'
 import OPERATORS from '../../operators.js'
+import LOADOUTS from './loadouts.js'
 import { META, gameMeta } from './meta.js'
 
 // R6's operators.js is auto-derived from STRATS (an aggregate index, not a
@@ -22,5 +23,5 @@ import { META, gameMeta } from './meta.js'
 // the new shape (CAST) and the old shape (OPERATORS) both work.
 const CAST = OPERATORS
 
-export { MAPS, CAST, OPERATORS, STRATS, BANS, META, gameMeta }
-export default { MAPS, CAST, OPERATORS, STRATS, BANS, META, gameMeta }
+export { MAPS, CAST, OPERATORS, STRATS, BANS, LOADOUTS, META, gameMeta }
+export default { MAPS, CAST, OPERATORS, STRATS, BANS, LOADOUTS, META, gameMeta }

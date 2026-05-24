@@ -572,7 +572,7 @@ const OP_FALLBACK = {
   intro: 'A Rainbow Six Siege operator with unique utility. Pick based on map and team comp synergy. <em>Detailed write-up VERIFY: confirm specifics before relying on this guide.</em>',
   strengths: ['Versatile across attack scenarios', 'Strong primary weapon options', 'Unique gadget for tactical advantage'],
   counterPicks: ['Universal counters (Thatcher, Mute, etc.)'],
-  counterAdvice: 'See per-operator counter strategies in the Recon+ operator guide.',
+  counterAdvice: 'See per-operator counter strategies in the Recon 6 operator guide.',
   howToClimb: 'Master the operator\'s gadget timing and weapon recoil. Coordinate with team for synergy plays.',
 }
 
@@ -628,7 +628,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   <meta property="og:image" content="${escape(ogImageUrl)}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="Recon+" />
+  <meta property="og:site_name" content="Recon 6" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="${escape(ogImageUrl)}" />
   ${jsonLdHtml}
@@ -699,7 +699,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     ${bodyInner}
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon+ — AI-powered FPS coaching across 10 games. <a href="${SITE_URL}/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 — AI-powered FPS coaching across 10 games. <a href="${SITE_URL}/">r6coaching.com</a></p>
   </div>
 </body>
 </html>`
@@ -733,7 +733,7 @@ function renderBestSites(opName, opSites) {
       <td>${escape(s.role || '—')}</td>
     </tr>`).join('\n')
   return `
-    <p>${escape(opName)} appears across ${sorted.length} site/side combinations in the Recon+ strats library. Top picks where ${escape(opName)} is essential are the priority maps to learn first.</p>
+    <p>${escape(opName)} appears across ${sorted.length} site/side combinations in the Recon 6 strats library. Top picks where ${escape(opName)} is essential are the priority maps to learn first.</p>
     <table class="site-table">
       <thead><tr><th>Map</th><th>Site</th><th>Side</th><th>Priority</th><th>Role</th></tr></thead>
       <tbody>${rows}</tbody>
@@ -756,7 +756,7 @@ function renderOperatorPost(opName, opIndex) {
   const sitesSection = `
     <h2>Best Maps & Sites for ${opName}</h2>
     ${renderBestSites(opName, opSites)}
-    <p>Click any map name above to open the full Recon+ strat guide for that map. The site cell shows the bomb pair where ${opName} appears as ${op.side === 'attack' ? 'an attacker' : 'a defender'}.</p>`
+    <p>Click any map name above to open the full Recon 6 strat guide for that map. The site cell shows the bomb pair where ${opName} appears as ${op.side === 'attack' ? 'an attacker' : 'a defender'}.</p>`
 
   const loadoutSection = `
     <h2>Loadout & Gadget Use</h2>
@@ -837,7 +837,7 @@ function renderOperatorPost(opName, opIndex) {
     <p>Queue 5 ranked games with ${opName} locked in. After each game, write down (1) where you used your gadget and whether it landed, (2) which map and site you played, (3) one mistake you saw in the kill cam. By game 5 you\'ll have specific patterns to fix, and the next 10 games convert that knowledge into rank. The deliberate-practice loop beats grinding 50 random games where you don\'t track what you\'re fixing.</p>`
 
   const aiVod = `
-    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/#/vod">Recon+ AI VOD review</a> reads your replays and flags positioning + utility-timing mistakes per round. Particularly useful for finding the rounds where you wasted a gadget charge or held a predictable angle. <strong>7-day money back if it doesn\'t help.</strong></p>`
+    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility-timing mistakes per round. Particularly useful for finding the rounds where you wasted a gadget charge or held a predictable angle. <strong>7-day money back if it doesn\'t help.</strong></p>`
 
   // Related links: 4-5 links to operator-relevant content
   const topMaps = opSites.length > 0
@@ -850,23 +850,23 @@ function renderOperatorPost(opName, opIndex) {
       return { name: `${map?.name || mapId} Strategy Guide`, url: `/guides/${mapId}.html` }
     }),
     { name: `${opName} on /guides/operators`, url: `/guides/operators/${slugify(opName)}.html` },
-    { name: 'Recon+ R6 Rank-Up Blog Posts', url: '/blog/' },
+    { name: 'Recon 6 R6 Rank-Up Blog Posts', url: '/blog/' },
   ]
   const relatedHtml = `
     <div class="related">
-      <h3>Related Recon+ guides</h3>
+      <h3>Related Recon 6 guides</h3>
       <ul>${relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
     </div>`
 
   const ctaHtml = `
     <div class="intro-cta">
       <h3>Want AI-powered VOD review on your ${opName} play?</h3>
-      <p>Recon+ Pro reads your replays and flags positioning, utility, and decision mistakes per round. Founding rate $9/mo until May 31 — locked in for life. 7-day money back guarantee.</p>
+      <p>Recon 6 Pro reads your replays and flags positioning, utility, and decision mistakes per round. Founding rate $9/mo until May 31 — locked in for life. 7-day money back guarantee.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
   const breadcrumb = `<nav class="breadcrumb">
-    <a href="/">Recon+</a> ›
+    <a href="/">Recon 6</a> ›
     <a href="/blog/">Blog</a> ›
     <a href="/blog/?game=r6">R6 Operators</a> ›
     <span>${escape(opName)}</span>
@@ -903,8 +903,8 @@ function renderOperatorPost(opName, opIndex) {
       '@type': 'Article',
       headline: title,
       description,
-      author: { '@type': 'Organization', name: 'Recon+' },
-      publisher: { '@type': 'Organization', name: 'Recon+', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
+      author: { '@type': 'Organization', name: 'Recon 6' },
+      publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
       datePublished: `${YEAR}-05-10`,
       dateModified: `${YEAR}-05-10`,
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
@@ -929,7 +929,7 @@ function renderOperatorPost(opName, opIndex) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Recon+', item: SITE_URL },
+        { '@type': 'ListItem', position: 1, name: 'Recon 6', item: SITE_URL },
         { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
         { '@type': 'ListItem', position: 3, name: 'R6 Operators', item: `${SITE_URL}/blog/?game=r6` },
         { '@type': 'ListItem', position: 4, name: opName, item: canonical },

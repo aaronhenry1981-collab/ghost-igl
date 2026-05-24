@@ -1,0 +1,144 @@
+/* FoundingCountdown — pill / banner / inline variants for the founding-rate
+   deadline. Three intensities:
+     muted : early window (more than 7 days left), subtle accent
+     warn  : 2–7 days left, amber urgency
+     urgent: <=1 day, red pulse to convey "right now"
+
+   All three variants auto-hide after the deadline via the component's
+   isFoundingOpen() guard — no stale promises in the DOM. */
+
+.founding-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--mono, ui-monospace, monospace);
+  white-space: nowrap;
+}
+.founding-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+}
+.founding-pill-text {
+  letter-spacing: 0.03em;
+}
+
+.founding-muted {
+  color: rgba(0, 229, 255, 0.85);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+.founding-warn {
+  color: #ffc97a;
+  background: rgba(255, 180, 80, 0.10);
+  border: 1px solid rgba(255, 180, 80, 0.45);
+}
+.founding-urgent {
+  color: #ff8a8a;
+  background: rgba(255, 90, 90, 0.10);
+  border: 1px solid rgba(255, 90, 90, 0.55);
+}
+.founding-urgent .founding-pill-dot,
+.founding-warn .founding-pill-dot {
+  animation: founding-pulse 1.4s ease-in-out infinite;
+}
+@keyframes founding-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+  50% { box-shadow: 0 0 0 6px transparent; opacity: 0.55; }
+}
+
+/* Inline phrasing used inside body copy ("Founding rate ends in 9d 14h"). */
+.founding-inline {
+  display: inline;
+  font-weight: 500;
+}
+.founding-inline strong {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-weight: 700;
+}
+.founding-muted.founding-inline { color: rgba(0, 229, 255, 0.95); }
+.founding-warn.founding-inline { color: #ffc97a; }
+.founding-urgent.founding-inline { color: #ff8a8a; }
+
+/* Banner — used in hero / pricing section / dashboard upsell. Big, hard to
+   miss, anchors urgency without yelling. */
+.founding-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid;
+  text-align: center;
+}
+.founding-banner-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.85;
+}
+.founding-banner-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--mono, ui-monospace, monospace);
+}
+.founding-clock-cell strong {
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.founding-clock-unit {
+  font-size: 0.7rem;
+  opacity: 0.75;
+  margin-left: 1px;
+}
+.founding-clock-sep {
+  opacity: 0.4;
+  font-weight: 700;
+}
+.founding-banner-sub {
+  font-size: 0.78rem;
+  opacity: 0.78;
+  max-width: 36ch;
+  margin-top: 2px;
+}
+
+.founding-banner.founding-muted {
+  color: rgba(0, 229, 255, 0.95);
+  background: rgba(0, 229, 255, 0.05);
+  border-color: rgba(0, 229, 255, 0.3);
+}
+.founding-banner.founding-warn {
+  color: #ffc97a;
+  background: rgba(255, 180, 80, 0.07);
+  border-color: rgba(255, 180, 80, 0.45);
+}
+.founding-banner.founding-urgent {
+  color: #ff8a8a;
+  background: rgba(255, 90, 90, 0.07);
+  border-color: rgba(255, 90, 90, 0.55);
+  animation: founding-banner-pulse 2.2s ease-in-out infinite;
+}
+@keyframes founding-banner-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 90, 90, 0.0); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 90, 90, 0.10); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .founding-urgent .founding-pill-dot,
+  .founding-warn .founding-pill-dot,
+  .founding-banner.founding-urgent {
+    animation: none;
+  }
+}

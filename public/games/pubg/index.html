@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG: Battlegrounds Strategy Guide &amp; AI VOD Analysis | Recon 6</title>
+  <meta name="description" content="PUBG: Battlegrounds strategy guide for ranked play. Maps, squad roles, callouts, and round-by-round VOD breakdowns. Recon 6 covers PUBG: Battlegrounds as part of the All-Access subscription." />
+  <link rel="canonical" href="https://r6coaching.com/games/pubg/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#f5a623" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="PUBG: Battlegrounds Strategy Guide &amp; AI VOD Analysis | Recon 6" />
+  <meta property="og:description" content="PUBG: Battlegrounds strategy guide for ranked play. Maps, squad roles, callouts, and round-by-round VOD breakdowns. Recon 6 covers PUBG: Battlegrounds as part of the All-Access subscription." />
+  <meta property="og:url" content="https://r6coaching.com/games/pubg/" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/pubg.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/pubg.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"PUBG: Battlegrounds","description":"PUBG: Battlegrounds strategy guide for ranked play. Maps, squad roles, callouts, and round-by-round VOD breakdowns. Recon 6 covers PUBG: Battlegrounds as part of the All-Access subscription.","publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"url":"https://r6coaching.com/games/pubg/","genre":"First Person Shooter"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"PUBG: Battlegrounds","item":"https://r6coaching.com/games/pubg/"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #f5a623; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .game-hero { padding: 2.5rem 0; text-align: center; }
+    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); margin-bottom: 1rem; }
+    h1 { font-size: 2.5rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.15rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-primary { background: var(--accent); color: #0a0f19; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+    h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+    .stat-row { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+    .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem 1.25rem; min-width: 140px; text-align: center; }
+    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 4px; }
+    .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin: 1rem 0; }
+    .grid-item { padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.9rem; }
+    .grid-item strong { color: #fff; }
+    .grid-item span { color: rgba(230,233,239,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(180,140,255,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="game-hero">
+      <div class="badge">PUBG: Battlegrounds on Recon 6 · Live</div>
+      <h1>PUBG: Battlegrounds <span class="accent">Coaching</span></h1>
+      <p class="lead">
+        6 Maps ·
+        24 squad roles ·
+        3 strategy breakdowns. Live in-app today.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://r6coaching.com/#/strats">Open PUBG: Battlegrounds in-app →</a>
+        <a class="btn btn-outline" href="https://r6coaching.com/#pricing">See pricing</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-label">Maps</div><div class="stat-val">6</div></div>
+        <div class="stat"><div class="stat-label">Squad Roles</div><div class="stat-val">24</div></div>
+        <div class="stat"><div class="stat-label">Strats</div><div class="stat-val">3</div></div>
+      </div>
+    </div>
+
+    <div class="pricing-callout">
+      <h3 style="margin-top:0">Why PUBG: Battlegrounds on Recon 6?</h3>
+      <p>Same AI VOD analysis that's live for R6 today — drop a screenshot, get specific feedback referencing the map, your operator/agent/hero, and the actual strats. Recon 6 All-Access ($19/mo Pro, $49/mo Champion) unlocks PUBG: Battlegrounds the moment it goes live, plus all 19 other supported games.</p>
+      <a class="btn btn-primary" href="https://r6coaching.com/#pricing">See pricing →</a>
+    </div>
+
+    
+    <h2>PUBG: Battlegrounds Maps</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Erangel</strong>
+          <span>7 Zones</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Miramar</strong>
+          <span>5 Zones</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sanhok</strong>
+          <span>4 Zones</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Vikendi</strong>
+          <span>4 Zones</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Taego</strong>
+          <span>4 Zones</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Deston</strong>
+          <span>3 Zones</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>PUBG: Battlegrounds Squad Roles</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>IGL / Caller</strong>
+          <span>Squad shotcaller — drop, rotation, engagement calls. Reads circle + 3rd-party timing</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Fragger</strong>
+          <span>Entry duels, top-K player. AR + close-range; gets first kills in fight</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sniper</strong>
+          <span>Long-range pick-off. Kar98 / SLR / Mk14; covers squad from elevated angle</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Support</strong>
+          <span>Heals, smokes, revives. Drops boost items for fragger; mid-range backup</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Scout</strong>
+          <span>Recon + grenade lineups. Spots enemies, flashes corners, identifies 3rd parties</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Anchor</strong>
+          <span>Holds the compound. Defensive position; covers exit routes</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>M416</strong>
+          <span>Versatile AR — full-auto + burst, mid-range king. Universal pick</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>AKM</strong>
+          <span>High-damage AR — heavy recoil but 2-shot kill. Close-mid range</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Beryl M762</strong>
+          <span>Highest-damage AR — strongest 5.56 caliber. Heavy recoil, mid-range</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Groza</strong>
+          <span>Care Package AR — fastest fire-rate, 7.62. Best AR in game (drop only)</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>SCAR-L</strong>
+          <span>Low-recoil AR — beginner-friendly, mid-range</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Kar98k</strong>
+          <span>Bolt-action sniper — 1-shot headshot with helmet level 2</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Mosin</strong>
+          <span>Bolt-action sniper — 1-shot headshot, semi-rare drop</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>AWM</strong>
+          <span>Care Package sniper — 1-shot headshot at any helmet level</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>SLR</strong>
+          <span>Semi-auto marksman — fast follow-up shots, 7.62 caliber</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Mk14</strong>
+          <span>Care Package DMR — semi/full-auto, highest DMR damage</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Uzi</strong>
+          <span>SMG — fastest fire-rate, close-range duel</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>UMP45</strong>
+          <span>SMG — versatile mid-range, low recoil</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>P90</strong>
+          <span>SMG — 50-round mag, high DPS close-range</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>S686</strong>
+          <span>Shotgun — double-barrel close kill, instant breach</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Frag Grenade</strong>
+          <span>Utility — area damage; clear corner / building</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Smoke Grenade</strong>
+          <span>Utility — vision block for revive cycle or escape</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Stun Grenade</strong>
+          <span>Utility — blind enemy at engagement range</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Boost Item Stack</strong>
+          <span>Painkillers / Energy Drink / Adrenaline — boost gauge for HP regen</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>PUBG: Battlegrounds Loadouts</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
+      <a href="/#/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
+    </p>
+    <div class="grid">
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Drop Strategy Per Map</strong>
+          <span>Pre-game drop call</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Drop choice = game outcome. Hot drop for action, edge drop for survival.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Squad Role Responsibilities</strong>
+          <span>4-stack role assignment</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Each squad of 4 needs: IGL, Fragger, Sniper, Support. Assign before queue.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Weapon Meta 2026</strong>
+          <span>Best weapons by category</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">AR + Sniper combo wins ranked. SMG/Shotgun is close-range pick.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Rotation Strategy</strong>
+          <span>Move from POI to next circle safely</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">60% of squads die to circle damage or rotation 3rd parties. Rotation is the meta skill.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Endgame Strategy</strong>
+          <span>Final circles (5-1 squads remaining)</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Endgame is positional. Squad-killing rate at endgame = win condition.</div>
+        </a>
+      
+    </div>
+  
+    
+    <h2>PUBG: Battlegrounds Rank-Up Guides</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">Step-by-step guides for climbing each rank tier in PUBG: Battlegrounds — what to focus on, common mistakes, and drills.</p>
+    <div class="grid">
+      
+        <a href="/blog/pubg-beginner-guide-2026.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>PUBG Beginner Guide 2026 — Climb From Bronze to Silver</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/pubg-best-drops-2026.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>PUBG Best Drop Spots Per Map 2026 — Hot, Mid, Edge Drops</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/pubg-endgame-strategy.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>PUBG Endgame Strategy Guide — Final Circle Tactics for the Win</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/pubg-silver-to-gold.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Silver to Gold in PUBG (2026)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/pubg-weapon-tier-list-2026.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>PUBG Weapon Tier List 2026 — Best AR, Sniper, SMG Picks</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+    </div>
+  
+
+    <h2>What you get for PUBG: Battlegrounds</h2>
+    <ul>
+      <li><strong>Site-by-site strats</strong> — 3+ tactical breakdowns by map and zone, with picks, callouts, and utility</li>
+      <li><strong>Loadouts</strong> — weapon priorities, ability combos, and team-comp synergies tuned for PUBG: Battlegrounds</li>
+      <li><strong>Match Prep cheatsheet</strong> — bans, top picks, and callouts on one screen before you ready up</li>
+      <li><strong>Cast catalog</strong> — 24 squad roles indexed by role and kit</li>
+      <li><strong>Meta board</strong> — top picks + most-banned across the active PUBG: Battlegrounds meta</li>
+      <li><strong>Discord coaching channels</strong> — Recon 6 Discord with PUBG: Battlegrounds-specific rooms</li>
+    </ul>
+  
+    <footer>
+      <p>Recon 6 — coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans →</a></p>
+    </footer>
+  </div>
+</body>
+</html>

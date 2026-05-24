@@ -1,3 +1,8 @@
+// Ban suggestions for maps not covered below get merged in from
+// ban-suggestions.js (auto-generated for newly-stratted maps). Hand-curated
+// entries here always win — suggestions only fill gaps.
+import BAN_SUGGESTIONS from './ban-suggestions.js'
+
 const BANS = {
   bank: {
     attack: [
@@ -129,6 +134,12 @@ const BANS = {
       { name: 'Smoke', reason: 'Lair\'s narrow corridors and chokepoints leading into every site make Smoke\'s canisters devastating for denying late-round plant attempts.' },
     ],
   },
+}
+
+// Merge auto-suggestions for any map not already covered by hand-curated
+// entries. Additive only — never overwrites Aaron's curated bans.
+for (const [mapId, sides] of Object.entries(BAN_SUGGESTIONS)) {
+  if (!BANS[mapId]) BANS[mapId] = sides
 }
 
 export default BANS

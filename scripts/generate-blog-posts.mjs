@@ -787,7 +787,21 @@ function renderPost(post) {
       <ul>${post.relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
     </div>` : ''
 
-  const ctaHtml = `
+  // Stadium posts get a Stadium-specific CTA pointing into the Pro-gated
+  // Stadium map strats — this is the SEO-to-conversion bridge that turns
+  // a Google visitor reading the tier list into a Pro signup. Generic CTA
+  // for every other post.
+  const isStadiumPost = post.slug && post.slug.startsWith('ow2-stadium')
+  const ctaHtml = isStadiumPost
+    ? `
+    <div class="intro-cta">
+      <h3>Stadium strats for all 11 maps — Pro feature</h3>
+      <p>Per-map Stadium intel: Cash priorities, Power picks per round, Item shop timing, hero lineups for Clash / Control / Push. 33 sites · 66 build paths. Founding rate $9/mo locked for life if you join before May 31.</p>
+      <a class="btn" href="${SITE_URL}/#/strats/stadium-busan/point/attack">Open Stadium strats →</a>
+      &nbsp;
+      <a class="btn" href="${SITE_URL}/#pricing" style="background:transparent;border:1px solid rgba(255,201,122,0.5);color:#ffc97a">See pricing</a>
+    </div>`
+    : `
     <div class="intro-cta">
       <h3>Want AI-powered VOD review on your own gameplay?</h3>
       <p>Recon 6 Pro reads your replays and flags positioning, utility, and decision mistakes round-by-round. Founding rate $9/mo.</p>
@@ -866,17 +880,51 @@ function renderPost(post) {
   })
 }
 
+// Map game ids → genre labels. Used for the genre filter on the blog index.
+// With 98+ posts across 16 game verticals, an unfiltered list buries content.
+// Tab-based filter (pure CSS, ?game=cs2 query param respected by client JS).
+const GENRE_OF = {
+  // Tactical Shooters
+  r6: 'tactical', cs2: 'tactical', valorant: 'tactical',
+  // Hero Shooters
+  ow2: 'hero', mvr: 'hero',
+  // Battle Royale
+  apex: 'br', pubg: 'br', fn: 'br', naraka: 'br',
+  // Arena Shooters
+  halo: 'arena', finals: 'arena', cod: 'arena',
+  // MOBAs
+  lol: 'moba', dota: 'moba', dota2: 'moba', deadlock: 'moba',
+  // Fighting
+  tk8: 'fighting', tekken: 'fighting', sf6: 'fighting',
+  // Sports
+  eafc: 'sports', nba2k: 'sports',
+  // Other
+  rl: 'sports',
+}
+const GENRE_LABELS = {
+  all: 'All Games',
+  tactical: 'Tactical FPS',
+  hero: 'Hero Shooter',
+  br: 'Battle Royale',
+  arena: 'Arena Shooter',
+  moba: 'MOBA',
+  fighting: 'Fighting',
+  sports: 'Sports',
+}
+
 function renderIndex(allPosts) {
   // Group by game for the index page.
   const byGame = {}
   for (const p of allPosts) {
-    if (!byGame[p.game]) byGame[p.game] = { label: p.gameLabel, posts: [] }
+    if (!byGame[p.game]) byGame[p.game] = { label: p.gameLabel, posts: [], genre: GENRE_OF[p.game] || 'other' }
     byGame[p.game].posts.push(p)
   }
 
+  // Render each game section with a data-genre attribute so the client-side
+  // filter can show/hide whole sections via CSS without re-rendering.
   const sectionsHtml = Object.entries(byGame).map(([gameId, group]) => `
-    <section style="margin-bottom: 36px">
-      <h2 style="margin-bottom: 12px">${escape(group.label)}</h2>
+    <section class="blog-game-section" data-game="${gameId}" data-genre="${group.genre}" style="margin-bottom: 36px">
+      <h2 style="margin-bottom: 12px">${escape(group.label)} <span style="font-size: 0.7rem; color: rgba(230,233,239,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">${escape(GENRE_LABELS[group.genre] || 'Other')}</span></h2>
       <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
         ${group.posts.map((p) => `
           <li>
@@ -888,13 +936,55 @@ function renderIndex(allPosts) {
       </ul>
     </section>`).join('')
 
+  const genreTabs = Object.entries(GENRE_LABELS).map(([id, label]) => `
+    <button type="button" class="blog-filter-tab" data-filter="${id}" aria-pressed="${id === 'all' ? 'true' : 'false'}" style="padding: 6px 14px; background: ${id === 'all' ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${id === 'all' ? 'rgba(0,229,255,0.5)' : 'rgba(255,255,255,0.1)'}; color: ${id === 'all' ? '#00e5ff' : 'rgba(230,233,239,0.8)'}; border-radius: 999px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s;">
+      ${label}
+    </button>`).join('')
+
+  const filterScript = `
+    <script>
+      // Genre filter — show/hide sections by data-genre. Pure client-side, no
+      // re-fetch. Also respects ?genre=X query param on load so links from
+      // other pages can deep-link to a specific genre view.
+      (function() {
+        var tabs = document.querySelectorAll('.blog-filter-tab')
+        var sections = document.querySelectorAll('.blog-game-section')
+        function applyFilter(genre) {
+          for (var i = 0; i < sections.length; i++) {
+            var s = sections[i]
+            s.style.display = (genre === 'all' || s.getAttribute('data-genre') === genre) ? '' : 'none'
+          }
+          for (var j = 0; j < tabs.length; j++) {
+            var t = tabs[j]
+            var active = t.getAttribute('data-filter') === genre
+            t.setAttribute('aria-pressed', active ? 'true' : 'false')
+            t.style.background = active ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.03)'
+            t.style.borderColor = active ? 'rgba(0,229,255,0.5)' : 'rgba(255,255,255,0.1)'
+            t.style.color = active ? '#00e5ff' : 'rgba(230,233,239,0.8)'
+          }
+        }
+        for (var i = 0; i < tabs.length; i++) {
+          tabs[i].addEventListener('click', function(e) {
+            applyFilter(e.currentTarget.getAttribute('data-filter'))
+          })
+        }
+        var params = new URLSearchParams(location.search)
+        var fromQuery = params.get('genre')
+        if (fromQuery) applyFilter(fromQuery)
+      })()
+    </script>`
+
   const bodyInner = `
-    <h1>Recon 6 Blog — Rank-Up Guides for 11 Tactical Games</h1>
-    <p style="color: rgba(230,233,239,0.8)">Tactical rank-up guides for every supported title. Each guide targets a specific rank gap with operators, callouts, common mistakes, and drills you can run today.</p>
+    <h1>Recon 6 Blog — Rank-Up Guides for 20 Competitive Games</h1>
+    <p style="color: rgba(230,233,239,0.8)">Tactical rank-up guides for every supported title. Each guide targets a specific rank gap with characters, callouts, common mistakes, and drills you can run today. Filter by genre below.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 1.5rem 0 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      ${genreTabs}
+    </div>
     ${sectionsHtml}
+    ${filterScript}
     <div class="intro-cta">
       <h3>Want AI VOD review on top of these guides?</h3>
-      <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round. $9/mo founding rate before May 8.</p>
+      <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
@@ -903,7 +993,7 @@ function renderIndex(allPosts) {
       '@context': 'https://schema.org',
       '@type': 'Blog',
       name: 'Recon 6 Blog',
-      description: 'Tactical rank-up guides for 10 supported FPS games — R6 Siege, CS2, Valorant, OW2, and more.',
+      description: 'Tactical rank-up guides for 20 supported competitive games — R6 Siege, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, and more.',
       url: `${SITE_URL}/blog/`,
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
     },
@@ -918,8 +1008,8 @@ function renderIndex(allPosts) {
   ]
 
   return htmlShell({
-    title: 'Rank-Up Guides for 11 Tactical Games — Recon 6 Blog',
-    description: 'Tactical guides for every rank gap across R6 Siege, CS2, Valorant, OW2, Apex, Marvel Rivals, Halo, The Finals, CoD, and Fortnite.',
+    title: 'Rank-Up Guides for 20 Competitive Games — Recon 6 Blog',
+    description: 'Tactical guides for every rank gap across 20 competitive games — R6, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, Apex, Marvel Rivals, Halo, Finals, CoD, Fortnite, RL, Stadium, Deadlock, Naraka, and NBA 2K.',
     canonical: `${SITE_URL}/blog/`,
     bodyInner,
     jsonLdBlocks,

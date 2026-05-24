@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"console.log\\(new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\)\")",
+      "Bash(aws cognito-idp *)",
+      "Bash(aws dynamodb *)"
+    ]
+  }
+}

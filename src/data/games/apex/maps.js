@@ -95,6 +95,32 @@ const MAPS = [
       { id: "promenade", name: "Promenade", floor: '—' },
     ],
   },
+  {
+    id: "kings-canyon",
+    name: "Kings Canyon",
+    type: "Battle Royale",
+    rankedPool: true,
+    sites: [
+      { id: 'skull-town', name: "Skull Town", floor: '—' },
+      { id: 'capacitor', name: "Capacitor", floor: '—' },
+      { id: 'artillery', name: "Artillery", floor: '—' },
+      { id: 'bunker', name: "Bunker", floor: '—' },
+      { id: 'containment', name: "Containment", floor: '—' },
+      { id: 'hydro-dam', name: "Hydro Dam", floor: '—' },
+    ],
+  },
+  {
+    id: "solace",
+    name: "Solace Street",
+    type: "Mixtape",
+    rankedPool: true,
+    sites: [
+      { id: 'main-street', name: "Main Street", floor: '—' },
+      { id: 'plaza', name: "Plaza", floor: '—' },
+      { id: 'apartments', name: "Apartments", floor: '—' },
+      { id: 'marketplace', name: "Marketplace", floor: '—' },
+    ],
+  },
 ]
 
 export default MAPS

@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-05-12T06:55:11.891Z",
+  "game_meta": {
+    "name": "Deadlock",
+    "short_name": "DL",
+    "tagline": "Valve's 6v6 hero-shooter MOBA hybrid. 4 lanes, soul/gold farming, item shop, mid boss.",
+    "sides": {
+      "attack": "Sapphire side",
+      "defense": "Amber side"
+    },
+    "character_vocab": "heroes (20+ launch roster, each with 4 abilities + ult)",
+    "round_format": "Single match ~30-45 minutes. No rounds.",
+    "key_mechanics": [
+      "4-lane minion wave management",
+      "Soul economy — kills + minions + neutral souls",
+      "Item shop (vitality, spirit, weapon categories with active items)",
+      "Mid-boss objective (Patron) + soul urn",
+      "Z-axis verticality — wall jumping, dashing, rope sliding",
+      "Lane phase → mid game → patron push"
+    ]
+  },
+  "maps": {
+    "main-map": {
+      "name": "The Deadlock Map",
+      "notes": "4 lanes, mid boss, urn. Single map."
+    }
+  },
+  "operator_roles": {
+    "Tank": {
+      "roles": [
+        "Frontline"
+      ],
+      "side": "mixed",
+      "notes": "Abrams, Bebop tank build. Soak damage, peel for carries."
+    },
+    "DPS": {
+      "roles": [
+        "Carry"
+      ],
+      "side": "mixed",
+      "notes": "Haze, Infernus. Scales late game with items."
+    },
+    "Diver": {
+      "roles": [
+        "Pick-off"
+      ],
+      "side": "mixed",
+      "notes": "Lash, Mo & Krill. Single-target burst from advantage."
+    },
+    "Sniper": {
+      "roles": [
+        "Long Range"
+      ],
+      "side": "mixed",
+      "notes": "Vindicta, Grey Talon. Pick from elevated angles."
+    },
+    "Support": {
+      "roles": [
+        "Utility"
+      ],
+      "side": "mixed",
+      "notes": "Dynamo, Kelvin. CC + healing + zone control."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "low": [
+      "Last-hitting minions only — should also deny if soul-share active",
+      "No vision in lane",
+      "Wrong item path (vitality when you need spirit)"
+    ],
+    "mid": [
+      "Bad mid-boss timing — taking with low HP",
+      "Wrong rotation calls",
+      "Not buying active items at item shop"
+    ],
+    "high": [
+      "Sub-optimal soul management (banking when should spend)",
+      "Bad lane swap timing",
+      "Predictable diving angles"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

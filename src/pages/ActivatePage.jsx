@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useSectionNavigate } from '../utils/sectionLink'
+import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import './ActivatePage.css'
 
 export default function ActivatePage() {
-  const { user, isPro, loading } = useAuth()
+  const { user, isAdmin, plan: userPlan, loading } = useAuth()
   const navigate = useNavigate()
+  const goToPricing = useSectionNavigate('pricing')
   const [token, setToken] = useState('')
+  const [tokenError, setTokenError] = useState(null)
+  const [tokenLoading, setTokenLoading] = useState(false)
+  const [tokenExpiresAt, setTokenExpiresAt] = useState(null)
   const [copied, setCopied] = useState(false)
-  const [plan, setPlan] = useState(null)
+
+  const isChampion = isAdmin || userPlan === 'champion'
 
   useEffect(() => {
     if (!loading && !user) {
@@ -15,36 +23,45 @@ export default function ActivatePage() {
     }
   }, [loading, user, navigate])
 
+  // Fetch a server-signed activation token. Replaces the old client-side
+  // base64 trick — the new HMAC-signed token can't be forged by anyone who
+  // happens to know a Champion's email.
   useEffect(() => {
-    if (!user) return
-    // Only Champion subscribers (or admin) can activate the desktop app
-    const ADMIN_EMAILS = ['aaronhenry1981@gmail.com']
-    const isAdmin = ADMIN_EMAILS.includes(user.email?.toLowerCase() || '')
-    // We only have isPro from auth — we need to know if they're specifically Champion
-    // For now: admins always get champion, otherwise rely on isPro and the plan field
-    // (checkProStatus grants isPro for both pro and champion — we'll gate further inside)
-    if (isAdmin) {
-      setPlan('champion')
-    } else if (isPro) {
-      // We don't have plan granularity in useAuth — assume they're Champion if isPro
-      // for activation purposes. The desktop app will re-verify.
-      setPlan('champion')
-    } else {
-      setPlan('free')
+    if (!user || !isChampion || !API_URL) {
+      setToken('')
+      setTokenError(null)
+      return
     }
-
-    if (user && isPro) {
-      // Build the activation token: base64(JSON({user_id, email, plan, issued_at}))
-      const payload = {
-        user_id: user.id,
-        email: user.email,
-        plan: 'champion',
-        issued_at: new Date().toISOString()
+    let cancelled = false
+    async function fetchToken() {
+      setTokenLoading(true)
+      setTokenError(null)
+      try {
+        const cognitoUser = getCurrentUser()
+        if (!cognitoUser) throw new Error('Not signed in')
+        const session = await getSession(cognitoUser)
+        const idToken = getIdToken(session)
+        const res = await fetch(`${API_URL}/me/activation-token`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${idToken}`, 'Content-Type': 'application/json' },
+          body: '{}',
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
+        if (cancelled) return
+        setToken(data.token || '')
+        setTokenExpiresAt(data.expires_at || null)
+      } catch (err) {
+        if (cancelled) return
+        setTokenError(err.message || 'Could not generate activation token')
+        setToken('')
+      } finally {
+        if (!cancelled) setTokenLoading(false)
       }
-      const b64 = btoa(JSON.stringify(payload))
-      setToken(b64)
     }
-  }, [user, isPro])
+    fetchToken()
+    return () => { cancelled = true }
+  }, [user, isChampion])
 
   async function copyToken() {
     try {
@@ -77,7 +94,7 @@ export default function ActivatePage() {
     return null // redirect in effect
   }
 
-  if (!isPro) {
+  if (!isChampion) {
     return (
       <div className="activate-page">
         <div className="activate-box">
@@ -86,11 +103,11 @@ export default function ActivatePage() {
             <h1>Champion Only</h1>
           </div>
           <p>
-            The <strong>IGL Command</strong> desktop app is exclusive to <strong>Champion</strong>{' '}
+            The <strong>Recon 6 Command</strong> desktop app is exclusive to <strong>Champion</strong>{' '}
             subscribers. Upgrade to unlock live capture-based coaching, team sessions, and voice guidance.
           </p>
           <div className="activate-actions">
-            <Link to="/#pricing" className="btn btn-primary">Upgrade to Champion</Link>
+            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Champion</button>
             <Link to="/" className="btn btn-ghost">Back to Home</Link>
           </div>
         </div>
@@ -105,18 +122,26 @@ export default function ActivatePage() {
           <div className="activate-icon">✓</div>
           <div>
             <div className="activate-eyebrow">Champion Subscription Verified</div>
-            <h1>Activate IGL Command</h1>
+            <h1>Activate Recon 6 Command</h1>
           </div>
         </div>
 
         <p className="activate-intro">
-          Copy the token below and paste it into the <strong>IGL Command</strong> desktop app to
+          Copy the token below and paste it into the <strong>Recon 6 Command</strong> desktop app to
           activate your license.
         </p>
 
+        {tokenError && (
+          <div className="activate-note" style={{ borderColor: '#7a2a2a', background: 'rgba(160,40,40,0.12)', color: '#ffb4b4', marginBottom: '1rem' }}>
+            <strong>Couldn't generate a token:</strong> {tokenError}
+            <br />
+            Try refreshing the page. If it keeps failing, email <a href="mailto:support@r6coaching.com">support@r6coaching.com</a>.
+          </div>
+        )}
+
         <ol className="activate-steps">
           <li>
-            <strong>Open IGL Command</strong> on your Windows PC (download the latest installer from{' '}
+            <strong>Open Recon 6 Command</strong> on your Windows PC (download the latest installer from{' '}
             <Link to="/download">the download page</Link>).
           </li>
           <li>On the activation screen, paste this token:</li>
@@ -126,14 +151,20 @@ export default function ActivatePage() {
           <textarea
             id="activation-token-area"
             readOnly
-            value={token}
+            value={tokenLoading ? 'Generating signed token…' : token}
             className="activate-token"
             rows={4}
           />
-          <button onClick={copyToken} className="btn btn-primary activate-copy">
-            {copied ? '✓ Copied' : 'Copy Token'}
+          <button onClick={copyToken} className="btn btn-primary activate-copy" disabled={!token || tokenLoading}>
+            {copied ? '✓ Copied' : tokenLoading ? 'Loading…' : 'Copy Token'}
           </button>
         </div>
+
+        {tokenExpiresAt && (
+          <div className="activate-footer-label" style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
+            Token expires {new Date(tokenExpiresAt).toLocaleDateString()} — generate a new one if you reinstall the app after that.
+          </div>
+        )}
 
         <ol start="3" className="activate-steps">
           <li>Click <strong>Activate</strong> in the desktop app.</li>

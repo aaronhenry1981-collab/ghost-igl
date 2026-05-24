@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-05-12T06:55:11.883Z",
+  "game_meta": {
+    "name": "League of Legends",
+    "short_name": "LoL",
+    "tagline": "5v5 MOBA — destroy the enemy Nexus through lane control, jungle pathing, and team-fight execution.",
+    "sides": {
+      "attack": "Blue Side (bottom of map)",
+      "defense": "Red Side (top of map)"
+    },
+    "character_vocab": "champions (170+ available, 5 picked per match across 5 positions: top, jungle, mid, ADC, support)",
+    "round_format": "Best-of-1 or Best-of-5 (tournament). Single match ~25-45 minutes. No rounds.",
+    "key_mechanics": [
+      "Last-hitting minions for gold (CS — Creep Score)",
+      "Vision control via Wards (Stealth, Control, Farsight)",
+      "Lane phase → Mid game → Late game power-spike scaling",
+      "Jungle pathing + gank timing windows",
+      "Drake / Herald / Baron Nashor objective trades",
+      "Items + Mythic/Legendary build paths per champion"
+    ]
+  },
+  "maps": {
+    "summoners-rift": {
+      "name": "Summoner's Rift",
+      "notes": "Standard 5v5 map. Three lanes + jungle + neutral objectives."
+    },
+    "aram": {
+      "name": "ARAM (Howling Abyss)",
+      "notes": "Single-lane 5v5 brawl mode."
+    },
+    "arena": {
+      "name": "Arena (Rings of Wrath)",
+      "notes": "2v2v2v2 brawl rounds with augments."
+    }
+  },
+  "operator_roles": {
+    "Top": {
+      "roles": [
+        "Tank",
+        "Bruiser",
+        "Split Pusher"
+      ],
+      "side": "mixed",
+      "notes": "Solo lane top of map. Often isolated 1v1 matchups."
+    },
+    "Jungle": {
+      "roles": [
+        "Ganker",
+        "Farmer",
+        "Tank Initiator"
+      ],
+      "side": "mixed",
+      "notes": "Pathing decides early game; should track enemy jungle CD."
+    },
+    "Mid": {
+      "roles": [
+        "Mage",
+        "Assassin",
+        "Skirmisher"
+      ],
+      "side": "mixed",
+      "notes": "Central lane. Shortest rotation paths to side lanes."
+    },
+    "ADC": {
+      "roles": [
+        "Marksman"
+      ],
+      "side": "mixed",
+      "notes": "Bot lane carry. Scales with items; needs protection late game."
+    },
+    "Support": {
+      "roles": [
+        "Enchanter",
+        "Engage",
+        "Mage Support"
+      ],
+      "side": "mixed",
+      "notes": "Bot lane utility. Vision + peel + engage windows."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "iron_bronze": [
+      "Last-hitting only when minions are low — should pre-aim attack",
+      "No vision purchases; running blind into ganks",
+      "Trying to 1v5 instead of grouping at 14+ min"
+    ],
+    "silver_gold": [
+      "Bad recall timing — backing with full HP instead of empty mana",
+      "Wrong build choices vs enemy comp",
+      "Tunnel-vision on kills instead of objectives"
+    ],
+    "platinum_plus": [
+      "Sub-optimal jungle pathing on first clear",
+      "Wrong wave management before recall",
+      "Not tracking enemy summoner cooldowns (Flash, Teleport)"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

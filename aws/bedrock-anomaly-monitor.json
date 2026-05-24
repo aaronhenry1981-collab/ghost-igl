@@ -1,0 +1,5 @@
+{
+  "MonitorName": "All-Services-Anomaly-Monitor",
+  "MonitorType": "DIMENSIONAL",
+  "MonitorDimension": "SERVICE"
+}

@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Finals Loadouts — Weapon, Ability &amp; Comp Guide | Recon 6</title>
+  <meta name="description" content="The Finals loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current The Finals meta." />
+  <link rel="canonical" href="https://r6coaching.com/games/finals/loadouts.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#FFFF00" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The Finals Loadouts — Weapon, Ability &amp; Comp Guide | Recon 6" />
+  <meta property="og:description" content="The Finals loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current The Finals meta." />
+  <meta property="og:url" content="https://r6coaching.com/games/finals/loadouts.html" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/finals.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/finals.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Finals Loadouts — Weapon, Ability & Team-Comp Guide","description":"The Finals loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current The Finals meta.","author":{"@type":"Organization","name":"Recon 6"},"publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"mainEntityOfPage":"https://r6coaching.com/games/finals/loadouts.html","inLanguage":"en-US"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"The Finals","item":"https://r6coaching.com/games/finals/"},{"@type":"ListItem","position":4,"name":"Loadouts","item":"https://r6coaching.com/games/finals/loadouts.html"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #FFFF00; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
+    .hero { padding: 1.75rem 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.75rem; }
+    .badge { display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 700; }
+    h1 { font-size: 2.4rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.1rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
+    .section { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+    .section header { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.85rem; margin-bottom: 1rem; }
+    .section h2 { margin: 0 0 4px; font-size: 1.5rem; color: #fff; }
+    .section-role { font-size: 0.78rem; color: rgba(230,233,239,0.6); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
+    .section-summary { margin: 0 0 1rem; color: rgba(230,233,239,0.85); line-height: 1.55; font-size: 0.95rem; }
+    .block { background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 0.95rem 1.1rem; margin: 0.75rem 0; }
+    .block-title { margin: 0 0 0.6rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(230,233,239,0.55); font-weight: 700; }
+    .block p, .subentry p { margin: 0 0 0.4rem; color: rgba(230,233,239,0.88); line-height: 1.55; font-size: 0.92rem; }
+    .block ul, .subentry ul { margin: 0; padding-left: 1.1rem; color: rgba(230,233,239,0.85); font-size: 0.9rem; line-height: 1.55; }
+    .block li, .subentry li { padding: 2px 0; }
+    .rows { display: flex; flex-direction: column; gap: 0.5rem; }
+    .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; }
+    .row-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .row-key { font-size: 0.66rem; color: rgba(230,233,239,0.5); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; }
+    .row-val { font-size: 0.88rem; color: #fff; word-break: break-word; }
+    .subgroup { display: grid; gap: 0.85rem; }
+    .subentry { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 0.7rem 0.95rem; }
+    .subkey { margin: 0 0 0.45rem; font-size: 0.85rem; color: #fff; font-weight: 700; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 0.5rem 0; }
+    .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.25rem 0; }
+    .btn-outline { display: inline-block; padding: 0.7rem 1.4rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; font-weight: 700; text-decoration: none; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="hero">
+      <div class="badge">The Finals &middot; Loadouts</div>
+      <h1>What to <span class="accent">Pick</span> &mdash; And Why</h1>
+      <p class="lead">
+        Real The Finals loadouts, weapon priorities, ability combos, and team-comp synergies.
+        Use these before the round starts so you walk in with the right gun, the right ability, and the right plan.
+      </p>
+      <div class="cta-row">
+        <a class="cta" href="/#/loadouts">Open interactive loadouts &rarr;</a>
+        <a class="btn-outline" href="/games/finals/">Back to The Finals &larr;</a>
+      </div>
+    </div>
+
+    
+    <nav class="toc" aria-label="On this page" style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 0.85rem 1.1rem; margin: 0 0 1.5rem;">
+      <strong style="font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); display: block; margin-bottom: 0.5rem;">Sections</strong>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <li><a href="#light" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Light Build</a></li><li><a href="#medium" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Medium Build</a></li><li><a href="#heavy" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Heavy Build</a></li><li><a href="#team_comps" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Recommended 3-Stack Comps</a></li>
+      </ul>
+    </nav>
+  
+
+    
+    <article class="section" id="light">
+      <header>
+        <h2>Light Build</h2>
+        <span class="section-role">High mobility / Flank</span>
+      </header>
+      <p class="section-summary">150 HP. Fastest movement. Solo flank or pair with cloak / dash specialization. Get picks, get out.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Specializations</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Cloak</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Invisibility for 5s. Flank, pick, vanish. Best for objective steals.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Loop around the map, time vanish to break LOS, isolate one enemy.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Dash</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Quick burst dash. Reposition mid-fight, escape disengages.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Dash in for shotgun-melt range, dash out before they trade.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Grappling Hook</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Vertical mobility. Reach rooftops + pull from edges.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Map-control with verticality. Snipe + grapple to a new spot.</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Weapons</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Best</h4>
+        <ul><li>M11 SMG</li><li>Sword</li><li>V9S Pistol</li><li>XP-54 SMG</li><li>M26 Matter (shotgun)</li><li>Throwing Knives</li><li>LH1 (light AR)</li></ul>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Situational</h4>
+        <ul><li>SR-84 Sniper</li><li>SH1900 Shotgun</li></ul>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Gadgets</h3>
+            <ul><li>Goo Grenade</li><li>Flashbang</li><li>Glitch Grenade</li><li>Frag Grenade</li><li>Stun Gun</li><li>Pyro Grenade</li><li>Smoke Grenade</li><li>Tracking Dart</li><li>Vanishing Bomb</li></ul>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Role In Team</h3>
+            <p>Flank initiator. Find a single enemy, drop them with cloak / dash burst, vanish.</p>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="medium">
+      <header>
+        <h2>Medium Build</h2>
+        <span class="section-role">Versatile / Support</span>
+      </header>
+      <p class="section-summary">250 HP. Balance of damage, sustain, and mobility. Most flexible build — good for solo queue.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Specializations</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Healing Beam</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Hold-to-heal teammate. Top-tier in 5v5 / Cashout.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Stay behind the heavy, heal them through fights. Win attrition.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Guardian Turret</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Auto-targeting turret. Hold cashout / chokepoint.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Place turret on flanks, defend objective from secondary angle.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Dematerializer</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Tear through walls. Open new sightlines / escape routes.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Make your own paths. Pair with team dive.</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Weapons</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Best</h4>
+        <ul><li>AKM AR</li><li>FCAR AR</li><li>CL-40 Grenade Launcher</li><li>R.357 Revolver</li><li>Riot Shield</li><li>Model 1887 Lever Shotgun</li><li>Famas (burst AR)</li></ul>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Situational</h4>
+        <ul><li>Pike-556 (DMR)</li></ul>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Gadgets</h3>
+            <ul><li>APS Turret (anti-projectile)</li><li>Defibrillator</li><li>Glitch Trap</li><li>Smoke Grenade</li><li>Goo Grenade</li><li>Frag Grenade</li><li>Pyro Grenade</li><li>Jump Pad</li><li>Zipline</li><li>Gas Mine</li></ul>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Role In Team</h3>
+            <p>Mid-line — heal the heavy, frag the light, hold the cashout.</p>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="heavy">
+      <header>
+        <h2>Heavy Build</h2>
+        <span class="section-role">Tank / Anchor</span>
+      </header>
+      <p class="section-summary">350 HP. Slowest but deadliest. Hold objectives, soak damage, deny pushes.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Specializations</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Mesh Shield</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Deployable shield wall. Block lanes, protect cashout.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Drop shield on the angle that matters most for the fight.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Charge N Slam</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Charge forward + AoE knockback. Disrupt grouped enemies.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Charge into clustered enemies on cashout / objective.</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Goo Gun</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Why</h5>
+        <p>Shoots goo barricades. Build cover on the fly.</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Playstyle</h5>
+        <p>Block doors, build defensive structures, deny vertical pushes.</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Weapons</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Best</h4>
+        <ul><li>Lewis Gun (LMG)</li><li>M60 LMG</li><li>M134 Minigun</li><li>KS-23 Slug Shotgun</li><li>SA1216 Auto-Shotgun</li><li>Sledgehammer</li><li>Spear</li></ul>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Situational</h4>
+        <ul><li>MGL32 Grenade Launcher</li><li>Flamethrower</li></ul>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Gadgets</h3>
+            <ul><li>Barricade</li><li>RPG-7</li><li>C4</li><li>Pyro Mine</li><li>Dome Shield</li><li>Gas Grenade</li><li>Goo Grenade</li><li>Anti-Gravity Cube</li><li>Lockbolt</li></ul>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Role In Team</h3>
+            <p>Front line — soak damage, anchor objective, push through chokes.</p>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="team_comps">
+      <header>
+        <h2>Recommended 3-Stack Comps</h2>
+        <span class="section-role">Cashout team comps</span>
+      </header>
+      <p class="section-summary">Three-build combinations that win Cashout / World Tour.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Options</h3>
+            <div class="rows"><div class="row"><div class="row-field"><span class="row-key">Name</span><span class="row-val">Triple Threat</span></div><div class="row-field"><span class="row-key">Builds</span><span class="row-val">Heavy w/ Mesh Shield + Lewis Gun, Medium w/ Healing Beam + AKM, Light w/ Cloak + Throwing Knives</span></div><div class="row-field"><span class="row-key">Why</span><span class="row-val">Anchor + heal + flank. The standard. Heavy holds, medium sustains, light disrupts.</span></div></div><div class="row"><div class="row-field"><span class="row-key">Name</span><span class="row-val">Dive Squad</span></div><div class="row-field"><span class="row-key">Builds</span><span class="row-val">Light w/ Dash + M11, Light w/ Cloak + Sword, Medium w/ Defibrillator + AKM</span></div><div class="row-field"><span class="row-key">Why</span><span class="row-val">Three flankers. Win by getting picks before fights start. Defib keeps the rotation alive.</span></div></div><div class="row"><div class="row-field"><span class="row-key">Name</span><span class="row-val">Demolition</span></div><div class="row-field"><span class="row-key">Builds</span><span class="row-val">Heavy w/ Charge'n'Slam + Spear, Heavy w/ Goo Gun + RPG, Medium w/ Dematerializer + CL-40</span></div><div class="row-field"><span class="row-key">Why</span><span class="row-val">Break-everything comp. Tear walls open, charge through. Hard counter to defensive holds.</span></div></div></div>
+          </div>
+        
+      </div>
+    </article>
+  
+
+    <div class="section" style="background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border-color: var(--accent);">
+      <h2 style="margin: 0 0 0.5rem; border: none;">Want These Tuned to Your Rank + Role?</h2>
+      <p style="margin: 0 0 1rem; color: rgba(230,233,239,0.85);">
+        Recon 6 Pro reviews your screenshots and tells you which loadout pieces you're actually missing &mdash; based on your last 5 matches, not generic meta. $9/mo founding (locked for life if you join before May 31).
+      </p>
+      <div class="cta-row">
+        <a class="cta" href="/#pricing">See pricing</a>
+        <a class="btn-outline" href="/#/match-prep">Match prep cheatsheet</a>
+      </div>
+    </div>
+  
+    <footer>
+      <p>Recon 6 &mdash; coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans &rarr;</a></p>
+    </footer>
+  </div>
+</body>
+</html>

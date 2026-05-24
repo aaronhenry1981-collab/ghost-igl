@@ -5,7 +5,7 @@ export default function RefundPage() {
       <p className="legal-updated">Last updated: April 2026</p>
 
       <h2>7-Day Money-Back Guarantee</h2>
-      <p>All paid plans (Pro and Champion) include a <strong>7-day money-back guarantee</strong>. If you're not satisfied with Ghost IGL for any reason, request a full refund within 7 days of your initial purchase. No questions asked.</p>
+      <p>All paid plans (Pro and Champion) include a <strong>7-day money-back guarantee</strong>. If you're not satisfied with Recon 6 for any reason, request a full refund within 7 days of your initial purchase. No questions asked.</p>
 
       <h2>How to Request a Refund</h2>
       <p>To request a refund, email <strong>support@r6coaching.com</strong> with:</p>

@@ -1,0 +1,214 @@
+/* R6 Tier List — public link-bait page. Designed to be screenshottable,
+   skimmable, and citation-friendly. */
+
+.r6-tier-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+.r6-tier-header { margin-bottom: 1.75rem; }
+.r6-tier-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 229, 255, 0.85);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.r6-tier-header h1 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 0.6rem;
+}
+.r6-tier-accent { color: #00e5ff; }
+.r6-tier-lead {
+  font-size: 1rem;
+  color: rgba(230, 233, 239, 0.78);
+  line-height: 1.55;
+  max-width: 70ch;
+  margin: 0 0 0.85rem;
+}
+.r6-tier-cite-line {
+  font-size: 0.85rem;
+  color: rgba(230, 233, 239, 0.7);
+  padding: 0.55rem 0.85rem;
+  background: rgba(0, 229, 255, 0.05);
+  border-left: 3px solid #00e5ff;
+  border-radius: 6px;
+  max-width: 70ch;
+}
+.r6-tier-cite-line em { color: rgba(0, 229, 255, 0.95); font-style: normal; font-family: var(--mono, ui-monospace, monospace); }
+
+.r6-tier-side-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.r6-tier-side-btn {
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(230, 233, 239, 0.2);
+  border-radius: 8px;
+  color: rgba(230, 233, 239, 0.7);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.r6-tier-side-btn:hover { color: #ecedf3; border-color: rgba(0, 229, 255, 0.5); }
+.r6-tier-side-btn.attack.active {
+  background: rgba(255, 138, 80, 0.18);
+  border-color: #ff8a50;
+  color: #ffa67a;
+}
+.r6-tier-side-btn.defense.active {
+  background: rgba(80, 170, 255, 0.18);
+  border-color: #5099cc;
+  color: #7aaaff;
+}
+
+.r6-tier-row { margin-bottom: 1.5rem; }
+.r6-tier-row-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 3px solid;
+}
+.r6-tier-badge {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 1.55rem;
+  font-weight: 900;
+  border-radius: 8px;
+}
+.r6-tier-row-title {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ecedf3;
+}
+.r6-tier-row-count {
+  font-size: 0.78rem;
+  color: rgba(230, 233, 239, 0.55);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.r6-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+  padding: 0.65rem;
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 0 0 8px 8px;
+}
+.r6-tier-op-card {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(230, 233, 239, 0.08);
+  border-left: 4px solid;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+}
+.r6-tier-op-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 2px;
+}
+.r6-tier-op-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ecedf3;
+  text-decoration: none;
+}
+.r6-tier-op-name:hover { color: #00e5ff; }
+.r6-tier-op-score {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  color: rgba(230, 233, 239, 0.55);
+  font-weight: 600;
+}
+.r6-tier-op-role {
+  font-size: 0.78rem;
+  color: rgba(230, 233, 239, 0.65);
+  margin-bottom: 4px;
+}
+.r6-tier-op-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 0.7rem;
+}
+.r6-tier-stat {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.r6-tier-stat.ess { color: #ffc97a; background: rgba(255, 201, 122, 0.12); }
+.r6-tier-stat.rec { color: #00e5ff; background: rgba(0, 229, 255, 0.10); }
+.r6-tier-stat.flex { color: rgba(230, 233, 239, 0.65); background: rgba(255, 255, 255, 0.05); }
+.r6-tier-stat.maps { color: rgba(120, 220, 140, 0.95); background: rgba(120, 220, 140, 0.08); }
+
+.r6-tier-empty {
+  padding: 0.85rem;
+  color: rgba(230, 233, 239, 0.5);
+  font-size: 0.85rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 0 0 8px 8px;
+}
+
+.r6-tier-methodology {
+  margin-top: 2rem;
+  padding: 1.25rem 1.4rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 10px;
+}
+.r6-tier-methodology h2 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.r6-tier-methodology p {
+  font-size: 0.92rem;
+  color: rgba(230, 233, 239, 0.78);
+  line-height: 1.6;
+}
+.r6-tier-methodology ul {
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: rgba(230, 233, 239, 0.78);
+  line-height: 1.7;
+}
+.r6-tier-methodology strong { color: #ecedf3; }
+
+.r6-tier-foot {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 229, 255, 0.05);
+  border-left: 3px solid #00e5ff;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.r6-tier-foot a { color: #00e5ff; font-weight: 700; }
+
+@media (max-width: 720px) {
+  .r6-tier-header h1 { font-size: 2rem; }
+  .r6-tier-grid { grid-template-columns: 1fr; }
+}

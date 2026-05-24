@@ -1,0 +1,200 @@
+/* Daily Playbook — top-of-admin customer-acquisition checklist. */
+
+.playbook {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.4rem;
+  background: linear-gradient(160deg, rgba(0, 229, 255, 0.07), rgba(0, 229, 255, 0.02));
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 14px;
+}
+
+.playbook-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+.playbook-head h2 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+}
+.playbook-date {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(230, 233, 239, 0.45);
+  font-family: var(--mono, ui-monospace, monospace);
+  margin-left: 6px;
+}
+.playbook-sub {
+  margin: 2px 0 0;
+  font-size: 0.84rem;
+  color: rgba(230, 233, 239, 0.65);
+}
+
+/* Streak badge — bigger + flame-accented once it hits 3 days */
+.playbook-streak {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(230, 233, 239, 0.15);
+  border-radius: 10px;
+  min-width: 76px;
+}
+.playbook-streak.hot {
+  background: rgba(255, 155, 92, 0.12);
+  border-color: rgba(255, 155, 92, 0.5);
+}
+.playbook-streak-num {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 1.9rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #00e5ff;
+}
+.playbook-streak.hot .playbook-streak-num { color: #ff9b5c; }
+.playbook-streak-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.6);
+  margin-top: 2px;
+}
+
+/* Progress bar */
+.playbook-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+.playbook-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.playbook-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00e5ff, #5cffd6);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.playbook-progress-text {
+  font-size: 0.78rem;
+  color: rgba(230, 233, 239, 0.6);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Checklist */
+.playbook-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.playbook-item {
+  display: flex;
+  gap: 12px;
+  padding: 11px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(230, 233, 239, 0.1);
+  border-radius: 9px;
+  transition: opacity 0.15s, background 0.15s;
+}
+.playbook-item.done {
+  opacity: 0.55;
+  background: rgba(120, 220, 140, 0.05);
+  border-color: rgba(120, 220, 140, 0.25);
+}
+.playbook-check {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: 2px solid rgba(0, 229, 255, 0.45);
+  background: transparent;
+  color: #0a0f19;
+  font-size: 0.95rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+}
+.playbook-check:hover { border-color: #00e5ff; }
+.playbook-item.done .playbook-check {
+  background: #78dc8c;
+  border-color: #78dc8c;
+}
+.playbook-item-body { flex: 1; min-width: 0; }
+.playbook-item-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ecedf3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.playbook-item.done .playbook-item-label {
+  text-decoration: line-through;
+  text-decoration-color: rgba(120, 220, 140, 0.6);
+}
+.playbook-item-mins {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.playbook-item-hint {
+  font-size: 0.82rem;
+  color: rgba(230, 233, 239, 0.62);
+  margin-top: 3px;
+  line-height: 1.45;
+}
+.playbook-item-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #00e5ff;
+  text-decoration: none;
+}
+.playbook-item-link:hover { text-decoration: underline; }
+
+.playbook-done-banner {
+  margin-top: 1rem;
+  padding: 10px 14px;
+  background: rgba(120, 220, 140, 0.1);
+  border: 1px solid rgba(120, 220, 140, 0.4);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #b8f0c4;
+}
+.playbook-foot-note {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(230, 233, 239, 0.12);
+  font-size: 0.8rem;
+  color: rgba(230, 233, 239, 0.5);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .playbook-head { flex-direction: column-reverse; align-items: stretch; }
+  .playbook-streak { flex-direction: row; gap: 8px; justify-content: center; }
+}

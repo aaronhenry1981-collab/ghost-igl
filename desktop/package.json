@@ -1,0 +1,44 @@
+{
+  "name": "igl-command",
+  "productName": "IGL Command",
+  "version": "0.1.0",
+  "description": "Live Rainbow Six Siege coaching companion for Ghost IGL Champion subscribers.",
+  "main": "src/main.js",
+  "author": "Iron Front Digital",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --publish never",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.ironfrontdigital.iglcommand",
+    "productName": "IGL Command",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "artifactName": "IGLCommand-Setup-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "IGL Command"
+    },
+    "publish": null
+  }
+}

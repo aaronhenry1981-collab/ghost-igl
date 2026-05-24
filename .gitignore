@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.production
+.env.development
+.env.*.local
+
+# Lambda deployment artifacts — regenerated on every deploy
+lambda/**/function.zip
+
+# Never commit - contains secret tokens when edited locally
+scripts/update-discord-params.ps1

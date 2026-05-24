@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-05-12T06:55:11.886Z",
+  "game_meta": {
+    "name": "Tekken 8",
+    "short_name": "TK8",
+    "tagline": "1v1 3D fighting game. Best-of-3 rounds. Heat system + Rage Arts + comeback mechanics.",
+    "sides": {
+      "attack": "P1 (left side)",
+      "defense": "P2 (right side)"
+    },
+    "character_vocab": "characters (32+ roster, each with unique 100+ move list, frame data, and combo paths)",
+    "round_format": "Best of 3 rounds (FT2). Each round ~30-60 seconds. Online matches: BO3 sets or longer in tournament.",
+    "key_mechanics": [
+      "Frame data — startup, hit advantage, block advantage, recovery",
+      "Heat system — engages Heat mode for one round; Heat Smash + Heat Burst",
+      "Rage Art (Rage mode below ~25% HP) — comeback super",
+      "Combo trees — launcher → bound → wall carry → wall combo",
+      "Movement — Korean Backdash Cancel (KBD), Wavedash (Mishima archetype)",
+      "Sidestepping + sidewalking — break linear strings"
+    ]
+  },
+  "maps": {
+    "arena-default": {
+      "name": "Arena (Default)",
+      "notes": "Open stage. No walls — neutral spacing matters more."
+    },
+    "infinite-azure": {
+      "name": "Infinite Azure",
+      "notes": "Walled stage. Wall carry combos become decisive."
+    },
+    "urban-square": {
+      "name": "Urban Square",
+      "notes": "Walled stage. Standard tournament pick."
+    }
+  },
+  "operator_roles": {
+    "Mishima": {
+      "roles": [
+        "Electric",
+        "Mixup"
+      ],
+      "side": "mixed",
+      "notes": "Kazuya, Reina, Heihachi-lineage. Wavedash + electric mid (i13 launch on counter-hit)."
+    },
+    "All-Rounder": {
+      "roles": [
+        "Balanced"
+      ],
+      "side": "mixed",
+      "notes": "Jin, Devil Jin, Kazuya. Strong neutral + decent everything."
+    },
+    "Grappler": {
+      "roles": [
+        "Throw Mixup"
+      ],
+      "side": "mixed",
+      "notes": "King, Marduk. Command grabs + 50/50 high/low."
+    },
+    "Striker": {
+      "roles": [
+        "Damage"
+      ],
+      "side": "mixed",
+      "notes": "Paul, Bryan. Big damage per hit, limited mobility."
+    },
+    "Counter-Specialist": {
+      "roles": [
+        "Reactive"
+      ],
+      "side": "mixed",
+      "notes": "Asuka, Lili. Parry + whiff-punish + spacing."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "green_blue": [
+      "Spamming Rage Art on wakeup",
+      "Not blocking lows after sidestepping",
+      "Mashing buttons mid-combo instead of confirming hit"
+    ],
+    "yellow_orange": [
+      "Wrong combo route (basic > optimal because mental stack is full)",
+      "Not respecting i13 punishes on -13 moves",
+      "Eating same string 3x without sidestep"
+    ],
+    "red_purple_blue": [
+      "Bad Heat resource management",
+      "Sub-optimal wall carry route",
+      "Predictable defensive option (always SS-right after T jab string)"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

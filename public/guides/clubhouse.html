@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clubhouse Strategy Guide — Recon 6 (R6 Siege)</title>
+  <meta name="description" content="Complete Rainbow Six Siege strategy guide for Clubhouse: operator picks, callouts, utility usage, and ban recommendations for every bomb site (Cash Room / CCTV Room, Bar / Stock Room, Church / Arsenal, Gym / Bedroom). Attack and defense strats for ranked play." />
+  <link rel="canonical" href="https://r6coaching.com/guides/clubhouse.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0a0f19" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Clubhouse Strategy Guide — Recon 6 (R6 Siege)" />
+  <meta property="og:description" content="Complete Rainbow Six Siege strategy guide for Clubhouse: operator picks, callouts, utility usage, and ban recommendations for every bomb site (Cash Room / CCTV Room, Bar / Stock Room, Church / Arsenal, Gym / Bedroom). Attack and defense strats for ranked play." />
+  <meta property="og:url" content="https://r6coaching.com/guides/clubhouse.html" />
+  <meta property="og:image" content="https://r6coaching.com/guides/og/clubhouse.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/guides/og/clubhouse.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Clubhouse — Complete Rainbow Six Siege Strategy Guide","description":"Complete Rainbow Six Siege strategy guide for Clubhouse: operator picks, callouts, utility usage, and ban recommendations for every bomb site (Cash Room / CCTV Room, Bar / Stock Room, Church / Arsenal, Gym / Bedroom). Attack and defense strats for ranked play.","author":{"@type":"Organization","name":"Recon 6"},"publisher":{"@type":"Organization","name":"Recon 6","logo":{"@type":"ImageObject","url":"https://r6coaching.com/og-image.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://r6coaching.com/guides/clubhouse.html"},"inLanguage":"en-US"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Map Guides","item":"https://r6coaching.com/guides/"},{"@type":"ListItem","position":3,"name":"Clubhouse","item":"https://r6coaching.com/guides/clubhouse.html"}]}</script>
+  
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #0a0f19;
+      color: #e6e9ef;
+      line-height: 1.6;
+    }
+    a { color: #00e5ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff; text-decoration: none; }
+    .brand span { color: #00e5ff; }
+    .nav-links a { margin-left: 18px; color: rgba(230,233,239,0.85); font-size: 0.9rem; }
+    main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-size: 2rem; margin: 0 0 8px; }
+    .sub { color: rgba(230,233,239,0.7); margin-bottom: 24px; font-size: 0.95rem; }
+    .cta-top {
+      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #00e5ff, #00b4d8);
+      color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
+    }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 10px; }
+    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
+    .side { margin: 18px 0; padding: 14px 16px; background: rgba(10,15,25,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .side.attack { border-left-color: #ff8060; }
+    .side.defense { border-left-color: #50b4ff; }
+    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h3 { color: #ff8060; }
+    .side.defense h3 { color: #50b4ff; }
+    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .op { padding: 4px 10px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3); border-radius: 4px; font-size: 0.85rem; color: #c0f4fc; }
+    .op.essential { background: rgba(0,229,255,0.16); border-color: #00e5ff; font-weight: 700; }
+    .strategy { margin: 8px 0; color: rgba(230,233,239,0.9); }
+    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(230,233,239,0.85); }
+    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
+    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .bans ul { margin: 0; padding-left: 18px; }
+    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
+    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(10,15,25,0.6)); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
+    .intro-cta h3 { margin: 0 0 6px; }
+    .intro-cta p { margin: 0 0 12px; color: rgba(230,233,239,0.8); }
+    .btn { display: inline-block; padding: 10px 20px; background: #00e5ff; color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(230,233,239,0.5); font-size: 0.82rem; text-align: center; }
+    @media (max-width: 600px) {
+      main { padding: 20px 16px 40px; }
+      h1 { font-size: 1.5rem; }
+      .site { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="brand" href="https://r6coaching.com/">RECON<span>6</span></a>
+    <div class="nav-links">
+      <a href="https://r6coaching.com/guides/">All guides</a>
+      <a href="https://r6coaching.com/#/strats">Interactive strats</a>
+      <a href="https://r6coaching.com/#pricing">Pricing</a>
+    </div>
+  </nav>
+  <main>
+    
+    <h1>Clubhouse — Complete Strategy Guide</h1>
+    <p class="sub">Operator picks, callouts, utility, and ban recommendations for every bomb site. Free tactical guide from Recon 6.</p>
+    <a class="cta-top" href="https://r6coaching.com/#/strats/clubhouse">Open interactive Clubhouse strats &rarr;</a>
+    
+      <div class="bans">
+        <h4>Ban recommendations</h4>
+        <ul>
+          <li><strong>Thatcher</strong> (attack) — Church/Arsenal and Cash/CCTV walls are heavily electrified. Without Thatcher, hard breach becomes a coin flip.</li><li><strong>Sledge</strong> (attack) — Vertical play from above is the primary way to attack Bar and Cash. Removing Sledge weakens vertical pressure significantly.</li>
+          <li><strong>Kaid</strong> (defense) — Electroclaw range lets him deny multiple hatches and walls simultaneously. Critical for Church and Cash defense.</li><li><strong>Smoke</strong> (defense) — Area denial in Clubhouse's tight doorways makes late-round plant attempts nearly impossible.</li>
+        </ul>
+      </div>
+    
+        <section class="site" id="cash-cctv">
+          <h2>2F &mdash; Cash Room / CCTV Room</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Thermite</span><span class="op essential">Maverick</span>
+        <span class="op">Sledge</span><span class="op">Nomad</span>
+        <span class="op">Iana</span>
+      </div>
+      <p class="strategy">Thermite opens the cash room wall from construction. Maverick creates murder holes if Thermite gets denied. Sledge plays vertical from roof. Nomad watches master bedroom flank. Iana drones before the execute.</p>
+      <div class="callouts">
+        <span class="callout">Cash Room</span><span class="callout">CCTV</span><span class="callout">Construction</span><span class="callout">Master Bedroom</span><span class="callout">Gym</span><span class="callout">Balcony</span><span class="callout">Roof</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Bandit</span><span class="op essential">Smoke</span>
+        <span class="op">Mute</span><span class="op">Vigil</span>
+        <span class="op">Wamai</span>
+      </div>
+      <p class="strategy">Bandit trick the cash wall to deny Thermite. Smoke holds CCTV and denies plant. Mute covers drone entry. Vigil roams to waste time on lower floors. Wamai adds utility denial on site.</p>
+      <div class="callouts">
+        <span class="callout">Cash Room</span><span class="callout">CCTV</span><span class="callout">Construction</span><span class="callout">Master Bedroom</span><span class="callout">Gym</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/clubhouse/cash-cctv/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="bar-stock">
+          <h2>1F &mdash; Bar / Stock Room</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Hibana</span><span class="op essential">Thatcher</span>
+        <span class="op">Buck</span><span class="op">Ash</span>
+        <span class="op">Flores</span>
+      </div>
+      <p class="strategy">Hibana opens the stock room wall from outside. Buck plays vertical from above through master bedroom floor. Ash pushes bar from the front. Flores clears utility before execute. Thatcher EMPs anti-breach.</p>
+      <div class="callouts">
+        <span class="callout">Bar</span><span class="callout">Stock Room</span><span class="callout">Stage</span><span class="callout">Garage</span><span class="callout">Blue Stairs</span><span class="callout">Western Hallway</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Kaid</span><span class="op essential">Maestro</span>
+        <span class="op">Jager</span><span class="op">Ela</span>
+        <span class="op">Lesion</span>
+      </div>
+      <p class="strategy">Kaid electrifies stock room wall. Maestro Evil Eyes cover plant spots. Jager ADS deny projectiles. Ela roams construction and garage. Lesion provides intel on all entry points.</p>
+      <div class="callouts">
+        <span class="callout">Bar</span><span class="callout">Stock Room</span><span class="callout">Stage</span><span class="callout">Garage</span><span class="callout">Blue Stairs</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/clubhouse/bar-stock/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="church">
+          <h2>B &mdash; Church / Arsenal</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Ace</span><span class="op essential">Thatcher</span>
+        <span class="op">Sledge</span><span class="op">Capitao</span>
+        <span class="op">Dokkaebi</span>
+      </div>
+      <p class="strategy">Ace opens church wall from tunnel. Sledge plays vertical from above through bar floor. Capitao denies anchor positions during plant. Dokkaebi calls phones for intel. Control blue stairs and tunnel entrance.</p>
+      <div class="callouts">
+        <span class="callout">Church</span><span class="callout">Arsenal</span><span class="callout">Tunnel</span><span class="callout">Blue Stairs</span><span class="callout">Oil Pit</span><span class="callout">Garage</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Mira</span><span class="op essential">Smoke</span>
+        <span class="op">Mute</span><span class="op">Vigil</span>
+        <span class="op">Pulse</span>
+      </div>
+      <p class="strategy">Mira window on arsenal wall for church intel. Smoke denies plant and tunnel push. Mute jammers on church wall. Vigil roams upstairs. Pulse plays below for vertical intel.</p>
+      <div class="callouts">
+        <span class="callout">Church</span><span class="callout">Arsenal</span><span class="callout">Tunnel</span><span class="callout">Blue Stairs</span><span class="callout">Oil Pit</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/clubhouse/church/attack">Open full interactive strat &rarr;</a>
+        </section>
+
+        <section class="site" id="gym-bedroom">
+          <h2>2F &mdash; Gym / Bedroom</h2>
+          
+    <div class="side attack">
+      <h3>attack</h3>
+      <div class="ops">
+        <span class="op essential">Thermite</span><span class="op essential">Thatcher</span>
+        <span class="op">Zofia</span><span class="op">Ash</span>
+        <span class="op">Nomad</span>
+      </div>
+      <p class="strategy">Thermite opens the gym wall from construction. Push from balcony and construction simultaneously. Zofia clears utility and opens soft walls. Ash entries from master bedroom. Nomad watches blue stairs.</p>
+      <div class="callouts">
+        <span class="callout">Gym</span><span class="callout">Bedroom</span><span class="callout">Construction</span><span class="callout">Balcony</span><span class="callout">Master Bedroom</span><span class="callout">Cash Room</span>
+      </div>
+    </div>
+          
+    <div class="side defense">
+      <h3>defense</h3>
+      <div class="ops">
+        <span class="op essential">Bandit</span><span class="op essential">Jager</span>
+        <span class="op">Wamai</span><span class="op">Alibi</span>
+        <span class="op">Doc</span>
+      </div>
+      <p class="strategy">Bandit trick the gym wall. Jager and Wamai stack utility denial. Alibi roams construction side. Doc anchors bedroom with healing. Control master bedroom rotation.</p>
+      <div class="callouts">
+        <span class="callout">Gym</span><span class="callout">Bedroom</span><span class="callout">Construction</span><span class="callout">Balcony</span><span class="callout">Master Bedroom</span>
+      </div>
+    </div>
+          <a class="deep-link" href="https://r6coaching.com/#/strats/clubhouse/gym-bedroom/attack">Open full interactive strat &rarr;</a>
+        </section>
+    <div class="intro-cta">
+      <h3>Want the full utility breakdown + AI VOD review?</h3>
+      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis for $9/mo (R6 only) or $19/mo All-Access (10 games).</p>
+      <a class="btn" href="https://r6coaching.com/#pricing">See plans</a>
+    </div>
+
+    <!-- Multi-game cross-link: R6 visitors who also play other tactical FPS see
+         the All-Access value prop here. Doesn't hurt R6-only conversion since
+         it's below the fold, after the strats they came for. -->
+    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
+      <div style="font-size: 0.78rem; font-weight: 800; color: #00e5ff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Recon 6 Multi-Game</div>
+      <h3 style="margin: 0 0 8px;">Also play CS2, Valorant, or another tactical FPS?</h3>
+      <p style="margin: 0 0 12px; color: rgba(230,233,239,0.8);">Recon 6 covers 10 games with the same AI VOD analysis and map-aware feedback. All-Access ($19/mo Pro+) unlocks every game as it launches.</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://r6coaching.com/games/cs2/" style="padding: 6px 12px; background: rgba(245,184,0,0.12); color: #f5b800; border: 1px solid rgba(245,184,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">CS2 →</a>
+        <a href="https://r6coaching.com/games/valorant/" style="padding: 6px 12px; background: rgba(255,70,85,0.12); color: #ff4655; border: 1px solid rgba(255,70,85,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Valorant →</a>
+        <a href="https://r6coaching.com/games/apex/" style="padding: 6px 12px; background: rgba(155,81,224,0.12); color: #9b51e0; border: 1px solid rgba(155,81,224,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Apex →</a>
+        <a href="https://r6coaching.com/games/ow2/" style="padding: 6px 12px; background: rgba(255,140,0,0.12); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">OW2 →</a>
+        <a href="https://r6coaching.com/games/" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: rgba(230,233,239,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">All 10 →</a>
+      </div>
+    </div>
+  </main>
+  <div class="footer-strip">
+    <p>&copy; Recon 6 — AI-powered Rainbow Six Siege coaching. <a href="https://r6coaching.com/">r6coaching.com</a></p>
+  </div>
+</body>
+</html>

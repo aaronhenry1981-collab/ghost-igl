@@ -1,0 +1,11 @@
+{
+  "name": "ghost-igl-admin-api",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.0.0",
+    "aws-jwt-verify": "^4.0.0"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-05-12T06:55:11.888Z",
+  "game_meta": {
+    "name": "PUBG: Battlegrounds",
+    "short_name": "PUBG",
+    "tagline": "100-player battle royale. Solo, duo, or squad. Last team standing wins.",
+    "sides": {
+      "attack": "Pushing (third-partying / rotating)",
+      "defense": "Holding (compound defense)"
+    },
+    "character_vocab": "squad roles — IGL, Fragger, Sniper, Support, Scout, Anchor",
+    "round_format": "Single match, ~30 minutes. Zone shrinks ~7-9 times.",
+    "key_mechanics": [
+      "Loot prioritization — armor + helmet + meds before damage attachments",
+      "Bluezone (poison gas) — track timer, time the next rotation",
+      "Map-specific drop strategy (hot drop vs edge drop)",
+      "Sound discipline — footstep + reload + gunshot directional reads",
+      "Recoil patterns per weapon — AKM, Beryl M762, M416 spray control",
+      "Grenade lineups for compounds (frags, smokes, flashes)"
+    ]
+  },
+  "maps": {
+    "erangel": {
+      "name": "Erangel",
+      "notes": "8x8km classic map. Mixed terrain."
+    },
+    "miramar": {
+      "name": "Miramar",
+      "notes": "8x8km desert. Long sightlines."
+    },
+    "sanhok": {
+      "name": "Sanhok",
+      "notes": "4x4km jungle. Faster pace."
+    },
+    "vikendi": {
+      "name": "Vikendi",
+      "notes": "6x6km snow. Snow track visibility."
+    },
+    "taego": {
+      "name": "Taego",
+      "notes": "8x8km. Self-revive feature."
+    }
+  },
+  "operator_roles": {
+    "IGL": {
+      "roles": [
+        "Shotcaller"
+      ],
+      "side": "mixed",
+      "notes": "Drops calls, rotation calls, target priority."
+    },
+    "Fragger": {
+      "roles": [
+        "Entry"
+      ],
+      "side": "attack",
+      "notes": "Top-K player. Pushes corners first."
+    },
+    "Sniper": {
+      "roles": [
+        "Long Range"
+      ],
+      "side": "defense",
+      "notes": "8x+ scope. Pick-offs from distance."
+    },
+    "Support": {
+      "roles": [
+        "Heal + Smoke"
+      ],
+      "side": "defense",
+      "notes": "Carries meds + smokes. Revives priority."
+    },
+    "Anchor": {
+      "roles": [
+        "Compound Hold"
+      ],
+      "side": "defense",
+      "notes": "Stays in cover. Watches off-angles for third party."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "bronze_silver": [
+      "Hot-dropping every game = 80% R1 wipe",
+      "Looting in the open instead of cover",
+      "Spraying without recoil pattern"
+    ],
+    "gold_plat": [
+      "Bad rotation timing — late to next zone, fighting through bluezone",
+      "Wrong angle holds — droneable from elevation",
+      "No grenade lineups for compound pushes"
+    ],
+    "diamond_plus": [
+      "Sub-optimal third-party timing",
+      "Bad final-zone positioning (low ground)",
+      "Squad spread too thin — can't support each other"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

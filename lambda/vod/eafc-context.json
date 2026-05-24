@@ -1,0 +1,102 @@
+{
+  "generated_at": "2026-05-12T06:55:11.886Z",
+  "game_meta": {
+    "name": "EA Sports FC",
+    "short_name": "FC",
+    "tagline": "Football simulation. 1v1 online (FUT Rivals, Champions, Squad Battles), Pro Clubs co-op, Career single-player.",
+    "sides": {
+      "attack": "Possession (in-attack)",
+      "defense": "Defending (out-of-possession)"
+    },
+    "character_vocab": "formations, custom tactics, and player cards (FUT Ultimate Team build)",
+    "round_format": "2x6 minute halves online. Career mode uses full match lengths.",
+    "key_mechanics": [
+      "Formation selection (4-3-3, 4-2-3-1, 4-4-2, 5-3-2, 3-4-3, etc)",
+      "Custom Tactics — defending depth, width, attacking width, pressing intensity",
+      "Skill moves + finesse shots + driven shots",
+      "FUT chemistry + position changes",
+      "Set pieces — corners, free kicks, penalties",
+      "Player switching + defensive AI behavior"
+    ]
+  },
+  "maps": {
+    "ultimate-team": {
+      "name": "Ultimate Team (FUT)",
+      "notes": "Online card-collection game mode. Rivals + Champions weekend."
+    },
+    "pro-clubs": {
+      "name": "Pro Clubs",
+      "notes": "11v11 co-op online. Each player controls one position."
+    },
+    "career": {
+      "name": "Career Mode",
+      "notes": "Single-player. Manager or Player career."
+    },
+    "volta": {
+      "name": "Volta Football",
+      "notes": "Street football mode. Smaller pitches, freestyle skill moves."
+    }
+  },
+  "builds": {
+    "High-Press 4-3-3": {
+      "roles": [
+        "Attacking"
+      ],
+      "side": "attack",
+      "notes": "High defensive line + constant pressure. Counter risk if midfield gets bypassed."
+    },
+    "Possession 4-2-3-1": {
+      "roles": [
+        "Tika-Taka"
+      ],
+      "side": "attack",
+      "notes": "Patient passing build. Slow tempo, control midfield."
+    },
+    "Counter 4-4-2": {
+      "roles": [
+        "Counter-Attack"
+      ],
+      "side": "defense",
+      "notes": "Drop deep, hit on the break with pacy wingers."
+    },
+    "Park the Bus 5-3-2": {
+      "roles": [
+        "Ultra-Defensive"
+      ],
+      "side": "defense",
+      "notes": "Three CBs + wing-backs drop deep. Hard to break down."
+    }
+  },
+  "common_mistakes_by_rank": {
+    "div_10_8": [
+      "Constant ball-running into tackles",
+      "Not learning the L2/LT jockey defending",
+      "Spamming finesse shots without rebound positioning"
+    ],
+    "div_7_5": [
+      "Wrong formation vs opponent style",
+      "Bad sub timing — leaving tired strikers on",
+      "Pre-set pieces routine not practiced"
+    ],
+    "div_4_elite": [
+      "Sub-optimal custom tactics mid-game",
+      "Bad WL prep — fatigue management",
+      "Player switching to wrong CB on cutbacks"
+    ]
+  },
+  "review_template": {
+    "format": "JSON",
+    "required_fields": [
+      "session.headline",
+      "session.score",
+      "per_image[].detected",
+      "per_image[].what_went_wrong",
+      "patterns.recurring_weaknesses",
+      "practice_plan.this_week"
+    ],
+    "style": "Specific over generic. Reference visible HUD elements, in-game timers, and concrete tactical concepts. Never say \"play smart\" or \"use abilities better\"."
+  },
+  "vocabulary": [
+    "standard tactical vocabulary varies by game; defer to game_meta.character_vocab and key_mechanics for terms"
+  ]
+}

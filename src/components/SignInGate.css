@@ -1,0 +1,61 @@
+.signin-gate {
+  max-width: 720px;
+  margin: 3rem auto;
+  padding: 0 1.25rem;
+}
+.signin-gate-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid;
+  border-radius: 16px;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+.signin-gate-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.signin-gate-card h1 {
+  margin: 0 0 0.6rem;
+  font-size: 1.9rem;
+  line-height: 1.15;
+}
+.signin-gate-lead {
+  margin: 0 0 1.25rem;
+  color: rgba(230,233,239,0.85);
+  line-height: 1.55;
+}
+.signin-gate-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.signin-gate-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: rgba(230,233,239,0.9);
+  font-size: 0.92rem;
+}
+.signin-gate-check {
+  flex: 0 0 14px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.signin-gate-cta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.signin-gate-foot {
+  font-size: 0.82rem;
+  color: rgba(230,233,239,0.6);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}

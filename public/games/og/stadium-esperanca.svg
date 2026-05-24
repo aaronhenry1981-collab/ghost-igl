@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c0805"/>
+      <stop offset="1" stop-color="#7a5210"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.15" cy="0.2" r="0.7">
+      <stop offset="0" stop-color="#ffc97a" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#ffc97a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.9" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#ffc97a" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffc97a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0" stop-color="#ffc97a"/>
+      <stop offset="0.6" stop-color="#ffd998"/>
+      <stop offset="1" stop-color="#ffc97a"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffc97a" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Top-left brand -->
+  <g transform="translate(64 60)">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4" fill="#ecedf3">RECON<tspan fill="#ffc97a">6</tspan></text>
+    <text y="26" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="rgba(230,233,239,0.55)">OVERWATCH 2 · STADIUM MODE</text>
+  </g>
+
+  <!-- Top-right Pro pill -->
+  <g transform="translate(1136 60)" text-anchor="end">
+    <g transform="translate(-180 -10)">
+      <rect width="180" height="32" rx="16" fill="#ffc97a" fill-opacity="0.15" stroke="#ffc97a" stroke-width="1.5"/>
+      <text x="90" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="13" letter-spacing="3" fill="#ffc97a">⚑ PRO FEATURE</text>
+    </g>
+    <text y="44" font-family="Inter, sans-serif" font-size="14" fill="rgba(230,233,239,0.55)">Push mode · 3 sites</text>
+  </g>
+
+  <!-- Map name -->
+  <g transform="translate(64 290)">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="800" font-size="110" letter-spacing="-3" fill="url(#title)">Esperança</text>
+    <text y="56" font-family="Inter, sans-serif" font-size="28" fill="#ecedf3" opacity="0.85">Cash economy · Power picks · Item shop · Round-7 closeouts</text>
+  </g>
+
+  <!-- Stadium-specific chips -->
+  <g transform="translate(64 460)">
+    <g transform="translate(0 0)">
+      <rect width="180" height="48" rx="10" fill="#ffc97a" fill-opacity="0.12" stroke="#ffc97a" stroke-width="1.5"/>
+      <text x="90" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffc97a" letter-spacing="2">CASH STRATEGY</text>
+    </g>
+    <g transform="translate(196 0)">
+      <rect width="180" height="48" rx="10" fill="#ffc97a" fill-opacity="0.12" stroke="#ffc97a" stroke-width="1.5"/>
+      <text x="90" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffc97a" letter-spacing="2">POWER PICKS</text>
+    </g>
+    <g transform="translate(392 0)">
+      <rect width="180" height="48" rx="10" fill="#ffc97a" fill-opacity="0.12" stroke="#ffc97a" stroke-width="1.5"/>
+      <text x="90" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffc97a" letter-spacing="2">ITEM SHOP</text>
+    </g>
+    <g transform="translate(588 0)">
+      <rect width="180" height="48" rx="10" fill="#ffc97a" fill-opacity="0.12" stroke="#ffc97a" stroke-width="1.5"/>
+      <text x="90" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffc97a" letter-spacing="2">BO7 PLAYBOOK</text>
+    </g>
+  </g>
+
+  <!-- Bottom URL bar -->
+  <g transform="translate(64 566)">
+    <text font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#ecedf3">r6coaching.com<tspan fill="rgba(230,233,239,0.55)">/games/ow2/stadium-esperanca.html</tspan></text>
+  </g>
+  <g transform="translate(1136 566)" text-anchor="end">
+    <text font-family="Space Grotesk, Inter, sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#ffc97a">FOUNDING $9/MO</text>
+  </g>
+
+  <!-- Bottom accent bar (amber for Pro framing) -->
+  <rect x="0" y="624" width="1200" height="6" fill="#ffc97a"/>
+</svg>

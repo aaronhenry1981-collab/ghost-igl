@@ -1,10 +1,30 @@
 export default function AnalysisResults({ analysis, onReset }) {
+  const detected = analysis.detected || {}
+  const detectedChips = [
+    detected.map && { label: 'Map', value: detected.map },
+    detected.site && { label: 'Site', value: detected.site },
+    detected.side && { label: 'Side', value: detected.side },
+    detected.operator && { label: 'Operator', value: detected.operator },
+    detected.round_phase && detected.round_phase !== 'unknown' && { label: 'Phase', value: detected.round_phase },
+  ].filter(Boolean)
+
   return (
     <div className="analysis-results">
       <div className="analysis-header">
         <h3>Analysis Complete</h3>
         <button className="btn btn-outline" onClick={onReset}>Analyze Another</button>
       </div>
+
+      {detectedChips.length > 0 && (
+        <div className="analysis-detected">
+          {detectedChips.map((c) => (
+            <span key={c.label} className="analysis-chip">
+              <span className="analysis-chip-label">{c.label}</span>
+              <span className="analysis-chip-value">{c.value}</span>
+            </span>
+          ))}
+        </div>
+      )}
 
       {analysis.score != null && (
         <div className="analysis-score">

@@ -1,0 +1,794 @@
+/* Live Coach — vertical step-stack designed for second-monitor / mobile
+   use during an actual R6 match. Big tap targets, high contrast, minimal
+   text per step. Cards collapse to a one-line summary when completed. */
+
+.live-coach-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 4rem;
+}
+
+.live-coach-header {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.live-coach-header h1 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin: 0.4rem 0 0.5rem;
+  letter-spacing: -1px;
+}
+.live-coach-header .accent { color: #00e5ff; }
+.live-coach-header p {
+  font-size: 1rem;
+  color: rgba(230, 233, 239, 0.75);
+  margin: 0;
+  max-width: 60ch;
+}
+.live-coach-header .section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 229, 255, 0.85);
+  font-weight: 700;
+}
+.live-coach-header-actions {
+  position: absolute;
+  top: 0.25rem;
+  right: 0;
+  display: flex;
+  gap: 0.4rem;
+}
+.live-coach-share {
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  color: #00e5ff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.live-coach-share:hover { background: rgba(0, 229, 255, 0.2); }
+.live-coach-reset {
+  background: rgba(255, 138, 138, 0.08);
+  border: 1px solid rgba(255, 138, 138, 0.35);
+  color: #ff8a8a;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.live-coach-reset:hover { background: rgba(255, 138, 138, 0.16); }
+@media (max-width: 500px) {
+  .live-coach-header-actions {
+    position: static;
+    margin-top: 0.85rem;
+  }
+}
+
+/* ── Step shell ───────────────────────────────────────────────────── */
+.live-coach-step {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 14px;
+  padding: 1.25rem 1.25rem 1.4rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, background 0.2s;
+  scroll-margin-top: 80px;
+}
+.live-coach-step.done {
+  border-color: rgba(120, 220, 140, 0.28);
+  background: rgba(120, 220, 140, 0.02);
+}
+.live-coach-step.final {
+  border-color: rgba(0, 229, 255, 0.45);
+  background: rgba(0, 229, 255, 0.04);
+}
+.live-coach-step-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.95rem;
+}
+.live-coach-step-num {
+  flex: 0 0 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: #00e5ff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono, ui-monospace, monospace);
+}
+.live-coach-step.done .live-coach-step-num {
+  background: rgba(120, 220, 140, 0.15);
+  border-color: rgba(120, 220, 140, 0.5);
+  color: #78dc8c;
+  font-size: 1.3rem;
+}
+.live-coach-step-title { flex: 1; min-width: 0; }
+.live-coach-step-title h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ecedf3;
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+}
+.live-coach-step-summary {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.88rem;
+  color: rgba(120, 220, 140, 0.95);
+  font-weight: 600;
+}
+.live-coach-step-subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: rgba(230, 233, 239, 0.6);
+}
+
+/* ── Map picker ───────────────────────────────────────────────────── */
+.live-coach-map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.5rem;
+}
+/* Compact variant — used by step 1 (map-ban-phase report) so all 24
+   ranked maps fit at a glance without dwarfing the rest of the page.
+   No site-count subtitle; just the name, tight padding. */
+.live-coach-map-grid.compact {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.3rem;
+}
+.live-coach-map-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0.7rem 0.85rem;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 10px;
+  color: #ecedf3;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.live-coach-map-grid.compact .live-coach-map-btn {
+  padding: 0.45rem 0.65rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  text-align: center;
+  align-items: center;
+}
+.live-coach-map-btn:hover {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: rgba(0, 229, 255, 0.5);
+  transform: translateY(-1px);
+}
+.live-coach-map-btn.active {
+  background: rgba(0, 229, 255, 0.18);
+  border-color: #00e5ff;
+}
+.live-coach-map-meta {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(230, 233, 239, 0.55);
+  letter-spacing: 0.02em;
+}
+
+/* ── Half tabs (above ban grid) ─────────────────────────────────── */
+.live-coach-half-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+.live-coach-half-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(230, 233, 239, 0.15);
+  border-radius: 8px;
+  color: rgba(230, 233, 239, 0.7);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+}
+.live-coach-half-tab:hover {
+  background: rgba(0, 229, 255, 0.06);
+  border-color: rgba(0, 229, 255, 0.35);
+  color: #ecedf3;
+}
+.live-coach-half-tab.active {
+  background: rgba(0, 229, 255, 0.14);
+  border-color: #00e5ff;
+  color: #00e5ff;
+}
+.live-coach-half-tab strong { font-size: 0.95rem; font-weight: 700; }
+.live-coach-half-tab span {
+  font-size: 0.75rem;
+  color: rgba(230, 233, 239, 0.6);
+}
+.live-coach-half-tab.active span { color: rgba(0, 229, 255, 0.75); }
+
+/* ── Bans ─────────────────────────────────────────────────────────── */
+.live-coach-bans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.live-coach-bans-col { display: flex; flex-direction: column; gap: 0.5rem; }
+.live-coach-bans-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  align-self: flex-start;
+}
+.live-coach-bans-label.attack {
+  color: #ffa67a; background: rgba(255, 138, 80, 0.12); border: 1px solid rgba(255, 138, 80, 0.4);
+}
+.live-coach-bans-label.defense {
+  color: #7aaaff; background: rgba(80, 170, 255, 0.12); border: 1px solid rgba(80, 170, 255, 0.4);
+}
+.live-coach-ban-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 0.55rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(230, 233, 239, 0.15);
+  border-radius: 8px;
+  color: #ecedf3;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.live-coach-ban-btn:hover {
+  background: rgba(255, 138, 138, 0.06);
+  border-color: rgba(255, 138, 138, 0.35);
+}
+.live-coach-ban-btn.banned {
+  background: rgba(255, 138, 138, 0.16);
+  border-color: rgba(255, 138, 138, 0.55);
+  color: #ff8a8a;
+}
+.live-coach-ban-btn.banned strong { text-decoration: line-through; opacity: 0.85; }
+.live-coach-ban-btn strong { font-size: 0.92rem; font-weight: 700; }
+.live-coach-ban-btn span { font-size: 0.78rem; color: rgba(230, 233, 239, 0.7); }
+
+.live-coach-bans-custom {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.live-coach-bans-custom label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  font-size: 0.78rem;
+  color: rgba(230, 233, 239, 0.7);
+}
+.live-coach-bans-custom input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  color: #ecedf3;
+  font-size: 0.95rem;
+}
+.live-coach-bans-active {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 138, 138, 0.2);
+  font-size: 0.85rem;
+}
+.live-coach-bans-active > span {
+  color: rgba(230, 233, 239, 0.65);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.live-coach-ban-chip {
+  background: rgba(255, 138, 138, 0.18);
+  border: 1px solid rgba(255, 138, 138, 0.5);
+  color: #ff8a8a;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Side / Site / Queue row ─────────────────────────────────────── */
+.live-coach-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+.live-coach-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.live-coach-toggle-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.55);
+  margin-right: 6px;
+}
+.live-coach-toggle {
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(230, 233, 239, 0.2);
+  border-radius: 8px;
+  color: rgba(230, 233, 239, 0.78);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.live-coach-toggle:hover { border-color: rgba(0, 229, 255, 0.5); color: #ecedf3; }
+.live-coach-toggle.queue {
+  width: 36px; height: 36px; padding: 0;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 1rem;
+}
+.live-coach-toggle.active {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: #00e5ff;
+  color: #00e5ff;
+}
+.live-coach-toggle.active.attack {
+  background: rgba(255, 138, 80, 0.18);
+  border-color: #ff8a50;
+  color: #ffa67a;
+}
+.live-coach-toggle.active.defense {
+  background: rgba(80, 170, 255, 0.18);
+  border-color: #5099cc;
+  color: #7aaaff;
+}
+
+.live-coach-site-section { margin-top: 0.5rem; }
+.live-coach-site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+.live-coach-site-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 8px;
+  color: #ecedf3;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s;
+}
+.live-coach-site-btn:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.5);
+}
+.live-coach-site-btn.active {
+  background: rgba(0, 229, 255, 0.16);
+  border-color: #00e5ff;
+}
+.live-coach-site-btn strong { font-size: 0.9rem; }
+.live-coach-site-floor {
+  font-size: 0.7rem;
+  color: rgba(230, 233, 239, 0.5);
+}
+.live-coach-site-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+/* Difficulty badges — color-graded by how many essential ops got banned
+   for the current side on the current site. Lets the IGL eyeball-pick
+   the right site in a glance instead of mentally checking every site
+   against the ban list. */
+.live-coach-site-diff {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.live-coach-site-diff.diff-easy {
+  color: #78dc8c;
+  background: rgba(120, 220, 140, 0.12);
+  border: 1px solid rgba(120, 220, 140, 0.4);
+}
+.live-coach-site-diff.diff-standard {
+  color: rgba(0, 229, 255, 0.95);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+.live-coach-site-diff.diff-hard {
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.12);
+  border: 1px solid rgba(255, 138, 138, 0.4);
+}
+/* Left-border accent on the site card itself reinforces the difficulty
+   at a glance — combined with the badge it makes the easiest sites
+   pop visually without overloading the layout. */
+.live-coach-site-btn.difficulty-easy { border-left: 3px solid #78dc8c; }
+.live-coach-site-btn.difficulty-hard { border-left: 3px solid #ff8a8a; opacity: 0.75; }
+.live-coach-site-btn.difficulty-hard:hover { opacity: 1; }
+
+/* Recommended-site banner — sits above the grid when bans make a clear
+   "best call" obvious. Disappears when no bans logged or all sites
+   are equally affected. */
+.live-coach-site-rec {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+.live-coach-site-rec.easy {
+  color: #b8f0c4;
+  background: rgba(120, 220, 140, 0.08);
+  border-left: 3px solid #78dc8c;
+}
+.live-coach-site-rec.standard {
+  color: #b8e8ff;
+  background: rgba(0, 229, 255, 0.06);
+  border-left: 3px solid #00e5ff;
+}
+.live-coach-site-rec-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.live-coach-queue-advice {
+  margin-top: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  background: rgba(0, 229, 255, 0.05);
+  border-left: 3px solid #00e5ff;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  color: rgba(230, 233, 239, 0.85);
+}
+
+/* ── Team comp suggestion (3+ stacks) ───────────────────────────── */
+.live-coach-comp {
+  margin-bottom: 1rem;
+  padding: 0.95rem 1rem;
+  background: rgba(255, 201, 122, 0.06);
+  border: 1px solid rgba(255, 201, 122, 0.35);
+  border-radius: 10px;
+}
+.live-coach-comp-head { margin-bottom: 0.6rem; }
+.live-coach-comp-eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #ffc97a;
+}
+.live-coach-comp-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.82rem;
+  color: rgba(230, 233, 239, 0.7);
+}
+.live-coach-comp-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.4rem;
+}
+.live-coach-comp-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0.6rem 0.7rem 0.7rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 201, 122, 0.3);
+  border-radius: 8px;
+  color: #ecedf3;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.live-coach-comp-slot:hover {
+  background: rgba(255, 201, 122, 0.1);
+  border-color: rgba(255, 201, 122, 0.6);
+  transform: translateY(-1px);
+}
+.live-coach-comp-slot.mine {
+  background: rgba(255, 201, 122, 0.18);
+  border-color: #ffc97a;
+}
+.live-coach-comp-bucket {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(255, 201, 122, 0.85);
+}
+.live-coach-comp-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.live-coach-comp-priority {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.live-coach-comp-priority.priority-essential { color: #ffc97a; }
+.live-coach-comp-priority.priority-recommended { color: #00e5ff; }
+.live-coach-comp-priority.priority-flex { color: rgba(230, 233, 239, 0.55); }
+.live-coach-comp-mine-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #ffc97a;
+  color: #0a0f19;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.live-coach-op-divider {
+  margin: 1rem 0 0.5rem;
+  padding-bottom: 0.4rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.55);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+}
+
+/* ── Operator picker ─────────────────────────────────────────────── */
+.live-coach-op-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.5rem;
+}
+.live-coach-op-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0.75rem 0.9rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 10px;
+  color: #ecedf3;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.live-coach-op-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.5);
+}
+.live-coach-op-btn.active {
+  background: rgba(0, 229, 255, 0.18);
+  border-color: #00e5ff;
+}
+.live-coach-op-btn.priority-essential { border-left: 4px solid #ffc97a; }
+.live-coach-op-btn.priority-recommended { border-left: 4px solid #00e5ff; }
+.live-coach-op-name { font-size: 1rem; font-weight: 700; }
+.live-coach-op-role { font-size: 0.78rem; color: rgba(230, 233, 239, 0.65); }
+.live-coach-op-priority {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-top: 2px;
+  align-self: flex-start;
+}
+.live-coach-op-priority.priority-essential { color: #ffc97a; }
+.live-coach-op-priority.priority-recommended { color: #00e5ff; }
+.live-coach-op-priority.priority-flex { color: rgba(230, 233, 239, 0.5); }
+
+/* ── Final card: loadout + setup ─────────────────────────────────── */
+.live-coach-final-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.live-coach-loadout-card,
+.live-coach-setup-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+.live-coach-card-eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #00e5ff;
+  margin-bottom: 0.65rem;
+}
+.live-coach-loadout-row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(230, 233, 239, 0.08);
+  font-size: 0.92rem;
+}
+.live-coach-loadout-row:last-of-type { border-bottom: 0; }
+.live-coach-loadout-label {
+  flex: 0 0 80px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.55);
+  align-self: center;
+}
+.live-coach-loadout-why,
+.live-coach-loadout-counter {
+  margin-top: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: rgba(230, 233, 239, 0.85);
+  line-height: 1.45;
+}
+.live-coach-loadout-why {
+  background: rgba(0, 229, 255, 0.06);
+  border-left: 3px solid #00e5ff;
+}
+.live-coach-loadout-counter {
+  background: rgba(255, 180, 80, 0.06);
+  border-left: 3px solid #ffc97a;
+}
+
+.live-coach-setup-section { margin-bottom: 0.85rem; }
+.live-coach-setup-section:last-of-type { margin-bottom: 0; }
+.live-coach-setup-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(230, 233, 239, 0.6);
+  margin-bottom: 0.35rem;
+}
+.live-coach-setup-section p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(230, 233, 239, 0.88);
+  line-height: 1.5;
+}
+.live-coach-callout-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.live-coach-callout-pill {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: rgba(0, 229, 255, 0.95);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
+.live-coach-util-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(230, 233, 239, 0.85);
+}
+.live-coach-util-list li { margin-bottom: 2px; }
+.live-coach-spawn-kill {
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 180, 80, 0.06);
+  border-left: 3px solid #ffc97a;
+  border-radius: 6px;
+}
+.live-coach-spawn-kill .live-coach-setup-title { color: #ffc97a; }
+.live-coach-deep-link {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(230, 233, 239, 0.08);
+  font-size: 0.85rem;
+}
+.live-coach-deep-link a { color: #00e5ff; text-decoration: none; }
+.live-coach-deep-link a:hover { text-decoration: underline; }
+
+.live-coach-round-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(0, 229, 255, 0.18);
+}
+
+/* ── Empty/placeholder states ──────────────────────────────────── */
+.live-coach-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: 12px;
+}
+.live-coach-empty h1 { margin-top: 0; }
+.live-coach-empty-block,
+.live-coach-empty-line {
+  padding: 1rem;
+  background: rgba(255, 138, 80, 0.06);
+  border: 1px dashed rgba(255, 138, 80, 0.3);
+  border-radius: 8px;
+  color: rgba(230, 233, 239, 0.75);
+  font-size: 0.9rem;
+}
+.live-coach-empty-line a { color: #00e5ff; }
+
+.live-coach-foot {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(230, 233, 239, 0.1);
+  text-align: center;
+  font-size: 0.85rem;
+}
+.live-coach-foot a { color: #00e5ff; text-decoration: none; }
+.live-coach-foot a:hover { text-decoration: underline; }
+
+/* ── Responsive: single-column on phones (between-rounds use) ────── */
+@media (max-width: 720px) {
+  .live-coach-page { padding: 0.85rem 0.65rem 3rem; }
+  .live-coach-header h1 { font-size: 1.9rem; }
+  .live-coach-step { padding: 1rem 0.9rem 1.1rem; }
+  .live-coach-bans,
+  .live-coach-final-grid { grid-template-columns: 1fr; }
+  .live-coach-row { gap: 0.85rem; }
+  .live-coach-toggle.queue { width: 32px; height: 32px; font-size: 0.95rem; }
+}

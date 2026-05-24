@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valorant Loadouts — Weapon, Ability &amp; Comp Guide | Recon 6</title>
+  <meta name="description" content="Valorant loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current Valorant meta." />
+  <link rel="canonical" href="https://r6coaching.com/games/valorant/loadouts.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#FF4655" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Valorant Loadouts — Weapon, Ability &amp; Comp Guide | Recon 6" />
+  <meta property="og:description" content="Valorant loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current Valorant meta." />
+  <meta property="og:url" content="https://r6coaching.com/games/valorant/loadouts.html" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/valorant.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/valorant.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Valorant Loadouts — Weapon, Ability & Team-Comp Guide","description":"Valorant loadouts — what to pick and why. Real loadouts, weapon priorities, ability combos, and team-comp synergies. Updated for the current Valorant meta.","author":{"@type":"Organization","name":"Recon 6"},"publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"mainEntityOfPage":"https://r6coaching.com/games/valorant/loadouts.html","inLanguage":"en-US"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"Valorant","item":"https://r6coaching.com/games/valorant/"},{"@type":"ListItem","position":4,"name":"Loadouts","item":"https://r6coaching.com/games/valorant/loadouts.html"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #FF4655; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
+    .hero { padding: 1.75rem 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.75rem; }
+    .badge { display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 700; }
+    h1 { font-size: 2.4rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.1rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
+    .section { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
+    .section header { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.85rem; margin-bottom: 1rem; }
+    .section h2 { margin: 0 0 4px; font-size: 1.5rem; color: #fff; }
+    .section-role { font-size: 0.78rem; color: rgba(230,233,239,0.6); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
+    .section-summary { margin: 0 0 1rem; color: rgba(230,233,239,0.85); line-height: 1.55; font-size: 0.95rem; }
+    .block { background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 0.95rem 1.1rem; margin: 0.75rem 0; }
+    .block-title { margin: 0 0 0.6rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(230,233,239,0.55); font-weight: 700; }
+    .block p, .subentry p { margin: 0 0 0.4rem; color: rgba(230,233,239,0.88); line-height: 1.55; font-size: 0.92rem; }
+    .block ul, .subentry ul { margin: 0; padding-left: 1.1rem; color: rgba(230,233,239,0.85); font-size: 0.9rem; line-height: 1.55; }
+    .block li, .subentry li { padding: 2px 0; }
+    .rows { display: flex; flex-direction: column; gap: 0.5rem; }
+    .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; }
+    .row-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .row-key { font-size: 0.66rem; color: rgba(230,233,239,0.5); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; }
+    .row-val { font-size: 0.88rem; color: #fff; word-break: break-word; }
+    .subgroup { display: grid; gap: 0.85rem; }
+    .subentry { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 0.7rem 0.95rem; }
+    .subkey { margin: 0 0 0.45rem; font-size: 0.85rem; color: #fff; font-weight: 700; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 0.5rem 0; }
+    .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.25rem 0; }
+    .btn-outline { display: inline-block; padding: 0.7rem 1.4rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; font-weight: 700; text-decoration: none; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="hero">
+      <div class="badge">Valorant &middot; Loadouts</div>
+      <h1>What to <span class="accent">Pick</span> &mdash; And Why</h1>
+      <p class="lead">
+        Real Valorant loadouts, weapon priorities, ability combos, and team-comp synergies.
+        Use these before the round starts so you walk in with the right gun, the right ability, and the right plan.
+      </p>
+      <div class="cta-row">
+        <a class="cta" href="/#/loadouts">Open interactive loadouts &rarr;</a>
+        <a class="btn-outline" href="/games/valorant/">Back to Valorant &larr;</a>
+      </div>
+    </div>
+
+    
+    <nav class="toc" aria-label="On this page" style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 0.85rem 1.1rem; margin: 0 0 1.5rem;">
+      <strong style="font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); display: block; margin-bottom: 0.5rem;">Sections</strong>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <li><a href="#duelist" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Duelist</a></li><li><a href="#controller" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Controller</a></li><li><a href="#initiator" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Initiator</a></li><li><a href="#sentinel" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">Sentinel</a></li>
+      </ul>
+    </nav>
+  
+
+    
+    <article class="section" id="duelist">
+      <header>
+        <h2>Duelist</h2>
+        <span class="section-role">Entry / First contact</span>
+      </header>
+      <p class="section-summary">Jett, Raze, Reyna, Phoenix, Yoru, Neon. First through smokes. Wins or dies trying.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Credit State</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Eco</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Sheriff (800c) — one-tap pistol</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c) only if duo-eco</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Sig only — don't buy basic abilities on eco</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>&lt; 2000c spend — save for full-buy</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Half</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Spectre (1600c) or Bulldog (2050c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c) — full not affordable</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>1× basic ability if Jett (updraft) or Raze (boombot)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Force-buy SMG mode</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Full</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Vandal or Phantom (2900c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Heavy Shield (1000c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Both basics + sig</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Full kit + rifle every full-round</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Agent Priorities</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Jett</h4>
+        <p>Updraft → Cloudburst → Tailwind (sig free) → Bladestorm (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Raze</h4>
+        <p>Boom Bot → Blast Pack → Paint Shells (sig free) → Showstopper (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Reyna</h4>
+        <p>Devour → Dismiss → Leer (sig free) → Empress (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Phoenix</h4>
+        <p>Curveball → Hot Hands → Blaze (sig free) → Run It Back (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Neon</h4>
+        <p>Fast Lane → Relay Bolt → High Gear (sig free) → Overdrive (ult)</p>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Rotation Notes</h3>
+            <ul><li>On full-buy: always entry first — your job is to take space and trade out.</li><li>Save Jett dash / Neon slide for the angle break, not the entry itself.</li><li>Reyna: Leer before peek. Dismiss the trade.</li></ul>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="controller">
+      <header>
+        <h2>Controller</h2>
+        <span class="section-role">Smokes / Map control</span>
+      </header>
+      <p class="section-summary">Brimstone, Omen, Viper, Astra, Harbor, Clove. Owns the smoke economy. Calls execute timing.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Credit State</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Eco</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Sheriff (800c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>No shield — survive on positioning</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Sig only (most controller sigs are free)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Save for next round</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Half</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Spectre (1600c) or Stinger (950c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>1× smoke ability minimum (Brim Sky Smoke = 100c, Omen = free, Viper = sig)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>~3000c spend, force vs save</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Full</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Phantom or Vandal (2900c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Heavy Shield (1000c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Full smoke kit + utility</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Smokes are not optional on a full-buy</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Agent Priorities</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Brimstone</h4>
+        <p>Sky Smokes (3 stacks, 100c each) → Stim Beacon → Incendiary → Orbital Strike (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Omen</h4>
+        <p>Dark Cover (free sig, 2 stacks) → Paranoia → Shrouded Step → From The Shadows (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Viper</h4>
+        <p>Snake Bite → Toxic Screen (free sig) → Poison Cloud → Viper's Pit (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Astra</h4>
+        <p>Stars (free, 5 charges) → Nova Pulse / Nebula / Gravity Well (transformed from stars)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Harbor</h4>
+        <p>Cascade → High Tide (sig) → Cove → Reckoning (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Clove</h4>
+        <p>Pick-Me-Up → Meddle → Ruse (sig) → Not Dead Yet (ult, post-death)</p>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Rotation Notes</h3>
+            <ul><li>Pre-place smokes on common attack angles before the round timer hits 0.</li><li>Brimstone: 3 sky-smokes is the entire execute. Time them.</li><li>Omen: free sig refresh = unlimited smokes if you can wait the cooldown.</li><li>Viper Pit ult is a 1v3 win condition on a defuse — pop it on plant.</li></ul>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="initiator">
+      <header>
+        <h2>Initiator</h2>
+        <span class="section-role">Intel / Flashes / Concussion</span>
+      </header>
+      <p class="section-summary">Sova, Skye, Breach, KAY/O, Fade, Gekko. Reveals defenders, breaks holds, opens the entry.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Credit State</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Eco</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Sheriff (800c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield only if affordable</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Sig only</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Save for full-buy</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Half</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Stinger (950c) or Spectre (1600c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>1× recon / flash basic</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Force buy with Stinger if light</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Full</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Phantom or Vandal (2900c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Heavy Shield (1000c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Full kit — recon + flash + entry tool</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Recon dart or flash before entry, every round</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Agent Priorities</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Sova</h4>
+        <p>Recon Bolt (sig free) → Owl Drone → Shock Bolt → Hunter's Fury (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Skye</h4>
+        <p>Trailblazer → Guiding Light (sig free) → Regrowth → Seekers (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Breach</h4>
+        <p>Aftershock → Flashpoint (sig free) → Fault Line → Rolling Thunder (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">KAY/O</h4>
+        <p>Frag/ment → Flash/drive → Zero/Point (sig free) → Null/cmd (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Fade</h4>
+        <p>Prowler → Seize → Haunt (sig free) → Nightfall (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Gekko</h4>
+        <p>Mosh Pit → Wingman (sig free) → Dizzy → Thrash (ult)</p>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Rotation Notes</h3>
+            <ul><li>Sova: recon dart line-up before peek, every round.</li><li>Skye: flash for the entry, dog for intel, heal post-fight.</li><li>Breach: stagger flash + stun on execute — defenders get blinded then concussed.</li></ul>
+          </div>
+        
+      </div>
+    </article>
+  
+    <article class="section" id="sentinel">
+      <header>
+        <h2>Sentinel</h2>
+        <span class="section-role">Site anchor / Flank watch</span>
+      </header>
+      <p class="section-summary">Killjoy, Cypher, Sage, Chamber, Deadlock. Locks down site. Catches flanks. Slows attacks.</p>
+      <div class="section-body">
+        
+          <div class="block">
+            <h3 class="block-title">Credit State</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Eco</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Ghost (500c) or Sheriff (800c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Sig only — most are placeable / setup tools</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Save the AWP or rifle for next round</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Half</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Spectre (1600c) or Marshal (950c) for Chamber</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Light Shield (400c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Recon trip / cage if affordable</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Anchor mode — survive, force a save next</p>
+      </div></div>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Full</h4>
+        <div class="subgroup">
+      <div class="subentry">
+        <h5 class="subkey">Primary</h5>
+        <p>Phantom / Vandal — or Operator (4700c) for Chamber</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Shield</h5>
+        <p>Heavy Shield (1000c)</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Abilities</h5>
+        <p>Full setup kit on site</p>
+      </div>
+      <div class="subentry">
+        <h5 class="subkey">Money Target</h5>
+        <p>Pre-place sig the moment the round starts</p>
+      </div></div>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Agent Priorities</h3>
+            <div class="subgroup">
+      <div class="subentry">
+        <h4 class="subkey">Killjoy</h4>
+        <p>Alarmbot → Nanoswarm → Turret (sig free) → Lockdown (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Cypher</h4>
+        <p>Trapwire (sig free, 2 stacks) → Cyber Cage → Spycam → Neural Theft (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Sage</h4>
+        <p>Slow Orb → Healing Orb → Barrier Orb (sig free) → Resurrection (ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Chamber</h4>
+        <p>Trademark → Headhunter (Sheriff for free) → Rendezvous → Tour de Force (Operator-tier ult)</p>
+      </div>
+      <div class="subentry">
+        <h4 class="subkey">Deadlock</h4>
+        <p>Sonic Sensor → Barrier Mesh (sig free) → GravNet → Annihilation (ult)</p>
+      </div></div>
+          </div>
+        
+          <div class="block">
+            <h3 class="block-title">Rotation Notes</h3>
+            <ul><li>Killjoy: Lockdown ult on retake = forced rotation.</li><li>Cypher: trip wire on flank, spycam on entry, save cages for the post-plant retake.</li><li>Sage: barrier on the choke, save heal for site anchor on plant.</li><li>Chamber: rendezvous for free Operator angle change. Trademark on flank.</li></ul>
+          </div>
+        
+      </div>
+    </article>
+  
+
+    <div class="section" style="background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border-color: var(--accent);">
+      <h2 style="margin: 0 0 0.5rem; border: none;">Want These Tuned to Your Rank + Role?</h2>
+      <p style="margin: 0 0 1rem; color: rgba(230,233,239,0.85);">
+        Recon 6 Pro reviews your screenshots and tells you which loadout pieces you're actually missing &mdash; based on your last 5 matches, not generic meta. $9/mo founding (locked for life if you join before May 31).
+      </p>
+      <div class="cta-row">
+        <a class="cta" href="/#pricing">See pricing</a>
+        <a class="btn-outline" href="/#/match-prep">Match prep cheatsheet</a>
+      </div>
+    </div>
+  
+    <footer>
+      <p>Recon 6 &mdash; coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans &rarr;</a></p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "Recon 6 — Climb Faster in Every Game You Play",
+  "short_name": "Recon 6",
+  "description": "Every map, every site, every callout — pre-loaded for you. Round-by-round AI VOD breakdowns from your screenshots. Live across 20 competitive games — R6, CS2, Valorant, OW2, LoL, Tekken 8, and more.",
+  "start_url": "/#/strats",
+  "display": "standalone",
+  "background_color": "#0a0f19",
+  "theme_color": "#0a0f19",
+  "orientation": "portrait-primary",
+  "categories": ["games", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Strats",
+      "short_name": "Strats",
+      "description": "Browse map strategies",
+      "url": "/#/strats"
+    },
+    {
+      "name": "Operators",
+      "short_name": "Operators",
+      "description": "Operator catalog",
+      "url": "/#/operators"
+    },
+    {
+      "name": "VOD Review",
+      "short_name": "VOD",
+      "description": "AI screenshot analysis",
+      "url": "/#/vod"
+    }
+  ]
+}

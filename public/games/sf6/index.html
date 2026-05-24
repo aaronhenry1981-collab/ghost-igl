@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Street Fighter 6 Strategy Guide &amp; AI VOD Analysis | Recon 6</title>
+  <meta name="description" content="Street Fighter 6 strategy guide for ranked play. Maps, characters, callouts, and round-by-round VOD breakdowns. Recon 6 covers Street Fighter 6 as part of the All-Access subscription." />
+  <link rel="canonical" href="https://r6coaching.com/games/sf6/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ed1c24" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Street Fighter 6 Strategy Guide &amp; AI VOD Analysis | Recon 6" />
+  <meta property="og:description" content="Street Fighter 6 strategy guide for ranked play. Maps, characters, callouts, and round-by-round VOD breakdowns. Recon 6 covers Street Fighter 6 as part of the All-Access subscription." />
+  <meta property="og:url" content="https://r6coaching.com/games/sf6/" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/sf6.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/sf6.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Street Fighter 6","description":"Street Fighter 6 strategy guide for ranked play. Maps, characters, callouts, and round-by-round VOD breakdowns. Recon 6 covers Street Fighter 6 as part of the All-Access subscription.","publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"url":"https://r6coaching.com/games/sf6/","genre":"First Person Shooter"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"Street Fighter 6","item":"https://r6coaching.com/games/sf6/"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #ed1c24; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .game-hero { padding: 2.5rem 0; text-align: center; }
+    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); margin-bottom: 1rem; }
+    h1 { font-size: 2.5rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.15rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-primary { background: var(--accent); color: #0a0f19; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+    h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+    .stat-row { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+    .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem 1.25rem; min-width: 140px; text-align: center; }
+    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 4px; }
+    .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin: 1rem 0; }
+    .grid-item { padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.9rem; }
+    .grid-item strong { color: #fff; }
+    .grid-item span { color: rgba(230,233,239,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(180,140,255,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="game-hero">
+      <div class="badge">Street Fighter 6 on Recon 6 · Live</div>
+      <h1>Street Fighter 6 <span class="accent">Coaching</span></h1>
+      <p class="lead">
+        2 Stages ·
+        8 characters ·
+        0 strategy breakdowns. Live in-app today.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://r6coaching.com/#/strats">Open Street Fighter 6 in-app →</a>
+        <a class="btn btn-outline" href="https://r6coaching.com/#pricing">See pricing</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-label">Maps</div><div class="stat-val">2</div></div>
+        <div class="stat"><div class="stat-label">Characters</div><div class="stat-val">8</div></div>
+        <div class="stat"><div class="stat-label">Strats</div><div class="stat-val">0</div></div>
+      </div>
+    </div>
+
+    <div class="pricing-callout">
+      <h3 style="margin-top:0">Why Street Fighter 6 on Recon 6?</h3>
+      <p>Same AI VOD analysis that's live for R6 today — drop a screenshot, get specific feedback referencing the map, your operator/agent/hero, and the actual strats. Recon 6 All-Access ($19/mo Pro, $49/mo Champion) unlocks Street Fighter 6 the moment it goes live, plus all 19 other supported games.</p>
+      <a class="btn btn-primary" href="https://r6coaching.com/#pricing">See pricing →</a>
+    </div>
+
+    
+    <h2>Street Fighter 6 Stages</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Genbu Temple</strong>
+          <span>3 Round Phases</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Metro City Downtown</strong>
+          <span>2 Round Phases</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>Street Fighter 6 Characters</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Ryu</strong>
+          <span>Shoto / Fundamentals</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ken</strong>
+          <span>Rush-Down Shoto</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Luke</strong>
+          <span>Modern-Friendly All-Rounder</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>JP</strong>
+          <span>Zoner / Trap Setter</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Chun-Li</strong>
+          <span>Footsies / Spacing</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Cammy</strong>
+          <span>Rush-Down Pressure</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Dee Jay</strong>
+          <span>Hit-and-Run Charge</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Guile</strong>
+          <span>Charge Zoner</span>
+        </div>
+      
+    </div>
+  
+    
+    
+
+    <h2>What you get for Street Fighter 6</h2>
+    <ul>
+      <li><strong>Site-by-site strats</strong> — 0+ tactical breakdowns by stage and round phase, with picks, callouts, and utility</li>
+      <li><strong>Loadouts</strong> — weapon priorities, ability combos, and team-comp synergies tuned for Street Fighter 6</li>
+      <li><strong>Match Prep cheatsheet</strong> — bans, top picks, and callouts on one screen before you ready up</li>
+      <li><strong>Cast catalog</strong> — 8 characters indexed by role and kit</li>
+      <li><strong>Meta board</strong> — top picks + most-banned across the active Street Fighter 6 meta</li>
+      <li><strong>Discord coaching channels</strong> — Recon 6 Discord with Street Fighter 6-specific rooms</li>
+    </ul>
+  
+    <footer>
+      <p>Recon 6 — coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans →</a></p>
+    </footer>
+  </div>
+</body>
+</html>

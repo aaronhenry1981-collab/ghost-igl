@@ -1,0 +1,170 @@
+.changelog-page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+.changelog-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.changelog-header .section-label {
+  margin: 0 auto 14px;
+}
+.changelog-header h1 {
+  font-family: var(--heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 12px;
+  letter-spacing: -0.03em;
+}
+.changelog-header p {
+  color: var(--text);
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.changelog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.changelog-entry {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  position: relative;
+  padding-bottom: 28px;
+}
+
+.changelog-rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.changelog-rail::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: -4px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--border-accent), var(--border));
+}
+.changelog-entry:last-child .changelog-rail::before { display: none; }
+.changelog-dot {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  margin-top: 14px;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.changelog-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 24px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.changelog-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: 0 6px 24px rgba(0, 229, 255, 0.08);
+}
+
+.changelog-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+.changelog-meta time {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.changelog-tag-pill {
+  font-family: var(--heading);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+.changelog-tag-pill-feature {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--border-accent);
+}
+.changelog-tag-pill-fix {
+  background: var(--danger-soft);
+  color: var(--danger);
+  box-shadow: inset 0 0 0 1px rgba(255, 77, 95, 0.25);
+}
+.changelog-tag-pill-content {
+  background: rgba(46, 204, 113, 0.1);
+  color: var(--success);
+  box-shadow: inset 0 0 0 1px rgba(46, 204, 113, 0.25);
+}
+.changelog-tag-pill-design {
+  background: var(--role-purple-soft);
+  color: var(--role-purple);
+  box-shadow: inset 0 0 0 1px rgba(155, 89, 255, 0.25);
+}
+.changelog-tag-pill-release {
+  background: rgba(255, 213, 74, 0.1);
+  color: var(--gold);
+  box-shadow: inset 0 0 0 1px rgba(255, 213, 74, 0.25);
+}
+
+.changelog-card h2 {
+  font-family: var(--heading);
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--text-h);
+  letter-spacing: -0.015em;
+  margin: 0 0 12px;
+}
+
+.changelog-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.changelog-items li {
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  padding-left: 22px;
+  position: relative;
+}
+.changelog-items li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 10px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.5;
+  border-radius: 1px;
+}
+
+@media (max-width: 560px) {
+  .changelog-page { padding: 60px 18px 80px; }
+  .changelog-entry { grid-template-columns: 24px 1fr; gap: 10px; }
+  .changelog-card { padding: 18px 18px 16px; }
+}

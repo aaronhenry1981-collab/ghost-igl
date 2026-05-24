@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>League of Legends Strategy Guide &amp; AI VOD Analysis | Recon 6</title>
+  <meta name="description" content="League of Legends strategy guide for ranked play. Maps, champions, callouts, and round-by-round VOD breakdowns. Recon 6 covers League of Legends as part of the All-Access subscription." />
+  <link rel="canonical" href="https://r6coaching.com/games/lol/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#c89b3c" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="League of Legends Strategy Guide &amp; AI VOD Analysis | Recon 6" />
+  <meta property="og:description" content="League of Legends strategy guide for ranked play. Maps, champions, callouts, and round-by-round VOD breakdowns. Recon 6 covers League of Legends as part of the All-Access subscription." />
+  <meta property="og:url" content="https://r6coaching.com/games/lol/" />
+  <meta property="og:image" content="https://r6coaching.com/games/og/lol.svg" />
+  <meta property="og:site_name" content="Recon 6" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://r6coaching.com/games/og/lol.svg" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"League of Legends","description":"League of Legends strategy guide for ranked play. Maps, champions, callouts, and round-by-round VOD breakdowns. Recon 6 covers League of Legends as part of the All-Access subscription.","publisher":{"@type":"Organization","name":"Recon 6","url":"https://r6coaching.com"},"url":"https://r6coaching.com/games/lol/","genre":"First Person Shooter"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Recon 6","item":"https://r6coaching.com"},{"@type":"ListItem","position":2,"name":"Games","item":"https://r6coaching.com/games/"},{"@type":"ListItem","position":3,"name":"League of Legends","item":"https://r6coaching.com/games/lol/"}]}</script>
+  <style>
+    :root { color-scheme: dark; --accent: #c89b3c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .game-hero { padding: 2.5rem 0; text-align: center; }
+    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); margin-bottom: 1rem; }
+    h1 { font-size: 2.5rem; margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 .accent { color: var(--accent); }
+    .lead { font-size: 1.15rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
+    .btn { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+    .btn-primary { background: var(--accent); color: #0a0f19; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+    h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
+    .stat-row { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+    .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem 1.25rem; min-width: 140px; text-align: center; }
+    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 4px; }
+    .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin: 1rem 0; }
+    .grid-item { padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.9rem; }
+    .grid-item strong { color: #fff; }
+    .grid-item span { color: rgba(230,233,239,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(180,140,255,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="/">Recon 6</a>
+      <a href="/guides/">R6 Guides</a>
+      <a href="/games/">All Games</a>
+      <a href="/#pricing">Pricing</a>
+    </div>
+    
+    <div class="game-hero">
+      <div class="badge">League of Legends on Recon 6 · Live</div>
+      <h1>League of Legends <span class="accent">Coaching</span></h1>
+      <p class="lead">
+        3 Maps ·
+        32 champions ·
+        1 strategy breakdowns. Live in-app today.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://r6coaching.com/#/strats">Open League of Legends in-app →</a>
+        <a class="btn btn-outline" href="https://r6coaching.com/#pricing">See pricing</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-label">Maps</div><div class="stat-val">3</div></div>
+        <div class="stat"><div class="stat-label">Champions</div><div class="stat-val">32</div></div>
+        <div class="stat"><div class="stat-label">Strats</div><div class="stat-val">1</div></div>
+      </div>
+    </div>
+
+    <div class="pricing-callout">
+      <h3 style="margin-top:0">Why League of Legends on Recon 6?</h3>
+      <p>Same AI VOD analysis that's live for R6 today — drop a screenshot, get specific feedback referencing the map, your operator/agent/hero, and the actual strats. Recon 6 All-Access ($19/mo Pro, $49/mo Champion) unlocks League of Legends the moment it goes live, plus all 19 other supported games.</p>
+      <a class="btn btn-primary" href="https://r6coaching.com/#pricing">See pricing →</a>
+    </div>
+
+    
+    <h2>League of Legends Maps</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Summoner's Rift</strong>
+          <span>10 Lanes</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>ARAM (Howling Abyss)</strong>
+          <span>3 Lanes</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Arena (Rings of Wrath)</strong>
+          <span>3 Lanes</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>League of Legends Champions</h2>
+    <div class="grid">
+      
+        <div class="grid-item">
+          <strong>Garen</strong>
+          <span>Top Tank — Conqueror bruiser, point-and-click silence, sustain through Q + W passive</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Darius</strong>
+          <span>Top Bruiser — 5-stack hemorrhage execute, all-in level 1 with W slow + Q pull</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sett</strong>
+          <span>Top Bruiser — W true damage execute, R displacement engage tool</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Camille</strong>
+          <span>Top Diver — E hookshot engage, R isolate carry, mid-game spike kit</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Fiora</strong>
+          <span>Top Skirmisher — vital duelist, true damage Q + W parry, 1v1 monster</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ornn</strong>
+          <span>Top Tank — team-wide passive items, R global slow + engage knockup</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Malphite</strong>
+          <span>Top Tank — R AoE knockup engage, AP scaling burst, anti-AD passive</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Lee Sin</strong>
+          <span>Jungle Diver — Q→insec carry kick, early-game ganker, falls off after 20 min</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Kha'Zix</strong>
+          <span>Jungle Assassin — isolation passive Q, R invisibility, picks squishies</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Hecarim</strong>
+          <span>Jungle Bruiser — E run-down knockback, R fear engage, AoE damage from movement speed</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Vi</strong>
+          <span>Jungle Diver — R lock-on ult, point-and-click target access, builds tank-bruiser</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sejuani</strong>
+          <span>Jungle Tank — R AoE stun engage, frostbite passive shred, team-wide CC</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Bel'Veth</strong>
+          <span>Jungle Skirmisher — true damage Q, attack speed scaling, late-game monster</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Yasuo</strong>
+          <span>Mid Skirmisher — wind wall blocks projectiles, R knockup combo, crit scaling</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Ahri</strong>
+          <span>Mid Burst Mage — charm CC, R triple-dash mobility, roams to side lanes</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Zed</strong>
+          <span>Mid Assassin — shadow clone deception, R mark execute, snowball champion</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Syndra</strong>
+          <span>Mid Burst Mage — point-and-click stun, R orb execute, late-game 1-shot threat</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Sylas</strong>
+          <span>Mid Bruiser — steals enemy ult with R, sustain through W, picks 1-shot ults</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Akali</strong>
+          <span>Mid Assassin — invisibility shroud, R double-cast execute, snowball champion</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Orianna</strong>
+          <span>Mid Control Mage — ball management, R AoE pull-and-damage engage, team-fight queen</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Jhin</strong>
+          <span>ADC Marksman — 4-shot reload, R sniper execute, late-game 1-shot crit damage</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Jinx</strong>
+          <span>ADC Marksman — passive movement speed on kill, R global execute, hyper-carry scaling</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Caitlyn</strong>
+          <span>ADC Marksman — longest auto range, trap setup, lane bully early game</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Kai'Sa</strong>
+          <span>ADC Marksman — evolution passive, R dash gap-closer, hybrid AP/AD scaling</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Aphelios</strong>
+          <span>ADC Marksman — 5-weapon rotation, no Q/W/E (gun-determined), late-game DPS monster</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Lulu</strong>
+          <span>Enchanter Support — W ally polymorph/peel, R ally HP burst, scales hyper-carry</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Thresh</strong>
+          <span>Support Engage — Q hook engage, lantern save, soul-stacking armor/AP</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Nautilus</strong>
+          <span>Support Engage — point-and-click R lock-on, Q pull engage, anti-dive peel</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Janna</strong>
+          <span>Enchanter Support — disengage queen, E shield + AD boost, R AoE knockback heal</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Pyke</strong>
+          <span>Support Assassin — R execute heals team gold, Q pull engage, roams mid-jungle</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Leona</strong>
+          <span>Support Engage — point-and-click R lock-on, E gap-closer, tankiest engage support</span>
+        </div>
+      
+        <div class="grid-item">
+          <strong>Senna</strong>
+          <span>Support Marksman — heals + scaling soul collection, R global execute, hybrid carry/support</span>
+        </div>
+      
+    </div>
+  
+    
+    <h2>League of Legends Loadouts</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
+      <a href="/#/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
+    </p>
+    <div class="grid">
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Team Compositions</strong>
+          <span>Comp archetype identification</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Three core comps in LoL: dive, poke, protect. Pick what your draft enables; mismatch loses.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Counter Picks</strong>
+          <span>Hard counters by champion</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Lane counter-pick wins lane. Use Champion Select to deny opponent's pick or counter directly.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Item Priority Per Role</strong>
+          <span>Build paths by role + matchup</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Mythic Items anchor each role build. Adjust based on enemy comp.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Rune Page Setups</strong>
+          <span>Keystone + secondary tree</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Rune choice matters more than build for snowball lanes.</div>
+        </a>
+      
+        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>Summoner Spells</strong>
+          <span>Flash + secondary by role</span>
+          <div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">Flash mandatory for every role. Second slot depends on role + comp.</div>
+        </a>
+      
+    </div>
+  
+    
+    <h2>League of Legends Rank-Up Guides</h2>
+    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">Step-by-step guides for climbing each rank tier in League of Legends — what to focus on, common mistakes, and drills.</p>
+    <div class="grid">
+      
+        <a href="/blog/lol-beginner-guide-2026.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>League of Legends Beginner Guide 2026 — Climb Out of Iron</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/lol-champion-tier-list-2026.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>LoL Champion Tier List 2026 — Best Picks Per Role</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/lol-gold-to-platinum.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>How to Climb from Gold to Platinum in LoL (2026)</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/lol-itemization-guide.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>LoL Itemization Guide 2026 — Mythics, Components, Build Paths</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+        <a href="/blog/lol-top-lane-matchups.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+          <strong>LoL Top Lane Matchups 2026 — 10 Counter Picks That Win Lanes</strong>
+          <span>Read the guide →</span>
+        </a>
+      
+    </div>
+  
+
+    <h2>What you get for League of Legends</h2>
+    <ul>
+      <li><strong>Site-by-site strats</strong> — 1+ tactical breakdowns by map and lane, with picks, callouts, and utility</li>
+      <li><strong>Loadouts</strong> — weapon priorities, ability combos, and team-comp synergies tuned for League of Legends</li>
+      <li><strong>Match Prep cheatsheet</strong> — bans, top picks, and callouts on one screen before you ready up</li>
+      <li><strong>Cast catalog</strong> — 32 champions indexed by role and kit</li>
+      <li><strong>Meta board</strong> — top picks + most-banned across the active League of Legends meta</li>
+      <li><strong>Discord coaching channels</strong> — Recon 6 Discord with League of Legends-specific rooms</li>
+    </ul>
+  
+    <footer>
+      <p>Recon 6 — coaching across 20 competitive games.<br>
+      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p><a href="https://r6coaching.com/#pricing">See plans →</a></p>
+    </footer>
+  </div>
+</body>
+</html>
