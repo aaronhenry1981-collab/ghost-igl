@@ -18,7 +18,13 @@ export default function AuthPage() {
   // 'signin' | 'signup' | 'confirm' | 'forgot' | 'reset'
   // forgot → enter email, request reset code
   // reset  → enter code + new password (after forgot flow emails the code)
-  const [mode, setMode] = useState('signin')
+  // Honor ?mode=signup (etc.) so the "Sign Up" deep links in the navbar/landing
+  // open the Sign Up form instead of dumping people on Sign In.
+  const [searchParams] = useSearchParams()
+  const requestedMode = searchParams.get('mode')
+  const [mode, setMode] = useState(
+    ['signup', 'forgot'].includes(requestedMode) ? requestedMode : 'signin',
+  )
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [code, setCode] = useState('')
@@ -34,7 +40,6 @@ export default function AuthPage() {
     confirmForgotPassword,
   } = useAuth()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
   const redirectTarget = safeRedirect(searchParams.get('redirect'))
 
   function clearMessages() {

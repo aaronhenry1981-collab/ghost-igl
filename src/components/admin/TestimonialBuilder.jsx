@@ -189,7 +189,7 @@ export default function TestimonialBuilder() {
                   {t.rank && <span className="testi-row-rank">{t.rank}</span>}
                   {t.hours && <span className="testi-row-hours">{t.hours}</span>}
                 </div>
-                <p className="testi-row-quote">&ldquo;{t.text}&rdquo;</p>
+                <p className="testi-row-quote">“{t.text}”</p>
               </div>
               <div className="testi-row-actions">
                 <button

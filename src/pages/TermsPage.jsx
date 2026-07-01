@@ -8,12 +8,12 @@ export default function TermsPage() {
       <p>By accessing or using Recon 6 ("the Service"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service. Recon 6 was previously branded as "Ghost IGL"; references to either name refer to the same Service.</p>
 
       <h2>2. Description of Service</h2>
-      <p>Recon 6 provides coaching tools across multiple tactical FPS games &mdash; currently Rainbow Six Siege, with additional titles (CS2, Valorant, Apex Legends, Overwatch 2, Marvel Rivals, Halo Infinite, The Finals, Call of Duty, Fortnite) rolling out. Features include map strategies, character/operator recommendations, screenshot-based round-by-round VOD review, and related tools. The Service is designed to help players improve their gameplay through analysis and education.</p>
+      <p>Recon 6 provides coaching tools across multiple tactical FPS games — currently Rainbow Six Siege, with additional titles (CS2, Valorant, Apex Legends, Overwatch 2, Marvel Rivals, Halo Infinite, The Finals, Call of Duty, Fortnite) rolling out. Features include map strategies, character/operator recommendations, screenshot-based round-by-round VOD review, and related tools. The Service is designed to help players improve their gameplay through analysis and education.</p>
 
       <h2>3. Account Registration</h2>
       <p>Some features require a paid subscription. You agree to provide accurate information when subscribing and to keep your account credentials secure. You are responsible for all activity under your account.</p>
 
-      <h2>4. Subscription &amp; Billing</h2>
+      <h2>4. Subscription & Billing</h2>
       <p>Paid plans are billed monthly through Stripe. Your subscription renews automatically unless cancelled. You may cancel at any time from your account settings or by contacting support. Cancellation takes effect at the end of the current billing period.</p>
 
       <h2>5. Fair Use</h2>

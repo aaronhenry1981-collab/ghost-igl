@@ -112,13 +112,13 @@ const FEATURES = [
   {
     icon: 'map',
     title: 'Walk Into Every Map Prepared',
-    desc: 'Site-by-site breakdowns: who to pick, who to ban, where to set up, what callouts to use. Pull it up in 5 seconds before the round starts. Live across all 20 games — R6 has the deepest coverage.',
+    desc: 'Site-by-site breakdowns: who to pick, who to ban, where to set up, what callouts to use. Pull it up in 5 seconds before the round starts. Built deepest for R6 — and ready for every other game you play.',
     link: '/strats',
   },
   {
     icon: 'roster',
     title: 'Stop Guessing Who to Pick',
-    desc: 'Get the lineup the meta actually supports for your map, side, and role &mdash; not whatever your duo last saw on YouTube. Every recommendation has a reason behind it.',
+    desc: 'Get the lineup the meta actually supports for your map, side, and role — not whatever your duo last saw on YouTube. Every recommendation has a reason behind it.',
     link: '/strats',
   },
   {
@@ -130,13 +130,13 @@ const FEATURES = [
   {
     icon: 'meta',
     title: 'See What\'s Actually Working',
-    desc: 'Top picks, biggest ban targets, and map complexity at your rank &mdash; refreshed every season. Stop running last patch\'s loadout when the meta has already moved.',
+    desc: 'Top picks, biggest ban targets, and map complexity at your rank — refreshed every season. Stop running last patch\'s loadout when the meta has already moved.',
     link: '/meta',
   },
   {
     icon: 'vod',
     title: 'Find Out Exactly Why You Lost the Round',
-    desc: 'Drop 1&ndash;10 screenshots from a match &mdash; death cams, post-plant freezes, scoreboards. You get a specific fix per shot ("you held off-angle on the wrong window") instead of generic "use utility better" advice. Live today for R6.',
+    desc: 'Drop 1–10 screenshots from a match — death cams, post-plant freezes, scoreboards. You get a specific fix per shot ("you held off-angle on the wrong window") instead of generic "use utility better" advice. Live today for R6.',
     link: '/vod?demo=1',
   },
   {
@@ -148,19 +148,19 @@ const FEATURES = [
   {
     icon: 'predict',
     title: 'Know What They\'ll Do Before They Do It',
-    desc: 'The standard executes, the standard setups, the standard re-aggression timing &mdash; for any map and side. Counter-strat the meta, not the last clip you watched.',
+    desc: 'The standard executes, the standard setups, the standard re-aggression timing — for any map and side. Counter-strat the meta, not the last clip you watched.',
     link: '/strats',
   },
   {
     icon: 'squad',
     title: 'Plays That Work With Your Stack',
-    desc: 'Solo, duo, three-stack, full squad &mdash; you get a different role and different priorities. Recon 6 tells you which one to take.',
+    desc: 'Solo, duo, three-stack, full squad — you get a different role and different priorities. Recon 6 tells you which one to take.',
     link: '/strats',
   },
   {
     icon: 'plan',
     title: 'A Weekly Drill List Built From Your Own VODs',
-    desc: 'After a few uploads we know your patterns. You get 3&ndash;5 specific drills per week (e.g. "Bandit-trick the next 20 reinforce attempts on Bank") so practice actually moves the needle.',
+    desc: 'After a few uploads we know your patterns. You get 3–5 specific drills per week (e.g. "Bandit-trick the next 20 reinforce attempts on Bank") so practice actually moves the needle.',
     link: '/vod?demo=1',
     badge: 'Champion',
   },
@@ -318,10 +318,10 @@ const PRICING = [
       '+ Review a full round at once — upload up to 10 screenshots per session',
       '+ Held accountable for every pick (did you actually use the gadget?)',
       '+ Recurring-weakness reports across all your sessions',
-      '+ A weekly drill list built from your own clips (3&ndash;5 specific reps)',
+      '+ A weekly drill list built from your own clips (3–5 specific reps)',
       '+ Every R6 legacy map unlocked (Favela, Fortress, Hereford, House, Kanal)',
-      '+ Premium tactics &mdash; spawn-kills, runouts, anti-spawn-peek setups',
-      '+ Recon 6 Command desktop app (beta &mdash; for power users)',
+      '+ Premium tactics — spawn-kills, runouts, anti-spawn-peek setups',
+      '+ Recon 6 Command desktop app (beta — for power users)',
       '+ Early access to new features',
     ],
   },
@@ -330,15 +330,15 @@ const PRICING = [
 const FAQ = [
   {
     q: 'What does Recon 6 actually do for me?',
-    a: 'Two things. First, it pulls every callout, lineup, ban target, and site setup for any map into one screen so you walk into the round prepared instead of guessing. Second, you can upload screenshots from your matches and get a specific breakdown of what cost you the round &mdash; with a fix you can use next game, not vague tips. The result: you stop losing rounds you should win, and you climb faster.',
+    a: 'Two things. First, it pulls every callout, lineup, ban target, and site setup for any map into one screen so you walk into the round prepared instead of guessing. Second, you can upload screenshots from your matches and get a specific breakdown of what cost you the round — with a fix you can use next game, not vague tips. The result: you stop losing rounds you should win, and you climb faster.',
   },
   {
     q: 'Which games does Recon 6 support today?',
-    a: 'All 20 games are live in-app — strats, loadouts, match prep, meta board, and cast catalog work for Rainbow Six Siege, Counter-Strike 2, Valorant, Apex Legends, Overwatch 2, Marvel Rivals, Halo Infinite, The Finals, Call of Duty, Fortnite, and Rocket League. R6 has the deepest content today (premium tactics + AI VOD review + desktop coach app), and the other 10 games keep growing as we layer more curated strats in.',
+    a: 'Recon 6 is built for Rainbow Six Siege first — the deepest strat library, premium tactics, AI VOD review, and the desktop coach app all live for Siege today. The same toolkit (strats, loadouts, match prep, meta board) also covers the other competitive games you play: Counter-Strike 2, Valorant, Apex Legends, Overwatch 2, Marvel Rivals, Halo Infinite, The Finals, Call of Duty, Fortnite, and Rocket League — so one subscription follows you across your whole rotation, no extra cost.',
   },
   {
     q: 'Is Recon 6 a boosting service?',
-    a: 'No. Nobody ever logs into your account. You earn your rank through better game sense, positioning, and decision-making &mdash; Recon 6 just shortens the learning curve so you stop making the same mistake five matches in a row.',
+    a: 'No. Nobody ever logs into your account. You earn your rank through better game sense, positioning, and decision-making — Recon 6 just shortens the learning curve so you stop making the same mistake five matches in a row.',
   },
   {
     q: 'Will I get banned?',
@@ -346,15 +346,15 @@ const FAQ = [
   },
   {
     q: 'What does a VOD breakdown actually look like?',
-    a: 'Drop 1&ndash;10 screenshots from a match &mdash; death cams, post-plant freezes, end-of-round scoreboards. You get back: the specific mistake on each shot ("you held off-angle on the wrong window"), the recurring patterns across the session, and a fix you can apply next round. Not "use utility better." Specifics. Pro reviews 5 screenshots per session; Champion reviews 10 and stitches patterns across multiple sessions.',
+    a: 'Drop 1–10 screenshots from a match — death cams, post-plant freezes, end-of-round scoreboards. You get back: the specific mistake on each shot ("you held off-angle on the wrong window"), the recurring patterns across the session, and a fix you can apply next round. Not "use utility better." Specifics. Pro reviews 5 screenshots per session; Champion reviews 10 and stitches patterns across multiple sessions.',
   },
   {
     q: 'What ranks does Recon 6 help?',
-    a: 'Every rank, every game. The site adjusts the read to your skill level &mdash; you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
+    a: 'Every rank, every game. The site adjusts the read to your skill level — you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
   },
   {
-    q: 'Pro or Champion &mdash; which one fits me?',
-    a: 'Pro ($9/mo founding) gives you the strats plus AI VOD breakdowns &mdash; the right pick for most players who want to climb. Champion ($29/mo founding) adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, and full-round reviews. Use the "one game / all 20 games" toggle on the pricing cards to set how many games your plan covers &mdash; one game keeps the founding rate, all 20 games is the All-Access upgrade.',
+    q: 'Pro or Champion — which one fits me?',
+    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, and full-round reviews. Both default to Rainbow Six; use the "one game / all games" toggle on the pricing cards if you want the same plan to cover your whole rotation (All-Access).',
   },
   {
     q: 'How often does the content update?',
@@ -412,7 +412,7 @@ function MetaStrip() {
         </ol>
       </div>
       <div className="meta-strip-cta">
-        <Link to="/meta" className="btn btn-primary btn-sm">See full meta &rarr;</Link>
+        <Link to="/meta" className="btn btn-primary btn-sm">See full meta →</Link>
       </div>
     </div>
   )
@@ -475,17 +475,17 @@ export default function LandingPage() {
         <div className="hero-content">
           <div className="hero-badge">
             <span className="pulse-dot" />
-            Recon 6 &mdash; Multi-Game · R6 Live · Season {getCurrentSeason()}
+            Recon 6 · Rainbow Six Siege · Season {getCurrentSeason()}
           </div>
           <h1>
-            Climb faster. <br />
-            In <span className="accent">every</span> FPS you play.
+            Climb faster in <br />
+            <span className="accent">Rainbow Six</span>.
           </h1>
           <p className="hero-subtitle">
-            Pull up the right pick, the right ban, and the right strat for any map in seconds.
-            Drop a screenshot from any match and find out exactly what cost you the round &mdash;
-            with a fix you can use next game, not vague advice. Strats, loadouts, match prep, and
-            meta board live across all 20 games. R6 has the deepest content + AI VOD review today.
+            Pull up the right pick, the right ban, and the right setup for every R6 site in seconds.
+            Drop a screenshot from your match and find out exactly what cost you the round —
+            a fix you can use next game, not vague advice. The deepest R6 strat library anywhere,
+            plus AI VOD review built for Siege. Other games you play are in here too.
           </p>
           {/* CTA order reordered per the May 2026 customer audit:
               VOD demo is the unique value prop (AI screenshot review =
@@ -500,7 +500,7 @@ export default function LandingPage() {
               className="btn btn-primary btn-lg hero-cta-vod"
               onClick={() => track('Hero CTA Click', { type: 'vod-demo' })}
             >
-              ▶ Try AI VOD Review &mdash; Free
+              ▶ Try AI VOD Review — Free
             </Link>
             <a
               href="#pricing"
@@ -511,7 +511,7 @@ export default function LandingPage() {
               }}
               className="btn btn-ghost btn-lg"
             >
-              See pricing &mdash; $9/mo founding
+              See plans & pricing
             </a>
           </div>
           <div className="hero-cta-sub" style={{ textAlign: 'center', fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)', marginTop: '0.5rem' }}>
@@ -523,8 +523,8 @@ export default function LandingPage() {
             </div>
           )}
           <div className="hero-tertiary" style={{ display: 'flex', gap: 16, justifyContent: 'center', fontSize: '0.85rem' }}>
-            <Link to="/strats">Or browse R6 Strats (free) &rarr;</Link>
-            <Link to="/live">Try Live Coach &rarr;</Link>
+            <Link to="/strats">Or browse R6 Strats (free) →</Link>
+            <Link to="/live">Try Live Coach →</Link>
           </div>
           <div className="hero-micro-trust">
             <span>✓ No credit card to try</span>
@@ -549,7 +549,7 @@ export default function LandingPage() {
             <div className="hero-stat-divider" />
             <div className="hero-stat">
               <strong><AnimatedCounter end={214} /></strong>
-              <span>Roles &amp; Characters</span>
+              <span>Roles & Characters</span>
             </div>
           </div>
         </div>
@@ -566,7 +566,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">Features</div>
           <h2>Everything You Need to Rank Up</h2>
-          <p>What a pro coach would tell you about your map, your pick, and your last round &mdash; available the moment you need it, for a fraction of the cost.</p>
+          <p>What a pro coach would tell you about your map, your pick, and your last round — available the moment you need it, for a fraction of the cost.</p>
         </div>
         <div className="features-grid">
           {FEATURES.map((f) => {
@@ -627,14 +627,14 @@ export default function LandingPage() {
 
       <section className="section" id="preview">
         <div className="section-header">
-          <div className="section-label">Live Preview &mdash; R6</div>
-          <h2>Try a Real Strat &mdash; No Signup</h2>
-          <p>An honest preview of what every site looks like inside Recon 6. Pick an R6 map and side, see real tactical content &mdash; the full utility / character / callout breakdown unlocks on Pro.</p>
+          <div className="section-label">Live Preview — R6</div>
+          <h2>Try a Real Strat — No Signup</h2>
+          <p>An honest preview of what every site looks like inside Recon 6. Pick an R6 map and side, see real tactical content — the full utility / character / callout breakdown unlocks on Pro.</p>
         </div>
         <StratPreview />
         <div className="section-sub-header">
-          <div className="section-label">R6 Ranked Meta &mdash; Live</div>
-          <h3>What&rsquo;s defining the R6 ranked pool right now</h3>
+          <div className="section-label">R6 Ranked Meta — Live</div>
+          <h3>What’s defining the R6 ranked pool right now</h3>
         </div>
         <MetaStrip />
       </section>
@@ -642,9 +642,9 @@ export default function LandingPage() {
       {/* Multi-game showcase — visually anchors the All-Access value prop. */}
       <section className="section" id="games">
         <div className="section-header">
-          <div className="section-label">Multi-Game</div>
-          <h2>One Subscription. Every Game You Play.</h2>
-          <p>Same toolkit across all 20 games &mdash; strats, loadouts, match prep, meta. Switch in the sidebar anytime. R6 has the deepest content today; the rest keep growing.</p>
+          <div className="section-label">Built for R6 first</div>
+          <h2>Rainbow Six is home. Your other games come free.</h2>
+          <p>Recon 6 goes deepest on Siege — premium tactics, AI VOD review, the desktop coach. The same toolkit (strats, loadouts, match prep, meta) is there for the other games you play too, one switch away in the sidebar. No extra subscription.</p>
         </div>
         <div style={{
           display: 'grid',
@@ -698,8 +698,8 @@ export default function LandingPage() {
           ))}
         </div>
         <p style={{ textAlign: 'center', color: 'rgba(230,233,239,0.6)', fontSize: '0.9rem', marginTop: '1.5rem', maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
-          All 20 games are live in-app. R6 has the deepest catalog; the other 10 cover maps, characters, loadouts, strats, and match prep with more curated depth shipping every week.
-          <strong style={{ color: '#00e5ff' }}> All-Access ($19/mo)</strong> locks you in for every game as it launches.
+          Rainbow Six goes deepest — every map, site, operator, and the AI VOD review. Your other games are covered too: maps, characters, loadouts, strats, and match prep, with more depth shipping every week.
+          <strong style={{ color: '#00e5ff' }}> All-Access ($19/mo)</strong> adds every game to one plan as it grows.
         </p>
       </section>
 
@@ -757,13 +757,13 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">Testimonials</div>
           <h2>Players Are Ranking Up</h2>
-          <p>Real climbs from R6 players who use Recon 6 &mdash; full multi-game testimonials roll in as each game launches.</p>
+          <p>Real climbs from R6 players who use Recon 6 — full multi-game testimonials roll in as each game launches.</p>
         </div>
         <div className="testimonials-grid">
           {testimonials.map((t) => (
             <div className="testimonial-card" key={t.id || t.name}>
               <div className="testimonial-stars">{'★★★★★'}</div>
-              <p className="testimonial-text">&ldquo;{t.text}&rdquo;</p>
+              <p className="testimonial-text">“{t.text}”</p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">{t.initials}</div>
                 <div className="testimonial-meta">
@@ -965,10 +965,10 @@ export default function LandingPage() {
                 Recon 6 All-Access
               </div>
               <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.4rem' }}>
-                Play more than one game? One plan covers them all.
+                Play more than just Siege? One plan covers your whole rotation.
               </h3>
               <p style={{ color: 'rgba(230,233,239,0.85)', margin: '0 0 0.75rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                R6, CS2, Valorant, Call of Duty, Apex, Overwatch 2, Marvel Rivals, The Finals, Halo Infinite, Fortnite &mdash; all live in-app with strats, loadouts, match prep, and meta board. Same toolkit across every game, switch in the sidebar. R6 has the deepest content + AI VOD review today.
+                R6 is home — the deepest content plus AI VOD review. The same toolkit (strats, loadouts, match prep, meta board) is ready for CS2, Valorant, Call of Duty, Apex, Overwatch 2, Marvel Rivals, The Finals, Halo Infinite, Fortnite, and Rocket League — switch in the sidebar, no per-game upgrade.
               </p>
               <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.85rem', color: 'rgba(230,233,239,0.7)' }}>
                 <span><strong style={{ color: '#fff' }}>Pro+</strong> $19/mo — unlock all 20 games on Pro tier</span>
@@ -1078,7 +1078,7 @@ export default function LandingPage() {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-          <a href="/blog/" className="btn btn-ghost btn-sm">All 98 Guides &rarr;</a>
+          <a href="/blog/" className="btn btn-ghost btn-sm">All 98 Guides →</a>
         </div>
       </section>
 
@@ -1097,7 +1097,7 @@ export default function LandingPage() {
             </div>
           )}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats &mdash; Free</Link>
+            <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats — Free</Link>
             <a href="/games/" className="btn btn-ghost btn-lg">See All 11 Games</a>
           </div>
         </div>

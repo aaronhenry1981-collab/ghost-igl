@@ -127,6 +127,107 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
 // the HowTo schema steps from the headings.
 
 const R6_POSTS = [
+  // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
+  // June 2 launch) to seed Google indexing before the search wave hits.
+  // The from/to rank fields are repurposed as season transitions; the
+  // metaTitle and intro frame this as a season preview not a rank guide.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Y11S1',
+    toRank: 'Y11S2',
+    slug: 'r6-y11s2-system-override-guide',
+    metaTitle: 'R6 Y11S2 Operation System Override — Calypso Casino, Dokkaebi Remaster, Ranked 3.0 (2026)',
+    metaDescription: 'Complete guide to Rainbow Six Siege Y11S2 Operation System Override. New Calypso Casino map, Dokkaebi Jegeo Payload rework, XK23 Assault Rifle, Pulse/Mozzie/Gridlock buffs, and Ranked 3.0 system overhaul. Released June 2, 2026.',
+    intro: `<p>Y11S2 Operation System Override drops to live ranked on June 2, 2026 — Test Server is live now. Headline changes: a new <strong>Calypso Casino</strong> map (Vegas-inspired, ranked from day one), a full <strong>Dokkaebi remaster</strong> trading her Logic Bomb for the targeted Jegeo Payload, a brand-new XK23 Assault Rifle, significant Pulse / Mozzie / Gridlock buffs, and the Ranked 3.0 system overhaul (no more hidden MMR). Here's everything that's changing and how it shifts the meta.</p>`,
+    sections: [
+      {
+        heading: 'Calypso Casino — the new ranked map',
+        html: `<p>Calypso Casino is the first all-new map of Year 11 and lands in the ranked pool immediately on June 2. Ubisoft built it from the ground up for competitive Siege but pulled inspiration from the original Rainbow Six Vegas setting.</p>
+<p><strong>Confirmed map features:</strong></p>
+<ul>
+  <li><strong>Rooftop crane access</strong> — new vertical entry point for attackers, comparable to Skyscraper's rooftop hatches but with movement utility built in</li>
+  <li><strong>Basement spawn</strong> — defenders spawning in basement, attackers can scale the casino façade</li>
+  <li><strong>Expanded drone vent network</strong> — more pre-round intel paths than any current ranked map</li>
+  <li><strong>Atrium</strong> as the central vertical sightline</li>
+  <li><strong>Aquarium</strong> as a key rotational corridor</li>
+</ul>
+<p><strong>Likely bomb site combos</strong> (Ubisoft hasn't officially confirmed pairings):</p>
+<ul>
+  <li>2F VIP Lounge / Cash Room</li>
+  <li>1F Casino Floor / Keno Room</li>
+  <li>1F Main Lobby / Mezzanine</li>
+  <li>B Vault / Security Room</li>
+</ul>
+<p><strong>Day-one meta read:</strong> the expanded drone vent network means droning will be more powerful than usual on this map — Twitch and IQ pick rates will jump. The rooftop crane is the new spawn-peek concern for defenders: expect a Nomad or Gridlock to airjab/Trax the crane zip-line every round in week one.</p>`,
+      },
+      {
+        heading: 'Dokkaebi — Jegeo Payload remaster',
+        html: `<p>Dokkaebi's Logic Bomb is gone. Her new gadget is <strong>Jegeo Payload</strong> — a targeted attack that fundamentally changes how she's used.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+  <li>Dokkaebi <strong>targets one specific defender per call</strong> using a Deimos-style tracker</li>
+  <li>The targeted defender's phone rings with an "urgent, angry" ringtone — they have a brief window to relocate</li>
+  <li>If they don't move, their phone <strong>explodes for ~40 HP direct damage + fire damage</strong> in the surrounding area (catches nearby teammates)</li>
+  <li>The defender is then <strong>locked out of observation tools</strong> (cameras, sensors) AND any phone-controlled gadget</li>
+</ul>
+<p><strong>Operators directly disabled by a successful Jegeo Payload:</strong> Maestro (Evil Eyes), Echo (Yokai drones), Mozzie (Pests), Fenrir (F-NATT dread mines), Skopós (rope-cam ability). Anchoring with any of these is now genuinely risky.</p>
+<p><strong>Charge count + cooldown:</strong> more charges than old Logic Bomb, faster cooldown — but single-target focus, so the area-denial pressure shifts to "who's the priority kill" rather than "everyone reveal."</p>
+<p><strong>Meta impact:</strong> Dokkaebi goes from situational (anti-camera intel) to a hard counter against any phone-gadget defender comp. Expect her ban rate to spike against teams that habitually run Maestro/Echo. She becomes a near-mandatory pick on Bank, Clubhouse, and Kafe where Maestro and Echo are common anchors.</p>`,
+      },
+      {
+        heading: 'XK23 — the new Assault Rifle',
+        html: `<p>Ubisoft is giving the season's new weapon — the <strong>XK23 Assault Rifle</strong> — free to all players. It's an experimental bullpup framed for mid-range dominance with better maneuverability than full-length ARs.</p>
+<p><strong>Operators with XK23 access:</strong> Dokkaebi, Sens, Rauora.</p>
+<p>Pre-release stats aren't published in full, but bullpup design typically means: shorter overall length (better strafe + ADS speed), slightly lower muzzle velocity, manageable recoil. For Dokkaebi specifically, this fills the mid-range gap her previous loadout had — combined with the Jegeo Payload, she's now a credible solo entry op, not just an intel role.</p>`,
+      },
+      {
+        heading: 'Operator balance — the buffs that matter',
+        html: `<p>Four operators get meaningful number changes. The Gridlock buff is the most consequential.</p>
+<ul>
+  <li><strong>Gridlock</strong> — Trax Stinger HP <strong>1 → 35</strong>, deploy delay <strong>0.45s → 0.40s</strong>. This is enormous: Trax used to die to a single bullet, now requires committed clearing. Gridlock becomes a real spawn-peek / anti-flank threat instead of a one-trick area denial.</li>
+  <li><strong>Pulse</strong> — HB-5 Cardiac Sensor range <strong>9m → 10.5m</strong>. Pulse plays from more rooms now; the C4-from-below punish is back.</li>
+  <li><strong>Mozzie</strong> — Pest hijack range <strong>1.5m → 1.75m</strong>. Marginally better drone capture; mostly relevant on Coastline and Theme Park where drone paths are tight.</li>
+  <li><strong>Nomad</strong> — detection range +0.25, new weapon grip attachments. Quality-of-life, not a meta shift.</li>
+</ul>
+<p><strong>Map modernizations</strong> hit Kanal, Emerald Plains, and Outback — 4K textures, improved lighting, destructibility tweaks. Recon 6's existing strats for these maps stay correct for the most part; major shifts will be flagged after community VOD review.</p>`,
+      },
+      {
+        heading: 'Ranked 3.0 — the system changes',
+        html: `<p>Beyond gameplay, Y11S2 ships a ranked system overhaul. Three changes matter:</p>
+<ol>
+  <li><strong>Hidden MMR removed.</strong> Your displayed rank IS your matchmaking rank — no more "I'm actually playing Diamond MMR while showing Plat." This makes climbing feel honest and removes the "smurf MMR" frustration.</li>
+  <li><strong>5 placement matches</strong> at the start of each season. Faster than the previous system, gets you into your real rank quicker.</li>
+  <li><strong>Squad rank restrictions:</strong> squadmates must be within 3 ranks of each other, tightening to within 2 at Diamond and Champion. End of Bronze-Diamond carries; tightens matchmaking quality at the top.</li>
+</ol>
+<p>For improvement-focused players this is a net positive: matches will be more genuinely competitive, and "I lost because matchmaking was broken" becomes a less valid excuse.</p>`,
+      },
+    ],
+    mistakes: [
+      'Banning Dokkaebi on attack without checking if the enemy is running a phone-gadget comp — sometimes she\'s not the threat',
+      'Pushing the Calypso rooftop crane spawn-side without expecting a Gridlock Trax (now 35 HP — your Twitch drone won\'t clear it cleanly)',
+      'Treating Pulse the same as Y11S1 — his 10.5m range opens up new C4 spots you haven\'t prepped for',
+      'Sticking with old hidden-MMR strategies (loss streak farming) — Ranked 3.0 makes those obsolete',
+      'Expecting old Logic Bomb behavior from Dokkaebi — she\'s a single-target threat now, not an area reveal',
+    ],
+    drill: {
+      heading: 'How to prep for Y11S2 launch day',
+      html: `<ul>
+  <li><strong>Play Test Server</strong> if you have it — get reps on Calypso Casino before the ranked rush. The drone vent network is its own learning curve.</li>
+  <li><strong>Re-learn Dokkaebi</strong> — old Logic Bomb instincts will mislead you. Practice the target-prioritization read (kill the Maestro vs kill the Mira vs kill the fragger).</li>
+  <li><strong>Add Gridlock to your defense pool</strong> — she goes from C-tier to legitimate Trax-anchor pick with the HP buff. The Recon 6 R6 tier list will reflect this on launch day.</li>
+  <li><strong>Update your Calypso bans plan</strong> — at launch, the meta will favor banning Twitch + IQ (anti-drone) on defense and Dokkaebi + Mira on attack. We'll publish a refined bans page in the first 72 hours post-launch.</li>
+</ul>`,
+    },
+    aiVodMention: `<p>Y11S2 is going to shake the meta for two to three weeks while everyone re-learns. The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> is map-aware — drop a Calypso Casino screenshot when ranked goes live and it'll reference the actual site you're playing, not a generic example. Pro tier covers all of Y11S2's changes from day one.</p>`,
+    relatedLinks: [
+      { name: 'R6 Operator Tier List (auto-updated)', url: '/#/tools/r6-tier-list' },
+      { name: 'All R6 Map Guides', url: '/guides/' },
+      { name: 'Live Coach (in-match walkthrough)', url: '/#/live' },
+      { name: 'Recon 6 Changelog', url: '/#/changelog' },
+    ],
+    readMinutes: 9,
+  },
   {
     game: 'r6',
     gameLabel: 'Rainbow Six Siege',

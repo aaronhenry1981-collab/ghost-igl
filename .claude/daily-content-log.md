@@ -23,3 +23,15 @@ Notes: Founding window has closed. All future runs should use post-launch framin
 - **Reply-guy hook** — "Most teams drone wrong. They send drones to find people; y…"
 - **Discord (deep-dive announce + engagement Q)** — "**New deep-dive: Coastline hookah defense.** Full util map…"
 - **Reply-guy line (org engagement)** — "Smoke's gas isn't for kills, it's for time. Throw it on th…"
+
+---
+
+## 2026-06-19 (T+42 from May 8 launch)
+
+- **Tactical** — "Kafe cocktail defense: stop anchoring the bar. Sit back-ba…"
+- **Social proof** (replaced founding urgency) — "IGL Command's been live 6 weeks. The feature people keep c…"
+- **Reply-guy hook** — "Most Border defenders lose Armory because they reinforce t…"
+- **Discord (feature highlight — VOD review)** — "The AI VOD review caught a habit I didn't know I had. Uplo…"
+- **Reply-guy line (org engagement)** — "Aruni gates don't replace a reinforced wall. A hard breach…"
+
+Notes: Founding window closed (T+42). Used post-launch social-proof framing. Maps/sites this run: Kafe cocktail, Border Armory, VOD-review feature, Aruni gate misuse — none repeated from prior runs.

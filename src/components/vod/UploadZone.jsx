@@ -58,7 +58,7 @@ export default function UploadZone({ onUpload }) {
           <h3>Drop your screenshot here</h3>
           <p>or click to browse files</p>
           <span className="upload-zone-btn">Choose File</span>
-          <div className="upload-zone-formats">PNG, JPG, WebP &mdash; Max 10MB</div>
+          <div className="upload-zone-formats">PNG, JPG, WebP — Max 10MB</div>
         </>
       ) : (
         <>

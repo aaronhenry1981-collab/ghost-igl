@@ -96,15 +96,15 @@ export default function GameVodPreviewPage() {
   return (
     <div className="game-vod-preview">
       <header className="game-vod-header" style={{ borderColor: accent }}>
-        <div className="game-vod-eyebrow" style={{ color: accent }}>{displayName} &middot; VOD Review</div>
+        <div className="game-vod-eyebrow" style={{ color: accent }}>{displayName} · VOD Review</div>
         <h1>Find Out Why You <span style={{ color: accent }}>Lost The Round</span></h1>
         <p>
-          Drop a screenshot from any {displayName} match &mdash; death cam, post-plant freeze, scoreboard.
+          Drop a screenshot from any {displayName} match — death cam, post-plant freeze, scoreboard.
           You get back a specific fix, not generic "use utility better" advice. R6 VOD review is live today;
           {' '}{displayName} VOD review ships next as part of your subscription.
         </p>
         <div className="game-vod-status" style={{ borderColor: accent, color: accent }}>
-          <strong>Status:</strong> {displayName} review engine in build. Lock in founding pricing now &mdash;
+          <strong>Status:</strong> {displayName} review engine in build. Lock in founding pricing now —
           your subscription unlocks {displayName} the day it goes live.
         </div>
       </header>
@@ -155,9 +155,9 @@ export default function GameVodPreviewPage() {
         <section>
           <h3>What to fix next round</h3>
           <ul>
-            <li>Apply the positioning fix from above &mdash; even one round of the new angle changes the round outcome.</li>
+            <li>Apply the positioning fix from above — even one round of the new angle changes the round outcome.</li>
             <li>Pre-aim head height every entry, every round.</li>
-            <li>Use the unused utility this round &mdash; that one piece won the fight.</li>
+            <li>Use the unused utility this round — that one piece won the fight.</li>
           </ul>
         </section>
       </div>
@@ -166,7 +166,7 @@ export default function GameVodPreviewPage() {
         <h3>Lock in founding pricing before {displayName} VOD launches</h3>
         <p>
           Pro is $9/mo founding (locked for life if you join before May 31). All-Access Pro+ at $19/mo unlocks
-          every game the moment its VOD engine ships. R6 reviews are live today &mdash; all 9 other games roll out
+          every game the moment its VOD engine ships. R6 reviews are live today — all 9 other games roll out
           monthly as the per-game prompts ship.
         </p>
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>

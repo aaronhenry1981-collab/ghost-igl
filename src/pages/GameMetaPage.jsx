@@ -64,7 +64,7 @@ export default function GameMetaPage() {
     return { opBoard, banBoard, totalSites }
   }, [data])
 
-  if (loading) return <div className="game-meta-page"><div className="game-meta-loading">Loading {displayName} meta&hellip;</div></div>
+  if (loading) return <div className="game-meta-page"><div className="game-meta-loading">Loading {displayName} meta…</div></div>
   if (error) return <div className="game-meta-page"><div className="game-meta-empty"><h1>Could not load</h1><p>{error}</p></div></div>
   if (!computed) return <div className="game-meta-page"><div className="game-meta-empty"><h1>{displayName} meta coming soon</h1></div></div>
 
@@ -74,7 +74,7 @@ export default function GameMetaPage() {
   return (
     <div className="game-meta-page">
       <header className="game-meta-header" style={{ borderColor: accent }}>
-        <div className="game-meta-eyebrow" style={{ color: accent }}>{displayName} &middot; Meta</div>
+        <div className="game-meta-eyebrow" style={{ color: accent }}>{displayName} · Meta</div>
         <h1>What's <span style={{ color: accent }}>Working</span> Right Now</h1>
         <p>Aggregate competitive intel across <strong>{maps.length}</strong> {gameMeta.vocab?.map?.toLowerCase() || 'map'}s, <strong>{computed.totalSites}</strong> {gameMeta.vocab?.site?.toLowerCase() || 'site'}s, and <strong>{cast.length}</strong> {castWord.toLowerCase()}s.</p>
       </header>

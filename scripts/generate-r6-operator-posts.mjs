@@ -206,14 +206,19 @@ const OP_DATA = {
     howToClimb: 'Use Kali for hard-breach support on Bandit-heavy walls. Coordinate with Thermite/Hibana — Kali clears Bandit batteries through the wall, breacher places charge in the cleared window. Strong long-range angle holder on Coastline / Border.',
   },
   Dokkaebi: {
-    side: 'attack', role: 'Intel / Cam Hack', gadget: 'Logic Bomb',
-    gadgetDesc: 'A device that calls every defender\'s phone simultaneously, revealing their position via the phone vibration. Plus passive: hacks defender cams when she kills a defender.',
-    primary: 'BOSG.12.2 / Mk 14 EBR', secondary: 'C75 AUTO / SMG-12', secondaryGadget: 'Stun Grenade / Frag Grenade', speed: '3-speed / 1-armor',
-    intro: 'Dokkaebi provides forced intel via her phone call ability. Defenders must shoot their phones to silence them — revealing their position. Plus the passive cam-hack on kill makes her information-dense.',
-    strengths: ['Logic Bomb forces defenders to reveal positions', 'Cam hack on kill exposes defender setups', 'BOSG shotgun is a one-tap close-range', '3-speed mobility'],
-    counterPicks: ['Mute (jammers block phone activation)', 'Vigil (cloak nullifies phone reveal)'],
-    counterAdvice: 'On defense: Mute jammers near defenders block Dokkaebi phone activation. Vigil\'s cloak nullifies the phone signal. If your phone rings, shoot it immediately to silence.',
-    howToClimb: 'Use Logic Bomb at the start of round to find roamer positions. Save phone activation for late round when defenders are setting up plant denial. Coordinate with Lion for combined intel ult.',
+    side: 'attack', role: 'Intel / Targeted Disable', gadget: 'Jegeo Payload',
+    // Updated for Y11S2 Operation System Override (June 2, 2026).
+    // Old gadget Logic Bomb (mass phone reveal) replaced with single-target
+    // Jegeo Payload — Deimos-style mark that explodes the targeted defender's
+    // phone for ~40 HP + fire damage and locks them out of observation tools
+    // and any phone-controlled gadget (Maestro/Echo/Mozzie/Fenrir/Skopós).
+    gadgetDesc: 'A targeted device that marks ONE defender per call. The targeted defender\'s phone rings with an urgent warning — if they don\'t relocate, it explodes for ~40 HP direct damage plus fire damage around them. The hit defender is then locked out of observation tools and any phone-controlled gadget (Maestro Evil Eyes, Echo Yokai, Mozzie Pests, Fenrir mines, Skopós rope-cam). More charges + faster cooldown than the old Logic Bomb. Passive: hacks defender cams when she kills a defender.',
+    primary: 'BOSG.12.2 / Mk 14 EBR / XK23', secondary: 'C75 AUTO / SMG-12', secondaryGadget: 'Stun Grenade / Frag Grenade', speed: '3-speed / 1-armor',
+    intro: 'Dokkaebi remastered in Y11S2: single-target Jegeo Payload replaces the old mass-call Logic Bomb. She is now a hard counter against phone-gadget defenders — Maestro, Echo, Mozzie, Fenrir, and Skopós all lose their kit if she lands her mark.',
+    strengths: ['Jegeo Payload disables phone-gadget defenders (Maestro/Echo/Mozzie/Fenrir/Skopós) when it lands', 'Forced 40 HP damage on the target plus surrounding fire damage', 'Locks the target out of observation tools — kills cam-watch defense', 'New XK23 Assault Rifle option gives her real mid-range combat capability', 'Cam hack on kill remains as passive intel'],
+    counterPicks: ['Mute (jammers near defenders block phone activation)', 'Vigil (cloak nullifies the targeting)'],
+    counterAdvice: 'On defense: Mute jammers near defenders block Jegeo Payload activation. Vigil\'s cloak nullifies the targeting beep. If your phone rings urgently — RELOCATE immediately, the explosion area is small but the damage is lethal. Phone-gadget anchors (Maestro, Echo, Mozzie, Fenrir, Skopós) need to stay near a Mute jammer at all times after the Y11S2 patch.',
+    howToClimb: 'Y11S2 Jegeo Payload usage: prioritize targeting the enemy Maestro / Echo / Mozzie / Fenrir / Skopós at the start of a push — locking them out of their gadget is round-deciding. Save remaining charges for the post-plant fight to deny defuser-denial cameras. The XK23 fills her old mid-range gap — she can solo entry now, not just play intel role.',
   },
   Finka: {
     side: 'attack', role: 'Support / Buff', gadget: 'Adrenal Surge',

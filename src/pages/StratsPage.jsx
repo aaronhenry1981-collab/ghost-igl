@@ -284,7 +284,7 @@ function R6StratsPage() {
       {selectedMap && (
         <div className="strats-toolbar">
           <button className="strats-back" onClick={handleBack}>
-            &larr; {selectedSite ? mapData?.name : 'All Maps'}
+            ← {selectedSite ? mapData?.name : 'All Maps'}
           </button>
           {selectedSite && (
             <div className="strats-toolbar-actions">
@@ -313,7 +313,7 @@ function R6StratsPage() {
           <RecentStrip recents={recents} />
           <MapSelector maps={MAPS} onSelect={goMap} />
           <div className="strats-kb-hint">
-            <kbd>/</kbd> search · <kbd>A</kbd>/<kbd>D</kbd> side · <kbd>1</kbd>&ndash;<kbd>4</kbd> site · <kbd>Esc</kbd> back · <kbd>S</kbd> share · <kbd>B</kbd> quick brief · <kbd>?</kbd> all shortcuts
+            <kbd>/</kbd> search · <kbd>A</kbd>/<kbd>D</kbd> side · <kbd>1</kbd>–<kbd>4</kbd> site · <kbd>Esc</kbd> back · <kbd>S</kbd> share · <kbd>B</kbd> quick brief · <kbd>?</kbd> all shortcuts
           </div>
         </>
       )}
@@ -339,7 +339,7 @@ function R6StratsPage() {
         <>
           <div className="strats-map-title">
             <h2>
-              {mapData?.name} &mdash;{' '}
+              {mapData?.name} —{' '}
               {mapData?.sites.find((s) => s.id === selectedSite)?.name}
             </h2>
           </div>

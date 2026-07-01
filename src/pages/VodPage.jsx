@@ -322,9 +322,9 @@ export default function VodPage() {
           Find Out Why You <span className="accent" style={{ color: accent }}>Lost the Round</span>
         </h1>
         <p>
-          Drop a screenshot from any moment of a {displayName} match &mdash; death cam, post-plant freeze,
-          round-end scoreboard. You get a specific fix: not &ldquo;use utility better,&rdquo; but
-          &ldquo;you held off-angle on the wrong window when the entry pushed through the courtyard.&rdquo;
+          Drop a screenshot from any moment of a {displayName} match — death cam, post-plant freeze,
+          round-end scoreboard. You get a specific fix: not “use utility better,” but
+          “you held off-angle on the wrong window when the entry pushed through the courtyard.”
           {' '}
           <strong>
             Pro: 5 screenshots per session. Champion: 10 screenshots per session plus pattern reports and
@@ -354,7 +354,7 @@ export default function VodPage() {
               <div className="vod-gate">
                 <h3>Sign in to review your gameplay</h3>
                 <p>
-                  Sign in to your Recon 6 account &mdash; Pro or Champion unlocks round-by-round breakdowns
+                  Sign in to your Recon 6 account — Pro or Champion unlocks round-by-round breakdowns
                   of your {displayName} screenshots.
                 </p>
                 <div className="vod-gate-actions">
@@ -371,7 +371,7 @@ export default function VodPage() {
                 <h3>Upgrade to Pro to review your gameplay</h3>
                 <p>
                   Free accounts can browse every strat. Pro unlocks the round-by-round breakdowns
-                  &mdash; upload a screenshot, get a specific fix.
+                  — upload a screenshot, get a specific fix.
                 </p>
                 <div className="vod-gate-actions">
                   <button type="button" onClick={goToPricing} className="btn btn-primary">See plans</button>
@@ -390,7 +390,7 @@ export default function VodPage() {
                   <div className="vod-demo-hint">
                     Want to see what the analysis looks like first?{' '}
                     <button type="button" className="vod-demo-link" onClick={showDemo}>
-                      View sample analysis &rarr;
+                      View sample analysis →
                     </button>
                   </div>
                 )}
@@ -474,7 +474,7 @@ export default function VodPage() {
                       : isHandTunedDemo
                         ? `Sample ${displayName} analysis. Sign up for Pro to review your own matches and find out exactly what cost you the round.`
                         : `Synthetic ${displayName} sample showing the format. Your real analysis references the exact map, character, and round phase the AI detects — not a stock example.`}
-                    <button type="button" className="vod-demo-close" onClick={exitDemo} aria-label="Exit demo">&times;</button>
+                    <button type="button" className="vod-demo-close" onClick={exitDemo} aria-label="Exit demo">×</button>
                   </div>
                 )}
                 <SessionResults analysis={effectiveAnalysis} />
@@ -539,11 +539,11 @@ export default function VodPage() {
             <div className="vod-coming-icon">🎬</div>
             <h3>Video Clip Analysis</h3>
             <p>
-              Upload a clip from your match &mdash; the AI extracts key frames (round start, mid-round,
+              Upload a clip from your match — the AI extracts key frames (round start, mid-round,
               post-plant, kill cams) and runs the same multi-image analysis across them. Up to 60s on
               Pro, 5 minutes on Champion.
             </p>
-            <span className="vod-coming-badge">In progress &mdash; shipping soon</span>
+            <span className="vod-coming-badge">In progress — shipping soon</span>
             <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', marginTop: '1rem' }}>
               For now: take 5-10 screenshots from your match and use the Screenshot tab. Same analysis depth.
             </p>

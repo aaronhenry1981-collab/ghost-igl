@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2026 Recon 6. Game names &amp; characters are property of their respective owners. Fan-made, not affiliated.</p>
+        <p>© 2026 Recon 6. Game names & characters are property of their respective owners. Fan-made, not affiliated.</p>
         <div className="payment-badges" aria-label="Accepted payment methods">
           <svg className="payment-badge" viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg" aria-label="Visa" role="img">
             <title>Visa</title>

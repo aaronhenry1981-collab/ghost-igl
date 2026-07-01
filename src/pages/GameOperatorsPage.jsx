@@ -40,7 +40,7 @@ export default function GameOperatorsPage() {
     })
   }, [cast, query, roleFilter])
 
-  if (loading) return <div className="game-ops-page"><div className="game-ops-loading">Loading {displayName} {castWordPlural.toLowerCase()}&hellip;</div></div>
+  if (loading) return <div className="game-ops-page"><div className="game-ops-loading">Loading {displayName} {castWordPlural.toLowerCase()}…</div></div>
   if (error) return <div className="game-ops-page"><div className="game-ops-empty"><h1>Could not load</h1><p>{error}</p></div></div>
   if (cast.length === 0) {
     return <div className="game-ops-page"><div className="game-ops-empty"><h1>{displayName} cast coming soon</h1></div></div>
@@ -50,7 +50,7 @@ export default function GameOperatorsPage() {
     <div className="game-ops-page">
       <header className="game-ops-header" style={{ borderColor: accent }}>
         <div className="game-ops-eyebrow" style={{ color: accent }}>
-          {displayName} &middot; {castWordPlural}
+          {displayName} · {castWordPlural}
         </div>
         <h1>Every <span style={{ color: accent }}>{castWord}</span></h1>
         <p>{cast.length} {castWordPlural.toLowerCase()} indexed by role and kit. Search by name or role; click any to see their full breakdown.</p>

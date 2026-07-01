@@ -199,7 +199,7 @@ export default function GameSwitcher() {
           </ul>
           {lockedGameId && (
             <div className="game-switcher-pop-foot">
-              Want all 20 games? <Link to="/#pricing" onClick={() => setOpen(false)}>Upgrade to All-Access &rarr;</Link>
+              Want all 20 games? <Link to="/#pricing" onClick={() => setOpen(false)}>Upgrade to All-Access →</Link>
             </div>
           )}
         </div>
@@ -221,21 +221,21 @@ export default function GameSwitcher() {
               className="game-switcher-upgrade-close"
               onClick={() => setUpgradeFor(null)}
               aria-label="Close"
-            >&times;</button>
+            >×</button>
             <div className="game-switcher-upgrade-eyebrow">Pro single-game</div>
             <h3>Want to switch to {upgradeFor.gameName}?</h3>
             <p>
               Your Pro / Champion plan covers one game at a time. Upgrade to
-              <strong> All-Access</strong> to unlock all 20 games &mdash; switch anytime, no upgrade fee per game.
+              <strong> All-Access</strong> to unlock all 20 games — switch anytime, no upgrade fee per game.
             </p>
             <ul className="game-switcher-upgrade-perks">
-              <li><strong>Pro+ All-Access</strong> &mdash; $19/mo (was $9 for one game)</li>
-              <li><strong>Champion+ All-Access</strong> &mdash; $49/mo (was $29 for one game)</li>
+              <li><strong>Pro+ All-Access</strong> — $19/mo (was $9 for one game)</li>
+              <li><strong>Champion+ All-Access</strong> — $49/mo (was $29 for one game)</li>
               <li>Save 17% with annual at checkout</li>
             </ul>
             <div className="game-switcher-upgrade-cta">
               <Link to="/#pricing" onClick={() => setUpgradeFor(null)} className="btn btn-primary">
-                See All-Access pricing &rarr;
+                See All-Access pricing →
               </Link>
               <button type="button" className="btn btn-ghost" onClick={() => setUpgradeFor(null)}>
                 Stay on {games.find((g) => g.id === lockedGameId)?.gameMeta?.displayName || 'current game'}

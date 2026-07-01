@@ -127,7 +127,7 @@ export default function LoadoutsPage() {
   if (loading) {
     return (
       <div className="loadouts-page">
-        <div className="loadouts-loading">Loading {displayName} loadouts&hellip;</div>
+        <div className="loadouts-loading">Loading {displayName} loadouts…</div>
       </div>
     )
   }
@@ -163,9 +163,9 @@ export default function LoadoutsPage() {
     <div className="loadouts-page">
       <header className="loadouts-header" style={{ borderColor: accent }}>
         <div className="loadouts-eyebrow" style={{ color: accent }}>
-          {displayName} &middot; Loadouts
+          {displayName} · Loadouts
         </div>
-        <h1>What to <span style={{ color: accent }}>pick</span> &mdash; and why</h1>
+        <h1>What to <span style={{ color: accent }}>pick</span> — and why</h1>
         <p>
           Loadouts, weapon priorities, and team-comp combos for {displayName}.
           Use these before the round starts so you walk in with the right gun, the right ability,

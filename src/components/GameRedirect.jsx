@@ -58,10 +58,10 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
           fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase',
           color: accent, fontWeight: 700, marginBottom: 6,
         }}>
-          {feature} &middot; {displayName}
+          {feature} · {displayName}
         </div>
         <h1 style={{ margin: '0 0 0.6rem', fontSize: '1.85rem', lineHeight: 1.2 }}>
-          {displayName} {feature.toLowerCase()} live in the catalog &mdash; in-app UI rolling out next.
+          {displayName} {feature.toLowerCase()} live in the catalog — in-app UI rolling out next.
         </h1>
         <p style={{ color: 'rgba(230,233,239,0.85)', margin: '0 0 1.25rem', lineHeight: 1.55 }}>
           {loading ? (
@@ -71,7 +71,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
               {displayName} ships with <strong>{stats.mapCount} maps</strong> and{' '}
               <strong>{stats.castCount} {meta.vocab?.operator?.toLowerCase() || meta.vocab?.cast?.toLowerCase() || 'characters'}</strong>{' '}
               fully indexed at <code style={{ background: 'rgba(255,255,255,0.06)', padding: '1px 6px', borderRadius: 4 }}>/games/{gameId}/</code>.
-              The interactive in-app pages are being built per game &mdash; for now the catalog page is your home for {displayName} content.
+              The interactive in-app pages are being built per game — for now the catalog page is your home for {displayName} content.
             </>
           ) : (
             <>
@@ -87,7 +87,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
             className="btn btn-primary"
             style={{ background: accent, color: '#0a0f19' }}
           >
-            Open {displayName} catalog &rarr;
+            Open {displayName} catalog →
           </a>
           <button
             type="button"
@@ -106,13 +106,13 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
           color: 'rgba(230,233,239,0.6)',
         }}>
           You can change games anytime from the sidebar switcher above. R6 is the only fully-live in-app
-          experience today &mdash; the others have generated catalogs and rolling-out interactive UI.
+          experience today — the others have generated catalogs and rolling-out interactive UI.
         </div>
       </div>
 
       <div style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.85rem' }}>
         <Link to="/account" style={{ color: 'rgba(230,233,239,0.65)', textDecoration: 'none' }}>
-          Manage subscription &rarr;
+          Manage subscription →
         </Link>
       </div>
     </div>

@@ -96,7 +96,7 @@ select option:hover {
   margin: 0;
   padding: 0;
 }
-.navbar-links a, .navbar-links span {
+.navbar-links a, .navbar-links span, .navbar-links button.nav-marketing-link {
   color: var(--text);
   font-size: 0.78rem;
   font-weight: 600;
@@ -118,6 +118,18 @@ select option:hover {
 .navbar-links a:hover { color: var(--accent); opacity: 1; }
 .navbar-links a:hover::after { right: 0; }
 .navbar-links span:hover { color: var(--accent); }
+
+/* Logged-out marketing nav buttons (How It Works / Games / Pricing / FAQ) —
+   plain-button reset so they read identically to the <a> nav links. */
+.navbar-links button.nav-marketing-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+}
+.navbar-links button.nav-marketing-link:hover { color: var(--accent); }
 
 /* Live Coach gets a small visual emphasis in the nav — it's the flagship
    "in-match" feature and we want it to be the first thing R6 players reach

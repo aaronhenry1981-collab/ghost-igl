@@ -225,7 +225,7 @@ export default function DashboardPage() {
           </h1>
           <p className="dashboard-sub">
             Active game: <strong style={{ color: accent }}>{displayName}</strong>
-            {gameStats && <> &middot; {gameStats.mapCount} maps, {gameStats.castCount} {gameMeta.vocab?.operator?.toLowerCase() || 'characters'}, {gameStats.stratSites} sites with strats</>}
+            {gameStats && <> · {gameStats.mapCount} maps, {gameStats.castCount} {gameMeta.vocab?.operator?.toLowerCase() || 'characters'}, {gameStats.stratSites} sites with strats</>}
           </p>
         </div>
         <div className="dashboard-tier" style={{ color: tierMeta.color, background: tierMeta.bg, borderColor: tierMeta.border }}>
@@ -303,12 +303,12 @@ export default function DashboardPage() {
             {blogList.map((p) => (
               <a key={p.slug} href={`/blog/${p.slug}.html`} className="dashboard-blog-card">
                 <strong>{p.title}</strong>
-                <span>Read the guide &rarr;</span>
+                <span>Read the guide →</span>
               </a>
             ))}
             <a href="/blog/" className="dashboard-blog-card dashboard-blog-card-all">
               <strong>All rank-up guides</strong>
-              <span>62 posts &rarr;</span>
+              <span>62 posts →</span>
             </a>
           </div>
         </>
@@ -325,13 +325,13 @@ export default function DashboardPage() {
             <p>
               {isFoundingOpen() ? (
                 <>
-                  Pro is <strong>$9/mo founding</strong> &mdash; locked for life if you join before the countdown ends.
-                  Pro reviews your screenshots and tells you exactly what cost you the round &mdash; with a fix.
+                  Pro is <strong>$9/mo founding</strong> — locked for life if you join before the countdown ends.
+                  Pro reviews your screenshots and tells you exactly what cost you the round — with a fix.
                   All-Access ($19) extends to all 20 games.
                 </>
               ) : (
                 <>
-                  Pro reviews your screenshots and tells you exactly what cost you the round &mdash; with a fix.
+                  Pro reviews your screenshots and tells you exactly what cost you the round — with a fix.
                   All-Access extends to all 20 games.
                 </>
               )}
@@ -350,7 +350,7 @@ export default function DashboardPage() {
             <strong>You're on {tierMeta.label}.</strong>
             <p>
               {tier === 'champion'
-                ? 'Full access &mdash; multi-round VOD sessions, weekly drill plans, premium tactics, and the desktop coach app.'
+                ? 'Full access — multi-round VOD sessions, weekly drill plans, premium tactics, and the desktop coach app.'
                 : 'Pro access — VOD reviews, ban intel, opponent reads. Want multi-round + drill plans? Upgrade to Champion.'}
             </p>
           </div>
@@ -364,7 +364,7 @@ export default function DashboardPage() {
           <div className="dashboard-grid dashboard-grid-testi">
             {testimonials.slice(0, 3).map((t) => (
               <div key={t.id || t.name} className="dashboard-testi">
-                <p>&ldquo;{t.text}&rdquo;</p>
+                <p>“{t.text}”</p>
                 <div className="dashboard-testi-meta">
                   <strong>{t.name}</strong>
                   {t.rank && <span>{t.rank}</span>}

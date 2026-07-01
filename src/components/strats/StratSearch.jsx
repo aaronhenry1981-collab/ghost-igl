@@ -112,7 +112,7 @@ export default function StratSearch() {
             onClick={() => setQuery('')}
             aria-label="Clear search"
           >
-            &times;
+            ×
           </button>
         )}
       </div>
@@ -121,7 +121,7 @@ export default function StratSearch() {
         <div className="strat-search-results">
           {results.length === 0 ? (
             <div className="strat-search-empty">
-              No strats match &ldquo;{query}&rdquo;. Try an operator, callout, or map name.
+              No strats match “{query}”. Try an operator, callout, or map name.
             </div>
           ) : (
             <>

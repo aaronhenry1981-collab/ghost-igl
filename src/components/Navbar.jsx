@@ -136,7 +136,7 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
             <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/dashboard')}>Dashboard</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account &amp; billing</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
           {isPro && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop app</button>
           )}
@@ -205,15 +205,33 @@ export default function Navbar() {
             bright cyan, which read as "I'm always on Dashboard" no matter
             the route — we removed it. Signed-in users still get to /dashboard
             via the logo (left), the avatar dropdown (right), or the More
-            menu. */}
-        <ul id="primary-nav" className="navbar-links navbar-desktop-only">
-          <li><NavLink to="/live" className={({ isActive }) => `nav-live-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink></li>
-          <li><NavLink to="/strats" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Strats</NavLink></li>
-          <li><NavLink to="/loadouts" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Loadouts</NavLink></li>
-          <li><NavLink to="/match-prep" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Match Prep</NavLink></li>
-          <li><NavLink to="/vod" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>VOD Review</NavLink></li>
-          <li><MoreDropdown /></li>
-        </ul>
+            menu.
+
+            AUTH-SPLIT: signed-in users get the in-app TOOL nav (Live Coach,
+            Strats, etc). Signed-OUT visitors used to see this exact same
+            nav — clicking any of it just hit a sign-in wall (LiveCoachPage,
+            StratsPage's gated features, etc.), a dead end for someone who
+            hasn't decided to sign up yet. Logged-out visitors now get a
+            MARKETING nav instead (How It Works / Pricing / Guides / FAQ) —
+            real anchors on the landing page, nothing that walls them off. */}
+        {user ? (
+          <ul id="primary-nav" className="navbar-links navbar-desktop-only">
+            <li><NavLink to="/live" className={({ isActive }) => `nav-live-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink></li>
+            <li><NavLink to="/strats" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Strats</NavLink></li>
+            <li><NavLink to="/loadouts" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Loadouts</NavLink></li>
+            <li><NavLink to="/match-prep" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Match Prep</NavLink></li>
+            <li><NavLink to="/vod" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>VOD Review</NavLink></li>
+            <li><MoreDropdown /></li>
+          </ul>
+        ) : (
+          <ul id="primary-nav" className="navbar-links navbar-desktop-only">
+            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button></li>
+            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('games')}>Games</button></li>
+            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('pricing')}>Pricing</button></li>
+            <li><a className="nav-marketing-link" href="/blog/">Guides</a></li>
+            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('faq')}>FAQ</button></li>
+          </ul>
+        )}
 
         <div className="navbar-right navbar-desktop-only">
           {user ? (
@@ -277,7 +295,7 @@ export default function Navbar() {
             onClick={closeMobile}
             aria-label="Close menu"
           >
-            &times;
+            ×
           </button>
         </div>
 
@@ -300,17 +318,31 @@ export default function Navbar() {
           </div>
         )}
 
-        <div className="mobile-drawer-section">
-          <div className="mobile-drawer-section-label">Tools</div>
-          <NavLink to="/live" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink>
-          <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Strats</NavLink>
-          <NavLink to="/loadouts" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Loadouts</NavLink>
-          <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
-          <NavLink to="/vod" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>VOD Review</NavLink>
-          <NavLink to="/operators" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Operators</NavLink>
-          <NavLink to="/meta" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Meta Board</NavLink>
-          {user && <NavLink to="/dashboard" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Dashboard</NavLink>}
-        </div>
+        {/* Signed-in users get the in-app tool list. Signed-out visitors used
+            to see this same list — every link walled them off immediately
+            (Live Coach, Strats' gated features, etc). Give them a marketing
+            section instead; the real Explore section below still works for
+            everyone. */}
+        {user ? (
+          <div className="mobile-drawer-section">
+            <div className="mobile-drawer-section-label">Tools</div>
+            <NavLink to="/live" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink>
+            <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Strats</NavLink>
+            <NavLink to="/loadouts" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Loadouts</NavLink>
+            <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
+            <NavLink to="/vod" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>VOD Review</NavLink>
+            <NavLink to="/operators" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Operators</NavLink>
+            <NavLink to="/meta" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Meta Board</NavLink>
+            <NavLink to="/dashboard" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Dashboard</NavLink>
+          </div>
+        ) : (
+          <div className="mobile-drawer-section">
+            <div className="mobile-drawer-section-label">Recon 6</div>
+            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button>
+            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('games')}>Games</button>
+            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('testimonials')}>Testimonials</button>
+          </div>
+        )}
 
         <div className="mobile-drawer-section">
           <div className="mobile-drawer-section-label">Explore</div>
@@ -325,7 +357,7 @@ export default function Navbar() {
         {user ? (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
-            <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account &amp; billing</Link>
+            <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
             {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
             {isPro && <Link to="/activate" onClick={closeMobile} className="mobile-drawer-link">Activation</Link>}
             {isAdmin && <Link to="/admin" onClick={closeMobile} className="mobile-drawer-link">Admin dashboard</Link>}
@@ -339,7 +371,7 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="mobile-drawer-section mobile-drawer-section-cta">
-            <Link to="/auth?mode=signup" onClick={closeMobile} className="btn btn-primary btn-block">Sign Up &mdash; Free</Link>
+            <Link to="/auth?mode=signup" onClick={closeMobile} className="btn btn-primary btn-block">Sign Up — Free</Link>
             <Link to="/auth" onClick={closeMobile} className="btn btn-ghost btn-block">Sign In</Link>
           </div>
         )}

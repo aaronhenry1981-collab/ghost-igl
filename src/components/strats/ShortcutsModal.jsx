@@ -25,7 +25,7 @@ export default function ShortcutsModal({ open, onClose }) {
   return (
     <div className="shortcuts-overlay" onClick={onClose}>
       <div className="shortcuts-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Keyboard shortcuts">
-        <button onClick={onClose} className="shortcuts-close" aria-label="Close">&times;</button>
+        <button onClick={onClose} className="shortcuts-close" aria-label="Close">×</button>
         <h2>Keyboard shortcuts</h2>
         <p className="shortcuts-sub">Power through strat lookup without touching the mouse.</p>
         <div className="shortcuts-list">

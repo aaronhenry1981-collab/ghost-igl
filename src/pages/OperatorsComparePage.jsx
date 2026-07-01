@@ -110,7 +110,7 @@ export default function OperatorsComparePage() {
 
   return (
     <div className="operators-page cmp-page">
-      <Link to="/operators" className="operators-back">&larr; All operators</Link>
+      <Link to="/operators" className="operators-back">← All operators</Link>
 
       <div className="cmp-header">
         <div className="section-label">Compare</div>
@@ -130,7 +130,7 @@ export default function OperatorsComparePage() {
                     <div className="cmp-slot-name">{op.name}</div>
                     <div className="cmp-slot-role">{op.roles[0]}</div>
                   </div>
-                  <button type="button" className="cmp-slot-remove" onClick={() => toggle(op.name)} aria-label={`Remove ${op.name}`}>&times;</button>
+                  <button type="button" className="cmp-slot-remove" onClick={() => toggle(op.name)} aria-label={`Remove ${op.name}`}>×</button>
                 </>
               ) : (
                 <div className="cmp-slot-empty">Slot {i + 1} — pick below</div>
