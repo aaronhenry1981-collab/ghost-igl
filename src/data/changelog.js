@@ -3,6 +3,22 @@
 
 const CHANGELOG = [
   {
+    date: '2026-05-21',
+    tag: 'content',
+    title: 'R6 Y11S2 Operation System Override — early coverage',
+    items: [
+      'Added Calypso Casino map page (released to ranked June 2, 2026 — Recon 6 covers it from day one)',
+      'Dokkaebi remastered: Logic Bomb replaced with Jegeo Payload — single-target marking attack that explodes a defender\'s phone for 40 HP + fire damage, locks them out of observation tools and any phone-controlled gadget (Maestro, Echo, Mozzie, Fenrir, Skopós)',
+      'XK23 Assault Rifle added to Dokkaebi, Sens, and Rauora loadouts — experimental bullpup, mid-range pick',
+      'Pulse buffed (HB-5 Cardiac Sensor range 9 → 10.5m)',
+      'Mozzie buffed (Pest hijack range 1.5 → 1.75m)',
+      'Gridlock significantly buffed (Trax Stinger HP 1 → 35, deploy 0.45 → 0.40s)',
+      'Nomad: detection range +0.25 + new grip attachments',
+      'Map modernizations on Kanal, Emerald Plains, Outback (4K textures, lighting, destructibility tweaks)',
+      'Ranked 3.0: hidden MMR removed, 5 placement matches per season, squad rank restrictions (±3 ranks, ±2 at Diamond/Champion)',
+    ],
+  },
+  {
     date: '2026-05-12',
     tag: 'release',
     title: 'Recon 6 launches with 20 supported games',

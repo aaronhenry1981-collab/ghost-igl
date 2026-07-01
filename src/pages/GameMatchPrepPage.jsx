@@ -122,9 +122,9 @@ export default function GameMatchPrepPage() {
   return (
     <div className="match-prep-page">
       <header className="match-prep-header">
-        <div className="section-label" style={{ color: accent }}>{displayName} &middot; Free tool</div>
+        <div className="section-label" style={{ color: accent }}>{displayName} · Free tool</div>
         <h1>Match Prep <span style={{ color: accent }}>Cheatsheet</span></h1>
-        <p>One screen, every {mapWord.toLowerCase()}. Picks, callouts, bans &mdash; ready before you ready up. Copy as text for your Discord or print for the desk.</p>
+        <p>One screen, every {mapWord.toLowerCase()}. Picks, callouts, bans — ready before you ready up. Copy as text for your Discord or print for the desk.</p>
       </header>
 
       {/* Map picker — grid replaces native select for the same readability
@@ -288,7 +288,7 @@ export default function GameMatchPrepPage() {
         </section>
 
         <footer className="match-prep-card-foot">
-          <span>Recon 6 &middot; r6coaching.com/match-prep &middot; {displayName}</span>
+          <span>Recon 6 · r6coaching.com/match-prep · {displayName}</span>
         </footer>
       </div>
 

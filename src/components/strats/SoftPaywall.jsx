@@ -96,13 +96,13 @@ export default function SoftPaywall({ open, viewCount, onDismiss, isAuthed }) {
         <p style={{ color: 'rgba(255,255,255,0.78)', margin: '0 0 1rem', lineHeight: 1.5 }}>
           {isFoundingOpen() ? (
             <>
-              That&rsquo;s the free tier. Lock in <strong>${PRO_CURRENT_AMOUNT}/mo Pro for life</strong> before {FOUNDING_END_SHORT}
+              That’s the free tier. Lock in <strong>${PRO_CURRENT_AMOUNT}/mo Pro for life</strong> before {FOUNDING_END_SHORT}
               {' '}and you keep that rate for as long as you stay subscribed. After the founding window the rate
               {' '}goes to ${PRO_REGULAR_AMOUNT} for new sign-ups.
             </>
           ) : (
             <>
-              That&rsquo;s the free tier. <strong>${PRO_CURRENT_AMOUNT}/mo Pro</strong> unlocks all maps, all sites, ban
+              That’s the free tier. <strong>${PRO_CURRENT_AMOUNT}/mo Pro</strong> unlocks all maps, all sites, ban
               recommendations, enemy intel, and round-by-round VOD breakdowns.
             </>
           )}

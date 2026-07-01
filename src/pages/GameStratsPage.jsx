@@ -98,7 +98,7 @@ function PremiumTactics({ data, side, accent, isChampion, goToPricing }) {
             : `${counts.runouts} runout${counts.runouts === 1 ? '' : 's'} · ${counts.antiSpawnPeek} anti-spawn-peek ${counts.antiSpawnPeek === 1 ? 'setup' : 'setups'} · ${counts.advancedSetups} advanced setup${counts.advancedSetups === 1 ? '' : 's'} locked behind Champion.`}
         </p>
         <button type="button" onClick={goToPricing} className="btn btn-primary btn-sm" style={{ background: accent, color: '#0a0f19' }}>
-          Unlock with Champion &rarr;
+          Unlock with Champion →
         </button>
       </section>
     )
@@ -133,7 +133,7 @@ function PremiumTactics({ data, side, accent, isChampion, goToPricing }) {
           <ul className="game-strat-premium-list">
             {data.spawnKillSpots.map((s, i) => (
               <li key={i}>
-                <strong>{s.from}</strong> &rarr; <span className="premium-target">{s.target}</span>
+                <strong>{s.from}</strong> → <span className="premium-target">{s.target}</span>
                 {s.risk && <p><strong className="premium-risk">Risk:</strong> {s.risk}</p>}
                 {s.reward && <p><strong className="premium-reward">Reward:</strong> {s.reward}</p>}
               </li>
@@ -148,7 +148,7 @@ function PremiumTactics({ data, side, accent, isChampion, goToPricing }) {
           <ul className="game-strat-premium-list">
             {data.runouts.map((r, i) => (
               <li key={i}>
-                <strong>{r.from}</strong> &rarr; <span className="premium-target">{r.target}</span>
+                <strong>{r.from}</strong> → <span className="premium-target">{r.target}</span>
                 {r.timing && <p><strong>Timing:</strong> {r.timing}</p>}
               </li>
             ))}
@@ -217,7 +217,7 @@ export default function GameStratsPage() {
   }, [selectedMapId, selectedSiteId, maps])
 
   if (loading) {
-    return <div className="game-strats-page"><div className="game-strats-loading">Loading {displayName} strats&hellip;</div></div>
+    return <div className="game-strats-page"><div className="game-strats-loading">Loading {displayName} strats…</div></div>
   }
   if (error) {
     return <div className="game-strats-page"><div className="game-strats-empty"><h1>Could not load {displayName} data</h1><p>{error}</p></div></div>
@@ -249,11 +249,11 @@ export default function GameStratsPage() {
     <div className="game-strats-page">
       <header className="game-strats-header" style={{ borderColor: accent }}>
         <div className="game-strats-eyebrow" style={{ color: accent }}>
-          {displayName} &middot; Strats
+          {displayName} · Strats
         </div>
         <h1>Walk Into Every <span style={{ color: accent }}>{gameMeta.vocab?.map || 'Map'}</span> Prepared</h1>
         <p>
-          Site-by-site breakdowns for {displayName} &mdash; picks, callouts, utility, post-plant. Pick a map below
+          Site-by-site breakdowns for {displayName} — picks, callouts, utility, post-plant. Pick a map below
           and toggle {sideLabels.attack} or {sideLabels.defense}.
         </p>
       </header>
@@ -332,7 +332,7 @@ export default function GameStratsPage() {
           {!sideStrat && (
             <div className="game-strats-empty-block">
               <h3 style={{ margin: '0 0 0.6rem', color: 'var(--text-h, #fff)' }}>
-                {selectedSite?.name || 'This site'} &mdash; curated strat in progress
+                {selectedSite?.name || 'This site'} — curated strat in progress
               </h3>
               <p>
                 We're rolling out site-by-site strats across {displayName} weekly.

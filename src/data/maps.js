@@ -301,6 +301,24 @@ const MAPS = [
       { id: 'living-library', name: 'Living Room / Library', floor: '1F' },
     ],
   },
+  // Y11S2 Operation System Override — Calypso Casino (released June 2, 2026).
+  // Inspired by R6 Vegas. Ranked from day one.
+  // Site NAMES below are the REAL in-game names (captured 2026-06-10 from
+  // Aaron's own live ranked objective-vote screen — a primary source, not a
+  // community guess). Site `id`s are kept stable (they're referenced by
+  // strats.js and routing); only the display `name` + floor were corrected.
+  {
+    id: 'calypso-casino',
+    name: 'Calypso Casino',
+    rankedPool: true,
+    season: 'Y11S2 Operation System Override',
+    sites: [
+      { id: 'vip-cash', name: 'Cigar Room / Pool', floor: '2F' },
+      { id: 'casino-keno', name: 'Blackjack / Poker', floor: '1F' },
+      { id: 'lobby-mezzanine', name: 'Bar / Betting', floor: '1F' },
+      { id: 'vault-security', name: 'CCTV / Vault Checkpoint', floor: 'B' },
+    ],
+  },
   {
     id: 'yacht',
     name: 'Yacht',

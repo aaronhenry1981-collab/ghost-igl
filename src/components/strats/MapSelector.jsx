@@ -14,6 +14,7 @@ const MAP_ICONS = {
   villa: '🏠',
   nighthaven: '🔬',
   lair: '🕳️',
+  'calypso-casino': '🎰',
 }
 
 // Champion-only maps (championOnly: true in maps.js) display a star badge.

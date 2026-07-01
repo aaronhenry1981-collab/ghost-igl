@@ -265,9 +265,18 @@ Resources:
           STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
           STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
           STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
+          # Lets the webhook auto-provision a Cognito login for paying customers
+          # (fixes "paid but NO ACCOUNT" orphans).
+          COGNITO_USER_POOL_ID: !Ref UserPool
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SubscriptionsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+                - cognito-idp:AdminCreateUser
+              Resource: !GetAtt UserPool.Arn
       Events:
         Webhook:
           Type: HttpApi

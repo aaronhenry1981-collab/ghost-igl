@@ -469,6 +469,42 @@ const STRATS = {
   },
 
   kafe: {
+    'cooking-kitchenservice': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Flores', role: 'Utility Clear', priority: 'flex' },
+        ],
+        strategy: 'Open the Cooking reinforced wall with Ace while Thatcher clears anti-breach. Buck plays vertical from Mining or Cocktail above — Kafe verticality wins this site. Control Christmas Market and Park before you commit, then plant deep with a crossfire held on White Stairs.',
+        callouts: ['Cooking', 'Kitchen Service', 'Bakery', 'Christmas Market', 'Park', 'White Stairs'],
+        utility: [
+          'Ace: SELMA on the Cooking reinforced wall',
+          'Thatcher: EMP the wall denial before the breach',
+          'Buck: open the floor above to pressure anchors',
+          'Flores: clear cameras and defender gadgets',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Doc', role: 'Anchor / Sustain', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Cooking walls and the ceiling — Kafe vertical from Mining and Cocktail is the round-loser, so deny it first. Mute and Bandit protect the breach walls. Maestro Evil Eyes cover the plant and the Christmas Market door. Vigil roams Park and River. Anchor low and trade.',
+        callouts: ['Cooking', 'Kitchen Service', 'Bakery', 'Christmas Market', 'Park', 'White Stairs'],
+        utility: [
+          'Bandit / Mute: deny breach on the Cooking walls and ceiling',
+          'Maestro: Evil Eyes on plant and the Christmas Market door',
+          'Mute: jammers on the drone lanes into site',
+          'Doc: stim pistol to re-peek after a trade',
+        ],
+      },
+    },
     'reading-fireplace': {
       attack: {
         operators: [
@@ -1348,7 +1384,196 @@ const STRATS = {
       },
     },
   },
+  // 'calypso-casino' — site names CONFIRMED 2026-06-10 from Aaron's own live
+  // ranked objective-vote screen (primary source, supersedes the earlier
+  // community-guess names). Site `id`s below are kept stable for routing;
+  // only display names/callouts were corrected: vip-cash = Cigar Room/Pool
+  // (2F), casino-keno = Blackjack/Poker (1F), lobby-mezzanine = Bar/Betting
+  // (1F), vault-security = CCTV/Vault Checkpoint (B). Operators + utility
+  // are accurate R6 doctrine either way.
+  'calypso-casino': {
+    'vip-cash': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Iana', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Hard breach the Pool wall with Thermite while Thatcher EMPs the anti-breach. Buck plays vertical from the floor above to break anchor positions. Control the stairs and balcony approaches before committing. Iana entries on the open; Nomad locks the flanks.',
+        callouts: ['Cigar Room', 'Pool', 'High Roller', 'Upper Balcony', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Thermite: charges on the Pool reinforced wall',
+          'Thatcher: EMP to clear Bandit or Kaid on the wall',
+          'Buck: open the floor above to pressure anchors',
+          'Nomad: Airjabs covering the flank approaches',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Mute', role: 'Intel Denial', priority: 'essential' },
+          { name: 'Valkyrie', role: 'Intel', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Goyo', role: 'Flex / Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Pool wall and the hatch above; Kaid electrifies against the hard breach. Mute jams the wall and drone lanes. Valkyrie cams cover stairs and balcony. One roamer wastes time on the approach. Anchor low and deny the plant.',
+        callouts: ['Cigar Room', 'Pool', 'High Roller', 'Upper Balcony', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Kaid: electroclaw the Pool wall and the hatch',
+          'Mute: jammers on the wall and drone entry points',
+          'Valkyrie: cams on stairs, balcony, and site',
+          'Goyo: Volcan shields on the main entry and plant deny',
+        ],
+      },
+    },
+    'casino-keno': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Zofia', role: 'Soft Breach', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Flores', role: 'Utility Clear', priority: 'flex' },
+        ],
+        strategy: 'Open the Poker wall with Ace; Thatcher clears anti-breach. Zofia opens soft walls for rotations and crossfire. Smoke the open Blackjack floor sightlines before pushing. Ash entries; Flores clears defender cams and gadgets.',
+        callouts: ['Blackjack', 'Poker', 'Side Hall', 'Main Entrance', 'Service Corridor'],
+        utility: [
+          'Ace: SELMA charges on the Poker reinforced wall',
+          'Thatcher: EMP defender gadgets pre-breach',
+          'Zofia: impacts for rotation holes and crossfire',
+          'Flores: clear cameras and bulletproof shields',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Mute', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Alibi', role: 'Roam / Intel', priority: 'recommended' },
+          { name: 'Melusi', role: 'Slow / Flex', priority: 'flex' },
+        ],
+        strategy: 'Bandit-trick or Kaid the Poker wall. Maestro Evil Eyes cover the open Blackjack floor and plant spots. Mute denies drones and supports the wall. Alibi roams the floor to slow pushes; Melusi Banshees slow the main entry. Hold tight angles against the open sightlines.',
+        callouts: ['Blackjack', 'Poker', 'Side Hall', 'Main Entrance', 'Service Corridor'],
+        utility: [
+          'Bandit: trick the Poker wall (listen for the hard breach)',
+          'Maestro: Evil Eyes on plant spots and floor sightlines',
+          'Mute: jammers on the wall and drone lanes',
+          'Melusi: Banshees on rotations and the main approach',
+        ],
+      },
+    },
+    'vault-security': {
+      attack: {
+        operators: [
+          { name: 'Hibana', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Iana', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Basement is a vertical and control fight. Hibana opens the Vault Checkpoint wall or a hatch from 1F; Thatcher clears denial. Use vertical from above to deny anchors. Control the stair approaches and deny rotations. Slow, utility-heavy execute — do not dry-push basement chokes.',
+        callouts: ['CCTV', 'Vault Checkpoint', 'Surveillance', 'Basement', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Hibana: pellets on the Vault Checkpoint wall or a hatch',
+          'Thatcher: EMP the wall and gadget denial',
+          'Sledge: open the floor above for vertical pressure',
+          'Nomad: Airjabs on the stair flanks',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach / Denial', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Pulse', role: 'Intel', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Doc', role: 'Sustain / Anchor', priority: 'flex' },
+        ],
+        strategy: 'Basement defends on tight angles and hatches. Reinforce the Vault Checkpoint wall and hatches; Mute jams them. Pulse reads pushes through the floor. Vigil roams the basement halls. Doc anchors and sustains. Force attackers into crossfires — do not over-roam, basement rewards anchors.',
+        callouts: ['CCTV', 'Vault Checkpoint', 'Surveillance', 'Basement', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Mute: jammers on the Vault Checkpoint wall and the hatches',
+          'Maestro: Evil Eyes on basement sightlines and plant',
+          'Pulse: heartbeat intel on pushes from above',
+          'Doc: stim pistol to re-peek after a trade',
+        ],
+      },
+    },
+    'lobby-mezzanine': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Jackal', role: 'Flank / Intel', priority: 'flex' },
+        ],
+        strategy: 'Open the Betting Lounge wall with Thermite; Thatcher clears anti-breach. Buck plays vertical from 2F. The Bar is open — use flashes and smoke to cross. Control the betting-lounge high ground; Ash entries, Jackal hunts roamers.',
+        callouts: ['Bar', 'Main Entrance', 'Betting Lounge', 'Upper Balcony', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Thermite: charges on the Betting Lounge reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Buck: vertical from 2F onto anchors',
+          'Ash: breaching round + entry on the open',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Mira', role: 'Intel', priority: 'essential' },
+          { name: 'Mute', role: 'Utility Denial', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Goyo', role: 'Flex / Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Betting Lounge wall; Kaid electrifies. Mira Black Mirror for sightlines across the Bar. Mute denies drones. Ela roams reception and stairs. Goyo holds plant-deny. The open bar area favors defenders on Mira sightlines — hold and trade.',
+        callouts: ['Bar', 'Main Entrance', 'Betting Lounge', 'Upper Balcony', 'Stairs', 'Service Corridor'],
+        utility: [
+          'Kaid: electroclaw the Betting Lounge wall',
+          'Mira: Black Mirror on the bar sightline',
+          'Mute: jammers on the wall and drone lanes',
+          'Goyo: Volcan shields on plant deny',
+        ],
+      },
+    },
+  },
   "consulate": {
+    'lobby-press': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Twitch', role: 'Utility Clear', priority: 'flex' },
+        ],
+        strategy: 'Open the Press reinforced wall with Thermite while Thatcher clears anti-breach. Sledge plays vertical from Meeting above. Control Front Gate and the Garage stairs before committing. Twitch drones out anchors and gadgets, then execute together.',
+        callouts: ['Lobby', 'Press Room', 'Front Gate', 'Garage Stairs', 'Cafeteria', 'Side Entrance'],
+        utility: [
+          'Thermite: charges on the Press reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Sledge: open the floor from Meeting above',
+          'Twitch: shock drones on cameras and gadgets',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Mira', role: 'Intel', priority: 'essential' },
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Caveira', role: 'Roam', priority: 'recommended' },
+          { name: 'Wamai', role: 'Utility Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Press walls and the ceiling from Meeting above — vertical is the main threat. Mira Black Mirror gives the Lobby sightline. Mute and Bandit deny the breach. Caveira roams Garage and Front Gate to break attacker timings. Anchor and trade off the Mira.',
+        callouts: ['Lobby', 'Press Room', 'Front Gate', 'Garage Stairs', 'Cafeteria', 'Side Entrance'],
+        utility: [
+          'Bandit / Mute: deny breach on the Press walls and ceiling',
+          'Mira: Black Mirror on the Lobby sightline',
+          'Wamai: Mag-NETs to catch attacker projectiles',
+          'Caveira: roam Garage and Front Gate for picks',
+        ],
+      },
+    },
     "consul-meeting": {
       attack: {
         operators: [
@@ -2945,6 +3170,114 @@ const STRATS = {
     }
   },
   "kanal": {
+    'coastguard-meeting': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Iana', role: 'Entry / Intel', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Open the Meeting reinforced wall with Thermite, Thatcher clears anti-breach. Buck plays vertical from the floor above. Use the bridge and stairs approaches but watch the long sightlines — bring smoke to cross. Iana scouts, Nomad locks the bridge flank.',
+        callouts: ['Coastguard Meeting', 'Lounge', 'Bridge', 'Blue Stairs', 'Lockers', 'Rappel'],
+        utility: [
+          'Thermite: charges on the Meeting reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Buck: open the floor above onto anchors',
+          'Nomad: Airjabs on the bridge and stair flanks',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Goyo', role: 'Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Meeting walls and the hatch; Mute and Kaid deny the breach. Maestro Evil Eyes cover the plant and the bridge entry. Vigil roams the far building and bridge to break the push. Anchor and hold the rappel windows.',
+        callouts: ['Coastguard Meeting', 'Lounge', 'Bridge', 'Blue Stairs', 'Lockers', 'Rappel'],
+        utility: [
+          'Kaid / Mute: deny breach on the Meeting walls and hatch',
+          'Maestro: Evil Eyes on plant and the bridge door',
+          'Mute: jam the rappel windows and drone lanes',
+          'Goyo: Volcan on the main entry for plant deny',
+        ],
+      },
+    },
+    'kayak-supply': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Flores', role: 'Utility Clear', priority: 'flex' },
+        ],
+        strategy: 'Open the Supply reinforced wall with Ace, Thatcher clears denial. Sledge opens the floor above for vertical pressure. Control the waterside and exterior approaches before committing; this 1F site rewards a slow, utility-heavy execute.',
+        callouts: ['Kayak', 'Supply', 'Waterside', 'Exterior', 'Bridge', 'Stairs'],
+        utility: [
+          'Ace: SELMA on the Supply reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Sledge: vertical from the floor above',
+          'Flores: clear cameras and gadgets',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Caveira', role: 'Roam', priority: 'recommended' },
+          { name: 'Doc', role: 'Anchor / Sustain', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Supply walls and the ceiling; Bandit and Mute deny breach. Maestro covers the plant and the waterside entry. Caveira roams the exterior and bridge for picks. Anchor low and trade off the tight angles.',
+        callouts: ['Kayak', 'Supply', 'Waterside', 'Exterior', 'Bridge', 'Stairs'],
+        utility: [
+          'Bandit / Mute: deny breach on the Supply walls and ceiling',
+          'Maestro: Evil Eyes on plant and the waterside door',
+          'Mute: jammers on the drone lanes',
+          'Doc: stim to re-peek after a trade',
+        ],
+      },
+    },
+    'engine-control': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Jackal', role: 'Flank / Intel', priority: 'flex' },
+        ],
+        strategy: 'Open the Control reinforced wall with Thermite, Thatcher clears anti-breach. Buck plays vertical from above. Control the connectors between Engine and Control and watch roam flanks. Plant with a crossfire on the main entry.',
+        callouts: ['Engine', 'Control', 'Connector', 'Yellow Stairs', 'Exterior', 'Bridge'],
+        utility: [
+          'Thermite: charges on the Control reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Buck: open the floor above onto anchors',
+          'Jackal: track and clear roamers on the flanks',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Goyo', role: 'Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Control walls and the hatch; Kaid and Mute deny the breach. Maestro Evil Eyes cover the plant and the connector. Ela roams the connectors and exterior to slow the push. Anchor and hold off-angles into Engine.',
+        callouts: ['Engine', 'Control', 'Connector', 'Yellow Stairs', 'Exterior', 'Bridge'],
+        utility: [
+          'Kaid / Mute: deny breach on the Control walls and hatch',
+          'Maestro: Evil Eyes on plant and the connector',
+          'Ela: Grzmot mines on the roam approaches',
+          'Goyo: Volcan on the main entry for plant deny',
+        ],
+      },
+    },
     "server-radio": {
       attack: {
         operators: [
@@ -3211,6 +3544,81 @@ const STRATS = {
     }
   },
   "fortress": {
+    // dorm-briefing & hammam-sitting authored 2026-06-07 for coach coverage.
+    // Operators + utility are accurate doctrine; CALLOUTS are conservative
+    // (coach site names + generic areas) — VERIFY against the live map.
+    'dorm-briefing': {
+      attack: {
+        operators: [
+          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Buck', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Ash', role: 'Entry Frag', priority: 'recommended' },
+          { name: 'Nomad', role: 'Flank Watch', priority: 'flex' },
+        ],
+        strategy: 'Open the Briefing reinforced wall with Thermite, Thatcher clears anti-breach. Use roof and vertical access to pressure anchors. Take the main approaches slowly and watch the open flanks for roamers before you commit.',
+        callouts: ['Dorm', 'Briefing', 'Main Gate', 'Stairs', 'Roof', 'Courtyard'],
+        utility: [
+          'Thermite: charges on the Briefing reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Buck: open the floor above onto anchors',
+          'Nomad: Airjabs on the flank approaches',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Valkyrie', role: 'Intel', priority: 'recommended' },
+          { name: 'Ela', role: 'Roam', priority: 'recommended' },
+          { name: 'Goyo', role: 'Denial', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Briefing walls and hatches; Kaid electrifies, Mute denies breach and drones. Valkyrie cams the approaches and roof. One roamer punishes the open flanks. Anchor low and hold off-angles.',
+        callouts: ['Dorm', 'Briefing', 'Main Gate', 'Stairs', 'Roof', 'Courtyard'],
+        utility: [
+          'Kaid: electroclaw the Briefing walls and hatch',
+          'Mute: jammers on the walls and drone lanes',
+          'Valkyrie: cams on the approaches and roof',
+          'Goyo: Volcan on the main entry for plant deny',
+        ],
+      },
+    },
+    'hammam-sitting': {
+      attack: {
+        operators: [
+          { name: 'Ace', role: 'Hard Breach', priority: 'essential' },
+          { name: 'Thatcher', role: 'Support', priority: 'essential' },
+          { name: 'Sledge', role: 'Vertical Play', priority: 'recommended' },
+          { name: 'Iana', role: 'Entry / Intel', priority: 'recommended' },
+          { name: 'Jackal', role: 'Flank / Intel', priority: 'flex' },
+        ],
+        strategy: 'Open the Hammam reinforced wall with Ace, Thatcher clears denial. Sledge plays vertical from above. Control the Sitting Room approaches and clear roamers before committing. Plant with a crossfire on the main entry.',
+        callouts: ['Hammam', 'Sitting Room', 'Main Gate', 'Stairs', 'Roof', 'Courtyard'],
+        utility: [
+          'Ace: SELMA on the Hammam reinforced wall',
+          'Thatcher: EMP the wall denial',
+          'Sledge: vertical from the floor above',
+          'Jackal: track and clear roamers',
+        ],
+      },
+      defense: {
+        operators: [
+          { name: 'Mute', role: 'Anti-Breach', priority: 'essential' },
+          { name: 'Maestro', role: 'Intel / Denial', priority: 'essential' },
+          { name: 'Bandit', role: 'Anti-Breach', priority: 'recommended' },
+          { name: 'Vigil', role: 'Roam', priority: 'recommended' },
+          { name: 'Doc', role: 'Anchor / Sustain', priority: 'flex' },
+        ],
+        strategy: 'Reinforce the Hammam and Sitting walls plus hatches; Bandit and Mute deny breach. Maestro Evil Eyes cover plant and the main entry. Vigil roams to break attacker timings. Anchor low and trade.',
+        callouts: ['Hammam', 'Sitting Room', 'Main Gate', 'Stairs', 'Roof', 'Courtyard'],
+        utility: [
+          'Bandit / Mute: deny breach on the walls and hatches',
+          'Maestro: Evil Eyes on plant and the main entry',
+          'Mute: jammers on the drone lanes',
+          'Doc: stim to re-peek after a trade',
+        ],
+      },
+    },
     "commander-briefing": {
       attack: {
         operators: [

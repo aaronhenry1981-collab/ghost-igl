@@ -56,7 +56,7 @@ export default function ReferralLandingPage() {
   if (state.loading) {
     return (
       <div className="ref-landing">
-        <p className="ref-loading">Checking invite&hellip;</p>
+        <p className="ref-loading">Checking invite…</p>
       </div>
     )
   }
@@ -66,13 +66,13 @@ export default function ReferralLandingPage() {
       <div className="ref-landing">
         <div className="ref-card">
           <div className="ref-eyebrow">Invite not found</div>
-          <h1>That invite code didn&rsquo;t match anyone.</h1>
+          <h1>That invite code didn’t match anyone.</h1>
           <p>
             The link may be expired or mistyped. You can still sign up directly
-            and start a 7-day Pro trial &mdash; we just can&rsquo;t credit a friend.
+            and start a 7-day Pro trial — we just can’t credit a friend.
           </p>
           <div className="ref-cta-row">
-            <Link to="/auth?mode=signup" className="btn btn-primary btn-lg">Sign up &mdash; free</Link>
+            <Link to="/auth?mode=signup" className="btn btn-primary btn-lg">Sign up — free</Link>
             <Link to="/" className="btn btn-ghost btn-lg">Back to home</Link>
           </div>
         </div>
@@ -93,8 +93,8 @@ export default function ReferralLandingPage() {
           <span className="ref-name">{state.referrerName}</span> invited you to <span className="ref-accent">Recon 6</span>.
         </h1>
         <p className="ref-lead">
-          {state.referrerName} is a {tierLabel} subscriber and thinks you&rsquo;d climb
-          faster with Recon 6. Sign up now and you get a free 7-day Pro trial &mdash;
+          {state.referrerName} is a {tierLabel} subscriber and thinks you’d climb
+          faster with Recon 6. Sign up now and you get a free 7-day Pro trial —
           no credit card. {state.referrerName} gets credit toward their next free month
           when 3 friends stay subscribed.
         </p>
@@ -102,7 +102,7 @@ export default function ReferralLandingPage() {
         <ul className="ref-perks">
           <li>
             <span className="ref-check">&#10003;</span>
-            <strong>Free 7-day Pro trial</strong> &mdash; round-by-round VOD breakdowns, ban intel, opponent reads
+            <strong>Free 7-day Pro trial</strong> — round-by-round VOD breakdowns, ban intel, opponent reads
           </li>
           <li>
             <span className="ref-check">&#10003;</span>
@@ -110,7 +110,7 @@ export default function ReferralLandingPage() {
           </li>
           <li>
             <span className="ref-check">&#10003;</span>
-            <strong>No credit card to start</strong>. Cancel in one click if it&rsquo;s not for you.
+            <strong>No credit card to start</strong>. Cancel in one click if it’s not for you.
           </li>
           {isFoundingOpen() && (
             <li>
@@ -122,7 +122,7 @@ export default function ReferralLandingPage() {
 
         <div className="ref-cta-row">
           <Link to="/auth?mode=signup" className="btn btn-primary btn-lg">
-            Start free trial &rarr;
+            Start free trial →
           </Link>
           <Link to="/strats" className="btn btn-ghost btn-lg">
             Browse the strats first
@@ -132,7 +132,7 @@ export default function ReferralLandingPage() {
         <div className="ref-foot">
           <p>
             How the referral works: {state.referrerName} earns a free month when 3 of their referrals
-            stay subscribed for 30+ days. You don&rsquo;t pay anything extra &mdash; they just get
+            stay subscribed for 30+ days. You don’t pay anything extra — they just get
             credit for bringing you in. Honest, simple, no spam.
           </p>
         </div>

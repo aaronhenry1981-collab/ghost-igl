@@ -41,7 +41,7 @@ export default function StratDisplay({ strat, side, gated }) {
           <span className="strat-role-banner-pick">
             Lock in{' '}
             <strong>{matches.map((m) => m.name).join(' or ')}</strong>
-            {' '}&mdash;{' '}
+            {' '}—{' '}
             {matches.map((m) => m.role).join(' / ')}
           </span>
         </div>

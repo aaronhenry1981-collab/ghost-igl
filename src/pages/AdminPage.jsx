@@ -30,6 +30,10 @@ export default function AdminPage() {
   const [announcements, setAnnouncements] = useState([])
   const [announceForm, setAnnounceForm] = useState({ title: '', message: '', level: 'info', expires_at: '' })
   const [posting, setPosting] = useState(false)
+  // Account-deletion target (moved up here from below the early returns — a hook
+  // after a conditional return violates Rules of Hooks and crashed the page with
+  // React #310 for loaded admins).
+  const [deletingEmail, setDeletingEmail] = useState(null)
 
   const authedFetch = useCallback(async (path, init = {}) => {
     const cognitoUser = getCurrentUser()
@@ -157,7 +161,7 @@ export default function AdminPage() {
   // Permanently delete a user account. Cascades across Cognito + profiles +
   // subscription rows. Backend has guards: refuses admins, refuses users with
   // active paid Stripe subs (those must cancel via Stripe portal first).
-  const [deletingEmail, setDeletingEmail] = useState(null)
+  // (deletingEmail state is declared up top with the other hooks.)
   async function deleteUserAccount(targetEmail) {
     if (!targetEmail) return
     // Two-step confirm — type the email to confirm, prevents fat-finger deletes.
@@ -220,7 +224,7 @@ export default function AdminPage() {
       <header className="admin-header">
         <h1>Recon 6 Admin</h1>
         <p style={{ color: 'rgba(230,233,239,0.6)', marginTop: '-0.5rem', fontSize: '0.9rem' }}>
-          Multi-game console &mdash; users, subscriptions, content, audit log, and per-game catalog.
+          Multi-game console — users, subscriptions, content, audit log, and per-game catalog.
         </p>
         <p>Signed in as <span className="admin-mono">{user.email}</span></p>
       </header>

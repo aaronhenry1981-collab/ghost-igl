@@ -297,7 +297,7 @@ export default function AccountPage() {
         </ul>
         {!isPaid && !isAdmin && (
           <div className="account-upgrade-cta">
-            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Pro &rarr;</button>
+            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Pro →</button>
           </div>
         )}
       </section>

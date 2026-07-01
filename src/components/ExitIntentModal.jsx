@@ -83,28 +83,28 @@ export default function ExitIntentModal() {
         aria-modal="true"
         aria-label="Before you go"
       >
-        <button onClick={() => setOpen(false)} className="exit-intent-close" aria-label="Close">&times;</button>
+        <button onClick={() => setOpen(false)} className="exit-intent-close" aria-label="Close">×</button>
         <div className="exit-intent-kicker">Before you go</div>
         <h2>
           Grab a <span className="gradient-text">free map guide</span>.
           No signup, no email.
         </h2>
         <p>
-          Full strat breakdowns for every R6 ranked site &mdash; operator picks, callouts,
+          Full strat breakdowns for every R6 ranked site — operator picks, callouts,
           utility, and ban recs. Pick one to open now:
         </p>
         <div className="exit-intent-guides">
           <a href="/guides/bank.html" className="exit-intent-guide">
             <strong>Bank</strong>
-            <span>4 sites &middot; 2F CEO, 1F Tellers, B Lockers&hellip;</span>
+            <span>4 sites · 2F CEO, 1F Tellers, B Lockers…</span>
           </a>
           <a href="/guides/clubhouse.html" className="exit-intent-guide">
             <strong>Clubhouse</strong>
-            <span>4 sites &middot; Cash, Bar, Church, Gym</span>
+            <span>4 sites · Cash, Bar, Church, Gym</span>
           </a>
           <a href="/guides/coastline.html" className="exit-intent-guide">
             <strong>Coastline</strong>
-            <span>4 sites &middot; Hookah, Theater, Kitchen, Blue Bar</span>
+            <span>4 sites · Hookah, Theater, Kitchen, Blue Bar</span>
           </a>
         </div>
         <div className="exit-intent-cta-row">
@@ -114,7 +114,7 @@ export default function ExitIntentModal() {
           </Link>
         </div>
         <p className="exit-intent-footnote">
-          We don&rsquo;t use exit-intent to harvest emails. Just so you don&rsquo;t miss what&rsquo;s free.
+          We don’t use exit-intent to harvest emails. Just so you don’t miss what’s free.
         </p>
       </div>
     </div>

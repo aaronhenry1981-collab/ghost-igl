@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e \"console.log\\(new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\)\")",
       "Bash(aws cognito-idp *)",
-      "Bash(aws dynamodb *)"
+      "Bash(aws dynamodb *)",
+      "Bash(node -e \"const now=new Date\\(\\); console.log\\('now:',now.toISOString\\(\\)\\); console.log\\('25h ago:',new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\);\")"
     ]
   }
 }

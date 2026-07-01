@@ -36,7 +36,7 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
           Sign in to see your <span style={{ color: accent }}>{feature.toLowerCase()}</span>
         </h1>
         <p className="signin-gate-lead">
-          Free to use &mdash; just need an account so we can save your settings,
+          Free to use — just need an account so we can save your settings,
           track your active game, and give you the 7-day Pro trial on signup.
           Takes 30 seconds.
         </p>
@@ -54,7 +54,7 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
 
         <div className="signin-gate-cta">
           <Link to={signUpUrl} className="btn btn-primary" style={{ background: accent, color: '#0a0f19' }}>
-            Sign up &mdash; free
+            Sign up — free
           </Link>
           <Link to={signInUrl} className="btn btn-outline">
             Sign in

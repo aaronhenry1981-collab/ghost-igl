@@ -22,7 +22,7 @@ export default function PrivacyPage() {
         <li>To send marketing emails (only with your consent, unsubscribe anytime)</li>
       </ul>
 
-      <h2>3. Data Storage &amp; Security</h2>
+      <h2>3. Data Storage & Security</h2>
       <p>Your data is stored securely using industry-standard encryption. Uploaded screenshots are processed for analysis and deleted within 30 days. We do not sell your data to third parties.</p>
 
       <h2>4. Third-Party Services</h2>

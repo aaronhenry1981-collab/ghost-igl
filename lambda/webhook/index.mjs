@@ -1,9 +1,14 @@
 import Stripe from 'stripe'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, PutCommand, UpdateCommand, QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
+import { CognitoIdentityProviderClient, AdminGetUserCommand, AdminCreateUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
+const cognito = new CognitoIdentityProviderClient({})
+// Pool uses UsernameAttributes:email — the email IS the sign-in username, so
+// AdminGetUser / AdminCreateUser are keyed on the email directly.
+const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID
 const TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const REFERRALS_TABLE = process.env.REFERRALS_TABLE || 'ghost-igl-referrals'
@@ -152,6 +157,45 @@ async function handleCheckout(session, eventId) {
   } catch (err) {
     console.error('markFoundingReferrerIfEligible failed:', err)
   }
+
+  // Auto-provision a Cognito login so the customer can actually access what
+  // they paid for. Root cause of "paid but NO ACCOUNT" orphans: checkout and
+  // signup were decoupled, so a customer could pay without ever creating a
+  // login. We create the account keyed on the SAME email as the subscription
+  // (Cognito emails them a set-password invite); the subscription Lambda's
+  // /me lookup links the plan by email on first sign-in — no manual step.
+  // Best-effort + its own try/catch: a failure here must NEVER undo the
+  // subscription that was already recorded above.
+  try {
+    await ensureCognitoAccount(customerEmail?.toLowerCase())
+  } catch (err) {
+    console.error('ensureCognitoAccount failed (subscription still recorded):', err)
+  }
+}
+
+// Ensure a Cognito login exists for a paying customer. Idempotent: AdminGetUser
+// first, create only if missing. Pool is UsernameAttributes:email, so the email
+// is the username for both calls. AdminCreateUser (DesiredDeliveryMediums:EMAIL)
+// sends a set-password invite; email_verified=true so they don't re-verify, and
+// the subscription Lambda's email-index lookup links their plan on first login.
+async function ensureCognitoAccount(email) {
+  if (!email || !USER_POOL_ID) return
+  try {
+    await cognito.send(new AdminGetUserCommand({ UserPoolId: USER_POOL_ID, Username: email }))
+    return // already has a login — nothing to do
+  } catch (err) {
+    if (err.name !== 'UserNotFoundException') throw err
+  }
+  await cognito.send(new AdminCreateUserCommand({
+    UserPoolId: USER_POOL_ID,
+    Username: email,
+    UserAttributes: [
+      { Name: 'email', Value: email },
+      { Name: 'email_verified', Value: 'true' },
+    ],
+    DesiredDeliveryMediums: ['EMAIL'],
+  }))
+  console.log(`Provisioned Cognito login for paid customer ${email}`)
 }
 
 // Set founding_referrer=true on the profile if the subscriber activated

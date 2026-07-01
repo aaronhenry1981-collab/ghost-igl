@@ -77,7 +77,7 @@ export default function GamePickerModal() {
             color: 'rgba(230,233,239,0.55)', fontSize: '1.4rem', cursor: 'pointer',
             padding: 4, lineHeight: 1,
           }}
-        >&times;</button>
+        >×</button>
 
         <div style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#00e5ff', fontWeight: 700, marginBottom: 6 }}>
           Welcome to Recon 6

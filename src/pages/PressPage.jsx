@@ -102,14 +102,14 @@ export default function PressPage() {
     <div className="press-page">
       <header className="press-header">
         <div className="press-eyebrow">Press kit · Media resources</div>
-        <h1>Press &amp; <span className="press-accent">Media Kit</span></h1>
+        <h1>Press & <span className="press-accent">Media Kit</span></h1>
         <p className="press-lead">
           Everything you need to write about, cover, or partner with Recon 6. Copy presets, logos, screenshots,
           founder bio, and outreach templates — all designed to be lifted straight into your article, video, or DM.
         </p>
         <div className="press-quick-links">
           <a href="#copy">Copy presets</a>
-          <a href="#logos">Logos &amp; screenshots</a>
+          <a href="#logos">Logos & screenshots</a>
           <a href="#founder">Founder bio</a>
           <a href="#templates">Outreach templates</a>
           <a href="#contact">Contact</a>
@@ -125,7 +125,7 @@ export default function PressPage() {
       </section>
 
       <section id="logos" className="press-section">
-        <h2>Logos &amp; screenshots</h2>
+        <h2>Logos & screenshots</h2>
         <p>Right-click → Save image, or hotlink directly.</p>
         <div className="press-asset-grid">
           {LOGOS.map((a) => (
@@ -160,7 +160,7 @@ export default function PressPage() {
         <h2>Founder</h2>
         <div className="press-founder-card">
           <div className="press-founder-name">Aaron Henry</div>
-          <div className="press-founder-title">Founder &amp; sole engineer · Recon 6 (Iron Front Digital LLC)</div>
+          <div className="press-founder-title">Founder & sole engineer · Recon 6 (Iron Front Digital LLC)</div>
           <p>{COPY_PRESETS.founder}</p>
           <ul className="press-founder-facts">
             <li><strong>Based:</strong> Texas, USA</li>

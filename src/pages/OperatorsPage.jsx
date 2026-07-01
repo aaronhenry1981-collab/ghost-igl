@@ -65,7 +65,7 @@ function OperatorsIndex() {
         />
         <SideFilter value={sideFilter} onChange={setSideFilter} />
         <Link to="/operators/compare" className="btn btn-sm btn-outline operators-compare-link">
-          Compare ops &rarr;
+          Compare ops →
         </Link>
       </div>
 
@@ -129,7 +129,7 @@ function OperatorDetail({ op }) {
 
   return (
     <div className="operators-page">
-      <Link to="/operators" className="operators-back">&larr; All operators</Link>
+      <Link to="/operators" className="operators-back">← All operators</Link>
 
       <div className="operator-detail-header">
         <div className={`operator-detail-initials${isYours ? ' your-role' : ''}`}>
@@ -209,8 +209,8 @@ function R6OperatorsPage() {
   if (!op) {
     return (
       <div className="operators-page">
-        <Link to="/operators" className="operators-back">&larr; All operators</Link>
-        <div className="operators-empty">No operator named &ldquo;{opName}&rdquo;.</div>
+        <Link to="/operators" className="operators-back">← All operators</Link>
+        <div className="operators-empty">No operator named “{opName}”.</div>
       </div>
     )
   }

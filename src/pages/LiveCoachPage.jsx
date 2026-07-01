@@ -34,7 +34,11 @@ import './LiveCoachPage.css'
 // between rounds. Map + bans + queue size persist via localStorage so
 // you don't redo the prep on every refresh.
 
-const RANKED_MAPS = MAPS.filter((m) => m.rankedPool && !m.comingSoon && STRATS[m.id])
+// All maps with real strat content — not ranked-pool-only. Players ban/pick
+// from whatever map their match (ranked, unranked, quick match, custom) rolls,
+// so the map-ban step shouldn't silently drop non-ranked maps like Favela,
+// Fortress, Hereford, House, Plane, Stadium Bravo, Tower, or Yacht.
+const LIVE_COACH_MAPS = MAPS.filter((m) => !m.comingSoon && STRATS[m.id])
 
 // Operator team-dependency map — determines which ops are solo-friendly
 // vs which require a coordinated stack to be effective. The general rule:
@@ -319,10 +323,10 @@ function R6LiveCoach() {
   const selectedOpData = recommendedOps.find((op) => op.name === selectedOpName)
   const loadout = selectedOpData ? LOADOUT_INDEX[selectedOpData.name] : null
 
-  // Coordinated team comp — only meaningful for stacks of 3+. Solo/duo
-  // players have no real control over teammate picks so we hide it.
+  // Coordinated team comp — meaningful for 2+ (a duo absolutely coordinates a
+  // breach+support combo; only true solo queue has zero teammate control).
   const teamComp = useMemo(() => {
-    if (queueSize < 3 || !stratForSide?.operators) return []
+    if (queueSize < 2 || !stratForSide?.operators) return []
     return buildTeamComp(stratForSide.operators, activeBans, side, queueSize)
   }, [stratForSide, activeBans, side, queueSize])
 
@@ -496,7 +500,7 @@ function R6LiveCoach() {
         subtitle={completed.map ? undefined : 'Tap the map the game picked after both teams banned'}
       >
         <div className="live-coach-map-grid compact">
-          {RANKED_MAPS.map((m) => (
+          {LIVE_COACH_MAPS.map((m) => (
             <button
               key={m.id}
               type="button"
@@ -673,7 +677,7 @@ function R6LiveCoach() {
           {teamComp.length > 0 && (
             <div className="live-coach-comp">
               <div className="live-coach-comp-head">
-                <span className="live-coach-comp-eyebrow">★ Suggested {queueSize}-stack comp</span>
+                <span className="live-coach-comp-eyebrow">★ Suggested {QUEUE_SIZE_LABELS[queueSize] || `${queueSize}-stack`} comp</span>
                 <span className="live-coach-comp-sub">Coordinate in voice — call these ops before anyone locks. Skip ops you can't fill.</span>
               </div>
               <div className="live-coach-comp-row">

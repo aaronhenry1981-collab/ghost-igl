@@ -174,7 +174,7 @@ function R6MatchPrepPage() {
       <header className="match-prep-header">
         <div className="section-label">Free tool · R6</div>
         <h1>Match Prep <span className="accent">Cheatsheet</span></h1>
-        <p>Everything you need to know in the 90 seconds before you ready up. Pick a map &mdash; get the bans (with reasoning), the picks the meta supports, and the key callouts per site on a single screen. Bookmark it, copy it to a Discord pin, or print it. Free, no signup.</p>
+        <p>Everything you need to know in the 90 seconds before you ready up. Pick a map — get the bans (with reasoning), the picks the meta supports, and the key callouts per site on a single screen. Bookmark it, copy it to a Discord pin, or print it. Free, no signup.</p>
         <div style={{ marginTop: '0.85rem', padding: '0.7rem 0.9rem', background: 'rgba(0, 229, 255, 0.06)', border: '1px solid rgba(0, 229, 255, 0.3)', borderRadius: 10, display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.88rem' }}>
           <span style={{ color: '#00e5ff', fontWeight: 700 }}>NEW</span>
           <span style={{ color: 'rgba(230,233,239,0.85)' }}>
@@ -221,7 +221,7 @@ function R6MatchPrepPage() {
           </div>
           <div className="match-prep-card-meta">
             <span>{mapData.sites.length} sites</span>
-            <span aria-hidden="true">&middot;</span>
+            <span aria-hidden="true">·</span>
             <span>Ranked pool</span>
           </div>
         </div>
@@ -362,7 +362,7 @@ function R6MatchPrepPage() {
                       </ul>
                     </div>
                   )}
-                  <Link to={`/strats/${mapId}/${site.id}`} className="match-prep-site-link">Open full {site.name} strat &rarr;</Link>
+                  <Link to={`/strats/${mapId}/${site.id}`} className="match-prep-site-link">Open full {site.name} strat →</Link>
                 </article>
               )
             })}
@@ -370,7 +370,7 @@ function R6MatchPrepPage() {
         </section>
 
         <footer className="match-prep-card-foot">
-          <span>Recon 6 &middot; r6coaching.com/match-prep/{mapId}</span>
+          <span>Recon 6 · r6coaching.com/match-prep/{mapId}</span>
         </footer>
       </div>
 
@@ -409,7 +409,7 @@ function R6MatchPrepPage() {
             <div>
               <h3>Want this generated from your own last 5 matches?</h3>
               <p>
-                Pro reviews your screenshots and shows you the maps where you&rsquo;re losing the most rounds &mdash;
+                Pro reviews your screenshots and shows you the maps where you’re losing the most rounds —
                 with the ban targets, picks, and utility usage that fix what cost you, specifically.
                 {isFoundingOpen() ? <> $9/mo {foundingPromisePhrase()}.</> : null}
               </p>

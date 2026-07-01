@@ -191,7 +191,7 @@ export default function ProfileSetupModal() {
             background: 'rgba(80,200,120,0.08)', border: '1px solid rgba(80,200,120,0.4)',
             borderRadius: 8, fontSize: '0.85rem', color: '#7ee2a4',
           }}>
-            <strong>Bonus:</strong> finishing setup unlocks a free 7-day Pro trial &mdash; round-by-round VOD breakdowns, no credit card.
+            <strong>Bonus:</strong> finishing setup unlocks a free 7-day Pro trial — round-by-round VOD breakdowns, no credit card.
           </div>
         )}
 
