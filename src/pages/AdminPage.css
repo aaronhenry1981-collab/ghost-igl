@@ -79,6 +79,39 @@
   margin-bottom: 3rem;
 }
 
+/* Tab bar — groups the console (Members / Growth / Content / System) so it's
+   not one endless scroll. Sticky so the tabs stay reachable while scrolling
+   a long panel like the users table. */
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 1.5rem 0 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg, #0a0f14);
+  padding-top: 0.5rem;
+  overflow-x: auto;
+}
+.admin-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(230, 233, 239, 0.55);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.admin-tab:hover { color: rgba(230, 233, 239, 0.85); }
+.admin-tab.active {
+  color: #00e5ff;
+  border-bottom-color: #00e5ff;
+}
+
 .admin-section-header {
   display: flex;
   justify-content: space-between;
