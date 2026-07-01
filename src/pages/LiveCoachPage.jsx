@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import MAPS from '../data/maps'
 import STRATS from '../data/strats'
 import BANS from '../data/bans'
+import OPERATORS from '../data/operators'
 import R6_LOADOUTS from '../data/games/r6/loadouts'
 import { useAuth } from '../hooks/useAuth'
 import { useActiveGame } from '../hooks/useActiveGame'
@@ -39,6 +40,19 @@ import './LiveCoachPage.css'
 // so the map-ban step shouldn't silently drop non-ranked maps like Favela,
 // Fortress, Hereford, House, Plane, Stadium Bravo, Tower, or Yacht.
 const LIVE_COACH_MAPS = MAPS.filter((m) => !m.comingSoon && STRATS[m.id])
+
+// Full attacker / defender rosters (every operator the app has strat data for),
+// alphabetized, for the ban-phase dropdown. Derived from the computed OPERATORS
+// index so it stays in sync with strats.js automatically. NO TYPING mid-match —
+// the ban picker is a native dropdown (fast scroll-pick on console/mobile).
+const ALL_ATTACKERS = OPERATORS
+  .filter((o) => o.sidesSeen?.includes('attack'))
+  .map((o) => o.name)
+  .sort((a, b) => a.localeCompare(b))
+const ALL_DEFENDERS = OPERATORS
+  .filter((o) => o.sidesSeen?.includes('defense'))
+  .map((o) => o.name)
+  .sort((a, b) => a.localeCompare(b))
 
 // Operator team-dependency map — determines which ops are solo-friendly
 // vs which require a coordinated stack to be effective. The general rule:
@@ -940,23 +954,16 @@ function Step({ id, number, title, subtitle, done, summary, isFinal, children })
 }
 
 function BanGrid({ mapId, bans, onToggle, suggestions }) {
-  // Combine: curated bans from BANS[mapId] (top suggestions) + freeform
-  // input. Most matches ban from the suggested list, but we let users
-  // toggle ANY op so they can record unusual bans too. For freeform,
-  // a quick "Add custom" input — implemented as a text field that hooks
-  // into a one-shot toggle when submitted.
-  const [custom, setCustom] = useState('')
+  // Most matches ban from the curated suggestion buttons (one tap). For the
+  // rarer "enemy banned something off-meta" case, a native DROPDOWN of the
+  // full roster — NOT a text field. Mid-match the user is holding a controller
+  // with ~45 seconds of prep; typing an operator name is a non-starter. A
+  // native <select> is a fast scroll-pick on console/mobile and a click-list
+  // on desktop. Already-banned ops are filtered out so a pick always ADDS
+  // (removal happens via the chips below), avoiding an accidental toggle-off.
 
   const attackBans = suggestions?.attack || []
   const defenseBans = suggestions?.defense || []
-
-  function addCustom(e) {
-    e?.preventDefault?.()
-    const trimmed = custom.trim()
-    if (!trimmed) return
-    onToggle(trimmed)
-    setCustom('')
-  }
 
   return (
     <div className="live-coach-bans">
@@ -988,22 +995,29 @@ function BanGrid({ mapId, bans, onToggle, suggestions }) {
           </button>
         ))}
       </div>
-      <form className="live-coach-bans-custom" onSubmit={addCustom}>
-        <label>
-          <span>Other ban (rare pick the enemy used):</span>
-          <input
-            type="text"
-            value={custom}
-            onChange={(e) => setCustom(e.target.value)}
-            placeholder="e.g. Goyo"
-            spellCheck="false"
-            autoComplete="off"
-          />
+      <div className="live-coach-bans-custom">
+        <label htmlFor="live-coach-ban-picker">
+          <span>Other ban (any operator) — tap to pick, no typing:</span>
+          <select
+            id="live-coach-ban-picker"
+            className="live-coach-ban-select"
+            value=""
+            onChange={(e) => { if (e.target.value) onToggle(e.target.value) }}
+          >
+            <option value="">Pick an operator…</option>
+            <optgroup label="Attackers">
+              {ALL_ATTACKERS.filter((n) => !bans.has(n)).map((n) => (
+                <option key={`atk-opt-${n}`} value={n}>{n}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Defenders">
+              {ALL_DEFENDERS.filter((n) => !bans.has(n)).map((n) => (
+                <option key={`def-opt-${n}`} value={n}>{n}</option>
+              ))}
+            </optgroup>
+          </select>
         </label>
-        <button type="submit" className="btn btn-sm btn-outline" disabled={!custom.trim()}>
-          Add ban
-        </button>
-      </form>
+      </div>
       {bans.size > 0 && (
         <div className="live-coach-bans-active">
           <span>Banned this match:</span>
