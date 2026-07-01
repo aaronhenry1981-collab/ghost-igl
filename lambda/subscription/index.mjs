@@ -260,6 +260,18 @@ async function getMe(email, headers, payload) {
     ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } })).then((r) => r.Item || null),
   ])
 
+  // Bump last_seen_at on every /me call — this is the natural "user opened
+  // the app" signal (useUserRole calls GET /me once per app load for signed-in
+  // users). Powers the admin dashboard's "last active" column. Best-effort:
+  // never block or fail the response if this write has trouble. Fire-and-forget
+  // (don't await) so it can't add latency to the real /me response.
+  ddb.send(new UpdateCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    UpdateExpression: 'SET last_seen_at = :now',
+    ExpressionAttributeValues: { ':now': new Date().toISOString() },
+  })).catch((err) => console.error('last_seen_at update failed:', err.message))
+
   // Generate a referral code on first /me access if the user doesn't have
   // one. Idempotent — only writes if the field is missing. Stored on the
   // profile row so future reads are a single GetCommand.

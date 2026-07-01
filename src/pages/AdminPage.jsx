@@ -16,6 +16,39 @@ const EMPTY_SUMMARY = {
   mrr_dollars: '0.00', arr_dollars: '0.00', new_last_30_days: 0,
 }
 
+// Display-only id -> name map for the "Active Game" column. Deliberately NOT
+// importing the full GAMES catalog (src/data/games/index.js) here — each
+// entry lazy-loads a whole game module via load(), way too heavy just to
+// print a label in an admin table. Keep in sync with GAMES' id list.
+const GAME_NAMES = {
+  r6: 'Rainbow Six Siege', cs2: 'Counter-Strike 2', valorant: 'Valorant',
+  ow2: 'Overwatch 2', apex: 'Apex Legends', mvr: 'Marvel Rivals',
+  halo: 'Halo', finals: 'The Finals', cod: 'Call of Duty', fn: 'Fortnite',
+  rl: 'Rocket League', lol: 'League of Legends', dota2: 'Dota 2',
+  eafc: 'EA FC', tk8: 'Tekken 8', sf6: 'Street Fighter 6', pubg: 'PUBG',
+  deadlock: 'Deadlock', naraka: 'Naraka: Bladepoint', nba2k: 'NBA 2K',
+}
+
+// "Active" = seen within the last 15 minutes (rough, matches typical
+// "online now" UX conventions). Anything older shows a relative time instead.
+const ACTIVE_WINDOW_MS = 15 * 60 * 1000
+
+function formatLastSeen(iso) {
+  if (!iso) return { label: 'Never', isActive: false }
+  const ms = Date.parse(iso)
+  if (Number.isNaN(ms)) return { label: 'Never', isActive: false }
+  const diffMs = Date.now() - ms
+  const isActive = diffMs >= 0 && diffMs < ACTIVE_WINDOW_MS
+  if (diffMs < 60_000) return { label: 'Just now', isActive }
+  const mins = Math.floor(diffMs / 60_000)
+  if (mins < 60) return { label: `${mins}m ago`, isActive }
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return { label: `${hours}h ago`, isActive }
+  const days = Math.floor(hours / 24)
+  if (days < 30) return { label: `${days}d ago`, isActive }
+  return { label: new Date(ms).toLocaleDateString(), isActive }
+}
+
 export default function AdminPage() {
   const { user, isAdmin, loading: authLoading } = useAuth()
   const [users, setUsers] = useState([])
@@ -113,6 +146,12 @@ export default function AdminPage() {
       setError(err.message)
     }
   }
+
+  // Count of users seen within the last 15 minutes — the "Active now" stat card.
+  const activeNowCount = useMemo(
+    () => users.filter((u) => formatLastSeen(u.last_seen_at).isActive).length,
+    [users]
+  )
 
   // All hooks must be declared before any early returns — moving useMemo up
   // here keeps the hook order stable across signed-in vs signed-out renders.
@@ -233,6 +272,7 @@ export default function AdminPage() {
         <StatCard label="MRR" value={`$${summary.mrr_dollars}`} />
         <StatCard label="ARR (projected)" value={`$${summary.arr_dollars}`} />
         <StatCard label="Total users" value={users.length} />
+        <StatCard label="Active now" value={activeNowCount} />
         <StatCard label="Active subs" value={summary.active} />
         <StatCard label="Pro" value={summary.pro_active} />
         <StatCard label="Champion" value={summary.champion_active} />
@@ -299,6 +339,8 @@ export default function AdminPage() {
                   <th>Plan</th>
                   <th>Status</th>
                   <th>Verified</th>
+                  <th>Active game</th>
+                  <th>Last active</th>
                   <th>Signed up</th>
                   <th>Renews</th>
                   <th>Stripe</th>
@@ -360,6 +402,17 @@ export default function AdminPage() {
                           : u.cognito_status === 'NO_ACCOUNT'
                             ? <span style={{ color: '#ffc97a', fontSize: '0.85rem' }}>Stripe-only</span>
                             : <span className="admin-badge admin-badge-past_due">{u.cognito_status}</span>}
+                      </td>
+                      <td>{u.active_game_id ? (GAME_NAMES[u.active_game_id] || u.active_game_id) : <span style={{ opacity: 0.4 }}>—</span>}</td>
+                      <td>
+                        {(() => {
+                          const seen = formatLastSeen(u.last_seen_at)
+                          return (
+                            <span style={{ color: seen.isActive ? '#4ade80' : undefined }}>
+                              {seen.isActive && '● '}{seen.label}
+                            </span>
+                          )
+                        })()}
                       </td>
                       <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
                       <td>{u.current_period_end ? new Date(u.current_period_end).toLocaleDateString() : '-'}</td>

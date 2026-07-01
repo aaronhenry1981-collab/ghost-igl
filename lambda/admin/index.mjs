@@ -170,6 +170,21 @@ async function scanAllSubs() {
   return items
 }
 
+async function scanAllProfiles() {
+  const items = []
+  let lastKey
+  do {
+    const r = await ddb.send(new ScanCommand({
+      TableName: PROFILES_TABLE,
+      ExclusiveStartKey: lastKey,
+      ProjectionExpression: 'email, active_game_id, last_seen_at',
+    }))
+    items.push(...(r.Items || []))
+    lastKey = r.LastEvaluatedKey
+  } while (lastKey)
+  return items
+}
+
 async function getSubscriptions(headers) {
   const items = await scanAllSubs()
   return { statusCode: 200, headers, body: JSON.stringify({ subscriptions: items, summary: computeSummary(items) }) }
@@ -199,6 +214,15 @@ async function getUsers(headers) {
     if (!prev || (s.status === 'active' && prev.status !== 'active')) subByEmail.set(key, s)
   }
 
+  // Index profiles (active_game_id + last_seen_at) by email — powers the
+  // admin dashboard's "who's active, on which game, when last seen" view.
+  const profiles = await scanAllProfiles()
+  const profileByEmail = new Map()
+  for (const p of profiles) {
+    const key = (p.email || '').toLowerCase()
+    if (key) profileByEmail.set(key, p)
+  }
+
   // Track which sub emails have been claimed by a Cognito user so we can
   // surface the unclaimed ones (orphan Stripe customers — paid but never
   // finished Cognito signup). These were invisible before this change
@@ -210,6 +234,7 @@ async function getUsers(headers) {
     const email = (emailAttr?.Value || '').toLowerCase()
     const sub = subByEmail.get(email)
     if (sub) claimedSubEmails.add(email)
+    const profile = profileByEmail.get(email)
     return {
       username: u.Username,
       email,
@@ -222,6 +247,8 @@ async function getUsers(headers) {
       stripe_subscription_id: sub?.stripe_subscription_id || null,
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
+      active_game_id: profile?.active_game_id || null,
+      last_seen_at: profile?.last_seen_at || null,
     }
   })
 
@@ -242,6 +269,8 @@ async function getUsers(headers) {
       stripe_subscription_id: sub.stripe_subscription_id || null,
       current_period_end: sub.current_period_end || null,
       orphan: true,               // Stripe-only, no Cognito match
+      active_game_id: profileByEmail.get(email)?.active_game_id || null,
+      last_seen_at: profileByEmail.get(email)?.last_seen_at || null,
     })
   }
 
