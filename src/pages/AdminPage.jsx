@@ -29,6 +29,16 @@ const GAME_NAMES = {
   deadlock: 'Deadlock', naraka: 'Naraka: Bladepoint', nba2k: 'NBA 2K',
 }
 
+// Admin console is grouped into tabs so it's not one endless scroll. Every
+// existing panel is preserved — just sorted into a logical home. Members is
+// the default (the day-to-day view: who's signed up, who's active, billing).
+const ADMIN_TABS = [
+  { id: 'members', label: 'Members' },
+  { id: 'growth', label: 'Growth' },
+  { id: 'content', label: 'Content' },
+  { id: 'system', label: 'System' },
+]
+
 // "Active" = seen within the last 15 minutes (rough, matches typical
 // "online now" UX conventions). Anything older shows a relative time instead.
 const ACTIVE_WINDOW_MS = 15 * 60 * 1000
@@ -67,6 +77,7 @@ export default function AdminPage() {
   // after a conditional return violates Rules of Hooks and crashed the page with
   // React #310 for loaded admins).
   const [deletingEmail, setDeletingEmail] = useState(null)
+  const [adminTab, setAdminTab] = useState('members')
 
   const authedFetch = useCallback(async (path, init = {}) => {
     const cognitoUser = getCurrentUser()
@@ -283,8 +294,22 @@ export default function AdminPage() {
       {notice && <div className="admin-note admin-note-success">{notice}</div>}
       {error && <div className="admin-note admin-note-error">{error}</div>}
 
-      <DailyPlaybook />
+      <div className="admin-tabs" role="tablist">
+        {ADMIN_TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={adminTab === t.id}
+            className={`admin-tab${adminTab === t.id ? ' active' : ''}`}
+            onClick={() => setAdminTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
 
+      {adminTab === 'members' && (
       <section className="admin-section">
         <div className="admin-section-header">
           <h2>Users ({filtered.length}{filtered.length !== users.length ? ` of ${users.length}` : ''})</h2>
@@ -446,18 +471,27 @@ export default function AdminPage() {
           To upgrade a customer, click <strong>Open</strong> next to their row to go to their Stripe customer page, then use Stripe's native upgrade flow (applies proration automatically). Changes flow back here via webhook.
         </p>
       </section>
+      )}
 
-      <GameCatalog />
+      {adminTab === 'growth' && (
+        <>
+          <DailyPlaybook />
+          <CompManager />
+          <PromoKit />
+        </>
+      )}
 
-      <CompManager />
+      {adminTab === 'content' && (
+        <>
+          <GameCatalog />
+          <DemoVideoManager />
+          <TestimonialBuilder />
+        </>
+      )}
 
+      {adminTab === 'system' && (
+      <>
       <AuditLog />
-
-      <PromoKit />
-
-      <DemoVideoManager />
-
-      <TestimonialBuilder />
 
       <section className="admin-section">
         <div className="admin-section-header"><h2>Site announcements</h2></div>
@@ -531,6 +565,8 @@ export default function AdminPage() {
           <div className="admin-empty" style={{ marginTop: '1rem' }}><p>No announcements posted.</p></div>
         )}
       </section>
+      </>
+      )}
     </div>
   )
 }
