@@ -127,15 +127,27 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // Our Cognito pool uses email as the username and is CASE-SENSITIVE (confirmed
+  // live: a user stored as "Bob@gmail.com" is not found by "bob@gmail.com"). If
+  // the client passed the email through raw, a user whose keyboard capitalized
+  // their address differently than at signup would be silently locked out with
+  // "User does not exist." We canonicalize every email to trimmed-lowercase so
+  // new accounts are consistent, and sign-in falls back to exact-typed casing
+  // for the handful of legacy accounts created before this normalization.
+  function normalizeEmail(raw) {
+    return (raw || '').trim().toLowerCase()
+  }
+
   async function signUp(email, password) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
+    const normEmail = normalizeEmail(email)
 
     return new Promise((resolve) => {
       const attributes = [
-        new CognitoUserAttribute({ Name: 'email', Value: email }),
+        new CognitoUserAttribute({ Name: 'email', Value: normEmail }),
       ]
 
-      userPool.signUp(email, password, attributes, null, (err, result) => {
+      userPool.signUp(normEmail, password, attributes, null, (err, result) => {
         if (err) {
           resolve({ data: null, error: { message: err.message } })
         } else {
@@ -145,39 +157,78 @@ export function AuthProvider({ children }) {
     })
   }
 
-  async function signIn(email, password) {
-    if (!userPool) return { error: { message: 'Auth not configured' } }
-
+  // Single Cognito auth attempt for a specific username spelling. Resolves
+  // { ok, session, cognitoUser } on success or { ok:false, err } on failure —
+  // never rejects, so the caller can cleanly try a fallback spelling.
+  function attemptSignIn(username, password) {
     return new Promise((resolve) => {
-      const cognitoUser = getCognitoUser(email)
-      const authDetails = getAuthDetails(email, password)
-
+      const cognitoUser = getCognitoUser(username)
+      const authDetails = getAuthDetails(username, password)
       cognitoUser.authenticateUser(authDetails, {
-        onSuccess: (session) => {
-          const payload = session.getIdToken().decodePayload()
-          const userData = {
-            id: payload.sub,
-            email: payload.email,
-            cognitoUser,
-            session,
-          }
-          setUser(userData)
-          setIsAdmin(computeIsAdmin(payload))
-          checkProStatus(userData.id, payload, session)
-          resolve({ data: { user: userData, session }, error: null })
-        },
-        onFailure: (err) => {
-          resolve({ data: null, error: { message: err.message } })
-        },
+        onSuccess: (session) => resolve({ ok: true, session, cognitoUser }),
+        onFailure: (err) => resolve({ ok: false, err }),
       })
     })
   }
 
-  async function confirmSignUp(email, code) {
+  async function signIn(email, password) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
 
+    const typed = (email || '').trim()
+    const lower = typed.toLowerCase()
+
+    // Try the canonical lowercase spelling first — matches all new signups
+    // plus every existing lowercase account regardless of how the user's
+    // device capitalized their input.
+    let result = await attemptSignIn(lower, password)
+
+    // Fall back to the exact-typed casing ONLY when the lowercase user truly
+    // doesn't exist (not on a wrong-password) and the casing actually differs.
+    // This keeps the few legacy capitalized accounts working with no regression.
+    if (!result.ok) {
+      const err = result.err || {}
+      const notFound = err.code === 'UserNotFoundException' ||
+        /user does not exist/i.test(err.message || '')
+      if (notFound && typed !== lower) {
+        result = await attemptSignIn(typed, password)
+      }
+    }
+
+    if (result.ok) {
+      const { session, cognitoUser } = result
+      const payload = session.getIdToken().decodePayload()
+      const userData = { id: payload.sub, email: payload.email, cognitoUser, session }
+      setUser(userData)
+      setIsAdmin(computeIsAdmin(payload))
+      checkProStatus(userData.id, payload, session)
+      return { data: { user: userData, session }, error: null }
+    }
+    return { data: null, error: { message: result.err?.message || 'Sign in failed' } }
+  }
+
+  // Runs a Cognito op that takes a username, trying canonical lowercase first
+  // then the exact-typed casing if that user doesn't exist. `run(username)`
+  // must resolve { ok, ... } / { ok:false, err } and never reject.
+  async function withCasingFallback(email, run) {
+    const typed = (email || '').trim()
+    const lower = typed.toLowerCase()
+    let r = await run(lower)
+    if (!r.ok) {
+      const err = r.err || {}
+      const notFound = err.code === 'UserNotFoundException' ||
+        /user does not exist/i.test(err.message || '')
+      if (notFound && typed !== lower) r = await run(typed)
+    }
+    return r
+  }
+
+  async function confirmSignUp(email, code) {
+    if (!userPool) return { error: { message: 'Auth not configured' } }
+    // Confirm pairs with a just-created (lowercased) signup — canonicalize.
+    const normEmail = normalizeEmail(email)
+
     return new Promise((resolve) => {
-      const cognitoUser = getCognitoUser(email)
+      const cognitoUser = getCognitoUser(normEmail)
       cognitoUser.confirmRegistration(code, true, (err, result) => {
         if (err) {
           resolve({ data: null, error: { message: err.message } })
@@ -190,9 +241,10 @@ export function AuthProvider({ children }) {
 
   async function resendConfirmationCode(email) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
+    const normEmail = normalizeEmail(email)
 
     return new Promise((resolve) => {
-      const cognitoUser = getCognitoUser(email)
+      const cognitoUser = getCognitoUser(normEmail)
       cognitoUser.resendConfirmationCode((err, result) => {
         if (err) {
           resolve({ data: null, error: { message: err.message } })
@@ -214,30 +266,34 @@ export function AuthProvider({ children }) {
     setPlan('free')
   }
 
-  // Step 1 of password reset: emails the user a 6-digit code.
+  // Step 1 of password reset: emails the user a 6-digit code. Uses the casing
+  // fallback so both new lowercase accounts and legacy capitalized ones can
+  // trigger a reset regardless of how the email is typed.
   async function forgotPassword(email) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
 
-    return new Promise((resolve) => {
-      const cognitoUser = getCognitoUser(email)
-      cognitoUser.forgotPassword({
-        onSuccess: (data) => resolve({ data, error: null }),
-        onFailure: (err) => resolve({ data: null, error: { message: err.message } }),
+    const r = await withCasingFallback(email, (username) => new Promise((resolve) => {
+      getCognitoUser(username).forgotPassword({
+        onSuccess: (data) => resolve({ ok: true, data }),
+        onFailure: (err) => resolve({ ok: false, err }),
       })
-    })
+    }))
+    return r.ok ? { data: r.data, error: null } : { data: null, error: { message: r.err?.message || 'Request failed' } }
   }
 
-  // Step 2 of password reset: verifies the code and sets a new password.
+  // Step 2 of password reset: verifies the code and sets a new password. Same
+  // casing fallback — the reset code is valid for the real account whichever
+  // spelling resolves to it.
   async function confirmForgotPassword(email, code, newPassword) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
 
-    return new Promise((resolve) => {
-      const cognitoUser = getCognitoUser(email)
-      cognitoUser.confirmPassword(code, newPassword, {
-        onSuccess: () => resolve({ data: { ok: true }, error: null }),
-        onFailure: (err) => resolve({ data: null, error: { message: err.message } }),
+    const r = await withCasingFallback(email, (username) => new Promise((resolve) => {
+      getCognitoUser(username).confirmPassword(code, newPassword, {
+        onSuccess: () => resolve({ ok: true }),
+        onFailure: (err) => resolve({ ok: false, err }),
       })
-    })
+    }))
+    return r.ok ? { data: { ok: true }, error: null } : { data: null, error: { message: r.err?.message || 'Reset failed' } }
   }
 
   return (
