@@ -127,6 +127,75 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
 // the HowTo schema steps from the headings.
 
 const R6_POSTS = [
+  // Y11S2.1 patch analysis — shipped 2026-07-02, same day the patch went live.
+  // Same-day patch breakdowns are the highest-leverage organic play: searches
+  // spike for ~72h and links accrue to whoever publishes first + best.
+  // Facts sourced directly from Ubisoft's official Y11S2.1 patch notes.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Y11S2',
+    toRank: 'Y11S2.1',
+    slug: 'r6-y11s2-1-patch-notes-breakdown',
+    datePublished: '2026-07-02',
+    readMinutes: 7,
+    metaTitle: 'R6 Y11S2.1 Patch Notes Breakdown — Dokkaebi Cooldown Nerf, Ash Buff & the Movement Change Nobody Noticed (July 2026)',
+    metaDescription: 'Rainbow Six Siege Y11S2.1 patch is live: Dokkaebi Jegeo Payload gets a 7s cooldown, Ash breaching rounds buffed, Thatcher EMP radius up, Thorn nerfed, and the prone-cancel sprint-shoot tech is removed. What every change means for your ranked climb.',
+    intro: `<p>The Y11S2.1 patch went live today (July 2, 2026). On paper it's a "small" balancing pass — one real nerf, a stack of refinements, and bug fixes. In practice it changes the ban phase on every map where Dokkaebi was auto-banned, buffs the most-picked entry operator in the game, and quietly deletes a movement tech that's been winning close-range fights since System Override launched. Here's every change and what it actually means for your rank, straight from <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/7tAny5W9p4yrHmIiH51noI/y11s21-patch-notes" rel="noopener" target="_blank">Ubisoft's official patch notes</a>.</p>`,
+    sections: [
+      {
+        heading: 'Dokkaebi — the Jegeo Payload finally gets a cooldown',
+        html: `<p>The headline change: <strong>Jegeo Payload now has a 7-second cooldown</strong> between activations. Since the Y11S2 remaster, Dokkaebi could chain calls back-to-back, keeping an entire defense locked out of cams and gadgets while eating chip damage with no window to breathe.</p>
+<p><strong>What changes in your matches:</strong></p>
+<ul>
+  <li><strong>Defenders get repositioning windows.</strong> When a call ends, you have a guaranteed ~7 seconds before the next one starts. That's your rotate window — use it, don't freeze.</li>
+  <li><strong>Anchoring gadget ops is viable again.</strong> Maestro, Echo, Mozzie and Fenrir anchors were nearly unplayable into a good Dokkaebi. They're back on the table.</li>
+  <li><strong>Her ban value drops.</strong> Dokkaebi has been a top-3 attack ban since June 2. Post-patch, banning a hard breacher (Ace/Thermite) or Buck on vertical-heavy maps is usually stronger value. If your lobby still reflex-bans Dokkaebi, that's a free win for your side's ban.</li>
+</ul>
+<p><strong>If you play her:</strong> she's still strong — the nerf punishes spam, not timing. Sync your calls with your team's execute: one call as the breach goes, not four calls while everyone drones.</p>`,
+      },
+      {
+        heading: 'The buff sweep — Ash, Thatcher, Finka, IQ, Sens and friends',
+        html: `<p>Ubisoft calls these "refinement changes" — small numbers that don't shift the meta but reward the operators you already play. The ones that matter, in order of rank impact:</p>
+<ul>
+  <li><strong>Ash — Breaching Round damage radius 2m → 2.2m.</strong> The most practical buff in the patch. Soft-breach openings clear more debris and default barricade angles more reliably. Ash was already the most-picked entry in ranked; this makes her utility even more forgiving for solo players who can't count on a teammate finishing an opening.</li>
+  <li><strong>Thatcher — EMP radius 1.75m → 1.85m.</strong> One throw now catches gadget clusters that used to need pixel-perfect placement. Bandit-trick denial gets slightly more consistent. If you duo with a hard breacher, this is a quiet buff to your whole attack.</li>
+  <li><strong>Finka — Adrenal Surge cooldown 20s → 18s.</strong> Roughly one extra boost per round in a full-length round. She remains the best "my teammates keep dying" solo-queue support pick.</li>
+  <li><strong>IQ — Electronics Detector range 20m → 22m.</strong> Bigger scan bubble means safer gadget reads through more walls. Pairs with the Bulletproof Camera EMP dart buff below — electronics warfare got slightly stronger on both sides.</li>
+  <li><strong>Sens — R.O.U. Projector battery 13s → 15s.</strong> Two more seconds of wall means plants behind Sens cover are that much safer. Still a coordination-dependent pick — skip it in solo queue.</li>
+  <li><strong>Zero — SC3000K recoil smoothed</strong> on all burst stages, both input types. Free consistency for controller players especially.</li>
+  <li><strong>Bulletproof Camera — EMP dart explosion range 0.55m → 0.75m.</strong> Defenders: the dart actually hits drones and claymores near the cam now. Worth the activation more often.</li>
+</ul>`,
+      },
+      {
+        heading: 'Thorn nerfed — the limp is over faster',
+        html: `<p><strong>Razorbloom limping effect: 15 seconds → 10 seconds.</strong> Thorn's Y10S4.2 buffs pushed her win rate high enough that Ubisoft is trimming. Surviving a Razorbloom still hurts, but you're mobile again 5 seconds sooner — which in Siege terms is a full rotate.</p>
+<p><strong>Attackers:</strong> eating a shell mid-push is less round-ending; finish the push instead of falling back to heal the limp out. <strong>Thorn players:</strong> her value shifts further toward the information the shell gives you (someone triggered it — swing the sound) rather than the slow itself.</p>`,
+      },
+      {
+        heading: 'The change nobody is talking about — prone-cancel is gone',
+        html: `<p>Buried in the bug fixes: <em>"Fixed — Players can go prone to cancel the sprinting animation and shoot immediately."</em></p>
+<p>That's the <strong>prone-cancel sprint-shoot</strong> — the tech that let sprinting players drop prone and fire with zero sprint-out delay. Every close-range fight against a sprinting opponent since System Override has been shaped by this, whether you knew the name or not. If you've been dying to players who "sprinted straight at me and shot instantly" — that's what killed you, and it's gone.</p>
+<p><strong>What changes:</strong> sprinting into a fight now carries its full sprint-out penalty again. Holding an angle against a rusher is meaningfully stronger today than it was yesterday. Passive angle-holders and anchors win more of those coin-flips now. If your own playstyle leaned on aggressive sprint entries, add a beat: pre-slow before the doorway, or drone first like your coach keeps telling you.</p>`,
+      },
+      {
+        heading: 'Map and exploit fixes that affect real rounds',
+        html: `<ul>
+  <li><strong>Fortress:</strong> the bomb can no longer be defused from behind the 1F Hammam folding screen — a genuine ranked exploit, gone.</li>
+  <li><strong>Outback:</strong> defender drones thrown from the roof above 2F Party no longer keep signal. Roof-drone intel from that spot was never intended.</li>
+  <li><strong>Solid Snake:</strong> three Soliton Radar exploits fixed — the Emerald Plains rooftop detect, the prone floor-below detect, and the weapon-cycling radar break. He reads as designed now: strong intel, no wallhack-adjacent cheese.</li>
+  <li><strong>Solis:</strong> no more free electronics detection without activating Overclock.</li>
+  <li><strong>Calypso Casino:</strong> pre-destruction setting now works on Landmark Drill and Clear House — relevant if you use those playlists to learn the map's soft walls (you should).</li>
+</ul>`,
+      },
+      {
+        heading: 'What to actually do with this patch in ranked',
+        html: `<p><strong>Copper–Gold:</strong> the prone-cancel removal is the biggest change for you, even though it's a "bug fix." Hold your angles with the crosshair at head height and let rushers eat the sprint-out penalty. The Ash buff makes her an even safer solo-queue pick — her utility now works without perfect placement.</p>
+<p><strong>Plat and up:</strong> re-evaluate your default bans tonight. Dokkaebi's reflex-ban slot is now contestable — on vertical maps (Oregon, Clubhouse, Kafe) Buck or a hard breacher is likely better value. Watch enemy anchor comps drift back toward Maestro/Echo/Mozzie and bring the utility clear to answer it.</p>
+<p><strong>Whatever your rank:</strong> patch days scramble everyone's autopilot — the players who adapt in the first week gain free RP from the ones who don't. If you want the ban phase, site calls and per-round setups handled for you while you just play, that's literally what <a href="/#/live">Recon 6's Live Coach</a> does — updated for Y11S2.1 today. The strat library, ban logic and per-site setups on <a href="/">r6coaching.com</a> already reflect this patch. Free tier covers every ranked map.</p>`,
+      },
+    ],
+  },
   // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
   // June 2 launch) to seed Google indexing before the search wave hits.
   // The from/to rank fields are repurposed as season transitions; the
@@ -940,8 +1009,8 @@ function renderPost(post) {
       description: post.metaDescription,
       author: { '@type': 'Organization', name: 'Recon 6' },
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
-      datePublished: '2026-05-10',
-      dateModified: '2026-05-10',
+      datePublished: post.datePublished || '2026-05-10',
+      dateModified: post.dateModified || post.datePublished || '2026-05-10',
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
       inLanguage: 'en-US',
       articleSection: post.gameLabel,
