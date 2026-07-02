@@ -1592,12 +1592,14 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Press Room", from: "Front Lobby", use: "Standard exec spawn for Meeting Room pushes — drone-up and clear Back Stairs before commitment." },
-            { spawn: "Garage", from: "Antechamber", use: "Off-angle spawn for split-push tactics — useful when defenders stack Meeting Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Riot Barricade", "from": "Riot Barricade", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Police Line", "from": "Police Line", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gas Station", "from": "Gas Station", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Entrance", "from": "Side Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Press Room", target: "Visa Office", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Press Room", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Meeting Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1658,12 +1660,14 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Press Room", from: "Front Lobby", use: "Standard exec spawn for Piano Room pushes — drone-up and clear Back Stairs before commitment." },
-            { spawn: "Garage", from: "Antechamber", use: "Off-angle spawn for split-push tactics — useful when defenders stack Piano Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Riot Barricade", "from": "Riot Barricade", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Police Line", "from": "Police Line", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gas Station", "from": "Gas Station", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Entrance", "from": "Side Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Press Room", target: "Visa Office", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Press Room", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Piano Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1724,12 +1728,14 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Back Stairs", from: "Garage", use: "Standard exec spawn for Tellers pushes — drone-up and clear Antechamber before commitment." },
-            { spawn: "Visa Office", from: "Press Room", use: "Off-angle spawn for split-push tactics — useful when defenders stack Tellers." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Riot Barricade", "from": "Riot Barricade", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Police Line", "from": "Police Line", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gas Station", "from": "Gas Station", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Entrance", "from": "Side Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Back Stairs", target: "Front Lobby", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Back Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Tellers reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1790,12 +1796,14 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Antechamber", from: "Visa Office", use: "Standard exec spawn for Cafeteria pushes — drone-up and clear Press Room before commitment." },
-            { spawn: "Front Lobby", from: "Back Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Cafeteria." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Riot Barricade", "from": "Riot Barricade", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Police Line", "from": "Police Line", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gas Station", "from": "Gas Station", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Entrance", "from": "Side Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Antechamber", target: "Garage", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Antechamber", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Cafeteria reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1858,12 +1866,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Catwalk", from: "Lobby", use: "Standard exec spawn for Master Office pushes — drone-up and clear Sniper Nest before commitment." },
-            { spawn: "Garage", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Master Office." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gate", "from": "Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lift", "from": "Lift", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Dock", "from": "Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Catwalk", target: "East Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Catwalk", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Master Office reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1924,12 +1934,14 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Entry", from: "Catwalk", use: "Standard exec spawn for Bunks pushes — drone-up and clear Lobby before commitment." },
-            { spawn: "Sniper Nest", from: "Garage", use: "Off-angle spawn for split-push tactics — useful when defenders stack Bunks." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gate", "from": "Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lift", "from": "Lift", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Dock", "from": "Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Entry", target: "Main Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Entry", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Bunks reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -1990,12 +2002,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Catwalk", from: "Lobby", use: "Standard exec spawn for Armory pushes — drone-up and clear Sniper Nest before commitment." },
-            { spawn: "Garage", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Armory." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gate", "from": "Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lift", "from": "Lift", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Dock", "from": "Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Catwalk", target: "East Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Catwalk", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Armory reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2056,12 +2070,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Catwalk", from: "Lobby", use: "Standard exec spawn for Lab pushes — drone-up and clear Sniper Nest before commitment." },
-            { spawn: "Garage", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Lab." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Gate", "from": "Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lift", "from": "Lift", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Dock", "from": "Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Catwalk", target: "East Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Catwalk", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Lab reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2124,12 +2140,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Reception", from: "Loading Bay", use: "Standard exec spawn for Command pushes — drone-up and clear Side Stairs before commitment." },
-            { spawn: "Maintenance", from: "Yellow Hall", use: "Off-angle spawn for split-push tactics — useful when defenders stack Command." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Park", "from": "Park", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Generator", "from": "Generator", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Reception", target: "Hangar", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Reception", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Command reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2190,12 +2207,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Reception", from: "Loading Bay", use: "Standard exec spawn for Control pushes — drone-up and clear Side Stairs before commitment." },
-            { spawn: "Maintenance", from: "Yellow Hall", use: "Off-angle spawn for split-push tactics — useful when defenders stack Control." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Park", "from": "Park", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Generator", "from": "Generator", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Reception", target: "Hangar", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Reception", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Control reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2256,12 +2274,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Reception", from: "Loading Bay", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Side Stairs before commitment." },
-            { spawn: "Maintenance", from: "Yellow Hall", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Park", "from": "Park", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Generator", "from": "Generator", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Reception", target: "Hangar", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Reception", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2322,12 +2341,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Reception", from: "Loading Bay", use: "Standard exec spawn for Tank pushes — drone-up and clear Side Stairs before commitment." },
-            { spawn: "Maintenance", from: "Yellow Hall", use: "Off-angle spawn for split-push tactics — useful when defenders stack Tank." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Park", "from": "Park", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Generator", "from": "Generator", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Reception", target: "Hangar", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Reception", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Tank reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2390,12 +2410,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Patio", from: "East Entry", use: "Standard exec spawn for Administration pushes — drone-up and clear Foyer before commitment." },
-            { spawn: "Main Stairs", from: "Library", use: "Off-angle spawn for split-push tactics — useful when defenders stack Administration." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Front Gate", "from": "Front Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stables", "from": "Stables", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Golf Course", "from": "Golf Course", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Patio", target: "Wine Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Patio", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Administration reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2456,12 +2477,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Main Stairs", from: "Library", use: "Standard exec spawn for Private Gallery pushes — drone-up and clear Wine Stairs before commitment." },
-            { spawn: "Patio", from: "East Entry", use: "Off-angle spawn for split-push tactics — useful when defenders stack Private Gallery." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Front Gate", "from": "Front Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stables", "from": "Stables", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Golf Course", "from": "Golf Course", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Main Stairs", target: "Foyer", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Main Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Private Gallery reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2522,12 +2544,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Wine Stairs", from: "Patio", use: "Standard exec spawn for Bar pushes — drone-up and clear East Entry before commitment." },
-            { spawn: "Foyer", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Bar." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Front Gate", "from": "Front Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stables", "from": "Stables", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Golf Course", "from": "Golf Course", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Wine Stairs", target: "Library", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Wine Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Bar reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2588,12 +2611,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Entry", from: "Foyer", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Main Stairs before commitment." },
-            { spawn: "Library", from: "Wine Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Front Gate", "from": "Front Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stables", "from": "Stables", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Golf Course", "from": "Golf Course", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Entry", target: "Patio", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Entry", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2656,12 +2680,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tower", from: "Construction", use: "Standard exec spawn for Kids Dorms pushes — drone-up and clear Big Tower before commitment." },
-            { spawn: "Showers", from: "Garage", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kids Dorms." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Junkyard", "from": "Junkyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Street", "from": "Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tower", target: "Pixel Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tower", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kids Dorms reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2722,10 +2747,11 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Big Tower", from: "Showers", use: "Standard exec spawn for Meeting Hall pushes — drone-up and clear Garage before commitment." },
-            { spawn: "Pixel Stairs", from: "Tower", use: "Off-angle spawn for split-push tactics — useful when defenders stack Meeting Hall." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Junkyard", "from": "Junkyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Street", "from": "Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
             { from: "Big Tower", target: "Construction", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
@@ -2788,12 +2814,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Pixel Stairs", from: "Tower", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Construction before commitment." },
-            { spawn: "Big Tower", from: "Showers", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Junkyard", "from": "Junkyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Street", "from": "Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Pixel Stairs", target: "Garage", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Pixel Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2854,12 +2881,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Garage", from: "Pixel Stairs", use: "Standard exec spawn for Laundry pushes — drone-up and clear Tower before commitment." },
-            { spawn: "Construction", from: "Big Tower", use: "Off-angle spawn for split-push tactics — useful when defenders stack Laundry." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Junkyard", "from": "Junkyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Street", "from": "Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Garage", target: "Showers", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Garage", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Laundry reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2922,12 +2950,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Bushranger", from: "Convenience Store", use: "Standard exec spawn for Laundry pushes — drone-up and clear Compressor Room before commitment." },
-            { spawn: "Servo Stairs", from: "Pool", use: "Off-angle spawn for split-push tactics — useful when defenders stack Laundry." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Fuel Pump", "from": "Fuel Pump", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Storage Yard", "from": "Storage Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Camping", "from": "Camping", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Bushranger", target: "Reception", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Bushranger", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Laundry reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -2988,12 +3017,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Pool", from: "Reception", use: "Standard exec spawn for Party Room pushes — drone-up and clear Bushranger before commitment." },
-            { spawn: "Convenience Store", from: "Compressor Room", use: "Off-angle spawn for split-push tactics — useful when defenders stack Party Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Fuel Pump", "from": "Fuel Pump", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Storage Yard", "from": "Storage Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Camping", "from": "Camping", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Pool", target: "Servo Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Pool", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Party Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3054,12 +3084,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Bushranger", from: "Convenience Store", use: "Standard exec spawn for Green Bedroom pushes — drone-up and clear Compressor Room before commitment." },
-            { spawn: "Servo Stairs", from: "Pool", use: "Off-angle spawn for split-push tactics — useful when defenders stack Green Bedroom." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Fuel Pump", "from": "Fuel Pump", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Storage Yard", "from": "Storage Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Camping", "from": "Camping", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Bushranger", target: "Reception", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Bushranger", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Green Bedroom reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3120,12 +3151,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Bushranger", from: "Convenience Store", use: "Standard exec spawn for Mechanic Shop pushes — drone-up and clear Compressor Room before commitment." },
-            { spawn: "Servo Stairs", from: "Pool", use: "Off-angle spawn for split-push tactics — useful when defenders stack Mechanic Shop." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Fuel Pump", "from": "Fuel Pump", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Storage Yard", "from": "Storage Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Camping", "from": "Camping", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Bushranger", target: "Reception", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Bushranger", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Mechanic Shop reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3296,12 +3328,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Walkway", from: "Lighthouse", use: "Standard exec spawn for Server Room pushes — drone-up and clear Quay before commitment." },
-            { spawn: "Bridge", from: "Boat Dock", use: "Off-angle spawn for split-push tactics — useful when defenders stack Server Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Floating Dock", "from": "Floating Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Sailboats", "from": "Sailboats", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Walkway", target: "Main Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Walkway", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Server Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3362,12 +3395,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Walkway", from: "Lighthouse", use: "Standard exec spawn for Security Room pushes — drone-up and clear Quay before commitment." },
-            { spawn: "Bridge", from: "Boat Dock", use: "Off-angle spawn for split-push tactics — useful when defenders stack Security Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Floating Dock", "from": "Floating Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Sailboats", "from": "Sailboats", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Walkway", target: "Main Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Walkway", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Security Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3428,12 +3462,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Walkway", from: "Lighthouse", use: "Standard exec spawn for Coast Guard Meeting pushes — drone-up and clear Quay before commitment." },
-            { spawn: "Bridge", from: "Boat Dock", use: "Off-angle spawn for split-push tactics — useful when defenders stack Coast Guard Meeting." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Floating Dock", "from": "Floating Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Sailboats", "from": "Sailboats", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Walkway", target: "Main Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Walkway", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Coast Guard Meeting reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3494,12 +3529,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Main Stairs", from: "East Walkway", use: "Standard exec spawn for Kayaks pushes — drone-up and clear Lighthouse before commitment." },
-            { spawn: "Quay", from: "Bridge", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kayaks." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Floating Dock", "from": "Floating Dock", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Sailboats", "from": "Sailboats", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Main Stairs", target: "Boat Dock", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Main Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kayaks reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3637,12 +3673,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Main Stairs", from: "East Wing", use: "Standard exec spawn for Bedroom pushes — drone-up and clear Mosque before commitment." },
-            { spawn: "Tea Room", from: "Courtyard", use: "Off-angle spawn for split-push tactics — useful when defenders stack Bedroom." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Main Gate", "from": "Main Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Parking", "from": "Parking", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Garden", "from": "Garden", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stable", "from": "Stable", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Main Stairs", target: "Watchtower", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Main Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Bedroom reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3703,12 +3741,14 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tea Room", from: "Courtyard", use: "Standard exec spawn for Dormitory pushes — drone-up and clear Watchtower before commitment." },
-            { spawn: "Main Stairs", from: "East Wing", use: "Off-angle spawn for split-push tactics — useful when defenders stack Dormitory." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Main Gate", "from": "Main Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Parking", "from": "Parking", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Garden", "from": "Garden", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stable", "from": "Stable", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tea Room", target: "Mosque", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tea Room", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Dormitory reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3769,12 +3809,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Mosque", from: "Tea Room", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Courtyard before commitment." },
-            { spawn: "Watchtower", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Main Gate", "from": "Main Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Parking", "from": "Parking", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Garden", "from": "Garden", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stable", "from": "Stable", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Mosque", target: "East Wing", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Mosque", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3835,12 +3877,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Mosque", from: "Tea Room", use: "Standard exec spawn for Hammam pushes — drone-up and clear Courtyard before commitment." },
-            { spawn: "Watchtower", from: "Main Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Hammam." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Main Gate", "from": "Main Gate", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Parking", "from": "Parking", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Garden", "from": "Garden", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Stable", "from": "Stable", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Mosque", target: "East Wing", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Mosque", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Hammam reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3903,12 +3947,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Helipad", from: "Front Lawn", use: "Standard exec spawn for Master Bedroom pushes — drone-up and clear Garden before commitment." },
-            { spawn: "East Stairs", from: "Main Entry", use: "Off-angle spawn for split-push tactics — useful when defenders stack Master Bedroom." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Control Tower", "from": "Control Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Spitfire Courtyard", "from": "Spitfire Courtyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Helipad", target: "Catwalk", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Helipad", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Master Bedroom reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -3969,12 +4014,13 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Garden", from: "East Stairs", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Main Entry before commitment." },
-            { spawn: "Catwalk", from: "Helipad", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Control Tower", "from": "Control Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Spitfire Courtyard", "from": "Spitfire Courtyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Garden", target: "Front Lawn", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Garden", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4035,12 +4081,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Catwalk", from: "Helipad", use: "Standard exec spawn for Ammo Storage pushes — drone-up and clear Front Lawn before commitment." },
-            { spawn: "Garden", from: "East Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Ammo Storage." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Control Tower", "from": "Control Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Spitfire Courtyard", "from": "Spitfire Courtyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Catwalk", target: "Main Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Catwalk", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Ammo Storage reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4101,12 +4148,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Catwalk", from: "Helipad", use: "Standard exec spawn for Fermentation Chamber pushes — drone-up and clear Front Lawn before commitment." },
-            { spawn: "Garden", from: "East Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Fermentation Chamber." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Control Tower", "from": "Control Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Spitfire Courtyard", "from": "Spitfire Courtyard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Shooting Range", "from": "Shooting Range", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Catwalk", target: "Main Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Catwalk", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Fermentation Chamber reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4169,12 +4217,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Foyer", from: "Backyard", use: "Standard exec spawn for Master Bedroom pushes — drone-up and clear Side Entry before commitment." },
-            { spawn: "Trampoline", from: "Front Yard", use: "Off-angle spawn for split-push tactics — useful when defenders stack Master Bedroom." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "River Docks", "from": "River Docks", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "APC Area", "from": "APC Area", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Street", "from": "Side Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Foyer", target: "Driveway", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Foyer", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Master Bedroom reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4235,12 +4285,14 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Trampoline", from: "Front Yard", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Driveway before commitment." },
-            { spawn: "Foyer", from: "Backyard", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "River Docks", "from": "River Docks", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "APC Area", "from": "APC Area", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Street", "from": "Side Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Trampoline", target: "Side Entry", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Trampoline", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4301,12 +4353,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Side Entry", from: "Trampoline", use: "Standard exec spawn for Garage pushes — drone-up and clear Front Yard before commitment." },
-            { spawn: "Driveway", from: "Foyer", use: "Off-angle spawn for split-push tactics — useful when defenders stack Garage." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "River Docks", "from": "River Docks", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "APC Area", "from": "APC Area", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Street", "from": "Side Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Side Entry", target: "Backyard", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Side Entry", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Garage reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4367,12 +4421,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Side Entry", from: "Trampoline", use: "Standard exec spawn for Boiler pushes — drone-up and clear Front Yard before commitment." },
-            { spawn: "Driveway", from: "Foyer", use: "Off-angle spawn for split-push tactics — useful when defenders stack Boiler." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Construction Site", "from": "Construction Site", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "River Docks", "from": "River Docks", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "APC Area", "from": "APC Area", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Side Street", "from": "Side Street", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Side Entry", target: "Backyard", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Side Entry", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Boiler reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4435,12 +4491,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Front Stairs", from: "Aft Stairs", use: "Standard exec spawn for Meeting Room pushes — drone-up and clear Galley before commitment." },
-            { spawn: "Aft Lounge", from: "Restroom", use: "Off-angle spawn for split-push tactics — useful when defenders stack Meeting Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Official Entrance", "from": "Official Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Reporter Entrance", "from": "Reporter Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Service Entrance", "from": "Service Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Front Stairs", target: "Tarmac", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Front Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Meeting Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4501,12 +4558,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tarmac", from: "Front Stairs", use: "Standard exec spawn for Security Room pushes — drone-up and clear Aft Stairs before commitment." },
-            { spawn: "Galley", from: "Aft Lounge", use: "Off-angle spawn for split-push tactics — useful when defenders stack Security Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Official Entrance", "from": "Official Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Reporter Entrance", "from": "Reporter Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Service Entrance", "from": "Service Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tarmac", target: "Restroom", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tarmac", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Security Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4567,12 +4625,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tarmac", from: "Front Stairs", use: "Standard exec spawn for Kitchen pushes — drone-up and clear Aft Stairs before commitment." },
-            { spawn: "Galley", from: "Aft Lounge", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Official Entrance", "from": "Official Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Reporter Entrance", "from": "Reporter Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Service Entrance", "from": "Service Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tarmac", target: "Restroom", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tarmac", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kitchen reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4633,12 +4692,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Restroom", from: "Tarmac", use: "Standard exec spawn for Work Room pushes — drone-up and clear Front Stairs before commitment." },
-            { spawn: "Aft Stairs", from: "Galley", use: "Off-angle spawn for split-push tactics — useful when defenders stack Work Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Official Entrance", "from": "Official Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Reporter Entrance", "from": "Reporter Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Service Entrance", "from": "Service Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Restroom", target: "Aft Lounge", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Restroom", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Work Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4701,12 +4761,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Press Box", from: "Concourse", use: "Standard exec spawn for Office pushes — drone-up and clear Field before commitment." },
-            { spawn: "Locker Room", from: "Tunnel", use: "Off-angle spawn for split-push tactics — useful when defenders stack Office." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Catwalk", "from": "Catwalk", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Spawn", "from": "West Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "East Spawn", "from": "East Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Utilities", "from": "Utilities", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Press Box", target: "Main Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Press Box", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Office reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4767,12 +4829,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Field", from: "Locker Room", use: "Standard exec spawn for Kids Dormitory pushes — drone-up and clear Tunnel before commitment." },
-            { spawn: "Main Stairs", from: "Press Box", use: "Off-angle spawn for split-push tactics — useful when defenders stack Kids Dormitory." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Catwalk", "from": "Catwalk", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Spawn", "from": "West Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "East Spawn", "from": "East Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Utilities", "from": "Utilities", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Field", target: "Concourse", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Field", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Kids Dormitory reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4833,12 +4897,14 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tunnel", from: "Main Stairs", use: "Standard exec spawn for Piano Room pushes — drone-up and clear Press Box before commitment." },
-            { spawn: "Concourse", from: "Field", use: "Off-angle spawn for split-push tactics — useful when defenders stack Piano Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Catwalk", "from": "Catwalk", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Spawn", "from": "West Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "East Spawn", "from": "East Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Utilities", "from": "Utilities", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tunnel", target: "Locker Room", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tunnel", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Piano Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4899,12 +4965,14 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Tunnel", from: "Main Stairs", use: "Standard exec spawn for Piano Room pushes — drone-up and clear Press Box before commitment." },
-            { spawn: "Concourse", from: "Field", use: "Off-angle spawn for split-push tactics — useful when defenders stack Piano Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Catwalk", "from": "Catwalk", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Spawn", "from": "West Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "East Spawn", "from": "East Spawn", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Utilities", "from": "Utilities", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Tunnel", target: "Locker Room", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Tunnel", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Piano Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -4967,12 +5035,12 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Main Hall", from: "Restaurant Stairs", use: "Standard exec spawn for Gift Shop pushes — drone-up and clear Helipad before commitment." },
-            { spawn: "East Stairs", from: "Lobby", use: "Off-angle spawn for split-push tactics — useful when defenders stack Gift Shop." },
-          ],
+          "attackSpawns": [
+          { "spawn": "North Roof", "from": "North Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "South Roof", "from": "South Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Main Hall", target: "Roof Access", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Main Hall", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Gift Shop reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5033,12 +5101,12 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "East Stairs", from: "Lobby", use: "Standard exec spawn for Tea Room pushes — drone-up and clear Roof Access before commitment." },
-            { spawn: "Main Hall", from: "Restaurant Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Tea Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "North Roof", "from": "North Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "South Roof", "from": "South Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "East Stairs", target: "Helipad", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "East Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Tea Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5099,12 +5167,12 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Helipad", from: "East Stairs", use: "Standard exec spawn for Restaurant pushes — drone-up and clear Lobby before commitment." },
-            { spawn: "Roof Access", from: "Main Hall", use: "Off-angle spawn for split-push tactics — useful when defenders stack Restaurant." },
-          ],
+          "attackSpawns": [
+          { "spawn": "North Roof", "from": "North Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "South Roof", "from": "South Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Helipad", target: "Restaurant Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Helipad", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Restaurant reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5165,12 +5233,12 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Roof Access", from: "Main Hall", use: "Standard exec spawn for Exhibit Room pushes — drone-up and clear Restaurant Stairs before commitment." },
-            { spawn: "Helipad", from: "East Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Exhibit Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "North Roof", "from": "North Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "South Roof", "from": "South Roof", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Roof Access", target: "Lobby", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Roof Access", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Exhibit Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5233,12 +5301,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Sun Deck", from: "Bow", use: "Standard exec spawn for Cockpit pushes — drone-up and clear Stern before commitment." },
-            { spawn: "East Stairs", from: "Crew Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Cockpit." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Submarine", "from": "Submarine", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Zodiak", "from": "Zodiak", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Snowmobile", "from": "Snowmobile", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Sun Deck", target: "Helipad", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Sun Deck", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Cockpit reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5299,12 +5368,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Sun Deck", from: "Bow", use: "Standard exec spawn for Cafeteria pushes — drone-up and clear Stern before commitment." },
-            { spawn: "East Stairs", from: "Crew Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Cafeteria." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Submarine", "from": "Submarine", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Zodiak", "from": "Zodiak", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Snowmobile", "from": "Snowmobile", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Sun Deck", target: "Helipad", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Sun Deck", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Cafeteria reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5365,12 +5435,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Crew Stairs", from: "Helipad", use: "Standard exec spawn for Engine Control pushes — drone-up and clear Sun Deck before commitment." },
-            { spawn: "Bow", from: "Stern", use: "Off-angle spawn for split-push tactics — useful when defenders stack Engine Control." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Submarine", "from": "Submarine", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Zodiak", "from": "Zodiak", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Snowmobile", "from": "Snowmobile", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Crew Stairs", target: "East Stairs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Crew Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Engine Control reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5431,12 +5502,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Stern", from: "East Stairs", use: "Standard exec spawn for Server Room pushes — drone-up and clear Crew Stairs before commitment." },
-            { spawn: "Helipad", from: "Sun Deck", use: "Off-angle spawn for split-push tactics — useful when defenders stack Server Room." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Submarine", "from": "Submarine", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Zodiak", "from": "Zodiak", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Snowmobile", "from": "Snowmobile", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Stern", target: "Bow", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Stern", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Server Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5499,10 +5571,11 @@ const STRATS = {
           "Iana: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Roof Access", from: "Side Stairs", use: "Standard exec spawn for Meth Lab pushes — drone-up and clear Patio before commitment." },
-            { spawn: "Back Lot", from: "Street", use: "Off-angle spawn for split-push tactics — useful when defenders stack Meth Lab." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Rooftops", "from": "Rooftops", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Market", "from": "Market", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "School Alley", "from": "School Alley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
             { from: "Roof Access", target: "Alley", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
@@ -5565,12 +5638,13 @@ const STRATS = {
           "Zero: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Street", from: "Alley", use: "Standard exec spawn for Football Office pushes — drone-up and clear Roof Access before commitment." },
-            { spawn: "Side Stairs", from: "Patio", use: "Off-angle spawn for split-push tactics — useful when defenders stack Football Office." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Rooftops", "from": "Rooftops", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Market", "from": "Market", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "School Alley", "from": "School Alley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Street", target: "Back Lot", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Street", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Football Office reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5631,12 +5705,13 @@ const STRATS = {
           "Ying: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Back Lot", from: "Street", use: "Standard exec spawn for Biker's Apartment pushes — drone-up and clear Alley before commitment." },
-            { spawn: "Roof Access", from: "Side Stairs", use: "Off-angle spawn for split-push tactics — useful when defenders stack Biker's Apartment." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Rooftops", "from": "Rooftops", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Market", "from": "Market", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "School Alley", "from": "School Alley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Back Lot", target: "Patio", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Back Lot", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Biker's Apartment reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
@@ -5697,12 +5772,13 @@ const STRATS = {
           "Ash: Drone clear + entry frag once utility is gone",
         ],
         premiumTactics: {
-          attackSpawns: [
-            { spawn: "Side Stairs", from: "Patio", use: "Standard exec spawn for Aunt's Bedroom pushes — drone-up and clear Back Lot before commitment." },
-            { spawn: "Street", from: "Alley", use: "Off-angle spawn for split-push tactics — useful when defenders stack Aunt's Bedroom." },
-          ],
+          "attackSpawns": [
+          { "spawn": "Rooftops", "from": "Rooftops", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Market", "from": "Market", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "School Alley", "from": "School Alley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+        ],
           spawnKillSpots: [
-            { from: "Side Stairs", target: "Roof Access", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
+            { from: "Side Stairs", "target": "the spawn runs", risk: "Medium — exposes you to defender ACOG counter-peek", reward: "Round opener pick that flips utility plan" },
           ],
           advancedSetups: [
             "Pre-frag the Aunt's Bedroom reinforced wall during execute — soft-breach gadget cycles it open under support cover.",

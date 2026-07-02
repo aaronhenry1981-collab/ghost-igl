@@ -383,21 +383,14 @@ const PREMIUM_TACTICS = {
     "hookah-billiards": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Pool",
-            "from": "VIP Stairs",
-            "use": "Standard exec spawn for Hookah Lounge pushes — drone-up and clear Main Lobby before commitment."
-          },
-          {
-            "spawn": "Aquarium",
-            "from": "Bathroom Hall",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Hookah Lounge."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Pool Side", "from": "Pool Side", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Pool",
-            "target": "Sunrise Stairs",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -436,21 +429,14 @@ const PREMIUM_TACTICS = {
     "theater-penthouse": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Main Lobby",
-            "from": "Aquarium",
-            "use": "Standard exec spawn for Theater pushes — drone-up and clear Bathroom Hall before commitment."
-          },
-          {
-            "spawn": "Sunrise Stairs",
-            "from": "Pool",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Theater."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Pool Side", "from": "Pool Side", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Main Lobby",
-            "target": "VIP Stairs",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -489,21 +475,14 @@ const PREMIUM_TACTICS = {
     "kitchen-service": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Aquarium",
-            "from": "Bathroom Hall",
-            "use": "Standard exec spawn for Kitchen pushes — drone-up and clear Sunrise Stairs before commitment."
-          },
-          {
-            "spawn": "Pool",
-            "from": "VIP Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Pool Side", "from": "Pool Side", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Aquarium",
-            "target": "Main Lobby",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -542,21 +521,14 @@ const PREMIUM_TACTICS = {
     "blue-bar": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Aquarium",
-            "from": "Bathroom Hall",
-            "use": "Standard exec spawn for Blue Bar pushes — drone-up and clear Sunrise Stairs before commitment."
-          },
-          {
-            "spawn": "Pool",
-            "from": "VIP Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Blue Bar."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Pool Side", "from": "Pool Side", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Aquarium",
-            "target": "Main Lobby",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -777,16 +749,10 @@ const PREMIUM_TACTICS = {
     "master-office": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Main Entrance",
-            "from": "Connector",
-            "use": "Standard exec spawn for Master Bedroom pushes — drone-up and clear Wine Cellar Stairs before commitment."
-          },
-          {
-            "spawn": "Garage",
-            "from": "Patio",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Master Bedroom."
-          }
+          { "spawn": "Front Yard", "from": "Front Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Campfire", "from": "Campfire", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Cliffside", "from": "Cliffside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lakeside", "from": "Lakeside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
@@ -830,16 +796,10 @@ const PREMIUM_TACTICS = {
     "bar-gaming": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Main Entrance",
-            "from": "Connector",
-            "use": "Standard exec spawn for Bar pushes — drone-up and clear Wine Cellar Stairs before commitment."
-          },
-          {
-            "spawn": "Garage",
-            "from": "Patio",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Bar."
-          }
+          { "spawn": "Front Yard", "from": "Front Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Campfire", "from": "Campfire", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Cliffside", "from": "Cliffside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lakeside", "from": "Lakeside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
@@ -883,16 +843,10 @@ const PREMIUM_TACTICS = {
     "kitchen-trophy": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Main Entrance",
-            "from": "Connector",
-            "use": "Standard exec spawn for Kitchen pushes — drone-up and clear Wine Cellar Stairs before commitment."
-          },
-          {
-            "spawn": "Garage",
-            "from": "Patio",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen."
-          }
+          { "spawn": "Front Yard", "from": "Front Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Campfire", "from": "Campfire", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Cliffside", "from": "Cliffside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lakeside", "from": "Lakeside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
@@ -936,21 +890,15 @@ const PREMIUM_TACTICS = {
     "wine-snowmobile": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Patio",
-            "from": "Campfire",
-            "use": "Standard exec spawn for Wine Cellar pushes — drone-up and clear Main Entrance before commitment."
-          },
-          {
-            "spawn": "Connector",
-            "from": "Wine Cellar Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Wine Cellar."
-          }
+          { "spawn": "Front Yard", "from": "Front Yard", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Campfire", "from": "Campfire", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Cliffside", "from": "Cliffside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Lakeside", "from": "Lakeside", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Patio",
-            "target": "Garage",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -991,21 +939,14 @@ const PREMIUM_TACTICS = {
     "armory-archives": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Fountain",
-            "from": "Detention",
-            "use": "Standard exec spawn for Armory Lockers pushes — drone-up and clear Spawn before commitment."
-          },
-          {
-            "spawn": "East Balcony",
-            "from": "Main Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Armory Lockers."
-          }
+          { "spawn": "East Vehicle Entrance", "from": "East Vehicle Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Valley", "from": "Valley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Vehicle Exit", "from": "West Vehicle Exit", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Fountain",
-            "target": "Offices",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1044,21 +985,14 @@ const PREMIUM_TACTICS = {
     "workshop-ventilation": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Detention",
-            "from": "Spawn",
-            "use": "Standard exec spawn for Workshop pushes — drone-up and clear East Balcony before commitment."
-          },
-          {
-            "spawn": "Main Stairs",
-            "from": "Offices",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Workshop."
-          }
+          { "spawn": "East Vehicle Entrance", "from": "East Vehicle Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Valley", "from": "Valley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Vehicle Exit", "from": "West Vehicle Exit", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Detention",
-            "target": "Fountain",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1097,21 +1031,14 @@ const PREMIUM_TACTICS = {
     "customs-supply": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Main Stairs",
-            "from": "Offices",
-            "use": "Standard exec spawn for Customs Inspection pushes — drone-up and clear Fountain before commitment."
-          },
-          {
-            "spawn": "Detention",
-            "from": "Spawn",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Customs Inspection."
-          }
+          { "spawn": "East Vehicle Entrance", "from": "East Vehicle Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Valley", "from": "Valley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Vehicle Exit", "from": "West Vehicle Exit", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Main Stairs",
-            "target": "East Balcony",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1150,21 +1077,14 @@ const PREMIUM_TACTICS = {
     "bathroom-tellers": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Fountain",
-            "from": "Detention",
-            "use": "Standard exec spawn for Bathroom pushes — drone-up and clear Spawn before commitment."
-          },
-          {
-            "spawn": "East Balcony",
-            "from": "Main Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Bathroom."
-          }
+          { "spawn": "East Vehicle Entrance", "from": "East Vehicle Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Valley", "from": "Valley", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "West Vehicle Exit", "from": "West Vehicle Exit", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Fountain",
-            "target": "Offices",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1205,21 +1125,14 @@ const PREMIUM_TACTICS = {
     "tea-room": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Garden",
-            "from": "Helipad",
-            "use": "Standard exec spawn for Tea Room pushes — drone-up and clear Cherry Blossom before commitment."
-          },
-          {
-            "spawn": "Side Entry",
-            "from": "Main Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Tea Room."
-          }
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Tower", "from": "Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ventilation Units", "from": "Ventilation Units", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Garden",
-            "target": "Geisha",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1258,16 +1171,9 @@ const PREMIUM_TACTICS = {
     "work-office": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Cherry Blossom",
-            "from": "Side Entry",
-            "use": "Standard exec spawn for Work Office pushes — drone-up and clear Main Stairs before commitment."
-          },
-          {
-            "spawn": "Geisha",
-            "from": "Garden",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Work Office."
-          }
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Tower", "from": "Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ventilation Units", "from": "Ventilation Units", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
@@ -1311,21 +1217,14 @@ const PREMIUM_TACTICS = {
     "kitchen": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Garden",
-            "from": "Helipad",
-            "use": "Standard exec spawn for Kitchen pushes — drone-up and clear Cherry Blossom before commitment."
-          },
-          {
-            "spawn": "Side Entry",
-            "from": "Main Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen."
-          }
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Tower", "from": "Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ventilation Units", "from": "Ventilation Units", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Garden",
-            "target": "Geisha",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1364,16 +1263,9 @@ const PREMIUM_TACTICS = {
     "bedroom": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Cherry Blossom",
-            "from": "Side Entry",
-            "use": "Standard exec spawn for Bedroom pushes — drone-up and clear Main Stairs before commitment."
-          },
-          {
-            "spawn": "Geisha",
-            "from": "Garden",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Bedroom."
-          }
+          { "spawn": "Helipad", "from": "Helipad", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Tower", "from": "Tower", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ventilation Units", "from": "Ventilation Units", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
@@ -1419,21 +1311,14 @@ const PREMIUM_TACTICS = {
     "throne-room": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Haunted Balcony",
-            "from": "Yellow Corridor",
-            "use": "Standard exec spawn for Throne Room pushes — drone-up and clear Maintenance before commitment."
-          },
-          {
-            "spawn": "Connector",
-            "from": "Back Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Throne Room."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Teacups", "from": "Teacups", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Bumper Cars", "from": "Bumper Cars", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Haunted Balcony",
-            "target": "Dragon Stairs",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1472,21 +1357,14 @@ const PREMIUM_TACTICS = {
     "lab": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Dragon Stairs",
-            "from": "Haunted Balcony",
-            "use": "Standard exec spawn for Lab pushes — drone-up and clear Yellow Corridor before commitment."
-          },
-          {
-            "spawn": "Maintenance",
-            "from": "Connector",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Lab."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Teacups", "from": "Teacups", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Bumper Cars", "from": "Bumper Cars", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Dragon Stairs",
-            "target": "Back Stairs",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1525,21 +1403,14 @@ const PREMIUM_TACTICS = {
     "office": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Back Stairs",
-            "from": "Dragon Stairs",
-            "use": "Standard exec spawn for Office pushes — drone-up and clear Haunted Balcony before commitment."
-          },
-          {
-            "spawn": "Yellow Corridor",
-            "from": "Maintenance",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Office."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Teacups", "from": "Teacups", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Bumper Cars", "from": "Bumper Cars", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Back Stairs",
-            "target": "Connector",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1578,21 +1449,14 @@ const PREMIUM_TACTICS = {
     "bunk": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Haunted Balcony",
-            "from": "Yellow Corridor",
-            "use": "Standard exec spawn for Bunk pushes — drone-up and clear Maintenance before commitment."
-          },
-          {
-            "spawn": "Connector",
-            "from": "Back Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Bunk."
-          }
+          { "spawn": "Main Entrance", "from": "Main Entrance", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Teacups", "from": "Teacups", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Bumper Cars", "from": "Bumper Cars", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Haunted Balcony",
-            "target": "Dragon Stairs",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1633,21 +1497,14 @@ const PREMIUM_TACTICS = {
     "aviator-games": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Garden",
-            "from": "Fireplace",
-            "use": "Standard exec spawn for Aviator Room pushes — drone-up and clear Piano before commitment."
-          },
-          {
-            "spawn": "Wine Stairs",
-            "from": "East Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Aviator Room."
-          }
+          { "spawn": "Main Road", "from": "Main Road", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Fountain", "from": "Fountain", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Garden",
-            "target": "Main Hall",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1686,21 +1543,14 @@ const PREMIUM_TACTICS = {
     "trophy-statuary": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Piano",
-            "from": "Wine Stairs",
-            "use": "Standard exec spawn for Trophy Room pushes — drone-up and clear East Stairs before commitment."
-          },
-          {
-            "spawn": "Main Hall",
-            "from": "Garden",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Trophy Room."
-          }
+          { "spawn": "Main Road", "from": "Main Road", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Fountain", "from": "Fountain", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Piano",
-            "target": "Fireplace",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1739,21 +1589,14 @@ const PREMIUM_TACTICS = {
     "kitchen-dining": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Garden",
-            "from": "Fireplace",
-            "use": "Standard exec spawn for Kitchen pushes — drone-up and clear Piano before commitment."
-          },
-          {
-            "spawn": "Wine Stairs",
-            "from": "East Stairs",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Kitchen."
-          }
+          { "spawn": "Main Road", "from": "Main Road", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Fountain", "from": "Fountain", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Garden",
-            "target": "Main Hall",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
@@ -1792,21 +1635,14 @@ const PREMIUM_TACTICS = {
     "living-library": {
       "attack": {
         "attackSpawns": [
-          {
-            "spawn": "Fireplace",
-            "from": "Piano",
-            "use": "Standard exec spawn for Living Room pushes — drone-up and clear Wine Stairs before commitment."
-          },
-          {
-            "spawn": "East Stairs",
-            "from": "Main Hall",
-            "use": "Off-angle spawn for split-push tactics — useful when defenders stack Living Room."
-          }
+          { "spawn": "Main Road", "from": "Main Road", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
+          { "spawn": "Fountain", "from": "Fountain", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
         ],
         "spawnKillSpots": [
           {
             "from": "Fireplace",
-            "target": "Garden",
+            "target": "the spawn runs",
             "risk": "Medium — exposes you to defender ACOG counter-peek",
             "reward": "Round opener pick that flips utility plan"
           }
