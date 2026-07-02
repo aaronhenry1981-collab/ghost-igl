@@ -618,7 +618,7 @@ function R6LiveCoach() {
         <Step
           id="step-round"
           number={4}
-          title="Round prep — your side + the bomb site"
+          title="Round prep — side, site + spawn"
           done={completed.sideSite}
           summary={completed.sideSite
             ? `H${activeHalf} · ${side === 'attack' ? 'Attack' : 'Defense'} · ${map.sites.find((s) => s.id === siteId)?.name} · ${QUEUE_SIZE_LABELS[queueSize]}`
@@ -693,6 +693,25 @@ function R6LiveCoach() {
             </div>
           </div>
 
+          {/* Spawn pick — attack only. In the real game the spawn choice
+              comes right after the ban phase (you lock it alongside your
+              op), so it lives here in round prep, not buried in the final
+              loadout card. Sourced from the site's curated attackSpawns;
+              silently absent for sites without that content yet. */}
+          {side === 'attack' && siteId && Array.isArray(stratForSide?.premiumTactics?.attackSpawns) && stratForSide.premiumTactics.attackSpawns.length > 0 && (
+            <div className="live-coach-site-section">
+              <div className="live-coach-toggle-label">
+                Spawn pick — hitting {map.sites.find((s) => s.id === siteId)?.name}
+              </div>
+              <ul className="live-coach-util-list">
+                {stratForSide.premiumTactics.attackSpawns.slice(0, 3).map((sp) => (
+                  <li key={sp.spawn}>
+                    <strong>{sp.spawn}</strong> — {sp.use}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Step>
       )}
 
