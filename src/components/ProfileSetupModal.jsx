@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useAuth } from '../hooks/useAuth'
+import { getRefSource, clearRefSource } from '../lib/refSource'
 
 // First-login profile setup. Collects identity fields Aaron needs to know
 // who his customers are when emailing them — display name, platform, region,
@@ -65,7 +66,9 @@ export default function ProfileSetupModal() {
     platform: profile?.platform || '',
     region: profile?.region || '',
     discord_username: profile?.discord_username || '',
-    referral_source: profile?.referral_source || '',
+    // Prefill from the captured ?ref= channel (see lib/refSource.js) — the
+    // user can still change it; their explicit answer wins on save.
+    referral_source: profile?.referral_source || getRefSource() || '',
     // R6-specific
     r6_rank: profile?.game_profiles?.r6?.rank || '',
     r6_goal_rank: profile?.game_profiles?.r6?.goal_rank || '',
@@ -137,6 +140,9 @@ export default function ProfileSetupModal() {
       } catch (trialErr) {
         console.warn('Trial grant failed (non-fatal):', trialErr)
       }
+      // Attribution landed with the profile save — drop the stored channel
+      // so ReferralAttributor doesn't re-send it.
+      if (form.referral_source) clearRefSource()
       await refreshProfile()
     } catch (err) {
       setError(err.message || 'Could not save profile. Try again.')

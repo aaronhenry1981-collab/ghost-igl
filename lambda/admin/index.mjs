@@ -249,6 +249,7 @@ async function getUsers(headers) {
       orphan: false, // has a Cognito account
       active_game_id: profile?.active_game_id || null,
       last_seen_at: profile?.last_seen_at || null,
+      referral_source: profile?.referral_source || null,
     }
   })
 
@@ -271,6 +272,7 @@ async function getUsers(headers) {
       orphan: true,               // Stripe-only, no Cognito match
       active_game_id: profileByEmail.get(email)?.active_game_id || null,
       last_seen_at: profileByEmail.get(email)?.last_seen_at || null,
+      referral_source: profileByEmail.get(email)?.referral_source || null,
     })
   }
 

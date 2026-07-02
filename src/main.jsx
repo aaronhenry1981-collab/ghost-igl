@@ -5,6 +5,7 @@ import './index.css'
 import './App.css'
 import './styles/polish.css'
 import { AuthProvider } from './hooks/useAuth'
+import { captureRefSource } from './lib/refSource'
 import Layout from './components/Layout'
 // AppShell was the old sidebar layout — replaced with unified top-nav
 // Layout for a consistent navigation across landing + in-app routes.
@@ -194,6 +195,10 @@ const router = createHashRouter([
   { path: '/login', element: <Navigate to="/auth" replace /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ])
+
+// Capture ?ref= channel attribution before the router mounts — the router
+// normalizes the URL on first navigation, which would drop the query param.
+captureRefSource()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
