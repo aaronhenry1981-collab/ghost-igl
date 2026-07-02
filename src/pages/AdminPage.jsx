@@ -250,7 +250,7 @@ export default function AdminPage() {
   }
 
   function exportCsv() {
-    const cols = ['email', 'plan', 'sub_status', 'cognito_status', 'created_at', 'current_period_end', 'stripe_customer_id']
+    const cols = ['email', 'plan', 'sub_status', 'cognito_status', 'referral_source', 'created_at', 'current_period_end', 'stripe_customer_id']
     const rows = [cols.join(',')]
     for (const u of filtered) rows.push(cols.map((c) => csvEscape(u[c])).join(','))
     const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
@@ -366,6 +366,7 @@ export default function AdminPage() {
                   <th>Verified</th>
                   <th>Active game</th>
                   <th>Last active</th>
+                  <th>Source</th>
                   <th>Signed up</th>
                   <th>Renews</th>
                   <th>Stripe</th>
@@ -439,6 +440,7 @@ export default function AdminPage() {
                           )
                         })()}
                       </td>
+                      <td>{u.referral_source || <span style={{ opacity: 0.4 }}>—</span>}</td>
                       <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
                       <td>{u.current_period_end ? new Date(u.current_period_end).toLocaleDateString() : '-'}</td>
                       <td>

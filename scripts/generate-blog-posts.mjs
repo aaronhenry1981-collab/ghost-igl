@@ -98,6 +98,18 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   </style>
 </head>
 <body>
+  <script>
+    // Channel attribution: stash ?ref=<source> so the SPA (same origin,
+    // shared localStorage) attaches it to the profile at signup. First-touch
+    // wins — mirrors src/lib/refSource.js. Keep key + sanitizer in sync.
+    try {
+      var refMatch = location.search.match(/[?&]ref=([^&]+)/)
+      if (refMatch) {
+        var refVal = decodeURIComponent(refMatch[1]).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 32)
+        if (refVal && !localStorage.getItem('recon:src')) localStorage.setItem('recon:src', refVal)
+      }
+    } catch (e) { /* private mode / blocked storage — lose attribution only */ }
+  </script>
   <nav class="nav">
     <a class="brand" href="${SITE_URL}/">RECON<span>+</span></a>
     <div class="nav-links">
