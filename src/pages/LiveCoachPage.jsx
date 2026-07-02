@@ -19,13 +19,14 @@ import './LiveCoachPage.css'
 // need ONE screen that walks you through "what do I do right now" in
 // the order R6 ranked actually unfolds:
 //
-//   1. You saw the map → pick the map
-//   2. Bans phase → mark what got banned
-//   3. Side flip → pick atk/def for this round
-//   4. Site flip → which bomb site this round
-//   5. Queue type → solo / duo / trio / 4-stack / 5-stack changes what
-//      ops make sense (solo shouldn't pick Thermite without a Thatcher
-//      teammate; a 5-stack should run the full meta lineup)
+//   1. Stack size FIRST → solo / duo / trio / 4-stack / 5-stack. You
+//      know this before you even queue, and it changes every op
+//      recommendation downstream (solo shouldn't pick Thermite without
+//      a Thatcher teammate; a 5-stack should run the full meta lineup)
+//   2. You saw the map → pick the map
+//   3. Bans phase → mark what got banned
+//   4. Side flip → pick atk/def for this round
+//   5. Site flip → which bomb site this round
 //   6. Operator → filtered to what's NOT banned + fits your queue size
 //   7. Loadout + Site setup → primary, secondary, gadget, key callouts,
 //      reinforce priorities, spawn-kill spots, post-plant util
@@ -238,8 +239,8 @@ export default function LiveCoachPage() {
         feature="Live Coach"
         gameMeta={activeGame?.gameMeta}
         benefits={[
-          'One-screen in-match walkthrough — map, bans, side, site, queue, ops, loadouts',
-          'Filters operator picks based on your queue size (solo vs 5-stack)',
+          'One-screen in-match walkthrough — stack size, map, bans, side, site, ops, loadouts',
+          'Filters operator picks based on your stack size (solo vs 5-stack)',
           'Persists map + bans across rounds so you only do prep once per match',
         ]}
       />
@@ -292,7 +293,10 @@ function R6LiveCoach() {
   const [activeHalf, setActiveHalf] = useState(() => Number(searchParams.get('half')) || getStored(LS_KEYS.half, 1))
   const [side, setSide] = useState(() => searchParams.get('s') === 'defense' ? 'defense' : 'attack')
   const [siteId, setSiteId] = useState(() => searchParams.get('site') || null)
-  const [queueSize, setQueueSize] = useState(() => Number(searchParams.get('q')) || getStored(LS_KEYS.queue, 5))
+  // Stack size starts null (no default) — it's now step 1 and we want an
+  // explicit pick, not a silent 5-stack assumption. Returning users skip
+  // ahead automatically via localStorage; share links via ?q=.
+  const [queueSize, setQueueSize] = useState(() => Number(searchParams.get('q')) || getStored(LS_KEYS.queue, null))
   const [selectedOpName, setSelectedOpName] = useState(() => searchParams.get('op') || null)
   const [shareCopied, setShareCopied] = useState(false)
 
@@ -300,7 +304,7 @@ function R6LiveCoach() {
   useEffect(() => { if (mapId) setStored(LS_KEYS.map, mapId) }, [mapId])
   useEffect(() => { setStored(LS_KEYS.bans1, [...bans[0]]) }, [bans])
   useEffect(() => { setStored(LS_KEYS.bans2, [...bans[1]]) }, [bans])
-  useEffect(() => { setStored(LS_KEYS.queue, queueSize) }, [queueSize])
+  useEffect(() => { if (queueSize) setStored(LS_KEYS.queue, queueSize) }, [queueSize])
   useEffect(() => { setStored(LS_KEYS.half, activeHalf) }, [activeHalf])
 
   // Reset op pick when any upstream state changes (different round = different op)
@@ -444,7 +448,7 @@ function R6LiveCoach() {
     if (activeHalf !== 1) params.set('half', String(activeHalf))
     if (side !== 'attack') params.set('s', side)
     if (siteId) params.set('site', siteId)
-    if (queueSize !== 5) params.set('q', String(queueSize))
+    if (queueSize) params.set('q', String(queueSize))
     if (selectedOpName) params.set('op', selectedOpName)
     const url = `${window.location.origin}/#/live?${params.toString()}`
     navigator.clipboard.writeText(url).then(() => {
@@ -482,7 +486,7 @@ function R6LiveCoach() {
       <header className="live-coach-header">
         <div className="section-label">In-match walkthrough · R6</div>
         <h1>Live <span className="accent">Coach</span></h1>
-        <p>Mirrors the R6 ranked flow: <strong>map ban → operator ban → round prep</strong>. Tell us what the game picked, what got banned — we tell you exactly what to pick and how to play it.</p>
+        <p>Mirrors the R6 ranked flow: <strong>your stack → map ban → operator ban → round prep</strong>. Tell us who you're queuing with, what the game picked, what got banned — we tell you exactly what to pick and how to play it.</p>
         {(mapId || bans[0].size > 0 || bans[1].size > 0) && (
           <div className="live-coach-header-actions">
             <button
@@ -500,14 +504,51 @@ function R6LiveCoach() {
         )}
       </header>
 
-      {/* STEP 1 — Map ban phase result.
+      {/* STEP 1 — Stack size.
+          Asked FIRST because the user knows it before they even queue,
+          it holds for the whole session, and every op recommendation
+          downstream depends on it. Stays expanded after picking so a
+          mid-session change (friend joins the stack) is one tap. */}
+      <Step
+        id="step-queue"
+        number={1}
+        title="Who are you queuing with?"
+        done={completed.queue}
+        summary={queueSize ? QUEUE_SIZE_LABELS[queueSize] : null}
+        subtitle={completed.queue ? undefined : 'Pick your stack size — op recommendations depend on it'}
+      >
+        <div className="live-coach-map-grid compact">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              type="button"
+              className={`live-coach-map-btn${queueSize === n ? ' active' : ''}`}
+              onClick={() => {
+                setQueueSize(n)
+                track('Live Coach Queue Pick', { queueSize: n })
+                if (!mapId) setTimeout(() => scrollToStep('map'), 100)
+              }}
+            >
+              {QUEUE_SIZE_LABELS[n]}
+            </button>
+          ))}
+        </div>
+        {queueSize && (
+          <p className="live-coach-queue-advice">
+            <strong>{QUEUE_SIZE_LABELS[queueSize]}:</strong> {QUEUE_ADVICE[queueSize]}
+          </p>
+        )}
+      </Step>
+
+      {/* STEP 2 — Map ban phase result.
           In real R6 ranked, you don't PICK the map — the map ban phase
           decides it. This step is the user REPORTING which map the game
           locked in. Copy + layout reflect that: compact grid, "tap which
           one survived the ban" framing. */}
+      {queueSize && (
       <Step
         id="step-map"
-        number={1}
+        number={2}
         title="Map ban phase — which map locked in?"
         done={completed.map}
         summary={map?.name}
@@ -532,16 +573,17 @@ function R6LiveCoach() {
           ))}
         </div>
       </Step>
+      )}
 
-      {/* STEP 2 — Operator ban phase.
+      {/* STEP 3 — Operator ban phase.
           R6 ranked has TWO ban phases per match — one before round 1
           (covers rounds 1-3 on the first side) and a fresh ban phase at
           half-time (covers rounds 4-6 on the swapped side). OT inherits
           bans from the matching half. We track both sets via the tabs. */}
-      {map && (
+      {queueSize && map && (
         <Step
           id="step-bans"
-          number={2}
+          number={3}
           title="Operator ban phase — what's banned?"
           done={completed.bans}
           summary={completed.bans
@@ -571,12 +613,12 @@ function R6LiveCoach() {
         </Step>
       )}
 
-      {/* STEP 3 — Round prep (re-runs every round) */}
-      {map && (
+      {/* STEP 4 — Round prep (re-runs every round) */}
+      {queueSize && map && (
         <Step
           id="step-round"
-          number={3}
-          title="Round prep — your side, the bomb site, your stack"
+          number={4}
+          title="Round prep — your side + the bomb site"
           done={completed.sideSite}
           summary={completed.sideSite
             ? `H${activeHalf} · ${side === 'attack' ? 'Attack' : 'Defense'} · ${map.sites.find((s) => s.id === siteId)?.name} · ${QUEUE_SIZE_LABELS[queueSize]}`
@@ -602,20 +644,6 @@ function R6LiveCoach() {
               </button>
             </div>
 
-            <div className="live-coach-toggle-group">
-              <span className="live-coach-toggle-label">Queue</span>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  className={`live-coach-toggle queue${queueSize === n ? ' active' : ''}`}
-                  onClick={() => setQueueSize(n)}
-                  title={QUEUE_SIZE_LABELS[n]}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
           </div>
 
           <div className="live-coach-site-section">
@@ -665,17 +693,14 @@ function R6LiveCoach() {
             </div>
           </div>
 
-          <p className="live-coach-queue-advice">
-            <strong>{QUEUE_SIZE_LABELS[queueSize]}:</strong> {QUEUE_ADVICE[queueSize]}
-          </p>
         </Step>
       )}
 
-      {/* STEP 4 — Operator pick (the system's recommendation) */}
-      {map && siteId && (
+      {/* STEP 5 — Operator pick (the system's recommendation) */}
+      {queueSize && map && siteId && (
         <Step
           id="step-op"
-          number={4}
+          number={5}
           title="Your op pick — recommended for this round"
           done={completed.operator}
           summary={selectedOpName}
@@ -758,11 +783,11 @@ function R6LiveCoach() {
         </Step>
       )}
 
-      {/* STEP 5 — Loadout + Site setup combined */}
-      {map && siteId && selectedOpName && stratForSide && (
+      {/* STEP 6 — Loadout + Site setup combined */}
+      {queueSize && map && siteId && selectedOpName && stratForSide && (
         <Step
           id="step-loadout"
-          number={5}
+          number={6}
           title="Your loadout + site setup"
           done={false}
           isFinal
