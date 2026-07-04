@@ -279,12 +279,16 @@ export default function AdminPage() {
         <p>Signed in as <span className="admin-mono">{user.email}</span></p>
       </header>
 
+      {/* MRR + paying counts exclude comp grants (admin-granted 2099 access
+          with no Stripe sub) — comps are access, not revenue. They get their
+          own card so the split is always visible. */}
       <div className="admin-stats-grid">
-        <StatCard label="MRR" value={`$${summary.mrr_dollars}`} />
+        <StatCard label="MRR (paying)" value={`$${summary.mrr_dollars}`} />
         <StatCard label="ARR (projected)" value={`$${summary.arr_dollars}`} />
+        <StatCard label="Paying subs" value={summary.paying_active ?? '—'} />
+        <StatCard label="Comp access" value={summary.comp_active ?? '—'} />
         <StatCard label="Total users" value={users.length} />
         <StatCard label="Active now" value={activeNowCount} />
-        <StatCard label="Active subs" value={summary.active} />
         <StatCard label="Pro" value={summary.pro_active} />
         <StatCard label="Champion" value={summary.champion_active} />
         <StatCard label="Past due" value={summary.past_due} />
@@ -420,7 +424,18 @@ export default function AdminPage() {
                           </span>
                         )}
                       </td>
-                      <td><span className={`admin-badge admin-badge-${u.plan}`}>{u.plan}</span></td>
+                      <td>
+                        <span className={`admin-badge admin-badge-${u.plan}`}>{u.plan}</span>
+                        {u.is_comp && (
+                          <span
+                            className="admin-badge"
+                            title="Comp grant — free access, no Stripe subscription, not counted in MRR"
+                            style={{ marginLeft: 6, background: 'rgba(160,120,255,0.15)', border: '1px solid rgba(160,120,255,0.45)', color: '#c9b3ff', fontSize: '0.62rem', padding: '2px 6px', borderRadius: 999, fontWeight: 700 }}
+                          >
+                            COMP
+                          </span>
+                        )}
+                      </td>
                       <td><span className={`admin-badge admin-badge-${u.sub_status === 'none' ? 'free' : u.sub_status}`}>{u.sub_status === 'none' ? '—' : u.sub_status}</span></td>
                       <td>
                         {u.cognito_status === 'CONFIRMED'
