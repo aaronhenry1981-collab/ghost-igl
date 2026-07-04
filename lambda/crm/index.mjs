@@ -78,7 +78,7 @@ async function sendEmail(to, { subject, body }) {
     await ses.send(new SendEmailCommand({
       FromEmailAddress: FROM,
       Destination: { ToAddresses: [to] },
-      Content: { Simple: { Subject: { Data: subject }, Body: { Text: { Data: body } } } },
+      Content: { Simple: { Subject: { Data: subject, Charset: 'UTF-8' }, Body: { Text: { Data: body, Charset: 'UTF-8' } } } },
     }))
     return true
   } catch (err) {
