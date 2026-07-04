@@ -29,7 +29,10 @@ const CLIENT_ID = process.env.COGNITO_CLIENT_ID
 const CRM_TABLE = process.env.CRM_TABLE || 'ghost-igl-crm-log'
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
-const ALERT_EMAIL = process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com'
+// Digest goes to BOTH addresses — Google Workspace has been silently binning
+// digests to the ironfrontdigital.com inbox (delivery test arrived, digests
+// didn't), so the personal Gmail is the reliability backstop. Comma-separated.
+const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 <coach@r6coaching.com>'
 const SITE = 'https://r6coaching.com'
 const DRY_RUN = process.env.DRY_RUN === 'true'
@@ -209,7 +212,10 @@ export async function handler() {
     'Full per-address detail: CloudWatch logs, /aws/lambda/ghost-igl-crm.',
   ].filter((l) => l !== '').join('\n')
 
-  await sendEmail(ALERT_EMAIL, { subject: 'Recon 6 CRM daily: ' + ([report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} ORPHAN`].filter(Boolean).join(', ') || 'quiet day'), body: lines })
+  const digestSubject = 'Recon 6 CRM daily: ' + ([report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} ORPHAN`].filter(Boolean).join(', ') || 'quiet day')
+  for (const addr of ALERT_EMAILS) {
+    await sendEmail(addr, { subject: digestSubject, body: lines })
+  }
 
   console.log(JSON.stringify(report))
   return report
