@@ -168,7 +168,7 @@ export default function DashboardPage() {
   const { activeGameId, activeGame, isR6 } = useActiveGame()
   const { data, gameMeta } = useGameData()
   const { recents } = useRecentStrats()
-  const { visible: testimonials } = useTestimonials()
+  const { visible: testimonials } = useTestimonials(activeGameId)
 
   const accent = gameMeta.color || '#00e5ff'
   const displayName = gameMeta.displayName || activeGameId

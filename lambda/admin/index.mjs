@@ -247,6 +247,7 @@ async function getUsers(headers) {
       stripe_subscription_id: sub?.stripe_subscription_id || null,
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
+      is_comp: sub ? (sub.status === 'active' && isComp(sub)) : false,
       active_game_id: profile?.active_game_id || null,
       last_seen_at: profile?.last_seen_at || null,
       referral_source: profile?.referral_source || null,
@@ -349,10 +350,19 @@ async function backfill(headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ scanned, upserted }) }
 }
 
+// A COMP grant is an active sub row with no Stripe subscription behind it
+// (admin-granted access, period_end pushed to 2099). It's real access but
+// fake revenue — counting it in MRR made the dashboard read $82 when true
+// MRR was $18, and every growth/churn number inherits that lie.
+function isComp(it) {
+  return !it.stripe_subscription_id || (it.current_period_end || '').startsWith('2099')
+}
+
 function computeSummary(items) {
   const now = Date.now()
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000
   let active = 0, canceled = 0, pastDue = 0, pro = 0, champion = 0, mrrCents = 0, newLast30 = 0
+  let paying = 0, comps = 0
 
   for (const it of items) {
     if (it.status === 'active') active += 1
@@ -360,8 +370,13 @@ function computeSummary(items) {
     else if (it.status === 'past_due') pastDue += 1
 
     if (it.status === 'active') {
-      if (it.plan === 'pro') { pro += 1; mrrCents += PRO_CENTS }
-      else if (it.plan === 'champion') { champion += 1; mrrCents += CHAMPION_CENTS }
+      if (isComp(it)) {
+        comps += 1
+      } else {
+        paying += 1
+        if (it.plan === 'pro') { pro += 1; mrrCents += PRO_CENTS }
+        else if (it.plan === 'champion') { champion += 1; mrrCents += CHAMPION_CENTS }
+      }
     }
 
     if (it.created_at) {
@@ -373,6 +388,7 @@ function computeSummary(items) {
   return {
     total: items.length,
     active, canceled, past_due: pastDue,
+    paying_active: paying, comp_active: comps,
     pro_active: pro, champion_active: champion,
     mrr_cents: mrrCents,
     mrr_dollars: (mrrCents / 100).toFixed(2),

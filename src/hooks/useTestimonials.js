@@ -35,7 +35,12 @@ async function authedFetch(path, opts = {}) {
   return data
 }
 
-export function useTestimonials() {
+// gameId scopes what `visible` returns. Testimonials without a game_id are
+// treated as R6 — every existing entry (the founder review) is R6-specific,
+// and showing a "Bronze to Silver" R6 quote on the NBA 2K or SF6 dashboard
+// reads as templated/fake, which is worse than showing nothing. `list` stays
+// unfiltered for the admin builder.
+export function useTestimonials(gameId = 'r6') {
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -78,5 +83,6 @@ export function useTestimonials() {
     await refresh()
   }, [refresh])
 
-  return { visible: list, list, loading, error, add, remove, refresh }
+  const visible = list.filter((t) => (t.game_id || 'r6') === (gameId || 'r6'))
+  return { visible, list, loading, error, add, remove, refresh }
 }
