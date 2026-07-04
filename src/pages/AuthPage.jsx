@@ -41,6 +41,11 @@ export default function AuthPage() {
   } = useAuth()
   const navigate = useNavigate()
   const redirectTarget = safeRedirect(searchParams.get('redirect'))
+  // Stripe payment links redirect here with ?checkout=success after payment.
+  // The one thing that links their subscription to a login is signing up with
+  // the SAME email they paid with — say it loudly, or they orphan themselves
+  // (2 of the first 4 paying customers did exactly that).
+  const fromCheckout = searchParams.get('checkout') === 'success'
 
   function clearMessages() {
     setError(null)
@@ -197,6 +202,14 @@ export default function AuthPage() {
       <div className="auth-card">
         <h1>{title}</h1>
         <p className="auth-subtitle">{subtitle}</p>
+
+        {fromCheckout && mode === 'signup' && (
+          <div className="auth-success" style={{ lineHeight: 1.45 }}>
+            <strong>Payment received — one last step.</strong><br />
+            Create your account with the <strong>same email you used at checkout</strong>.
+            That links your subscription automatically and unlocks everything.
+          </div>
+        )}
 
         {error && <div className="auth-error">{error}</div>}
         {success && <div className="auth-success">{success}</div>}
