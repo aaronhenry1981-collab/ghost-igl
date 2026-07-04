@@ -187,22 +187,29 @@ export async function handler() {
     }
   }
 
-  // 5. Digest to Aaron — the daily pulse, replaces manually scanning the table
+  // 5. Digest to Aaron — the daily pulse, replaces manually scanning the table.
+  // FILTER-FRIENDLY: the first version dumped 20+ raw email addresses into the
+  // body and Google Workspace silently binned it as spam (the plain-sentence
+  // delivery test arrived fine; every digest vanished). Addresses are obfuscated
+  // (name [at] domain) and capped — full lists live in CloudWatch logs.
+  const mask = (e) => String(e).replace('@', ' [at] ')
+  const few = (arr) => arr.slice(0, 3).map(mask).join(', ') + (arr.length > 3 ? ` +${arr.length - 3} more` : '')
   const lines = [
-    `Recon 6 CRM — daily run ${new Date(now).toISOString().slice(0, 10)}`,
+    `Recon 6 CRM daily run ${new Date(now).toISOString().slice(0, 10)}`,
     '',
-    `Welcome emails sent: ${report.welcome.length}${report.welcome.length ? ' — ' + report.welcome.join(', ') : ''}`,
-    `Confirmation nudges: ${report.confirmNudge.length}${report.confirmNudge.length ? ' — ' + report.confirmNudge.join(', ') : ''}`,
-    `Win-back emails sent: ${report.winback.length}${report.winback.length ? ' — ' + report.winback.join(', ') : ''}`,
+    `Welcome emails sent: ${report.welcome.length}${report.welcome.length ? ' (' + few(report.welcome) + ')' : ''}`,
+    `Confirmation nudges: ${report.confirmNudge.length}${report.confirmNudge.length ? ' (' + few(report.confirmNudge) + ')' : ''}`,
+    `Win-back emails sent: ${report.winback.length}${report.winback.length ? ' (' + few(report.winback) + ')' : ''}`,
     '',
-    `ORPHANS (paying, no login — needs your action): ${report.orphans.length ? report.orphans.join(', ') : 'none'}`,
-    `Past due: ${report.pastDue.length ? report.pastDue.join(', ') : 'none'}`,
-    report.failures.length ? `\nSend failures (retry tomorrow — SES sandbox until production access): ${report.failures.join(', ')}` : '',
+    `ORPHANS (paying, no login, needs your action): ${report.orphans.length ? report.orphans.map(mask).join(', ') : 'none'}`,
+    `Past due: ${report.pastDue.length ? report.pastDue.map(mask).join(', ') : 'none'}`,
+    report.failures.length ? `Send attempts held by SES sandbox (auto-retry daily): ${report.failures.length}` : '',
     '',
     `Totals: ${users.length} accounts, ${subs.filter((s) => s.status === 'active').length} active subs.`,
+    'Full per-address detail: CloudWatch logs, /aws/lambda/ghost-igl-crm.',
   ].filter((l) => l !== '').join('\n')
 
-  await sendEmail(ALERT_EMAIL, { subject: 'Recon 6 CRM daily — ' + [report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} ORPHAN`].filter(Boolean).join(', ') || 'quiet day', body: lines })
+  await sendEmail(ALERT_EMAIL, { subject: 'Recon 6 CRM daily: ' + ([report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} ORPHAN`].filter(Boolean).join(', ') || 'quiet day'), body: lines })
 
   console.log(JSON.stringify(report))
   return report
