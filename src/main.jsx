@@ -193,6 +193,9 @@ const router = createHashRouter([
   { path: '/sign-in', element: <Navigate to="/auth" replace /> },
   { path: '/signin', element: <Navigate to="/auth" replace /> },
   { path: '/login', element: <Navigate to="/auth" replace /> },
+  { path: '/signup', element: <Navigate to="/auth?mode=signup" replace /> },
+  { path: '/sign-up', element: <Navigate to="/auth?mode=signup" replace /> },
+  { path: '/register', element: <Navigate to="/auth?mode=signup" replace /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ])
 

@@ -319,6 +319,327 @@ const R6_POSTS = [
       },
     ],
   },
+  // Chalet defense setups — shipped 2026-07-06. Content-agent draft verified
+  // line-for-line against src/data/strats.js chalet entries (all 4 sites match:
+  // anchors, tricks, utility, callouts). Zero corrections needed.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Chalet',
+    toRank: 'Defense Setups',
+    slug: 'chalet-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Chalet Defense Setups (Ranked): Every Bomb Site, Vertical Threats, and Anchors',
+    metaDescription: 'The complete Chalet defense guide for ranked R6 — Master/Office, Bar/Gaming, Kitchen/Trophy, and Wine Cellar/Snowmobile. Who to anchor, what to reinforce, and how to shut down the vertical.',
+    intro: `<p>Chalet is a vertical map with a dangerous basement, so the defenders who lose it are usually the ones who ignored the floor above (or below) them. Four bomb sites, each with its own breach wall and its own vertical threat. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Master Bedroom / Office (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Jäger for the balcony windows, Vigil to roam, Melusi to slow.</p>
+<p><strong>Reinforce + trick:</strong> Kaid electroclaw the Master Bedroom wall from the bathroom side.</p>
+<p><strong>Deny the plant:</strong> Smoke in the hallway doorway; Melusi Banshees on Main Stairs and the balcony door.</p>
+<p><strong>Callouts:</strong> Master Bedroom, Office, Balcony, Main Stairs, Back Stairs, Library.</p>`,
+      },
+      {
+        heading: 'Bar / Gaming Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel/denial). Add Jäger, Ela to roam Trophy/Main Stairs, Thunderbird for sustain.</p>
+<p><strong>Reinforce + trick:</strong> Bandit-trick the Bar wall to deny Thermite.</p>
+<p><strong>Watch the vertical:</strong> Buck plays from Master Bedroom above — Maestro Evil Eyes cover the Gaming Room plant and the campfire window.</p>
+<p><strong>Callouts:</strong> Bar, Gaming Room, Campfire, Main Entrance, Trophy Room, Connector.</p>`,
+      },
+      {
+        heading: 'Kitchen / Trophy-Dining (1F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel), Smoke (area denial). Add Jäger to protect the Mira window, Vigil to roam above (deny vertical), Lesion for early warning.</p>
+<p><strong>Reinforce:</strong> Mira Black Mirror between Kitchen and Dining Room for intel on the campfire push.</p>
+<p><strong>Deny the plant:</strong> Smoke on the Connector and Kitchen doorway.</p>
+<p><strong>Callouts:</strong> Kitchen, Dining Room, Campfire, Back Stairs, Connector, Wine Cellar Stairs.</p>`,
+      },
+      {
+        heading: 'Wine Cellar / Snowmobile Garage (B)',
+        html: `<p>The basement — and the site where vertical from Kitchen above wins rounds.</p>
+<p><strong>Anchor with:</strong> Bandit (anti-breach), Smoke (area denial). Add Mute for the wall + drones, Pulse on 1F, Castle to delay.</p>
+<p><strong>Reinforce + trick:</strong> Bandit-trick the Snowmobile Garage wall every round.</p>
+<p><strong>Counter the vertical:</strong> Pulse plays 1F for C4 up through the ceiling at Buck; Smoke denies the Basement Corridor plant.</p>
+<p><strong>Callouts:</strong> Wine Cellar, Snowmobile Garage, Wine Cellar Stairs, Back Stairs, Basement Corridor.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Chalet',
+        html: `<p>Chalet punishes one thing above all: ignoring the floor. Every site here has a vertical attacker (Buck, Sledge) who opens above or below you. Reinforce the ceiling/hatch for the site you're on, trick the breach wall, and keep a Pulse or a listen on the floor that threatens you. Then deny the plant.</p>
+<ul>
+  <li><a href="/#/strats/chalet">Full Chalet strats — every site, both sides.</a></li>
+  <li>Lost a Chalet round to vertical or a basement rush? <a href="/#/vod">AI VOD breakdown</a> shows the exact moment.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Pulse">Pulse</a>.</li>
+</ul>
+<p>Reinforce the floor, trick the wall, deny the plant. That's Chalet.</p>`,
+      },
+    ],
+  },
+  // Clubhouse defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Clubhouse',
+    toRank: 'Defense Setups',
+    slug: 'clubhouse-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Clubhouse Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Clubhouse defense guide for ranked R6 — Cash/CCTV, Bar/Stock, Church/Arsenal, and Gym/Bedroom. Who to anchor, which walls to trick, and how to deny the plant.',
+    intro: `<p>Clubhouse is the classic wall-war map: almost every attack runs through a hard breach on Cash, Stock, or Church, and the defender who keeps those walls closed steals rounds outright. It also punishes teams that ignore the vertical — bar floor over Church, roof over Cash. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Cash Room / CCTV (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Smoke (area denial). Add Mute to cover drone entry, Vigil to roam the lower floors, Wamai for extra utility denial on site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the cash room wall to deny Thermite; Mute jammers on drone holes and walls back it up.</p>
+<p><strong>Deny the plant:</strong> Smoke holds CCTV and denies plant in the CCTV doorway; Wamai Mag-NETs near the windows eat incoming utility.</p>
+<p><strong>Callouts:</strong> Cash Room, CCTV, Construction, Master Bedroom, Gym.</p>`,
+      },
+      {
+        heading: 'Bar / Stock Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel/denial). Add Jäger for utility denial, Ela to roam construction and garage, Lesion for intel on the entries.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw on the stock room wall to shut down the Hibana open from outside.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the plant spots; Jäger ADS in the bar area deny projectiles; Lesion Gu mines on the entries give the early warning.</p>
+<p><strong>Callouts:</strong> Bar, Stock Room, Stage, Garage, Blue Stairs.</p>`,
+      },
+      {
+        heading: 'Church / Arsenal (B)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel), Smoke (area denial). Add Mute for anti-breach on the church wall, Vigil to roam upstairs, Pulse playing below for vertical intel.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the arsenal/church wall for intel into Church; Mute jammers on the church wall deny the breach.</p>
+<p><strong>Deny the plant:</strong> Smoke denies the tunnel push and the plant; Pulse reads below the floor for C4 punishes.</p>
+<p><strong>Callouts:</strong> Church, Arsenal, Tunnel, Blue Stairs, Oil Pit.</p>`,
+      },
+      {
+        heading: 'Gym / Bedroom (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Jäger (utility denial). Add Wamai to stack the denial, Alibi to roam the construction side, Doc to anchor bedroom with healing.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the gym wall against the Thermite open from construction, and control the master bedroom rotation.</p>
+<p><strong>Deny the plant:</strong> Jäger ADS in bedroom and gym plus Wamai Mag-NETs covering the balcony window strip the utility the plant needs; Alibi prismas in construction confuse the push.</p>
+<p><strong>Callouts:</strong> Gym, Bedroom, Construction, Balcony, Master Bedroom.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Clubhouse',
+        html: `<p>Clubhouse rounds are decided at the reinforced walls. Cash, Stock, and Church all live or die on the trick — a Bandit or Kaid who keeps the wall closed forces the attack into choke points your Smokes and Evil Eyes already own. Respect the vertical (bar floor over Church, roof over Cash), keep a roamer buying time, and make every plant attempt walk through gas.</p>
+<ul>
+  <li><a href="/#/strats/clubhouse">Full Clubhouse strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+</ul>
+<p>Trick the wall, hold the cams, deny the plant. That's Clubhouse.</p>`,
+      },
+    ],
+  },
+  // Bank defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Bank',
+    toRank: 'Defense Setups',
+    slug: 'bank-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Bank Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Bank defense guide for ranked R6 — CEO, Open Area, Tellers, and basement Lockers/CCTV. Who to anchor, which walls to trick, and how to deny the plant.',
+    intro: `<p>Bank is the oldest wall war in Siege: every site has one reinforced wall the attack wants open, and the defense that keeps it closed wins on time alone. Basement is its own game — a Mira window and Smoke on Tunnel turn it into a fortress. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'CEO Office / Executive Lounge (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Mute to cover drone holes and reinforced walls, Vigil to roam and waste attacker time, Valkyrie for cameras in the key hallways.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the CEO wall from the floor below or behind cover; Mute jammers on the CEO wall and drone entry points back it up.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters in the doorways stop the plant; Valkyrie cameras in elevator hall and server room call the push before it lands.</p>
+<p><strong>Callouts:</strong> CEO, Executive Lounge, Janitor, Skylight, Server, Spiral Stairs.</p>`,
+      },
+      {
+        heading: 'Open Area / Staff Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel/denial). Add Jäger for utility denial, Alibi to roam basement and lobby, Thunderbird for healing in the high-traffic rotation spots.</p>
+<p><strong>Reinforce / trick:</strong> Bandit tricking on the reinforced wall is critical — listen for the Hibana or Thermite and pop the battery on the sound.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes covering the plant spots; Jäger ADS near doorways and windows eat the flashbangs; Alibi prismas in the common push paths slow the commit.</p>
+<p><strong>Callouts:</strong> Open Area, Staff Room, Electrical, Admin, Lobby.</p>`,
+      },
+      {
+        heading: `Teller's Office / Archives (1F)`,
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Lesion (intel/delay). Add Jäger for utility denial, Pulse playing below for vertical intel and C4, Aruni gates on the critical doorways.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the teller wall to deny the Ace open from lobby.</p>
+<p><strong>Deny the plant:</strong> Lesion Gu mines at every entry point give the early warning; Jäger ADS cover windows and doors; Pulse reads below the floor for the C4 punish on the planter.</p>
+<p><strong>Callouts:</strong> Teller's, Archives, Lobby, Main Stairs, Admin.</p>`,
+      },
+      {
+        heading: 'Lockers / CCTV Room (B)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Smoke (area denial). Add Mozzie to capture attacker drones for counter-intel, Ela to roam topside and waste time, Castle to delay the server stairs push.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the server/lockers wall for intel on the breach; Castle barricades on the key doorways slow everything through server stairs.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters deny the Tunnel push and the plant; Mozzie Pests in garage and tunnel entrances blind the attack before it starts.</p>
+<p><strong>Callouts:</strong> Lockers, CCTV, Server Stairs, Tunnel, Garage.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Bank',
+        html: `<p>Bank is wall denial first, basement discipline second. Every site's round hinges on one reinforced wall — CEO, Open Area, Tellers, Server — and a Bandit or Kaid who wins that trick buys the whole defense 60 seconds of attacker confusion. Downstairs, the Mira window plus Smoke on Tunnel is the strongest default hold on the map. Keep the wall shut, keep the gas for the plant, and let the roam bleed the clock.</p>
+<ul>
+  <li><a href="/#/strats/bank">Full Bank strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Smoke">Smoke</a>.</li>
+</ul>
+<p>Win the wall, hold the basement, deny the plant. That's Bank.</p>`,
+      },
+    ],
+  },
+  // Coastline defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Coastline',
+    toRank: 'Defense Setups',
+    slug: 'coastline-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Coastline Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Coastline defense guide for ranked R6 — Hookah/Billiards, Theater/Penthouse, Kitchen/Service, and Blue Bar. Utility stacking, roam timing, and plant denial.',
+    intro: `<p>Coastline is soft walls and fast pushes — most sites can't hide behind reinforcements, so the defense lives on utility stacking and early-warning intel instead. Attackers throw everything they have at these sites, and the team that eats that utility usually keeps the round. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Hookah Lounge / Billiards (2F)',
+        html: `<p><strong>Anchor with:</strong> Jäger (utility denial), Wamai (utility denial). Add Vigil to roam VIP and Penthouse against the vertical, Valkyrie for outside cameras, Melusi to slow the balcony and VIP pushes.</p>
+<p><strong>Reinforce / trick:</strong> Stack Jäger ADS in Hookah and Billiards with Wamai Mag-NETs covering the windows — this site gets hit with tons of projectiles, and eating them is the setup.</p>
+<p><strong>Deny the plant:</strong> Valkyrie cameras outside give the early warning; Melusi Banshees on the balcony door and VIP slow the entry so the anchors get their trades.</p>
+<p><strong>Callouts:</strong> Hookah, Billiards, VIP, Aqua, Cool Vibes, Main Stairs.</p>`,
+      },
+      {
+        heading: 'Theater / Penthouse (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Jäger to protect the site from projectiles, Ela to roam VIP and Hookah, Thunderbird for sustain near the site rotations.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the Theater wall to deny the Hibana open from the VIP side.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters on the plant; Jäger ADS in Penthouse and Theater; Ela Grzmot mines on the push paths slow the attackers before they reach site.</p>
+<p><strong>Callouts:</strong> Theater, Penthouse, VIP, Hall of Fame, Balcony.</p>`,
+      },
+      {
+        heading: 'Kitchen / Service Entrance (1F)',
+        html: `<p><strong>Anchor with:</strong> Maestro (intel/denial), Jäger (utility denial). Add Lesion for early warning, Vigil to roam upstairs, Wamai for extra utility denial — heavy stacking is the play since the walls are soft.</p>
+<p><strong>Reinforce / trick:</strong> There's no wall to trick here — the setup IS the utility. Jäger ADS in Kitchen and Service plus Wamai Mag-NETs strip the attack's grenades before the push.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the plant spots and the Pool entrance; Lesion Gu mines on all entries call the push before it hits.</p>
+<p><strong>Callouts:</strong> Kitchen, Service, Pool, Sunrise, Cool Vibes.</p>`,
+      },
+      {
+        heading: 'Blue Bar / Sunrise Bar (1F)',
+        html: `<p><strong>Anchor with:</strong> Jäger (utility denial), Smoke (area denial). Add Valkyrie for outside intel on rotations, Ela to roam upstairs and deny the vertical play, Aruni gates to slow the Sunrise and Pool pushes.</p>
+<p><strong>Reinforce / trick:</strong> Aruni Surya gates on the Sunrise and Pool doors force the attack to spend utility just to walk in.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters deny the plant; Jäger ADS in Blue Bar keep the execute utility off the site; Valkyrie outside cameras read the rotation.</p>
+<p><strong>Callouts:</strong> Blue Bar, Sunrise Bar, Pool, Main Lobby, Cool Vibes.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Coastline',
+        html: `<p>Coastline defense is a utility war, not a wall war. Soft walls mean the attack comes fast and throws everything — so the recurring answer across all four sites is the same: stack Jäger and Wamai, put eyes outside with Valkyrie or Evil Eyes, and slow the doorways with Banshees, gates, and mines. If the attacker's grenades die in the air and your intel calls the push early, the fast execute turns into a slow bleed you win on time.</p>
+<ul>
+  <li><a href="/#/strats/coastline">Full Coastline strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Jager">Jäger</a>, <a href="/#/operators/Wamai">Wamai</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+</ul>
+<p>Eat the utility, call the push early, deny the plant. That's Coastline.</p>`,
+      },
+    ],
+  },
+  // Kafe Dostoyevsky defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Kafe Dostoyevsky',
+    toRank: 'Defense Setups',
+    slug: 'kafe-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Kafe Dostoyevsky Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Kafe defense guide for ranked R6 — Bar/Cocktail, Reading/Fireplace, Mining/Fireplace, and Kitchen/Bakery. Vertical denial, wall tricks, and plant denial.',
+    intro: `<p>Kafe Dostoyevsky is Siege's vertical map: three floors stacked on top of each other, and almost every attack wins by opening the ceiling above your head. The defense that reinforces overhead, holds the stairs, and keeps its wall tricks alive turns Kafe into a grind the attack can't afford. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Bar / Cocktail Lounge (3F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Jäger to protect the site from flashbangs and Capitão bolts, Alibi to roam Freezer and Cigar Shop with prismas, Aruni gates to slow the Main Entrance and White Stairs pushes.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the Bar wall from behind cover in Cocktail Lounge; Aruni Surya gates on Main Entrance and White Stairs make every entry cost utility.</p>
+<p><strong>Deny the plant:</strong> Smoke denies the plant at the Main Entrance doorway and the bar counter area; Jäger ADS covering Main Entrance and the windows eat the execute utility.</p>
+<p><strong>Callouts:</strong> Bar, Cocktail Lounge, Main Entrance, Red Stairs, White Stairs, Freezer.</p>`,
+      },
+      {
+        heading: 'Reading Room / Fireplace Hall (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Jäger and Wamai to stack utility denial against Capitão fire and grenades, Vigil to roam White Stairs and Cigar Shop and waste attacker time.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the Reading Room wall from behind the piano — safe from the EMP-then-breach timing.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters on the Fireplace doorways in the last 30 seconds; Jäger ADS cover the windows and White Stairs entry; Wamai Mag-NETs near the Reading Room windows.</p>
+<p><strong>Callouts:</strong> Reading Room, Fireplace Hall, White Stairs, Red Stairs, Cigar Shop, Piano.</p>`,
+      },
+      {
+        heading: 'Mining Room / Fireplace Hall (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel/denial). Add Mute to deny drone intel and support the wall, Ela to roam Freezer and White Stairs with Grzmot mines, Lesion for early warning on every entry.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Mining Room wall to deny the Hibana open from Cigar Balcony; Mute jammers support the wall denial and cover the drone holes.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Fireplace Hall plant spots and the Pillar angle; Lesion Gu mines at the entries and stairwells call the execute before it starts.</p>
+<p><strong>Callouts:</strong> Mining Room, Fireplace Hall, White Stairs, Red Stairs, Freezer, Pillar.</p>`,
+      },
+      {
+        heading: 'Kitchen / Bakery (1F)',
+        html: `<p><strong>Anchor with:</strong> Smoke (area denial), Mira (intel). Add Jäger to protect the Mira window and anchor positions, Vigil to roam above site and deny the vertical setup, Thunderbird for healing near the rotation between sites.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the Kitchen/Bakery wall gives the read on the push through the corridor.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the Bakery Corridor and denies the plant; Jäger ADS covering the Mira window and the entries keep the execute honest; Thunderbird Kona station near the rotation point keeps anchors alive.</p>
+<p><strong>Callouts:</strong> Kitchen, Bakery, Bakery Corridor, Prep Area, Freezer, Red Stairs.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Kafe',
+        html: `<p>Kafe is won and lost above your head. Every site's strat notes say the same thing: the attack wants the ceiling — Mining and Cocktail over Cooking, the roof over Fireplace, Reading Room over Kitchen — and the stairs are how they get there. Reinforce overhead where you can, put your roamers on White Stairs and Red Stairs to tax every rotation, and keep the wall trick alive so the attack has to win vertical AND horizontal to touch the bomb.</p>
+<ul>
+  <li><a href="/#/strats/kafe">Full Kafe strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Smoke">Smoke</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+</ul>
+<p>Hold the ceiling, own the stairs, deny the plant. That's Kafe.</p>`,
+      },
+    ],
+  },
+  // Border defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Border',
+    toRank: 'Defense Setups',
+    slug: 'border-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Border Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Border defense guide for ranked R6 — Armory/Archives, Workshop/Ventilation, Customs/Supply, and Bathroom/Tellers. Wall tricks, roam timing, and plant denial.',
+    intro: `<p>Border is the Armory wall war and everything that orbits it: every site here has one reinforced wall the attack has to open, and a defender committed to tricking it can flat-out steal rounds. Layer early-warning intel on top and the attack runs out of clock before it runs out of walls. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Armory Lockers / Archives (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Mute to support the wall and deny drone intel, Vigil to roam Offices and East Balcony, Maestro Evil Eyes for intel on the plant.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the Armory wall from behind cover inside the site; Mute jammers on the wall and drone entry points back it up.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters hold the Archives doorway against the late-round plant; Maestro Evil Eyes cover the Archives plant spots.</p>
+<p><strong>Callouts:</strong> Armory Lockers, Archives, East Balcony, Main Stairs, CCTV, Offices.</p>`,
+      },
+      {
+        heading: 'Workshop / Ventilation Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Smoke (area denial). Add Jäger to protect the anchors from flashbangs and projectiles, Ela to roam Main Lobby and Central Stairs with Grzmot mines, Thunderbird for sustain near the Workshop–Ventilation rotation.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Workshop wall to deny Hibana every round — it's the whole site.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters hold the Supply Corridor against the late plant; Jäger ADS near the Workshop windows and doorways strip the execute utility.</p>
+<p><strong>Callouts:</strong> Workshop, Ventilation, Parking Lot, Main Lobby, Supply Corridor, Central Stairs.</p>`,
+      },
+      {
+        heading: 'Customs Inspection / Supply Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Smoke (area denial). Add Mozzie to capture attacker drones for counter-intel, Alibi to roam Main Lobby and Waiting Room with prismas, Castle to delay the Central Stairs and Break Room pushes.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the Customs/Supply wall gives the read on the exterior push; Castle barricades on Central Stairs and Break Room entries slow everything else.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the Passport Check corridor and denies the plant; Mozzie Pests in the supply corridor and Break Room blind the droning before the execute.</p>
+<p><strong>Callouts:</strong> Customs Inspection, Supply Room, Passport Check, Central Stairs, Main Lobby, Waiting Room.</p>`,
+      },
+      {
+        heading: 'Bathroom / Tellers (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Lesion (intel/delay). Add Jäger to protect the site from flashbangs and projectiles, Valkyrie cameras in Offices and East Balcony for early rotation intel, Aruni gates to slow the push.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw the Tellers wall from behind the counter; Aruni Surya gates on the Offices corridor and Main Stairs tax every entry.</p>
+<p><strong>Deny the plant:</strong> Lesion Gu mines at every entry point give early warning on the pushes; Jäger ADS cover the East Balcony windows and doorways; Valkyrie cameras call the rotation before it commits.</p>
+<p><strong>Callouts:</strong> Bathroom, Tellers, East Balcony, Main Stairs, Offices, CCTV, Detention.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Border',
+        html: `<p>Border defense starts and ends at the reinforced wall. Armory, Workshop, and Tellers are all decided by whether your Kaid or Bandit keeps the breach shut — win the trick and the attack has to funnel through corridors your Smoke, mines, and gates already own. Put intel on the flanks (Valkyrie, Lesion, Mozzie), keep the gas in your pocket for the plant, and make the attack pay for the wall twice.</p>
+<ul>
+  <li><a href="/#/strats/border">Full Border strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Lesion">Lesion</a>.</li>
+</ul>
+<p>Win the wall war, tax the corridors, deny the plant. That's Border.</p>`,
+      },
+    ],
+  },
   // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
   // June 2 launch) to seed Google indexing before the search wave hits.
   // The from/to rank fields are repurposed as season transitions; the
