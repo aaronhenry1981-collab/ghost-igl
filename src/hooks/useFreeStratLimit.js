@@ -54,12 +54,14 @@ export function useFreeStratLimit({ enabled, mapId, siteId, side }) {
     const isNew = !state.keys.includes(key)
     const nextKeys = isNew ? [...state.keys, key] : state.keys
 
+    // Synced from localStorage (external view-count state), once per new
+    // strat key — the recordedKeysRef guard makes cascades impossible.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setViewCount(nextKeys.length)
 
     let shouldShow = false
     if (state.dismissedAt) {
       // Already dismissed at least once. Re-show after POST_DISMISS_GRACE more views.
-      const viewsSinceDismiss = nextKeys.length - (state.keys.length || 0) // 0 or 1
       const totalSinceFirstDismiss = nextKeys.length - FIRST_NUDGE_AT - state.dismissCount * POST_DISMISS_GRACE
       shouldShow = isNew && totalSinceFirstDismiss >= POST_DISMISS_GRACE
     } else {

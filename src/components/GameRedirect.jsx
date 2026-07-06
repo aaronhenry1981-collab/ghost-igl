@@ -20,6 +20,9 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
 
   useEffect(() => {
     let cancelled = false
+    // Standard fetch-effect: flag loading before the async load of the newly
+    // selected game. One set per game change, not a cascade.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
     activeGame?.load?.()
       .then((d) => { if (!cancelled) setData(d) })

@@ -199,19 +199,22 @@ export default function GameStratsPage() {
     return Array.isArray(data.MAPS) ? data.MAPS : Object.values(data.MAPS)
   }, [data])
 
-  // Pick first map with strats by default
+  // Pick first map with strats by default — guarded one-shot once the async
+  // map list lands, not a cascade.
   useEffect(() => {
     if (!selectedMapId && maps.length > 0) {
       const withStrats = maps.find((m) => m.id && data?.STRATS?.[m.id]) || maps[0]
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedMapId(withStrats.id)
     }
   }, [maps, selectedMapId, data])
 
-  // Pick first site by default
+  // Pick first site by default — same guarded one-shot pattern.
   useEffect(() => {
     if (selectedMapId && !selectedSiteId) {
       const map = maps.find((m) => m.id === selectedMapId)
       const sites = Array.isArray(map?.sites) ? map.sites : Object.values(map?.sites || {})
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (sites.length > 0) setSelectedSiteId(sites[0].id)
     }
   }, [selectedMapId, selectedSiteId, maps])

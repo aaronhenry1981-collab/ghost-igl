@@ -35,8 +35,48 @@ export function AuthProvider({ children }) {
   // the UI reflects the new count without a re-fetch.
   const [vodUsage, setVodUsage] = useState(null)
 
+  // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
+  // /me returns { plan, sub_status, profile, profile_complete } so consumers can
+  // gate UI like the onboarding modal on profile_complete without an extra round trip.
+  // Declared BEFORE the mount effect that calls it (react-hooks/immutability).
+  async function checkProStatus(userId, payload, session) {
+    if (!API_URL) return
+
+    try {
+      const token = getIdToken(session)
+      const res = await fetch(`${API_URL}/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        const p = data?.plan === 'pro' || data?.plan === 'champion' ? data.plan : 'free'
+        setPlan(p)
+        setIsPro(p === 'pro' || p === 'champion')
+        setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
+        setProfile(data?.profile || null)
+        setProfileComplete(!!data?.profile_complete)
+        setVodUsage(data?.vod_usage || null)
+      } else {
+        // Admins still get champion access even if /me fails — fall back to JWT claim.
+        if (computeIsAdmin(payload)) {
+          setIsPro(true); setPlan('champion')
+        } else {
+          setPlan('free'); setIsPro(false)
+        }
+      }
+    } catch {
+      if (computeIsAdmin(payload)) {
+        setIsPro(true); setPlan('champion')
+      } else {
+        setPlan('free'); setIsPro(false)
+      }
+    }
+  }
+
   useEffect(() => {
     if (!userPool) {
+      // Terminal state when Cognito isn't configured — set once on mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false)
       return
     }
@@ -75,43 +115,6 @@ export function AuthProvider({ children }) {
       setLoading(false)
     }
   }, [])
-
-  // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
-  // /me returns { plan, sub_status, profile, profile_complete } so consumers can
-  // gate UI like the onboarding modal on profile_complete without an extra round trip.
-  async function checkProStatus(userId, payload, session) {
-    if (!API_URL) return
-
-    try {
-      const token = getIdToken(session)
-      const res = await fetch(`${API_URL}/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (res.ok) {
-        const data = await res.json()
-        const p = data?.plan === 'pro' || data?.plan === 'champion' ? data.plan : 'free'
-        setPlan(p)
-        setIsPro(p === 'pro' || p === 'champion')
-        setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
-        setProfile(data?.profile || null)
-        setProfileComplete(!!data?.profile_complete)
-        setVodUsage(data?.vod_usage || null)
-      } else {
-        // Admins still get champion access even if /me fails — fall back to JWT claim.
-        if (computeIsAdmin(payload)) {
-          setIsPro(true); setPlan('champion')
-        } else {
-          setPlan('free'); setIsPro(false)
-        }
-      }
-    } catch {
-      if (computeIsAdmin(payload)) {
-        setIsPro(true); setPlan('champion')
-      } else {
-        setPlan('free'); setIsPro(false)
-      }
-    }
-  }
 
   // Re-fetch /me — call after the user updates their profile so consumers
   // (like the onboarding modal) see the new state without a full reload.

@@ -128,7 +128,7 @@ function discordOperatorSpotlight(seed) {
 
 // ─── Reddit templates (r/Rainbow6) ───
 
-function redditValueQuestion(seed) {
+function redditValueQuestion(_seed) {
   const top3 = META.opBoard.slice(0, 3)
   const body = [
     `Been building a tool that indexes operator essential-pick frequency across the ranked pool. Current top 3:`,
@@ -174,7 +174,7 @@ function redditGuideWriteup(seed) {
 
 // ─── Twitter / X templates ───
 
-function twitterMetaThread(seed) {
+function twitterMetaThread(_seed) {
   const top5 = META.opBoard.slice(0, 5)
   const top3Bans = META.banBoard.slice(0, 3)
   const body = [

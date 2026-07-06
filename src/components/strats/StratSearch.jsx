@@ -76,7 +76,7 @@ function highlightMatch(entry, tokens) {
 
 export default function StratSearch() {
   const [query, setQuery] = useState('')
-  const index = useMemo(buildIndex, [])
+  const index = useMemo(() => buildIndex(), [])
 
   const tokens = query
     .trim()

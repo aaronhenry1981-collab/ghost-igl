@@ -1,4 +1,3 @@
-import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useActiveGame } from '../hooks/useActiveGame'
 import { useGameData } from '../hooks/useGameData'
@@ -85,8 +84,8 @@ const SAMPLE_FEEDBACK_TEMPLATES = {
 
 export default function GameVodPreviewPage() {
   const { activeGameId } = useActiveGame()
-  const { data, gameMeta } = useGameData()
-  const { user, isPro } = useAuth()
+  const { gameMeta } = useGameData()
+  const { isPro } = useAuth()
   const goToPricing = useSectionNavigate('pricing')
 
   const accent = gameMeta.color || '#00e5ff'

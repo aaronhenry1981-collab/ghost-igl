@@ -247,10 +247,10 @@ export default function OW2StadiumTierListPage() {
         </p>
       </footer>
 
+      {/* JSON.stringify of our own object — no user input, XSS-safe */}
       {itemListLd && (
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
         />
       )}
