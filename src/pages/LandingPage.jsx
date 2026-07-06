@@ -18,6 +18,11 @@ import STRATS from '../data/strats'
 import META from '../data/meta'
 import { useAuth } from '../hooks/useAuth'
 import { useTestimonials } from '../hooks/useTestimonials'
+
+// Days until the expected Y11S3 launch — SAME date as scripts/generate-countdown.mjs
+// (bump both each season; the /countdown/ page is the source of truth users see).
+// Computed once at module load: day-granularity, so no live ticking needed here.
+const Y11S3_DAYS_LEFT = Math.max(0, Math.ceil((Date.parse('2026-09-01T13:00:00Z') - Date.now()) / 86400000))
 import { useDemoVideo } from '../hooks/useDemoVideo'
 import { useReveal } from '../hooks/useReveal'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
@@ -525,6 +530,13 @@ export default function LandingPage() {
           <div className="hero-tertiary" style={{ display: 'flex', gap: 16, justifyContent: 'center', fontSize: '0.85rem' }}>
             <Link to="/strats">Or browse R6 Strats (free) →</Link>
             <Link to="/live">Try Live Coach →</Link>
+            {/* Season countdown badge — target date lives in ONE place:
+                scripts/generate-countdown.mjs (bump it each season). This badge
+                intentionally recomputes from the same expected date so the two
+                never disagree by more than the config constant. */}
+            <a href="/countdown/" style={{ color: '#00e5ff' }}>
+              ⏳ Y11S3 in ~{Y11S3_DAYS_LEFT} days →
+            </a>
           </div>
           <div className="hero-micro-trust">
             <span>✓ No credit card to try</span>
@@ -1098,7 +1110,7 @@ export default function LandingPage() {
           )}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats — Free</Link>
-            <a href="/games/" className="btn btn-ghost btn-lg">See All 11 Games</a>
+            <a href="/games/" className="btn btn-ghost btn-lg">See All 20 Games</a>
           </div>
         </div>
       </section>

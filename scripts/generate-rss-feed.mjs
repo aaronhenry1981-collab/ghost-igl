@@ -6,7 +6,7 @@
 // Cost: zero. Effort: zero ongoing (regenerate on each deploy).
 // Tradeoff: small. Backlink yield: meaningful over months.
 
-import { writeFileSync, readFileSync } from 'node:fs'
+import { writeFileSync, readFileSync, readdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
@@ -69,6 +69,31 @@ for (const opName of topOperators) {
     pubDate: rfc822(now),
     category: 'Operators',
   })
+}
+
+// Blog posts as feed items (added 2026-07-06 — the feed predated the blog and
+// never picked it up). Sourced from the generated HTML in public/blog/ so this
+// stays in sync with whatever the blog generator produced this build (the
+// generate:all chain runs generate:blog before generate:rss).
+try {
+  const blogDir = join(ROOT, 'public', 'blog')
+  for (const f of readdirSync(blogDir)) {
+    if (!f.endsWith('.html') || f === 'index.html') continue
+    const html = readFileSync(join(blogDir, f), 'utf8')
+    const title = (html.match(/<title>([^<]+)<\/title>/) || [])[1]
+    const desc = (html.match(/<meta name="description" content="([^"]+)"/) || [])[1]
+    if (!title) continue
+    items.push({
+      title,
+      link: `${SITE}/blog/${f}`,
+      guid: `${SITE}/blog/${f}`,
+      description: desc || title,
+      pubDate: rfc822(now),
+      category: 'Blog',
+    })
+  }
+} catch (e) {
+  console.warn('blog feed items skipped:', e.message)
 }
 
 const itemsXml = items.map(i => `    <item>

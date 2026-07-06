@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { track } from '../utils/analytics'
@@ -38,9 +38,17 @@ export default function AuthPage() {
     resendConfirmationCode,
     forgotPassword,
     confirmForgotPassword,
+    user,
+    loading: authLoading,
   } = useAuth()
   const navigate = useNavigate()
   const redirectTarget = safeRedirect(searchParams.get('redirect'))
+  // Already signed in? /auth is a dead end — send them to the dashboard (or
+  // the requested redirect). Deep links and bookmarks kept landing signed-in
+  // users on a Sign In form (2026-07-06 UX audit).
+  useEffect(() => {
+    if (!authLoading && user) navigate(redirectTarget || '/dashboard', { replace: true })
+  }, [authLoading, user, navigate, redirectTarget])
   // Stripe payment links redirect here with ?checkout=success after payment.
   // The one thing that links their subscription to a login is signing up with
   // the SAME email they paid with — say it loudly, or they orphan themselves
