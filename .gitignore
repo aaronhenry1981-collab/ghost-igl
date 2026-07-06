@@ -33,3 +33,6 @@ lambda/**/function.zip
 
 # Never commit - contains secret tokens when edited locally
 scripts/update-discord-params.ps1
+
+# Linux fuse artifacts (OneDrive/WSL cruft) - never commit
+.fuse_hidden*
