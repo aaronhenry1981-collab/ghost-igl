@@ -168,7 +168,38 @@ ${tierCards}
 ${faqHtml}
 
   <h2 id="book">Book your free intro</h2>
-  <form id="bookForm" action="${FORM_ENDPOINT}" method="POST">
+  <!-- IN-HOUSE SCHEDULER (2026-07-06): real slot booking against the
+       recon6-booking API — double-booking-proof (conditional writes),
+       visitor-timezone display, 5-minute holds, email confirmations with
+       .ics + self-serve reschedule/cancel links. The Formspree form below
+       survives ONLY as the automatic fallback if the API is unreachable. -->
+  <div id="scheduler">
+    <div id="slotArea"><p style="color:var(--dim)">Loading open times…</p></div>
+    <div id="holdBar" style="display:none;background:rgba(255,155,92,.12);border:1px solid var(--orange);border-radius:10px;padding:10px 14px;margin:12px 0">
+      Holding <strong id="holdSlotLabel"></strong> for you — <span id="holdCountdown">5:00</span> to finish booking.
+    </div>
+    <form id="confirmForm" style="display:none">
+      <label for="c-name">Name *</label>
+      <input id="c-name" name="name" type="text" required placeholder="Your name" />
+      <label for="c-email">Email * (confirmation + calendar invite)</label>
+      <input id="c-email" name="email" type="email" required placeholder="you@example.com" />
+      <label for="c-discord">Discord (sessions run on Discord)</label>
+      <input id="c-discord" name="discord" type="text" placeholder="yourname" />
+      <label for="c-rank">Current rank → goal</label>
+      <input id="c-rank" name="rank_goal" type="text" placeholder="Silver → Gold" />
+      <label for="c-type">Session type</label>
+      <select id="c-type" name="sessionType">
+        <option>Free Intro</option>
+        ${TIERS.filter((t) => t.id !== 'intro').map((t) => `<option>${t.name}</option>`).join('')}
+      </select>
+      <label for="c-notes">What's costing you rounds? (optional)</label>
+      <textarea id="c-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
+      <button type="submit" id="confirmBtn">Confirm this session</button>
+      <div class="ok" id="confirmOk"></div>
+      <div id="confirmErr" style="color:#ff6b6b;margin-top:12px;display:none"></div>
+    </form>
+  </div>
+  <form id="bookForm" action="${FORM_ENDPOINT}" method="POST" style="display:none">
     <input type="hidden" name="_subject" value="COACHING BOOKING — free intro request" />
     <input type="hidden" name="form" value="coaching-booking" />
     <label for="f-email">Email *</label>
@@ -208,19 +239,118 @@ ${faqHtml}
   }
   cur.addEventListener('change', update); goal.addEventListener('change', update); update();
 
-  var form = document.getElementById('bookForm');
-  form.addEventListener('submit', function (e) {
+  // ---- in-house scheduler ----
+  var API = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod';
+  var held = null, holdTimer = null;
+  var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
+
+  function fallbackToForm() {
+    document.getElementById('scheduler').style.display = 'none';
+    document.getElementById('bookForm').style.display = 'block';
+  }
+  var fbForm = document.getElementById('bookForm');
+  fbForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-      .then(function (r) {
-        if (r.ok) { document.getElementById('okMsg').style.display = 'block'; form.querySelector('button').disabled = true; }
-        else { form.submit(); } // fallback: normal Formspree redirect flow
-      })
-      .catch(function () { form.submit(); });
+    fetch(fbForm.action, { method: 'POST', body: new FormData(fbForm), headers: { Accept: 'application/json' } })
+      .then(function (r) { if (r.ok) { document.getElementById('okMsg').style.display = 'block'; fbForm.querySelector('button').disabled = true; } else { fbForm.submit(); } })
+      .catch(function () { fbForm.submit(); });
   });
+
+  function fmtDay(iso) {
+    return new Intl.DateTimeFormat(undefined, { timeZone: tz, weekday: 'short', month: 'short', day: 'numeric' }).format(new Date(iso));
+  }
+  function fmtTime(iso) {
+    return new Intl.DateTimeFormat(undefined, { timeZone: tz, hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
+  }
+
+  function loadSlots() {
+    fetch(API + '/booking/slots').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.slots) throw new Error('no slots field');
+      var area = document.getElementById('slotArea');
+      if (!d.slots.length) {
+        area.innerHTML = '<p style="color:var(--dim)">No open times right now — check back tomorrow or <a href="https://discord.gg/namGQqs3jb">ping us on Discord</a>.</p>';
+        return;
+      }
+      var byDay = {};
+      d.slots.forEach(function (s) { var k = fmtDay(s); (byDay[k] = byDay[k] || []).push(s); });
+      var html = '<p style="color:var(--dim);font-size:.9rem">Times shown in your timezone (' + tz + '). Sessions are ' + d.session_minutes + ' minutes.</p>';
+      Object.keys(byDay).forEach(function (day) {
+        html += '<div style="margin:14px 0 6px;font-weight:700">' + day + '</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
+        byDay[day].forEach(function (s) {
+          html += '<button type="button" class="btn slot-btn" data-slot="' + s + '">' + fmtTime(s) + '</button>';
+        });
+        html += '</div>';
+      });
+      area.innerHTML = html;
+      area.querySelectorAll('.slot-btn').forEach(function (b) {
+        b.addEventListener('click', function () { holdSlot(b.dataset.slot, b); });
+      });
+    }).catch(function () { fallbackToForm(); });
+  }
+
+  function holdSlot(slotId, btn) {
+    btn.disabled = true;
+    fetch(API + '/booking/hold', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slotId: slotId }) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok) { btn.textContent = 'Taken'; btn.style.opacity = .4; return; }
+        held = { slotId: slotId, token: res.d.holdToken, until: Date.parse(res.d.heldUntil) };
+        document.getElementById('holdSlotLabel').textContent = fmtDay(slotId) + ' ' + fmtTime(slotId);
+        document.getElementById('holdBar').style.display = 'block';
+        document.getElementById('confirmForm').style.display = 'block';
+        document.getElementById('confirmForm').scrollIntoView({ behavior: 'smooth' });
+        if (holdTimer) clearInterval(holdTimer);
+        holdTimer = setInterval(function () {
+          var left = Math.max(0, held.until - Date.now());
+          var m = Math.floor(left / 60000), s = Math.floor(left % 60000 / 1000);
+          document.getElementById('holdCountdown').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+          if (left <= 0) { clearInterval(holdTimer); document.getElementById('holdBar').style.display = 'none'; document.getElementById('confirmForm').style.display = 'none'; held = null; loadSlots(); }
+        }, 1000);
+      })
+      .catch(function () { fallbackToForm(); });
+  }
+
+  document.getElementById('confirmForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!held) return;
+    var f = e.target;
+    document.getElementById('confirmBtn').disabled = true;
+    fetch(API + '/booking/confirm', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slotId: held.slotId, holdToken: held.token, tz: tz,
+        name: f.name.value, email: f.email.value, discord: f.discord.value,
+        rank_goal: f.rank_goal.value, sessionType: f.sessionType.value, notes: f.notes.value,
+      }),
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok) {
+          document.getElementById('confirmErr').style.display = 'block';
+          document.getElementById('confirmErr').textContent = (res.d && res.d.error) || 'Something broke — try another slot.';
+          document.getElementById('confirmBtn').disabled = false;
+          return;
+        }
+        if (holdTimer) clearInterval(holdTimer);
+        document.getElementById('holdBar').style.display = 'none';
+        var ok = document.getElementById('confirmOk');
+        ok.style.display = 'block';
+        ok.textContent = res.d.confirmationEmail === 'sent'
+          ? 'Booked. Confirmation + calendar invite are in your email.'
+          : 'Booked. Your coach has been notified and will confirm by email shortly.';
+      })
+      .catch(function () {
+        document.getElementById('confirmErr').style.display = 'block';
+        document.getElementById('confirmErr').textContent = 'Network hiccup — your hold is still active, try Confirm again.';
+        document.getElementById('confirmBtn').disabled = false;
+      });
+  });
+
+  loadSlots();
+
   document.querySelectorAll('a[data-tier]').forEach(function (a) {
     a.addEventListener('click', function () {
-      var sel = document.getElementById('f-tier');
+      var sel = document.getElementById('c-type') || document.getElementById('f-tier');
+      if (!sel) return;
       for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].text.indexOf(a.dataset.tier) === 0) { sel.selectedIndex = i; break; }
       }

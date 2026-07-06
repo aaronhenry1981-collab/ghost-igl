@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manage your RECON6 coaching session</title>
+<meta name="robots" content="noindex" />
+<style>
+  :root { --bg:#0a0e17; --panel:#111827; --line:#1f2a3f; --cyan:#00e5ff; --text:#dbe4f0; --dim:#8b98ab; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
+  .wrap { max-width:640px; margin:0 auto; padding:48px 20px; }
+  h1 { font-size:1.5rem; margin-bottom:14px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px; margin:14px 0; }
+  .btn { display:inline-block; padding:10px 18px; border-radius:8px; border:1px solid var(--cyan); color:var(--cyan); background:none; font-weight:700; cursor:pointer; font-size:1rem; margin:6px 6px 0 0; }
+  .btn.danger { border-color:#ff6b6b; color:#ff6b6b; }
+  a { color:var(--cyan); }
+  #msg { margin-top:14px; }
+  .slot-btn { border-color:var(--line); color:var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Manage your coaching session</h1>
+  <div class="card" id="info">Loading…</div>
+  <div id="actions" style="display:none">
+    <button class="btn" id="reschedBtn">Reschedule</button>
+    <button class="btn danger" id="cancelBtn">Cancel session</button>
+  </div>
+  <div class="card" id="slotPick" style="display:none"></div>
+  <div id="msg"></div>
+  <p style="margin-top:28px"><a href="/coaching/">← Back to coaching</a></p>
+</div>
+<script>
+(function () {
+  var API = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod';
+  var token = new URLSearchParams(location.search).get('token');
+  var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
+  var info = document.getElementById('info'), msg = document.getElementById('msg');
+  function fmt(iso) {
+    return new Intl.DateTimeFormat(undefined, { timeZone: tz, weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date(iso));
+  }
+  if (!token) { info.textContent = 'Missing link token — use the link from your confirmation email.'; return; }
+  fetch(API + '/booking/manage?token=' + encodeURIComponent(token))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.error) { info.textContent = 'Booking not found — it may already be cancelled.'; return; }
+      info.innerHTML = '<strong>' + d.sessionType + '</strong> — ' + fmt(d.slotId) + ' (your local time)<br>Status: ' + d.status;
+      if (d.status === 'confirmed') document.getElementById('actions').style.display = 'block';
+    })
+    .catch(function () { info.textContent = 'Could not reach the booking service — try again in a minute.'; });
+
+  document.getElementById('cancelBtn').addEventListener('click', function () {
+    if (!confirm('Cancel this session?')) return;
+    fetch(API + '/booking/manage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, action: 'cancel' }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        msg.textContent = d.cancelled ? 'Cancelled. The slot has been freed — book again any time.' : (d.error || 'Could not cancel.');
+        document.getElementById('actions').style.display = 'none';
+      });
+  });
+
+  document.getElementById('reschedBtn').addEventListener('click', function () {
+    var pick = document.getElementById('slotPick');
+    pick.style.display = 'block';
+    pick.textContent = 'Loading open times…';
+    fetch(API + '/booking/slots').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.slots || !d.slots.length) { pick.textContent = 'No open times right now.'; return; }
+      pick.innerHTML = '<p style="color:var(--dim)">Pick a new time (your timezone):</p>';
+      d.slots.forEach(function (s) {
+        var b = document.createElement('button');
+        b.className = 'btn slot-btn'; b.textContent = fmt(s);
+        b.addEventListener('click', function () {
+          fetch(API + '/booking/manage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, action: 'reschedule', newSlotId: s }) })
+            .then(function (r) { return r.json(); })
+            .then(function (d2) {
+              if (d2.rescheduled) { msg.textContent = 'Rescheduled to ' + fmt(s) + '. New confirmation email on its way.'; pick.style.display = 'none'; info.innerHTML = '<strong>Rescheduled</strong> — ' + fmt(s); }
+              else { msg.textContent = d2.error || 'That slot just went — pick another.'; }
+            });
+        });
+        pick.appendChild(b);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
