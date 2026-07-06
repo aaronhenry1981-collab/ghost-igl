@@ -6,7 +6,6 @@ import FoundingTopBanner from './FoundingTopBanner'
 import WelcomeModal from './WelcomeModal'
 import ExitIntentModal from './ExitIntentModal'
 import ProfileSetupModal from './ProfileSetupModal'
-import GamePickerModal from './GamePickerModal'
 import ReferralAttributor from './ReferralAttributor'
 import ErrorBoundary from './ErrorBoundary'
 import { GameProvider } from '../hooks/useActiveGame'
@@ -35,7 +34,8 @@ export default function Layout() {
         <Footer />
         <WelcomeModal />
         <ProfileSetupModal />
-        <GamePickerModal />
+        {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
+            game to pick. Component kept in tree (see GameSwitcher note). */}
         <ReferralAttributor />
         {isLanding && <ExitIntentModal />}
       </GameProvider>

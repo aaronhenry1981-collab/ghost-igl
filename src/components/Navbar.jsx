@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import GameSwitcher from './GameSwitcher'
 
 // Unified top navigation — single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
@@ -195,7 +194,9 @@ export default function Navbar() {
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
             Recon<span>6</span>
           </Link>
-          {user && <GameSwitcher />}
+          {/* GameSwitcher removed 2026-07-06 — RECON6 is R6-only now. The
+              component + game data stay in the tree (existing All-Access subs
+              keep their entitlements; routes stay live for SEO). */}
         </div>
 
         {/* Desktop nav — center cluster. Hidden on mobile in favor of the
@@ -311,12 +312,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {user && (
-          <div className="mobile-drawer-section">
-            <div className="mobile-drawer-section-label">Active game</div>
-            <GameSwitcher />
-          </div>
-        )}
+        {/* Mobile "Active game" switcher removed 2026-07-06 — R6-only. */}
 
         {/* Signed-in users get the in-app tool list. Signed-out visitors used
             to see this same list — every link walled them off immediately
