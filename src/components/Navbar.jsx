@@ -80,6 +80,7 @@ function MoreDropdown({ onClose }) {
           <button type="button" className="nav-more-item" onClick={() => go('/vod')}>VOD Review</button>
           <button type="button" className="nav-more-item" onClick={() => go('/operators')}>Operators</button>
           <button type="button" className="nav-more-item" onClick={() => go('/meta')}>Meta Board</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/progress')}>My Progress</button>
           <div className="nav-more-divider" />
           <button type="button" className="nav-more-item" onClick={() => go('#pricing')}>Pricing</button>
           <button type="button" className="nav-more-item" onClick={() => go('#faq')}>FAQ</button>
@@ -223,7 +224,7 @@ export default function Navbar() {
             that makes money. Every tool still one click away in the dropdown. */}
         <ul id="primary-nav" className="navbar-links navbar-desktop-only">
           <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
-          <li><a className="nav-marketing-link" href="/blog/">Learn</a></li>
+          <li><a className="nav-marketing-link" href="/climb/">Learn</a></li>
           <li><MoreDropdown /></li>
         </ul>
 
@@ -314,7 +315,8 @@ export default function Navbar() {
           <div className="mobile-drawer-section-label">Coaching</div>
           <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book a free session →</a>
           <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
-          <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Learn (guides & blog)</a>
+          <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn — the Climb pipeline</a>
+          <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Guides & blog</a>
         </div>
 
         {user ? (

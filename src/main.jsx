@@ -7,9 +7,8 @@ import './styles/polish.css'
 import { AuthProvider } from './hooks/useAuth'
 import { captureRefSource } from './lib/refSource'
 import Layout from './components/Layout'
-// AppShell was the old sidebar layout — replaced with unified top-nav
-// Layout for a consistent navigation across landing + in-app routes.
-// import AppShell from './components/AppShell'
+// (AppShell, the old sidebar layout, was deleted 2026-07-06 — Layout is the
+// single shell for landing + in-app routes.)
 import LandingPage from './pages/LandingPage'
 
 // Code-splitting strategy:
@@ -42,6 +41,7 @@ const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
 
 // Tiny loading fallback shown while a route's chunk fetches. Keep it minimal
@@ -166,6 +166,7 @@ const router = createHashRouter([
       { path: '/match-prep/:mapId', element: <L><MatchPrepPage /></L> },
       { path: '/loadouts', element: <L><LoadoutsPage /></L> },
       { path: '/dashboard', element: <L><DashboardPage /></L> },
+      { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
       { path: '/operators/compare', element: <L><OperatorsComparePage /></L> },
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },

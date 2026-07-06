@@ -640,6 +640,1029 @@ const R6_POSTS = [
       },
     ],
   },
+  // Skyscraper defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Skyscraper',
+    toRank: 'Defense Setups',
+    slug: 'skyscraper-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Skyscraper Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Skyscraper defense guide for ranked R6 — Tea Room/Karaoke, Bedroom/Bathroom, Kitchen/BBQ, and Work Office/Exhibition. Who to anchor, which walls to trick, and how to deny the plant.',
+    intro: `<p>Skyscraper defense is a time-wasting game: deny the drones, tax every window entry, and make the attack spend its clock re-clearing roamers before it ever touches site. Every site here has a wall to hold and a corridor to gas. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Tea Room / Karaoke (2F)',
+        html: `<p><strong>Anchor with:</strong> Smoke (area denial), Mute (intel denial). Add Vigil to roam Geisha and Exhibition, Jäger for utility denial, Thunderbird for sustain in the high-traffic rotations.</p>
+<p><strong>Deny the intel:</strong> Mute jammers on the drone holes and the Karaoke connector kill the attacker's read before the push.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the Tea Room doorways and saves canisters for the last 30 seconds; Jäger ADS on the Geisha window and balcony doors strip the execute utility.</p>
+<p><strong>Callouts:</strong> Tea Room, Karaoke, Geisha, Dragon, Hallway, Exhibition.</p>`,
+      },
+      {
+        heading: 'Bedroom / Bathroom (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Lesion (intel/delay). Add Jäger to protect the site from window projectiles, Ela to roam Geisha and Main Stairs, Aruni to gate the connectors.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw on the Bedroom wall denies the hard breach.</p>
+<p><strong>Early warning:</strong> Lesion Gu mines on the bathroom and hallway entries call the push; Aruni gates on the bathroom door and hallway connector slow it down.</p>
+<p><strong>Callouts:</strong> Bedroom, Closet, Bathroom, Balcony, Geisha, Main Stairs.</p>`,
+      },
+      {
+        heading: 'Kitchen / BBQ (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Smoke (area denial). Add Maestro for intel and chip damage through smoke, Vigil to roam 2F and Dragon, Wamai for utility denial at the doorways.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Kitchen wall to deny Thermite every round.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the BBQ corridor; Maestro Evil Eyes cover the Kitchen entry and plant spots; Wamai Mag-NETs at the Kitchen doorways and windows eat the flashes.</p>
+<p><strong>Callouts:</strong> Kitchen, BBQ, Pantry, Dragon, Main Stairs, Ventilation.</p>`,
+      },
+      {
+        heading: 'Work Office / Exhibition (2F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Smoke (area denial). Add Mozzie to steal drones for counter-intel, Pulse playing below for vertical intel and C4, Castle to delay the hallway and ventilation pushes.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the Exhibition/Work Office wall gives the read on the push; Castle barricades on hallway and ventilation force soft-breach utility.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters in the Office doorways; Mozzie Pests in the hallway and Main Stairs drone paths blind the execute.</p>
+<p><strong>Callouts:</strong> Work Office, Exhibition, Hallway, Main Stairs, Ventilation.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Skyscraper',
+        html: `<p>Skyscraper rounds are won before the push: jam the drones, mine the entries, and keep a roamer cycling Geisha and Exhibition so the attack burns clock re-clearing rooms. If the attacker reaches your site with 90 seconds and full intel, you set up wrong — deny the information first and the gunfight comes to you on your angles.</p>
+<ul>
+  <li><a href="/#/strats/skyscraper">Full Skyscraper strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+</ul>
+<p>Kill the drones, tax the entries, deny the plant. That's Skyscraper.</p>`,
+      },
+    ],
+  },
+  // Theme Park defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Theme Park',
+    toRank: 'Defense Setups',
+    slug: 'theme-park-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Theme Park Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Theme Park defense guide for ranked R6 — Throne/Armory, Lab/Storage, Office/Initiation, and Bunk/Day Care. Who to anchor, which walls to trick, and how to deny the plant.',
+    intro: `<p>Theme Park is a connector map: every site funnels through a corridor — Yellow Corridor, the Connector, Haunted Stairs — and the defense that owns those chokes with gas, mines, and cams makes the attack pay for every meter. Hold the wall, gas the corridor. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Throne Room / Armory (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Jäger for utility denial, Vigil to roam the connector and Dragon Stairs, Maestro Evil Eyes for intel on the push.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw on the Throne Room wall denies the hard breach.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the Armory doorways for the last 30 seconds; Maestro Evil Eyes cover the plant spots and connector; Jäger ADS on the Throne Room windows and entries eat the utility.</p>
+<p><strong>Callouts:</strong> Throne Room, Armory, Connector, Back Stairs, Dragon Stairs.</p>`,
+      },
+      {
+        heading: 'Lab / Storage (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Lesion (intel/delay). Add Ela to roam 2F and Yellow Corridor, Jäger for utility denial, Thunderbird for sustain in the Storage rotation.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Lab wall to deny Hibana.</p>
+<p><strong>Early warning:</strong> Lesion Gu mines on the Maintenance and Connector entries; Ela Grzmot mines on Yellow Corridor and the stairs punish the rush.</p>
+<p><strong>Callouts:</strong> Lab, Storage, Maintenance, Connector, Yellow Corridor.</p>`,
+      },
+      {
+        heading: 'Office / Initiation (2F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Smoke (area denial). Add Mozzie to steal drones in the connector, Alibi to roam Cafe and Haunted Stairs, Wamai for utility denial at the entries.</p>
+<p><strong>Reinforce / trick:</strong> Mira Black Mirror on the Office/Initiation wall reads the pushes from the connector.</p>
+<p><strong>Deny the plant:</strong> Smoke canisters in the Office doorways; Wamai Mag-NETs at the Office entry points and windows strip the execute.</p>
+<p><strong>Callouts:</strong> Office, Initiation, Connector, Haunted Stairs, Cafe.</p>`,
+      },
+      {
+        heading: 'Bunk / Day Care (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Smoke (area denial). Add Mute to jam drones and back up the wall, Vigil to roam 2F and Yellow Corridor, Valkyrie for cameras in arcade and maintenance.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw on the Bunk wall; Mute jammers on the Bunk wall and drone entries double up the denial.</p>
+<p><strong>Deny the plant:</strong> Smoke holds the Day Care corridor; Valkyrie cams in arcade and the maintenance hallway call the rotation early.</p>
+<p><strong>Callouts:</strong> Bunk, Day Care, Yellow Corridor, Maintenance, Connector.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Theme Park',
+        html: `<p>Theme Park defense is corridor control. The attack has to move through the Connector, Yellow Corridor, or Haunted Stairs to reach any site — so put your intel and your delay utility there, not on site. A Gu mine or a cam in the corridor buys your anchors five seconds of warning, and five seconds is the difference between a pre-aimed angle and a lost trade.</p>
+<ul>
+  <li><a href="/#/strats/theme-park">Full Theme Park strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Smoke">Smoke</a>.</li>
+</ul>
+<p>Own the corridors, trick the wall, deny the plant. That's Theme Park.</p>`,
+      },
+    ],
+  },
+  // Calypso Casino defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Calypso Casino',
+    toRank: 'Defense Setups',
+    slug: 'calypso-casino-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Calypso Casino Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Calypso Casino defense guide for ranked R6 — Cigar/Pool, Blackjack/Poker, CCTV/Vault, and Bar/Betting. Who to anchor, which walls to trick, and how to deny the plant.',
+    intro: `<p>Calypso Casino is the newest map in the ranked pool, and the defenses that win on it are anchor-heavy: reinforce the wall and the hatch, jam the drone lanes, and hold tight angles against the open casino-floor sightlines. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Cigar Room / Pool (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mute (intel denial). Add Valkyrie for cams on the stairs and balcony, Vigil to roam the approach, Goyo for plant denial on the main entry.</p>
+<p><strong>Reinforce / trick:</strong> reinforce the Pool wall <em>and the hatch above</em> — Kaid electroclaw covers both; Mute jams the wall and the drone lanes.</p>
+<p><strong>Deny the plant:</strong> Goyo Volcán shields on the main entry burn the plant attempt; Valkyrie cams on stairs, balcony, and site call the push before it lands. Anchor low and deny.</p>
+<p><strong>Callouts:</strong> Cigar Room, Pool, High Roller, Upper Balcony, Stairs, Service Corridor.</p>`,
+      },
+      {
+        heading: 'Blackjack / Poker (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel/denial). Add Mute to deny drones and support the wall, Alibi to roam the floor, Melusi Banshees to slow the main entry.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Poker wall — listen for the hard breach and pop the battery on the sound.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the open Blackjack floor and the plant spots; Melusi Banshees on the rotations and main approach slow the commit. Hold tight angles against the open sightlines.</p>
+<p><strong>Callouts:</strong> Blackjack, Poker, Side Hall, Main Entrance, Service Corridor.</p>`,
+      },
+      {
+        heading: 'CCTV / Vault Checkpoint (B)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach/denial), Maestro (intel/denial). Add Pulse to read pushes through the floor, Vigil to roam the basement halls, Doc to anchor and sustain.</p>
+<p><strong>Reinforce / trick:</strong> reinforce the Vault Checkpoint wall and the hatches; Mute jammers on all of them.</p>
+<p><strong>Hold the crossfires:</strong> basement defends on tight angles — Maestro Evil Eyes on the basement sightlines and plant, Doc stim to re-peek after a trade. Don't over-roam; this site rewards anchors.</p>
+<p><strong>Callouts:</strong> CCTV, Vault Checkpoint, Surveillance, Basement, Stairs, Service Corridor.</p>`,
+      },
+      {
+        heading: 'Bar / Betting (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Mute to deny drones, Ela to roam reception and the stairs, Goyo for plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electroclaw on the Betting Lounge wall; Mira Black Mirror on the bar sightline reads the whole floor.</p>
+<p><strong>Deny the plant:</strong> Goyo Volcán shields hold the plant deny; the open bar area favors defenders on Mira sightlines — hold and trade.</p>
+<p><strong>Callouts:</strong> Bar, Main Entrance, Betting Lounge, Upper Balcony, Stairs, Service Corridor.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Calypso Casino',
+        html: `<p>Calypso is new enough that most attackers are still running default executes at the one wall they know. Punish that: reinforce the wall <em>and</em> the hatch every round, jam the drone lanes so they push blind, and hold the tight angles instead of wide-peeking the open casino floor. The team with the better map knowledge wins here more than anywhere else in the pool.</p>
+<ul>
+  <li><a href="/#/strats/calypso-casino">Full Calypso Casino strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+</ul>
+<p>Wall and hatch, jam the drones, hold the angle. That's Calypso Casino.</p>`,
+      },
+    ],
+  },
+  // Consulate defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Consulate',
+    toRank: 'Defense Setups',
+    slug: 'consulate-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Consulate Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Consulate defense guide for ranked R6 — Consul/Meeting, Piano/Exposition, Tellers/Servers, and Garage/Cafeteria. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Consulate punishes teams that only think in two dimensions: the floor between Meeting and Garage, the soft ceilings over the basement — attackers open all of it. The defenses that hold here reinforce the vertical early and then win on intel. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Consul Office / Meeting Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel). Add Wamai to protect the anchors from grenades, Alibi to roam and delay, Smoke for last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Bandit electrifies the Meeting Room wall — and reinforce the floor between Meeting and Garage, because attackers love opening it.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Meeting Room plant spots and the main entry corridor; Smoke holds the gas for the final push.</p>
+<p><strong>Callouts:</strong> Meeting Room, Consul Office, Front Lobby, Back Stairs, Garage, Antechamber.</p>`,
+      },
+      {
+        heading: 'Piano Room / Exposition Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to catch grenades, Vigil to cycle flanks and bait isolated entries, Mozzie anchoring Exposition as the trade lane.</p>
+<p><strong>Reinforce / trick:</strong> Mute denies the breach on Piano Room; a Mira on the Piano/Lobby wall reads the standard front-lobby setup.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Piano Room plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Piano Room, Exposition Room, Front Lobby, Back Stairs, Garage, Antechamber.</p>`,
+      },
+      {
+        heading: 'Tellers / Servers (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Echo (intel). Add Jäger to cover the projectile lanes, Caveira to hunt info from the 2F/1F connectors, Lesion anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Tellers wall against the breach.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the site entries and feed the rotation calls. Anchor in Servers and let Tellers fall — Servers has fewer entry vectors.</p>
+<p><strong>Callouts:</strong> Tellers, Servers, Front Lobby, Back Stairs, Garage, Antechamber.</p>`,
+      },
+      {
+        heading: 'Garage / Cafeteria (B)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel). Add Wamai for utility denial, Doc to sustain the hold, Pulse playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> reinforce the hatches early — Garage and Cafeteria both have soft ceilings; Bandit electrifies the Cafeteria wall.</p>
+<p><strong>Hold the site:</strong> anchored 4, roaming 1 — Doc, Wamai, Bandit, and Maestro hold while Pulse pressures the timing; Maestro Evil Eyes cover the Cafeteria plant spots and entry corridor.</p>
+<p><strong>Callouts:</strong> Cafeteria, Garage, Front Lobby, Back Stairs, Antechamber.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Consulate',
+        html: `<p>Consulate rounds die to the vertical you didn't respect: the Meeting floor gets opened onto Garage, the basement ceilings get shredded, and suddenly your anchors are trading with attackers they can't see. Reinforce the floor and the hatches before you do anything cute, then let your Echo, Maestro, and Pulse intel tell you exactly when to rotate. Boring setups win this map.</p>
+<ul>
+  <li><a href="/#/strats/consulate">Full Consulate strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+</ul>
+<p>Reinforce the vertical, play the cams, deny the plant. That's Consulate.</p>`,
+      },
+    ],
+  },
+  // Lair defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Lair',
+    toRank: 'Defense Setups',
+    slug: 'lair-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Lair Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Lair defense guide for ranked R6 — Master/R6 Room, Bunks/Briefing, Armory/Weapon Maintenance, and Lab/Lab Support. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Lair is a Mira map. Every site here has a Black Mirror placement that reads the standard push, and the defense that pairs that intel with a tricked wall and one disruptive roamer forces the attack to solve a puzzle on a clock. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Master Office / R6 Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Mira (intel). Add Jäger for utility denial, Alibi roaming off-site for early picks, Azami to sustain the anchors.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Master Office wall; Mira Black Mirror between Master Office and R6 Room reads the incoming push.</p>
+<p><strong>Play for intel:</strong> hold the Sniper Nest — early information on the attacker spawn rotation pays off all round; Alibi's off-site picks keep their utility on flank-watch.</p>
+<p><strong>Callouts:</strong> Master Office, R6 Room, Sniper Nest, Garage, Main Stairs, East Entry.</p>`,
+      },
+      {
+        heading: 'Bunks / Briefing (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger for utility denial, Thunderbird for sustain, Caveira playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Mute jammer on the Bunks reinforced wall blocks both Hibana and the standard breach.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Bunks plant spots and the main entry corridor; anchored 4, roaming 1 keeps the site stacked.</p>
+<p><strong>Callouts:</strong> Bunks, Briefing, Sniper Nest, Garage, Main Stairs, East Entry.</p>`,
+      },
+      {
+        heading: 'Armory / Weapon Maintenance (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Mira (intel). Add Wamai to deny projectile spam, Vigil roaming off-site to slow the attack, Azami to sustain.</p>
+<p><strong>Reinforce / trick:</strong> Bandit on the Armory wall; Mira Black Mirror between Armory and Weapon Maintenance reads the push.</p>
+<p><strong>Deny the plant:</strong> a Maestro Evil Eye in Weapon Maintenance covers both plant spots in Armory.</p>
+<p><strong>Callouts:</strong> Armory, Weapon Maintenance, Sniper Nest, Garage, Main Stairs, East Entry.</p>`,
+      },
+      {
+        heading: 'Lab / Lab Support (B)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni to protect the anchors, Vigil to roam and delay, Thunderbird for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Lab wall — and reinforce <em>all</em> the 1F hatches, because the basement is exposed to vertical otherwise.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Lab and Lab Support gives sightlines on the incoming push before it commits.</p>
+<p><strong>Callouts:</strong> Lab, Lab Support, Sniper Nest, Garage, Main Stairs, East Entry.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Lair',
+        html: `<p>Lair defense runs on the Mira read plus one roamer who refuses to die. Every site has a mirror line that tells you exactly when the push commits — but the mirror only matters if your roamer (Alibi, Caveira, Vigil) has already taxed the attack's clock and utility on the way in. Set the mirror, trick the wall, and treat the Sniper Nest as free intel every round.</p>
+<ul>
+  <li><a href="/#/strats/lair">Full Lair strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Kaid">Kaid</a>, and <a href="/#/operators/Bandit">Bandit</a>.</li>
+</ul>
+<p>Mirror the push, trick the wall, waste their clock. That's Lair.</p>`,
+      },
+    ],
+  },
+  // Nighthaven Labs defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Nighthaven Labs',
+    toRank: 'Defense Setups',
+    slug: 'nighthaven-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Nighthaven Labs Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Nighthaven Labs defense guide for ranked R6 — Command/Server, Control/Storage, Kitchen/Cafeteria, and Tank/Assembly. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Nighthaven Labs rewards the defense that sees the attack coming: hidden Valkyrie cams outside the site, Mira mirrors on the connectors, and a Caveira making every flank clear cost double. Get the read, then hold the wall. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Command / Server (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Valkyrie (intel). Add Wamai to catch grenades, Caveira cycling flanks to bait isolated entries, Azami anchoring Server as the trade lane.</p>
+<p><strong>Reinforce / trick:</strong> Bandit denies the breach on Command and tricks the Server reinforced wall against Hibana pellet timings.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes <em>outside</em> the site for early rotation and entry reads — the cam they never find is the round-winner.</p>
+<p><strong>Callouts:</strong> Command, Server, Reception, Loading Bay, Side Stairs, Maintenance.</p>`,
+      },
+      {
+        heading: 'Control / Storage (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Mira (intel). Add Jäger to protect the anchors from grenades, Caveira to roam and delay, Goyo for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Mute electrifies the Control wall against the hard breach.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Control and Storage gives sightlines on the standard push before it commits.</p>
+<p><strong>Callouts:</strong> Control, Storage, Reception, Loading Bay, Side Stairs, Maintenance.</p>`,
+      },
+      {
+        heading: 'Kitchen / Cafeteria (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni to protect the anchors, Caveira to roam and delay, Lesion for sustain and last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Kitchen wall; Mira Black Mirror between Kitchen and Cafeteria reads the incoming push.</p>
+<p><strong>Roam smart:</strong> roam toward Hangar — most attacker droning starts from there, and killing the drones kills the plan.</p>
+<p><strong>Callouts:</strong> Kitchen, Cafeteria, Reception, Loading Bay, Side Stairs, Maintenance.</p>`,
+      },
+      {
+        heading: 'Tank / Assembly (B)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger to cover the projectile lanes, Vigil hunting info from the connectors, Lesion anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Tank wall — and reinforce the Maintenance hatches, the main vertical threat into Tank.</p>
+<p><strong>Play intel-first:</strong> Valkyrie's hidden Black Eyes outside the site call the rotation before the attack ever reaches the basement.</p>
+<p><strong>Callouts:</strong> Tank, Assembly, Reception, Loading Bay, Side Stairs, Maintenance.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Nighthaven Labs',
+        html: `<p>Nighthaven defense lives on cams the attack never clears. Every site plan here starts with intel placed off-site — a hidden Black Eye, a mirror on the connector — because the site itself is holdable once you know which door the push is coming through. Place the intel first, reinforce the hatches, and let your roamer turn their slow clear into a lost clock.</p>
+<ul>
+  <li><a href="/#/strats/nighthaven">Full Nighthaven Labs strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Mute">Mute</a>, and <a href="/#/operators/Kaid">Kaid</a>.</li>
+</ul>
+<p>Hide the cams, hold the wall, punish the flank. That's Nighthaven Labs.</p>`,
+      },
+    ],
+  },
+  // Emerald Plains defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Emerald Plains',
+    toRank: 'Defense Setups',
+    slug: 'emerald-plains-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Emerald Plains Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Emerald Plains defense guide for R6 — Admin/CEO, Gallery/Meeting, Bar/Lounge, and Kitchen/Dining. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Emerald Plains is decided in the connectors: Main Stairs, the Library, Wine Stairs. The defense that puts intel on those routes and keeps one player producing early picks forces the attack to walk into pre-aimed angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Administration / CEO Office (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni to deny projectile spam, Pulse playing off-site for early picks, Thunderbird to sustain the anchors.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Administration wall; a Mira on the Admin/Library wall reads the most common attacker push.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Administration and CEO Office gives sightlines on the incoming push; Pulse's off-site pressure keeps their utility on flank-watch.</p>
+<p><strong>Callouts:</strong> Administration, CEO Office, Foyer, Main Stairs, Library, Wine Stairs.</p>`,
+      },
+      {
+        heading: 'Private Gallery / Meeting (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Echo (intel). Add Jäger to deny projectile spam, Alibi off-site for early picks, Thunderbird for sustain.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Private Gallery wall shuts the breach.</p>
+<p><strong>Hold the right room:</strong> anchor Meeting and let Gallery fall — Meeting has tighter sightlines; Echo cams cover the entries and feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Private Gallery, Meeting, Foyer, Main Stairs, Library, Wine Stairs.</p>`,
+      },
+      {
+        heading: 'Bar / Lounge (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Echo (intel). Add Wamai for utility denial, Thunderbird for sustain, Vigil playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Bandit electrifies the Bar wall against the breach.</p>
+<p><strong>Deny the plant:</strong> anchored 4, roaming 1 — Echo cams call the push while a Maestro Evil Eye watching Wine Stairs catches the standard roam-side push.</p>
+<p><strong>Callouts:</strong> Bar, Lounge, Foyer, Main Stairs, Library, Wine Stairs.</p>`,
+      },
+      {
+        heading: 'Kitchen / Dining (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to deny projectile spam, Vigil off-site to slow the attack, Doc to sustain the anchors.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Kitchen wall — attackers will Hibana it from Patio; Mute jammers back it up.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Kitchen plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Kitchen, Dining, Foyer, Main Stairs, Library, Wine Stairs.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Emerald Plains',
+        html: `<p>Every Emerald Plains site plan in the book runs the same spine: one wall denied, one intel operator feeding calls, one player off-site making the attack play slow. That third piece is the one ranked teams skip — and it's why they get executed on by full-utility pushes. Send the Pulse, the Alibi, the Vigil out early; every pick or even a forced re-clear is 20 seconds off the attack's clock.</p>
+<ul>
+  <li><a href="/#/strats/emerald-plains">Full Emerald Plains strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Echo">Echo</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+</ul>
+<p>Deny the wall, feed the calls, make them play slow. That's Emerald Plains.</p>`,
+      },
+    ],
+  },
+  // Oregon defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Oregon',
+    toRank: 'Defense Setups',
+    slug: 'oregon-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Oregon Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Oregon defense guide for ranked R6 — Kids Dorms/Main Hall, Meeting Hall/Kitchen, Kitchen/Dining, and basement Laundry/Supply. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Oregon is old, but it still loses defenders the same two ways: vertical play through Big Tower, and attackers walking Construction and Showers for free. Every site plan in the book is intel-first for a reason. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: "Kids' Dorms / Dorms Main Hall (2F)",
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni to cover the projectile lanes, Ela hunting info from the connectors, Goyo anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Kaid secures the Kids Dorms wall — and reinforce the Big Tower floor, because vertical is the round-losing angle here.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Kids Dorms and Dorms Main Hall gives sightlines on the incoming push.</p>
+<p><strong>Callouts:</strong> Kids Dorms, Dorms Main Hall, Tower, Construction, Big Tower, Showers.</p>`,
+      },
+      {
+        heading: 'Meeting Hall / Kitchen (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger to cover the projectile lanes, Pulse hunting info from the connectors, Azami anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Meeting Hall wall against the breach.</p>
+<p><strong>Roam smart:</strong> Valkyrie hides Black Eyes outside the site for early reads; roam Construction and Showers and pick attackers as they cross to site.</p>
+<p><strong>Callouts:</strong> Meeting Hall, Kitchen, Tower, Construction, Big Tower, Showers.</p>`,
+      },
+      {
+        heading: 'Kitchen / Dining Hall (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni for utility denial, Azami for sustain, Ela playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Kitchen wall; a Mira on the Dining/Meeting connector reads the roam-clear timing.</p>
+<p><strong>Deny the plant:</strong> anchored 4, roaming 1 — Echo cams cover the site entries and feed the rotation calls while Ela pressures the flanks.</p>
+<p><strong>Callouts:</strong> Kitchen, Dining Hall, Tower, Construction, Big Tower, Showers.</p>`,
+      },
+      {
+        heading: 'Laundry / Supply Room (B)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Mira (intel). Add Wamai to cover the projectile lanes, Ela hunting info from the connectors, Lesion anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit on the Laundry exterior wall — attackers hard-breach it from Garage; trick it every round.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Laundry and Supply Room gives sightlines on the push into the basement.</p>
+<p><strong>Callouts:</strong> Laundry, Supply Room, Tower, Construction, Big Tower, Showers.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Oregon',
+        html: `<p>Oregon rounds are lost above and outside the site: Big Tower opens the ceiling on Dorms, and Construction and Showers hand the attack free map control if nobody contests. Reinforce the vertical for the site you're on, then spend your roamer on the crossing routes — a pick in Showers is worth more than a body on site. The site plans hold themselves once the attack arrives late and thin.</p>
+<ul>
+  <li><a href="/#/strats/oregon">Full Oregon strats — every site, both sides.</a></li>
+  <li>Lost an Oregon round to vertical or a free flank? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+</ul>
+<p>Reinforce the tower floor, own the crossings, deny the plant. That's Oregon.</p>`,
+      },
+    ],
+  },
+  // Outback defense setups — generated 2026-07-06 from src/data/strats.js (verified by construction).
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Outback',
+    toRank: 'Defense Setups',
+    slug: 'outback-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Outback Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Outback defense guide for ranked R6 — Laundry/Piano, Party/Office, Green/Red Bedroom, and Mechanic/Kitchen. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Outback defense revolves around one piece of geography: Bushranger. Attacker map control starts there on almost every site, so the defense that contests it — or at least watches it — sees the push coming a full rotation early. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Laundry / Piano (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Maestro (intel). Add Wamai for utility denial, Mozzie for sustain and drone denial, Alibi playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Bandit electrifies the Laundry wall against the breach.</p>
+<p><strong>Roam smart:</strong> anchored 4, roaming 1 — Maestro Evil Eyes cover the Laundry plant spots while Alibi roams Bushranger, where most attacker map control starts.</p>
+<p><strong>Callouts:</strong> Laundry, Piano Room, Reception, Bushranger, Convenience Store, Compressor Room.</p>`,
+      },
+      {
+        heading: 'Party / Office (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to catch grenades, Caveira cycling flanks to bait isolated entries, Doc anchoring Office as the trade lane.</p>
+<p><strong>Reinforce / trick:</strong> Mute denies the breach on Party Room; a Mira on the Office/Party wall reads the standard split push.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Party Room plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Party Room, Office, Reception, Bushranger, Convenience Store, Compressor Room.</p>`,
+      },
+      {
+        heading: 'Green Bedroom / Red Bedroom (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to deny projectile spam, Lesion to sustain the anchors, Alibi off-site for early picks.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Green Bedroom wall shuts the breach.</p>
+<p><strong>Hold the right room:</strong> anchor Red Bedroom — Green has too many soft walls to defend; Maestro Evil Eyes cover the plant spots and entry corridor.</p>
+<p><strong>Callouts:</strong> Green Bedroom, Red Bedroom, Reception, Bushranger, Convenience Store, Compressor Room.</p>`,
+      },
+      {
+        heading: 'Mechanic Shop / Kitchen (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to catch grenades, Ela cycling flanks to bait isolated entries, Mozzie anchoring Kitchen as the trade lane.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Mechanic exterior wall — it's a common Hibana target; Mute denies the breach on Mechanic Shop.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Mechanic Shop plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Mechanic Shop, Kitchen, Reception, Bushranger, Convenience Store, Compressor Room.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Outback',
+        html: `<p>Watch Bushranger. Every site plan on this map sends the roamer there because that's where the attack builds its map control — and an attack that loses its Bushranger setup arrives at your site late, loud, and missing a drone. Pair that with Maestro glass on the plant spots and the last 30 seconds belong to you.</p>
+<ul>
+  <li><a href="/#/strats/outback">Full Outback strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Maestro">Maestro</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Alibi">Alibi</a>.</li>
+</ul>
+<p>Contest Bushranger, glass the plant, deny the breach. That's Outback.</p>`,
+      },
+    ],
+  },
+  // Kanal defense setups — generated 2026-07-06 from src/data/strats.js. Built
+  // from the four bomb sites in maps.js; the three legacy strat keys
+  // (coastguard-meeting, kayak-supply, engine-control) duplicate these sites
+  // under old names and are intentionally not given sections.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Kanal',
+    toRank: 'Defense Setups',
+    slug: 'kanal-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Kanal Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Kanal defense guide for ranked R6 — Server/Radar, Security/Map Room, Coast Guard Meeting/Lounge, and Kayaks/Supply. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Kanal is two buildings and a bridge, and the defense that controls the bridge crossings controls the round. Every site plan in the book puts glass or a cam on the Bridge entry because that's the lane the attack has to clear. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Server Room / Radar Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to deny projectile spam, Thunderbird to sustain the anchors, Alibi off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Server Room wall shuts the breach.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Server Room plant spots — and an Evil Eye in Server watches the Bridge entry attackers must clear.</p>
+<p><strong>Callouts:</strong> Server Room, Radar Room, Lighthouse, Quay, Bridge, Boat Dock.</p>`,
+      },
+      {
+        heading: 'Security Room / Map Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Echo (intel). Add Jäger for utility denial, Doc for sustain, Caveira playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Mute electrifies the Security Room wall; a Mira between Security and Map Room reads the main-stair push.</p>
+<p><strong>Play intel-first:</strong> anchored 4, roaming 1 — Echo cams cover the entries and feed rotation calls while Caveira taxes the flank.</p>
+<p><strong>Callouts:</strong> Security Room, Map Room, Lighthouse, Quay, Bridge, Boat Dock.</p>`,
+      },
+      {
+        heading: 'Coast Guard Meeting / Lounge (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel). Add Aruni for utility denial, Lesion for early warning and sustain, Pulse playing off-site for picks.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Coast Guard Meeting wall against the breach.</p>
+<p><strong>Roam smart:</strong> Maestro Evil Eyes cover the plant spots and entry corridor; roam East Walkway for early picks on attacker spawn-peek setups.</p>
+<p><strong>Callouts:</strong> Coast Guard Meeting, Lounge, Lighthouse, Quay, Bridge, Boat Dock.</p>`,
+      },
+      {
+        heading: 'Kayaks / Supply Room (B)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger to cover the projectile lanes, Goyo for sustain and plant denial, Pulse playing off-site for timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Kayaks wall — and reinforce the Kayaks ceiling, the primary vertical threat into the basement.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads before the attack commits downstairs.</p>
+<p><strong>Callouts:</strong> Kayaks, Supply Room, Lighthouse, Quay, Bridge, Boat Dock.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Kanal',
+        html: `<p>Kanal splits the attack in half: whichever building your site is in, the reinforcements have to cross the bridge or go around — and both routes are watchable. Put an Evil Eye or a cam on the Bridge, reinforce the ceiling over the basement sites, and let the geography do the work. An attack that can't cross clean can't execute on time.</p>
+<ul>
+  <li><a href="/#/strats/kanal">Full Kanal strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, <a href="/#/operators/Kaid">Kaid</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+</ul>
+<p>Watch the bridge, seal the ceiling, deny the plant. That's Kanal.</p>`,
+      },
+    ],
+  },
+  // Fortress defense setups — generated 2026-07-06 from src/data/strats.js. Built
+  // from the four bomb sites in maps.js; legacy strat keys dorm-briefing and
+  // hammam-sitting duplicate these sites under old names and get no sections.
+  // Not in the ranked pool — metaTitle drops the "(Ranked)" tag to stay honest.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Fortress',
+    toRank: 'Defense Setups',
+    slug: 'fortress-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Fortress Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Fortress defense guide for R6 — Bedroom/Commander, Dormitory/Briefing, Kitchen/Cafeteria, and Hammam/Sitting Room. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Fortress got a full rework in late 2025, and the site plans that hold it now are built around one thing: cameras the attack never finds. Valkyrie is essential on three of the four sites for a reason. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Bedroom / Commander Office (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Valkyrie (intel). Add Wamai to cover the projectile lanes, Alibi hunting info from the connectors, Azami anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit secures the Bedroom wall — and put him on the Commander wall too, because the exterior breach is the usual hard-breach line.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Bedroom, Commander Office, Courtyard, Watchtower, Main Stairs, East Wing.</p>`,
+      },
+      {
+        heading: 'Dormitory / Briefing Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel). Add Aruni to cover the projectile lanes, Caveira hunting info from the connectors, Doc anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Kaid secures the Dormitory wall; a Mira between Dormitory and Briefing reads the central push.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Dormitory plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Dormitory, Briefing Room, Courtyard, Watchtower, Main Stairs, East Wing.</p>`,
+      },
+      {
+        heading: 'Kitchen / Cafeteria (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Valkyrie (intel). Add Aruni to cover the projectile lanes, Pulse hunting info from the connectors, Goyo anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Kaid secures the Kitchen wall against the breach.</p>
+<p><strong>Hold the right room:</strong> anchor Cafeteria — Kitchen has too many entry vectors; Valkyrie's hidden cams call the push before it commits.</p>
+<p><strong>Callouts:</strong> Kitchen, Cafeteria, Courtyard, Watchtower, Main Stairs, East Wing.</p>`,
+      },
+      {
+        heading: 'Hammam / Sitting Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Valkyrie (intel). Add Aruni for utility denial, Smoke for sustain and plant denial, Ela playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Hammam wall against the breach.</p>
+<p><strong>Deny the plant:</strong> anchored 4, roaming 1 — a Maestro Evil Eye in Hammam covers both Sitting Room plant spots while Ela pressures the flanks.</p>
+<p><strong>Callouts:</strong> Hammam, Sitting Room, Courtyard, Watchtower, Main Stairs, East Wing.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Fortress',
+        html: `<p>Post-rework Fortress is a cam war. Three of the four site plans run Valkyrie as essential because the map's long approaches — Courtyard, Watchtower, East Wing — give hidden Black Eyes enormous value: the attack has to cross open ground, and every crossing you see is a rotation you win. Place the cams outside the site, anchor the tighter room, and make the attack walk into the read.</p>
+<ul>
+  <li><a href="/#/strats/fortress">Full Fortress strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+</ul>
+<p>Hide the cams, hold the tight room, win the crossings. That's Fortress.</p>`,
+      },
+    ],
+  },
+  // Hereford Base defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Hereford Base',
+    toRank: 'Defense Setups',
+    slug: 'hereford-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Hereford Base Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Hereford Base defense guide for R6 — Master/Kids Room, Kitchen/Dining, Ammo/Tractor Storage, and Fermentation/Brewery. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Hereford Base stacks four floors on top of each other, which means every site has a ceiling problem: 3F threatens 2F, 1F threatens the basement. The defenses that hold here reinforce the vertical first and put eyes on the stairs. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Master Bedroom / Kids Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Valkyrie (intel). Add Wamai to deny projectile spam, Azami to sustain the anchors, Alibi off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Bandit on the Master Bedroom wall; a Mira on the Master/Catwalk wall reads the standard 2F push.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Master Bedroom, Kids Room, Garden, East Stairs, Main Entry, Catwalk.</p>`,
+      },
+      {
+        heading: 'Kitchen / Dining Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Mira (intel). Add Wamai to cover the projectile lanes, Caveira hunting info from the connectors, Azami anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Kitchen exterior wall — it's a common Thermite target.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Kitchen and Dining Room gives sightlines on the incoming push.</p>
+<p><strong>Callouts:</strong> Kitchen, Dining Room, Garden, East Stairs, Main Entry, Catwalk.</p>`,
+      },
+      {
+        heading: 'Ammo Storage / Tractor Storage (3F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger for utility denial, Goyo for sustain and plant denial, Ela playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Mute electrifies the Ammo Storage wall against the breach.</p>
+<p><strong>Roam smart:</strong> anchored 4, roaming 1 — Maestro Evil Eyes cover the plant spots while Ela roams Helipad and Catwalk, picking attackers as they ascend to 3F.</p>
+<p><strong>Callouts:</strong> Ammo Storage, Tractor Storage, Garden, East Stairs, Main Entry, Catwalk.</p>`,
+      },
+      {
+        heading: 'Fermentation Chamber / Brewery (B)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Maestro (intel). Add Jäger to cover the projectile lanes, Pulse hunting info from the connectors, Smoke anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Fermentation Chamber wall — and reinforce the Brewery ceiling, the primary vertical attacker threat.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Fermentation Chamber plant spots and the main entry corridor; Smoke holds the gas for the final push.</p>
+<p><strong>Callouts:</strong> Fermentation Chamber, Brewery, Garden, East Stairs, Main Entry, Catwalk.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Hereford Base',
+        html: `<p>Hereford is a stack of ceilings, and the attack knows it: 3F opens onto 2F, 1F opens onto the basement, and the stairs connect everything. Reinforce the floor above your site before you spend a single wall anywhere else, then put your intel on East Stairs and Catwalk — the two routes every push has to touch. The defender who knows which floor the attack is on wins the round.</p>
+<ul>
+  <li><a href="/#/strats/hereford">Full Hereford Base strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+</ul>
+<p>Seal the ceiling, watch the stairs, deny the plant. That's Hereford Base.</p>`,
+      },
+    ],
+  },
+  // House defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'House',
+    toRank: 'Defense Setups',
+    slug: 'house-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'House Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete House defense guide for R6 — Master/Closet, Kitchen/Living, Garage/Workshop, and Boiler/Laundry. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>House is small enough that every attacker entry is loud and every defender rotation is fast — which means intel wins it outright. Cams outside the building, mirrors on the site walls, and hatches sealed before the action phase. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Master Bedroom / Closet (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Valkyrie (intel). Add Wamai to cover the projectile lanes, Vigil hunting info from the connectors, Thunderbird anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit secures the Master Bedroom wall; a Mira on the Master/Trampoline wall reads the rooftop attack.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Master Bedroom, Closet, Front Yard, Driveway, Foyer, Backyard.</p>`,
+      },
+      {
+        heading: 'Kitchen / Living Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to deny projectile spam, Lesion to sustain the anchors, Ela off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Kitchen wall; put a Bandit on the Living wall — it's the common breach target for the Kitchen execute.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the site entries and feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Kitchen, Living Room, Front Yard, Driveway, Foyer, Backyard.</p>`,
+      },
+      {
+        heading: 'Garage / Workshop (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Mira (intel). Add Jäger to deny projectile spam, Goyo to sustain the hold, Ela off-site for early picks.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Garage wall; Mira Black Mirror between Garage and Workshop reads the incoming push.</p>
+<p><strong>Deny the plant:</strong> a Maestro Evil Eye covers both the Workshop and Garage plant spots.</p>
+<p><strong>Callouts:</strong> Garage, Workshop, Front Yard, Driveway, Foyer, Backyard.</p>`,
+      },
+      {
+        heading: 'Boiler / Laundry (B)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Mira (intel). Add Jäger to deny projectile spam, Goyo to sustain the anchors, Pulse off-site for early picks.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Boiler wall — and reinforce the Living and Kitchen hatches early, because both threaten the basement vertically.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Boiler and Laundry gives sightlines on the push downstairs.</p>
+<p><strong>Callouts:</strong> Boiler, Laundry, Front Yard, Driveway, Foyer, Backyard.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds House',
+        html: `<p>House rounds are decided in the first 30 seconds of prep: seal the hatches, place the cams, set the mirror. The map is too small for slow adjustments — once the attack commits, it's on your site in seconds, so all your reads have to be pre-placed. Do the boring setup completely and the round plays itself; skip one hatch and that's the one they drop through.</p>
+<ul>
+  <li><a href="/#/strats/house">Full House strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+</ul>
+<p>Seal the hatches, pre-place the reads, deny the plant. That's House.</p>`,
+      },
+    ],
+  },
+  // Presidential Plane defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Presidential Plane',
+    toRank: 'Defense Setups',
+    slug: 'plane-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Presidential Plane Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Presidential Plane defense guide for R6 — Meeting/Office, Security/Cargo, Kitchen/Stateroom, and Work Room/Lobby. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Presidential Plane is a corridor in the sky: two staircases, one long hallway spine, and sites that reward the defense that knows which end the push is coming from. Cams and anchors win here; over-roaming dies in the aisles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Meeting Room / Office (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to deny projectile spam, Lesion to sustain the anchors, Ela off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Meeting Room wall; a Mira on the Meeting wall reads the standard front-stair push.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the site entries and feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Meeting Room, Office, Tarmac, Front Stairs, Aft Stairs, Galley.</p>`,
+      },
+      {
+        heading: 'Security Room / Cargo Hold (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger for utility denial, Thunderbird for sustain, Vigil playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Mute electrifies the Security Room wall against the breach.</p>
+<p><strong>Hold the right room:</strong> anchor Security — Cargo has too many entry vectors to hold solo; Valkyrie's hidden Black Eyes call the push early.</p>
+<p><strong>Callouts:</strong> Security Room, Cargo Hold, Tarmac, Front Stairs, Aft Stairs, Galley.</p>`,
+      },
+      {
+        heading: 'Kitchen / Stateroom (1F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Valkyrie (intel). Add Wamai to protect the anchors from grenades, Alibi to roam and delay, Thunderbird for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Kitchen exterior wall — it's the common hard-breach line.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Kitchen, Stateroom, Tarmac, Front Stairs, Aft Stairs, Galley.</p>`,
+      },
+      {
+        heading: 'Work Room / Lobby (1F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Echo (intel). Add Jäger to protect the anchors from grenades, Caveira to roam and delay, Lesion for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Mute electrifies the Work Room wall against the hard breach.</p>
+<p><strong>Deny the plant:</strong> a Maestro Evil Eye in Lobby covers both plant spots cleanly; Echo cams feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Work Room, Lobby, Tarmac, Front Stairs, Aft Stairs, Galley.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Presidential Plane',
+        html: `<p>Plane gives the attack exactly two ways in — Front Stairs and Aft Stairs — and every site plan in the book exploits that: put a cam on each staircase and the push announces itself. Anchor the room with fewer doors, keep one player taxing the flank, and never trade wide in the center aisle where the attack holds the long angle. Know which staircase; win the round.</p>
+<ul>
+  <li><a href="/#/strats/plane">Full Presidential Plane strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Echo">Echo</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+</ul>
+<p>Cam the stairs, anchor tight, deny the plant. That's Presidential Plane.</p>`,
+      },
+    ],
+  },
+  // Stadium Bravo defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Stadium Bravo',
+    toRank: 'Defense Setups',
+    slug: 'stadium-bravo-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Stadium Bravo Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Stadium Bravo defense guide for R6 — Office/Target, Kids Dormitory/Dormitory, Piano/Living, and Piano/Kitchen. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Stadium Bravo remixes Border and Coastline rooms behind glass, and the defense that wins on it treats it like its own map: Kaid on the walls, Valkyrie cams on the crossings, and one roamer making the Concourse expensive. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Office / Target Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger to deny projectile spam, Azami to sustain the anchors, Ela off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Office wall; a Mira on the Office/Target wall reads the central 2F push.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Office, Target Room, Field, Locker Room, Tunnel, Main Stairs.</p>`,
+      },
+      {
+        heading: "Kids' Dormitory / Dormitory (2F)",
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Valkyrie (intel). Add Aruni to deny projectile spam, Smoke to sustain the anchors, Pulse off-site for early picks.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Kids Dormitory wall shuts the hard breach.</p>
+<p><strong>Roam smart:</strong> roam the Concourse — pick attackers as they cross from the Tunnel side; Valkyrie cams make the crossing readable.</p>
+<p><strong>Callouts:</strong> Kids Dormitory, Dormitory, Field, Locker Room, Tunnel, Main Stairs.</p>`,
+      },
+      {
+        heading: 'Piano Room / Living Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Valkyrie (intel). Add Aruni to deny projectile spam, Doc to sustain the anchors, Caveira off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Piano Room wall; put a Bandit on the Living exterior wall — it's the common hard-breach line.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Piano Room, Living Room, Field, Locker Room, Tunnel, Main Stairs.</p>`,
+      },
+      {
+        heading: 'Piano Room / Kitchen (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni for utility denial, Mozzie for sustain and drone denial, Ela playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Piano Room wall; Mira Black Mirror between Piano Room and Kitchen reads the incoming push.</p>
+<p><strong>Deny the plant:</strong> anchored 4, roaming 1 — a Maestro Evil Eye in Piano covers both Kitchen plant spots.</p>
+<p><strong>Callouts:</strong> Piano Room, Kitchen, Field, Locker Room, Tunnel, Main Stairs.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Stadium Bravo',
+        html: `<p>Stadium Bravo's attack routes all run through the same arteries — Tunnel, Locker Room, Main Stairs — so the defense that cams those three lanes knows the whole plan before the first barricade breaks. Kaid is essential on three of four sites here: get the electroclaw placement right, read the crossing, and rotate before the push lands instead of after.</p>
+<ul>
+  <li><a href="/#/strats/stadium-bravo">Full Stadium Bravo strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Aruni">Aruni</a>.</li>
+</ul>
+<p>Cam the arteries, hold the walls, rotate early. That's Stadium Bravo.</p>`,
+      },
+    ],
+  },
+  // Tower defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Tower',
+    toRank: 'Defense Setups',
+    slug: 'tower-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Tower Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Tower defense guide for R6 — Gift Shop/Lantern, Tea Room/Bar, Restaurant/Bird Room, and Exhibit/Media Center. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Tower drops the attack in from above — Helipad and Roof Access — so defense here is about controlling descent routes, not exterior walls. Kaid anchors three of the four sites, and every plan leans on a mirror or cams to read which stairwell the push takes. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Gift Shop / Lantern Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Mira (intel). Add Jäger to cover the projectile lanes, Alibi hunting info from the connectors, Smoke anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute on the Gift Shop wall; put a Bandit on the Gift Shop exterior wall — it's the common hard-breach target.</p>
+<p><strong>Get the read:</strong> Mira Black Mirror between Gift Shop and Lantern Room gives sightlines on the incoming push.</p>
+<p><strong>Callouts:</strong> Gift Shop, Lantern Room, Helipad, East Stairs, Lobby, Roof Access.</p>`,
+      },
+      {
+        heading: 'Tea Room / Bar (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel). Add Aruni to deny projectile spam, Azami to sustain the anchors, Alibi off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Tea Room wall; a Mira between Tea and Bar reads the main-hall push.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes cover the Tea Room plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Tea Room, Bar, Helipad, East Stairs, Lobby, Roof Access.</p>`,
+      },
+      {
+        heading: 'Restaurant / Bird Room (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni to deny projectile spam, Mozzie to sustain and steal drones, Vigil off-site for early picks.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Restaurant wall; Mira Black Mirror between Restaurant and Bird Room reads the push.</p>
+<p><strong>Deny the plant:</strong> a Maestro Evil Eye in Bird covers both Restaurant plant spots.</p>
+<p><strong>Callouts:</strong> Restaurant, Bird Room, Helipad, East Stairs, Lobby, Roof Access.</p>`,
+      },
+      {
+        heading: 'Exhibit Room / Media Center (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni for utility denial, Azami for sustain, Vigil playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Exhibit Room wall against the breach.</p>
+<p><strong>Hold the right room:</strong> anchor Media Center — Exhibit has too many soft walls to defend; Echo cams cover the entries and feed the calls.</p>
+<p><strong>Callouts:</strong> Exhibit Room, Media Center, Helipad, East Stairs, Lobby, Roof Access.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Tower',
+        html: `<p>Tower's attack comes down, not in — Helipad and Roof Access feed East Stairs and the Lobby, and those two descent routes are the whole story. Put your reads there (mirror, Evil Eye, Echo drone) and anchor the room with the fewer soft walls. Chasing kills up the stairwell is how defenders die on this map; let the attack come down into your crossfire instead.</p>
+<ul>
+  <li><a href="/#/strats/tower">Full Tower strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+</ul>
+<p>Watch the descent, anchor tight, deny the plant. That's Tower.</p>`,
+      },
+    ],
+  },
+  // Yacht defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Yacht',
+    toRank: 'Defense Setups',
+    slug: 'yacht-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Yacht Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Yacht defense guide for R6 — Cockpit/Maps, Cafeteria/Staff Dorm, Engine Control/Kitchen, and Server/Engine Storage. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Yacht is an Echo map: every single site plan in the book runs him as the essential intel piece, because the boat's long hallways and stacked decks make a Yokai call worth more than a kill. Pair the cams with a Kaid wall and the attack runs out of clock. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Cockpit / Maps Room (4F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to protect the anchors from grenades, Caveira to roam and delay, Azami for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Cockpit wall; a Mira on the Cockpit/Maps wall reads the standard helipad push.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the site entries and feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Cockpit, Maps Room, Helipad, Sun Deck, Bow, Stern.</p>`,
+      },
+      {
+        heading: 'Cafeteria / Staff Dormitory (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to cover the projectile lanes, Pulse hunting info from the connectors, Mozzie anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Bandit-trick the Cafeteria exterior wall — it's the common hard-breach line; Kaid secures the site wall.</p>
+<p><strong>Play intel-first:</strong> Echo cams on the entries feed the calls before the push commits.</p>
+<p><strong>Callouts:</strong> Cafeteria, Staff Dormitory, Helipad, Sun Deck, Bow, Stern.</p>`,
+      },
+      {
+        heading: 'Engine Control / Kitchen (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Echo (intel). Add Jäger to cover the projectile lanes, Pulse hunting info from the connectors, Lesion anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Mute secures the Engine Control wall against the breach.</p>
+<p><strong>Deny the plant:</strong> a Maestro Evil Eye in Engine Control covers both Kitchen plant spots; Echo feeds the rotation calls.</p>
+<p><strong>Callouts:</strong> Engine Control, Kitchen, Helipad, Sun Deck, Bow, Stern.</p>`,
+      },
+      {
+        heading: 'Server Room / Engine Storage (1F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to cover the projectile lanes, Pulse hunting info from the connectors, Mozzie anchoring site.</p>
+<p><strong>Reinforce / trick:</strong> Kaid secures the Server Room wall — and reinforce the Server ceiling, the primary vertical threat from 2F.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the entries; Pulse reads the floors above for the vertical setup.</p>
+<p><strong>Callouts:</strong> Server Room, Engine Storage, Helipad, Sun Deck, Bow, Stern.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Yacht',
+        html: `<p>Yacht defense is a camera game. Echo is essential on all four sites because the boat funnels every push through narrow deck hallways — one Yokai in the right spot reads the entire attack, and a well-timed sonic burst denies the plant outright. Set the cams, hold the Kaid wall, and let the hallways turn the attack into a queue.</p>
+<ul>
+  <li><a href="/#/strats/yacht">Full Yacht strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Echo">Echo</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, and <a href="/#/operators/Aruni">Aruni</a>.</li>
+</ul>
+<p>Yokai the hallways, wall the site, deny the plant. That's Yacht.</p>`,
+      },
+    ],
+  },
+  // Favela defense setups — generated 2026-07-06 from src/data/strats.js
+  // (verified by construction). Not in the ranked pool — metaTitle drops "(Ranked)".
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Favela',
+    toRank: 'Defense Setups',
+    slug: 'favela-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Favela Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Favela defense guide for R6 — Meth Lab/Packaging, Football Office/Bedroom, Biker Apartment/Bedroom, and Aunt Bedroom/Apartment. Who to anchor, what to reinforce, and how to deny the plant.',
+    intro: `<p>Favela's threat comes from above: Roof Access feeds every site, and the plans in the book all put a read on the roof approach or the central push before anything else. Anchor heavy, mirror the connectors, and make the attack drop into your angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Meth Lab / Packaging Room (3F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Mira (intel). Add Aruni for utility denial, Doc for sustain, Pulse playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Meth Lab wall; the Mira on the Meth Lab wall reads the standard roof approach.</p>
+<p><strong>Get the read:</strong> anchored 4, roaming 1 — Mira Black Mirror between Meth Lab and Packaging Room gives sightlines on the incoming push.</p>
+<p><strong>Callouts:</strong> Meth Lab, Packaging Room, Street, Alley, Roof Access, Side Stairs.</p>`,
+      },
+      {
+        heading: 'Football Office / Football Bedroom (2F)',
+        html: `<p><strong>Anchor with:</strong> Mute (anti-breach), Valkyrie (intel). Add Jäger to protect the anchors from grenades, Vigil to roam and delay, Azami for sustain or last-second plant denial.</p>
+<p><strong>Reinforce / trick:</strong> Mute denies the hard breach on Football Office; put a Bandit on the Football Office exterior wall — it's the common breach line.</p>
+<p><strong>Get the read:</strong> Valkyrie hides Black Eyes outside the site for early rotation and entry reads.</p>
+<p><strong>Callouts:</strong> Football Office, Football Bedroom, Street, Alley, Roof Access, Side Stairs.</p>`,
+      },
+      {
+        heading: "Biker's Apartment / Biker's Bedroom (1F)",
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel). Add Aruni for utility denial, Doc for sustain, Vigil playing off-site for picks and timing pressure.</p>
+<p><strong>Reinforce / trick:</strong> Kaid electrifies the Biker's Apartment wall against the breach.</p>
+<p><strong>Deny the plant:</strong> anchored 4, roaming 1 — a Maestro Evil Eye in the Bedroom covers both Apartment plant spots and the main entry corridor.</p>
+<p><strong>Callouts:</strong> Biker's Apartment, Biker's Bedroom, Street, Alley, Roof Access, Side Stairs.</p>`,
+      },
+      {
+        heading: "Aunt's Bedroom / Aunt's Apartment (2F)",
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Echo (intel). Add Aruni to deny projectile spam, Smoke to sustain the anchors, Ela off-site for early picks that force slow play.</p>
+<p><strong>Reinforce / trick:</strong> Kaid on the Aunt's Bedroom wall; a Mira between Bedroom and Apartment reads the central push.</p>
+<p><strong>Play intel-first:</strong> Echo cams cover the site entries and feed the rotation calls.</p>
+<p><strong>Callouts:</strong> Aunt's Bedroom, Aunt's Apartment, Street, Alley, Roof Access, Side Stairs.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Favela',
+        html: `<p>Favela punishes defenders who only watch the doors. Roof Access and Side Stairs appear in every site's callout list because that's where the attack actually comes from — above and behind, not through the front. Set your reads on the roof approach, anchor four and roam one, and treat every quiet moment as a warning: on this map, quiet means they're already on your ceiling.</p>
+<ul>
+  <li><a href="/#/strats/favela">Full Favela strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+</ul>
+<p>Read the roof, anchor heavy, deny the plant. That's Favela.</p>`,
+      },
+    ],
+  },
+  // Hardstuck special — shipped 2026-07-06. Information-economy thesis post.
+  // Every stat and pro-player mention verified before publish: Champion ~0.4% /
+  // ~2,500 worldwide is R6 Tracker (Jan 2026); pro list is community consensus.
+  // No patch claims, no invented numbers. CTA funnels to /coaching/ first.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Hardstuck',
+    toRank: 'The Fix',
+    slug: 'hardstuck-rainbow-six-not-your-aim',
+    datePublished: '2026-07-06',
+    readMinutes: 7,
+    metaTitle: "Why You're Hardstuck in Rainbow Six (And It's Not Your Aim)",
+    metaDescription: "Hardstuck in R6 ranked? It's not your aim — it's your information economy. The habits, the pros worth studying, and the review protocol that actually moves rank.",
+    intro: `<p>You've done the aim trainer. You've tweaked your sens. You've watched the crosshair-placement video twice. And you're still the same rank you were three seasons ago. Here's the uncomfortable part: your aim was never the problem. Rainbow Six is an information game, and hardstuck players lose rounds by peeking without intel — not by missing shots. You die to the guy you didn't know was there, then blame the gunfight.</p>`,
+    sections: [
+      {
+        heading: "The real problem: you're losing the information war",
+        html: `<p>Think about your last five deaths. How many were a fair fight you lost on mechanics — and how many were you walking into an angle you never checked, swinging a door with no drone, or getting run out on by a flank nobody was watching? Siege punishes ignorance harder than it punishes bad aim. A Champion with your exact crosshair placement would still beat you, because they know where the enemy is before the fight starts.</p>
+<p>And Champion is a small club: roughly 0.4% of ranked players — about 2,500 people worldwide (R6 Tracker, Jan 2026). What separates them from the other 99.6% isn't reaction time. It's that they almost never take a fight without knowing what's on the other side.</p>`,
+      },
+      {
+        heading: 'The habits that actually move rank',
+        html: `<ul>
+  <li><strong>Get droned in before entry.</strong> Every time. Your drone dying is cheaper than you dying — if you're entering a room your team hasn't seen, you're gambling, not playing.</li>
+  <li><strong>Utility before aim.</strong> The wall, the gadget, the smoke for the plant — utility decides whether the gunfight even needs to happen. Spend it before you peek, not after you die with it.</li>
+  <li><strong>Drone denial on defense.</strong> Shoot the drones, jam the entries. Every drone that dies at your door is a peek the attacker takes blind.</li>
+  <li><strong>Play the current meta, not your comfort picks.</strong> Your day-one main isn't loyalty, it's a handicap if the game has moved on. Pick what wins now.</li>
+  <li><strong>Main a role, not an operator.</strong> Be the team's hard breach, the anchor, the flank watch — whoever fills that role best this patch. Role-players climb; operator one-tricks plateau.</li>
+</ul>`,
+      },
+      {
+        heading: 'Who to study (and who not to)',
+        html: `<p>Community consensus on pros and creators worth studying if you want to improve: <strong>Spoit</strong>, <strong>Shaiiko</strong>, <strong>KingGeorge</strong>, <strong>Coreross</strong>, <strong>Braction</strong>, and <strong>VarsityGaming</strong>. Watch how they play, not just what they hit — where they place drones, when they refuse a fight, how they spend utility before committing.</p>
+<p>And be honest about the difference between improvement content and entertainment: <strong>Jynxzi</strong> and <strong>Marley</strong> are entertainment. Great to watch, fun clips — but you're not learning ranked decision-making from content built for a highlight reel. Know which one you're queueing up.</p>`,
+      },
+      {
+        heading: 'The protocol',
+        html: `<ol>
+  <li><strong>Watch one pro round and call the decisions before they happen.</strong> Pause before the action phase: where does the drone go, who takes map control, when does the utility drop? Then watch. Every prediction you miss is a gap in your game sense — and now you know exactly where it is.</li>
+  <li><strong>VOD-review your own losses.</strong> Not the wins — the losses. You already know what the wins look like.</li>
+  <li><strong>After every death, ask one question: did I die with info or without?</strong> If you knew the enemy was there and lost the fight, fine — that's mechanics, and it happens. If you didn't know, that death was decided before you peeked. Count how many of your deaths are the second kind. That number is why you're hardstuck.</li>
+</ol>`,
+      },
+      {
+        heading: 'The fix',
+        html: `<p>Aim training feels productive because it's measurable. Information discipline is what actually moves rank — and it's easier to build with someone pointing at the exact rounds where your reads broke.</p>
+<ul>
+  <li><a href="/coaching/">Work with a human coach backed by an AI staff — first session free.</a> Bring your rank goal; leave with the three habits costing you the most rounds.</li>
+  <li><a href="/#/vod">AI VOD breakdown</a> — upload a loss and see, round by round, whether you died with info or without.</li>
+  <li><a href="/#/strats">The ranked strat book</a> — site-by-site setups so you stop improvising the part of the game that's already solved.</li>
+</ul>
+<p>Your aim is fine. Fix the information economy and the rank follows.</p>`,
+      },
+    ],
+  },
   // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
   // June 2 launch) to seed Google indexing before the search wave hits.
   // The from/to rank fields are repurposed as season transitions; the
