@@ -263,6 +263,62 @@ const R6_POSTS = [
       },
     ],
   },
+  // Villa defense setups — shipped 2026-07-06. Verified line-for-line against
+  // src/data/strats.js villa entries before publish (anchors, tricks, utility,
+  // callouts all match the strat book — the post claims to summarize it, so it
+  // must). Content-agent draft needed zero factual corrections this time.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Villa',
+    toRank: 'Defense Setups',
+    slug: 'villa-defense-setups-ranked',
+    datePublished: '2026-07-06',
+    readMinutes: 6,
+    metaTitle: 'Villa Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
+    metaDescription: 'The complete Villa defense guide for ranked R6 — Aviator/Games, Trophy/Statuary, Kitchen/Dining, and Living/Library. Who to anchor, what to reinforce, and how intel wins the round.',
+    intro: `<p>Villa is one of the best-designed maps in ranked, and it rewards intel over raw aim. Long sightlines, roam-heavy layouts, and hatches everywhere mean the defender who reinforces the floor and gets a Mira read usually wins. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    sections: [
+      {
+        heading: 'Aviator / Games Room (2F)',
+        html: `<p><strong>Anchor with:</strong> Bandit (anti-breach), Smoke (area denial). Add Jäger, Vigil to roam Study/Main Stairs, Wamai for extra denial.</p>
+<p><strong>Reinforce + trick:</strong> Bandit-trick the Aviator wall to deny the hard breach.</p>
+<p><strong>Deny the plant:</strong> Smoke in the Games Room doorways; Wamai Mag-NETs near site to eat flashes and nades.</p>
+<p><strong>Callouts:</strong> Aviator, Games Room, Study, Astronomy, Main Stairs, Vault.</p>`,
+      },
+      {
+        heading: 'Trophy / Statuary (2F)',
+        html: `<p><strong>Anchor with:</strong> Kaid (anti-breach), Maestro (intel/denial). Add Mute, Ela to roam Red Stairs/Bathroom, Melusi to slow.</p>
+<p><strong>Reinforce:</strong> Kaid electroclaw the Trophy wall <em>and the overhead hatch</em> — the vertical is real here.</p>
+<p><strong>Deny the plant:</strong> Maestro Evil Eyes on the Statuary plant spots; Melusi Banshees on Classical hallway and Main Hall.</p>
+<p><strong>Callouts:</strong> Trophy, Statuary, Red Stairs, Balcony, Classical, Bathroom.</p>`,
+      },
+      {
+        heading: 'Kitchen / Dining (1F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Smoke (area denial). Add Thunderbird for sustain, Vigil to roam 2F/Red Stairs, Castle to delay.</p>
+<p><strong>Reinforce:</strong> Mira Black Mirror between Kitchen and Pantry for intel on the Mudroom push.</p>
+<p><strong>Deny the plant:</strong> Smoke in the Dining Room doorways.</p>
+<p><strong>Callouts:</strong> Kitchen, Dining, Mudroom, Pantry, Library Hallway, Red Stairs.</p>`,
+      },
+      {
+        heading: 'Living Room / Library (1F)',
+        html: `<p><strong>Anchor with:</strong> Mira (intel/anchor), Kaid (anti-breach). Add Jäger to protect the Mira window, Alibi to roam Kitchen/2F, Azami to patch.</p>
+<p><strong>Reinforce + trick:</strong> Kaid electroclaw the Library wall and the floor hatch; Mira Black Mirror on the Living Room wall for sightlines into Main Hall.</p>
+<p><strong>Seal the gaps:</strong> Azami Kiba barriers to shut unexpected breaches and rotations.</p>
+<p><strong>Callouts:</strong> Living Room, Library, Garden, Main Hall, Fireplace, Piano.</p>`,
+      },
+      {
+        heading: 'The habit that actually holds Villa',
+        html: `<p>Villa is an intel and hatch map. The rounds you lose are the ones where you had no read on the push (no Mira, no cam) or you left a hatch/wall un-reinforced and got opened from an angle you didn't expect. Get your Mira window, reinforce the floor, and use your roamers to gather intel, not just to hunt kills — then collapse on the plant with information.</p>
+<ul>
+  <li><a href="/#/strats/villa">Full Villa strats — every site, both sides.</a></li>
+  <li>Lost a Villa round to a lurk or a hatch drop? <a href="/#/vod">AI VOD breakdown</a> shows you where the read broke.</li>
+  <li>Operator guides for <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+</ul>
+<p>Get the read, reinforce the floor, deny the plant with intel. That's Villa.</p>`,
+      },
+    ],
+  },
   // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
   // June 2 launch) to seed Google indexing before the search wave hits.
   // The from/to rank fields are repurposed as season transitions; the
