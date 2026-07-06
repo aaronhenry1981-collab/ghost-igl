@@ -327,12 +327,10 @@ export default function DashboardPage() {
                 <>
                   Pro is <strong>$9/mo founding</strong> — locked for life if you join before the countdown ends.
                   Pro reviews your screenshots and tells you exactly what cost you the round — with a fix.
-                  All-Access ($19) extends to all 20 games.
                 </>
               ) : (
                 <>
                   Pro reviews your screenshots and tells you exactly what cost you the round — with a fix.
-                  All-Access extends to all 20 games.
                 </>
               )}
             </p>

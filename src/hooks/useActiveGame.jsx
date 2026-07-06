@@ -25,10 +25,11 @@ const DEFAULT_GAME = 'r6'
 const GameContext = createContext(null)
 
 function readStoredGame() {
-  try {
-    const v = localStorage.getItem(STORAGE_KEY)
-    if (v && GAMES.some((g) => g.id === v)) return v
-  } catch { /* SSR / disabled storage */ }
+  // R6-ONLY (2026-07-06): the active game is locked to Rainbow Six. The
+  // switcher UI is gone from the nav; ignoring the stored value here means a
+  // user who previously picked another game lands back on R6 instead of being
+  // stranded in a game the UI no longer surfaces. Game routes/data stay live
+  // (indexed SEO pages + existing All-Access subscribers' entitlements).
   return DEFAULT_GAME
 }
 

@@ -53,7 +53,7 @@ export default function Footer() {
             <li><a href="/guides/clubhouse.html">Clubhouse guide</a></li>
             <li><a href="/guides/kafe.html">Kafe guide</a></li>
             <li><a href="/blog/">Rank-up blog</a></li>
-            <li><a href="/games/">All 20 games</a></li>
+            <li><a href="/countdown/">Next season countdown</a></li>
           </ul>
         </div>
         <div className="footer-col">

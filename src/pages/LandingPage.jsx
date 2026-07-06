@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { getCurrentSeason } from '../utils/season'
+// All-Access link/amount imports removed 2026-07-06 (R6-only) — the constants
+// stay exported from config/stripe.js for existing subscribers' plumbing.
 import {
   PRO_CHECKOUT_LINK,
   CHAMPION_CHECKOUT_LINK,
-  PRO_ALL_ACCESS_LINK,
-  PRO_ALL_ACCESS_AMOUNT,
-  CHAMPION_ALL_ACCESS_LINK,
-  CHAMPION_ALL_ACCESS_AMOUNT,
 } from '../config/stripe'
 import { isFoundingOpen } from '../config/founding'
 import { track } from '../utils/analytics'
@@ -18,6 +16,12 @@ import STRATS from '../data/strats'
 import META from '../data/meta'
 import { useAuth } from '../hooks/useAuth'
 import { useTestimonials } from '../hooks/useTestimonials'
+
+// R6-ONLY flag (2026-07-06): RECON6 is a Rainbow Six product. The multi-game
+// showcase and All-Access upsell JSX below are kept behind this flag instead
+// of deleted — flip to false to instantly restore them if the direction
+// changes. Existing All-Access subscribers are unaffected either way.
+const R6_ONLY = true
 
 // Days until the expected Y11S3 launch — SAME date as scripts/generate-countdown.mjs
 // (bump both each season; the /countdown/ page is the source of truth users see).
@@ -129,7 +133,7 @@ const FEATURES = [
   {
     icon: 'catalog',
     title: 'Every Operator, One Search',
-    desc: '214 characters across 20 games, indexed by role, kit, and the sites where they win. Find the right pick in seconds instead of scrolling Reddit.',
+    desc: 'Every Siege operator, indexed by role, kit, and the sites where they win. Find the right pick in seconds instead of scrolling Reddit.',
     link: '/operators',
   },
   {
@@ -339,7 +343,7 @@ const FAQ = [
   },
   {
     q: 'Which games does Recon 6 support today?',
-    a: 'Recon 6 is built for Rainbow Six Siege first — the deepest strat library, premium tactics, AI VOD review, and the desktop coach app all live for Siege today. The same toolkit (strats, loadouts, match prep, meta board) also covers the other competitive games you play: Counter-Strike 2, Valorant, Apex Legends, Overwatch 2, Marvel Rivals, Halo Infinite, The Finals, Call of Duty, Fortnite, and Rocket League — so one subscription follows you across your whole rotation, no extra cost.',
+    a: 'RECON6 is a Rainbow Six Siege coaching platform. Everything on the site is built for Siege: the full strat library for every ranked map, premium tactics, AI VOD review, the live coach, and the meta board — all updated every season and every balance patch.',
   },
   {
     q: 'Is Recon 6 a boosting service?',
@@ -355,15 +359,15 @@ const FAQ = [
   },
   {
     q: 'What ranks does Recon 6 help?',
-    a: 'Every rank, every game. The site adjusts the read to your skill level — you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
+    a: 'Every rank, Copper to Champion. The site adjusts the read to your skill level — you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
   },
   {
     q: 'Pro or Champion — which one fits me?',
-    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, and full-round reviews. Both default to Rainbow Six; use the "one game / all games" toggle on the pricing cards if you want the same plan to cover your whole rotation (All-Access).',
+    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, full-round reviews, and the desktop coach app.',
   },
   {
     q: 'How often does the content update?',
-    a: 'R6 strats refresh every season when the ranked pool rotates and after any balance patch that moves the meta. Other games update on the same cadence as their competitive seasons. The blog ships new rank-up guides as new games launch.',
+    a: 'Strats refresh every season when the ranked pool rotates and after any balance patch that moves the meta. The blog ships patch breakdowns and map guides continuously.',
   },
 ]
 
@@ -454,11 +458,10 @@ export default function LandingPage() {
   const { video: demoVideo } = useDemoVideo()
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState(null)
-  // Billing scope toggle — 'single' (one game, $9/$29) vs 'all' (all 20
-  // games, $19/$49). This collapses the old confusing 4-SKU presentation
-  // into 2 cards + 1 toggle. The Stripe SKUs are unchanged — the toggle
-  // just routes each card's CTA to the right existing checkout link.
-  const [billingScope, setBillingScope] = useState('single')
+  // R6-ONLY (2026-07-06): the billing-scope toggle and All-Access SKUs are no
+  // longer offered to NEW visitors — RECON6 is a Rainbow Six product. The
+  // All-Access price IDs stay live in config/stripe.js and useAuth still
+  // honors tier_scope 'all_access' so existing subscribers lose nothing.
   useReveal()
 
   const handleManageSubscription = useCallback(async () => {
@@ -651,8 +654,10 @@ export default function LandingPage() {
         <MetaStrip />
       </section>
 
-      {/* Multi-game showcase — visually anchors the All-Access value prop. */}
-      <section className="section" id="games">
+      {/* Multi-game showcase REMOVED 2026-07-06 — RECON6 is R6-only. The
+          /games/ static pages stay live for their indexed SEO value, but the
+          product story on this page is pure Rainbow Six. */}
+      {!R6_ONLY && <section className="section" id="games">
         <div className="section-header">
           <div className="section-label">Built for R6 first</div>
           <h2>Rainbow Six is home. Your other games come free.</h2>
@@ -713,7 +718,7 @@ export default function LandingPage() {
           Rainbow Six goes deepest — every map, site, operator, and the AI VOD review. Your other games are covered too: maps, characters, loadouts, strats, and match prep, with more depth shipping every week.
           <strong style={{ color: '#00e5ff' }}> All-Access ($19/mo)</strong> adds every game to one plan as it grows.
         </p>
-      </section>
+      </section>}
 
       <section className="section" id="compare">
         <div className="section-header">
@@ -825,57 +830,15 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        {/* Billing-scope toggle — "one game" vs "all 20 games". Collapses
-            the old 4-SKU confusion into a single binary choice. */}
-        <div className="pricing-scope-toggle" role="tablist" aria-label="Billing scope">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={billingScope === 'single'}
-            className={`pricing-scope-btn${billingScope === 'single' ? ' active' : ''}`}
-            onClick={() => { setBillingScope('single'); track('Pricing Scope Toggle', { scope: 'single' }) }}
-          >
-            <strong>One game</strong>
-            <span>Pick your main</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={billingScope === 'all'}
-            className={`pricing-scope-btn${billingScope === 'all' ? ' active' : ''}`}
-            onClick={() => { setBillingScope('all'); track('Pricing Scope Toggle', { scope: 'all' }) }}
-          >
-            <strong>All 20 games</strong>
-            <span className="pricing-scope-badge">Best value</span>
-          </button>
-        </div>
-
+        {/* Billing-scope toggle REMOVED 2026-07-06 — R6-only: pricing is just
+            Pro + Champion for Rainbow Six. All-Access SKUs live on for
+            existing subscribers (config/stripe.js + useAuth tier_scope). */}
         <div className="pricing-grid">
           {PRICING.map((p) => {
-            // Resolve scope-aware price + link. Free tier ignores scope.
-            // Pro/Champion swap to All-Access SKUs when scope === 'all'.
-            const isPaid = p.tier === 'Pro' || p.tier === 'Champion'
-            const allAccess = isPaid && billingScope === 'all'
-            let displayPrice = p.price
-            let displayLink = p.link
-            let displayScopeLine = null
-            if (p.tier === 'Pro') {
-              displayPrice = allAccess ? `$${PRO_ALL_ACCESS_AMOUNT}` : p.price
-              displayLink = allAccess ? PRO_ALL_ACCESS_LINK : p.link
-              displayScopeLine = allAccess
-                ? 'Full Pro depth across all 20 games'
-                : 'Pro depth on one game of your choice'
-            } else if (p.tier === 'Champion') {
-              displayPrice = allAccess ? `$${CHAMPION_ALL_ACCESS_AMOUNT}` : p.price
-              displayLink = allAccess ? CHAMPION_ALL_ACCESS_LINK : p.link
-              displayScopeLine = allAccess
-                ? 'Full Champion depth across all 20 games'
-                : 'Champion depth on one game of your choice'
-            }
-            // All-Access SKUs are not founding-locked — only show the
-            // founding badge for single-game founding tiers.
-            const showFounding = p.founding && !allAccess
-            const showRegular = p.regularPrice && !allAccess
+            const displayPrice = p.price
+            const displayLink = p.link
+            const showFounding = p.founding
+            const showRegular = p.regularPrice
             return (
             <div className={`pricing-card${p.featured ? ' featured' : ''}`} key={p.tier}>
               {p.featured && <div className="pricing-popular">MOST POPULAR</div>}
@@ -916,9 +879,6 @@ export default function LandingPage() {
                 </div>
               )}
               <p className="pricing-desc">{p.desc}</p>
-              {displayScopeLine && (
-                <div className="pricing-scope-line">{displayScopeLine}</div>
-              )}
               <ul className="pricing-features">
                 {p.features.map((f) => (<li key={f}>{f}</li>))}
               </ul>
@@ -940,8 +900,8 @@ export default function LandingPage() {
                   href={displayLink}
                   target={displayLink.startsWith('http') ? '_blank' : undefined}
                   onClick={() => {
-                    if (p.tier === 'Pro') track('Pricing CTA Click', { tier: allAccess ? 'pro-all' : 'pro', location: 'pricing-card' })
-                    else if (p.tier === 'Champion') track('Pricing CTA Click', { tier: allAccess ? 'champion-all' : 'champion', location: 'pricing-card' })
+                    if (p.tier === 'Pro') track('Pricing CTA Click', { tier: 'pro', location: 'pricing-card' })
+                    else if (p.tier === 'Champion') track('Pricing CTA Click', { tier: 'champion', location: 'pricing-card' })
                     else if (p.price === 'Free') track('Free Tier CTA Click', { location: 'pricing-card' })
                   }}
                   className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
@@ -960,8 +920,9 @@ export default function LandingPage() {
           </p>
         )}
 
-        {/* All-Access upsell — most R6 players also play CS2 or Valorant. */}
-        <div
+        {/* All-Access upsell REMOVED 2026-07-06 — R6-only. Existing All-Access
+            subscribers keep their plans; new visitors only see Pro/Champion. */}
+        {!R6_ONLY && <div
           style={{
             maxWidth: 920,
             margin: '2.5rem auto 0',
@@ -1012,7 +973,7 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </section>
 
       <section className="section" id="faq">
@@ -1110,7 +1071,6 @@ export default function LandingPage() {
           )}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats — Free</Link>
-            <a href="/games/" className="btn btn-ghost btn-lg">See All 20 Games</a>
           </div>
         </div>
       </section>
