@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rainbow Six Copper to Champion — Free Training Pipeline | RECON6</title>
+<meta name="description" content="The free 8-tier Rainbow Six training pipeline: exactly what to fix at every rank from Copper to Champion, with the Death Audit, per-tier drills, and progress tracking." />
+<link rel="canonical" href="https://r6coaching.com/climb/" />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="Rainbow Six Copper to Champion — Free Training Pipeline | RECON6" />
+<meta property="og:description" content="Exactly what to fix at every rank, Copper to Champion. Free, with progress tracking." />
+<meta property="og:url" content="https://r6coaching.com/climb/" />
+<meta property="og:image" content="https://r6coaching.com/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0C1015;
+  --panel:#141A21;
+  --panel2:#1A222B;
+  --line:#26303B;
+  --ink:#DCE3EA;
+  --dim:#8B98A5;
+  --faint:#5A6875;
+  --amber:#F2A71B;      /* Siege objective amber */
+  --amber-dim:#8A6210;
+  --danger:#E5484D;
+  --ok:#46A758;
+  /* rank colors */
+  --copper:#B0653A;
+  --bronze:#9C7A4C;
+  --silver:#A9B4BE;
+  --gold:#E3B341;
+  --plat:#3EC6C0;
+  --emerald:#3FBF6F;
+  --diamond:#7C9BFF;
+  --champ:#E5488A;
+  --r: 10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  background:var(--night);
+  color:var(--ink);
+  font-family:'Barlow',system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;
+  padding-bottom:80px;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.disp{font-family:'Archivo Narrow','Barlow',sans-serif;text-transform:uppercase;letter-spacing:.04em}
+
+/* ===== HEADER ===== */
+header{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#10161D 0%, var(--night) 100%);
+  padding:26px 0 20px;
+}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.brand .tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;
+  color:var(--amber);border:1px solid var(--amber-dim);padding:3px 8px;border-radius:3px;
+}
+.brand .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.12em}
+h1{
+  font-family:'Archivo Narrow',sans-serif;font-weight:700;text-transform:uppercase;
+  font-size:clamp(30px,7vw,46px);line-height:1.02;letter-spacing:.01em;
+}
+h1 .from{color:var(--copper)}
+h1 .to{color:var(--champ)}
+h1 .arrow{color:var(--faint);font-weight:500}
+.lede{color:var(--dim);margin-top:10px;font-size:15px;max-width:56ch}
+.lede b{color:var(--ink)}
+
+/* ===== PROGRESS RAIL ===== */
+.railbox{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.raillabel{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--dim);margin-bottom:8px}
+.raillabel .rp{color:var(--amber);font-weight:700;font-size:13px}
+.rail{height:14px;background:#0A0E12;border-radius:7px;overflow:hidden;display:flex;border:1px solid var(--line)}
+.rail .seg{height:100%;flex:1;opacity:.16;transition:opacity .4s}
+.rail .seg.lit{opacity:1}
+.seg.c1{background:var(--copper)} .seg.c2{background:var(--bronze)} .seg.c3{background:var(--silver)} .seg.c4{background:var(--gold)}
+.seg.c5{background:var(--plat)} .seg.c6{background:var(--emerald)} .seg.c7{background:var(--diamond)} .seg.c8{background:var(--champ)}
+.railfoot{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);margin-top:6px;letter-spacing:.06em}
+
+/* ===== DOCTRINE ===== */
+.doctrine{margin:26px 0 8px;padding:18px;border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:var(--r);background:var(--panel)}
+.doctrine h2{font-family:'Archivo Narrow',sans-serif;text-transform:uppercase;font-size:14px;letter-spacing:.14em;color:var(--amber);margin-bottom:8px}
+.doctrine p{color:var(--dim);font-size:15px}
+.doctrine p b{color:var(--ink)}
+.doctrine p + p{margin-top:8px}
+
+/* ===== TIER MODULES ===== */
+.tiers{margin-top:22px;position:relative}
+.tiers::before{
+  content:"";position:absolute;left:19px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--copper),var(--bronze),var(--silver),var(--gold),var(--plat),var(--emerald),var(--diamond),var(--champ));
+  opacity:.35;
+}
+.tier{position:relative;padding-left:52px;margin-bottom:14px}
+.node{
+  position:absolute;left:6px;top:14px;width:28px;height:28px;border-radius:6px;transform:rotate(45deg);
+  border:2px solid var(--tc,var(--dim));background:var(--night);
+  display:flex;align-items:center;justify-content:center;
+}
+.node span{transform:rotate(-45deg);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--tc,var(--dim))}
+.tier.done .node{background:var(--tc)}
+.tier.done .node span{color:var(--night)}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+}
+.card.open{border-color:color-mix(in srgb, var(--tc) 45%, var(--line))}
+.thead{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 16px;background:none;border:none;cursor:pointer;text-align:left;color:var(--ink);
+}
+.thead:focus-visible{outline:2px solid var(--amber);outline-offset:-2px;border-radius:var(--r)}
+.tname{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tname .rank{font-family:'Archivo Narrow',sans-serif;text-transform:uppercase;font-weight:700;font-size:19px;letter-spacing:.05em;color:var(--tc)}
+.tname .theme{font-size:13px;color:var(--dim)}
+.tmeta{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint);min-width:38px;text-align:right}
+.pct.full{color:var(--ok);font-weight:700}
+.chev{color:var(--faint);transition:transform .25s;font-size:12px}
+.card.open .chev{transform:rotate(180deg)}
+.tbody{display:none;padding:0 16px 16px;border-top:1px solid var(--line)}
+.card.open .tbody{display:block}
+
+.stuck{
+  margin:14px 0;padding:12px 14px;background:#171313;border:1px solid #3A2626;border-radius:8px;
+  font-size:14px;color:var(--dim);
+}
+.stuck b{color:var(--danger);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;display:block;margin-bottom:4px}
+.stuck strong{color:var(--ink)}
+
+.seclabel{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--tc);margin:16px 0 8px;text-transform:uppercase}
+
+.task{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:flex-start;cursor:pointer}
+.task:last-of-type{border-bottom:none}
+.box{
+  flex-shrink:0;width:22px;height:22px;margin-top:2px;border:2px solid var(--faint);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;background:transparent;
+}
+.task.on .box{background:var(--tc);border-color:var(--tc)}
+.task.on .box::after{content:"✓";color:var(--night);font-weight:800;font-size:14px}
+.task .txt{font-size:15px;color:var(--ink)}
+.task.on .txt{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--line)}
+.task .txt b{color:var(--tc);font-weight:600}
+.task.on .txt b{color:var(--faint)}
+.task .txt small{display:block;color:var(--dim);font-size:13px;margin-top:2px}
+.task.on .txt small{color:var(--faint)}
+
+.watch{
+  margin-top:8px;padding:12px 14px;background:var(--panel2);border-radius:8px;border:1px solid var(--line);
+  font-size:14px;color:var(--dim);
+}
+.watch b{color:var(--ink)}
+.watch .wl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--amber);display:block;margin-bottom:6px}
+
+.grad{
+  margin-top:14px;padding:12px 14px;border:1px dashed var(--tc);border-radius:8px;background:transparent;
+}
+.grad .gl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--tc);display:block;margin-bottom:4px}
+.grad p{font-size:14px;color:var(--dim)}
+.grad p b{color:var(--ink)}
+
+/* ===== VOD PROTOCOL ===== */
+.proto{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.proto h2{font-family:'Archivo Narrow',sans-serif;text-transform:uppercase;font-size:18px;letter-spacing:.08em;color:var(--amber);margin-bottom:4px}
+.proto .ps{font-size:13px;color:var(--faint);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:12px}
+.qrow{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.qrow:last-child{border-bottom:none}
+.qn{font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:700;font-size:14px;flex-shrink:0;width:26px}
+.qrow p{font-size:15px;color:var(--ink)}
+.qrow p small{display:block;color:var(--dim);font-size:13px;margin-top:2px}
+
+/* ===== CTA ===== */
+.cta{
+  margin-top:30px;border-radius:var(--r);padding:22px 18px;text-align:center;
+  background:linear-gradient(160deg,#1C1610 0%, var(--panel) 60%);border:1px solid var(--amber-dim);
+}
+.cta h2{font-family:'Archivo Narrow',sans-serif;text-transform:uppercase;font-size:22px;letter-spacing:.06em}
+.cta p{color:var(--dim);font-size:14px;margin:8px auto 14px;max-width:46ch}
+.cta a{
+  display:inline-block;background:var(--amber);color:#14100A;font-weight:700;text-decoration:none;
+  padding:12px 26px;border-radius:8px;font-family:'Archivo Narrow',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:15px;
+}
+.cta a:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.cta .r6{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-top:10px;letter-spacing:.14em}
+
+/* ===== STICKY FOOTER RANK ===== */
+.hud{
+  position:fixed;bottom:0;left:0;right:0;background:rgba(12,16,21,.94);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);padding:10px 16px;z-index:50;
+}
+.hud .in{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hud .cur{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--dim)}
+.hud .cur b{font-size:14px;letter-spacing:.06em}
+.hud .reset{
+  background:none;border:1px solid var(--line);color:var(--faint);font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.1em;padding:6px 10px;border-radius:6px;cursor:pointer;
+}
+.hud .reset:focus-visible{outline:2px solid var(--amber)}
+footer{margin-top:26px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.1em}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="tag">RECON 6</span>
+      <span class="sub">TRAINING PIPELINE // 8 TIERS // 1 STANDARD</span>
+    </div>
+    <h1><span class="from">Copper</span> <span class="arrow">→</span> <span class="to">Champion</span></h1>
+    <p class="lede">The full climb, broken into 8 gated tiers. Each tier fixes <b>the specific reason players stay stuck there</b>. Complete the drills, hit the graduation standard, move up. Your progress saves automatically.</p>
+    <div class="railbox">
+      <div class="raillabel"><span>CLIMB PROGRESS</span><span class="rp" id="rpNum">0 / 40 objectives</span></div>
+      <div class="rail" id="rail">
+        <div class="seg c1"></div><div class="seg c2"></div><div class="seg c3"></div><div class="seg c4"></div>
+        <div class="seg c5"></div><div class="seg c6"></div><div class="seg c7"></div><div class="seg c8"></div>
+      </div>
+      <div class="railfoot"><span>COPPER V</span><span>CHAMPION</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="doctrine">
+    <h2>// The One Doctrine</h2>
+    <p><b>Siege is an information game that happens to have guns in it.</b> Only ~0.4% of players ever touch Champion, and almost none of them got there on aim. They got there on information economy: every drone, cam, sound cue, and utility piece is a resource, and the team that wastes less of it wins.</p>
+    <p>Every tier below trains one layer of that doctrine. Skip a layer and you'll hit a wall two ranks later. Climbers average a <b>52.5% win rate</b> — this is a consistency grind, not a highlight reel.</p>
+  </section>
+
+  <div class="tiers" id="tiers"></div>
+
+  <section class="proto">
+    <h2>The Death Audit</h2>
+    <div class="ps">SELF-VOD REVIEW PROTOCOL // RUN AFTER EVERY SESSION FROM GOLD UP</div>
+    <div class="qrow"><span class="qn">01</span><p>Did I die with info or without it?<small>If you never droned or heard the angle that killed you, the death was decided before the gunfight. This one question diagnoses 70% of stuck players.</small></p></div>
+    <div class="qrow"><span class="qn">02</span><p>Was I tradeable?<small>If no teammate could refrag you inside 2 seconds, you took a solo fight. Solo fights are coin flips. Champions don't flip coins.</small></p></div>
+    <div class="qrow"><span class="qn">03</span><p>What did my death buy the team?<small>Acceptable answers: info, utility burned, time, a plant. If the answer is "nothing," that round loss is yours regardless of who whiffed after.</small></p></div>
+    <div class="qrow"><span class="qn">04</span><p>Did I have a win condition for the round?<small>Before the action phase, you should be able to say the round plan in one sentence. If you couldn't, you were a passenger.</small></p></div>
+    <div class="qrow"><span class="qn">05</span><p>One fix, written down.<small>One sentence, one habit, next session. Fixing one leak per session compounds faster than grinding 10 more games tilted.</small></p></div>
+  </section>
+
+  <section class="cta">
+    <h2>Stuck on a tier?</h2>
+    <p>A coach spots in one VOD review what takes 500 solo games to find. Recon 6 reviews are run against the exact standards in this pipeline — you'll leave with your three biggest leaks and the drill for each.</p>
+    <a href="/coaching/" rel="noopener">Book a free coaching session</a>
+    <div class="r6">RECON 6 // R6COACHING.COM</div>
+  </section>
+
+  <footer>COPPER TO CHAMPION v1.0 // RECON 6 TRAINING SYSTEMS // PROGRESS STORED ON THIS DEVICE</footer>
+</main>
+
+<div class="hud">
+  <div class="in">
+    <div class="cur">CURRENT TIER: <b id="hudRank" style="color:var(--copper)">COPPER</b></div>
+    <button class="reset" id="resetBtn">RESET PROGRESS</button>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const TIERS = [
+{
+ id:"copper", rank:"Copper", color:"var(--copper)", theme:"Foundation — stop losing to the map",
+ stuck:"<strong>Why players stay here:</strong> they fight the map instead of the enemy. Deaths come from unknown angles on maps they've never learned, with a crosshair aimed at the floor.",
+ tasks:[
+  ["Lock your settings once","Pick a sensitivity, calibrate it (aim trainer or range), then <b>don't touch it for 30 days</b>. Sens-hopping resets your muscle memory to zero every time."],
+  ["Crosshair lives at head height","From spawn to death, pre-aim where a head will appear — not the ground, not the wall. This single habit is worth two ranks."],
+  ["Learn 3 ranked maps in custom game","Walk Clubhouse, Oregon, and Chalet solo. Learn bomb sites, stair sets, and hatches. You cannot hold an angle you don't know exists."],
+  ["Drone before you walk","Your drone dies so you don't. Drone the room, then enter. Never drive your drone straight onto site and let it die in the prep phase."],
+  ["Run a 4-operator pool","Two attack (Sledge, Thermite), two defense (Rook, Mute). Simple guns, simple jobs. Mastering four ops beats dabbling with forty."]
+ ],
+ watch:"<b>Coreross</b> map guides for your 3 maps — one video per map, then walk it yourself in custom.",
+ grad:"<b>Graduation standard:</b> you can call out every room on 3 maps, and you enter buildings behind a drone every round."
+},
+{
+ id:"bronze", rank:"Bronze", color:"var(--bronze)", theme:"Mechanics — win the fights you take",
+ stuck:"<strong>Why players stay here:</strong> Bronze is the most populated tier in the game. Players here know the maps but lose winnable gunfights to recoil, wide swings, and panic.",
+ tasks:[
+  ["10-minute warmup, every session","Recoil control on your 4 ops in the range or a warmup routine before ranked. No warmup, no ranked. Non-negotiable."],
+  ["Slice the pie","Clear angles one at a time with tight, controlled peeks. Wide-swinging a room exposes you to five angles at once — you're giving away free kills."],
+  ["Lean is a way of life","Q and E on every angle check. Leaning shrinks your head hitbox and wins otherwise-even duels."],
+  ["Learn the default cams","Know every default camera position on your 3 maps — where to shoot them as attacker, what they see as defender."],
+  ["Respect the spawn peek","Learn the 2–3 common spawn peeks per map. Spawn behind cover, drone the window line, don't gift a free kill at 0:44."]
+ ],
+ watch:"<b>VOD reviews of Bronze/Silver players</b> on YouTube — watching a coach dissect mistakes at your rank teaches faster than any highlight reel.",
+ grad:"<b>Graduation standard:</b> you warm up every session, and less than 1 death per game comes from a spawn peek or an unleaned wide swing."
+},
+{
+ id:"silver", rank:"Silver", color:"var(--silver)", theme:"Game sense — play the round, not the kill",
+ stuck:"<strong>Why players stay here:</strong> Silvers hunt kills and forget the bomb exists. They take 1v1s with no backup and wonder why a 12-kill game still ended in a loss.",
+ tasks:[
+  ["Objective over kills","Attackers: the plant wins rounds, not the killfeed. A 1k plant beats a 4k time-out loss every single time."],
+  ["Never fight alone","Take fights only when a teammate can trade you within 2 seconds. Untradeable deaths are the #1 round-loser at every rank below Diamond."],
+  ["Sound is free intel","Footsteps, reinforcements, rappel, barbed wire — every sound has a location attached. Play with good audio and stop moving when you need to listen."],
+  ["Save a drone for mid-round","Burn one drone in prep, keep one alive for the 1:30 mark. A mid-round drone into site before the push is worth more than any gadget."],
+  ["Learn basic roaming","On defense, leave site with a purpose: waste 45 seconds of attacker time, then rotate back. A roamer who dies at 2:40 for nothing lost the round."]
+ ],
+ watch:"<b>KingGeorge ranked VODs</b> — he narrates his decision-making live, which is exactly the layer Silver is missing.",
+ grad:"<b>Graduation standard:</b> in your last 10 losses, fewer than 3 deaths were untradeable solo fights. Check your VODs — the tape doesn't lie."
+},
+{
+ id:"gold", rank:"Gold", color:"var(--gold)", theme:"Utility — the gadget game begins",
+ stuck:"<strong>Why players stay here:</strong> Gold players shoot fine and know maps, but utility is still decoration to them. They Thermite a Bandit-tricked wall and blame the team.",
+ tasks:[
+  ["Learn the utility chains","Thatcher/Maverick break Bandit/Kaid/Mute so Thermite/Hibana/Ace can open the wall. Know what counters what, cold, both directions."],
+  ["Run default site setups","Every meta map has a default setup pros start from. Learn the default for your 3 maps — reinforcements, rotates, gadget spots — before you improvise."],
+  ["Get droned in","Have a teammate drone you into site while you hold your gun up. Self-droning means entering on old info — defenders rotate in that gap."],
+  ["Deny their drones","Mute jammers and Mozzie pests on chokepoints can blind attackers on an entire floor. Info denied is rounds won."],
+  ["Ban with a plan","Bans are the first round of the match. Ban what beats YOUR plan, not just whatever's popular. Start reading what the enemy comp wants to do."]
+ ],
+ watch:"<b>Braction pro-league breakdowns</b> — watch how pro teams script utility on one site, then copy that script in your ranked games.",
+ grad:"<b>Graduation standard:</b> you can name the full utility chain to open any reinforced wall on your maps, and your squad opens the wall in 8 out of 10 attack rounds."
+},
+{
+ id:"plat", rank:"Platinum", color:"var(--plat)", theme:"Information economy — the Champion doctrine starts here",
+ stuck:"<strong>Why players stay here:</strong> Plats have better aim than some pros — and push corners they never checked. Hesitation and blind entries get punished hard from here up.",
+ tasks:[
+  ["Treat info as currency","Before every push, price it: what do I know, what don't I know, what will it cost to find out? Pushing on zero info is spending money you don't have."],
+  ["Master the cam network","Valk cams, Maestro eyes, bulletproof cams, default cams — as defense, build a network. As attack, make cam-clearing part of every approach route."],
+  ["Time your roams","Deep roam early, apply flank pressure at 1:30–1:00, force attackers to turn around at the exact moment they want to commit. Timing beats positioning."],
+  ["Watch the flank","Someone owns the flank on every push — barbed wire audio, claymore, or a physical hold. Getting shot in the back on plant is a planning failure, not bad luck."],
+  ["Read the killfeed like a book","Every kill tells you numbers, positions, and which utility is now off the board. Recalculate the round after every trade."]
+ ],
+ watch:"<b>Spoit ranked VODs</b> — the widely-considered best ranked player alive. Ignore the flicks; watch how he never moves without knowing what's ahead.",
+ grad:"<b>Graduation standard:</b> run the Death Audit below on 3 sessions — 8 out of 10 deaths happen WITH info (you knew the risk) rather than blind."
+},
+{
+ id:"emerald", rank:"Emerald", color:"var(--emerald)", theme:"Consistency — the mental tier",
+ stuck:"<strong>Why players stay here:</strong> Emeralds have Champion-level peaks and Silver-level tilt. One bad game becomes five. The skill is already there; the operating system isn't.",
+ tasks:[
+  ["Specialize your role","Pick one: entry, support, flex, IGL, anchor, roam. Role mains climb ~15% faster than flexes. Be the best support in the lobby, not the fifth-best fragger."],
+  ["Hard session rules","Two losses in a row = 10-minute break. Three = done for the day. Tilted queuing is how Emeralds donate RP back to the ladder."],
+  ["Mandatory Death Audit","The 5-question protocol below runs after every session from here on. Even pros review after every session — it's the habit, not a punishment."],
+  ["Build your stack","Solo queue variance caps most players below Diamond. Find 1–2 consistent duo partners with mics. Duo queue holds the highest win rate below Diamond (~54%)."],
+  ["One win condition per round","Before every action phase, state the plan in one sentence: 'We open garage wall and plant behind smoke.' No sentence, no push."]
+ ],
+ watch:"<b>Your own VODs</b> — from Emerald up, your tape outranks anyone else's. One reviewed loss is worth three unreviewed wins.",
+ grad:"<b>Graduation standard:</b> a full season played on one role, zero tilted sessions past the 3-loss rule, Death Audit log kept for 10+ sessions."
+},
+{
+ id:"diamond", rank:"Diamond", color:"var(--diamond)", theme:"Champion prep — close rounds, play the meta",
+ stuck:"<strong>Why players stay here:</strong> the gap between Diamond and Champion is consistency under pressure — winnable rounds bleed away at 0:30 through bad clock play and post-plant chaos.",
+ tasks:[
+  ["Play the meta, not your feelings","Right now that means shields on attack: pressure, info, and forced bans. If the meta works and you refuse it, you're choosing style points over RP."],
+  ["Own the clock","At 1:00 attackers should be committing, not starting. Defenders: every second you waste is a win. Practice deliberately fast defaults so you never plant at 0:08."],
+  ["Master post-plant","Most 'thrown' rounds die after the plant. Pre-plan your post-plant positions per site — crossfires on the defuser, not five people hugging it."],
+  ["Anti-strat the lobby","Read enemy lineups in the ban and pick phase. Their comp announces the plan — Champion players counter it before the round starts."],
+  ["Sharpen the peek","Quick-peeks, shoulder peeks, pre-fire on known holds. Champions average extremely high headshot ratios because every peek is pre-aimed and rehearsed."]
+ ],
+ watch:"<b>Shaiiko POV</b> — his entries look reckless until you notice every one is pre-paid with info or utility. That's the finishing school.",
+ grad:"<b>Graduation standard:</b> over 20 games, you win 60%+ of rounds where you were alive at 0:30 with the plant down or site held."
+},
+{
+ id:"champ", rank:"Champion", color:"var(--champ)", theme:"The 0.4% — hold the line",
+ stuck:"<strong>The last wall:</strong> roughly 2,500 players globally hold this rank. Getting here once is a season. Staying here is a system.",
+ tasks:[
+  ["Study patch notes like a textbook","Every balance change moves the meta. Champions re-learn the game every season instead of getting attached to last season's rank."],
+  ["Information economy, mastered","At this level everyone shoots. The differentiator is wasting less: fewer blind pushes, fewer dead drones, fewer silent deaths than the other team."],
+  ["Protect the rank","Diamond+ has inactivity penalties. Schedule your sessions like training blocks, not binges — fresh focus beats volume."],
+  ["Scrim above your level","Ranked stops teaching at the top. Find scrims, 5-stacks, or T2 practice lobbies. Playing up is the only remaining ladder."],
+  ["Give it back","Review a lower-ranked friend's VOD. Teaching the doctrine is the fastest way to master it — and it's exactly how a coaching career starts."]
+ ],
+ watch:"<b>Pro league VODs with a notebook</b> — one team, one map, full match. Chart their utility usage round by round. That's the final curriculum.",
+ grad:"<b>Graduation standard:</b> there isn't one. Champion isn't a finish line — it's a maintenance contract. Welcome to the 0.4%."
+}
+];
+
+/* ================= STORAGE ================= */
+const KEY = "c2c-progress";
+let state = { checks:{}, open:{copper:true} };
+let storageMode = "memory";
+
+async function loadState(){
+  try{
+    if(window.storage){
+      const r = await window.storage.get(KEY);
+      if(r && r.value){ state = JSON.parse(r.value); }
+      storageMode = "cloud";
+      return;
+    }
+  }catch(e){ /* key missing or unavailable — keep defaults */ 
+    if(window.storage){ storageMode = "cloud"; return; }
+  }
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){ state = JSON.parse(raw); }
+    storageMode = "local";
+  }catch(e){ storageMode = "memory"; }
+  // LEAD CAPTURE (2026-07-06): no cloud storage = not signed in. Progress
+  // lives in this browser only — soft prompt to create a free account so the
+  // climb survives across devices. Dismiss persists; never nags twice.
+  try{
+    if(storageMode !== "cloud" && !localStorage.getItem("c2c-account-prompt-dismissed")){
+      const bar = document.createElement("div");
+      bar.style.cssText = "position:sticky;top:0;z-index:50;background:#141A21;border-bottom:1px solid #F2A71B;padding:10px 16px;font-family:Barlow,sans-serif;font-size:.9rem;color:#DCE3EA;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap";
+      bar.innerHTML = 'Your progress saves in this browser only. <a href="/#/auth?mode=signup" style="color:#F2A71B;font-weight:700">Create a free account</a> to keep your climb across devices. <button style="background:none;border:none;color:#8B98A5;cursor:pointer;font-size:1.1rem" aria-label="Dismiss">×</button>';
+      bar.querySelector("button").addEventListener("click", function(){ bar.remove(); try{ localStorage.setItem("c2c-account-prompt-dismissed","1"); }catch(e2){} });
+      document.body.prepend(bar);
+    }
+  }catch(e){ /* cosmetic only */ }
+}
+async function saveState(){
+  const raw = JSON.stringify(state);
+  try{
+    if(storageMode === "cloud" && window.storage){ await window.storage.set(KEY, raw); return; }
+  }catch(e){}
+  try{ localStorage.setItem(KEY, raw); }catch(e){}
+}
+
+/* ================= RENDER ================= */
+const tiersEl = document.getElementById("tiers");
+
+function tierProgress(t){
+  const total = t.tasks.length;
+  let done = 0;
+  t.tasks.forEach((_,i)=>{ if(state.checks[t.id+"-"+i]) done++; });
+  return {done,total,pct: total? Math.round(done/total*100):0};
+}
+
+function render(){
+  tiersEl.innerHTML = "";
+  TIERS.forEach((t,ti)=>{
+    const prog = tierProgress(t);
+    const tier = document.createElement("div");
+    tier.className = "tier" + (prog.pct===100 ? " done":"");
+    tier.style.setProperty("--tc", t.color);
+
+    const tasksHtml = t.tasks.map((task,i)=>{
+      const on = !!state.checks[t.id+"-"+i];
+      return `<div class="task${on?" on":""}" data-tier="${t.id}" data-i="${i}" role="checkbox" aria-checked="${on}" tabindex="0">
+        <div class="box"></div>
+        <div class="txt"><b>${task[0]}.</b> <small>${task[1]}</small></div>
+      </div>`;
+    }).join("");
+
+    tier.innerHTML = `
+      <div class="node"><span>${ti+1}</span></div>
+      <div class="card${state.open[t.id]?" open":""}" id="card-${t.id}">
+        <button class="thead" data-toggle="${t.id}" aria-expanded="${!!state.open[t.id]}">
+          <div class="tname">
+            <span class="rank">${t.rank}</span>
+            <span class="theme">${t.theme}</span>
+          </div>
+          <div class="tmeta">
+            <span class="pct${prog.pct===100?" full":""}">${prog.done}/${prog.total}</span>
+            <span class="chev">▼</span>
+          </div>
+        </button>
+        <div class="tbody">
+          <div class="stuck"><b>// DIAGNOSIS</b>${t.stuck}</div>
+          <div class="seclabel">// Objectives</div>
+          ${tasksHtml}
+          <div class="watch"><span class="wl">// FILM STUDY</span>${t.watch}</div>
+          <div class="grad"><span class="gl">// GATE</span><p>${t.grad}</p></div>
+        </div>
+      </div>`;
+    tiersEl.appendChild(tier);
+  });
+  updateHud();
+}
+
+function updateHud(){
+  let totalDone=0, totalAll=0, currentTier=TIERS[0];
+  TIERS.forEach((t,i)=>{
+    const p = tierProgress(t);
+    totalDone += p.done; totalAll += p.total;
+    document.querySelectorAll("#rail .seg")[i].classList.toggle("lit", p.pct===100);
+  });
+  for(const t of TIERS){ currentTier=t; if(tierProgress(t).pct<100) break; }
+  document.getElementById("rpNum").textContent = `${totalDone} / ${totalAll} objectives`;
+  const hud = document.getElementById("hudRank");
+  hud.textContent = currentTier.rank.toUpperCase();
+  hud.style.color = currentTier.color;
+}
+
+/* ================= EVENTS ================= */
+document.addEventListener("click", async (e)=>{
+  const head = e.target.closest("[data-toggle]");
+  if(head){
+    const id = head.dataset.toggle;
+    state.open[id] = !state.open[id];
+    render(); await saveState(); return;
+  }
+  const task = e.target.closest(".task");
+  if(task){ await toggleTask(task); }
+});
+document.addEventListener("keydown", async (e)=>{
+  if((e.key===" "||e.key==="Enter") && e.target.classList.contains("task")){
+    e.preventDefault(); await toggleTask(e.target);
+  }
+});
+async function toggleTask(el){
+  const k = el.dataset.tier+"-"+el.dataset.i;
+  state.checks[k] = !state.checks[k];
+  render(); await saveState();
+}
+document.getElementById("resetBtn").addEventListener("click", async ()=>{
+  if(confirm("Wipe all progress and start the climb from Copper?")){
+    state = {checks:{}, open:{copper:true}};
+    render(); await saveState();
+  }
+});
+
+/* ================= INIT ================= */
+loadState().then(render);
+</script>
+</body>
+</html>

@@ -42,6 +42,7 @@ const STATIC_URLS = [
   { loc: '/blog/', freq: 'weekly', pri: 0.85 },
   { loc: '/countdown/', freq: 'weekly', pri: 0.85 },
   { loc: '/coaching/', freq: 'weekly', pri: 0.95 },
+  { loc: '/climb/', freq: 'weekly', pri: 0.9 },
   { loc: '/games/', freq: 'weekly', pri: 0.9 },
   // Per-game landing pages — one per supported FPS, captures
   // long-tail SEO ("CS2 strategy guide", "Valorant agent guide", etc.).
