@@ -8,6 +8,7 @@ import CompManager from '../components/admin/CompManager'
 import AuditLog from '../components/admin/AuditLog'
 import GameCatalog from '../components/admin/GameCatalog'
 import DailyPlaybook from '../components/admin/DailyPlaybook'
+import AvailabilityEditor from '../components/admin/AvailabilityEditor'
 import './AdminPage.css'
 
 const EMPTY_SUMMARY = {
@@ -493,6 +494,7 @@ export default function AdminPage() {
       {adminTab === 'growth' && (
         <>
           <DailyPlaybook />
+          <AvailabilityEditor />
           <CompManager />
           <PromoKit />
         </>
