@@ -208,6 +208,61 @@ const R6_POSTS = [
       },
     ],
   },
+  // Y11S2 ranked operator meta — shipped 2026-07-05. Angle: not a tier list,
+  // but HOW each meta operator wins rounds for a climbing player. Fact-checked
+  // against Ubisoft Y11S2 designer's notes + Y11S2.1 patch notes on 2026-07-05:
+  // the draft's "Ash R4C nerf" claim was WRONG (Ash was buffed in S2.1 —
+  // breach radius 2m → 2.2m); Dokkaebi tempered post-S2.1 nerf; Gridlock's
+  // 4 → 3 charge tradeoff added. Never republish the uncorrected draft.
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Y11S2',
+    toRank: 'Ranked Meta',
+    slug: 'r6-y11s2-ranked-operators-that-win-rounds',
+    datePublished: '2026-07-05',
+    readMinutes: 8,
+    metaTitle: 'R6 Y11S2 Ranked Tier List: The Operators Actually Winning Rounds (Operation System Override)',
+    metaDescription: "The Operation System Override (Y11S2) ranked meta, from a coach's chair — not just who's S-tier, but how each operator actually wins you rounds when you're grinding to climb.",
+    intro: `<p>Operation System Override (Year 11, Season 2) landed on June 2, 2026, and it's the biggest meta shakeup Siege has had in a while. Every site is publishing a tier list. This isn't quite that.</p>
+<p>Tier lists tell you who's strong. They don't tell you how that operator wins you a round when you're solo-queuing at 2,000 RP trying to break into Emerald. So that's the angle here: the operators actually deciding ranked rounds in Y11S2 — and the one thing each does that climbs. Everything below reflects the <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html">July 2 (Y11S2.1) balance patch</a>, not launch-day numbers.</p>
+<p>If you'd rather have this called out live in your own matches, that's literally what <a href="/#/live">RECON6's live coach</a> does. But the read first.</p>`,
+    sections: [
+      {
+        heading: 'Attack: the operators winning rounds',
+        html: `<p><strong>Solid Snake</strong> is the story of the season, even though he arrived back in Silent Hunt. His Soliton Radar MK III gives you real-time awareness of nearby defenders and traps — green for clear, yellow for caution, red for alert, with a Precision Mode that briefly shows exact positions and even facing direction. Which means the number-one thing that loses you ranked rounds (walking into a fight blind) just got a lot harder to do. Worth knowing: the Y11S2.1 patch fixed three radar exploits (the Emerald Plains rooftop detect, the prone floor-below detect, the weapon-cycling break), so he now reads as designed — strong intel, no cheese. If you take one op away from this article: he's an S-tier pick specifically because he fixes bad information, which is exactly what plateaued players lack. Don't rush with the radar up — use it to hold the first fight, then commit.</p>
+<p><strong>Ace</strong> is the safest hard breach in the game right now, and in ranked "safe" wins more than "flashy." His broad breach range plus the AK-12 means you open the wall you need without dying to a runout doing it. If your team never has a plan for the reinforced wall, Ace is the pick that gives you one.</p>
+<p><strong>Dokkaebi</strong> got the season's headline rework — the Jegeo Payload — and she's still a top-tier disruption pick, with an asterisk: the July 2 patch put a 7-second cooldown between activations, so the chain-spam lockout is gone. Her ranked value now is timing, not volume: sync one call with your team's execute to deny cams and force defenders off comfortable holds at the moment it matters. If your lobby still reflex-bans her, that ban slot is overpaying post-patch.</p>
+<p>Rounding out the strong attack picks: <strong>Thatcher</strong> (still the answer to electrified walls — his EMP radius even got a small buff in S2.1, but stop throwing EMPs at the wall too early; save one for the actual breach), <strong>Nomad</strong> (flank denial that keeps your push from getting collapsed), <strong>Maverick</strong> (the surgical breach when Thermite/Hibana get denied), and <strong>Lion</strong> (info + pressure).</p>`,
+      },
+      {
+        heading: 'Defense: the operators winning rounds',
+        html: `<p>The defensive S-tier is more stable, and that's the point — the fundamentals still win. <strong>Smoke</strong> and <strong>Jäger</strong> perform at the top across every map and every rank because they solve two problems that never go away: denying the plant (Smoke's gas is for time, not kills — throw it on the defuser, not the doorway) and eating the utility that would otherwise clear your anchors (Jäger's ADS).</p>
+<p><strong>Mira</strong> is still one of the most punishing tools a defender has. A Black Mirror on the right wall, backed by Bandit or Kaid electrical denial, forces attackers to burn real utility just to deal with one gadget — and in ranked, most teams don't have that utility coordinated. That's free rounds.</p>
+<p>Also holding the top: <strong>Azami</strong> (her Kiba barriers reshape sites and reseal breaches), <strong>Mute</strong> (jammer denial that's more relevant than ever), <strong>Fenrir</strong>, and <strong>Denari</strong>.</p>`,
+      },
+      {
+        heading: 'The changes that matter for your pick',
+        html: `<ul>
+  <li><strong>Ash got better, not worse.</strong> Despite what half the tier lists claim, there is no R4C nerf — the July 2 patch <em>buffed</em> her breaching rounds (damage radius 2m → 2.2m). She's still the most-picked entry in ranked, and her utility is now more forgiving for solo players who can't count on a teammate finishing an opening.</li>
+  <li><strong>Gridlock is worth a look — with a tradeoff.</strong> Her Trax Stingers now slow enemies and leave a 10-second blood trail after they step out, which makes her flank denial genuinely oppressive on the right sites. The compensation: she carries 3 charges instead of 4, so placement matters more than ever.</li>
+  <li><strong>Thorn's limp got trimmed</strong> (15s → 10s), shifting her value toward the information the shell gives you — someone triggered it, swing the sound — rather than the slow itself.</li>
+</ul>`,
+      },
+      {
+        heading: "The part the tier list won't tell you",
+        html: `<p>Here's the thing every ranked grinder needs to hear: the operator is rarely why you lost the round. You lost because you peeked with no info, didn't trade, or your crosshair was below the head when the fight started. The best operator in Y11S2 doesn't fix that. Reps and honest review do.</p>
+<p>That's the whole idea behind RECON6 — the meta read above is free and public, but the part that actually climbs is having your own rounds broken down: which pick fit the site, where the fight went wrong, what to do next time.</p>
+<ul>
+  <li><a href="/#/strats">Browse the current ranked strats and site setups</a> — free.</li>
+  <li><a href="/#/vod">Drop a screenshot from your last match</a> and get an AI VOD breakdown of exactly what cost you the round.</li>
+  <li>Or see the <a href="/#/meta">full operator meta board</a> and the <a href="/#/tools/r6-tier-list">current tier list</a>.</li>
+</ul>
+<p>Pick the operators above. Then go find out why you're really stuck — it's usually not the pick.</p>
+<p><em>Meta reflects the Operation System Override (Y11S2) ranked landscape as of July 2026, including the Y11S2.1 balance patch. Community tier reads shift through a season; the fundamentals don't.</em></p>`,
+      },
+    ],
+  },
   // Y11S2 seasonal coverage — shipped May 21, 2026 (12 days ahead of the
   // June 2 launch) to seed Google indexing before the search wave hits.
   // The from/to rank fields are repurposed as season transitions; the
