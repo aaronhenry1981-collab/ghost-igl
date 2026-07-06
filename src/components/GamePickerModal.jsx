@@ -16,7 +16,7 @@ const SEEN_KEY = 'recon:game-picker-seen'
 
 export default function GamePickerModal() {
   const { user, loading } = useAuth()
-  const { activeGame, games, setActiveGameId } = useActiveGame()
+  const { games, setActiveGameId } = useActiveGame()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
@@ -24,6 +24,9 @@ export default function GamePickerModal() {
     if (loading || !user) return
     let seen = false
     try { seen = !!localStorage.getItem(SEEN_KEY) } catch { /* SSR safe */ }
+    // One-shot open gated on localStorage (external system) once auth
+    // settles — a guarded init, not a render-cascade loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!seen) setOpen(true)
   }, [loading, user])
 

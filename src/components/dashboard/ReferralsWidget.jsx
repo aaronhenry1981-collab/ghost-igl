@@ -27,7 +27,7 @@ function CopyButton({ value }) {
 }
 
 export default function ReferralsWidget() {
-  const { user, isPro, isAdmin, plan } = useAuth()
+  const { user, isPro, isAdmin } = useAuth()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -52,8 +52,8 @@ export default function ReferralsWidget() {
         if (cancelled) return
         setError(err.message)
       } finally {
-        if (cancelled) return
-        setLoading(false)
+        // No `return` in finally — it would swallow in-flight exceptions.
+        if (!cancelled) setLoading(false)
       }
     })()
     return () => { cancelled = true }

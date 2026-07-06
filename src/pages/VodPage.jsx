@@ -195,7 +195,6 @@ const HAND_TUNED_DEMOS = {
 // timing, decision review — exactly the kind of feedback the real AI
 // gives. We're not deceiving anyone; the page is clearly labeled SAMPLE.
 function buildSyntheticDemo(gameMeta, data) {
-  const displayName = gameMeta?.displayName || 'this game'
   const characterNoun = gameMeta?.vocab?.operator || 'character'
   const siteNoun = gameMeta?.vocab?.site || 'site'
   const attackLabel = gameMeta?.vocab?.side_attack || 'attack'
@@ -271,7 +270,7 @@ export default function VodPage() {
   const [activeTab, setActiveTab] = useState('screenshot')
   const [demoMode, setDemoMode] = useState(false)
   const { user, isPro, isAdmin, plan, vodUsage, loading: authLoading } = useAuth()
-  const { activeGameId, isR6 } = useActiveGame()
+  const { activeGameId } = useActiveGame()
   const { gameMeta, data: gameData } = useGameData()
   const { analysis, loading, error, errorCode, usageError, analyzeSession, reset } = useVodAnalysis()
   const tier = isAdmin || plan === 'champion' ? 'champion' : 'pro'
@@ -294,7 +293,10 @@ export default function VodPage() {
   const accent = gameMeta?.color || '#00e5ff'
 
   useEffect(() => {
+    // Sync from the URL (?demo=1 deep link — external system) — guarded, and
+    // demoMode only ever flips false→true here.
     if (searchParams.get('demo') === '1' && demoAvailable) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDemoMode(true)
       reset()
     }

@@ -29,6 +29,8 @@ export default function ReferralLandingPage() {
   useEffect(() => {
     let cancelled = false
     if (!code) {
+      // Terminal no-code state, set once on mount — nothing downstream re-triggers it.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState({ loading: false, valid: false, referrerName: '', tier: '' })
       return
     }

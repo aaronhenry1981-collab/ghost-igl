@@ -198,9 +198,9 @@ export default function PressPage() {
 
       {/* Organization JSON-LD — fuels Google knowledge-panel entries
           when other sites link here as the official intro to Recon 6. */}
+      {/* JSON.stringify of our own object — no user input, XSS-safe */}
       <script
         type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',

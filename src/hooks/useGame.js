@@ -61,6 +61,9 @@ export function useGame() {
   const [game, setGame] = useState(() => GAMES[0])  // default R6 for SSR/initial render
 
   useEffect(() => {
+    // Mount-only sync from window.location (external system) — the initial
+    // GAMES[0] default exists for the first SSR-safe paint.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setGame(getCurrentGame())
   }, [])
 
@@ -77,6 +80,9 @@ export function useGameData() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    // Standard fetch-effect loading flags around the lazy game-data load —
+    // one set per game change, guarded against cancellation.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!game?.load) { setLoading(false); return }
     let cancelled = false
     setLoading(true)

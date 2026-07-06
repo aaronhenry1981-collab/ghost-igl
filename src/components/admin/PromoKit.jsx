@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { generatePosts, CHANNELS } from '../../data/promoTemplates'
 
 const USED_KEY = 'ghost-igl:promo-used'

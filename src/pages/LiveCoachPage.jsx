@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import MAPS from '../data/maps'
 import STRATS from '../data/strats'
 import BANS from '../data/bans'
@@ -267,7 +267,6 @@ function NonR6Placeholder() {
 }
 
 function R6LiveCoach() {
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   // URL-encoded prep state takes priority over localStorage on first
@@ -307,7 +306,9 @@ function R6LiveCoach() {
   useEffect(() => { if (queueSize) setStored(LS_KEYS.queue, queueSize) }, [queueSize])
   useEffect(() => { setStored(LS_KEYS.half, activeHalf) }, [activeHalf])
 
-  // Reset op pick when any upstream state changes (different round = different op)
+  // Reset op pick when any upstream state changes (different round = different op).
+  // Deliberate reset-on-dependency-change; null set is cheap and terminal.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setSelectedOpName(null) }, [side, siteId, activeHalf])
 
   const map = useMemo(() => MAPS.find((m) => m.id === mapId), [mapId])
@@ -997,7 +998,7 @@ function Step({ id, number, title, subtitle, done, summary, isFinal, children })
   )
 }
 
-function BanGrid({ mapId, bans, onToggle, suggestions }) {
+function BanGrid({ mapId: _mapId, bans, onToggle, suggestions }) {
   // Most matches ban from the curated suggestion buttons (one tap). For the
   // rarer "enemy banned something off-meta" case, a native DROPDOWN of the
   // full roster — NOT a text field. Mid-match the user is holding a controller

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useActiveGame } from '../hooks/useActiveGame'
@@ -165,7 +165,7 @@ function pickTip(gameId) {
 
 export default function DashboardPage() {
   const { user, plan, isAdmin, loading: authLoading } = useAuth()
-  const { activeGameId, activeGame, isR6 } = useActiveGame()
+  const { activeGameId, isR6 } = useActiveGame()
   const { data, gameMeta } = useGameData()
   const { recents } = useRecentStrats()
   const { visible: testimonials } = useTestimonials(activeGameId)

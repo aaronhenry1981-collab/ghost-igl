@@ -37,7 +37,7 @@ function StatusPill() {
 
 export default function GameSwitcher() {
   const { activeGame, activeGameId, setActiveGameId, games } = useActiveGame()
-  const { plan, isAdmin, tierScope, profile, user, refreshProfile } = useAuth()
+  const { isAdmin, tierScope, profile, user, refreshProfile } = useAuth()
   const [open, setOpen] = useState(false)
   const [upgradeFor, setUpgradeFor] = useState(null) // { gameId, gameName } when locked
   const popRef = useRef(null)
@@ -113,7 +113,6 @@ export default function GameSwitcher() {
   }
 
   const meta = activeGame?.gameMeta || {}
-  const isR6 = activeGameId === 'r6'
 
   return (
     <div className="game-switcher" ref={popRef}>
