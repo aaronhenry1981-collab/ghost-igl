@@ -486,26 +486,29 @@ export default function LandingPage() {
             Recon 6 · Rainbow Six Siege · Season {getCurrentSeason()}
           </div>
           <h1>
-            Climb faster in <br />
+            AI-augmented coaching for <br />
             <span className="accent">Rainbow Six</span>.
           </h1>
           <p className="hero-subtitle">
-            Pull up the right pick, the right ban, and the right setup for every R6 site in seconds.
-            Drop a screenshot from your match and find out exactly what cost you the round —
-            a fix you can use next game, not vague advice. The deepest R6 strat library anywhere,
-            plus AI VOD review built for Siege. Other games you play are in here too.
+            A human coach backed by a full AI staff: VOD breakdowns of your actual rounds,
+            death-cause tracking across sessions, and live ranked plans for every map and site.
+            The AI finds what's costing you rounds — your coach fixes it with you.
+            First session is free, console and PC, any rank.
           </p>
-          {/* CTA order reordered per the May 2026 customer audit:
-              VOD demo is the unique value prop (AI screenshot review =
-              what no other R6 coaching site has) but was previously
-              buried as a tertiary text link. Promoted to co-primary so
-              it's the first thing a curious visitor can actually TRY.
-              Strats link demoted to tertiary — it's commodity content
-              vs the AI VOD which is the moat. */}
+          {/* COACHING-FIRST (2026-07-06 master command): "Book a free session"
+              is the primary CTA; the AI VOD demo stays co-primary as the
+              try-it-now path. AI is the headline, never hidden. */}
           <div className="hero-cta">
+            <a
+              href="/coaching/"
+              className="btn btn-primary btn-lg"
+              onClick={() => track('Hero CTA Click', { type: 'coaching-free-intro' })}
+            >
+              Book a free session
+            </a>
             <Link
               to="/vod?demo=1"
-              className="btn btn-primary btn-lg hero-cta-vod"
+              className="btn btn-ghost btn-lg hero-cta-vod"
               onClick={() => track('Hero CTA Click', { type: 'vod-demo' })}
             >
               ▶ Try AI VOD Review — Free

@@ -222,12 +222,15 @@ export default function Navbar() {
             <li><NavLink to="/loadouts" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Loadouts</NavLink></li>
             <li><NavLink to="/match-prep" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Match Prep</NavLink></li>
             <li><NavLink to="/vod" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>VOD Review</NavLink></li>
+            <li><a href="/coaching/">Coaching</a></li>
             <li><MoreDropdown /></li>
           </ul>
         ) : (
           <ul id="primary-nav" className="navbar-links navbar-desktop-only">
             <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button></li>
-            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('games')}>Games</button></li>
+            {/* "Games" section link removed with the R6-only pivot; Coaching
+                (the primary revenue CTA) takes the slot. */}
+            <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
             <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('pricing')}>Pricing</button></li>
             <li><a className="nav-marketing-link" href="/blog/">Guides</a></li>
             <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('faq')}>FAQ</button></li>
