@@ -121,7 +121,7 @@ const FEATURES = [
   {
     icon: 'map',
     title: 'Walk Into Every Map Prepared',
-    desc: 'Site-by-site breakdowns: who to pick, who to ban, where to set up, what callouts to use. Pull it up in 5 seconds before the round starts. Built deepest for R6 — and ready for every other game you play.',
+    desc: 'Site-by-site breakdowns for every ranked R6 map: who to pick, who to ban, where to set up, what callouts to use. Pull it up in 5 seconds before the round starts.',
     link: '/strats',
   },
   {
@@ -549,25 +549,28 @@ export default function LandingPage() {
             <span>✓ Free tier covers every R6 ranked map</span>
             <span>✓ 7-day money-back on any plan</span>
           </div>
+          {/* R6-only stats (2026-07-06) — real numbers counted from strats.js:
+              25 maps, 107 sites with full setups. Operator count = full Siege
+              roster incl. crossovers. Update alongside data, not vibes. */}
           <div className="hero-stats">
             <div className="hero-stat">
-              <strong><AnimatedCounter end={20} /></strong>
-              <span>Games Covered</span>
+              <strong><AnimatedCounter end={25} /></strong>
+              <span>R6 Maps Covered</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
-              <strong><AnimatedCounter end={156} />+</strong>
-              <span>Maps Covered</span>
+              <strong><AnimatedCounter end={107} /></strong>
+              <span>Sites With Full Setups</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
-              <strong><AnimatedCounter end={800} />+</strong>
-              <span>Strat Blocks</span>
+              <strong><AnimatedCounter end={78} /></strong>
+              <span>Operators Indexed</span>
             </div>
             <div className="hero-stat-divider" />
             <div className="hero-stat">
-              <strong><AnimatedCounter end={214} /></strong>
-              <span>Roles & Characters</span>
+              <strong><AnimatedCounter end={24} />/7</strong>
+              <span>AI Coach On Call</span>
             </div>
           </div>
         </div>
@@ -579,6 +582,34 @@ export default function LandingPage() {
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Cancel in One Click</div>
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Refreshed Every Season</div>
       </div>
+
+      {/* Testimonials moved directly under the hero (2026-07-06 coherence
+          pass) \u2014 social proof belongs before the feature tour, not below it. */}
+      {testimonials.length > 0 && (
+      <section className="section" id="testimonials">
+        <div className="section-header">
+          <div className="section-label">Testimonials</div>
+          <h2>Players Are Ranking Up</h2>
+          <p>Real climbs from R6 players who use Recon 6.</p>
+        </div>
+        <div className="testimonials-grid">
+          {testimonials.map((t) => (
+            <div className="testimonial-card" key={t.id || t.name}>
+              <div className="testimonial-stars">{'\u2605\u2605\u2605\u2605\u2605'}</div>
+              <p className="testimonial-text">\u201c{t.text}\u201d</p>
+              <div className="testimonial-author">
+                <div className="testimonial-avatar">{t.initials}</div>
+                <div className="testimonial-meta">
+                  <strong>{t.name}</strong>
+                  {t.rank && <span className="rank-up">{t.rank}</span>}
+                </div>
+              </div>
+              {t.hours && <div className="testimonial-hours">{t.hours}</div>}
+            </div>
+          ))}
+        </div>
+      </section>
+      )}
 
       <section className="section" id="features">
         <div className="section-header">
@@ -771,32 +802,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
-      {testimonials.length > 0 && (
-      <section className="section" id="testimonials">
-        <div className="section-header">
-          <div className="section-label">Testimonials</div>
-          <h2>Players Are Ranking Up</h2>
-          <p>Real climbs from R6 players who use Recon 6 — full multi-game testimonials roll in as each game launches.</p>
-        </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <div className="testimonial-card" key={t.id || t.name}>
-              <div className="testimonial-stars">{'★★★★★'}</div>
-              <p className="testimonial-text">“{t.text}”</p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">{t.initials}</div>
-                <div className="testimonial-meta">
-                  <strong>{t.name}</strong>
-                  {t.rank && <span className="rank-up">{t.rank}</span>}
-                </div>
-              </div>
-              {t.hours && <div className="testimonial-hours">{t.hours}</div>}
-            </div>
-          ))}
-        </div>
-      </section>
-      )}
 
       <section className="section section-dark" id="pricing">
         <div className="section-header">

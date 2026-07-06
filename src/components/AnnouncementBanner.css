@@ -1,7 +1,9 @@
+/* In normal flow ABOVE the sticky navbar (2026-07-06): the banner shows at
+   the top of the page and scrolls away; the nav sticks once you pass it.
+   Previously both pinned to y=0 and the banner text collided with the logo
+   on every page. Do not make this sticky again. */
 .announcement-stack {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 0;

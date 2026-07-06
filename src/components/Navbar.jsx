@@ -66,18 +66,20 @@ function MoreDropdown({ onClose }) {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        More
+        Tools
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
       {open && (
         <div className="nav-more-pop" role="menu">
+          <button type="button" className="nav-more-item" onClick={() => go('/live')}>Live Coach</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/strats')}>Strats</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/loadouts')}>Loadouts</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/match-prep')}>Match Prep</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/vod')}>VOD Review</button>
           <button type="button" className="nav-more-item" onClick={() => go('/operators')}>Operators</button>
           <button type="button" className="nav-more-item" onClick={() => go('/meta')}>Meta Board</button>
-          <a className="nav-more-item" href="/games/">All Games</a>
-          <a className="nav-more-item" href="/blog/">Blog</a>
-          <a className="nav-more-item" href="/tools/">Tools index</a>
           <div className="nav-more-divider" />
           <button type="button" className="nav-more-item" onClick={() => go('#pricing')}>Pricing</button>
           <button type="button" className="nav-more-item" onClick={() => go('#faq')}>FAQ</button>
@@ -215,29 +217,18 @@ export default function Navbar() {
             hasn't decided to sign up yet. Logged-out visitors now get a
             MARKETING nav instead (How It Works / Pricing / Guides / FAQ) —
             real anchors on the landing page, nothing that walls them off. */}
-        {user ? (
-          <ul id="primary-nav" className="navbar-links navbar-desktop-only">
-            <li><NavLink to="/live" className={({ isActive }) => `nav-live-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink></li>
-            <li><NavLink to="/strats" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Strats</NavLink></li>
-            <li><NavLink to="/loadouts" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Loadouts</NavLink></li>
-            <li><NavLink to="/match-prep" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>Match Prep</NavLink></li>
-            <li><NavLink to="/vod" className={({ isActive }) => (isActive ? 'is-active' : undefined)}>VOD Review</NavLink></li>
-            <li><a href="/coaching/">Coaching</a></li>
-            <li><MoreDropdown /></li>
-          </ul>
-        ) : (
-          <ul id="primary-nav" className="navbar-links navbar-desktop-only">
-            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button></li>
-            {/* "Games" section link removed with the R6-only pivot; Coaching
-                (the primary revenue CTA) takes the slot. */}
-            <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
-            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('pricing')}>Pricing</button></li>
-            <li><a className="nav-marketing-link" href="/blog/">Guides</a></li>
-            <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('faq')}>FAQ</button></li>
-          </ul>
-        )}
+        {/* 4-ITEM NAV (2026-07-06 coherence pass): Coaching · Learn · Tools ▾
+            + a right-aligned "Book a free session" button. Same structure for
+            both auth states — the old 7-link sprawl buried the one action
+            that makes money. Every tool still one click away in the dropdown. */}
+        <ul id="primary-nav" className="navbar-links navbar-desktop-only">
+          <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
+          <li><a className="nav-marketing-link" href="/blog/">Learn</a></li>
+          <li><MoreDropdown /></li>
+        </ul>
 
         <div className="navbar-right navbar-desktop-only">
+          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book a free session</a>
           {user ? (
             <AccountDropdown
               user={user}
@@ -247,10 +238,7 @@ export default function Navbar() {
               signOut={signOut}
             />
           ) : (
-            <>
-              <Link to="/auth" className="btn btn-ghost btn-sm">Sign In</Link>
-              <Link to="/auth?mode=signup" className="btn btn-primary btn-sm">Sign Up</Link>
-            </>
+            <Link to="/auth" className="btn btn-ghost btn-sm">Sign In</Link>
           )}
         </div>
 
@@ -322,6 +310,13 @@ export default function Navbar() {
             (Live Coach, Strats' gated features, etc). Give them a marketing
             section instead; the real Explore section below still works for
             everyone. */}
+        <div className="mobile-drawer-section">
+          <div className="mobile-drawer-section-label">Coaching</div>
+          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book a free session →</a>
+          <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
+          <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Learn (guides & blog)</a>
+        </div>
+
         {user ? (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Tools</div>
@@ -338,16 +333,12 @@ export default function Navbar() {
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Recon 6</div>
             <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button>
-            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('games')}>Games</button>
             <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('testimonials')}>Testimonials</button>
           </div>
         )}
 
         <div className="mobile-drawer-section">
           <div className="mobile-drawer-section-label">Explore</div>
-          <a href="/games/" onClick={closeMobile} className="mobile-drawer-link">All Games</a>
-          <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Blog</a>
-          <a href="/tools/" onClick={closeMobile} className="mobile-drawer-link">Tools index</a>
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('pricing')}>Pricing</button>
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('faq')}>FAQ</button>
           <Link to="/changelog" onClick={closeMobile} className="mobile-drawer-link">Changelog</Link>

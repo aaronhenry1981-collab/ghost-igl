@@ -55,8 +55,12 @@ select option:hover {
 }
 
 /* ─── Navbar ─── */
+/* STICKY (was fixed) 2026-07-06: the announcement banner renders ABOVE the
+   nav in DOM order; with a fixed nav they both claimed y=0 and the banner
+   text collided with the logo on every page. Sticky keeps the nav pinned
+   once you scroll past the banner, and the banner can never cover it. */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -535,10 +539,9 @@ select option:hover {
 
 .btn-block { width: 100%; text-align: center; }
 
-/* Push main content below the fixed navbar so the hero doesn't sit
-   underneath it. Approx 60-70px depending on padding. */
+/* Navbar is sticky (in flow) since 2026-07-06 — no compensation padding
+   needed; content naturally starts below the nav and the banner. */
 .app-main {
-  padding-top: 68px;
   min-height: calc(100vh - 68px);
 }
 
@@ -680,13 +683,17 @@ select option:hover {
 }
 
 /* ─── Hero ─── */
+/* 2026-07-06 design pass: was min-height 100svh — on 1080p+ that left huge
+   black voids above/below the content ("looks empty on a wide monitor").
+   Sized to content + breathing room instead; the stats band + trust row now
+   sit near the fold instead of floating in space. */
 .hero {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100svh - 68px);
-  padding: 60px 40px 80px;
+  min-height: 0;
+  padding: 56px 40px 64px;
   text-align: center;
   overflow: hidden;
 }
@@ -725,7 +732,7 @@ select option:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 800px;
+  max-width: 960px; /* was 800 — use the width on desktop */
 }
 
 .hero-badge {
