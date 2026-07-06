@@ -4,7 +4,9 @@
       "Bash(node -e \"console.log\\(new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\)\")",
       "Bash(aws cognito-idp *)",
       "Bash(aws dynamodb *)",
-      "Bash(node -e \"const now=new Date\\(\\); console.log\\('now:',now.toISOString\\(\\)\\); console.log\\('25h ago:',new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\);\")"
+      "Bash(node -e \"const now=new Date\\(\\); console.log\\('now:',now.toISOString\\(\\)\\); console.log\\('25h ago:',new Date\\(Date.now\\(\\)-25*60*60*1000\\).toISOString\\(\\)\\);\")",
+      "mcp__04731bc6-9a34-46af-85ff-c58da083f482__create_draft",
+      "Bash(awk '/master-office'\"'\"': \\\\{/,/utility:/' src/data/strats.js)"
     ]
   }
 }

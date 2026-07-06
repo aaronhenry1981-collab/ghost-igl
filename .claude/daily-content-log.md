@@ -35,3 +35,15 @@ Notes: Founding window has closed. All future runs should use post-launch framin
 - **Reply-guy line (org engagement)** — "Aruni gates don't replace a reinforced wall. A hard breach…"
 
 Notes: Founding window closed (T+42). Used post-launch social-proof framing. Maps/sites this run: Kafe cocktail, Border Armory, VOD-review feature, Aruni gate misuse — none repeated from prior runs.
+
+---
+
+## 2026-07-03 (T+56 from May 8 launch)
+
+- **Tactical** — "Chalet Master: open the Bedroom wall with Hibana from t…"
+- **Founding urgency** — SKIPPED (window closed May 8; post-launch framing)
+- **Reply-guy hook** — "Most attackers burn Thatcher throwing EMPs at the wall t…"
+- **Discord (new-strat announce + engagement Q)** — "**New breakdown live: Chalet Master/Office attack.** Fu…"
+- **Reply-guy line (org engagement)** — "Reinforcing the wrong wall first is a timing problem, no…"
+
+Notes: T+56, founding window closed. Maps/sites this run: Chalet Master/Office (Hibana balcony breach, Zofia Office soft wall), Thatcher/Bandit EMP-timing hook, defensive reinforce-priority timing — none repeated from prior runs. Discord angle rotated to new-strat announce (last two runs were feature-highlight and engagement-Q).
