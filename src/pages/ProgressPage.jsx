@@ -45,6 +45,30 @@ export default function ProgressPage() {
   const [trnIgn, setTrnIgn] = useState('')
   const [trnPlatform, setTrnPlatform] = useState('ps5')
   const [trnSaving, setTrnSaving] = useState(false)
+  const [trnStats, setTrnStats] = useState(null) // live stats once TRN approves the app
+
+  // Try to pull live stats through our proxy. Silently no-ops until tracker.gg
+  // approves the app for production (returns 401/503 before then) — the
+  // deep-link button below is the graceful fallback meanwhile.
+  useEffect(() => {
+    if (!account?.display_name || !account?.platform) return
+    let cancelled = false
+    ;(async () => {
+      try {
+        const cognitoUser = getCurrentUser()
+        if (!cognitoUser) return
+        const session = await getSession(cognitoUser)
+        const token = getIdToken(session)
+        const res = await fetch(`${API_URL}/me/trn-stats?platform=${encodeURIComponent(account.platform)}&ign=${encodeURIComponent(account.display_name)}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (!res.ok) return // not approved yet, or profile not found — fall back to link
+        const d = await res.json()
+        if (!cancelled) setTrnStats(d)
+      } catch { /* fall back to the deep link */ }
+    })()
+    return () => { cancelled = true }
+  }, [account?.display_name, account?.platform])
 
   async function saveTrn() {
     if (!trnIgn.trim()) return
@@ -102,17 +126,27 @@ export default function ProgressPage() {
       <div style={{ ...card, margin: '18px 0', maxWidth: 640 }}>
         <h3 style={{ marginBottom: 6 }}>R6 Tracker</h3>
         {trnUrl(account?.platform, account?.display_name) ? (
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-            <span style={{ color: 'rgba(230,233,239,0.75)' }}>
-              Connected: <strong>{account.display_name}</strong> ({account.platform?.toUpperCase()})
-            </span>
-            <a
-              href={trnUrl(account.platform, account.display_name)}
-              target="_blank" rel="noopener noreferrer"
-              className="btn btn-outline"
-            >
-              Open live rank &amp; stats →
-            </a>
+          <div>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ color: 'rgba(230,233,239,0.75)' }}>
+                Connected: <strong>{account.display_name}</strong> ({account.platform?.toUpperCase()})
+              </span>
+              <a
+                href={trnUrl(account.platform, account.display_name)}
+                target="_blank" rel="noopener noreferrer"
+                className="btn btn-outline"
+              >
+                Open full stats →
+              </a>
+            </div>
+            {trnStats && (
+              <div style={{ display: 'flex', gap: 20, marginTop: 14, flexWrap: 'wrap' }}>
+                {trnStats.rank && <div><strong style={{ fontSize: '1.3rem', color: '#00e5ff' }}>{trnStats.rank}</strong><div style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.6)' }}>Rank</div></div>}
+                {trnStats.mmr != null && <div><strong style={{ fontSize: '1.3rem', color: '#00e5ff' }}>{trnStats.mmr}</strong><div style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.6)' }}>MMR</div></div>}
+                {trnStats.kd && <div><strong style={{ fontSize: '1.3rem', color: '#00e5ff' }}>{trnStats.kd}</strong><div style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.6)' }}>K/D</div></div>}
+                {trnStats.winPct && <div><strong style={{ fontSize: '1.3rem', color: '#00e5ff' }}>{trnStats.winPct}</strong><div style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.6)' }}>Win %</div></div>}
+              </div>
+            )}
           </div>
         ) : (
           <div style={{ display: 'flex', gap: 10, alignItems: 'end', flexWrap: 'wrap' }}>
