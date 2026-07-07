@@ -42,6 +42,7 @@ const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const ProgressPage = lazy(() => import('./pages/ProgressPage'))
+const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
 
 // Tiny loading fallback shown while a route's chunk fetches. Keep it minimal
@@ -167,6 +168,7 @@ const router = createHashRouter([
       { path: '/loadouts', element: <L><LoadoutsPage /></L> },
       { path: '/dashboard', element: <L><DashboardPage /></L> },
       { path: '/progress', element: <L><ProgressPage /></L> },
+      { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
       { path: '/operators/compare', element: <L><OperatorsComparePage /></L> },
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },
