@@ -37,7 +37,7 @@ const card = {
 }
 
 export default function ProgressPage() {
-  const { user, loading: authLoading, profile: account, refreshProfile } = useAuth()
+  const { user, loading: authLoading, profile: account, refreshProfile, isAdmin } = useAuth()
   const [profile, setProfile] = useState(null)
   const [sessions, setSessions] = useState([])
   const [error, setError] = useState(null)
@@ -139,13 +139,24 @@ export default function ProgressPage() {
       {error && <p style={{ color: '#ff6b6b' }}>Could not load progress: {error}</p>}
 
       {!loading && !error && (!profile || profile.totals.sessions === 0) && (
-        <div style={{ ...card, marginTop: 20, maxWidth: 640 }}>
-          <h3 style={{ marginBottom: 8 }}>No coached sessions yet</h3>
-          <p style={{ color: 'rgba(230,233,239,0.7)', marginBottom: 12 }}>
-            Sessions land here automatically after you play with the coach. The fastest way to start:
-          </p>
-          <a href="/coaching/" className="btn btn-primary">Book your free intro session</a>
-        </div>
+        isAdmin ? (
+          <div style={{ ...card, marginTop: 20, maxWidth: 640 }}>
+            <h3 style={{ marginBottom: 8 }}>No synced sessions yet</h3>
+            <p style={{ color: 'rgba(230,233,239,0.7)' }}>
+              Play a match with the coach connected (the ☁ sync button) and your sessions land here —
+              deaths, causes, round results, and the AI-vs-coach agreement rate. This is the same
+              report card your coaching customers see about their own play.
+            </p>
+          </div>
+        ) : (
+          <div style={{ ...card, marginTop: 20, maxWidth: 640 }}>
+            <h3 style={{ marginBottom: 8 }}>No coached sessions yet</h3>
+            <p style={{ color: 'rgba(230,233,239,0.7)', marginBottom: 12 }}>
+              Sessions land here automatically after you play with the coach. The fastest way to start:
+            </p>
+            <a href="/coaching/" className="btn btn-primary">Book your free intro session</a>
+          </div>
+        )
       )}
 
       {!loading && profile && profile.totals.sessions > 0 && (
