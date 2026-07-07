@@ -3,6 +3,18 @@ import { Link } from 'react-router-dom'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useAuth } from '../hooks/useAuth'
 
+// R6 Tracker (TRN) auto-connect: derived from the profile the user already
+// has (display_name = in-game name, platform). Set once here, saved to the
+// account, and the card deep-links to their live tracker profile. Full
+// stat IMPORT (rank/RP pulled onto this page) needs a tracker.gg API key —
+// the proxy endpoint gets built the day we have one.
+const TRN_PLATFORM = { ps5: 'psn', psn: 'psn', xbox: 'xbl', xbl: 'xbl', pc: 'ubi', ubi: 'ubi' }
+function trnUrl(platform, ign) {
+  const slug = TRN_PLATFORM[(platform || '').toLowerCase()]
+  if (!slug || !ign) return null
+  return `https://r6.tracker.network/r6siege/profile/${slug}/${encodeURIComponent(ign)}/overview`
+}
+
 // /progress — the customer's coaching report card (sync spine Part A surface).
 // Reads the aggregates from recon6-coaching-sync. Data arrives from the
 // desktop coach's shadow-mode logger (Part B, igl-coach-ps5 repo) — until a
@@ -25,11 +37,35 @@ const card = {
 }
 
 export default function ProgressPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading, profile: account, refreshProfile } = useAuth()
   const [profile, setProfile] = useState(null)
   const [sessions, setSessions] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [trnIgn, setTrnIgn] = useState('')
+  const [trnPlatform, setTrnPlatform] = useState('ps5')
+  const [trnSaving, setTrnSaving] = useState(false)
+
+  async function saveTrn() {
+    if (!trnIgn.trim()) return
+    setTrnSaving(true)
+    try {
+      const cognitoUser = getCurrentUser()
+      const session = await getSession(cognitoUser)
+      const token = getIdToken(session)
+      const res = await fetch(`${API_URL}/me`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ display_name: trnIgn.trim(), platform: trnPlatform }),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      await refreshProfile?.()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setTrnSaving(false)
+    }
+  }
 
   useEffect(() => {
     if (authLoading || !user) return
@@ -61,6 +97,43 @@ export default function ProgressPage() {
       <p style={{ color: 'rgba(230,233,239,0.7)', maxWidth: 640 }}>
         Every coached session syncs here: what killed you, where, and how the plan is trending.
       </p>
+
+      {/* R6 Tracker connect — one card, set once, lives on the account. */}
+      <div style={{ ...card, margin: '18px 0', maxWidth: 640 }}>
+        <h3 style={{ marginBottom: 6 }}>R6 Tracker</h3>
+        {trnUrl(account?.platform, account?.display_name) ? (
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{ color: 'rgba(230,233,239,0.75)' }}>
+              Connected: <strong>{account.display_name}</strong> ({account.platform?.toUpperCase()})
+            </span>
+            <a
+              href={trnUrl(account.platform, account.display_name)}
+              target="_blank" rel="noopener noreferrer"
+              className="btn btn-outline"
+            >
+              Open live rank &amp; stats →
+            </a>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: 10, alignItems: 'end', flexWrap: 'wrap' }}>
+            <label style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)' }}>In-game name<br />
+              <input value={trnIgn} onChange={(e) => setTrnIgn(e.target.value)} placeholder="Splinter2581"
+                style={{ padding: '8px 10px', background: '#0d1320', color: 'inherit', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8 }} />
+            </label>
+            <label style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)' }}>Platform<br />
+              <select value={trnPlatform} onChange={(e) => setTrnPlatform(e.target.value)}
+                style={{ padding: '9px 10px', background: '#0d1320', color: 'inherit', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8 }}>
+                <option value="ps5">PlayStation</option>
+                <option value="xbox">Xbox</option>
+                <option value="pc">PC</option>
+              </select>
+            </label>
+            <button type="button" className="btn btn-primary" onClick={saveTrn} disabled={trnSaving}>
+              {trnSaving ? 'Saving…' : 'Connect tracker'}
+            </button>
+          </div>
+        )}
+      </div>
 
       {loading && <p style={{ color: 'rgba(230,233,239,0.6)' }}>Loading your data…</p>}
       {error && <p style={{ color: '#ff6b6b' }}>Could not load progress: {error}</p>}
