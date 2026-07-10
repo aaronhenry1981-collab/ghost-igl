@@ -67,6 +67,7 @@ function sessionSummaries(items) {
     const s = (bySession[e.sessionId] = bySession[e.sessionId] || {
       sessionId: e.sessionId, firstTs: e.ts, lastTs: e.ts, events: 0,
       maps: new Set(), deaths: 0, roundsWon: 0, roundsLost: 0,
+      result: null, rpDelta: null, dominantCause: null,
     })
     s.events++
     if (e.ts < s.firstTs) s.firstTs = e.ts
@@ -75,6 +76,13 @@ function sessionSummaries(items) {
     if (e.outcome?.died) s.deaths++
     if (e.outcome?.roundResult === 'won') s.roundsWon++
     if (e.outcome?.roundResult === 'lost') s.roundsLost++
+    // The match-end report is authoritative for result/RP and names the leak.
+    // A session here is one coached match, so last report wins (there's one).
+    if (e.report) {
+      if (e.report.result) s.result = e.report.result
+      if (e.report.rpDelta != null) s.rpDelta = e.report.rpDelta
+      if (e.report.mechanics?.dominant) s.dominantCause = e.report.mechanics.dominant
+    }
   }
   return Object.values(bySession)
     .map((s) => ({ ...s, maps: [...s.maps] }))
@@ -111,6 +119,10 @@ export async function handler(event) {
               aiSuggestion: e.aiSuggestion || null,
               coachAction: e.coachAction || null,
               outcome: e.outcome || null,
+              // b98 mechanics report (present on match-end events): dominant
+              // death cause, the drill prescribed, recurring-habit count,
+              // rounds, result, RP. The dashboard reads this structured shape.
+              report: e.report || null,
               receivedAt: new Date().toISOString(),
             },
           },
@@ -138,7 +150,8 @@ export async function handler(event) {
     if (method === 'GET' && path.endsWith('/me/coaching-profile')) {
       const items = await queryAll(userId)
       const sessions = sessionSummaries(items)
-      const deathsByMap = {}, deathsByOp = {}
+      const deathsByMap = {}, deathsByOp = {}, deathsByCause = {}
+      const reports = []
       let aiPairs = 0, aiCoachAgree = 0
       for (const e of items) {
         if (e.outcome?.died) {
@@ -146,7 +159,13 @@ export async function handler(event) {
           const o = e.gameState?.operatorId || 'unknown'
           deathsByMap[m] = (deathsByMap[m] || 0) + 1
           deathsByOp[o] = (deathsByOp[o] || 0) + 1
+          // Per-death cause (set by the coach's classifier) → the leak tally
+          // that drives the mechanics report on /progress.
+          const c = e.outcome?.cause
+          if (c && c !== 'other') deathsByCause[c] = (deathsByCause[c] || 0) + 1
         }
+        // Match-end mechanics reports, kept in time order for latest + trend.
+        if (e.report?.mechanics?.dominant) reports.push({ ts: e.ts, ...e.report })
         if (e.aiSuggestion?.line && e.coachAction?.spokenLine) {
           aiPairs++
           const a = e.aiSuggestion.line.toLowerCase(), c = e.coachAction.spokenLine.toLowerCase()
@@ -159,13 +178,35 @@ export async function handler(event) {
         }
       }
       const recent = sessions.slice(0, 10).reverse()
+      // Rank the leaks and pull the latest match's mechanics verdict. The
+      // recurring leak = the dominant cause appearing across the most recent
+      // matches — the entrenched-habit signal the coach speaks, made durable.
+      reports.sort((a, b) => (a.ts < b.ts ? -1 : 1))
+      const latest = reports[reports.length - 1] || null
+      const topLeaks = Object.entries(deathsByCause).sort((a, b) => b[1] - a[1]).map(([cause, n]) => ({ cause, n }))
+      const dominantTally = {}
+      for (const r of reports.slice(-5)) dominantTally[r.mechanics.dominant] = (dominantTally[r.mechanics.dominant] || 0) + 1
+      const recurringLeak = Object.entries(dominantTally).sort((a, b) => b[1] - a[1])[0] || null
       return resp(200, {
         totals: {
           sessions: sessions.length,
           events: items.length,
           deaths: Object.values(deathsByMap).reduce((a, b) => a + b, 0),
         },
-        deathsByMap, deathsByOperator: deathsByOp,
+        deathsByMap, deathsByOperator: deathsByOp, deathsByCause, topLeaks,
+        // The mechanics coach, surfaced for the dashboard:
+        mechanics: {
+          latest: latest && {
+            dominant: latest.mechanics.dominant,
+            kind: latest.mechanics.kind || null,
+            drill: latest.mechanics.drill || null,
+            recurring: latest.mechanics.recurring || 0,
+            result: latest.result || null,
+            rpDelta: latest.rpDelta ?? null,
+            date: latest.ts,
+          },
+          recurringLeak: recurringLeak ? { cause: recurringLeak[0], matches: recurringLeak[1] } : null,
+        },
         aiShadow: { pairs: aiPairs, agreements: aiCoachAgree },
         deathTrend: recent.map((s) => ({ sessionId: s.sessionId, date: s.firstTs, deaths: s.deaths })),
       })
