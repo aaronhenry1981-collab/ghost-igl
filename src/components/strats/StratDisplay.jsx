@@ -29,6 +29,25 @@ function CalloutTag({ label }) {
   )
 }
 
+// Camera-ish callouts on a site — CCTV rooms, security/surveillance spots.
+// Derived from the site's OWN callout list, so nothing is invented.
+const CAM_CALLOUT = /\b(cctv|security|surveillance|camera|cams?|control room|monitor)\b/i
+
+function attackCamNotes(strat) {
+  // A per-site override wins if the data provides one (fill exact default-cam
+  // spots from footage later); otherwise derive from real callouts.
+  if (Array.isArray(strat.attackCams) && strat.attackCams.length) return strat.attackCams
+  const named = (strat.callouts || []).filter((c) => CAM_CALLOUT.test(c))
+  const notes = [
+    'Shoot the default security cameras covering your entry and the objective before you commit — every live cam is free intel for dead defenders and roamers.',
+  ]
+  if (named.length) {
+    notes.push(`On this site the ${named.join(' and ')} area${named.length > 1 ? 's carry' : ' carries'} known cams — clear ${named.length > 1 ? 'them' : 'it'} on approach.`)
+  }
+  notes.push('If the enemy has Valkyrie, Maestro, Echo, or Mozzie, expect extra hidden cams — clear those too before the push.')
+  return notes
+}
+
 export default function StratDisplay({ strat, side, gated }) {
   const { role: userRole } = useUserRole()
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
@@ -75,6 +94,19 @@ export default function StratDisplay({ strat, side, gated }) {
           ))}
         </div>
       </div>
+
+      {side === 'attack' && (
+        <div className="strat-section">
+          <div className="strat-section-title">
+            Cameras to Clear <span className="strat-section-hint">(shoot on entry)</span>
+          </div>
+          <ul className="utility-list">
+            {attackCamNotes(strat).map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {gated ? (
         <ProGate label="Utility Breakdown">
