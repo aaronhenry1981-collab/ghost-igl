@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>RECON 6 — Field Report card</title>
+<style>
+  /* ---- Testimonial "FIELD REPORT" card generator ------------------------
+     Self-contained, 1080x1080. Stars are SVG shapes, NOT the Unicode ★
+     character — so they render as filled stars in every tool/font and can
+     never fall back to the empty-box glyph (the bug in the old Canva card).
+     To reuse: edit the TESTI object in the <script> at the bottom, refresh,
+     and screenshot the card at 1080x1080 (or open dev-tools device mode).
+     ---------------------------------------------------------------------- */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --amber: #FFB03A;
+    --ice:   #9BE7FF;
+    --field: #07090B;
+    --line:  rgba(255,255,255,0.10);
+    --grey:  #7d8590;
+    --green: #35d29a;
+  }
+  html, body { background: #1b1d20; }
+  body { display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .card {
+    position: relative;
+    width: 1080px; height: 1080px;
+    background: var(--field);
+    color: #fff;
+    font-family: 'Arial Narrow', 'Helvetica Neue', system-ui, sans-serif;
+    overflow: hidden;
+  }
+  .grid { position: absolute; inset: 0; opacity: 0.5;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 54px 54px; }
+  .bracket { position: absolute; width: 46px; height: 46px; border: 3px solid var(--amber); }
+  .bracket.tl { top: 54px; left: 54px; border-right: 0; border-bottom: 0; }
+  .bracket.tr { top: 54px; right: 54px; border-left: 0; border-bottom: 0; }
+  .bracket.bl { bottom: 54px; left: 54px; border-right: 0; border-top: 0; }
+  .bracket.br { bottom: 54px; right: 54px; border-left: 0; border-top: 0; }
+  .inner { position: absolute; inset: 92px; display: flex; flex-direction: column; }
+
+  .mono { font-family: 'Courier New', ui-monospace, monospace; letter-spacing: 0.14em; }
+
+  .head { display: flex; align-items: center; gap: 28px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .brand { font-weight: 800; font-size: 30px; letter-spacing: 0.06em; }
+  .brand-rule { width: 62px; height: 3px; background: var(--amber); margin-top: 7px; }
+  .kicker { font-size: 17px; color: var(--grey); }
+  .status { margin-left: auto; display: flex; align-items: center; gap: 11px; font-size: 17px; color: var(--grey); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+
+  .body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .quote-mark { font-family: Georgia, serif; color: var(--amber); font-size: 150px; line-height: 0.7; height: 96px; }
+  .quote { font-weight: 800; font-size: 74px; line-height: 1.12; letter-spacing: -0.005em; max-width: 820px; }
+  .quote .u { border-bottom: 5px solid var(--amber); padding-bottom: 8px; }
+
+  .author { display: flex; align-items: center; gap: 26px; padding-top: 8px; }
+  .avatar { width: 96px; height: 96px; border: 2px solid var(--amber); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; color: var(--amber);
+    font-size: 34px; font-weight: 700; letter-spacing: 0.04em; background: rgba(255,176,58,0.06); }
+  .who-name { font-weight: 800; font-size: 42px; letter-spacing: 0.01em; }
+  .who-role { font-size: 18px; color: var(--grey); margin-top: 4px; }
+  .stars { display: flex; gap: 9px; margin-top: 14px; }
+
+  .foot { display: flex; align-items: center; padding-top: 22px; border-top: 1px solid var(--line); }
+  .foot .site { font-size: 18px; color: var(--grey); }
+  .foot .tag { margin-left: auto; font-size: 18px; color: var(--grey); }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="grid"></div>
+    <span class="bracket tl"></span><span class="bracket tr"></span>
+    <span class="bracket bl"></span><span class="bracket br"></span>
+
+    <div class="inner">
+      <div class="head">
+        <div>
+          <div class="brand">RECON 6</div>
+          <div class="brand-rule"></div>
+        </div>
+        <div class="kicker mono">// FIELD REPORT</div>
+        <div class="status mono"><span class="dot"></span><span id="statusText">STATUS: VERIFIED</span></div>
+      </div>
+
+      <div class="body">
+        <div class="quote-mark">&ldquo;</div>
+        <div class="quote" id="quote"></div>
+      </div>
+
+      <div class="author">
+        <div class="avatar" id="avatar">JC</div>
+        <div style="flex:1">
+          <div class="who-name" id="name"></div>
+          <div class="who-role mono" id="role"></div>
+          <div class="stars" id="stars"></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div class="site mono">r6coaching.com</div>
+        <div class="tag mono">RANK UP. PLAY SMARTER.</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ---- Edit this block to make a card for any testimonial ----------------
+  const TESTI = {
+    name: 'JoCephis88',
+    initials: 'JC',
+    role: 'VERIFIED OPERATOR · RECON 6 MEMBER',
+    rating: 5,
+    // Wrap the words you want underlined (usually the last line) in [[ ]].
+    quote: 'The system is great — it gives great ideas and tells you exactly which ops the team needs. [[Great system all around.]]',
+  };
+  // ------------------------------------------------------------------------
+
+  const STAR = 'M12 2l2.94 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21 7 14.14l-5-4.87 7.06-1.01z';
+  function star() {
+    return '<svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">'
+         + '<path fill="#FFB03A" d="' + STAR + '"/></svg>';
+  }
+
+  document.getElementById('name').textContent = TESTI.name;
+  document.getElementById('role').textContent = TESTI.role;
+  document.getElementById('avatar').textContent = TESTI.initials || TESTI.name.slice(0, 2).toUpperCase();
+  document.getElementById('quote').innerHTML =
+    TESTI.quote.replace(/\[\[(.+?)\]\]/g, '<span class="u">$1</span>');
+  document.getElementById('stars').innerHTML =
+    Array.from({ length: Math.max(0, Math.min(5, TESTI.rating || 5)) }, star).join('');
+</script>
+</body>
+</html>
