@@ -195,6 +195,10 @@ export default function Navbar() {
       <nav className="navbar">
         <div className="navbar-left">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
+            {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
+                DOM text — never a <text> node inside the SVG, which would render
+                differently in every browser. */}
+            <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
             Recon<span>6</span>
           </Link>
           {/* GameSwitcher removed 2026-07-06 — RECON6 is R6-only now. The
@@ -281,6 +285,10 @@ export default function Navbar() {
       >
         <div className="mobile-drawer-head">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
+            {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
+                DOM text — never a <text> node inside the SVG, which would render
+                differently in every browser. */}
+            <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
             Recon<span>6</span>
           </Link>
           <button
