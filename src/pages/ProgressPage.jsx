@@ -114,6 +114,7 @@ export default function ProgressPage() {
   }
 
   const top = (obj, n = 5) => Object.entries(obj || {}).sort((a, b) => b[1] - a[1]).slice(0, n)
+  const capCause = (c) => (c || '').replace(/^\w/, (m) => m.toUpperCase())
 
   return (
     <div className="section" style={{ maxWidth: 960, margin: '0 auto', padding: '2.5rem 1rem' }}>
@@ -209,12 +210,35 @@ export default function ProgressPage() {
             )}
           </div>
 
+          {/* The coaching read — the mechanics verdict from the latest match,
+              plus the recurring-leak signal across recent matches. */}
+          {profile.mechanics?.latest?.drill && (
+            <div style={{ ...card, borderColor: 'rgba(0,229,255,0.4)', background: 'rgba(0,229,255,0.05)', margin: '20px 0', maxWidth: 720 }}>
+              <div style={{ fontSize: '0.8rem', letterSpacing: '0.05em', textTransform: 'uppercase', color: '#00e5ff', marginBottom: 6 }}>
+                Your coaching read
+              </div>
+              {profile.mechanics.recurringLeak?.matches >= 2 && (
+                <div style={{ marginBottom: 8, color: '#ffb03a' }}>
+                  Recurring leak: <strong>{capCause(profile.mechanics.recurringLeak.cause)}</strong>
+                  {' '}— top cause in {profile.mechanics.recurringLeak.matches} of your recent matches. Drill it deliberately.
+                </div>
+              )}
+              <p style={{ margin: 0, color: 'rgba(230,233,239,0.9)', lineHeight: 1.5 }}>{profile.mechanics.latest.drill}</p>
+            </div>
+          )}
+
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-            <div style={{ ...card, flex: '1 1 280px' }}>
+            <div style={{ ...card, flex: '1 1 220px' }}>
+              <h3>Why you die</h3>
+              {top(profile.deathsByCause).length === 0
+                ? <div style={{ color: 'rgba(230,233,239,0.55)' }}>No cause data yet.</div>
+                : top(profile.deathsByCause).map(([k, v]) => <div key={k}>{capCause(k)}: <strong>{v}</strong></div>)}
+            </div>
+            <div style={{ ...card, flex: '1 1 220px' }}>
               <h3>Deaths by map</h3>
               {top(profile.deathsByMap).map(([k, v]) => <div key={k}>{k}: <strong>{v}</strong></div>)}
             </div>
-            <div style={{ ...card, flex: '1 1 280px' }}>
+            <div style={{ ...card, flex: '1 1 220px' }}>
               <h3>Deaths by operator</h3>
               {top(profile.deathsByOperator).map(([k, v]) => <div key={k}>{k}: <strong>{v}</strong></div>)}
             </div>
@@ -222,7 +246,7 @@ export default function ProgressPage() {
 
           <h3 style={{ margin: '24px 0 8px' }}>Sessions</h3>
           <table className="admin-table" style={{ width: '100%' }}>
-            <thead><tr><th>Date</th><th>Maps</th><th>Moments</th><th>Deaths</th><th>Rounds W–L</th></tr></thead>
+            <thead><tr><th>Date</th><th>Maps</th><th>Moments</th><th>Deaths</th><th>Rounds W–L</th><th>Result</th><th>Leak</th></tr></thead>
             <tbody>
               {sessions.map((s) => (
                 <tr key={s.sessionId}>
@@ -231,6 +255,11 @@ export default function ProgressPage() {
                   <td>{s.events}</td>
                   <td>{s.deaths}</td>
                   <td>{s.roundsWon}–{s.roundsLost}</td>
+                  <td>
+                    {s.result ? <span style={{ color: s.result === 'win' ? '#4ade80' : '#ff6b6b' }}>{s.result === 'win' ? 'Win' : 'Loss'}</span> : '—'}
+                    {s.rpDelta != null && <span style={{ color: 'rgba(230,233,239,0.55)' }}> ({s.rpDelta > 0 ? '+' : ''}{s.rpDelta})</span>}
+                  </td>
+                  <td>{s.dominantCause ? capCause(s.dominantCause) : '—'}</td>
                 </tr>
               ))}
             </tbody>
