@@ -1,11 +1,11 @@
 {
-  "name": "Recon 6 — Climb Faster in Every Game You Play",
-  "short_name": "Recon 6",
-  "description": "Every map, every site, every callout — pre-loaded for you. Round-by-round AI VOD breakdowns from your screenshots. Live across 20 competitive games — R6, CS2, Valorant, OW2, LoL, Tekken 8, and more.",
+  "name": "RECON6 — AI-Augmented Rainbow Six Siege Coaching",
+  "short_name": "RECON6",
+  "description": "Every map, every site, every callout — pre-loaded. Round-by-round AI VOD breakdowns from your screenshots, and a human coach backed by an AI staff.",
   "start_url": "/#/strats",
   "display": "standalone",
-  "background_color": "#0a0f19",
-  "theme_color": "#0a0f19",
+  "background_color": "#07090B",
+  "theme_color": "#07090B",
   "orientation": "portrait-primary",
   "categories": ["games", "utilities", "productivity"],
   "icons": [
@@ -13,8 +13,11 @@
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+      "purpose": "any"
+    },
+    { "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
     {

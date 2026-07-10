@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run generate:all && vite build",
-    "generate:all": "npm run generate:guides && npm run generate:operators && npm run generate:bans && npm run generate:blog && npm run generate:gameog && npm run generate:stadiumog && npm run generate:games && npm run generate:cast && npm run generate:loadouts && npm run generate:maploadouts && npm run generate:tools && npm run generate:coaching && npm run generate:countdown && npm run generate:rss && npm run generate:status && npm run generate:og && npm run generate:sitemap",
+    "generate:all": "npm run generate:brand && npm run generate:guides && npm run generate:operators && npm run generate:bans && npm run generate:blog && npm run generate:gameog && npm run generate:stadiumog && npm run generate:games && npm run generate:cast && npm run generate:loadouts && npm run generate:maploadouts && npm run generate:tools && npm run generate:coaching && npm run generate:countdown && npm run generate:rss && npm run generate:status && npm run generate:og && npm run generate:sitemap",
     "generate:games": "node scripts/generate-game-landing-pages.mjs",
     "generate:gameog": "node scripts/generate-game-og-images.mjs",
     "generate:stadiumog": "node scripts/generate-stadium-og-images.mjs",
@@ -27,7 +27,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:countdown": "node scripts/generate-countdown.mjs",
-    "generate:coaching": "node scripts/generate-coaching-page.mjs"
+    "generate:coaching": "node scripts/generate-coaching-page.mjs",
+    "generate:brand": "node scripts/generate-brand-assets.mjs"
   },
   "dependencies": {
     "amazon-cognito-identity-js": "^6.3.16",
