@@ -2,6 +2,13 @@
 //
 // Each side has: { operators[], strategy, callouts[], utility[] }.
 //
+// Optional ATTACK-side field:
+//   attackCams?: ['Break the exterior cam over Garage before crossing', ...]
+//     Exact default-camera spots to shoot on entry. When present, StratDisplay's
+//     "Cameras to Clear" section shows these verbatim; when absent it derives
+//     honest guidance from the site's own callouts + universal cam doctrine.
+//     Fill these from footage rather than inventing coordinates.
+//
 // Optional Champion-only field per side (rendered by StratDisplay.jsx behind
 // ChampionGate — non-Champions see the upgrade overlay):
 //
