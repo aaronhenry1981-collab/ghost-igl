@@ -924,7 +924,7 @@ export default function LandingPage() {
             )
           })}
         </div>
-        <p className="pricing-note">All plans include a 7-day money-back guarantee. No questions asked.</p>
+        <p className="pricing-note">Paid plans start with a 30-day free trial — cancel anytime before it bills and you're never charged.</p>
         {portalError && (
           <p className="pricing-note" style={{ color: '#ff6b6b' }}>
             {portalError} — you can also <Link to="/account">manage from Account</Link>.
