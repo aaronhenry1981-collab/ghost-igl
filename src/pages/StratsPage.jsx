@@ -106,7 +106,15 @@ function R6StratsPage() {
   //   - Pro / Free: blocked from comingSoon and championOnly maps.
   // The useEffect below redirects the URL back to /strats so non-Champions
   // can't bypass MapSelector by typing a URL.
-  const mapAccessible = mapData && (isAdmin || isChampion || (!mapData.comingSoon && !mapData.championOnly))
+  // Thin free tier: non-subscribers (free / signed-out) can open ONLY the free
+  // SAMPLE maps (freeSample: true) — the rest needs a trial or a paid plan.
+  // Subscribers (pro / champion / admin) keep the full-catalog rules.
+  const subscriber = isPro || isAdmin
+  const mapAccessible = mapData && (
+    subscriber
+      ? (isAdmin || isChampion || (!mapData.comingSoon && !mapData.championOnly))
+      : (!!mapData.freeSample && !mapData.comingSoon)
+  )
   const selectedMap = mapAccessible ? mapData.id : null
   const selectedSite =
     selectedMap && urlSiteId && mapData.sites.some((s) => s.id === urlSiteId)
@@ -149,11 +157,16 @@ function R6StratsPage() {
   function goMap(mapId) {
     const map = MAPS.find((m) => m.id === mapId)
     if (!map) return
-    // Admins + Champions bypass comingSoon + championOnly gates.
-    // Pro/Free users are still blocked from coming-soon and Champion-only maps.
-    if (!isAdmin && !isChampion) {
-      if (map.comingSoon) return
-      if (map.championOnly && !isChampion) return
+    if (subscriber) {
+      // Admins + Champions bypass comingSoon + championOnly gates.
+      // Pro is still blocked from coming-soon and Champion-only maps.
+      if (!isAdmin && !isChampion) {
+        if (map.comingSoon) return
+        if (map.championOnly) return
+      }
+    } else if (!map.freeSample || map.comingSoon) {
+      // Free / signed-out: sample maps only — MapSelector shows the rest locked.
+      return
     }
     navigate(`/strats/${mapId}`)
   }

@@ -29,17 +29,23 @@ const MAP_ICONS = {
 export default function MapSelector({ maps, onSelect }) {
   const { isAdmin, plan, isPro } = useAuth()
   const isChampion = isAdmin || plan === 'champion'
+  const subscriber = isAdmin || isPro // pro / champion / admin
 
   return (
     <div className="map-grid">
       {maps.map((map) => {
         const isStadium = map.type === 'Stadium'
         const championLocked = map.championOnly && !isChampion
+        // Thin free tier: free / signed-out users can only open the free SAMPLE
+        // maps; every other map is locked behind the trial.
+        const sampleLocked = !subscriber && !map.freeSample
         // Stadium maps are Pro-only — non-Pro users can still click in (the
         // StratsPage shows them a ProGate teaser) but the card shows a PRO
         // badge upfront so the expectation is set.
-        const locked = !isAdmin && !isChampion && (map.comingSoon || championLocked)
-        const tierLabel = isAdmin && map.comingSoon
+        const locked = (!isAdmin && !isChampion && (map.comingSoon || championLocked)) || sampleLocked
+        const tierLabel = sampleLocked
+          ? 'Start free trial'
+          : isAdmin && map.comingSoon
           ? 'Admin · Strats coming'
           : isChampion && map.comingSoon
             ? `Strats coming · ${map.sites?.length || 0} sites`
@@ -111,6 +117,26 @@ export default function MapSelector({ maps, onSelect }) {
                 }}
               >
                 {'⚑'} PRO
+              </div>
+            )}
+            {sampleLocked && (
+              <div
+                className="map-card-badge"
+                style={{
+                  position: 'absolute',
+                  top: 8,
+                  right: 8,
+                  fontSize: '0.65rem',
+                  padding: '2px 7px',
+                  borderRadius: 999,
+                  background: 'rgba(255, 180, 80, 0.18)',
+                  border: '1px solid rgba(255, 180, 80, 0.5)',
+                  color: '#ffc97a',
+                  fontWeight: 700,
+                  letterSpacing: '0.05em',
+                }}
+              >
+                {'🔒'} TRIAL
               </div>
             )}
             <div className="map-card-icon">{MAP_ICONS[map.id] || '🗺️'}</div>

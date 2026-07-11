@@ -11,6 +11,7 @@ const MAPS = [
     id: 'bank',
     name: 'Bank',
     rankedPool: true,
+    freeSample: true, // free/anon taste map — see full free-tier content here
     sites: [
       { id: 'ceo', name: 'CEO Office / Executive Lounge', floor: '2F' },
       { id: 'open-area', name: 'Open Area / Staff Room', floor: '1F' },
@@ -55,6 +56,7 @@ const MAPS = [
     id: 'coastline',
     name: 'Coastline',
     rankedPool: true,
+    freeSample: true, // free/anon taste map — see full free-tier content here
     sites: [
       { id: 'hookah-billiards', name: 'Hookah Lounge / Billiards Room', floor: '2F' },
       { id: 'theater-penthouse', name: 'Theater / Penthouse', floor: '2F' },

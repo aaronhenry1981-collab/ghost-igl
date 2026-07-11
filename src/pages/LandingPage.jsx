@@ -283,15 +283,14 @@ const PRICING = [
     tier: 'Recruit',
     price: 'Free',
     period: '',
-    desc: 'Strategy basics across every supported game — try before you commit',
+    desc: 'A real taste — the operator catalog and two full sample maps. Start a trial for the rest.',
     link: '/strats',
     features: [
-      'Every R6 ranked map (full coverage)',
-      'CS2, Valorant, Apex, OW2 + 5 more — site & cast catalogs',
-      'Character lineup per site (who to pick)',
+      'Full operator catalog — who to pick, every op',
+      'Two sample maps, full free-tier detail (Bank & Coastline)',
       'Key callouts — click to copy',
-      'Strategy summary for every covered site',
       'Discord community access',
+      'Start a 30-day trial anytime to unlock everything',
     ],
   },
   {
@@ -299,11 +298,13 @@ const PRICING = [
     price: '$9',
     regularPrice: '$12',
     period: '/mo',
-    desc: 'Everything in Recruit, plus the deep intel that wins rounds',
+    desc: 'Start free for 30 days — the deep intel that wins rounds, all unlocked.',
     featured: true,
     founding: true,
+    trialDays: 30,
     link: PRO_CHECKOUT_LINK,
     features: [
+      '30-day free trial — card up front, cancel anytime before it bills',
       'Everything in Recruit',
       '+ Round-by-round breakdowns — upload 5 screenshots per session, get specific fixes',
       '+ Tells you exactly which utility to use, where, and when',
@@ -319,10 +320,12 @@ const PRICING = [
     price: '$29',
     regularPrice: '$39',
     period: '/mo',
-    desc: 'Pro + deeper VOD analysis with multi-round sessions, practice plans, and operator-specific feedback',
+    desc: 'Start free for 30 days — Pro plus deeper VOD analysis, practice plans, and every map unlocked.',
     founding: true,
+    trialDays: 30,
     link: CHAMPION_CHECKOUT_LINK,
     features: [
+      '30-day free trial — card up front, cancel anytime before it bills',
       'Everything in Pro',
       '+ Review a full round at once — upload up to 10 screenshots per session',
       '+ Held accountable for every pick (did you actually use the gadget?)',
@@ -914,7 +917,7 @@ export default function LandingPage() {
                   }}
                   className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
                 >
-                  {p.price === 'Free' ? 'Get Started Free' : 'Subscribe Now'}
+                  {p.price === 'Free' ? 'Get Started Free' : p.trialDays ? `Start ${p.trialDays}-day free trial` : 'Subscribe Now'}
                 </a>
               )}
             </div>
