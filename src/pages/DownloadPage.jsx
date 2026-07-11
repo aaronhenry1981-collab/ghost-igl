@@ -21,10 +21,10 @@ const SHARED_FEATURES = [
 const PC_EXTRAS = [
   { t: 'Native window & region capture — no capture-card latency', now: true },
   { t: 'Sharper map / site / ban / operator recognition from a clean render', now: true },
+  { t: 'On-screen overlay HUD — callouts, timer and site setup on your game screen', now: true },
+  { t: 'Global hotkeys — overlay, mute, re-brief, mark-clip, record (while in-game)', now: true },
+  { t: 'One-key session recording + auto-clips — no capture card, no OBS', now: true },
   { t: 'Auto game-window detection — no manual region boxing', now: false },
-  { t: 'On-screen overlay HUD — callouts, timer and site setup on your game screen', now: false },
-  { t: 'Global hotkeys — mute, mark-a-clip, re-brief, toggle overlay', now: false },
-  { t: 'Auto clip capture — no separate recording', now: false },
 ]
 
 function PlatformSplit() {
