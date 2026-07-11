@@ -24,7 +24,7 @@ const PC_EXTRAS = [
   { t: 'On-screen overlay HUD — callouts, timer and site setup on your game screen', now: true },
   { t: 'Global hotkeys — overlay, mute, re-brief, mark-clip, record (while in-game)', now: true },
   { t: 'One-key session recording + auto-clips — no capture card, no OBS', now: true },
-  { t: 'Auto game-window detection — no manual region boxing', now: false },
+  { t: 'Auto game-window detection — no manual region boxing', now: true },
 ]
 
 function PlatformSplit() {
