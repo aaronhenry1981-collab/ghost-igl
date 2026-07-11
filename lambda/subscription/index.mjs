@@ -232,7 +232,13 @@ async function getActiveSub(email) {
 // `current_period_end` in the past is treated as expired even if `status` is
 // still 'active' in the row. Admins can extend by re-comping.
 function isActiveSub(s) {
-  if (!s || s.status !== 'active') return false
+  if (!s) return false
+  // 'trialing' = a Stripe card-up-front trial (card on file, auto-converts). It
+  // IS paid access, so grant the plan during the trial — the webhook flips the
+  // row to 'active' (payment ok) or 'past_due'/'canceled' (failed) when the
+  // trial ends. Comp / no-card trials use status 'active' + comp:true and are
+  // still bounded by current_period_end below.
+  if (s.status !== 'active' && s.status !== 'trialing') return false
   if (s.comp === true && s.current_period_end) {
     const end = Date.parse(s.current_period_end)
     if (Number.isFinite(end) && end < Date.now()) return false
@@ -777,7 +783,8 @@ async function postActivationToken(email, headers, payload) {
     plan = 'champion'
   } else {
     const sub = await getActiveSub(email)
-    if (sub?.status === 'active' && sub.plan === 'champion') plan = 'champion'
+    // Trialing Champions (card-up-front trial) can activate the desktop app too.
+    if (isActiveSub(sub) && sub.plan === 'champion') plan = 'champion'
   }
 
   if (plan !== 'champion') {
