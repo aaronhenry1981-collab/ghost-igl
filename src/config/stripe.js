@@ -39,11 +39,17 @@ export const STRIPE_FOUNDING_ACTIVE =
 // Founding rates — sold during the founding window (currently through
 // May 31, 2026). Subscribers locked at this price for as long as they stay
 // subscribed (the marketing promise).
-export const PRO_FOUNDING_LINK = 'https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f'
+// 30-DAY FREE TRIAL links (created 2026-07-11, plink_1Ts6U8 / plink_1Ts6UJ):
+// card up front (payment_method_collection: always), trial_period_days: 30, then
+// auto-bills the founding rate. Same founding PRICE, so the price-locked-for-life
+// promise is unchanged. Old no-trial links kept for rollback:
+//   Pro:      https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f
+//   Champion: https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d
+export const PRO_FOUNDING_LINK = 'https://buy.stripe.com/4gM00kd3k0J61oz8O67ss0n'
 export const PRO_FOUNDING_PRICE_ID = 'price_1TPtOKJNddvjgWcg47I16AQp'
 export const PRO_FOUNDING_AMOUNT = 9 // dollars
 
-export const CHAMPION_FOUNDING_LINK = 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d'
+export const CHAMPION_FOUNDING_LINK = 'https://buy.stripe.com/14AeVe8N4dvS4AL4xQ7ss0o'
 export const CHAMPION_FOUNDING_PRICE_ID = 'price_1TLEtsJNddvjgWcgYcmiNmW7'
 export const CHAMPION_FOUNDING_AMOUNT = 29
 
