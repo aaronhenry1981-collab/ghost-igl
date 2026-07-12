@@ -32,6 +32,7 @@ import {
 } from '@aws-sdk/lib-dynamodb'
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
+import Stripe from 'stripe'
 import crypto from 'node:crypto'
 
 const REGION = process.env.AWS_REGION || 'us-east-1'
@@ -40,6 +41,18 @@ const ses = new SESv2Client({ region: REGION })
 
 const AVAIL_TABLE = process.env.AVAILABILITY_TABLE || 'recon6-availability'
 const BOOK_TABLE = process.env.BOOKINGS_TABLE || 'recon6-bookings'
+
+// Stripe — one-time coaching payments. Secret is the same live key the webhook
+// Lambda uses (STRIPE_SECRET_KEY), set on this function's env; never logged.
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null
+// Session type → { price id, amount cents, label }. Kept in sync with
+// src/config/stripe.js COACHING_*_PRICE_ID.
+const COACHING = {
+  intro: { price: process.env.COACHING_INTRO_PRICE_ID || 'price_1TsOskJNddvjgWcgOPhkaqnK', amount: 2000, label: 'First Session (intro)' },
+  single: { price: process.env.COACHING_SINGLE_PRICE_ID || 'price_1TsOsaJNddvjgWcgmalTAfcn', amount: 4000, label: 'Single Session' },
+  package: { price: process.env.COACHING_PACKAGE_PRICE_ID || 'price_1TsOswJNddvjgWcgBuf68fSA', amount: 14000, label: '4-Session Package' },
+}
+const PACKAGE_SESSIONS = 4 // a package booking confirms 1 + credits 3 more
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 Coaching <coach@r6coaching.com>'
 const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const SITE = 'https://r6coaching.com'
@@ -329,6 +342,57 @@ async function runReminders() {
   return sent
 }
 
+// ---- coaching payments (Stripe one-time) -------------------------------------
+// First-session $20 gating: ANY prior confirmed/comped/completed coaching
+// session for this email disqualifies the intro rate. The SERVER decides —
+// never the client. Scan is fine at this table's volume.
+async function hasPriorConfirmed(email) {
+  const e = String(email || '').toLowerCase()
+  if (!e) return false
+  const scan = await ddb.send(new ScanCommand({
+    TableName: BOOK_TABLE,
+    FilterExpression: '#s IN (:c, :cm, :d)',
+    ExpressionAttributeNames: { '#s': 'status' },
+    ExpressionAttributeValues: { ':c': 'confirmed', ':cm': 'comped', ':d': 'completed' },
+  }))
+  return (scan.Items || []).some((b) => String(b.customer?.email || '').toLowerCase() === e)
+}
+
+// Package credits live in the bookings table under a `credits#<email>` key so
+// the booking Lambda owns them without touching the profiles table.
+const creditKey = (email) => `credits#${String(email || '').toLowerCase()}`
+async function getCredits(email) {
+  const r = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: creditKey(email) } }))
+  return Number(r.Item?.credits || 0)
+}
+async function addCredits(email, n) {
+  await ddb.send(new UpdateCommand({
+    TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
+    UpdateExpression: 'SET credits = if_not_exists(credits, :z) + :n, email = :e',
+    ExpressionAttributeValues: { ':z': 0, ':n': n, ':e': String(email || '').toLowerCase() },
+  }))
+}
+
+// Confirm a held slot and send the confirmation email. Shared by paid finalize
+// and credit-based booking. Idempotent: a already-confirmed slot just re-sends
+// nothing and reports ok.
+async function confirmHeld(slotId, extra) {
+  const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId } }))
+  const row = g.Item
+  if (!row) return { ok: false, error: 'slot not found' }
+  if (row.status === 'confirmed' || row.status === 'comped') return { ok: true, already: true }
+  const manageToken = row.manageToken || crypto.randomBytes(20).toString('hex')
+  await ddb.send(new UpdateCommand({
+    TableName: BOOK_TABLE, Key: { slotId },
+    UpdateExpression: 'SET #s = :c, manageToken = :m, confirmedAt = :t, payment = :p REMOVE holdToken, heldUntil',
+    ExpressionAttributeNames: { '#s': 'status' },
+    ExpressionAttributeValues: { ':c': 'confirmed', ':m': manageToken, ':t': new Date().toISOString(), ':p': extra?.payment || { status: 'paid' } },
+  }))
+  const cfg = await getConfig()
+  await notifyBooked({ slotId, customer: row.customer || {}, sessionType: row.sessionType, manageToken }, cfg)
+  return { ok: true, slotId }
+}
+
 // ---- handler --------------------------------------------------------------------
 export async function handler(event) {
   // EventBridge reminder tick (no HTTP context)
@@ -413,6 +477,84 @@ export async function handler(event) {
       const item = { slotId, customer, sessionType: sessionType || 'Free Intro', manageToken }
       const emailed = await notifyBooked(item, cfg)
       return resp(200, { booked: true, slotId, manageToken, confirmationEmail: emailed ? 'sent' : 'pending' })
+    }
+
+    // ---------- public: create Stripe checkout for a PAID session ----------
+    // The widget holds the slot first (POST /booking/hold), then calls this.
+    // Returns a Checkout URL to redirect to; the slot flips to confirmed only
+    // after payment (webhook / success page → /booking/finalize). If the
+    // customer has package credits, we skip checkout and confirm directly.
+    if (method === 'POST' && path.endsWith('/booking/checkout')) {
+      if (!stripe) return resp(500, { error: 'payments not configured' })
+      const { slotId, holdToken, name, email, discord, rank_goal, tz, notes } = body
+      const type = String(body.type || '').toLowerCase()
+      const plan = COACHING[type]
+      if (!slotId || !holdToken || !email || !name || !plan) return resp(400, { error: 'missing or invalid fields' })
+
+      // Server-side first-session gating for the $20 intro.
+      if (type === 'intro' && await hasPriorConfirmed(email)) {
+        return resp(409, { code: 'not_first_session', error: 'The $20 intro is first-session only — book a Single Session ($40).' })
+      }
+
+      // Attach customer + type to the held row (conditional on the hold) so
+      // finalize can confirm after payment.
+      const customer = {
+        name: String(name).slice(0, 80), email: String(email).slice(0, 120),
+        discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
+        tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
+      }
+      try {
+        await ddb.send(new UpdateCommand({
+          TableName: BOOK_TABLE, Key: { slotId },
+          UpdateExpression: 'SET customer = :cust, sessionType = :ty, coachingType = :ct, referral_source = :rs',
+          ConditionExpression: '#s = :held AND holdToken = :h',
+          ExpressionAttributeNames: { '#s': 'status' },
+          ExpressionAttributeValues: { ':cust': customer, ':ty': plan.label, ':ct': type, ':rs': refSource(body.referral_source), ':held': 'held', ':h': String(holdToken) },
+        }))
+      } catch {
+        return resp(409, { error: 'Hold expired or slot taken — pick another slot.' })
+      }
+
+      // Pre-paid package credit → confirm now, skip checkout, decrement.
+      const credits = await getCredits(email)
+      if (credits > 0) {
+        await addCredits(email, -1)
+        const r = await confirmHeld(slotId, { payment: { status: 'credit', amount: 0 } })
+        if (!r.ok) { await addCredits(email, 1); return resp(409, r) } // refund the credit if confirm failed
+        return resp(200, { booked: true, viaCredit: true, creditsLeft: credits - 1, slotId })
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: 'payment',
+        line_items: [{ price: plan.price, quantity: 1 }],
+        customer_email: email,
+        metadata: { slotId, email: String(email).toLowerCase(), type },
+        success_url: `${SITE}/coaching/booked/?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${SITE}/coaching/?cancelled=1`,
+      })
+      return resp(200, { checkoutUrl: session.url })
+    }
+
+    // ---------- public: finalize a paid booking (webhook + success page) ----------
+    // Idempotent — safe to call from both the Stripe webhook and the success
+    // page. Verifies payment with Stripe (the session id is the capability),
+    // flips held → confirmed, records payment, sends the confirmation email,
+    // and credits a package's remaining sessions exactly once.
+    if (method === 'POST' && path.endsWith('/booking/finalize')) {
+      if (!stripe) return resp(500, { error: 'payments not configured' })
+      const sessionId = String(body.sessionId || '')
+      if (!sessionId) return resp(400, { error: 'sessionId required' })
+      let cs
+      try { cs = await stripe.checkout.sessions.retrieve(sessionId) } catch { return resp(400, { error: 'unknown session' }) }
+      if (cs.payment_status !== 'paid') return resp(402, { error: 'not paid yet' })
+      const slotId = cs.metadata?.slotId
+      const type = cs.metadata?.type
+      const email = cs.metadata?.email
+      if (!slotId) return resp(400, { error: 'no slot in session metadata' })
+      const r = await confirmHeld(slotId, { payment: { status: 'paid', amount: (cs.amount_total || 0) / 100, stripe_id: cs.payment_intent || cs.id } })
+      if (!r.ok) return resp(404, r)
+      if (type === 'package' && !r.already) await addCredits(email, PACKAGE_SESSIONS - 1)
+      return resp(200, { booked: true, slotId, alreadyConfirmed: !!r.already })
     }
 
     // ---------- public: manage (info) ----------
