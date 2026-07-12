@@ -313,14 +313,19 @@ ${faqHtml}
   document.getElementById('confirmForm').addEventListener('submit', function (e) {
     e.preventDefault();
     if (!held) return;
-    var f = e.target;
     document.getElementById('confirmBtn').disabled = true;
+    // Read fields by id, NOT via form.name/form.email — HTMLFormElement.name
+    // (and other reflected props) shadow same-named controls, so f.name.value
+    // is the form's name attribute, not the input. That silently dropped the
+    // customer's name and made every /booking/confirm fail with "missing
+    // fields" — holds succeeded, confirms never did. Read by id to be safe.
+    var val = function (id) { return document.getElementById(id).value; };
     fetch(API + '/booking/confirm', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         slotId: held.slotId, holdToken: held.token, tz: tz,
-        name: f.name.value, email: f.email.value, discord: f.discord.value,
-        rank_goal: f.rank_goal.value, sessionType: f.sessionType.value, notes: f.notes.value,
+        name: val('c-name'), email: val('c-email'), discord: val('c-discord'),
+        rank_goal: val('c-rank'), sessionType: val('c-type'), notes: val('c-notes'),
       }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
