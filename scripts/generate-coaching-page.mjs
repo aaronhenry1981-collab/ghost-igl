@@ -25,12 +25,12 @@ const OUT_DIR = join(__dirname, '..', 'public', 'coaching')
 const SITE = 'https://r6coaching.com'
 const FORM_ENDPOINT = 'https://formspree.io/f/mykbrrob' // same pipe as EmailCapture
 
-// Three payable offers, matched exactly to the Stripe prices + booking types
-// (intro/single/package). Copy must agree with the charge — no "free."
+// LAUNCH: only the $20 intro is live (matches checkout exactly — every visitor
+// is a first-timer right now). Ongoing coaching is the $70/mo add-on + $99
+// Academy bundle, built in the next pass; they are NOT shown until they can
+// actually be charged (copy must agree with the charge — the "$39 fire" rule).
 const TIERS = [
-  { id: 'intro', type: 'intro', name: 'First Session', price: '$20', unit: '50% off · first session only', desc: 'Your first hour at half price. Full VOD review of the rounds you lost + a live-coached plan for your next queue. First-timers only — the rate is enforced automatically.', cta: 'Book first session — $20', featured: true },
-  { id: 'single', type: 'single', name: 'Single Session', price: '$40', unit: 'per session', desc: 'One full hour: VOD review of your rounds and a live-coached plan for your next queue. The standard rate after your first session.' },
-  { id: 'package', type: 'package', name: '4-Session Package', price: '$140', unit: '4 sessions · $35 each', desc: 'A month of structured work: session reports, drills between sessions, measurable death-cause trends. Best value — $35 a session instead of $40.' },
+  { id: 'intro', type: 'intro', name: 'First Session', price: '$20', unit: '50% off · first session', desc: 'Your first hour at half price. Full VOD review of the rounds you lost + a live-coached plan for your next queue. First-timers only.', cta: 'Book your first session — $20', featured: true },
 ]
 
 // Rank <option>s built from the 40-rank source of truth. value = global order
@@ -41,10 +41,10 @@ const rankOptions = (selectedOrder) =>
 
 const FAQ = [
   ['What does "AI-augmented" actually mean?', 'You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point.'],
-  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off ($20); after that it is $40, or $140 for a 4-pack.'],
+  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off — just $20. Ongoing coaching plans launch soon.'],
   ['Is this boosting?', 'No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row.'],
   ['Console or PC?', 'Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same.'],
-  ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20, then $40 each or $140 for a 4-pack), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
+  ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
   ['What rank do I need to be?', 'Any rank. Copper to Diamond, the process is the same: find the leak that costs the most rounds, fix it, measure it. The lower your rank, the faster the results.'],
 ]
 
@@ -158,11 +158,11 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
     <div id="reco"></div>
   </div>
 
-  <h2>Session packages</h2>
+  <h2>Start here</h2>
   <div class="tiers">
 ${tierCards}
   </div>
-  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">First session is 50% off ($20), then $40 each or $140 for a 4-pack. Pay securely at checkout; 7-day money-back guarantee on every session.</p>
+  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off — just $20. Pay securely at checkout and your slot is confirmed with a calendar invite. Ongoing coaching plans are on the way; jump in with a first session now. 7-day money-back guarantee.</p>
 
   <h2>How a session works</h2>
   <p class="sub">Before we meet, the AI has already processed your clips: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
@@ -171,7 +171,7 @@ ${tierCards}
 ${faqHtml}
 
   <h2 id="book">Book your first session — $20</h2>
-  <p class="sub" style="margin-bottom:8px">First session is <strong style="color:var(--cyan)">50% off ($20)</strong> — then $40 a session, or $140 for a 4-pack. Pick a time, pay, and you're booked with a calendar invite.</p>
+  <p class="sub" style="margin-bottom:8px">First session is <strong style="color:var(--cyan)">50% off — just $20</strong>. Pick a time, pay, and you're booked instantly with a calendar invite.</p>
   <!-- IN-HOUSE SCHEDULER (2026-07-06): real slot booking against the
        recon6-booking API — double-booking-proof (conditional writes),
        visitor-timezone display, 5-minute holds, email confirmations with
@@ -226,23 +226,18 @@ ${faqHtml}
 </div>
 <script>
 (function () {
-  var TIER_FOR_GAP = [
-    ['Single Session', 'tier-single', 'one focused session to sharpen what is already working'],
-    ['4-Session Package', 'tier-package', 'a structured month with drills and measurable trends — best value at $35 a session'],
-  ];
   var cur = document.getElementById('cur'), goal = document.getElementById('goal'), reco = document.getElementById('reco');
   function update() {
-    // Option values are the global rank order (1..40). Gap = rank divisions to
-    // climb; ~5 divisions per tier. Goal must sit above current rank.
+    // Option values are the global rank order (1..40). Goal must sit above
+    // current rank. Everything funnels to the $20 first session.
     var c = parseInt(cur.value, 10), g = parseInt(goal.value, 10);
     if (g <= c) {
       reco.innerHTML = '<strong style="color:var(--orange)">Pick a goal above your current rank.</strong> Even one division up is a real target — that is exactly what a session fixes.';
       return;
     }
     var gap = g - c;
-    var pick = gap <= 5 ? TIER_FOR_GAP[0] : TIER_FOR_GAP[1];
-    reco.innerHTML = 'Recommended: <strong>' + pick[0] + '</strong> — ' + pick[2] +
-      '. <a href="#' + pick[1] + '">See it</a> · either way, <a href="#book">your first session is 50% off ($20)</a>.';
+    var span = gap <= 5 ? 'a division or two' : 'a multi-rank climb';
+    reco.innerHTML = 'That is <strong>' + span + '</strong> — exactly what coaching targets. <a href="#book">Start with your first session — 50% off ($20)</a>.';
   }
   cur.addEventListener('change', update); goal.addEventListener('change', update); update();
 
@@ -369,13 +364,14 @@ ${faqHtml}
             : 'Booked. Confirmation + calendar invite are in your email.';
           return;
         }
-        // First-session-only rejection → bump the select to Single ($40).
+        // Returning player (already used the intro) — ongoing coaching plans
+        // aren't live yet, so point them to Discord to book directly.
         if (res.d && res.d.code === 'not_first_session') {
-          var sel = document.getElementById('c-type');
-          for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === 'single') { sel.selectedIndex = i; break; } }
+          errEl.innerHTML = 'Looks like you\\'ve already had your intro. Ongoing coaching plans are launching shortly — <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">grab a session on Discord</a> in the meantime.';
+        } else {
+          errEl.textContent = (res.d && res.d.error) || 'Something broke — try another slot.';
         }
         errEl.style.display = 'block';
-        errEl.textContent = (res.d && res.d.error) || 'Something broke — try another slot.';
         document.getElementById('confirmBtn').disabled = false;
       })
       .catch(function () {
