@@ -25,14 +25,12 @@ const OUT_DIR = join(__dirname, '..', 'public', 'coaching')
 const SITE = 'https://r6coaching.com'
 const FORM_ENDPOINT = 'https://formspree.io/f/mykbrrob' // same pipe as EmailCapture
 
+// Three payable offers, matched exactly to the Stripe prices + booking types
+// (intro/single/package). Copy must agree with the charge — no "free."
 const TIERS = [
-  { id: 'intro', name: 'Free Intro', price: '$0', unit: '30 min', desc: 'We watch your clips together, I give you one real fix, and you decide if this is for you. No card, no pitch.', cta: 'Book free intro', featured: true },
-  { id: 'single', name: 'Single Session', price: '$40', unit: 'per session', desc: 'One full hour: VOD review of your rounds + a live-coached plan for your next queue.' },
-  { id: 'tuneup', name: 'Tune-Up', price: '$75', unit: '2 sessions', desc: 'Find the leak, fix the leak, verify it stuck. The right size for one stubborn habit.' },
-  { id: 'climb', name: 'Climb', price: '$140', unit: '4 sessions', desc: 'A month of structured work: session reports, drills between sessions, measurable death-cause trends.' },
-  { id: 'rankup', name: 'Rank-Up', price: '$195', unit: '6 sessions', desc: 'The full program — we target the next rank and track every number that gets you there.' },
-  { id: 'duo', name: 'Duo add-on', price: '+$15', unit: 'per session', desc: 'Bring your duo to any session. Trade timing, crossfires, and comms coached as a pair.' },
-  { id: 'squad', name: 'Squad Session', price: '$90', unit: 'per session', desc: 'Your 5-stack, one session: set roles, defaults, and a ban map for your team.' },
+  { id: 'intro', type: 'intro', name: 'First Session', price: '$20', unit: '50% off · first session only', desc: 'Your first hour at half price. Full VOD review of the rounds you lost + a live-coached plan for your next queue. First-timers only — the rate is enforced automatically.', cta: 'Book first session — $20', featured: true },
+  { id: 'single', type: 'single', name: 'Single Session', price: '$40', unit: 'per session', desc: 'One full hour: VOD review of your rounds and a live-coached plan for your next queue. The standard rate after your first session.' },
+  { id: 'package', type: 'package', name: '4-Session Package', price: '$140', unit: '4 sessions · $35 each', desc: 'A month of structured work: session reports, drills between sessions, measurable death-cause trends. Best value — $35 a session instead of $40.' },
 ]
 
 // Rank <option>s built from the 40-rank source of truth. value = global order
@@ -43,10 +41,10 @@ const rankOptions = (selectedOrder) =>
 
 const FAQ = [
   ['What does "AI-augmented" actually mean?', 'You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point.'],
-  ['What happens in the free intro?', 'Thirty minutes. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), you leave with one concrete fix. At the end, if a package makes sense for your goal, we talk about it. If not, keep the fix.'],
+  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off ($20); after that it is $40, or $140 for a 4-pack.'],
   ['Is this boosting?', 'No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row.'],
   ['Console or PC?', 'Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same.'],
-  ['How do paid sessions get scheduled and paid?', 'Book the free intro first — every package starts there. Scheduling and payment are set up directly with your coach after the intro (invoice or payment link). The 7-day money-back guarantee covers every package.'],
+  ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20, then $40 each or $140 for a 4-pack), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
   ['What rank do I need to be?', 'Any rank. Copper to Diamond, the process is the same: find the leak that costs the most rounds, fix it, measure it. The lower your rank, the faster the results.'],
 ]
 
@@ -56,7 +54,7 @@ const tierCards = TIERS.map((t) => `
     <h3>${t.name}</h3>
     <div class="price">${t.price} <span>${t.unit}</span></div>
     <p>${t.desc}</p>
-    <a class="btn${t.featured ? ' primary' : ''}" href="#book" data-tier="${t.name}">${t.cta || 'Book — starts with the free intro'}</a>
+    <a class="btn${t.featured ? ' primary' : ''}" href="#book" data-type="${t.type}">${t.cta || `Book — ${t.name}`}</a>
   </div>`).join('\n')
 
 const faqHtml = FAQ.map(([q, a]) => `
@@ -70,7 +68,7 @@ const jsonLd = [
     serviceType: 'Esports coaching (Rainbow Six Siege)',
     provider: { '@type': 'Organization', name: 'RECON6', url: SITE },
     areaServed: 'Online',
-    description: 'AI-augmented 1-on-1 Rainbow Six Siege coaching: VOD review, live-coached ranked plans, and measurable death-cause tracking. Free 30-minute intro session.',
+    description: 'AI-augmented 1-on-1 Rainbow Six Siege coaching: VOD review, live-coached ranked plans, and measurable death-cause tracking. First session 50% off ($20).',
     offers: TIERS.filter((t) => t.id !== 'intro').map((t) => ({
       '@type': 'Offer',
       name: `${t.name} (${t.unit})`,
@@ -90,7 +88,7 @@ const jsonLd = [
 ]
 
 const title = 'Rainbow Six Siege Coaching — AI-Augmented 1-on-1 Sessions | RECON6'
-const description = 'Human coaching with an AI staff: VOD breakdowns, death-cause tracking, live ranked plans. Free 30-minute intro session — console and PC, any rank.'
+const description = 'Human coaching with an AI staff: VOD breakdowns, death-cause tracking, live ranked plans. First session 50% off ($20) — console and PC, any rank.'
 
 const html = `<!doctype html>
 <html lang="en">
@@ -145,8 +143,8 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
 <body>
 <div class="wrap">
   <h1>A human coach. An AI staff. Your rank.</h1>
-  <p class="sub">1-on-1 Rainbow Six Siege coaching backed by the full RECON6 AI stack — VOD breakdowns, death-cause tracking, and live ranked plans. The AI finds what's costing you rounds; your coach fixes it with you. First session is free.</p>
-  <a class="btn primary" href="#book">Book a free session</a>
+  <p class="sub">1-on-1 Rainbow Six Siege coaching backed by the full RECON6 AI stack — VOD breakdowns, death-cause tracking, and live ranked plans. The AI finds what's costing you rounds; your coach fixes it with you. First session is <strong style="color:var(--cyan)">50% off — just $20</strong>.</p>
+  <a class="btn primary" href="#book">Book your first session — 50% off ($20)</a>
   <a class="btn" href="/#/strats" style="margin-left:8px">Browse the strat library</a>
 
   <h2>Where are you → where do you want to be?</h2>
@@ -164,7 +162,7 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   <div class="tiers">
 ${tierCards}
   </div>
-  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Every package starts with the free intro — scheduling and payment are set up there. 7-day money-back guarantee on all packages.</p>
+  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">First session is 50% off ($20), then $40 each or $140 for a 4-pack. Pay securely at checkout; 7-day money-back guarantee on every session.</p>
 
   <h2>How a session works</h2>
   <p class="sub">Before we meet, the AI has already processed your clips: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
@@ -172,7 +170,8 @@ ${tierCards}
   <h2>Questions</h2>
 ${faqHtml}
 
-  <h2 id="book">Book your free intro</h2>
+  <h2 id="book">Book your first session — $20</h2>
+  <p class="sub" style="margin-bottom:8px">First session is <strong style="color:var(--cyan)">50% off ($20)</strong> — then $40 a session, or $140 for a 4-pack. Pick a time, pay, and you're booked with a calendar invite.</p>
   <!-- IN-HOUSE SCHEDULER (2026-07-06): real slot booking against the
        recon6-booking API — double-booking-proof (conditional writes),
        visitor-timezone display, 5-minute holds, email confirmations with
@@ -193,19 +192,18 @@ ${faqHtml}
       <label for="c-rank">Current rank → goal</label>
       <input id="c-rank" name="rank_goal" type="text" placeholder="Silver → Gold" />
       <label for="c-type">Session type</label>
-      <select id="c-type" name="sessionType">
-        <option>Free Intro</option>
-        ${TIERS.filter((t) => t.id !== 'intro').map((t) => `<option>${t.name}</option>`).join('')}
+      <select id="c-type" name="type">
+        ${TIERS.map((t) => `<option value="${t.type}">${t.name} — ${t.price}</option>`).join('')}
       </select>
       <label for="c-notes">What's costing you rounds? (optional)</label>
       <textarea id="c-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
-      <button type="submit" id="confirmBtn">Confirm this session</button>
+      <button type="submit" id="confirmBtn">Continue to payment →</button>
       <div class="ok" id="confirmOk"></div>
       <div id="confirmErr" style="color:#ff6b6b;margin-top:12px;display:none"></div>
     </form>
   </div>
   <form id="bookForm" action="${FORM_ENDPOINT}" method="POST" style="display:none">
-    <input type="hidden" name="_subject" value="COACHING BOOKING — free intro request" />
+    <input type="hidden" name="_subject" value="COACHING BOOKING — session request" />
     <input type="hidden" name="form" value="coaching-booking" />
     <label for="f-email">Email *</label>
     <input id="f-email" name="email" type="email" required placeholder="you@example.com" />
@@ -213,15 +211,14 @@ ${faqHtml}
     <input id="f-discord" name="discord" type="text" placeholder="yourname" />
     <label for="f-rank">Current rank → goal</label>
     <input id="f-rank" name="rank_goal" type="text" placeholder="Silver → Gold" />
-    <label for="f-tier">Package you're eyeing (optional)</label>
+    <label for="f-tier">Which session</label>
     <select id="f-tier" name="tier">
-      <option>Just the free intro for now</option>
-      ${TIERS.filter((t) => t.id !== 'intro').map((t) => `<option>${t.name} — ${t.price} ${t.unit}</option>`).join('')}
+      ${TIERS.map((t) => `<option>${t.name} — ${t.price} ${t.unit}</option>`).join('')}
     </select>
     <label for="f-notes">What's costing you rounds? (optional)</label>
     <textarea id="f-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
-    <button type="submit">Request my free intro session</button>
-    <div class="ok" id="okMsg">Got it — you'll hear back within a day to schedule. Check your email.</div>
+    <button type="submit">Request a session</button>
+    <div class="ok" id="okMsg">Got it — you'll hear back within a day to set up your session. Check your email.</div>
   </form>
   <p style="color:var(--dim);font-size:.9rem;margin-top:10px">Prefer Discord? <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">Join the server</a> and post in #coaching.</p>
 
@@ -231,9 +228,7 @@ ${faqHtml}
 (function () {
   var TIER_FOR_GAP = [
     ['Single Session', 'tier-single', 'one focused session to sharpen what is already working'],
-    ['Tune-Up (2 sessions)', 'tier-tuneup', 'find the leak, fix it, verify it stuck'],
-    ['Climb (4 sessions)', 'tier-climb', 'a structured month with drills and measurable trends'],
-    ['Rank-Up (6 sessions)', 'tier-rankup', 'the full program for a multi-rank jump'],
+    ['4-Session Package', 'tier-package', 'a structured month with drills and measurable trends — best value at $35 a session'],
   ];
   var cur = document.getElementById('cur'), goal = document.getElementById('goal'), reco = document.getElementById('reco');
   function update() {
@@ -245,9 +240,9 @@ ${faqHtml}
       return;
     }
     var gap = g - c;
-    var pick = gap <= 3 ? TIER_FOR_GAP[0] : gap <= 8 ? TIER_FOR_GAP[1] : gap <= 15 ? TIER_FOR_GAP[2] : TIER_FOR_GAP[3];
+    var pick = gap <= 5 ? TIER_FOR_GAP[0] : TIER_FOR_GAP[1];
     reco.innerHTML = 'Recommended: <strong>' + pick[0] + '</strong> — ' + pick[2] +
-      '. <a href="#' + pick[1] + '">See it</a> · either way, <a href="#book">start with the free intro</a>.';
+      '. <a href="#' + pick[1] + '">See it</a> · either way, <a href="#book">your first session is 50% off ($20)</a>.';
   }
   cur.addEventListener('change', update); goal.addEventListener('change', update); update();
 
@@ -349,45 +344,56 @@ ${faqHtml}
     // customer's name and made every /booking/confirm fail with "missing
     // fields" — holds succeeded, confirms never did. Read by id to be safe.
     var val = function (id) { return document.getElementById(id).value; };
-    fetch(API + '/booking/confirm', {
+    var errEl = document.getElementById('confirmErr');
+    errEl.style.display = 'none';
+    // Create a Stripe Checkout Session for the chosen type, then redirect. The
+    // slot stays held during checkout; payment confirms it (webhook + success
+    // page). A pre-paid package credit confirms directly with no redirect.
+    fetch(API + '/booking/checkout', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         slotId: held.slotId, holdToken: held.token, tz: tz,
         name: val('c-name'), email: val('c-email'), discord: val('c-discord'),
-        rank_goal: val('c-rank'), sessionType: val('c-type'), notes: val('c-notes'),
+        rank_goal: val('c-rank'), type: val('c-type'), notes: val('c-notes'),
         referral_source: getRef(),
       }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
-        if (!res.ok) {
-          document.getElementById('confirmErr').style.display = 'block';
-          document.getElementById('confirmErr').textContent = (res.d && res.d.error) || 'Something broke — try another slot.';
-          document.getElementById('confirmBtn').disabled = false;
+        if (res.ok && res.d.checkoutUrl) { window.location.href = res.d.checkoutUrl; return; }
+        if (res.ok && res.d.booked) {
+          if (holdTimer) clearInterval(holdTimer);
+          document.getElementById('holdBar').style.display = 'none';
+          var ok = document.getElementById('confirmOk'); ok.style.display = 'block';
+          ok.textContent = res.d.viaCredit
+            ? 'Booked with a package credit (' + res.d.creditsLeft + ' left). Calendar invite is in your email.'
+            : 'Booked. Confirmation + calendar invite are in your email.';
           return;
         }
-        if (holdTimer) clearInterval(holdTimer);
-        document.getElementById('holdBar').style.display = 'none';
-        var ok = document.getElementById('confirmOk');
-        ok.style.display = 'block';
-        ok.textContent = res.d.confirmationEmail === 'sent'
-          ? 'Booked. Confirmation + calendar invite are in your email.'
-          : 'Booked. Your coach has been notified and will confirm by email shortly.';
+        // First-session-only rejection → bump the select to Single ($40).
+        if (res.d && res.d.code === 'not_first_session') {
+          var sel = document.getElementById('c-type');
+          for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === 'single') { sel.selectedIndex = i; break; } }
+        }
+        errEl.style.display = 'block';
+        errEl.textContent = (res.d && res.d.error) || 'Something broke — try another slot.';
+        document.getElementById('confirmBtn').disabled = false;
       })
       .catch(function () {
-        document.getElementById('confirmErr').style.display = 'block';
-        document.getElementById('confirmErr').textContent = 'Network hiccup — your hold is still active, try Confirm again.';
+        errEl.style.display = 'block';
+        errEl.textContent = 'Network hiccup — your hold is still active, try again.';
         document.getElementById('confirmBtn').disabled = false;
       });
   });
 
   loadSlots();
 
-  document.querySelectorAll('a[data-tier]').forEach(function (a) {
+  // Tier card CTAs pre-select the matching session type in the booking form.
+  document.querySelectorAll('a[data-type]').forEach(function (a) {
     a.addEventListener('click', function () {
-      var sel = document.getElementById('c-type') || document.getElementById('f-tier');
+      var sel = document.getElementById('c-type');
       if (!sel) return;
       for (var i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].text.indexOf(a.dataset.tier) === 0) { sel.selectedIndex = i; break; }
+        if (sel.options[i].value === a.dataset.type) { sel.selectedIndex = i; break; }
       }
     });
   });
@@ -397,6 +403,68 @@ ${faqHtml}
 </html>
 `
 
+// Post-checkout success page. Stripe redirects here with ?session_id=…; we
+// call /booking/finalize (idempotent with the webhook) to confirm the slot and
+// show the booked state. If finalize is slow (webhook races), we retry briefly.
+const bookedHtml = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're booked — RECON6 Coaching</title>
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="${SITE}/coaching/booked/" />
+<style>
+  body { background:#0a0e17; color:#dbe4f0; font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; margin:0; }
+  .wrap { max-width:620px; margin:0 auto; padding:64px 20px; text-align:center; }
+  a { color:#00e5ff; }
+  h1 { font-size:2rem; margin-bottom:10px; }
+  .card { background:#111827; border:1px solid #1f2a3f; border-radius:14px; padding:28px; margin-top:20px; text-align:left; }
+  .btn { display:inline-block; padding:12px 22px; border-radius:10px; background:#00e5ff; color:#04222a; text-decoration:none; font-weight:700; margin-top:18px; }
+  .muted { color:#8b98ab; }
+  .spinner { color:#ff9b5c; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="state"><h1 class="spinner">Confirming your payment…</h1><p class="muted">One moment — locking in your session.</p></div>
+  <div class="card">
+    <p><strong>What's next:</strong></p>
+    <ul>
+      <li>A confirmation email with a calendar invite (.ics) is on its way.</li>
+      <li>Sessions run on Discord — join <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">the server</a> and you'll get a DM before your session.</li>
+      <li>Bring 2-3 clips or screenshots of rounds you lost — that's the raw material.</li>
+    </ul>
+    <a class="btn" href="/coaching/">Back to coaching</a>
+  </div>
+</div>
+<script>
+(function () {
+  var API = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod';
+  var sid = new URLSearchParams(location.search).get('session_id');
+  var el = document.getElementById('state');
+  if (!sid) { el.innerHTML = '<h1>Thanks!</h1><p class="muted">If you just paid, your confirmation email is on its way.</p>'; return; }
+  var tries = 0;
+  function finalize() {
+    tries++;
+    fetch(API + '/booking/finalize', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ sessionId: sid }) })
+      .then(function (r) { return r.json().then(function (d) { return { ok:r.ok, status:r.status, d:d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.booked) { el.innerHTML = '<h1 style="color:#7ee2a4">You\\'re booked! ✓</h1><p class="muted">Payment received and your session is confirmed.</p>'; return; }
+        if (res.status === 402 && tries < 6) { setTimeout(finalize, 1500); return; } // payment still settling
+        el.innerHTML = '<h1 style="color:#7ee2a4">Payment received ✓</h1><p class="muted">Your session is being confirmed — the email will follow shortly.</p>';
+      })
+      .catch(function () { if (tries < 6) setTimeout(finalize, 1500); else el.innerHTML = '<h1 style="color:#7ee2a4">Payment received ✓</h1><p class="muted">Confirmation email is on its way.</p>'; });
+  }
+  finalize();
+})();
+</script>
+</body>
+</html>
+`
+
 mkdirSync(OUT_DIR, { recursive: true })
 writeFileSync(join(OUT_DIR, 'index.html'), html)
-console.log('✓ Generated public/coaching/index.html (' + TIERS.length + ' tiers, ' + FAQ.length + ' FAQ items, Service + FAQPage schema)')
+mkdirSync(join(OUT_DIR, 'booked'), { recursive: true })
+writeFileSync(join(OUT_DIR, 'booked', 'index.html'), bookedHtml)
+console.log('✓ Generated public/coaching/index.html + booked/ (' + TIERS.length + ' paid tiers, ' + FAQ.length + ' FAQ items, Service + FAQPage schema)')

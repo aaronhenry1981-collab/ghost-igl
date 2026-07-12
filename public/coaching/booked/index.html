@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're booked — RECON6 Coaching</title>
+<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://r6coaching.com/coaching/booked/" />
+<style>
+  body { background:#0a0e17; color:#dbe4f0; font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; margin:0; }
+  .wrap { max-width:620px; margin:0 auto; padding:64px 20px; text-align:center; }
+  a { color:#00e5ff; }
+  h1 { font-size:2rem; margin-bottom:10px; }
+  .card { background:#111827; border:1px solid #1f2a3f; border-radius:14px; padding:28px; margin-top:20px; text-align:left; }
+  .btn { display:inline-block; padding:12px 22px; border-radius:10px; background:#00e5ff; color:#04222a; text-decoration:none; font-weight:700; margin-top:18px; }
+  .muted { color:#8b98ab; }
+  .spinner { color:#ff9b5c; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="state"><h1 class="spinner">Confirming your payment…</h1><p class="muted">One moment — locking in your session.</p></div>
+  <div class="card">
+    <p><strong>What's next:</strong></p>
+    <ul>
+      <li>A confirmation email with a calendar invite (.ics) is on its way.</li>
+      <li>Sessions run on Discord — join <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">the server</a> and you'll get a DM before your session.</li>
+      <li>Bring 2-3 clips or screenshots of rounds you lost — that's the raw material.</li>
+    </ul>
+    <a class="btn" href="/coaching/">Back to coaching</a>
+  </div>
+</div>
+<script>
+(function () {
+  var API = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod';
+  var sid = new URLSearchParams(location.search).get('session_id');
+  var el = document.getElementById('state');
+  if (!sid) { el.innerHTML = '<h1>Thanks!</h1><p class="muted">If you just paid, your confirmation email is on its way.</p>'; return; }
+  var tries = 0;
+  function finalize() {
+    tries++;
+    fetch(API + '/booking/finalize', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ sessionId: sid }) })
+      .then(function (r) { return r.json().then(function (d) { return { ok:r.ok, status:r.status, d:d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.booked) { el.innerHTML = '<h1 style="color:#7ee2a4">You\'re booked! ✓</h1><p class="muted">Payment received and your session is confirmed.</p>'; return; }
+        if (res.status === 402 && tries < 6) { setTimeout(finalize, 1500); return; } // payment still settling
+        el.innerHTML = '<h1 style="color:#7ee2a4">Payment received ✓</h1><p class="muted">Your session is being confirmed — the email will follow shortly.</p>';
+      })
+      .catch(function () { if (tries < 6) setTimeout(finalize, 1500); else el.innerHTML = '<h1 style="color:#7ee2a4">Payment received ✓</h1><p class="muted">Confirmation email is on its way.</p>'; });
+  }
+  finalize();
+})();
+</script>
+</body>
+</html>

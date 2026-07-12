@@ -498,16 +498,16 @@ export default function LandingPage() {
             The AI finds what's costing you rounds — your coach fixes it with you.
             First session is free, console and PC, any rank.
           </p>
-          {/* COACHING-FIRST (2026-07-06 master command): "Book a free session"
-              is the primary CTA; the AI VOD demo stays co-primary as the
-              try-it-now path. AI is the headline, never hidden. */}
+          {/* COACHING-FIRST (2026-07-06 master command): the paid-intro CTA is
+              primary; the AI VOD demo stays co-primary as the try-it-now path.
+              AI is the headline, never hidden. First session is 50% off ($20). */}
           <div className="hero-cta">
             <a
               href="/coaching/"
               className="btn btn-primary btn-lg"
-              onClick={() => track('Hero CTA Click', { type: 'coaching-free-intro' })}
+              onClick={() => track('Hero CTA Click', { type: 'coaching-intro-paid' })}
             >
-              Book a free session
+              Book your first session — 50% off ($20)
             </a>
             <Link
               to="/vod?demo=1"
