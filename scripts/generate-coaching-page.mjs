@@ -18,6 +18,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { RANKS } from '../src/data/ranks.js' // single source of truth — all 40 R6 ranks
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUT_DIR = join(__dirname, '..', 'public', 'coaching')
@@ -34,7 +35,11 @@ const TIERS = [
   { id: 'squad', name: 'Squad Session', price: '$90', unit: 'per session', desc: 'Your 5-stack, one session: set roles, defaults, and a ban map for your team.' },
 ]
 
-const RANKS = ['Copper', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Emerald', 'Diamond', 'Champion']
+// Rank <option>s built from the 40-rank source of truth. value = global order
+// (1..40) so the recommendation logic compares by rank distance. Defaults:
+// Silver IV (a common "stuck" rank) → Gold II.
+const rankOptions = (selectedOrder) =>
+  RANKS.map((r) => `<option value="${r.order}"${r.order === selectedOrder ? ' selected' : ''}>${r.label}</option>`).join('')
 
 const FAQ = [
   ['What does "AI-augmented" actually mean?', 'You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point.'],
@@ -148,9 +153,9 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   <div class="selector">
     <div class="row">
       <div><label for="cur">Current rank</label>
-        <select id="cur">${RANKS.map((r, i) => `<option value="${i}"${r === 'Silver' ? ' selected' : ''}>${r}</option>`).join('')}</select></div>
+        <select id="cur">${rankOptions(12)}</select></div>
       <div><label for="goal">Goal rank</label>
-        <select id="goal">${RANKS.map((r, i) => `<option value="${i}"${r === 'Gold' ? ' selected' : ''}>${r}</option>`).join('')}</select></div>
+        <select id="goal">${rankOptions(19)}</select></div>
     </div>
     <div id="reco"></div>
   </div>
@@ -232,8 +237,15 @@ ${faqHtml}
   ];
   var cur = document.getElementById('cur'), goal = document.getElementById('goal'), reco = document.getElementById('reco');
   function update() {
-    var gap = parseInt(goal.value, 10) - parseInt(cur.value, 10);
-    var pick = gap <= 0 ? TIER_FOR_GAP[0] : TIER_FOR_GAP[Math.min(gap, 3)];
+    // Option values are the global rank order (1..40). Gap = rank divisions to
+    // climb; ~5 divisions per tier. Goal must sit above current rank.
+    var c = parseInt(cur.value, 10), g = parseInt(goal.value, 10);
+    if (g <= c) {
+      reco.innerHTML = '<strong style="color:var(--orange)">Pick a goal above your current rank.</strong> Even one division up is a real target — that is exactly what a session fixes.';
+      return;
+    }
+    var gap = g - c;
+    var pick = gap <= 3 ? TIER_FOR_GAP[0] : gap <= 8 ? TIER_FOR_GAP[1] : gap <= 15 ? TIER_FOR_GAP[2] : TIER_FOR_GAP[3];
     reco.innerHTML = 'Recommended: <strong>' + pick[0] + '</strong> — ' + pick[2] +
       '. <a href="#' + pick[1] + '">See it</a> · either way, <a href="#book">start with the free intro</a>.';
   }

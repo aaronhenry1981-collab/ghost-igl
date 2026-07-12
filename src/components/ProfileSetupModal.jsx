@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useAuth } from '../hooks/useAuth'
 import { getRefSource, clearRefSource } from '../lib/refSource'
+import { RANKS } from '../data/ranks' // single source of truth — all 40 R6 ranks w/ divisions
 
 // First-login profile setup. Collects identity fields Aaron needs to know
 // who his customers are when emailing them — display name, platform, region,
@@ -36,10 +37,6 @@ const REFERRAL_SOURCES = [
   { id: 'google', label: 'Google search' },
   { id: 'streamer', label: 'A streamer' },
   { id: 'other', label: 'Other' },
-]
-const R6_RANKS = [
-  'Copper', 'Bronze', 'Silver', 'Gold', 'Platinum',
-  'Emerald', 'Diamond', 'Champion',
 ]
 const R6_ROLES = [
   { id: 'anchor', label: 'Anchor (defense, hold site)' },
@@ -247,13 +244,13 @@ export default function ProfileSetupModal() {
             <Field label="Current R6 rank (optional)">
               <select value={form.r6_rank} onChange={(e) => setField('r6_rank', e.target.value)} className="testi-input">
                 <option value="">Skip</option>
-                {R6_RANKS.map(r => <option key={r} value={r.toLowerCase()}>{r}</option>)}
+                {RANKS.map(r => <option key={r.order} value={r.label}>{r.label}</option>)}
               </select>
             </Field>
             <Field label="Goal rank (optional)">
               <select value={form.r6_goal_rank} onChange={(e) => setField('r6_goal_rank', e.target.value)} className="testi-input">
                 <option value="">Skip</option>
-                {R6_RANKS.map(r => <option key={r} value={r.toLowerCase()}>{r}</option>)}
+                {RANKS.map(r => <option key={r.order} value={r.label}>{r.label}</option>)}
               </select>
             </Field>
             <Field label="Main role (optional)">
