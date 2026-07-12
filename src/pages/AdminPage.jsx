@@ -9,6 +9,7 @@ import AuditLog from '../components/admin/AuditLog'
 import GameCatalog from '../components/admin/GameCatalog'
 import DailyPlaybook from '../components/admin/DailyPlaybook'
 import AvailabilityEditor from '../components/admin/AvailabilityEditor'
+import AppointmentsCalendar from '../components/admin/AppointmentsCalendar'
 import './AdminPage.css'
 
 const EMPTY_SUMMARY = {
@@ -35,6 +36,7 @@ const GAME_NAMES = {
 // the default (the day-to-day view: who's signed up, who's active, billing).
 const ADMIN_TABS = [
   { id: 'members', label: 'Members' },
+  { id: 'appointments', label: 'Appointments' },
   { id: 'growth', label: 'Growth' },
   { id: 'content', label: 'Content' },
   { id: 'system', label: 'System' },
@@ -491,10 +493,16 @@ export default function AdminPage() {
       </section>
       )}
 
+      {adminTab === 'appointments' && (
+        <>
+          <AppointmentsCalendar />
+          <AvailabilityEditor />
+        </>
+      )}
+
       {adminTab === 'growth' && (
         <>
           <DailyPlaybook />
-          <AvailabilityEditor />
           <CompManager />
           <PromoKit />
         </>

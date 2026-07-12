@@ -25,18 +25,13 @@ async function authedFetch(path, opts = {}) {
 
 export default function AvailabilityEditor() {
   const [config, setConfig] = useState(null)
-  const [bookings, setBookings] = useState([])
   const [status, setStatus] = useState('')
   const [blackoutInput, setBlackoutInput] = useState('')
 
   const load = useCallback(async () => {
     try {
-      const [a, b] = await Promise.all([
-        authedFetch('/admin/availability'),
-        authedFetch('/admin/bookings'),
-      ])
+      const a = await authedFetch('/admin/availability')
       setConfig(a.config)
-      setBookings(b.bookings || [])
     } catch (err) {
       setStatus(`Load failed: ${err.message}`)
     }
@@ -64,7 +59,7 @@ export default function AvailabilityEditor() {
   if (!config) {
     return (
       <section className="admin-section">
-        <div className="admin-section-header"><h2>Coaching scheduler</h2></div>
+        <div className="admin-section-header"><h2>Recurring weekly pattern & settings</h2></div>
         <p className="admin-footnote">{status || 'Loading availability…'}</p>
       </section>
     )
@@ -78,7 +73,7 @@ export default function AvailabilityEditor() {
 
   return (
     <section className="admin-section">
-      <div className="admin-section-header"><h2>Coaching scheduler</h2></div>
+      <div className="admin-section-header"><h2>Recurring weekly pattern & settings</h2></div>
       <p className="admin-footnote">
         Weekly windows are in <strong>{config.timezone}</strong>. Customers see slots in their own timezone.
         Double-booking is impossible by design (conditional writes on the slot key).
@@ -132,23 +127,6 @@ export default function AvailabilityEditor() {
         <button type="button" className="btn btn-primary" onClick={save}>Save availability</button>
         {status && <span style={{ marginLeft: 12, color: status.includes('fail') ? '#ff6b6b' : '#7ee2a4' }}>{status}</span>}
       </div>
-
-      <h3 style={{ margin: '20px 0 6px' }}>Upcoming bookings ({bookings.length})</h3>
-      {bookings.length === 0 ? (
-        <p className="admin-footnote">None yet — the booking widget is live on /coaching/.</p>
-      ) : (
-        <table className="admin-table">
-          <thead><tr><th>Slot (UTC)</th><th>Type</th><th>Name</th><th>Email</th><th>Discord</th><th>Rank→Goal</th></tr></thead>
-          <tbody>
-            {bookings.map((b) => (
-              <tr key={b.slotId}>
-                <td>{b.slotId}</td><td>{b.sessionType}</td><td>{b.customer?.name}</td>
-                <td>{b.customer?.email}</td><td>{b.customer?.discord}</td><td>{b.customer?.rank_goal}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
     </section>
   )
 }
