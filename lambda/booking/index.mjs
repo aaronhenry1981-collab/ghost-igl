@@ -43,6 +43,8 @@ const BOOK_TABLE = process.env.BOOKINGS_TABLE || 'recon6-bookings'
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 Coaching <coach@r6coaching.com>'
 const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const SITE = 'https://r6coaching.com'
+const API_BASE = process.env.API_BASE || 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
+const CAL_FEED_TOKEN = process.env.CAL_FEED_TOKEN || '' // unguessable key for the private webcal feed
 const HOLD_MINUTES = 5
 
 const verifier = CognitoJwtVerifier.create({
@@ -58,6 +60,13 @@ const HEADERS = {
   'Access-Control-Allow-Methods': 'GET,POST,PUT,OPTIONS',
 }
 const resp = (code, obj) => ({ statusCode: code, headers: HEADERS, body: JSON.stringify(obj) })
+
+// Channel attribution — mirror src/lib/refSource.js sanitize; default 'direct'
+// so every booking has a source and coaching attribution is never blind.
+const refSource = (raw) => {
+  const clean = String(raw || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 32)
+  return clean || 'direct'
+}
 
 // ---- availability config -----------------------------------------------------
 const DEFAULT_CONFIG = {
@@ -75,6 +84,12 @@ const DEFAULT_CONFIG = {
     { dow: 6, start: '13:00', end: '17:00' },
   ],
   blackouts: [],
+  // One-off availability: specific date+time ranges Aaron opens OUTSIDE his
+  // weekly pattern. One-off time-off: specific ranges he blocks (partial-day;
+  // full-day off is a blackout). Both in the coach's timezone.
+  //   availability = windows + oneoffs − blackouts − timeoff − booked
+  oneoffs: [],  // [{ date:'YYYY-MM-DD', start:'HH:MM', end:'HH:MM' }]
+  timeoff: [],  // [{ date:'YYYY-MM-DD', start:'HH:MM', end:'HH:MM' }]
 }
 
 async function getConfig() {
@@ -112,24 +127,54 @@ function dayInfoInTz(epochMs, timeZone) {
   }
 }
 
+// Does [slotStart, slotStart+minutes) overlap any time-off range on `date`?
+function inTimeoff(slotStartMs, minutes, date, timeoff, tz) {
+  const slotEnd = slotStartMs + minutes * 60000
+  for (const r of timeoff || []) {
+    if (r.date !== date || !/^\d{2}:\d{2}$/.test(r.start || '') || !/^\d{2}:\d{2}$/.test(r.end || '')) continue
+    const rs = zonedTimeToUtc(r.date, r.start, tz)
+    const re = zonedTimeToUtc(r.date, r.end, tz)
+    if (slotStartMs < re && slotEnd > rs) return true // overlap
+  }
+  return false
+}
+
 // Expand availability into candidate UTC slot ids within the horizon.
+//   availability = weekly windows + one-offs − blackouts − time-off
+// (booked/held slots are removed later by filterOpen).
 function expandSlots(cfg, now = Date.now()) {
   const slots = []
   const step = (cfg.session_minutes + cfg.buffer_minutes) * 60000
   const minStart = now + cfg.min_notice_hours * 3600000
   const horizonEnd = now + cfg.booking_horizon_days * 86400000
-  for (let t = now; t <= horizonEnd; t += 86400000) {
-    const { date, dow } = dayInfoInTz(t, cfg.timezone)
-    if ((cfg.blackouts || []).includes(date)) continue
-    for (const w of cfg.windows || []) {
-      if (w.dow !== dow) continue
-      const winStart = zonedTimeToUtc(date, w.start, cfg.timezone)
-      const winEnd = zonedTimeToUtc(date, w.end, cfg.timezone)
-      for (let s = winStart; s + cfg.session_minutes * 60000 <= winEnd; s += step) {
-        if (s >= minStart) slots.push(new Date(s).toISOString().replace(/\.\d{3}Z$/, 'Z'))
-      }
+  const timeoff = cfg.timeoff || []
+
+  // Emit every session-length slot inside one window (a recurring window or a
+  // one-off), applying notice/horizon/blackout/time-off subtraction uniformly.
+  const emit = (date, winStart, winEnd) => {
+    if ((cfg.blackouts || []).includes(date)) return
+    for (let s = winStart; s + cfg.session_minutes * 60000 <= winEnd; s += step) {
+      if (s < minStart || s > horizonEnd) continue
+      if (inTimeoff(s, cfg.session_minutes, date, timeoff, cfg.timezone)) continue
+      slots.push(new Date(s).toISOString().replace(/\.\d{3}Z$/, 'Z'))
     }
   }
+
+  // Recurring weekly windows across the horizon.
+  for (let t = now; t <= horizonEnd; t += 86400000) {
+    const { date, dow } = dayInfoInTz(t, cfg.timezone)
+    for (const w of cfg.windows || []) {
+      if (w.dow !== dow) continue
+      emit(date, zonedTimeToUtc(date, w.start, cfg.timezone), zonedTimeToUtc(date, w.end, cfg.timezone))
+    }
+  }
+
+  // One-off availability on specific dates (outside the weekly pattern).
+  for (const o of cfg.oneoffs || []) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(o.date || '') || !/^\d{2}:\d{2}$/.test(o.start || '') || !/^\d{2}:\d{2}$/.test(o.end || '')) continue
+    emit(o.date, zonedTimeToUtc(o.date, o.start, cfg.timezone), zonedTimeToUtc(o.date, o.end, cfg.timezone))
+  }
+
   return [...new Set(slots)].sort()
 }
 
@@ -172,6 +217,27 @@ function icsFor(slotId, minutes, summary, description) {
     `UID:${slotId}@r6coaching.com`, `DTSTAMP:${dt(new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'))}`,
     `DTSTART:${dt(slotId)}`, `DTEND:${dt(end)}`, `SUMMARY:${summary}`,
     `DESCRIPTION:${description.replace(/\n/g, '\\n')}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n')
+}
+
+// Live iCalendar feed of all upcoming confirmed/comped sessions — the private
+// webcal subscription Aaron adds to his phone once. Standard iCal, no 3rd party.
+function feedIcs(items, minutes) {
+  const dt = (iso) => iso.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
+  const stamp = dt(new Date().toISOString())
+  const esc = (s) => String(s || '').replace(/\\/g, '\\\\').replace(/[,;]/g, (m) => '\\' + m).replace(/\n/g, '\\n')
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//RECON6//Coaching//EN', 'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH', 'X-WR-CALNAME:RECON6 Coaching', 'X-WR-TIMEZONE:UTC', 'REFRESH-INTERVAL;VALUE=DURATION:PT15M']
+  for (const b of items) {
+    const start = String(b.slotId).split('#')[0]
+    const end = new Date(Date.parse(start) + minutes * 60000).toISOString()
+    lines.push('BEGIN:VEVENT', `UID:${esc(b.slotId)}@r6coaching.com`, `DTSTAMP:${stamp}`,
+      `DTSTART:${dt(start)}`, `DTEND:${dt(end)}`,
+      `SUMMARY:RECON6: ${esc(b.customer?.name || 'Session')} (${esc(b.sessionType || 'coaching')})`,
+      `DESCRIPTION:${esc((b.customer?.email || '') + ' · ' + (b.customer?.rank_goal || '') + (b.customer?.discord ? ' · discord ' + b.customer.discord : ''))}`,
+      'STATUS:CONFIRMED', 'END:VEVENT')
+  }
+  lines.push('END:VCALENDAR')
+  return lines.join('\r\n')
 }
 
 function googleCalLink(slotId, minutes, title) {
@@ -324,16 +390,20 @@ export async function handler(event) {
         discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
         tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
       }
+      // Channel attribution: the widget passes the first-touch ?ref source
+      // (from localStorage 'recon:src'); default 'direct'. Same sanitize as
+      // src/lib/refSource.js so coaching attribution matches membership.
+      const referralSource = refSource(body.referral_source)
       try {
         await ddb.send(new UpdateCommand({
           TableName: BOOK_TABLE, Key: { slotId },
-          UpdateExpression: 'SET #s = :c, customer = :cust, sessionType = :ty, manageToken = :m, confirmedAt = :t REMOVE holdToken, heldUntil',
+          UpdateExpression: 'SET #s = :c, customer = :cust, sessionType = :ty, manageToken = :m, referral_source = :rs, confirmedAt = :t REMOVE holdToken, heldUntil',
           ConditionExpression: '#s = :held AND holdToken = :h',
           ExpressionAttributeNames: { '#s': 'status' },
           ExpressionAttributeValues: {
             ':c': 'confirmed', ':held': 'held', ':h': String(holdToken),
             ':cust': customer, ':ty': String(sessionType || 'Free Intro').slice(0, 60),
-            ':m': manageToken, ':t': new Date().toISOString(),
+            ':m': manageToken, ':rs': referralSource, ':t': new Date().toISOString(),
           },
         }))
       } catch {
@@ -404,17 +474,137 @@ export async function handler(event) {
       return resp(400, { error: 'unknown action' })
     }
 
+    // ---------- public (key-guarded): live webcal feed ----------
+    // Calendar apps subscribe with a plain GET and can't send an auth header,
+    // so this is guarded by an unguessable ?key= token, not the admin JWT.
+    if (method === 'GET' && path.endsWith('/admin/calendar.ics')) {
+      const key = event.queryStringParameters?.key || ''
+      if (!CAL_FEED_TOKEN || key !== CAL_FEED_TOKEN) return resp(403, { error: 'bad key' })
+      const cfg = await getConfig()
+      const scan = await ddb.send(new ScanCommand({ TableName: BOOK_TABLE }))
+      const cutoff = Date.now() - 86400000 // keep yesterday onward
+      const items = (scan.Items || [])
+        .filter((b) => (b.status === 'confirmed' || b.status === 'comped') && Date.parse(String(b.slotId).split('#')[0]) >= cutoff)
+        .sort((a, b2) => a.slotId.localeCompare(b2.slotId))
+      return {
+        statusCode: 200,
+        headers: {
+          'Content-Type': 'text/calendar; charset=utf-8',
+          'Content-Disposition': 'inline; filename="recon6-coaching.ics"',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: feedIcs(items, cfg.session_minutes),
+      }
+    }
+
     // ---------- admin ----------
     if (path.includes('/admin/')) {
       const admin = await requireAdmin(event)
       if (!admin) return resp(403, { error: 'admin only' })
 
+      // The webcal subscription URL (with the private key) for the admin UI's
+      // "Add to my phone" button — keeps the key off the public site.
+      if (method === 'GET' && path.endsWith('/admin/calendar-url')) {
+        if (!CAL_FEED_TOKEN) return resp(200, { url: null, note: 'CAL_FEED_TOKEN not configured' })
+        const httpsUrl = `${API_BASE}/admin/calendar.ics?key=${CAL_FEED_TOKEN}`
+        return resp(200, { url: httpsUrl.replace(/^https:/, 'webcal:'), httpsUrl })
+      }
+
       if (method === 'GET' && path.endsWith('/admin/bookings')) {
+        const all = event.queryStringParameters?.all === '1'
         const scan = await ddb.send(new ScanCommand({ TableName: BOOK_TABLE }))
+        // `start` = leading ISO of the slotId (cancelled rows carry a
+        // `#cancelled#ts` suffix). Default view = real upcoming bookings
+        // (confirmed/comped/completed); the calendar passes ?all=1 to also get
+        // held slots and cancelled tombstones for full colour-coding.
+        const cutoff = new Date(Date.now() - 86400000).toISOString()
         const items = (scan.Items || [])
-          .filter((b) => b.status === 'confirmed')
-          .sort((a, b2) => a.slotId.localeCompare(b2.slotId))
-        return resp(200, { bookings: items })
+          .map((b) => ({ ...b, start: String(b.slotId).split('#')[0] }))
+          .filter((b) => /^\d{4}-\d{2}-\d{2}T/.test(b.start))
+          .filter((b) => all || (['confirmed', 'comped', 'completed'].includes(b.status) && b.start >= cutoff))
+          .sort((a, b2) => a.start.localeCompare(b2.start))
+        return resp(200, { bookings: items, session_minutes: (await getConfig()).session_minutes })
+      }
+
+      // Admin booking actions: private notes, mark complete, comp ($0
+      // confirmed), cancel (notify + free slot), reschedule (atomic move).
+      if (method === 'POST' && path.endsWith('/admin/booking')) {
+        const { action, slotId, newSlotId, notes } = body
+        const cfg = await getConfig()
+        if (action === 'notes') {
+          if (!slotId) return resp(400, { error: 'slotId required' })
+          await ddb.send(new UpdateCommand({
+            TableName: BOOK_TABLE, Key: { slotId: String(slotId) },
+            UpdateExpression: 'SET notes = :n',
+            ExpressionAttributeValues: { ':n': String(notes || '').slice(0, 2000) },
+          }))
+          return resp(200, { saved: true })
+        }
+        if (action === 'complete') {
+          if (!slotId) return resp(400, { error: 'slotId required' })
+          await ddb.send(new UpdateCommand({
+            TableName: BOOK_TABLE, Key: { slotId: String(slotId) },
+            UpdateExpression: 'SET #s = :done', ConditionExpression: 'attribute_exists(slotId)',
+            ExpressionAttributeNames: { '#s': 'status' }, ExpressionAttributeValues: { ':done': 'completed' },
+          }))
+          return resp(200, { completed: true })
+        }
+        if (action === 'comp') {
+          // Create a $0 confirmed booking directly on an open slot (the pass).
+          if (!slotId || !body.email || !body.name) return resp(400, { error: 'slotId, name, email required' })
+          if (!expandSlots(cfg).includes(String(slotId))) return resp(400, { error: 'not an open slot' })
+          const manageToken = crypto.randomBytes(20).toString('hex')
+          const customer = {
+            name: String(body.name).slice(0, 80), email: String(body.email).slice(0, 120),
+            discord: String(body.discord || '').slice(0, 60), rank_goal: String(body.rank_goal || '').slice(0, 60),
+            tz: String(body.tz || cfg.timezone).slice(0, 60), notes: String(body.customerNotes || '').slice(0, 500),
+          }
+          try {
+            await ddb.send(new PutCommand({
+              TableName: BOOK_TABLE,
+              Item: {
+                slotId: String(slotId), status: 'comped', customer, sessionType: String(body.sessionType || 'Comped session').slice(0, 60),
+                payment: { status: 'comped', amount: 0 }, manageToken, notes: String(notes || '').slice(0, 2000),
+                referral_source: refSource(body.referral_source || 'comp'), confirmedAt: new Date().toISOString(),
+              },
+              ConditionExpression: 'attribute_not_exists(slotId)',
+            }))
+          } catch { return resp(409, { error: 'That slot is already taken.' }) }
+          await notifyBooked({ slotId: String(slotId), customer, sessionType: body.sessionType || 'Comped session', manageToken }, cfg)
+          return resp(200, { comped: true, slotId })
+        }
+        if (action === 'cancel') {
+          if (!slotId) return resp(400, { error: 'slotId required' })
+          const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          const b = g.Item
+          if (!b) return resp(404, { error: 'booking not found' })
+          await ddb.send(new PutCommand({
+            TableName: BOOK_TABLE,
+            Item: { ...b, slotId: `${b.slotId}#cancelled#${new Date().toISOString()}`, status: 'cancelled', cancelledAt: new Date().toISOString() },
+          }))
+          await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          if (b.customer?.email) await sendMail(b.customer.email, 'Your RECON6 session was cancelled',
+            `Your ${b.sessionType || 'session'} at ${b.slotId} (UTC) was cancelled by the coach.\nBook again any time: ${SITE}/coaching/\n\nAaron — Recon 6`)
+          return resp(200, { cancelled: true })
+        }
+        if (action === 'reschedule') {
+          if (!slotId || !newSlotId) return resp(400, { error: 'slotId and newSlotId required' })
+          if (!expandSlots(cfg).includes(String(newSlotId))) return resp(400, { error: 'new slot not open' })
+          const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          const b = g.Item
+          if (!b) return resp(404, { error: 'booking not found' })
+          try {
+            await ddb.send(new PutCommand({
+              TableName: BOOK_TABLE,
+              Item: { ...b, slotId: String(newSlotId), confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId },
+              ConditionExpression: 'attribute_not_exists(slotId)',
+            }))
+          } catch { return resp(409, { error: 'That slot just went — pick another.' }) }
+          await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          await notifyBooked({ slotId: String(newSlotId), customer: b.customer, sessionType: b.sessionType, manageToken: b.manageToken }, cfg)
+          return resp(200, { rescheduled: true, slotId: newSlotId })
+        }
+        return resp(400, { error: 'unknown action' })
       }
       if (method === 'GET' && path.endsWith('/admin/availability')) {
         return resp(200, { config: await getConfig() })
@@ -432,6 +622,16 @@ export async function handler(event) {
             .filter((w) => Number.isInteger(w.dow) && w.dow >= 0 && w.dow <= 6 && /^\d{2}:\d{2}$/.test(w.start) && /^\d{2}:\d{2}$/.test(w.end))
             .slice(0, 30),
           blackouts: (Array.isArray(cfg.blackouts) ? cfg.blackouts : []).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).slice(0, 100),
+          // One-off availability + partial-day time-off, both {date,start,end}
+          // in the coach's timezone. end must be after start to be meaningful.
+          oneoffs: (Array.isArray(cfg.oneoffs) ? cfg.oneoffs : [])
+            .filter((o) => /^\d{4}-\d{2}-\d{2}$/.test(o.date) && /^\d{2}:\d{2}$/.test(o.start) && /^\d{2}:\d{2}$/.test(o.end) && o.end > o.start)
+            .map((o) => ({ date: o.date, start: o.start, end: o.end }))
+            .slice(0, 200),
+          timeoff: (Array.isArray(cfg.timeoff) ? cfg.timeoff : [])
+            .filter((o) => /^\d{4}-\d{2}-\d{2}$/.test(o.date) && /^\d{2}:\d{2}$/.test(o.start) && /^\d{2}:\d{2}$/.test(o.end) && o.end > o.start)
+            .map((o) => ({ date: o.date, start: o.start, end: o.end }))
+            .slice(0, 200),
         }
         await ddb.send(new PutCommand({ TableName: AVAIL_TABLE, Item: clean }))
         return resp(200, { saved: true, config: clean })
