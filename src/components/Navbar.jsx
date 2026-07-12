@@ -233,7 +233,7 @@ export default function Navbar() {
         </ul>
 
         <div className="navbar-right navbar-desktop-only">
-          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book a free session</a>
+          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book your first session — $20</a>
           {user ? (
             <AccountDropdown
               user={user}
@@ -321,7 +321,7 @@ export default function Navbar() {
             everyone. */}
         <div className="mobile-drawer-section">
           <div className="mobile-drawer-section-label">Coaching</div>
-          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book a free session →</a>
+          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session — $20 →</a>
           <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
           <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn — the Climb pipeline</a>
           <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Guides & blog</a>
