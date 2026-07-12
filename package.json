@@ -31,6 +31,10 @@
     "generate:brand": "node scripts/generate-brand-assets.mjs"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.21",
+    "@fullcalendar/interaction": "^6.1.21",
+    "@fullcalendar/react": "^6.1.21",
+    "@fullcalendar/timegrid": "^6.1.21",
     "amazon-cognito-identity-js": "^6.3.16",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
