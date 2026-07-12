@@ -93,6 +93,19 @@ export const CHAMPION_ALL_ACCESS_ANNUAL_LINK = 'https://buy.stripe.com/00waEY0gy
 export const CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID = 'price_1TVUd6JNddvjgWcgc3csHICD'
 export const CHAMPION_ALL_ACCESS_ANNUAL_AMOUNT = 490 // saves $98 vs monthly
 
+// ---- Coaching (one-time paid sessions, NOT subscriptions) --------------------
+// Product "RECON6 Coaching" (prod_Us9Aa8zlWWiHjM) on the shared IFD live
+// account, created 2026-07-12 via Stripe MCP. All three are ONE-TIME prices
+// (Checkout mode:'payment'), never recurring. The booking Lambda creates the
+// Checkout Session; the webhook confirms the held slot on
+// checkout.session.completed (keyed off metadata.slotId). The $20 intro is
+// enforced first-session-only SERVER-SIDE — never trust the client.
+export const COACHING_PRODUCT_ID = 'prod_Us9Aa8zlWWiHjM'
+export const COACHING_SINGLE_PRICE_ID = 'price_1TsOsaJNddvjgWcgmalTAfcn' // $40 single session
+export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 first session (50% off, first-timers only)
+export const COACHING_PACKAGE_PRICE_ID = 'price_1TsOswJNddvjgWcgBuf68fSA' // $140 4-session package
+export const COACHING_AMOUNTS = { intro: 20, single: 40, package: 140 } // dollars, for copy
+
 // Convenience helper for components — what's the current best link to
 // upsell a non-paying user to a given tier.
 export function checkoutLinkFor(tier) {
