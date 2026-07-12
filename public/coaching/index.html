@@ -60,9 +60,9 @@
   <div class="selector">
     <div class="row">
       <div><label for="cur">Current rank</label>
-        <select id="cur"><option value="0">Copper</option><option value="1">Bronze</option><option value="2" selected>Silver</option><option value="3">Gold</option><option value="4">Platinum</option><option value="5">Emerald</option><option value="6">Diamond</option><option value="7">Champion</option></select></div>
+        <select id="cur"><option value="1">Copper V</option><option value="2">Copper IV</option><option value="3">Copper III</option><option value="4">Copper II</option><option value="5">Copper I</option><option value="6">Bronze V</option><option value="7">Bronze IV</option><option value="8">Bronze III</option><option value="9">Bronze II</option><option value="10">Bronze I</option><option value="11">Silver V</option><option value="12" selected>Silver IV</option><option value="13">Silver III</option><option value="14">Silver II</option><option value="15">Silver I</option><option value="16">Gold V</option><option value="17">Gold IV</option><option value="18">Gold III</option><option value="19">Gold II</option><option value="20">Gold I</option><option value="21">Platinum V</option><option value="22">Platinum IV</option><option value="23">Platinum III</option><option value="24">Platinum II</option><option value="25">Platinum I</option><option value="26">Emerald V</option><option value="27">Emerald IV</option><option value="28">Emerald III</option><option value="29">Emerald II</option><option value="30">Emerald I</option><option value="31">Diamond V</option><option value="32">Diamond IV</option><option value="33">Diamond III</option><option value="34">Diamond II</option><option value="35">Diamond I</option><option value="36">Champion V</option><option value="37">Champion IV</option><option value="38">Champion III</option><option value="39">Champion II</option><option value="40">Champion I</option></select></div>
       <div><label for="goal">Goal rank</label>
-        <select id="goal"><option value="0">Copper</option><option value="1">Bronze</option><option value="2">Silver</option><option value="3" selected>Gold</option><option value="4">Platinum</option><option value="5">Emerald</option><option value="6">Diamond</option><option value="7">Champion</option></select></div>
+        <select id="goal"><option value="1">Copper V</option><option value="2">Copper IV</option><option value="3">Copper III</option><option value="4">Copper II</option><option value="5">Copper I</option><option value="6">Bronze V</option><option value="7">Bronze IV</option><option value="8">Bronze III</option><option value="9">Bronze II</option><option value="10">Bronze I</option><option value="11">Silver V</option><option value="12">Silver IV</option><option value="13">Silver III</option><option value="14">Silver II</option><option value="15">Silver I</option><option value="16">Gold V</option><option value="17">Gold IV</option><option value="18">Gold III</option><option value="19" selected>Gold II</option><option value="20">Gold I</option><option value="21">Platinum V</option><option value="22">Platinum IV</option><option value="23">Platinum III</option><option value="24">Platinum II</option><option value="25">Platinum I</option><option value="26">Emerald V</option><option value="27">Emerald IV</option><option value="28">Emerald III</option><option value="29">Emerald II</option><option value="30">Emerald I</option><option value="31">Diamond V</option><option value="32">Diamond IV</option><option value="33">Diamond III</option><option value="34">Diamond II</option><option value="35">Diamond I</option><option value="36">Champion V</option><option value="37">Champion IV</option><option value="38">Champion III</option><option value="39">Champion II</option><option value="40">Champion I</option></select></div>
     </div>
     <div id="reco"></div>
   </div>
@@ -210,8 +210,15 @@
   ];
   var cur = document.getElementById('cur'), goal = document.getElementById('goal'), reco = document.getElementById('reco');
   function update() {
-    var gap = parseInt(goal.value, 10) - parseInt(cur.value, 10);
-    var pick = gap <= 0 ? TIER_FOR_GAP[0] : TIER_FOR_GAP[Math.min(gap, 3)];
+    // Option values are the global rank order (1..40). Gap = rank divisions to
+    // climb; ~5 divisions per tier. Goal must sit above current rank.
+    var c = parseInt(cur.value, 10), g = parseInt(goal.value, 10);
+    if (g <= c) {
+      reco.innerHTML = '<strong style="color:var(--orange)">Pick a goal above your current rank.</strong> Even one division up is a real target — that is exactly what a session fixes.';
+      return;
+    }
+    var gap = g - c;
+    var pick = gap <= 3 ? TIER_FOR_GAP[0] : gap <= 8 ? TIER_FOR_GAP[1] : gap <= 15 ? TIER_FOR_GAP[2] : TIER_FOR_GAP[3];
     reco.innerHTML = 'Recommended: <strong>' + pick[0] + '</strong> — ' + pick[2] +
       '. <a href="#' + pick[1] + '">See it</a> · either way, <a href="#book">start with the free intro</a>.';
   }
