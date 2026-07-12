@@ -222,6 +222,23 @@
   var held = null, holdTimer = null;
   var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
 
+  // Channel attribution — mirror src/lib/refSource.js (localStorage 'recon:src',
+  // first-touch). React captures ?ref on the landing page; this also captures
+  // it if a visitor lands directly on /coaching/?ref=tiktok. getRef() defaults
+  // to 'direct' so every booking carries a source.
+  var SRC_KEY = 'recon:src';
+  function captureRef() {
+    try {
+      var raw = new URLSearchParams(window.location.search).get('ref');
+      var clean = (raw || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 32);
+      if (clean && !localStorage.getItem(SRC_KEY)) localStorage.setItem(SRC_KEY, clean);
+    } catch (e) { /* storage blocked — lose attribution, never break booking */ }
+  }
+  function getRef() {
+    try { return localStorage.getItem(SRC_KEY) || 'direct'; } catch (e) { return 'direct'; }
+  }
+  captureRef();
+
   function fallbackToForm() {
     document.getElementById('scheduler').style.display = 'none';
     document.getElementById('bookForm').style.display = 'block';
@@ -304,6 +321,7 @@
         slotId: held.slotId, holdToken: held.token, tz: tz,
         name: val('c-name'), email: val('c-email'), discord: val('c-discord'),
         rank_goal: val('c-rank'), sessionType: val('c-type'), notes: val('c-notes'),
+        referral_source: getRef(),
       }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
