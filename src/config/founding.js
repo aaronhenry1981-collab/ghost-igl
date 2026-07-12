@@ -16,9 +16,9 @@
 // To extend the window: change FOUNDING_END_ISO here and redeploy. To flip
 // immediately for emergency, set VITE_STRIPE_FOUNDING_ACTIVE=false in env.
 
-export const FOUNDING_END_ISO = '2026-05-31T23:59:59-07:00' // PDT midnight cutoff
-export const FOUNDING_END_DISPLAY = 'May 31, 2026'
-export const FOUNDING_END_SHORT = 'May 31'
+export const FOUNDING_END_ISO = '2026-08-31T23:59:59-07:00' // PDT midnight cutoff — founding window re-opened 2026-07-12
+export const FOUNDING_END_DISPLAY = 'August 31, 2026'
+export const FOUNDING_END_SHORT = 'Aug 31'
 
 // Pre-launch the founding window was open from the launch announcement;
 // after a launch retrospective we may want to reference the start window.
