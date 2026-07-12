@@ -76,6 +76,22 @@ export async function handler(event) {
   }
 }
 
+// Coaching confirmation is owned by the booking Lambda (it has the slot table,
+// SES, and .ics). The webhook just pings /booking/finalize, which re-verifies
+// payment with Stripe (idempotent) and flips held → confirmed.
+async function finalizeCoaching(session) {
+  const base = process.env.BOOKING_API || 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
+  try {
+    const r = await fetch(`${base}/booking/finalize`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: session.id }),
+    })
+    console.log(`coaching finalize ${session.id}: HTTP ${r.status}`)
+  } catch (err) {
+    console.error('coaching finalize failed:', err.message)
+  }
+}
+
 async function subHasGhostIglCustomer(customerId) {
   if (!customerId) return false
   const row = await ddb.send(new QueryCommand({
@@ -88,6 +104,13 @@ async function subHasGhostIglCustomer(customerId) {
 }
 
 async function handleCheckout(session, eventId) {
+  // RECON6 coaching = one-time payment with a booking slot in metadata. Confirm
+  // the held slot via the booking API and stop — this is NOT an app sub. The
+  // subscription path below is untouched.
+  if (session.mode === 'payment' && session.metadata?.slotId) {
+    await finalizeCoaching(session)
+    return
+  }
   if (session.mode !== 'subscription') return
 
   const customerId = session.customer
