@@ -52,7 +52,10 @@ const COACHING = {
   single: { price: process.env.COACHING_SINGLE_PRICE_ID || 'price_1TsOsaJNddvjgWcgmalTAfcn', amount: 4000, label: 'Single Session' },
   package: { price: process.env.COACHING_PACKAGE_PRICE_ID || 'price_1TsOswJNddvjgWcgBuf68fSA', amount: 14000, label: '4-Session Package' },
 }
-const PACKAGE_SESSIONS = 4 // a package booking confirms 1 + credits 3 more
+const PACKAGE_SESSIONS = 4 // legacy à-la-carte package (archived); kept for old rows
+// Reconciled model: the $70/mo add-on grants a fixed monthly credit balance.
+const COACHING_ADDON_PRICE_ID = process.env.COACHING_ADDON_PRICE_ID || 'price_1TsZtQJNddvjgWcgwPKVEYQm'
+const CREDITS_PER_MONTH = 2 // set (not incremented) each cycle — no rollover
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 Coaching <coach@r6coaching.com>'
 const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const SITE = 'https://r6coaching.com'
@@ -372,6 +375,14 @@ async function addCredits(email, n) {
     ExpressionAttributeValues: { ':z': 0, ':n': n, ':e': String(email || '').toLowerCase() },
   }))
 }
+// SET the balance (add-on monthly grant/reset — no rollover).
+async function setCredits(email, n) {
+  await ddb.send(new UpdateCommand({
+    TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
+    UpdateExpression: 'SET credits = :n, email = :e, updatedAt = :t',
+    ExpressionAttributeValues: { ':n': n, ':e': String(email || '').toLowerCase(), ':t': new Date().toISOString() },
+  }))
+}
 
 // Confirm a held slot and send the confirmation email. Shared by paid finalize
 // and credit-based booking. Idempotent: a already-confirmed slot just re-sends
@@ -555,6 +566,26 @@ export async function handler(event) {
       if (!r.ok) return resp(404, r)
       if (type === 'package' && !r.already) await addCredits(email, PACKAGE_SESSIONS - 1)
       return resp(200, { booked: true, slotId, alreadyConfirmed: !!r.already })
+    }
+
+    // ---------- coaching add-on: set the monthly credit balance ----------
+    // Called by the webhook on the $70/mo add-on's checkout.session.completed
+    // and each invoice.paid renewal. Re-verifies with Stripe (the capability):
+    // only a live ACTIVE add-on subscription sets credits, and it's SET to the
+    // monthly grant (no rollover). Idempotent.
+    if (method === 'POST' && path.endsWith('/booking/credits')) {
+      if (!stripe) return resp(500, { error: 'payments not configured' })
+      const subscriptionId = String(body.subscriptionId || '')
+      if (!subscriptionId) return resp(400, { error: 'subscriptionId required' })
+      let sub
+      try { sub = await stripe.subscriptions.retrieve(subscriptionId) } catch { return resp(400, { error: 'unknown subscription' }) }
+      if (!['active', 'trialing'].includes(sub.status)) return resp(402, { error: 'subscription not active' })
+      if (sub.items?.data?.[0]?.price?.id !== COACHING_ADDON_PRICE_ID) return resp(400, { error: 'not the coaching add-on' })
+      let email = sub.customer_email
+      if (!email && sub.customer) { try { const c = await stripe.customers.retrieve(sub.customer); email = c.email } catch { /* fall through */ } }
+      if (!email) return resp(400, { error: 'no customer email on subscription' })
+      await setCredits(email, CREDITS_PER_MONTH)
+      return resp(200, { ok: true, email: String(email).toLowerCase(), credits: CREDITS_PER_MONTH })
     }
 
     // ---------- public: manage (info) ----------

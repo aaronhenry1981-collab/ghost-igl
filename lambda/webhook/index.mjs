@@ -65,6 +65,9 @@ export async function handler(event) {
       case 'invoice.payment_failed':
         await handlePaymentFailed(stripeEvent.data.object, eventId)
         break
+      case 'invoice.paid':
+        await handleInvoicePaid(stripeEvent.data.object, eventId)
+        break
       default:
         console.log(`Unhandled event type: ${stripeEvent.type}`)
     }
@@ -76,13 +79,18 @@ export async function handler(event) {
   }
 }
 
-// Coaching confirmation is owned by the booking Lambda (it has the slot table,
-// SES, and .ics). The webhook just pings /booking/finalize, which re-verifies
-// payment with Stripe (idempotent) and flips held → confirmed.
+// The $70/mo coaching add-on price. Its subscription events grant booking
+// credits (not an app plan). getPlanFromPrice() returns null for it, so the
+// existing app-plan path already ignores it — we add explicit handling.
+const COACHING_ADDON_PRICE_ID = process.env.COACHING_ADDON_PRICE_ID || 'price_1TsZtQJNddvjgWcgwPKVEYQm'
+const BOOKING_API = process.env.BOOKING_API || 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
+
+// Coaching confirmation/credits are owned by the booking Lambda (it has the
+// slot table, SES, .ics, and credit balance). The webhook just pings it; the
+// booking Lambda re-verifies with Stripe (idempotent).
 async function finalizeCoaching(session) {
-  const base = process.env.BOOKING_API || 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
   try {
-    const r = await fetch(`${base}/booking/finalize`, {
+    const r = await fetch(`${BOOKING_API}/booking/finalize`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId: session.id }),
     })
@@ -90,6 +98,26 @@ async function finalizeCoaching(session) {
   } catch (err) {
     console.error('coaching finalize failed:', err.message)
   }
+}
+
+async function grantCoachingCredits(subscriptionId) {
+  try {
+    const r = await fetch(`${BOOKING_API}/booking/credits`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subscriptionId }),
+    })
+    console.log(`coaching credits ${subscriptionId}: HTTP ${r.status}`)
+  } catch (err) {
+    console.error('coaching credits failed:', err.message)
+  }
+}
+
+// invoice.paid = an add-on renewal (or first invoice) → reset the monthly
+// credit balance to 2. Only acts on invoices whose line is the add-on price;
+// app-subscription invoices are ignored.
+async function handleInvoicePaid(invoice, eventId) {
+  const isAddon = (invoice.lines?.data || []).some((l) => l.price?.id === COACHING_ADDON_PRICE_ID)
+  if (isAddon && invoice.subscription) await grantCoachingCredits(invoice.subscription)
 }
 
 async function subHasGhostIglCustomer(customerId) {
@@ -119,6 +147,8 @@ async function handleCheckout(session, eventId) {
 
   const sub = await stripe.subscriptions.retrieve(subscriptionId)
   const item = sub.items.data[0]
+  // Coaching add-on subscription → grant booking credits, not an app plan.
+  if (item?.price?.id === COACHING_ADDON_PRICE_ID) { await grantCoachingCredits(subscriptionId); return }
   const plan = getPlanFromPrice(item?.price?.id)
   const tierScope = getTierScope(item?.price?.id)
 
