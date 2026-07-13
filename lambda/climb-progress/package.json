@@ -1,0 +1,6 @@
+{
+  "name": "recon6-climb-progress",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": { "aws-jwt-verify": "^4.0.1" }
+}
