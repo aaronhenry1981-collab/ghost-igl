@@ -195,7 +195,7 @@ export default function SessionResults({ analysis }) {
 
       {analysis.tier === 'pro' && (
         <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', textAlign: 'center', marginTop: '1.5rem' }}>
-          Want a deeper review? <a href="/#/account">Upgrade to Champion</a> for full-round 10-screenshot sessions, accountability for the picks you made, and a weekly drill list built from your own clips.
+          Want a deeper review? <a href="/account">Upgrade to Champion</a> for full-round 10-screenshot sessions, accountability for the picks you made, and a weekly drill list built from your own clips.
         </p>
       )}
     </div>

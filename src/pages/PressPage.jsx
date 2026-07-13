@@ -35,11 +35,11 @@ const OUTREACH_TEMPLATES = [
     label: 'For R6 streamers / YouTubers',
     body: `Hey {{name}},
 
-I built a free in-match coaching tool for R6 — r6coaching.com/#/live — that walks you through map → bans → site → operator → loadout in one screen. It's the kind of thing I wish existed when I was grinding ranked solo.
+I built a free in-match coaching tool for R6 — r6coaching.com/live — that walks you through map → bans → site → operator → loadout in one screen. It's the kind of thing I wish existed when I was grinding ranked solo.
 
 The Pro tier ($9/mo founding rate, locked for life if you sub before May 31) adds AI VOD review on screenshots — drop a clip, get back what cost you the round. I'd love to send you a free Champion comp if you want to take it for a spin on stream. No strings, just want feedback from real Diamond+ players.
 
-If you want a thumbnail-friendly intro for your audience, the press kit (logos, screenshots, one-line description) is at r6coaching.com/#/press.
+If you want a thumbnail-friendly intro for your audience, the press kit (logos, screenshots, one-line description) is at r6coaching.com/press.
 
 — Aaron
 Recon 6`,
@@ -56,7 +56,7 @@ Bullets that might fit a piece:
 - AI VOD review reads screenshots round-by-round (not full video) — drastically cheaper than what was previously possible
 - 20-game coverage including non-FPS titles (LoL, Dota 2, Tekken 8, EAFC, NBA 2K) on the same coaching engine
 
-Happy to provide founder quotes, screenshots, or a free Champion sub for review purposes. Press kit (logos, copy presets, screenshots) at r6coaching.com/#/press.
+Happy to provide founder quotes, screenshots, or a free Champion sub for review purposes. Press kit (logos, copy presets, screenshots) at r6coaching.com/press.
 
 — Aaron Henry, Founder
 aaronhenry1981@gmail.com`,
@@ -66,7 +66,7 @@ aaronhenry1981@gmail.com`,
     label: 'For Discord / community mods',
     body: `Hey {{name}},
 
-Built a free tool that R6 players in your community might find useful — r6coaching.com/#/live. It's an in-match walkthrough (map → bans → site → operator → loadout) optimized for the 90-second ready-up window. No signup required to try it.
+Built a free tool that R6 players in your community might find useful — r6coaching.com/live. It's an in-match walkthrough (map → bans → site → operator → loadout) optimized for the 90-second ready-up window. No signup required to try it.
 
 If it lands well with your members, I'd be happy to set up a community partnership — comp Champion subs for active mods, custom landing page with your server's branding, that kind of thing. Reply if interested or just share the link if you think it'd help.
 

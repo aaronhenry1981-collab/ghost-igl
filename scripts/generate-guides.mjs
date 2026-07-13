@@ -127,7 +127,7 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
     <a class="brand" href="${SITE_URL}/">RECON<span>6</span></a>
     <div class="nav-links">
       <a href="${SITE_URL}/guides/">All guides</a>
-      <a href="${SITE_URL}/#/strats">Interactive strats</a>
+      <a href="${SITE_URL}/strats">Interactive strats</a>
       <a href="${SITE_URL}/#pricing">Pricing</a>
     </div>
   </nav>
@@ -166,7 +166,7 @@ function renderMapGuide(map) {
     .map((site) => {
       const strat = STRATS[map.id]?.[site.id]
       if (!strat) return ''
-      const canonicalSite = `${SITE_URL}/#/strats/${map.id}/${site.id}/attack`
+      const canonicalSite = `${SITE_URL}/strats/${map.id}/${site.id}/attack`
       return `
         <section class="site" id="${escape(site.id)}">
           <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>
@@ -196,7 +196,7 @@ function renderMapGuide(map) {
   const bodyInner = `
     <h1>${escape(map.name)} — Complete Strategy Guide</h1>
     <p class="sub">Operator picks, callouts, utility, and ban recommendations for every bomb site. Free tactical guide from Recon 6.</p>
-    <a class="cta-top" href="${SITE_URL}/#/strats/${map.id}">Open interactive ${escape(map.name)} strats &rarr;</a>
+    <a class="cta-top" href="${SITE_URL}/strats/${map.id}">Open interactive ${escape(map.name)} strats &rarr;</a>
     ${bansHtml}
     ${siteSections}
     <div class="intro-cta">
@@ -287,7 +287,7 @@ function renderSiteGuide(map, site) {
     </nav>
     <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(230,233,239,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
     <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>
-    <a class="cta-top" href="${SITE_URL}/#/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
+    <a class="cta-top" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
 
     <section class="site" id="${escape(site.id)}">
       <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>
@@ -400,7 +400,7 @@ function renderIndex(mapsWithStrats) {
     <div class="intro-cta">
       <h3>Prefer the interactive tool?</h3>
       <p>Deep-linked strats with search, keyboard shortcuts, and personalized operator picks based on your main role.</p>
-      <a class="btn" href="${SITE_URL}/#/strats">Open interactive strats &rarr;</a>
+      <a class="btn" href="${SITE_URL}/strats">Open interactive strats &rarr;</a>
     </div>`
 
   return htmlShell({

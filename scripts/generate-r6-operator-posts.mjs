@@ -696,7 +696,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     <div class="nav-links">
       <a href="${SITE_URL}/blog/">Blog</a>
       <a href="${SITE_URL}/guides/">Map guides</a>
-      <a href="${SITE_URL}/#/strats">Interactive strats</a>
+      <a href="${SITE_URL}/strats">Interactive strats</a>
       <a href="${SITE_URL}/#pricing">Pricing</a>
     </div>
   </nav>
@@ -842,7 +842,7 @@ function renderOperatorPost(opName, opIndex) {
     <p>Queue 5 ranked games with ${opName} locked in. After each game, write down (1) where you used your gadget and whether it landed, (2) which map and site you played, (3) one mistake you saw in the kill cam. By game 5 you\'ll have specific patterns to fix, and the next 10 games convert that knowledge into rank. The deliberate-practice loop beats grinding 50 random games where you don\'t track what you\'re fixing.</p>`
 
   const aiVod = `
-    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility-timing mistakes per round. Particularly useful for finding the rounds where you wasted a gadget charge or held a predictable angle. <strong>7-day money back if it doesn\'t help.</strong></p>`
+    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility-timing mistakes per round. Particularly useful for finding the rounds where you wasted a gadget charge or held a predictable angle. <strong>7-day money back if it doesn\'t help.</strong></p>`
 
   // Related links: 4-5 links to operator-relevant content
   const topMaps = opSites.length > 0

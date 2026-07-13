@@ -172,7 +172,7 @@ export default function OW2StadiumTierListPage() {
           appear in actual Stadium strats. Tied scores broken by essential-pick count.
         </p>
         <p className="r6-tier-cite-line">
-          <strong>Citing this list?</strong> Use: <em>"Recon 6 OW2 Stadium Tier List, r6coaching.com/#/tools/ow2-stadium-tier-list"</em>
+          <strong>Citing this list?</strong> Use: <em>"Recon 6 OW2 Stadium Tier List, r6coaching.com/tools/ow2-stadium-tier-list"</em>
         </p>
       </header>
 

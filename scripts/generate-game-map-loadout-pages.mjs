@@ -238,7 +238,7 @@ async function generateMapLoadoutPage(game, map, data) {
       </p>
       <div class="cta-row">
         <a class="cta" href="/#pricing">See pricing &rarr;</a>
-        <a class="btn-outline" href="/#/match-prep">Match prep cheatsheet</a>
+        <a class="btn-outline" href="/match-prep">Match prep cheatsheet</a>
       </div>
     </div>
   `

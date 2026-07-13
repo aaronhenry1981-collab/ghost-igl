@@ -153,7 +153,7 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd, 
     <footer>
       <p>Recon 6 — AI-powered coaching for Rainbow Six Siege.<br>
       Operator names are property of Ubisoft Entertainment. Fan-made, not affiliated with Ubisoft.</p>
-      <p><a href="${SITE_URL}/#/strats">Open the interactive strats tool →</a></p>
+      <p><a href="${SITE_URL}/strats">Open the interactive strats tool →</a></p>
     </footer>
   </div>
 </body>
@@ -200,7 +200,7 @@ function operatorPage(op) {
       <div class="stat"><div class="stat-label">Recommended</div><div class="stat-val">${op.recommendedCount}</div></div>
       <div class="stat"><div class="stat-label">Flex</div><div class="stat-val">${op.flexCount}</div></div>
     </div>
-    <a class="cta" href="${SITE_URL}/#/operators/${encodeURIComponent(op.name)}">Open ${escape(op.name)} in the interactive tool →</a>
+    <a class="cta" href="${SITE_URL}/operators/${encodeURIComponent(op.name)}">Open ${escape(op.name)} in the interactive tool →</a>
     <h2>Where ${escape(op.name)} is picked</h2>
     ${mapSections}
   `

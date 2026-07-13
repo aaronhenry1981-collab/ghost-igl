@@ -73,7 +73,7 @@ function discordPollOfTheDay(seed) {
     `🔨  **${a.name}** — ${firstSentence(a.sampleReasons[0]?.reason || '')}`,
     `🛡️  **${b.name}** — ${firstSentence(b.sampleReasons[0]?.reason || '')}`,
     ``,
-    `Full ban reasoning per map: ${SITE_URL}/#/meta`,
+    `Full ban reasoning per map: ${SITE_URL}/meta`,
   ].join('\n')
   return {
     channel: 'discord',
@@ -116,7 +116,7 @@ function discordOperatorSpotlight(seed) {
     `**${op.name} spotlight** — essential on **${op.essential}** sites across the ranked pool.`,
     `Top sites to pick them: ${sampleSites}.`,
     ``,
-    `Every map ${op.name} shows up on: ${SITE_URL}/#/operators/${encodeURIComponent(op.name.toLowerCase())}`,
+    `Every map ${op.name} shows up on: ${SITE_URL}/operators/${encodeURIComponent(op.name.toLowerCase())}`,
   ].join('\n')
   return {
     channel: 'discord',
@@ -137,7 +137,7 @@ function redditValueQuestion(_seed) {
     ``,
     `Curious what you all think — who's missing from the top, or who shouldn't be there? The data's pulled from per-site default lineups I've been writing up.`,
     ``,
-    `For anyone wanting the full leaderboard: ${SITE_URL}/#/meta`,
+    `For anyone wanting the full leaderboard: ${SITE_URL}/meta`,
   ].join('\n')
   return {
     channel: 'reddit',
@@ -186,7 +186,7 @@ function twitterMetaThread(_seed) {
     `Top 3 priority bans:`,
     ...top3Bans.map((o, i) => `${i + 1}. ${o.name}`),
     ``,
-    `Full breakdown: ${SITE_URL}/#/meta`,
+    `Full breakdown: ${SITE_URL}/meta`,
   ].join('\n')
   return {
     channel: 'twitter',

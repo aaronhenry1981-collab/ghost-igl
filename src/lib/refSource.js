@@ -6,7 +6,7 @@
 //
 // Works with both URL shapes the site sees:
 //   r6coaching.com/?ref=twitter#/        (query before the hash)
-//   r6coaching.com/#/?ref=twitter        (query inside the hash route)
+//   r6coaching.com/?ref=twitter        (query inside the hash route)
 //
 // Distinct from the friend-referral system (recon:ref cookie + referral codes)
 // — this is channel-level marketing attribution, stored on the profile's

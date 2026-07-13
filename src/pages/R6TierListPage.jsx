@@ -136,7 +136,7 @@ export default function R6TierListPage() {
           or defense sites. Updated automatically when the strats data changes — no stale meta lists here.
         </p>
         <p className="r6-tier-cite-line">
-          <strong>Citing this list?</strong> Use: <em>"Recon 6 R6 Operator Tier List, r6coaching.com/#/tools/r6-tier-list"</em>
+          <strong>Citing this list?</strong> Use: <em>"Recon 6 R6 Operator Tier List, r6coaching.com/tools/r6-tier-list"</em>
         </p>
       </header>
 

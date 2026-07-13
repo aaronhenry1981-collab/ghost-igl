@@ -451,7 +451,7 @@ function R6LiveCoach() {
     if (siteId) params.set('site', siteId)
     if (queueSize) params.set('q', String(queueSize))
     if (selectedOpName) params.set('op', selectedOpName)
-    const url = `${window.location.origin}/#/live?${params.toString()}`
+    const url = `${window.location.origin}/live?${params.toString()}`
     navigator.clipboard.writeText(url).then(() => {
       setShareCopied(true)
       track('Live Coach Share', { mapId, side, hasBans: bans[0].size + bans[1].size > 0 })

@@ -221,11 +221,11 @@ async function generateGamePage(game) {
   const loadoutsHtml = loadoutEntries.length > 0 ? `
     <h2>${escape(displayName)} Loadouts</h2>
     <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
-      <a href="/#/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
+      <a href="/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
     </p>
     <div class="grid">
       ${loadoutEntries.slice(0, 12).map(([id, sec]) => `
-        <a href="/#/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
+        <a href="/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
           <strong>${escape(sec.name || id)}</strong>
           ${sec.role ? `<span>${escape(sec.role)}</span>` : ''}
           ${sec.summary ? `<div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">${escape(sec.summary.slice(0, 140))}${sec.summary.length > 140 ? '…' : ''}</div>` : ''}
@@ -244,7 +244,7 @@ async function generateGamePage(game) {
         ${stratCount} strategy breakdowns. Live in-app today.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="${SITE_URL}/#/strats">Open ${escape(displayName)} in-app →</a>
+        <a class="btn btn-primary" href="${SITE_URL}/strats">Open ${escape(displayName)} in-app →</a>
         <a class="btn btn-outline" href="${SITE_URL}/#pricing">See pricing</a>
       </div>
       <div class="stat-row">
@@ -417,7 +417,7 @@ async function generateMapPage(game, data, map) {
         Stadium-mode strategy for ${escape(map.name || map.id)} — Cash economy, Power picks per round, Item shop priorities, hero lineups${stadiumMode ? ' for ' + escape(stadiumMode) + ' mode' : ''}. Stadium runs on a BO7 round structure with 4 Power picks (rounds 1, 3, 5, 7) and a per-round Item shop economy that makes build literacy more decisive than aim.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="${SITE_URL}/#/strats/${escape(map.id)}/${escape(sites[0]?.id || 'point')}/attack" style="background:#ffc97a;color:#0a0f19;border-color:#ffc97a">Open ${escape(map.name || map.id)} strats →</a>
+        <a class="btn btn-primary" href="${SITE_URL}/strats/${escape(map.id)}/${escape(sites[0]?.id || 'point')}/attack" style="background:#ffc97a;color:#0a0f19;border-color:#ffc97a">Open ${escape(map.name || map.id)} strats →</a>
         <a class="btn btn-outline" href="${SITE_URL}/#pricing">Founding rate $9/mo (ends May 31)</a>
       </div>
     </div>
@@ -449,8 +449,8 @@ async function generateMapPage(game, data, map) {
         <div class="grid-item" style="grid-column: 1 / -1; padding: 1.25rem; border-color:rgba(255,201,122,0.25)">
           <h3 style="margin:0 0 0.5rem;color:#ffc97a">${escape(s.name || s.id)}${s.floor ? ` <span style="font-size:0.85rem;color:rgba(230,233,239,0.5);font-weight:400">(${escape(s.floor)})</span>` : ''}</h3>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem">
-            <a class="btn btn-outline" href="${SITE_URL}/#/strats/${escape(map.id)}/${escape(s.id)}/attack" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Attack strats →</a>
-            <a class="btn btn-outline" href="${SITE_URL}/#/strats/${escape(map.id)}/${escape(s.id)}/defense" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Defense strats →</a>
+            <a class="btn btn-outline" href="${SITE_URL}/strats/${escape(map.id)}/${escape(s.id)}/attack" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Attack strats →</a>
+            <a class="btn btn-outline" href="${SITE_URL}/strats/${escape(map.id)}/${escape(s.id)}/defense" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Defense strats →</a>
           </div>
         </div>
       `).join('')}

@@ -2,7 +2,7 @@
   "name": "RECON6 — AI-Augmented Rainbow Six Siege Coaching",
   "short_name": "RECON6",
   "description": "Every map, every site, every callout — pre-loaded. Round-by-round AI VOD breakdowns from your screenshots, and a human coach backed by an AI staff.",
-  "start_url": "/#/strats",
+  "start_url": "/strats",
   "display": "standalone",
   "background_color": "#07090B",
   "theme_color": "#07090B",
@@ -24,19 +24,19 @@
       "name": "Strats",
       "short_name": "Strats",
       "description": "Browse map strategies",
-      "url": "/#/strats"
+      "url": "/strats"
     },
     {
       "name": "Operators",
       "short_name": "Operators",
       "description": "Operator catalog",
-      "url": "/#/operators"
+      "url": "/operators"
     },
     {
       "name": "VOD Review",
       "short_name": "VOD",
       "description": "AI screenshot analysis",
-      "url": "/#/vod"
+      "url": "/vod"
     }
   ]
 }
