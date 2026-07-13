@@ -100,11 +100,14 @@ export const CHAMPION_ALL_ACCESS_ANNUAL_AMOUNT = 490 // saves $98 vs monthly
 // Checkout Session; the webhook confirms the held slot on
 // checkout.session.completed (keyed off metadata.slotId). The $20 intro is
 // enforced first-session-only SERVER-SIDE — never trust the client.
+// Reconciled model (2026-07-12): $20 one-time intro + $70/mo add-on (2 session
+// credits/mo, reset monthly, no rollover). "Academy" = Champion + add-on = $99
+// (marketing label, not a SKU). The old à-la-carte $40 single / $140 package
+// prices were archived — one model, no mismatch.
 export const COACHING_PRODUCT_ID = 'prod_Us9Aa8zlWWiHjM'
-export const COACHING_SINGLE_PRICE_ID = 'price_1TsOsaJNddvjgWcgmalTAfcn' // $40 single session
-export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 first session (50% off, first-timers only)
-export const COACHING_PACKAGE_PRICE_ID = 'price_1TsOswJNddvjgWcgBuf68fSA' // $140 4-session package
-export const COACHING_AMOUNTS = { intro: 20, single: 40, package: 140 } // dollars, for copy
+export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 intro, one-time, first-timers only
+export const COACHING_ADDON_PRICE_ID = 'price_1TsZtQJNddvjgWcgwPKVEYQm'  // $70/mo recurring, grants 2 credits/month
+export const COACHING_AMOUNTS = { intro: 20, addon: 70, academy: 99 } // dollars, for copy
 
 // Convenience helper for components — what's the current best link to
 // upsell a non-paying user to a given tier.
