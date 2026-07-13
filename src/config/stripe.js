@@ -105,9 +105,10 @@ export const CHAMPION_ALL_ACCESS_ANNUAL_AMOUNT = 490 // saves $98 vs monthly
 // (marketing label, not a SKU). The old à-la-carte $40 single / $140 package
 // prices were archived — one model, no mismatch.
 export const COACHING_PRODUCT_ID = 'prod_Us9Aa8zlWWiHjM'
-export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 intro, one-time, first-timers only
+export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 intro, one-time, first-timers only (50% off the single)
+export const COACHING_SINGLE_PRICE_ID = 'price_1TsOsaJNddvjgWcgmalTAfcn' // $40 single session, one-time — the anchor the intro is 50% off, and the no-subscription option
 export const COACHING_ADDON_PRICE_ID = 'price_1TsZtQJNddvjgWcgwPKVEYQm'  // $70/mo recurring, grants 2 credits/month
-export const COACHING_AMOUNTS = { intro: 20, addon: 70, academy: 99 } // dollars, for copy
+export const COACHING_AMOUNTS = { intro: 20, single: 40, addon: 70, academy: 99 } // dollars, for copy
 
 // Convenience helper for components — what's the current best link to
 // upsell a non-paying user to a given tier.
