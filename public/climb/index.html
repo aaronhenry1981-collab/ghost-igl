@@ -384,16 +384,35 @@ const COGNITO_CLIENT_ID = "5bpa1cteenctoue24v4e245re8";
 let state = { checks:{}, open:{copper:true} };
 let storageMode = "memory";
 
-function getIdToken(){
+function jwtExpired(jwt){
+  try{ var p = JSON.parse(atob(jwt.split(".")[1].replace(/-/g,"+").replace(/_/g,"/"))); return (p.exp*1000) < Date.now() + 30000; }catch(e){ return true; }
+}
+// Return a VALID Cognito id token. The static page can't lean on the React
+// app's auto-refresh, so if the cached id token is expired we refresh it here
+// with the stored refresh token (Cognito InitiateAuth REFRESH_TOKEN_AUTH).
+async function getIdToken(){
   try{
     var u = localStorage.getItem("CognitoIdentityServiceProvider." + COGNITO_CLIENT_ID + ".LastAuthUser");
     if(!u) return null;
-    return localStorage.getItem("CognitoIdentityServiceProvider." + COGNITO_CLIENT_ID + "." + u + ".idToken");
+    var base = "CognitoIdentityServiceProvider." + COGNITO_CLIENT_ID + "." + u;
+    var idt = localStorage.getItem(base + ".idToken");
+    if(idt && !jwtExpired(idt)) return idt;
+    var rt = localStorage.getItem(base + ".refreshToken");
+    if(!rt) return idt;
+    var r = await fetch("https://cognito-idp.us-east-1.amazonaws.com/", {
+      method:"POST",
+      headers:{ "Content-Type":"application/x-amz-json-1.1", "X-Amz-Target":"AWSCognitoIdentityProviderService.InitiateAuth" },
+      body: JSON.stringify({ AuthFlow:"REFRESH_TOKEN_AUTH", ClientId: COGNITO_CLIENT_ID, AuthParameters:{ REFRESH_TOKEN: rt } })
+    });
+    var d = await r.json();
+    var newId = d && d.AuthenticationResult && d.AuthenticationResult.IdToken;
+    if(newId){ try{ localStorage.setItem(base + ".idToken", newId); }catch(e){} return newId; }
+    return idt;
   }catch(e){ return null; }
 }
 
 async function loadState(){
-  const token = getIdToken();
+  const token = await getIdToken();
   if(token){
     try{
       const r = await fetch(API + "/me/climb-progress", { headers: { Authorization: "Bearer " + token } });
@@ -427,7 +446,7 @@ async function loadState(){
 async function saveState(){
   const raw = JSON.stringify(state);
   try{ localStorage.setItem(KEY, raw); }catch(e){} // always cache locally
-  const token = getIdToken();
+  const token = await getIdToken();
   if(token){
     try{ await fetch(API + "/me/climb-progress", { method:"PUT", headers:{ "Content-Type":"application/json", Authorization:"Bearer " + token }, body: JSON.stringify({ progress: state }) }); }catch(e){}
   }
