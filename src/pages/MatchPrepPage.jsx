@@ -388,7 +388,7 @@ function R6MatchPrepPage() {
           className="match-prep-embed-snippet"
           onFocus={(e) => e.target.select()}
           value={`<iframe
-  src="https://r6coaching.com/#/embed/match-prep/${mapId}"
+  src="https://r6coaching.com/embed/match-prep/${mapId}"
   width="100%" height="640" frameborder="0" loading="lazy"
   title="R6 ${mapData.name} match prep — Recon 6">
 </iframe>`}
@@ -396,7 +396,7 @@ function R6MatchPrepPage() {
         <small>
           Live preview:{' '}
           <a href={`#/embed/match-prep/${mapId}`} target="_blank" rel="noopener noreferrer">
-            r6coaching.com/#/embed/match-prep/{mapId} →
+            r6coaching.com/embed/match-prep/{mapId} →
           </a>
         </small>
       </details>

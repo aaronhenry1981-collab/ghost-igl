@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head><script>window.global=window;window.process={env:{}};</script>
+    <script>/* Legacy hash-route redirect: old /#/x bookmarks & shared links -> real /x URLs. Runs before React mounts. */(function(){var h=location.hash;if(h.indexOf("#/")===0){location.replace(h.slice(1)+location.search);}})();</script>
     <meta charset="UTF-8" />
     <!-- Brand mark (RECON6): a hexagon's six sides ARE the 6, built structurally
          rather than typed. Five sides ice, one amber — the call. Amber appears

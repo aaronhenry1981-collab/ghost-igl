@@ -115,7 +115,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     <div class="nav-links">
       <a href="${SITE_URL}/blog/">Blog</a>
       <a href="${SITE_URL}/guides/">Map guides</a>
-      <a href="${SITE_URL}/#/strats">Interactive strats</a>
+      <a href="${SITE_URL}/strats">Interactive strats</a>
       <a href="${SITE_URL}/#pricing">Pricing</a>
     </div>
   </nav>
@@ -204,7 +204,7 @@ const R6_POSTS = [
         heading: 'What to actually do with this patch in ranked',
         html: `<p><strong>Copper–Gold:</strong> the prone-cancel removal is the biggest change for you, even though it's a "bug fix." Hold your angles with the crosshair at head height and let rushers eat the sprint-out penalty. The Ash buff makes her an even safer solo-queue pick — her utility now works without perfect placement.</p>
 <p><strong>Plat and up:</strong> re-evaluate your default bans tonight. Dokkaebi's reflex-ban slot is now contestable — on vertical maps (Oregon, Clubhouse, Kafe) Buck or a hard breacher is likely better value. Watch enemy anchor comps drift back toward Maestro/Echo/Mozzie and bring the utility clear to answer it.</p>
-<p><strong>Whatever your rank:</strong> patch days scramble everyone's autopilot — the players who adapt in the first week gain free RP from the ones who don't. If you want the ban phase, site calls and per-round setups handled for you while you just play, that's literally what <a href="/#/live">Recon 6's Live Coach</a> does — updated for Y11S2.1 today. The strat library, ban logic and per-site setups on <a href="/">r6coaching.com</a> already reflect this patch. Free tier covers every ranked map.</p>`,
+<p><strong>Whatever your rank:</strong> patch days scramble everyone's autopilot — the players who adapt in the first week gain free RP from the ones who don't. If you want the ban phase, site calls and per-round setups handled for you while you just play, that's literally what <a href="/live">Recon 6's Live Coach</a> does — updated for Y11S2.1 today. The strat library, ban logic and per-site setups on <a href="/">r6coaching.com</a> already reflect this patch. Free tier covers every ranked map.</p>`,
       },
     ],
   },
@@ -226,7 +226,7 @@ const R6_POSTS = [
     metaDescription: "The Operation System Override (Y11S2) ranked meta, from a coach's chair — not just who's S-tier, but how each operator actually wins you rounds when you're grinding to climb.",
     intro: `<p>Operation System Override (Year 11, Season 2) landed on June 2, 2026, and it's the biggest meta shakeup Siege has had in a while. Every site is publishing a tier list. This isn't quite that.</p>
 <p>Tier lists tell you who's strong. They don't tell you how that operator wins you a round when you're solo-queuing at 2,000 RP trying to break into Emerald. So that's the angle here: the operators actually deciding ranked rounds in Y11S2 — and the one thing each does that climbs. Everything below reflects the <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html">July 2 (Y11S2.1) balance patch</a>, not launch-day numbers.</p>
-<p>If you'd rather have this called out live in your own matches, that's literally what <a href="/#/live">RECON6's live coach</a> does. But the read first.</p>`,
+<p>If you'd rather have this called out live in your own matches, that's literally what <a href="/live">RECON6's live coach</a> does. But the read first.</p>`,
     sections: [
       {
         heading: 'Attack: the operators winning rounds',
@@ -254,9 +254,9 @@ const R6_POSTS = [
         html: `<p>Here's the thing every ranked grinder needs to hear: the operator is rarely why you lost the round. You lost because you peeked with no info, didn't trade, or your crosshair was below the head when the fight started. The best operator in Y11S2 doesn't fix that. Reps and honest review do.</p>
 <p>That's the whole idea behind RECON6 — the meta read above is free and public, but the part that actually climbs is having your own rounds broken down: which pick fit the site, where the fight went wrong, what to do next time.</p>
 <ul>
-  <li><a href="/#/strats">Browse the current ranked strats and site setups</a> — free.</li>
-  <li><a href="/#/vod">Drop a screenshot from your last match</a> and get an AI VOD breakdown of exactly what cost you the round.</li>
-  <li>Or see the <a href="/#/meta">full operator meta board</a> and the <a href="/#/tools/r6-tier-list">current tier list</a>.</li>
+  <li><a href="/strats">Browse the current ranked strats and site setups</a> — free.</li>
+  <li><a href="/vod">Drop a screenshot from your last match</a> and get an AI VOD breakdown of exactly what cost you the round.</li>
+  <li>Or see the <a href="/meta">full operator meta board</a> and the <a href="/tools/r6-tier-list">current tier list</a>.</li>
 </ul>
 <p>Pick the operators above. Then go find out why you're really stuck — it's usually not the pick.</p>
 <p><em>Meta reflects the Operation System Override (Y11S2) ranked landscape as of July 2026, including the Y11S2.1 balance patch. Community tier reads shift through a season; the fundamentals don't.</em></p>`,
@@ -277,7 +277,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Villa Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Villa defense guide for ranked R6 — Aviator/Games, Trophy/Statuary, Kitchen/Dining, and Living/Library. Who to anchor, what to reinforce, and how intel wins the round.',
-    intro: `<p>Villa is one of the best-designed maps in ranked, and it rewards intel over raw aim. Long sightlines, roam-heavy layouts, and hatches everywhere mean the defender who reinforces the floor and gets a Mira read usually wins. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Villa is one of the best-designed maps in ranked, and it rewards intel over raw aim. Long sightlines, roam-heavy layouts, and hatches everywhere mean the defender who reinforces the floor and gets a Mira read usually wins. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Aviator / Games Room (2F)',
@@ -311,9 +311,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Villa',
         html: `<p>Villa is an intel and hatch map. The rounds you lose are the ones where you had no read on the push (no Mira, no cam) or you left a hatch/wall un-reinforced and got opened from an angle you didn't expect. Get your Mira window, reinforce the floor, and use your roamers to gather intel, not just to hunt kills — then collapse on the plant with information.</p>
 <ul>
-  <li><a href="/#/strats/villa">Full Villa strats — every site, both sides.</a></li>
-  <li>Lost a Villa round to a lurk or a hatch drop? <a href="/#/vod">AI VOD breakdown</a> shows you where the read broke.</li>
-  <li>Operator guides for <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+  <li><a href="/strats/villa">Full Villa strats — every site, both sides.</a></li>
+  <li>Lost a Villa round to a lurk or a hatch drop? <a href="/vod">AI VOD breakdown</a> shows you where the read broke.</li>
+  <li>Operator guides for <a href="/operators/Mira">Mira</a>, <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, and <a href="/operators/Maestro">Maestro</a>.</li>
 </ul>
 <p>Get the read, reinforce the floor, deny the plant with intel. That's Villa.</p>`,
       },
@@ -332,7 +332,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Chalet Defense Setups (Ranked): Every Bomb Site, Vertical Threats, and Anchors',
     metaDescription: 'The complete Chalet defense guide for ranked R6 — Master/Office, Bar/Gaming, Kitchen/Trophy, and Wine Cellar/Snowmobile. Who to anchor, what to reinforce, and how to shut down the vertical.',
-    intro: `<p>Chalet is a vertical map with a dangerous basement, so the defenders who lose it are usually the ones who ignored the floor above (or below) them. Four bomb sites, each with its own breach wall and its own vertical threat. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Chalet is a vertical map with a dangerous basement, so the defenders who lose it are usually the ones who ignored the floor above (or below) them. Four bomb sites, each with its own breach wall and its own vertical threat. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Master Bedroom / Office (2F)',
@@ -367,9 +367,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Chalet',
         html: `<p>Chalet punishes one thing above all: ignoring the floor. Every site here has a vertical attacker (Buck, Sledge) who opens above or below you. Reinforce the ceiling/hatch for the site you're on, trick the breach wall, and keep a Pulse or a listen on the floor that threatens you. Then deny the plant.</p>
 <ul>
-  <li><a href="/#/strats/chalet">Full Chalet strats — every site, both sides.</a></li>
-  <li>Lost a Chalet round to vertical or a basement rush? <a href="/#/vod">AI VOD breakdown</a> shows the exact moment.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Pulse">Pulse</a>.</li>
+  <li><a href="/strats/chalet">Full Chalet strats — every site, both sides.</a></li>
+  <li>Lost a Chalet round to vertical or a basement rush? <a href="/vod">AI VOD breakdown</a> shows the exact moment.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Mira">Mira</a>, <a href="/operators/Smoke">Smoke</a>, and <a href="/operators/Pulse">Pulse</a>.</li>
 </ul>
 <p>Reinforce the floor, trick the wall, deny the plant. That's Chalet.</p>`,
       },
@@ -386,7 +386,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Clubhouse Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Clubhouse defense guide for ranked R6 — Cash/CCTV, Bar/Stock, Church/Arsenal, and Gym/Bedroom. Who to anchor, which walls to trick, and how to deny the plant.',
-    intro: `<p>Clubhouse is the classic wall-war map: almost every attack runs through a hard breach on Cash, Stock, or Church, and the defender who keeps those walls closed steals rounds outright. It also punishes teams that ignore the vertical — bar floor over Church, roof over Cash. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Clubhouse is the classic wall-war map: almost every attack runs through a hard breach on Cash, Stock, or Church, and the defender who keeps those walls closed steals rounds outright. It also punishes teams that ignore the vertical — bar floor over Church, roof over Cash. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Cash Room / CCTV (2F)',
@@ -420,9 +420,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Clubhouse',
         html: `<p>Clubhouse rounds are decided at the reinforced walls. Cash, Stock, and Church all live or die on the trick — a Bandit or Kaid who keeps the wall closed forces the attack into choke points your Smokes and Evil Eyes already own. Respect the vertical (bar floor over Church, roof over Cash), keep a roamer buying time, and make every plant attempt walk through gas.</p>
 <ul>
-  <li><a href="/#/strats/clubhouse">Full Clubhouse strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+  <li><a href="/strats/clubhouse">Full Clubhouse strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Smoke">Smoke</a>, and <a href="/operators/Mira">Mira</a>.</li>
 </ul>
 <p>Trick the wall, hold the cams, deny the plant. That's Clubhouse.</p>`,
       },
@@ -439,7 +439,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Bank Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Bank defense guide for ranked R6 — CEO, Open Area, Tellers, and basement Lockers/CCTV. Who to anchor, which walls to trick, and how to deny the plant.',
-    intro: `<p>Bank is the oldest wall war in Siege: every site has one reinforced wall the attack wants open, and the defense that keeps it closed wins on time alone. Basement is its own game — a Mira window and Smoke on Tunnel turn it into a fortress. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Bank is the oldest wall war in Siege: every site has one reinforced wall the attack wants open, and the defense that keeps it closed wins on time alone. Basement is its own game — a Mira window and Smoke on Tunnel turn it into a fortress. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'CEO Office / Executive Lounge (2F)',
@@ -473,9 +473,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Bank',
         html: `<p>Bank is wall denial first, basement discipline second. Every site's round hinges on one reinforced wall — CEO, Open Area, Tellers, Server — and a Bandit or Kaid who wins that trick buys the whole defense 60 seconds of attacker confusion. Downstairs, the Mira window plus Smoke on Tunnel is the strongest default hold on the map. Keep the wall shut, keep the gas for the plant, and let the roam bleed the clock.</p>
 <ul>
-  <li><a href="/#/strats/bank">Full Bank strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Smoke">Smoke</a>.</li>
+  <li><a href="/strats/bank">Full Bank strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mira">Mira</a>, and <a href="/operators/Smoke">Smoke</a>.</li>
 </ul>
 <p>Win the wall, hold the basement, deny the plant. That's Bank.</p>`,
       },
@@ -492,7 +492,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Coastline Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Coastline defense guide for ranked R6 — Hookah/Billiards, Theater/Penthouse, Kitchen/Service, and Blue Bar. Utility stacking, roam timing, and plant denial.',
-    intro: `<p>Coastline is soft walls and fast pushes — most sites can't hide behind reinforcements, so the defense lives on utility stacking and early-warning intel instead. Attackers throw everything they have at these sites, and the team that eats that utility usually keeps the round. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Coastline is soft walls and fast pushes — most sites can't hide behind reinforcements, so the defense lives on utility stacking and early-warning intel instead. Attackers throw everything they have at these sites, and the team that eats that utility usually keeps the round. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Hookah Lounge / Billiards (2F)',
@@ -526,9 +526,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Coastline',
         html: `<p>Coastline defense is a utility war, not a wall war. Soft walls mean the attack comes fast and throws everything — so the recurring answer across all four sites is the same: stack Jäger and Wamai, put eyes outside with Valkyrie or Evil Eyes, and slow the doorways with Banshees, gates, and mines. If the attacker's grenades die in the air and your intel calls the push early, the fast execute turns into a slow bleed you win on time.</p>
 <ul>
-  <li><a href="/#/strats/coastline">Full Coastline strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Jager">Jäger</a>, <a href="/#/operators/Wamai">Wamai</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+  <li><a href="/strats/coastline">Full Coastline strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Jager">Jäger</a>, <a href="/operators/Wamai">Wamai</a>, <a href="/operators/Smoke">Smoke</a>, and <a href="/operators/Valkyrie">Valkyrie</a>.</li>
 </ul>
 <p>Eat the utility, call the push early, deny the plant. That's Coastline.</p>`,
       },
@@ -545,7 +545,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Kafe Dostoyevsky Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Kafe defense guide for ranked R6 — Bar/Cocktail, Reading/Fireplace, Mining/Fireplace, and Kitchen/Bakery. Vertical denial, wall tricks, and plant denial.',
-    intro: `<p>Kafe Dostoyevsky is Siege's vertical map: three floors stacked on top of each other, and almost every attack wins by opening the ceiling above your head. The defense that reinforces overhead, holds the stairs, and keeps its wall tricks alive turns Kafe into a grind the attack can't afford. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Kafe Dostoyevsky is Siege's vertical map: three floors stacked on top of each other, and almost every attack wins by opening the ceiling above your head. The defense that reinforces overhead, holds the stairs, and keeps its wall tricks alive turns Kafe into a grind the attack can't afford. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Bar / Cocktail Lounge (3F)',
@@ -579,9 +579,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Kafe',
         html: `<p>Kafe is won and lost above your head. Every site's strat notes say the same thing: the attack wants the ceiling — Mining and Cocktail over Cooking, the roof over Fireplace, Reading Room over Kitchen — and the stairs are how they get there. Reinforce overhead where you can, put your roamers on White Stairs and Red Stairs to tax every rotation, and keep the wall trick alive so the attack has to win vertical AND horizontal to touch the bomb.</p>
 <ul>
-  <li><a href="/#/strats/kafe">Full Kafe strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Smoke">Smoke</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+  <li><a href="/strats/kafe">Full Kafe strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Smoke">Smoke</a>, <a href="/operators/Bandit">Bandit</a>, and <a href="/operators/Maestro">Maestro</a>.</li>
 </ul>
 <p>Hold the ceiling, own the stairs, deny the plant. That's Kafe.</p>`,
       },
@@ -598,7 +598,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Border Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Border defense guide for ranked R6 — Armory/Archives, Workshop/Ventilation, Customs/Supply, and Bathroom/Tellers. Wall tricks, roam timing, and plant denial.',
-    intro: `<p>Border is the Armory wall war and everything that orbits it: every site here has one reinforced wall the attack has to open, and a defender committed to tricking it can flat-out steal rounds. Layer early-warning intel on top and the attack runs out of clock before it runs out of walls. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Border is the Armory wall war and everything that orbits it: every site here has one reinforced wall the attack has to open, and a defender committed to tricking it can flat-out steal rounds. Layer early-warning intel on top and the attack runs out of clock before it runs out of walls. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Armory Lockers / Archives (2F)',
@@ -632,9 +632,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Border',
         html: `<p>Border defense starts and ends at the reinforced wall. Armory, Workshop, and Tellers are all decided by whether your Kaid or Bandit keeps the breach shut — win the trick and the attack has to funnel through corridors your Smoke, mines, and gates already own. Put intel on the flanks (Valkyrie, Lesion, Mozzie), keep the gas in your pocket for the plant, and make the attack pay for the wall twice.</p>
 <ul>
-  <li><a href="/#/strats/border">Full Border strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Lesion">Lesion</a>.</li>
+  <li><a href="/strats/border">Full Border strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Smoke">Smoke</a>, and <a href="/operators/Lesion">Lesion</a>.</li>
 </ul>
 <p>Win the wall war, tax the corridors, deny the plant. That's Border.</p>`,
       },
@@ -651,7 +651,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Skyscraper Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Skyscraper defense guide for ranked R6 — Tea Room/Karaoke, Bedroom/Bathroom, Kitchen/BBQ, and Work Office/Exhibition. Who to anchor, which walls to trick, and how to deny the plant.',
-    intro: `<p>Skyscraper defense is a time-wasting game: deny the drones, tax every window entry, and make the attack spend its clock re-clearing roamers before it ever touches site. Every site here has a wall to hold and a corridor to gas. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Skyscraper defense is a time-wasting game: deny the drones, tax every window entry, and make the attack spend its clock re-clearing roamers before it ever touches site. Every site here has a wall to hold and a corridor to gas. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Tea Room / Karaoke (2F)',
@@ -685,9 +685,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Skyscraper',
         html: `<p>Skyscraper rounds are won before the push: jam the drones, mine the entries, and keep a roamer cycling Geisha and Exhibition so the attack burns clock re-clearing rooms. If the attacker reaches your site with 90 seconds and full intel, you set up wrong — deny the information first and the gunfight comes to you on your angles.</p>
 <ul>
-  <li><a href="/#/strats/skyscraper">Full Skyscraper strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Smoke">Smoke</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+  <li><a href="/strats/skyscraper">Full Skyscraper strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Smoke">Smoke</a>, and <a href="/operators/Mira">Mira</a>.</li>
 </ul>
 <p>Kill the drones, tax the entries, deny the plant. That's Skyscraper.</p>`,
       },
@@ -704,7 +704,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Theme Park Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Theme Park defense guide for ranked R6 — Throne/Armory, Lab/Storage, Office/Initiation, and Bunk/Day Care. Who to anchor, which walls to trick, and how to deny the plant.',
-    intro: `<p>Theme Park is a connector map: every site funnels through a corridor — Yellow Corridor, the Connector, Haunted Stairs — and the defense that owns those chokes with gas, mines, and cams makes the attack pay for every meter. Hold the wall, gas the corridor. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Theme Park is a connector map: every site funnels through a corridor — Yellow Corridor, the Connector, Haunted Stairs — and the defense that owns those chokes with gas, mines, and cams makes the attack pay for every meter. Hold the wall, gas the corridor. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Throne Room / Armory (1F)',
@@ -738,9 +738,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Theme Park',
         html: `<p>Theme Park defense is corridor control. The attack has to move through the Connector, Yellow Corridor, or Haunted Stairs to reach any site — so put your intel and your delay utility there, not on site. A Gu mine or a cam in the corridor buys your anchors five seconds of warning, and five seconds is the difference between a pre-aimed angle and a lost trade.</p>
 <ul>
-  <li><a href="/#/strats/theme-park">Full Theme Park strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Smoke">Smoke</a>.</li>
+  <li><a href="/strats/theme-park">Full Theme Park strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Mira">Mira</a>, and <a href="/operators/Smoke">Smoke</a>.</li>
 </ul>
 <p>Own the corridors, trick the wall, deny the plant. That's Theme Park.</p>`,
       },
@@ -757,7 +757,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Calypso Casino Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Calypso Casino defense guide for ranked R6 — Cigar/Pool, Blackjack/Poker, CCTV/Vault, and Bar/Betting. Who to anchor, which walls to trick, and how to deny the plant.',
-    intro: `<p>Calypso Casino is the newest map in the ranked pool, and the defenses that win on it are anchor-heavy: reinforce the wall and the hatch, jam the drone lanes, and hold tight angles against the open casino-floor sightlines. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Calypso Casino is the newest map in the ranked pool, and the defenses that win on it are anchor-heavy: reinforce the wall and the hatch, jam the drone lanes, and hold tight angles against the open casino-floor sightlines. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Cigar Room / Pool (2F)',
@@ -791,9 +791,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Calypso Casino',
         html: `<p>Calypso is new enough that most attackers are still running default executes at the one wall they know. Punish that: reinforce the wall <em>and</em> the hatch every round, jam the drone lanes so they push blind, and hold the tight angles instead of wide-peeking the open casino floor. The team with the better map knowledge wins here more than anywhere else in the pool.</p>
 <ul>
-  <li><a href="/#/strats/calypso-casino">Full Calypso Casino strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+  <li><a href="/strats/calypso-casino">Full Calypso Casino strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Maestro">Maestro</a>, and <a href="/operators/Mira">Mira</a>.</li>
 </ul>
 <p>Wall and hatch, jam the drones, hold the angle. That's Calypso Casino.</p>`,
       },
@@ -810,7 +810,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Consulate Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Consulate defense guide for ranked R6 — Consul/Meeting, Piano/Exposition, Tellers/Servers, and Garage/Cafeteria. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Consulate punishes teams that only think in two dimensions: the floor between Meeting and Garage, the soft ceilings over the basement — attackers open all of it. The defenses that hold here reinforce the vertical early and then win on intel. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Consulate punishes teams that only think in two dimensions: the floor between Meeting and Garage, the soft ceilings over the basement — attackers open all of it. The defenses that hold here reinforce the vertical early and then win on intel. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Consul Office / Meeting Room (2F)',
@@ -844,9 +844,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Consulate',
         html: `<p>Consulate rounds die to the vertical you didn't respect: the Meeting floor gets opened onto Garage, the basement ceilings get shredded, and suddenly your anchors are trading with attackers they can't see. Reinforce the floor and the hatches before you do anything cute, then let your Echo, Maestro, and Pulse intel tell you exactly when to rotate. Boring setups win this map.</p>
 <ul>
-  <li><a href="/#/strats/consulate">Full Consulate strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+  <li><a href="/strats/consulate">Full Consulate strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Maestro">Maestro</a>, and <a href="/operators/Echo">Echo</a>.</li>
 </ul>
 <p>Reinforce the vertical, play the cams, deny the plant. That's Consulate.</p>`,
       },
@@ -863,7 +863,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Lair Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Lair defense guide for ranked R6 — Master/R6 Room, Bunks/Briefing, Armory/Weapon Maintenance, and Lab/Lab Support. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Lair is a Mira map. Every site here has a Black Mirror placement that reads the standard push, and the defense that pairs that intel with a tricked wall and one disruptive roamer forces the attack to solve a puzzle on a clock. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Lair is a Mira map. Every site here has a Black Mirror placement that reads the standard push, and the defense that pairs that intel with a tricked wall and one disruptive roamer forces the attack to solve a puzzle on a clock. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Master Office / R6 Room (2F)',
@@ -897,9 +897,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Lair',
         html: `<p>Lair defense runs on the Mira read plus one roamer who refuses to die. Every site has a mirror line that tells you exactly when the push commits — but the mirror only matters if your roamer (Alibi, Caveira, Vigil) has already taxed the attack's clock and utility on the way in. Set the mirror, trick the wall, and treat the Sniper Nest as free intel every round.</p>
 <ul>
-  <li><a href="/#/strats/lair">Full Lair strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Kaid">Kaid</a>, and <a href="/#/operators/Bandit">Bandit</a>.</li>
+  <li><a href="/strats/lair">Full Lair strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Mira">Mira</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Kaid">Kaid</a>, and <a href="/operators/Bandit">Bandit</a>.</li>
 </ul>
 <p>Mirror the push, trick the wall, waste their clock. That's Lair.</p>`,
       },
@@ -916,7 +916,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Nighthaven Labs Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Nighthaven Labs defense guide for ranked R6 — Command/Server, Control/Storage, Kitchen/Cafeteria, and Tank/Assembly. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Nighthaven Labs rewards the defense that sees the attack coming: hidden Valkyrie cams outside the site, Mira mirrors on the connectors, and a Caveira making every flank clear cost double. Get the read, then hold the wall. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Nighthaven Labs rewards the defense that sees the attack coming: hidden Valkyrie cams outside the site, Mira mirrors on the connectors, and a Caveira making every flank clear cost double. Get the read, then hold the wall. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Command / Server (2F)',
@@ -950,9 +950,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Nighthaven Labs',
         html: `<p>Nighthaven defense lives on cams the attack never clears. Every site plan here starts with intel placed off-site — a hidden Black Eye, a mirror on the connector — because the site itself is holdable once you know which door the push is coming through. Place the intel first, reinforce the hatches, and let your roamer turn their slow clear into a lost clock.</p>
 <ul>
-  <li><a href="/#/strats/nighthaven">Full Nighthaven Labs strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Mute">Mute</a>, and <a href="/#/operators/Kaid">Kaid</a>.</li>
+  <li><a href="/strats/nighthaven">Full Nighthaven Labs strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Valkyrie">Valkyrie</a>, <a href="/operators/Mira">Mira</a>, <a href="/operators/Mute">Mute</a>, and <a href="/operators/Kaid">Kaid</a>.</li>
 </ul>
 <p>Hide the cams, hold the wall, punish the flank. That's Nighthaven Labs.</p>`,
       },
@@ -969,7 +969,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Emerald Plains Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Emerald Plains defense guide for R6 — Admin/CEO, Gallery/Meeting, Bar/Lounge, and Kitchen/Dining. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Emerald Plains is decided in the connectors: Main Stairs, the Library, Wine Stairs. The defense that puts intel on those routes and keeps one player producing early picks forces the attack to walk into pre-aimed angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Emerald Plains is decided in the connectors: Main Stairs, the Library, Wine Stairs. The defense that puts intel on those routes and keeps one player producing early picks forces the attack to walk into pre-aimed angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Administration / CEO Office (2F)',
@@ -1003,9 +1003,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Emerald Plains',
         html: `<p>Every Emerald Plains site plan in the book runs the same spine: one wall denied, one intel operator feeding calls, one player off-site making the attack play slow. That third piece is the one ranked teams skip — and it's why they get executed on by full-utility pushes. Send the Pulse, the Alibi, the Vigil out early; every pick or even a forced re-clear is 20 seconds off the attack's clock.</p>
 <ul>
-  <li><a href="/#/strats/emerald-plains">Full Emerald Plains strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Echo">Echo</a>, and <a href="/#/operators/Mira">Mira</a>.</li>
+  <li><a href="/strats/emerald-plains">Full Emerald Plains strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Echo">Echo</a>, and <a href="/operators/Mira">Mira</a>.</li>
 </ul>
 <p>Deny the wall, feed the calls, make them play slow. That's Emerald Plains.</p>`,
       },
@@ -1022,7 +1022,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Oregon Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Oregon defense guide for ranked R6 — Kids Dorms/Main Hall, Meeting Hall/Kitchen, Kitchen/Dining, and basement Laundry/Supply. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Oregon is old, but it still loses defenders the same two ways: vertical play through Big Tower, and attackers walking Construction and Showers for free. Every site plan in the book is intel-first for a reason. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Oregon is old, but it still loses defenders the same two ways: vertical play through Big Tower, and attackers walking Construction and Showers for free. Every site plan in the book is intel-first for a reason. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: "Kids' Dorms / Dorms Main Hall (2F)",
@@ -1056,9 +1056,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Oregon',
         html: `<p>Oregon rounds are lost above and outside the site: Big Tower opens the ceiling on Dorms, and Construction and Showers hand the attack free map control if nobody contests. Reinforce the vertical for the site you're on, then spend your roamer on the crossing routes — a pick in Showers is worth more than a body on site. The site plans hold themselves once the attack arrives late and thin.</p>
 <ul>
-  <li><a href="/#/strats/oregon">Full Oregon strats — every site, both sides.</a></li>
-  <li>Lost an Oregon round to vertical or a free flank? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+  <li><a href="/strats/oregon">Full Oregon strats — every site, both sides.</a></li>
+  <li>Lost an Oregon round to vertical or a free flank? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mira">Mira</a>, <a href="/operators/Bandit">Bandit</a>, and <a href="/operators/Echo">Echo</a>.</li>
 </ul>
 <p>Reinforce the tower floor, own the crossings, deny the plant. That's Oregon.</p>`,
       },
@@ -1075,7 +1075,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Outback Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Outback defense guide for ranked R6 — Laundry/Piano, Party/Office, Green/Red Bedroom, and Mechanic/Kitchen. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Outback defense revolves around one piece of geography: Bushranger. Attacker map control starts there on almost every site, so the defense that contests it — or at least watches it — sees the push coming a full rotation early. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Outback defense revolves around one piece of geography: Bushranger. Attacker map control starts there on almost every site, so the defense that contests it — or at least watches it — sees the push coming a full rotation early. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Laundry / Piano (2F)',
@@ -1109,9 +1109,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Outback',
         html: `<p>Watch Bushranger. Every site plan on this map sends the roamer there because that's where the attack builds its map control — and an attack that loses its Bushranger setup arrives at your site late, loud, and missing a drone. Pair that with Maestro glass on the plant spots and the last 30 seconds belong to you.</p>
 <ul>
-  <li><a href="/#/strats/outback">Full Outback strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Maestro">Maestro</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Alibi">Alibi</a>.</li>
+  <li><a href="/strats/outback">Full Outback strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Maestro">Maestro</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Bandit">Bandit</a>, and <a href="/operators/Alibi">Alibi</a>.</li>
 </ul>
 <p>Contest Bushranger, glass the plant, deny the breach. That's Outback.</p>`,
       },
@@ -1131,7 +1131,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Kanal Defense Setups (Ranked): Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Kanal defense guide for ranked R6 — Server/Radar, Security/Map Room, Coast Guard Meeting/Lounge, and Kayaks/Supply. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Kanal is two buildings and a bridge, and the defense that controls the bridge crossings controls the round. Every site plan in the book puts glass or a cam on the Bridge entry because that's the lane the attack has to clear. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Kanal is two buildings and a bridge, and the defense that controls the bridge crossings controls the round. Every site plan in the book puts glass or a cam on the Bridge entry because that's the lane the attack has to clear. Here's the site-by-site plan from the ranked strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Server Room / Radar Room (2F)',
@@ -1165,9 +1165,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Kanal',
         html: `<p>Kanal splits the attack in half: whichever building your site is in, the reinforcements have to cross the bridge or go around — and both routes are watchable. Put an Evil Eye or a cam on the Bridge, reinforce the ceiling over the basement sites, and let the geography do the work. An attack that can't cross clean can't execute on time.</p>
 <ul>
-  <li><a href="/#/strats/kanal">Full Kanal strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Maestro">Maestro</a>, <a href="/#/operators/Kaid">Kaid</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+  <li><a href="/strats/kanal">Full Kanal strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Mute">Mute</a>, <a href="/operators/Maestro">Maestro</a>, <a href="/operators/Kaid">Kaid</a>, and <a href="/operators/Valkyrie">Valkyrie</a>.</li>
 </ul>
 <p>Watch the bridge, seal the ceiling, deny the plant. That's Kanal.</p>`,
       },
@@ -1187,7 +1187,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Fortress Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Fortress defense guide for R6 — Bedroom/Commander, Dormitory/Briefing, Kitchen/Cafeteria, and Hammam/Sitting Room. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Fortress got a full rework in late 2025, and the site plans that hold it now are built around one thing: cameras the attack never finds. Valkyrie is essential on three of the four sites for a reason. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Fortress got a full rework in late 2025, and the site plans that hold it now are built around one thing: cameras the attack never finds. Valkyrie is essential on three of the four sites for a reason. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Bedroom / Commander Office (2F)',
@@ -1221,9 +1221,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Fortress',
         html: `<p>Post-rework Fortress is a cam war. Three of the four site plans run Valkyrie as essential because the map's long approaches — Courtyard, Watchtower, East Wing — give hidden Black Eyes enormous value: the attack has to cross open ground, and every crossing you see is a rotation you win. Place the cams outside the site, anchor the tighter room, and make the attack walk into the read.</p>
 <ul>
-  <li><a href="/#/strats/fortress">Full Fortress strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Bandit">Bandit</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+  <li><a href="/strats/fortress">Full Fortress strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Valkyrie">Valkyrie</a>, <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Bandit">Bandit</a>, and <a href="/operators/Maestro">Maestro</a>.</li>
 </ul>
 <p>Hide the cams, hold the tight room, win the crossings. That's Fortress.</p>`,
       },
@@ -1241,7 +1241,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Hereford Base Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Hereford Base defense guide for R6 — Master/Kids Room, Kitchen/Dining, Ammo/Tractor Storage, and Fermentation/Brewery. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Hereford Base stacks four floors on top of each other, which means every site has a ceiling problem: 3F threatens 2F, 1F threatens the basement. The defenses that hold here reinforce the vertical first and put eyes on the stairs. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Hereford Base stacks four floors on top of each other, which means every site has a ceiling problem: 3F threatens 2F, 1F threatens the basement. The defenses that hold here reinforce the vertical first and put eyes on the stairs. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Master Bedroom / Kids Room (2F)',
@@ -1275,9 +1275,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Hereford Base',
         html: `<p>Hereford is a stack of ceilings, and the attack knows it: 3F opens onto 2F, 1F opens onto the basement, and the stairs connect everything. Reinforce the floor above your site before you spend a single wall anywhere else, then put your intel on East Stairs and Catwalk — the two routes every push has to touch. The defender who knows which floor the attack is on wins the round.</p>
 <ul>
-  <li><a href="/#/strats/hereford">Full Hereford Base strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Maestro">Maestro</a>.</li>
+  <li><a href="/strats/hereford">Full Hereford Base strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Mira">Mira</a>, and <a href="/operators/Maestro">Maestro</a>.</li>
 </ul>
 <p>Seal the ceiling, watch the stairs, deny the plant. That's Hereford Base.</p>`,
       },
@@ -1295,7 +1295,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'House Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete House defense guide for R6 — Master/Closet, Kitchen/Living, Garage/Workshop, and Boiler/Laundry. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>House is small enough that every attacker entry is loud and every defender rotation is fast — which means intel wins it outright. Cams outside the building, mirrors on the site walls, and hatches sealed before the action phase. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>House is small enough that every attacker entry is loud and every defender rotation is fast — which means intel wins it outright. Cams outside the building, mirrors on the site walls, and hatches sealed before the action phase. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Master Bedroom / Closet (2F)',
@@ -1329,9 +1329,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds House',
         html: `<p>House rounds are decided in the first 30 seconds of prep: seal the hatches, place the cams, set the mirror. The map is too small for slow adjustments — once the attack commits, it's on your site in seconds, so all your reads have to be pre-placed. Do the boring setup completely and the round plays itself; skip one hatch and that's the one they drop through.</p>
 <ul>
-  <li><a href="/#/strats/house">Full House strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Bandit">Bandit</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+  <li><a href="/strats/house">Full House strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Bandit">Bandit</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Mira">Mira</a>, and <a href="/operators/Echo">Echo</a>.</li>
 </ul>
 <p>Seal the hatches, pre-place the reads, deny the plant. That's House.</p>`,
       },
@@ -1349,7 +1349,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Presidential Plane Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Presidential Plane defense guide for R6 — Meeting/Office, Security/Cargo, Kitchen/Stateroom, and Work Room/Lobby. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Presidential Plane is a corridor in the sky: two staircases, one long hallway spine, and sites that reward the defense that knows which end the push is coming from. Cams and anchors win here; over-roaming dies in the aisles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Presidential Plane is a corridor in the sky: two staircases, one long hallway spine, and sites that reward the defense that knows which end the push is coming from. Cams and anchors win here; over-roaming dies in the aisles. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Meeting Room / Office (2F)',
@@ -1383,9 +1383,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Presidential Plane',
         html: `<p>Plane gives the attack exactly two ways in — Front Stairs and Aft Stairs — and every site plan in the book exploits that: put a cam on each staircase and the push announces itself. Anchor the room with fewer doors, keep one player taxing the flank, and never trade wide in the center aisle where the attack holds the long angle. Know which staircase; win the round.</p>
 <ul>
-  <li><a href="/#/strats/plane">Full Presidential Plane strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, <a href="/#/operators/Echo">Echo</a>, and <a href="/#/operators/Valkyrie">Valkyrie</a>.</li>
+  <li><a href="/strats/plane">Full Presidential Plane strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mute">Mute</a>, <a href="/operators/Echo">Echo</a>, and <a href="/operators/Valkyrie">Valkyrie</a>.</li>
 </ul>
 <p>Cam the stairs, anchor tight, deny the plant. That's Presidential Plane.</p>`,
       },
@@ -1403,7 +1403,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Stadium Bravo Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Stadium Bravo defense guide for R6 — Office/Target, Kids Dormitory/Dormitory, Piano/Living, and Piano/Kitchen. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Stadium Bravo remixes Border and Coastline rooms behind glass, and the defense that wins on it treats it like its own map: Kaid on the walls, Valkyrie cams on the crossings, and one roamer making the Concourse expensive. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Stadium Bravo remixes Border and Coastline rooms behind glass, and the defense that wins on it treats it like its own map: Kaid on the walls, Valkyrie cams on the crossings, and one roamer making the Concourse expensive. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Office / Target Room (2F)',
@@ -1437,9 +1437,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Stadium Bravo',
         html: `<p>Stadium Bravo's attack routes all run through the same arteries — Tunnel, Locker Room, Main Stairs — so the defense that cams those three lanes knows the whole plan before the first barricade breaks. Kaid is essential on three of four sites here: get the electroclaw placement right, read the crossing, and rotate before the push lands instead of after.</p>
 <ul>
-  <li><a href="/#/strats/stadium-bravo">Full Stadium Bravo strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Valkyrie">Valkyrie</a>, <a href="/#/operators/Mira">Mira</a>, and <a href="/#/operators/Aruni">Aruni</a>.</li>
+  <li><a href="/strats/stadium-bravo">Full Stadium Bravo strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Valkyrie">Valkyrie</a>, <a href="/operators/Mira">Mira</a>, and <a href="/operators/Aruni">Aruni</a>.</li>
 </ul>
 <p>Cam the arteries, hold the walls, rotate early. That's Stadium Bravo.</p>`,
       },
@@ -1457,7 +1457,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Tower Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Tower defense guide for R6 — Gift Shop/Lantern, Tea Room/Bar, Restaurant/Bird Room, and Exhibit/Media Center. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Tower drops the attack in from above — Helipad and Roof Access — so defense here is about controlling descent routes, not exterior walls. Kaid anchors three of the four sites, and every plan leans on a mirror or cams to read which stairwell the push takes. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Tower drops the attack in from above — Helipad and Roof Access — so defense here is about controlling descent routes, not exterior walls. Kaid anchors three of the four sites, and every plan leans on a mirror or cams to read which stairwell the push takes. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Gift Shop / Lantern Room (2F)',
@@ -1491,9 +1491,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Tower',
         html: `<p>Tower's attack comes down, not in — Helipad and Roof Access feed East Stairs and the Lobby, and those two descent routes are the whole story. Put your reads there (mirror, Evil Eye, Echo drone) and anchor the room with the fewer soft walls. Chasing kills up the stairwell is how defenders die on this map; let the attack come down into your crossfire instead.</p>
 <ul>
-  <li><a href="/#/strats/tower">Full Tower strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+  <li><a href="/strats/tower">Full Tower strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mira">Mira</a>, <a href="/operators/Maestro">Maestro</a>, and <a href="/operators/Echo">Echo</a>.</li>
 </ul>
 <p>Watch the descent, anchor tight, deny the plant. That's Tower.</p>`,
       },
@@ -1511,7 +1511,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Yacht Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Yacht defense guide for R6 — Cockpit/Maps, Cafeteria/Staff Dorm, Engine Control/Kitchen, and Server/Engine Storage. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Yacht is an Echo map: every single site plan in the book runs him as the essential intel piece, because the boat's long hallways and stacked decks make a Yokai call worth more than a kill. Pair the cams with a Kaid wall and the attack runs out of clock. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Yacht is an Echo map: every single site plan in the book runs him as the essential intel piece, because the boat's long hallways and stacked decks make a Yokai call worth more than a kill. Pair the cams with a Kaid wall and the attack runs out of clock. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Cockpit / Maps Room (4F)',
@@ -1545,9 +1545,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Yacht',
         html: `<p>Yacht defense is a camera game. Echo is essential on all four sites because the boat funnels every push through narrow deck hallways — one Yokai in the right spot reads the entire attack, and a well-timed sonic burst denies the plant outright. Set the cams, hold the Kaid wall, and let the hallways turn the attack into a queue.</p>
 <ul>
-  <li><a href="/#/strats/yacht">Full Yacht strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Echo">Echo</a>, <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mute">Mute</a>, and <a href="/#/operators/Aruni">Aruni</a>.</li>
+  <li><a href="/strats/yacht">Full Yacht strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Echo">Echo</a>, <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mute">Mute</a>, and <a href="/operators/Aruni">Aruni</a>.</li>
 </ul>
 <p>Yokai the hallways, wall the site, deny the plant. That's Yacht.</p>`,
       },
@@ -1565,7 +1565,7 @@ const R6_POSTS = [
     readMinutes: 6,
     metaTitle: 'Favela Defense Setups: Every Bomb Site, Anchors, and Reinforcements',
     metaDescription: 'The complete Favela defense guide for R6 — Meth Lab/Packaging, Football Office/Bedroom, Biker Apartment/Bedroom, and Aunt Bedroom/Apartment. Who to anchor, what to reinforce, and how to deny the plant.',
-    intro: `<p>Favela's threat comes from above: Roof Access feeds every site, and the plans in the book all put a read on the roof approach or the central push before anything else. Anchor heavy, mirror the connectors, and make the attack drop into your angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/#/live">RECON6 calls live</a>.</p>`,
+    intro: `<p>Favela's threat comes from above: Roof Access feeds every site, and the plans in the book all put a read on the roof approach or the central push before anything else. Anchor heavy, mirror the connectors, and make the attack drop into your angles. Here's the site-by-site plan from the strat book — the short version of what <a href="/live">RECON6 calls live</a>.</p>`,
     sections: [
       {
         heading: 'Meth Lab / Packaging Room (3F)',
@@ -1599,9 +1599,9 @@ const R6_POSTS = [
         heading: 'The habit that actually holds Favela',
         html: `<p>Favela punishes defenders who only watch the doors. Roof Access and Side Stairs appear in every site's callout list because that's where the attack actually comes from — above and behind, not through the front. Set your reads on the roof approach, anchor four and roam one, and treat every quiet moment as a warning: on this map, quiet means they're already on your ceiling.</p>
 <ul>
-  <li><a href="/#/strats/favela">Full Favela strats — every site, both sides.</a></li>
-  <li>Lost a round you couldn't explain? <a href="/#/vod">AI VOD breakdown</a> shows you where it broke.</li>
-  <li>Operator guides for <a href="/#/operators/Kaid">Kaid</a>, <a href="/#/operators/Mira">Mira</a>, <a href="/#/operators/Maestro">Maestro</a>, and <a href="/#/operators/Echo">Echo</a>.</li>
+  <li><a href="/strats/favela">Full Favela strats — every site, both sides.</a></li>
+  <li>Lost a round you couldn't explain? <a href="/vod">AI VOD breakdown</a> shows you where it broke.</li>
+  <li>Operator guides for <a href="/operators/Kaid">Kaid</a>, <a href="/operators/Mira">Mira</a>, <a href="/operators/Maestro">Maestro</a>, and <a href="/operators/Echo">Echo</a>.</li>
 </ul>
 <p>Read the roof, anchor heavy, deny the plant. That's Favela.</p>`,
       },
@@ -1656,8 +1656,8 @@ const R6_POSTS = [
         html: `<p>Aim training feels productive because it's measurable. Information discipline is what actually moves rank — and it's easier to build with someone pointing at the exact rounds where your reads broke.</p>
 <ul>
   <li><a href="/coaching/">Work with a human coach backed by an AI staff — first session free.</a> Bring your rank goal; leave with the three habits costing you the most rounds.</li>
-  <li><a href="/#/vod">AI VOD breakdown</a> — upload a loss and see, round by round, whether you died with info or without.</li>
-  <li><a href="/#/strats">The ranked strat book</a> — site-by-site setups so you stop improvising the part of the game that's already solved.</li>
+  <li><a href="/vod">AI VOD breakdown</a> — upload a loss and see, round by round, whether you died with info or without.</li>
+  <li><a href="/strats">The ranked strat book</a> — site-by-site setups so you stop improvising the part of the game that's already solved.</li>
 </ul>
 <p>Your aim is fine. Fix the information economy and the rank follows.</p>`,
       },
@@ -1755,12 +1755,12 @@ const R6_POSTS = [
   <li><strong>Update your Calypso bans plan</strong> — at launch, the meta will favor banning Twitch + IQ (anti-drone) on defense and Dokkaebi + Mira on attack. We'll publish a refined bans page in the first 72 hours post-launch.</li>
 </ul>`,
     },
-    aiVodMention: `<p>Y11S2 is going to shake the meta for two to three weeks while everyone re-learns. The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> is map-aware — drop a Calypso Casino screenshot when ranked goes live and it'll reference the actual site you're playing, not a generic example. Pro tier covers all of Y11S2's changes from day one.</p>`,
+    aiVodMention: `<p>Y11S2 is going to shake the meta for two to three weeks while everyone re-learns. The <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> is map-aware — drop a Calypso Casino screenshot when ranked goes live and it'll reference the actual site you're playing, not a generic example. Pro tier covers all of Y11S2's changes from day one.</p>`,
     relatedLinks: [
-      { name: 'R6 Operator Tier List (auto-updated)', url: '/#/tools/r6-tier-list' },
+      { name: 'R6 Operator Tier List (auto-updated)', url: '/tools/r6-tier-list' },
       { name: 'All R6 Map Guides', url: '/guides/' },
-      { name: 'Live Coach (in-match walkthrough)', url: '/#/live' },
-      { name: 'Recon 6 Changelog', url: '/#/changelog' },
+      { name: 'Live Coach (in-match walkthrough)', url: '/live' },
+      { name: 'Recon 6 Changelog', url: '/changelog' },
     ],
     readMinutes: 9,
   },
@@ -1830,7 +1830,7 @@ const R6_POSTS = [
 </ul>
 <p>If you commit to fundamentals — small op pool, drone before push, smart reinforcements, trade fragging — you'll exit Copper inside two weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning mistakes per round — useful when you know you're losing but can't see why.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
@@ -1916,13 +1916,13 @@ const R6_POSTS = [
 </ul>
 <p>By session 9, you'll position better than any Bronze player. Map knowledge is the Silver gap.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can tell you which positions you held that pros don't — useful for spotting predictable habits before your opponents do.</p>`,
+    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can tell you which positions you held that pros don't — useful for spotting predictable habits before your opponents do.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
       { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
-      { name: 'Interactive R6 Strats (deep linked)', url: '/#/strats' },
+      { name: 'Interactive R6 Strats (deep linked)', url: '/strats' },
     ],
     readMinutes: 7,
   },
@@ -1991,7 +1991,7 @@ const R6_POSTS = [
       html: `<p>Load Bank in Custom Game with a friend. Practice peeking from CEO window at the 0:08 and 0:30 round-timer marks. There's a window where attackers always cross the truck spawn — you can read it and pick the entry fragger before they have utility ready.</p>
 <p>After 20 reps, this becomes muscle memory. You'll get free round-opener picks in ranked.</p>`,
     },
-    aiVodMention: `<p>Utility timing mismatches are hard to spot in the moment. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your Thatcher / Thermite sync and flags rounds where your timing was off — actionable feedback you can apply the next match.</p>`,
+    aiVodMention: `<p>Utility timing mismatches are hard to spot in the moment. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your Thatcher / Thermite sync and flags rounds where your timing was off — actionable feedback you can apply the next match.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
@@ -2080,7 +2080,7 @@ const R6_POSTS = [
       html: `<p>Set up a 5-on-5 Custom Game on Bank CEO. As defenders, plant the bomb and intentionally let it stand for the full timer. Practice cycling utility every 5 seconds to stop defuse for the entire 45-second post-plant window.</p>
 <p>After 5 reps, your team will have a synced cycle. Apply it in ranked. You'll win 2-3 extra post-plant rounds per match.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks utility cycles per round and flags gaps in your post-plant timing — useful for finding the rounds where your team's coordination broke down without a teammate being obviously at fault.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks utility cycles per round and flags gaps in your post-plant timing — useful for finding the rounds where your team's coordination broke down without a teammate being obviously at fault.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
@@ -2173,7 +2173,7 @@ const R6_POSTS = [
 </ol>
 <p>Each round forces a different muscle memory. Mix this into your scrim routine and you'll start auto-adapting per-round in ranked.</p>`,
     },
-    aiVodMention: `<p>At this elo, finding the predictable habits in your own play is the climb. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tags rounds where you held the same anchor twice in a row or used identical exec timing — the patterns Emerald opponents will exploit.</p>`,
+    aiVodMention: `<p>At this elo, finding the predictable habits in your own play is the climb. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tags rounds where you held the same anchor twice in a row or used identical exec timing — the patterns Emerald opponents will exploit.</p>`,
     relatedLinks: [
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
       { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
@@ -2299,7 +2299,7 @@ const R6_POSTS = [
 </ul>
 <p>Build a mental model of common opponent patterns. After 10 ranked games of note-taking, you'll start anticipating instead of reacting. Diamond is an information game.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can extract opponent habits across multiple matches — useful for spotting tendencies that you can't track in real-time but are obvious in aggregate.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can extract opponent habits across multiple matches — useful for spotting tendencies that you can't track in real-time but are obvious in aggregate.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
@@ -2374,12 +2374,12 @@ const R6_POSTS = [
 <p>By game 5 you'll start anticipating instead of reacting. The pro players are using the exact reads you should be making — once you can predict their decisions, you've internalized the same decision-making framework.</p>
 <p>Recommended VODs: Six Invitational finals from the past 2 years. The prep level is highest, the macro is most refined, and the comp swaps round-to-round are textbook.</p>`,
     },
-    aiVodMention: `<p>At Diamond+, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p>At Diamond+, the gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
-      { name: 'R6 Operator Comparison Tool', url: '/#/operators' },
+      { name: 'R6 Operator Comparison Tool', url: '/operators' },
       { name: 'Recon 6 Pricing & Plans', url: '/#pricing' },
     ],
     readMinutes: 11,
@@ -2434,7 +2434,7 @@ function renderPost(post) {
     <div class="intro-cta">
       <h3>Stadium strats for all 11 maps — Pro feature</h3>
       <p>Per-map Stadium intel: Cash priorities, Power picks per round, Item shop timing, hero lineups for Clash / Control / Push. 33 sites · 66 build paths. Founding rate $9/mo locked for life if you join before May 31.</p>
-      <a class="btn" href="${SITE_URL}/#/strats/stadium-busan/point/attack">Open Stadium strats →</a>
+      <a class="btn" href="${SITE_URL}/strats/stadium-busan/point/attack">Open Stadium strats →</a>
       &nbsp;
       <a class="btn" href="${SITE_URL}/#pricing" style="background:transparent;border:1px solid rgba(255,201,122,0.5);color:#ffc97a">See pricing</a>
     </div>`
@@ -2740,7 +2740,7 @@ const CS2_POSTS = [
 </ol>
 <p>Each lineup takes 5 minutes to learn. After 20 minutes you have the most-used T-side execute on the most-played CS2 map. Apply in matchmaking.</p>`,
     },
-    aiVodMention: `<p>If you're losing rounds and can't tell why, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility mistakes round by round — useful for catching the habit you don't know you have.</p>`,
+    aiVodMention: `<p>If you're losing rounds and can't tell why, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility mistakes round by round — useful for catching the habit you don't know you have.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Nova to Master Guardian', url: '/blog/cs2-nova-to-mg.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -2838,7 +2838,7 @@ const CS2_POSTS = [
 </ol>
 <p>Run this timing 10 times offline. By rep 10 you have the standard MG-level B exec. Apply in matchmaking with your stack.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on lineups, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your trade-frag distance was off — useful when you don't know why a 4v3 became a 0v3.</p>`,
+    aiVodMention: `<p>Once you're confident on lineups, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your trade-frag distance was off — useful when you don't know why a 4v3 became a 0v3.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Nova', url: '/blog/cs2-silver-to-nova.html' },
       { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
@@ -2935,7 +2935,7 @@ const CS2_POSTS = [
       html: `<p>Mirage Window peek (CT side) catches A pushers at 0:08 timer mark. Practice in offline mode: peek Window at 0:08 with crosshair at head height pre-aimed at the standard A Ramp player position. Hit the peek 20 times until muscle memory.</p>
 <p>Apply in ranked. You'll get a free round-opener pick on most A executes — flips the round economy.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your smoke placement vs pro placement on the same map — useful for spotting where your smokes are blocking the wrong angle.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your smoke placement vs pro placement on the same map — useful for spotting where your smokes are blocking the wrong angle.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Nova to MG', url: '/blog/cs2-nova-to-mg.html' },
       { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
@@ -3035,7 +3035,7 @@ const CS2_POSTS = [
 </ol>
 <p>Catches LE-tier defenders out of position 50%+ of attempts. Run it as a stack 5-10 times for the timing.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your AWP angle variation across the match — useful for spotting when you've held the same spot 3 rounds in a row without realizing it.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your AWP angle variation across the match — useful for spotting when you've held the same spot 3 rounds in a row without realizing it.</p>`,
     relatedLinks: [
       { name: 'How to Climb from MG to DMG', url: '/blog/cs2-mg-to-dmg.html' },
       { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
@@ -3122,7 +3122,7 @@ const CS2_POSTS = [
 </ol>
 <p>Track headshot % weekly via the stats screen. If you're not at 28%+ after 2 weeks, extend to 4 weeks. Aim is the foundation — utility doesn't fix lost duels.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your headshot rate by weapon and map — useful for finding the gun-map combination that's holding back your stats.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can compute your headshot rate by weapon and map — useful for finding the gun-map combination that's holding back your stats.</p>`,
     relatedLinks: [
       { name: 'How to Climb from DMG to LE', url: '/blog/cs2-dmg-to-le.html' },
       { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
@@ -3226,7 +3226,7 @@ const CS2_POSTS = [
       html: `<p>Watch one tier-1 CS2 match per day for 30 days. Tracking sheet on your phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways: utility timings, default plant spots, anti-eco buys, half-time reads.</p>
 <p>This is the practice routine that bridges LEM to Supreme. The gap isn't aim — it's pattern recognition at the pro level.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compare your decision patterns against pro-tier reads round-by-round — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can compare your decision patterns against pro-tier reads round-by-round — useful for finding the rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'How to Climb from LE to LEM', url: '/blog/cs2-le-to-lem.html' },
       { name: 'How to Climb from Supreme to Global', url: '/blog/cs2-supreme-to-global.html' },
@@ -3333,7 +3333,7 @@ const CS2_POSTS = [
       html: `<p>Track per-match: headshot %, K/D, ADR (average damage per round). If numbers are flat over 30 matches, fix the aim regimen first before trying to climb on macro.</p>
 <p>Aim is the foundation that lets the macro work. Without 30%+ headshot rate, your reads don't matter — you're losing duels even when you read correctly.</p>`,
     },
-    aiVodMention: `<p>At the Global queue level, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation (round 1-3 vs round 4-6) against pro-tier patterns — useful for finding the rounds where you should have switched strat but didn't.</p>`,
+    aiVodMention: `<p>At the Global queue level, the gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your in-match adaptation (round 1-3 vs round 4-6) against pro-tier patterns — useful for finding the rounds where you should have switched strat but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from LEM to Supreme', url: '/blog/cs2-lem-to-supreme.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -3427,7 +3427,7 @@ const VALORANT_POSTS = [
 </ul>
 <p>If you commit to fundamentals — small agent pool, head-height crosshair, save-don't-force, trade fragging — you'll exit Iron inside two weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ability usage mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ability usage mistakes per round — useful when you know you're losing but can't see why.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -3527,7 +3527,7 @@ const VALORANT_POSTS = [
 </ul>
 <p>Repeat for 3 maps × 1 week. By end of week you've put 9+ hours into 3 maps. Map knowledge is the Silver gap.</p>`,
     },
-    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your positioning telegraphed your push direction — useful for spotting predictable habits.</p>`,
+    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your positioning telegraphed your push direction — useful for spotting predictable habits.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Iron to Bronze', url: '/blog/valorant-iron-to-bronze.html' },
       { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
@@ -3632,7 +3632,7 @@ const VALORANT_POSTS = [
       heading: 'Drill: Bind A synced execute',
       html: `<p>Stack 5 in Custom Game. Run the Bind A exec sequence above 10 times. Each rep, the IGL counts the timer; utility hits on the count. After 10 reps the timing is muscle memory.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks utility timing per round and flags rounds where your team's exec was off-tempo.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks utility timing per round and flags rounds where your team's exec was off-tempo.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/valorant-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
@@ -3744,7 +3744,7 @@ const VALORANT_POSTS = [
       heading: 'Drill: 5 Sova lineups in 30 minutes',
       html: `<p>Watch a YouTube Sova lineup video for your 3 main maps. Practice in Custom mode for 30 minutes total — 5 lineups memorized. Apply in ranked. Round-opener picks 30%+ of the time on the maps you know.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your team's comp was missing a role and the round was lost on synergy, not aim.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your team's comp was missing a role and the round was lost on synergy, not aim.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/valorant-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
@@ -3845,7 +3845,7 @@ const VALORANT_POSTS = [
       html: `<p>Load Range with bots set to "easy" (so they don't track). Practice jiggle-peeking: 1 A tap → 1 D tap → step forward 1 frame → step back. Repeat 50 times. The motion becomes muscle memory.</p>
 <p>Apply in ranked when peeking AWPs or known angle holders. Bait the first shot, peek wide for the trade.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you held the same anchor angle 3+ rounds in a row — predictable habits Diamond opponents will exploit.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where you held the same anchor angle 3+ rounds in a row — predictable habits Diamond opponents will exploit.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/valorant-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
@@ -3951,7 +3951,7 @@ const VALORANT_POSTS = [
       html: `<p>Every match, the IGL announces 3 reads on round 1: "Their Cypher has TP trips. Their Killjoy has Lockdown. Their Sova has recon lineups." Team adjusts setup accordingly.</p>
 <p>Practice this for 10 matches. After 10 matches, the comp-read protocol is automatic.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your comp adaptations across the match — useful for spotting rounds where the right call was obvious but you played default.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your comp adaptations across the match — useful for spotting rounds where the right call was obvious but you played default.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/valorant-plat-to-diamond.html' },
       { name: 'How to Climb from Ascendant to Immortal', url: '/blog/valorant-ascendant-to-immortal.html' },
@@ -4054,7 +4054,7 @@ const VALORANT_POSTS = [
       heading: 'Drill: 30 days of pro-VOD-per-day',
       html: `<p>Watch one tier-1 VCT match per day for 30 days. Tracking sheet on phone — note 1 thing learned per match. By day 30 you'll have 30 specific takeaways.</p>`,
     },
-    aiVodMention: `<p>At Immortal queue, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one anyway.</p>`,
+    aiVodMention: `<p>At Immortal queue, gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one anyway.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Ascendant', url: '/blog/valorant-diamond-to-ascendant.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -4151,7 +4151,7 @@ const OW2_POSTS = [
 </ul>
 <p>If you commit to fundamentals — role specialization, small hero pool, head-height crosshair, ult tracking — you'll exit Bronze inside 3-4 weeks.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why team fights feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ult timing mistakes per fight.</p>`,
+    aiVodMention: `<p>If you can't tell why team fights feel off, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + ult timing mistakes per fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
@@ -4256,7 +4256,7 @@ const OW2_POSTS = [
 </ul>
 <p>Even if you're flexing, you'll learn how each comp wins the fight. After 15 games you'll auto-recognize comps from the round 1 lock-in screen.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy — useful for spotting "I should have switched" moments.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy — useful for spotting "I should have switched" moments.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/ow2-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
@@ -4371,7 +4371,7 @@ const OW2_POSTS = [
 </ul>
 <p>By game 5 you'll have 10+ counter-pick scenarios under your belt. Apply in ranked. The swap habit is the Plat-to-Diamond bridge — it's worth more rank than mechanical aim improvement at this stage.</p>`,
     },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your hero swap timing and flags rounds where you should have counter-picked but didn't.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your hero swap timing and flags rounds where you should have counter-picked but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/ow2-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
@@ -4475,7 +4475,7 @@ const OW2_POSTS = [
       html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match. By day 30 you'll have 30 specific patterns memorized.</p>
 <p>Examples: "OWCS team uses Sound Barrier on the regroup, not the engage." "Pro IGL always swaps tank from Reinhardt to Sigma between Point A and B on King's Row."</p>`,
     },
-    aiVodMention: `<p>At Diamond, the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one.</p>`,
+    aiVodMention: `<p>At Diamond, the gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads — useful for finding rounds where you knew the right call but committed to the wrong one.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/ow2-gold-to-plat.html' },
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
@@ -4566,7 +4566,7 @@ const OW2_POSTS_HIGH = [
       'Tilt-stacking 3+ match losing streaks.',
     ],
     drill: { heading: 'Drill: 30-day pro VOD-per-day library build', html: `<p>Watch one tier-1 OWCS match per day for 30 days. Note 1 specific takeaway per match — pattern, ult timing, comp swap, positioning detail. By day 30 you have 30 patterns.</p><p>Test it: at day 30, watch a new pro match and predict 5 calls before they happen. Hit rate should be 60%+. If it's lower, your library is shallow — keep watching for another 30 days.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your hero-swap timing across matches and flag rounds where you should have swapped mid-fight but didn't. Useful for finding the Diamond plateau pattern of "stuck on main hero" that Master players have already broken.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can compute your hero-swap timing across matches and flag rounds where you should have swapped mid-fight but didn't. Useful for finding the Diamond plateau pattern of "stuck on main hero" that Master players have already broken.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/ow2-plat-to-diamond.html' },
       { name: 'How to Climb from Master to GM', url: '/blog/ow2-master-to-gm.html' },
@@ -4660,7 +4660,7 @@ const OW2_POSTS_HIGH = [
       'No tilt protocol for round 13+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days, 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, sleep dart hit rate (if Ana), crit rate per role. If numbers plateau before day 90, fix sensitivity or ergonomics before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against OWCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern that separates Master plateau from GM ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against OWCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern that separates Master plateau from GM ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Master', url: '/blog/ow2-diamond-to-master.html' },
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
@@ -4787,7 +4787,7 @@ const OW2_POSTS_HIGH = [
 </ul>
 <p>By the end of the week you'll know your home hero's Power tree cold, and you'll have the framework to learn any new hero's build in 2-3 matches instead of 10.</p>`,
     },
-    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads Stadium HUD cues — Cash counter, equipped Powers, Item stack — and flags build-vs-Power mismatches automatically. Useful when you know a round felt wrong but can't pinpoint whether it was your build, your positioning, or both.</p>`,
+    aiVodMention: `<p>The <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads Stadium HUD cues — Cash counter, equipped Powers, Item stack — and flags build-vs-Power mismatches automatically. Useful when you know a round felt wrong but can't pinpoint whether it was your build, your positioning, or both.</p>`,
     relatedLinks: [
       { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
       { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
@@ -4898,13 +4898,13 @@ const OW2_POSTS_HIGH = [
 </ul>
 <p>By Day 5 you'll know whether the meta tier list matches your skill — most players' personal tier lists differ by 2-3 spots from meta. Trust your tier list, not theirs.</p>`,
     },
-    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> catches per-round impact — flags rounds where your hero pick contributed less than the team needed. Useful for tier-list calibration: if your S-tier pick is showing C-tier round impact, you've found the gap between "meta says strong" and "your gameplay supports it."</p>`,
+    aiVodMention: `<p>The <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> catches per-round impact — flags rounds where your hero pick contributed less than the team needed. Useful for tier-list calibration: if your S-tier pick is showing C-tier round impact, you've found the gap between "meta says strong" and "your gameplay supports it."</p>`,
     relatedLinks: [
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
       { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
       { name: 'OW2 Stadium Economy Guide', url: '/blog/ow2-stadium-economy.html' },
       { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
-      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/loadouts' },
     ],
     readMinutes: 10,
   },
@@ -5013,13 +5013,13 @@ const OW2_POSTS_HIGH = [
     </ul>
 <p>By the end of three matches you'll feel the difference single-vector builds make. The all-Common run will be sluggish past Round 4. The split-vector run will feel "fine" until R7 when nothing pops off. The Rare-Epic ladder is the winning rhythm.</p>`,
     },
-    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your equipped Items vs. Powers and flags mismatches — e.g., "you bought Weapon Power on Ana but her Powers scale with Ability Power; reallocate next match." Useful for catching the 30% efficiency tax before it costs you 3 round losses.</p>`,
+    aiVodMention: `<p>The <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your equipped Items vs. Powers and flags mismatches — e.g., "you bought Weapon Power on Ana but her Powers scale with Ability Power; reallocate next match." Useful for catching the 30% efficiency tax before it costs you 3 round losses.</p>`,
     relatedLinks: [
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
       { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
       { name: 'OW2 Stadium Economy Guide', url: '/blog/ow2-stadium-economy.html' },
       { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
-      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/loadouts' },
     ],
     readMinutes: 11,
   },
@@ -5122,13 +5122,13 @@ const OW2_POSTS_HIGH = [
 </ul>
 <p>After 5 matches you\'ll have a working economy intuition. Most players can\'t tell you their R3 Cash balance without checking — you\'ll be able to estimate within 500.</p>`,
     },
-    aiVodMention: `<p>The <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> flags economy mistakes per match — e.g., "you held 3,200 Cash going into Round 7 — that\'s a wasted Epic upgrade." Useful when you suspect builds are letting you down but can\'t tell whether it\'s your Powers, your Items, or your Cash management.</p>`,
+    aiVodMention: `<p>The <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> flags economy mistakes per match — e.g., "you held 3,200 Cash going into Round 7 — that\'s a wasted Epic upgrade." Useful when you suspect builds are letting you down but can\'t tell whether it\'s your Powers, your Items, or your Cash management.</p>`,
     relatedLinks: [
       { name: 'OW2 Stadium Guide — Builds, Powers & Economy', url: '/blog/ow2-stadium-guide.html' },
       { name: 'OW2 Stadium Tier List — Best Heroes Per Role', url: '/blog/ow2-stadium-tier-list.html' },
       { name: 'OW2 Stadium Items Guide — When to Buy What', url: '/blog/ow2-stadium-items-guide.html' },
       { name: 'How to Climb from Diamond to Master in OW2', url: '/blog/ow2-diamond-to-master.html' },
-      { name: 'Recon 6 OW2 Loadouts', url: '/#/loadouts' },
+      { name: 'Recon 6 OW2 Loadouts', url: '/loadouts' },
     ],
     readMinutes: 10,
   },
@@ -5155,7 +5155,7 @@ const APEX_POSTS = [
     ],
     mistakes: ['Hot-dropping with 12 squads.','Solo pushing without squad.','Looting through Ring 3.','No body armor before fight.','Picking 5+ legends — no specialization.','Running flat-footed — no slide-jump.','Playing with footstep volume too low.'],
     drill: { heading: 'Drill: 10 Firing Range movement reps', html: `<p>10 minutes daily in Firing Range. Practice slide-jumping down hills, mantle-jumping over crates, and tap-strafing direction changes. After 7 days movement becomes muscle memory and you'll out-rotate every Bronze opponent.</p>` },
-    aiVodMention: `<p>If you can't tell why specific squad fights feel off, the <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + rotation mistakes per squad fight.</p>`,
+    aiVodMention: `<p>If you can't tell why specific squad fights feel off, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + rotation mistakes per squad fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/apex-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5183,7 +5183,7 @@ const APEX_POSTS = [
     ],
     mistakes: ['Three solo plays per fight.','Ignoring kill feed (third-party blind).','Fighting without ults.','Running zone damage instead of pre-rotating.','Healing in wrong order.','Engaging full-kit squads on white armor.','No squad role designation.','Audio at default volume.'],
     drill: { heading: 'Drill: 5-game ult tracking', html: `<p>For 5 games, track your ult cycles + your squad's ult cycles. Note when each ult comes off cooldown. By game 5 you'll auto-call "ults in 30 seconds" before engages — the Gold-tier engagement timing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks squad cohesion (distance between teammates during fights) and flags rounds where the squad split into solo plays.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks squad cohesion (distance between teammates during fights) and flags rounds where the squad split into solo plays.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/apex-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/apex-gold-to-plat.html' },
@@ -5211,7 +5211,7 @@ const APEX_POSTS = [
     ],
     mistakes: ['Fighting on flat ground in Ring 4.','Solo ulting — no chain.','Open-ground beaming.','Ignoring lurker audio cues.','Committing into crystal endgame first.','No rear-watcher in squad fights.','No pro VOD prep.','Tilt-stacking losses.'],
     drill: { heading: 'Drill: 5 ranked games of Ring 4+ decision tracking', html: `<p>For 5 ranked games, focus only on Ring 4+ decisions. Note: did you take high ground? Did you have cover? Did you commit at the right moment? After 5 games you'll have a decision framework that auto-applies in clutch moments.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without ult-chain support — useful for spotting the decisions that lost the round.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without ult-chain support — useful for spotting the decisions that lost the round.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/apex-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5298,7 +5298,7 @@ const APEX_POSTS_HIGH = [
       'No ALGS VOD prep.',
     ],
     drill: { heading: 'Drill: 5-game pre-rotation tracking', html: `<p>5 ranked Apex games. For each, mark the 60-second-before-ring-close moment in your head and call the next zone center. Track whether you actually pre-rotated or whether you reacted to ring damage.</p><p>By game 5 the pre-rotation habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your engagement decisions across matches and flags the rounds where you fought a battle you couldn't win — useful for catching the Plat plateau pattern of "engaging on instinct."</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your engagement decisions across matches and flags the rounds where you fought a battle you couldn't win — useful for catching the Plat plateau pattern of "engaging on instinct."</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/apex-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
@@ -5383,7 +5383,7 @@ const APEX_POSTS_HIGH = [
       'Tilt-stacking 3+ matches.',
     ],
     drill: { heading: 'Drill: 5 games of match-macro tracking', html: `<p>5 ranked games. For each, write down (1) drop time, (2) first kit complete time, (3) Ring 3 position, (4) final-ring high-ground status. Compare your timeline to the Master script (5:00 / 10:00 / 15:00 markers).</p><p>If you're lagging on any phase, that's where to focus practice.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag the rounds where you took an unfavorable engagement that didn't fit the match script — particularly useful for spotting the Diamond plateau of "engaging on instinct" that Master macro discipline solves.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag the rounds where you took an unfavorable engagement that didn't fit the match script — particularly useful for spotting the Diamond plateau of "engaging on instinct" that Master macro discipline solves.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/apex-plat-to-diamond.html' },
       { name: 'How to Climb from Master to Predator', url: '/blog/apex-master-to-pred.html' },
@@ -5468,7 +5468,7 @@ const APEX_POSTS_HIGH = [
       'Pro VOD library at 30 patterns, not 100+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 ALGS match per day. By day 90 you have a 100-pattern library AND your aim is at Predator benchmarks.</p><p>Track weekly: tracking %, headshot rate per weapon, reaction time. If numbers plateau before day 90, fix sensitivity or ergonomics first.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against ALGS-tier reads — particularly useful for finding the rounds where you knew the right call but committed to the wrong one. The exact pattern that separates Master plateau from Predator ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against ALGS-tier reads — particularly useful for finding the rounds where you knew the right call but committed to the wrong one. The exact pattern that separates Master plateau from Predator ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Master', url: '/blog/apex-diamond-to-master.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5502,7 +5502,7 @@ const MVR_POSTS = [
     ],
     mistakes: ['Queueing Flex — no specialization.','Hero pool of 8+ heroes.','Solo ulting.','Picking 4 Duelists, 0 Vanguards.','Ignoring team-ups.','Strategist out of range of teammates.','Playing all 12 maps shallowly.','Trickling into reset fights.'],
     drill: { heading: 'Drill: 10 games role-locked', html: `<p>Queue role-locked for 10 games on your chosen role. Use only your 2-3 hero pool. Track win rate. By game 10 you'll have foundational map + hero patterns Silver players take for granted.</p><p>If your win rate is 50%+ after 10 games, expand the pool to 4 heroes. If it's 40-50%, keep the 3 and play 10 more. If it's <40%, switch role — your aim or game sense doesn't fit this role.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags ult-coordination mistakes per team fight.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags ult-coordination mistakes per team fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/mvr-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5530,7 +5530,7 @@ const MVR_POSTS = [
     ],
     mistakes: ['Same hero every map — no archetype matching.','Solo ulting (no chain).','Brawling on flat ground.','One-tricking through counter-picks.','Healing ults reactive, not anticipative.','Trickling into reset fights.','Comms full of commentary, not decisions.','No spawn timing reads.'],
     drill: { heading: 'Drill: 5-game map-comp practice', html: `<p>Play 5 games on each map archetype (15 games total). Brawl on Convoy, mixed on Convergence, poke on Domination. By game 15 you auto-recognize the right comp from the load screen.</p><p>Track per-game: did you pick the right archetype? Did your team comp synergize? After 15 games you'll have direct map → comp mappings memorized.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy. Useful for spotting the games where your team had 4 Duelists and you didn't swap to fill — a common Silver-to-Gold mistake that's invisible without an outside review.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your hero pick contradicted team comp synergy. Useful for spotting the games where your team had 4 Duelists and you didn't swap to fill — a common Silver-to-Gold mistake that's invisible without an outside review.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/mvr-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/mvr-gold-to-plat.html' },
@@ -5558,7 +5558,7 @@ const MVR_POSTS = [
     ],
     mistakes: ['Same comp every round.','No ult tracking.','Healing ults reactive.','No pro VOD prep.','No mid-match comp swap.','Comm-overload.','Tilt-stacks losses.','No anti-stack reads.'],
     drill: { heading: 'Drill: 30 days of pro-VOD-per-day', html: `<p>Watch one tier-1 MVR match per day for 30 days. Note 1 takeaway per match. By day 30 you have 30 specific tactical patterns memorized.</p><p>Examples of takeaways: "Pro Hela ults always paired with Magneto pull." "Pro Strange portal goes to enemy back-line, not your high ground." "Pro Adam Warlock revive used after the second wipe, not the first." Each pattern compounds across the 30-day cycle.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptations against pro-tier patterns — flags rounds where you should have swapped comp but didn't. Particularly useful for spotting whether your team's comp synergized with the map's archetype on each round, or whether you ran the same comp regardless.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your in-match adaptations against pro-tier patterns — flags rounds where you should have swapped comp but didn't. Particularly useful for spotting whether your team's comp synergized with the map's archetype on each round, or whether you ran the same comp regardless.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/mvr-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5649,7 +5649,7 @@ const MVR_POSTS_HIGH = [
       'Comms full of commentary, not decisions.',
     ],
     drill: { heading: 'Drill: 5-game team-up combo audit', html: `<p>5 ranked games. Pre-match, identify which 2-3 hero pairs in your team comp have team-up bonuses. Post-match, check whether you actually picked complementary heroes.</p><p>By game 5 you'll auto-pick around team-up combos in lobby — the Diamond differentiator that Plat IGLs ignore.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your hero-swap timing and team-up combo usage across matches. Useful for spotting the Plat plateau pattern of "stuck on main hero through whole match" that Diamond mid-fight swaps solve.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your hero-swap timing and team-up combo usage across matches. Useful for spotting the Plat plateau pattern of "stuck on main hero through whole match" that Diamond mid-fight swaps solve.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/mvr-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
@@ -5742,7 +5742,7 @@ const MVR_POSTS_HIGH = [
       'No tilt protocol for round 13+.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 30 min aim + 1 pro VOD per day. By day 90 you have a 100-pattern library AND your aim is at GM benchmarks.</p><p>Track weekly: headshot rate, healing per game (Strategists), damage per game (Duelists). If numbers plateau before day 90, fix sensitivity or ergonomics first before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation patterns against tier-1 reads — flags rounds where you should have swapped comp but didn't. The Diamond plateau pattern that GM macro discipline solves. Recon 6 also reads ult timing across the full match — useful for spotting whether your healing-ult anticipation actually beats the enemy damage ult window.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your in-match adaptation patterns against tier-1 reads — flags rounds where you should have swapped comp but didn't. The Diamond plateau pattern that GM macro discipline solves. Recon 6 also reads ult timing across the full match — useful for spotting whether your healing-ult anticipation actually beats the enemy damage ult window.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/mvr-plat-to-diamond.html' },
       { name: 'How to Climb from GM to Celestial', url: '/blog/mvr-gm-to-celestial.html' },
@@ -5835,7 +5835,7 @@ const MVR_POSTS_HIGH = [
       '1v1 reads using only 1-2 data points instead of 5-6.',
     ],
     drill: { heading: 'Drill: 30-day stat tracking', html: `<p>Track per-match: headshot rate, K/D, healing per game (Strategists), damage per game (Duelists). If numbers are flat over 30 matches, fix aim regimen first before chasing macro.</p>` },
-    aiVodMention: `<p>At Celestial, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match adaptation against tournament-tier patterns — flags rounds where you should have switched comp but didn't.</p>`,
+    aiVodMention: `<p>At Celestial, gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your in-match adaptation against tournament-tier patterns — flags rounds where you should have switched comp but didn't.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to GM', url: '/blog/mvr-diamond-to-gm.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5869,7 +5869,7 @@ const HALO_POSTS = [
     ],
     mistakes: ['BR full-auto at long range.','Crosshair at chest height.','Ignoring power weapon timers.','Pushing rooms without grenades.','No comms — 4 solo players.','Sitting in your base instead of pushing top mid.','Flat-footed movement (no clamber, slide).','Same strategy across all modes.'],
     drill: { heading: 'Drill: 30 min BR75 Range practice', html: `<p>Halo Range or custom games for 30 minutes. Practice tap-firing the BR at long range, full-auto at close range. By session 7 the spray pattern + tap-firing rhythm is muscle memory.</p><p>Specific routine: 10 min tap-firing the BR at 30+m targets (count headshots). 10 min burst-firing at 15m. 10 min CQB combat with bots. Track headshot accuracy weekly.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + grenade timing mistakes per round.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + grenade timing mistakes per round.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/halo-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -5897,7 +5897,7 @@ const HALO_POSTS = [
     ],
     mistakes: ['Power weapon timers ignored.','Equipment unused.','Grenades thrown blindly.','1-player power weapon contests.','No spawn timing reads.','Trading Sword in CQB.','No role designation in 4-stack.','Ignoring Overshield / Active Camo timers.'],
     drill: { heading: 'Drill: 5 ranked games tracking power weapon timers', html: `<p>For 5 games, set a mental timer (or use stopwatch) for each power weapon respawn. Be at the spawn 5 seconds early. Track win-rate of power weapon contests. By game 5 you'll auto-track timers.</p><p>Specific habit: when a power weapon is picked up (yours or enemy's), start a 90-second timer in your head. At 80 seconds, communicate "Sniper in 10." At 90 seconds, contest the spawn.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate and flags rounds where the rotation broke down. Useful for spotting the maps where you consistently lose the Sniper contest — usually a positioning issue you can fix once you know which map's contest you're losing.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate and flags rounds where the rotation broke down. Useful for spotting the maps where you consistently lose the Sniper contest — usually a positioning issue you can fix once you know which map's contest you're losing.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/halo-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/halo-gold-to-plat.html' },
@@ -5925,7 +5925,7 @@ const HALO_POSTS = [
     ],
     mistakes: ['1-player power weapon contests.','No spawn-flip awareness.','Grenades 2 seconds late.','No anti-grapple prep.','No pro VOD prep.','No role designations pre-match.','Same strategy on every mode.','Tilt-stacking 3+ matches.'],
     drill: { heading: 'Drill: 30 days of HCS pro-VOD-per-day', html: `<p>Watch one HCS match per day for 30 days. Note 1 takeaway per match. By day 30 you have 30 specific tactical patterns memorized.</p><p>Examples: "Pro team designates power-weapon controller pre-match." "Pro IGL calls grenade-cook timing on the count: 'Frag in 2, 1, throw.'" "Pro team always full-heals + reloads between fights." The 30-day discipline is the Plat-to-Onyx bridge.</p><p>If 30 minutes per day is too much, watch in 5-minute chunks. Each chunk = 1 takeaway. The pattern compounds.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads for power weapon contests. Particularly useful for finding the rounds where you contested a power weapon solo when your team was 30+ meters away — the most common Plat-tier mistake that costs games to Onyx-tier opponents.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against pro-tier reads for power weapon contests. Particularly useful for finding the rounds where you contested a power weapon solo when your team was 30+ meters away — the most common Plat-tier mistake that costs games to Onyx-tier opponents.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/halo-silver-to-gold.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6026,7 +6026,7 @@ const HALO_POSTS_HIGH = [
       'Comms full of commentary, not decisions.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking power-up timers', html: `<p>For 5 ranked games, set a mental timer for each power weapon AND power-up respawn. Be at the spawn 5 seconds early. Track win-rate of power-up + power-weapon contests.</p><p>By game 5 you'll auto-track timers. Apply in matchmaking — the 90-second cycle is the Diamond differentiator.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate per map and flags rounds where the rotation broke down. Useful for spotting which maps have the worst contest win rates so you can study them specifically.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your power weapon contest win rate per map and flags rounds where the rotation broke down. Useful for spotting which maps have the worst contest win rates so you can study them specifically.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/halo-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
@@ -6126,7 +6126,7 @@ const HALO_POSTS_HIGH = [
       'No tilt protocol for objective overtime rounds.',
     ],
     drill: { heading: 'Drill: 30-day HCS pro VOD-per-day + role-locked sessions', html: `<p>30 days of 1 HCS match per day + 4-stack practice with explicit role designation. By day 30 you have 30 patterns memorized + role coordination muscle memory.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads for power weapon contests + spawn flips. Useful for finding the rounds where you missed a spawn flip your team should have called.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads for power weapon contests + spawn flips. Useful for finding the rounds where you missed a spawn flip your team should have called.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/halo-plat-to-diamond.html' },
       { name: 'How to Climb from Onyx to Champion', url: '/blog/halo-onyx-to-champion.html' },
@@ -6221,7 +6221,7 @@ const HALO_POSTS_HIGH = [
       'No enemy pattern tracking across rounds.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 HCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, contest win rate, K/D.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Onyx plateau from Champion ceiling.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against HCS-tier reads round-by-round. Particularly useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Onyx plateau from Champion ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Onyx', url: '/blog/halo-diamond-to-onyx.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6255,7 +6255,7 @@ const FINALS_POSTS = [
     ],
     mistakes: ['Bouncing builds — no specialization.','Stealing every vault, including contested ones.','Ignoring destructibility.','No third-team awareness.','Defib-ing full-HP teammates.','3 solo plays per fight.','Flat-footed movement.','Audio at default volume.'],
     drill: { heading: 'Drill: 5 ranked games as Medium build', html: `<p>Lock in Medium build for 5 games. Practice Healing Beam + Defib + AKM. By game 5 your role muscle memory is foundational.</p><p>Specific focus per game: game 1, master AKM recoil + ADS. Game 2, master Defib timing (revive teammate before they finish bleed-out). Game 3, master Healing Beam — sustain a Heavy through prolonged fights. Games 4-5, integrate all three.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags squad-coordination mistakes per fight.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags squad-coordination mistakes per fight.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6283,7 +6283,7 @@ const FINALS_POSTS = [
     ],
     mistakes: ['Random builds in 3-stack.','Carrying via the obvious route.','Defib reactive, not anticipative.','Standing in grenade arc spots.','No Cashout contest read.','No pro VOD prep.','Ignoring map destructibility.','Tilt-stacking matches.'],
     drill: { heading: 'Drill: 5 ranked games on Las Vegas with carry-route practice', html: `<p>Play 5 ranked games on Las Vegas. Each match, practice carrying the vault via the rooftop route, not the Streets. Track success rate. By game 5 the route is muscle memory.</p><p>Specific pattern: Heavy carries the cashout via Pool → Rooftop → Streets corner → Cashout statue. Avoid the open Strip. Heavy + Mesh Shield can survive ranged shots from rooftops; the bigger threat is third-party squads on the ground.</p><p>After Las Vegas, repeat the drill on Monaco (Yacht → Harbor → Plaza route) and Seoul (Mall → Subway → Plaza route). Each map's carry route is unique; pro squads have all 6 memorized.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe — both are common Plat-tier mistakes that don't show up in standard kill-cam review.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe — both are common Plat-tier mistakes that don't show up in standard kill-cam review.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/finals-bronze-to-silver.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6381,7 +6381,7 @@ const FINALS_POSTS_GAPS = [
       'Default sensitivity / FOV.',
     ],
     drill: { heading: 'Drill: 5-game build mastery focus', html: `<p>Pick one build and play 5 ranked games with it. Track your kit usage per round — did you use Mesh Shield in every contest? Did you Defib at the right moment? After 5 games your build feels reflexive.</p><p>Specific tracking: write 1 line per game on what worked and what didn't. Re-read your notes before queueing the next session — patterns emerge fast when you keep notes.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks your kit usage timing across matches and flags rounds where the engage was uncoordinated. Useful for spotting Silver-tier "3 solo plays" patterns vs Gold-tier synced engagements.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your kit usage timing across matches and flags rounds where the engage was uncoordinated. Useful for spotting Silver-tier "3 solo plays" patterns vs Gold-tier synced engagements.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/finals-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
@@ -6474,7 +6474,7 @@ const FINALS_POSTS_GAPS = [
       'Tilt-stacking matches.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking Defib accuracy', html: `<p>5 ranked games as Medium. Track per game: how many Defibs were "anticipative" (before bleed) vs "reactive" (after bleed). Goal: 80%+ anticipative by game 5.</p><p>If you're not playing Medium, run the drill on your Heavy Mesh Shield commit timing or Light Cloak-flank-stun chain instead. The principle is the same: track kit usage per round, refine via review.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your Defib timing against pro-tier patterns. Useful for spotting rounds where your Defib was wasted on full-HP teammates or saved too late after a wipe.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Plat', url: '/blog/finals-gold-to-plat.html' },
       { name: 'How to Climb from Diamond to Ruby', url: '/blog/finals-diamond-to-ruby.html' },
@@ -6576,7 +6576,7 @@ const FINALS_POSTS_GAPS = [
       'Default sensitivity / FOV.',
     ],
     drill: { heading: 'Drill: 90-day pro VOD library + aim regimen', html: `<p>90 days of 60 min daily aim + 1 TFCS match per day. By day 90 you have a 100-pattern library AND your aim is at Ruby benchmarks. Track weekly: headshot rate per weapon, Defib accuracy (Mediums), session win rate.</p>` },
-    aiVodMention: `<p>At Ruby, gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against tournament-tier reads — flags rounds where you knew the right call but committed to the wrong one. The Diamond plateau pattern that Ruby macro discipline solves.</p>`,
+    aiVodMention: `<p>At Ruby, gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against tournament-tier reads — flags rounds where you knew the right call but committed to the wrong one. The Diamond plateau pattern that Ruby macro discipline solves.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/finals-plat-to-diamond.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6611,7 +6611,7 @@ const COD_POSTS = [
     ],
     mistakes: ['Random loadouts.','Hot-dropping with 12 squads.','Spraying full-auto at long range.','No slide-cancel — flat-footed.','Looting through Ring 3.','Crosshair at chest height.','Default sensitivity / FOV.','Random killstreak picks.'],
     drill: { heading: 'Drill: 30 min Firing Range recoil control', html: `<p>30 minutes daily in Firing Range. Use the meta AR. Practice tap-firing at distance, full-auto at close, with manual recoil compensation. After 7 days the recoil pattern is automatic.</p><p>Specific routine: 10 min tap-firing at the 50m target (3-shot bursts, count headshots). 10 min full-auto at 25m (mag dump, learn the spray). 10 min tracking moving targets (set bots to "running" difficulty if available).</p><p>Track tracker percentage weekly. By week 2 your aim consistency should jump 10-15%.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Bronze and Silver-tier aim consistency.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Bronze and Silver-tier aim consistency.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6640,7 +6640,7 @@ const COD_POSTS = [
     ],
     mistakes: ['Loadout drop too early or too late.','Spamming killstreaks instead of saving for clutch.','Looting in the open after fights.','Pushing first in crystal endgame.','No pro VOD prep.','Always running meta — never countering.','3 IGLs in trio.','Reviewing kill cams too long.'],
     drill: { heading: 'Drill: 5 Warzone games tracking loadout timing', html: `<p>Play 5 Warzone games. For each, note when you bought the loadout and how the timing affected the round. By game 5 you'll have a feel for the optimal buy window for your playstyle.</p><p>Specific tracking sheet: write down (1) when you bought the loadout (Ring 1 / Ring 2 / Ring 3+), (2) whether you survived to Ring 4, (3) whether you got 5+ kills with the loadout. Patterns emerge by game 3.</p><p>Most players find their sweet spot at Ring 2 close. Some aggressive players prefer Ring 1 (riskier but lets them control buy stations). Find your style.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can compute your loadout-drop timing efficiency across matches.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can compute your loadout-drop timing efficiency across matches.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/cod-bronze-to-silver.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -6749,7 +6749,7 @@ const COD_POSTS_GAPS = [
       '1 loadout for every map and momentum.',
     ],
     drill: { heading: 'Drill: 30 min recoil + 30 min slide-cancel daily', html: `<p>Daily routine:</p><ul><li>30 min in Firing Range with meta AR — practice recoil pull patterns at 50m+ targets.</li><li>30 min in private match practicing slide-cancel + mantle-jumps.</li></ul><p>After 7 days both become muscle memory. Apply in ranked.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Silver and Gold-tier aim consistency.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + recoil mistakes per match. Useful for spotting whether your tap-fire discipline holds at long range or breaks down under pressure — the distinction between Silver and Gold-tier aim consistency.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/cod-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/cod-gold-to-plat.html' },
@@ -6852,7 +6852,7 @@ const COD_POSTS_GAPS = [
       'Tilt-stacking matches.',
     ],
     drill: { heading: 'Drill: 5-game role-designated stack', html: `<p>If you queue with a 4-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>By game 5 the role coordination is automatic. The IGL discipline is the conversion lever for ranked SnD.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> tracks anchor position win rates per map. Useful for spotting which maps have your worst hold percentages so you can study CDL pro positioning specifically for those maps.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks anchor position win rates per map. Useful for spotting which maps have your worst hold percentages so you can study CDL pro positioning specifically for those maps.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/cod-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
@@ -6958,7 +6958,7 @@ const COD_POSTS_GAPS = [
       'No queue veto.',
     ],
     drill: { heading: 'Drill: 90-day CDL-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 CDL match per day. By day 90 you have a 60+ pattern library AND your aim is at Iridescent benchmarks.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads. Useful for finding the rounds where your killstreak banking decision was wrong (used too early or saved too late) — the exact macro pattern that separates Diamond plateau from Iridescent climb.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads. Useful for finding the rounds where your killstreak banking decision was wrong (used too early or saved too late) — the exact macro pattern that separates Diamond plateau from Iridescent climb.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/cod-plat-to-diamond.html' },
       { name: 'How to Climb from Iridescent to Top 250', url: '/blog/cod-iri-to-top250.html' },
@@ -7061,7 +7061,7 @@ const COD_POSTS_GAPS = [
       'Round-to-round play instead of match-to-match macro.',
     ],
     drill: { heading: 'Drill: 90-day CDL pro VOD library + aim regimen', html: `<p>90 days of 90 min daily aim + 1 CDL match per day. By day 90 you have a 100-pattern library AND your aim is at Top 250 benchmarks. Track weekly: headshot rate per weapon, K/D, ADR.</p>` },
-    aiVodMention: `<p>At Top 250 the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads round-by-round. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Iridescent plateau from Top 250 ceiling.</p>`,
+    aiVodMention: `<p>At Top 250 the gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against CDL-tier reads round-by-round. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Iridescent plateau from Top 250 ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Iridescent', url: '/blog/cod-diamond-to-iri.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -7096,7 +7096,7 @@ const FN_POSTS = [
     ],
     mistakes: ['Hot-dropping into hot zones.','Looting random weapons — no loadout priority.','Healing in the open.','Saving mobility items "for later."','Running zone damage.','Crosshair at chest height.','3 IGLs in trio.','Default sensitivity / FOV.'],
     drill: { heading: 'Drill: 10 games of edge-drop discipline', html: `<p>10 ranked games. Each game, edge-drop a different POI. Track how many full-loot 1v1s you survive. By game 10 your loot priority is automatic.</p><p>Specific pattern: ranked game 1, edge-drop a low-contest POI like Magic Mosses or Hidden Hollow. Game 2, edge-drop Foxy Floodgate. Game 3, edge-drop Open-Air Onsen. Each game, focus on the loot sequence (shotgun → AR → 2 heals → mobility) before pushing any contested zone.</p><p>By game 10, you've trained drop discipline + loot priority + 1v1 survival simultaneously. The compound effect is rank-decisive.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match. Particularly useful for catching the rounds where you healed in the open and got punished — the most common Bronze-tier death pattern in Zero Build.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match. Particularly useful for catching the rounds where you healed in the open and got punished — the most common Bronze-tier death pattern in Zero Build.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -7124,7 +7124,7 @@ const FN_POSTS = [
     ],
     mistakes: ['Fighting on flat in Ring 4.','Saving mobility items unused.','Ignoring lurker audio cues.','Random loot loadouts.','Pushing first in crystal endgame.','No pro VOD prep.','No loadout swap as match progresses.','Tilt-stacking losses.'],
     drill: { heading: 'Drill: 5 ranked games tracking Ring 4+ positioning', html: `<p>5 ranked games. For each, focus on Ring 4 high-ground take. By game 5 you'll auto-position before zone closes.</p><p>Specific pattern: at Ring 3 close, identify the next zone center on the map. Plan the high-ground spot in that zone. Use mobility items (Crash Pad / Launch Pad) to claim it 60+ seconds before zone forces.</p><p>Track your Ring 4+ survival rate. If you're being eliminated before final ring 80%+ of games, fix positioning before chasing aim improvements.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where your endgame positioning broke down. Useful for finding the specific Ring 4 decisions that lost you the game — high-ground neglect, mobility item hoarding, or pushing first into crystal endgame are common Plat-tier patterns the review surfaces.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where your endgame positioning broke down. Useful for finding the specific Ring 4 decisions that lost you the game — high-ground neglect, mobility item hoarding, or pushing first into crystal endgame are common Plat-tier patterns the review surfaces.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/fn-bronze-to-silver.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -7237,7 +7237,7 @@ const FN_POSTS_GAPS = [
       'Trade-fragger too far back.',
     ],
     drill: { heading: 'Drill: 5-game role-locked trio + Creative warm-up', html: `<p>If you queue with a 3-stack, designate roles pre-match. Play 5 games role-locked. Track win rate.</p><p>Before each session, 15 min Creative aim courses (search "Aim Trainer Zero Build" maps). Warm up shotgun headshots + AR tracking. By session 5 the warm-up + role coordination compounds into a +10% win rate.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + healing-timing mistakes per match.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/fn-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Plat', url: '/blog/fn-gold-to-plat.html' },
@@ -7339,7 +7339,7 @@ const FN_POSTS_GAPS = [
       'Same drop POI every game.',
     ],
     drill: { heading: 'Drill: 5 ranked games tracking endgame positioning', html: `<p>5 ranked games. For each, focus on Ring 4 high-ground take. Did you claim elevation before zone forced? Did you use a mobility item to get there?</p><p>By game 5 the pre-positioning habit is automatic. Your placement bumps from "top 5" to "top 3" consistently.</p><p>Track per-game: Ring 4 high-ground claim time, third-party encounter count, mobility items used. Patterns emerge by game 3.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without high-ground positioning. Useful for finding the rounds where your placement was lost on macro, not aim.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can flag rounds where you committed to fights without high-ground positioning. Useful for finding the rounds where your placement was lost on macro, not aim.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/fn-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
@@ -7449,7 +7449,7 @@ const FN_POSTS_GAPS = [
       'Pushing first in crystal endgame.',
     ],
     drill: { heading: 'Drill: 90-day FNCS-VOD-per-day + aim regimen', html: `<p>90 days of 60 min daily aim + 1 FNCS match per day. By day 90 you have a 60+ pattern library AND your aim is at Elite benchmarks.</p><p>Track weekly: shotgun headshot rate, AR tracking percentage, sniper accuracy at long range. If numbers plateau before day 90, fix sensitivity or technique before continuing.</p>` },
-    aiVodMention: `<p><a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your in-match decisions against FNCS-tier reads. Useful for finding the rounds where your endgame positioning broke down — the macro pattern that separates Diamond plateau from Elite climb. Particularly useful for spotting whether your mobility chain rotations were proactive or reactive.</p>`,
+    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your in-match decisions against FNCS-tier reads. Useful for finding the rounds where your endgame positioning broke down — the macro pattern that separates Diamond plateau from Elite climb. Particularly useful for spotting whether your mobility chain rotations were proactive or reactive.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/fn-plat-to-diamond.html' },
       { name: 'How to Climb from Elite to Champion', url: '/blog/fn-elite-to-champion.html' },
@@ -7557,7 +7557,7 @@ const FN_POSTS_GAPS = [
       'Reactive mobility item use.',
     ],
     drill: { heading: 'Drill: 90-day FNCS pro VOD + aim regimen', html: `<p>90 days of 90 min daily aim + 1 FNCS match per day. By day 90 you have a 100-pattern library AND your aim is at Champion benchmarks. Track weekly: headshot rate per weapon, top-3 placement rate, session win rate.</p><p>If aim numbers plateau at Elite benchmarks for 4+ weeks, the issue is sensitivity, ergonomics, or technique. Get a coach review or try a sensitivity audit (compare to pro players' eDPI numbers).</p>` },
-    aiVodMention: `<p>At Champion the gaps are subtle. <a href="${SITE_URL}/#/vod">Recon 6 AI VOD review</a> compares your decision patterns against FNCS-tier reads. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Elite plateau from Champion ceiling.</p>`,
+    aiVodMention: `<p>At Champion the gaps are subtle. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> compares your decision patterns against FNCS-tier reads. Useful for finding the rounds where you knew the right call but committed to the wrong one — the exact pattern separating Elite plateau from Champion ceiling.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Elite', url: '/blog/fn-diamond-to-elite.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -7657,7 +7657,7 @@ const RL_POSTS = [
       heading: 'Drill: Free Play, 15 minutes of ball cam + small pads',
       html: `<p>Hit Training → Free Play. Spend 15 minutes driving around the field, ball cam locked on, only grabbing small pads. Don't touch the ball. Goal: ball cam becomes invisible. By the end you'll instinctively look at the ball, even when grabbing pads behind you. Repeat daily for a week.</p>`,
     },
-    aiVodMention: `<p>Stuck on the same mistake every match? Drop a screenshot from your last ranked game — <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck on the same mistake every match? Drop a screenshot from your last ranked game — <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
@@ -7750,7 +7750,7 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Half-Flip + Rotation (Free Play)',
       html: `<p>Free Play, 10 minutes daily for a week: 50 half-flips off the back wall, then run the rotation cycle solo (drive corner → mid → corner → repeat). By day 7 your half-flip lands clean every time and your rotation muscle memory feels automatic. This is the single highest-value drill at Silver.</p>`,
     },
-    aiVodMention: `<p>If your rotations feel right but you keep losing — <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>If your rotations feel right but you keep losing — <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Bronze to Silver', url: '/blog/rl-bronze-to-silver.html' },
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
@@ -7843,7 +7843,7 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Aerial Training (Beginner pack)',
       html: `<p>Search "Aerial Training - Beginner" in custom training. 50 shots per day for a week. Goal: hit 35+/50 by day 7. Combines fast aerial + ball direction + recovery in one practice loop. Pair with 10 minutes of figure-8 power-slides in Free Play. By the end of the week the mechanics are loaded.</p>`,
     },
-    aiVodMention: `<p>Mechanics feel locked but you keep getting outplayed? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Mechanics feel locked but you keep getting outplayed? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Silver to Gold', url: '/blog/rl-silver-to-gold.html' },
       { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
@@ -7946,7 +7946,7 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Speedflip Trainer + 100 aerial reps daily',
       html: `<p>Search "Speedflip Trainer" in workshop maps (BakkesMod required on PC, custom training on console). 100 speedflip attempts per day for two weeks. Track success rate. Goal: 80%+ clean speedflips by week 2. Pair with the "Aerial Shots Intermediate" custom training pack — 50 reps daily. By week 2 the speedflip + aerial accuracy combo is loaded.</p>`,
     },
-    aiVodMention: `<p>Speedflip won't lock in? Aerials still inconsistent? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Speedflip won't lock in? Aerials still inconsistent? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Gold to Platinum', url: '/blog/rl-gold-to-platinum.html' },
       { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
@@ -8047,7 +8047,7 @@ const RL_POSTS = [
       heading: 'Drill: Workshop Striker Drill 2.0 (60 mins daily)',
       html: `<p>Search "Striker Drill 2.0" in BakkesMod workshop maps (PC) or use the equivalent "Tournament Custom Training" pack on console. 60 minutes daily for 14 days. Drill covers speedflip, aerial accuracy, redirect shots, and rotation reads. Track shot conversion %. Goal: 60%+ shot conversion by day 14. Pair with one ranked-tournament VOD per day — watch how Champion-level players rotate after every touch.</p>`,
     },
-    aiVodMention: `<p>Champion gap won\'t close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank — often it's not mechanics but a rotation or boost-denial pattern. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Champion gap won\'t close? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic is capping your rank — often it's not mechanics but a rotation or boost-denial pattern. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Plat to Diamond', url: '/blog/rl-platinum-to-diamond.html' },
       { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
@@ -8152,7 +8152,7 @@ const RL_POSTS = [
       heading: 'Drill: BakkesMod Air-Dribble Trainer + 1 RLCS match/day',
       html: `<p>BakkesMod (PC) or custom training packs (console) — search "Air Dribble Single" pack. 50 reps daily for two weeks. Goal: 30/50 clean by day 14. Pair with 1 RLCS VOD per day — pause every minute and predict the play. By day 14 you have an air-dribble threat AND a 14-pattern pro library. That's the GC-tier package.</p>`,
     },
-    aiVodMention: `<p>Air dribbles inconsistent? Pre-positioning still feels random? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic or read is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Air dribbles inconsistent? Pre-positioning still feels random? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic or read is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Diamond to Champion', url: '/blog/rl-diamond-to-champion.html' },
       { name: 'How to Climb from GC to SSL', url: '/blog/rl-gc-to-ssl.html' },
@@ -8256,7 +8256,7 @@ const RL_POSTS = [
       heading: 'Drill: BakkesMod Pro Training Pack (90 mins daily) + 1 RLCS VOD',
       html: `<p>BakkesMod\'s "Pro Training" pack: flip resets, musty flicks, pinch pass setups, double-touch aerials. 90 minutes daily for 60 days. Goal: land flip reset in ranked 1/3 attempts, pinch attempts 1/5, musty flicks 50%. Pair with 1 RLCS Grand Finals VOD per day, pausing every minute to predict the play. By day 60 you have a complete SSL-tier mechanical package AND a 60-clip pro pattern library. Most SSL climbers take 6-12 months at this drill volume; the consistency matters more than intensity.</p>`,
     },
-    aiVodMention: `<p>SSL gap won\'t close? Mechanics solid but games slip away in closeout? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic, read, or closeout pattern is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>SSL gap won\'t close? Mechanics solid but games slip away in closeout? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your screenshots</a> and tells you exactly which mechanic, read, or closeout pattern is capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'How to Climb from Champion to GC', url: '/blog/rl-champion-to-gc.html' },
       { name: 'Recon 6 Blog — All Rank-Up Guides', url: '/blog/' },
@@ -8344,7 +8344,7 @@ const LOL_POSTS = [
 </ul>
 <p>By day 14 you'll be in Bronze. Most Iron players stay because they refuse to drill fundamentals — they keep playing for fun and losing.</p>`,
     },
-    aiVodMention: `<p>Stuck despite drilling fundamentals? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews your match screenshots</a> and flags the exact CS gap, vision pattern, or fight commitment that's capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck despite drilling fundamentals? <a href="${SITE_URL}/vod">Recon 6 Pro reviews your match screenshots</a> and flags the exact CS gap, vision pattern, or fight commitment that's capping your rank. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
       { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
@@ -8466,7 +8466,7 @@ const LOL_POSTS = [
       heading: 'Drill: 1 S-tier pick per role per week',
       html: `<p>Pick one S-tier champ from this list. Play 20 ranked games on it. Don't deviate. Track win rate per week. By month 4 you've mastered 5 S-tier picks across roles and you can flex into any role solo Q forces you into. This is the climbing path — not "play whatever champ I like."</p>`,
     },
-    aiVodMention: `<p>Got the picks right but still losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags specific lane phase mistakes (CS gap, wave management, gank windows). Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Got the picks right but still losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags specific lane phase mistakes (CS gap, wave management, gank windows). Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
       { name: 'LoL Itemization Guide — Mythics, Components, Build Paths', url: '/blog/lol-itemization-guide.html' },
@@ -8553,7 +8553,7 @@ const LOL_POSTS = [
       heading: 'Drill: Build path consistency for 10 games',
       html: `<p>Pick one champion. Build the same path 10 games in a row. Track win rate. Then swap one item per game and compare. By game 30 you've tested 3 build paths and know which one is highest win rate FOR YOU on that champion. This is how pros build their item knowledge — not by copying OP.GG blindly, but by testing in their solo Q matches.</p>`,
     },
-    aiVodMention: `<p>Build path right but still losing fights? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per team fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Build path right but still losing fights? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per team fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
       { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
@@ -8645,7 +8645,7 @@ const LOL_POSTS = [
 </ul>
 <p>By day 7, you'll have macro instincts that put you at Plat threshold. Mechanics matter less than these habits.</p>`,
     },
-    aiVodMention: `<p>Macro feels right but still hard-stuck Gold? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags fight commit timing, position errors, and team-fight crosshair placement. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Macro feels right but still hard-stuck Gold? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags fight commit timing, position errors, and team-fight crosshair placement. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
       { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
@@ -8708,7 +8708,7 @@ const LOL_POSTS = [
       heading: 'Drill: 10 matchup mastery',
       html: `<p>Pick 10 champions from this list. Play 3 games on each matchup in custom games (vs bot). Goal: feel the lane phase rhythm of each counter. By the end of 30 games you've internalized the counter-pick map and can adapt in champion select.</p>`,
     },
-    aiVodMention: `<p>Counter-pick right but still losing lane? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase positioning, trade timing, and recall windows. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Counter-pick right but still losing lane? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase positioning, trade timing, and recall windows. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'LoL Beginner Guide 2026 — Climb Out of Iron', url: '/blog/lol-beginner-guide-2026.html' },
       { name: 'LoL Champion Tier List 2026 — Best Picks Per Role', url: '/blog/lol-champion-tier-list-2026.html' },
@@ -8807,7 +8807,7 @@ const EAFC_POSTS = [
 </ul>
 <p>By day 14 you're in Division 5. Most Division 10 players stay there because they refuse to drill fundamentals.</p>`,
     },
-    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags formation, tactic, or defending mistakes per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags formation, tactic, or defending mistakes per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'EAFC Best Formations 2026', url: '/blog/eafc-best-formations-2026.html' },
       { name: 'EAFC FUT Chemistry Deep Dive', url: '/blog/eafc-fut-chemistry-guide.html' },
@@ -8879,7 +8879,7 @@ const EAFC_POSTS = [
       heading: 'Drill: One formation per week mastery',
       html: `<p>Pick S-tier 4-2-3-1 Wide. Play 30 Rivals games with it. Don't deviate. Track win rate. Then test A-tier 5-3-2 for the same 30 games. Compare. By month 2 you've mastered 2 formations and know when to swap. Most Division 5 players bounce 5+ formations weekly — that's the climb killer.</p>`,
     },
-    aiVodMention: `<p>Formation right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical execution + player positioning per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Formation right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical execution + player positioning per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
       { name: 'EAFC FUT Chemistry Deep Dive', url: '/blog/eafc-fut-chemistry-guide.html' },
@@ -8958,7 +8958,7 @@ const EAFC_POSTS = [
       heading: 'Drill: Build 3 squads, track win rate',
       html: `<p>Build 3 squads: 1 high-rated low-chem, 1 mid-rated high-chem, 1 mixed-league Hero-bridge. Play 10 Rivals games each. Track win rate. The winning squad shows you chemistry > rating in 2026. Iterate.</p>`,
     },
-    aiVodMention: `<p>Chemistry right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical + player-pick errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Chemistry right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags tactical + player-pick errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
       { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
@@ -9052,7 +9052,7 @@ const EAFC_POSTS = [
 </ul>
 <p>By day 30 you've trained Elite habits. Most Division 5 players plateau because they don't drill consistently.</p>`,
     },
-    aiVodMention: `<p>Elite gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags decision-making, formation choice, or skill move timing errors per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Elite gap won't close? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags decision-making, formation choice, or skill move timing errors per goal. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
       { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
@@ -9131,7 +9131,7 @@ const EAFC_POSTS = [
       heading: 'Drill: 7-day tactic-switching mastery',
       html: `<p>Day 1-2: Set up Custom Tactics 1/2/3 with the presets above. Day 3-4: Play 5 Squad Battle games practicing the switch (Tactic 1 if losing, Tactic 3 if winning last 5 min). Day 5-7: Play 5 Rivals games tracking tactic-switches per match. Target: 3-5 switches per game. By day 7 the switch is muscle memory.</p>`,
     },
-    aiVodMention: `<p>Tactics right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags timing of tactic switches per goal conceded. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Tactics right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags timing of tactic switches per goal conceded. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'EAFC Beginner Guide 2026', url: '/blog/eafc-beginner-guide-2026.html' },
       { name: 'EAFC Best Formations Tier List', url: '/blog/eafc-best-formations-2026.html' },
@@ -9229,7 +9229,7 @@ const TK8_POSTS = [
 </ul>
 <p>By day 14 you're 1st Dan or higher. Most Beginner players stay because they refuse to drill consistently.</p>`,
     },
-    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags specific frame disadvantage or sidestep miss patterns. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags specific frame disadvantage or sidestep miss patterns. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
       { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
@@ -9291,7 +9291,7 @@ const TK8_POSTS = [
       heading: 'Drill: Pick 1 character per month',
       html: `<p>Pick one S-tier character (Hwoarang or Reina recommended for accessibility). Play 100 ranked matches. Track win rate. Then test one A-tier (Jin or Kazuya). Compare. By month 3 you've mastered 2 characters at S/A level and know when to pick which.</p>`,
     },
-    aiVodMention: `<p>Character pick right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags execution / sidestep / Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Character pick right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags execution / sidestep / Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
       { name: 'Tekken 8 BnB Combos Per Character', url: '/blog/tekken-8-bnb-combos-guide.html' },
@@ -9375,7 +9375,7 @@ const TK8_POSTS = [
       heading: 'Drill: 7-day BnB mastery',
       html: `<p>Pick 2 BnB combos for your character. Drill 100 reps per day in Practice Mode for 7 days. By day 7, execution should be 8/10+. Apply in ranked. Track win rate; BnB execution alone gives you 1-2 ranks.</p>`,
     },
-    aiVodMention: `<p>Combos right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags whiff-punish opportunities + defensive sidestep misses. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Combos right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags whiff-punish opportunities + defensive sidestep misses. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
       { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
@@ -9458,7 +9458,7 @@ const TK8_POSTS = [
 </ul>
 <p>By day 30 you've trained Tekken King habits. Most 1st Dan players plateau because they don\'t drill consistently.</p>`,
     },
-    aiVodMention: `<p>Tekken King gap won\'t close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags frame-trap exposure + Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Tekken King gap won\'t close? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags frame-trap exposure + Heat management errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
       { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
@@ -9532,7 +9532,7 @@ const TK8_POSTS = [
       heading: 'Drill: Matchup-specific training',
       html: `<p>Pick one hard matchup (e.g., Hwoarang vs Lili). Play 30 matches against AI/friends with hard-matchup character. Track win rate. By 30 matches you\'ve mapped the punishes + understood timing. Apply in ranked. Repeat for top 5 matchups.</p>`,
     },
-    aiVodMention: `<p>Matchup knowledge right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags character-specific punish opportunities you missed. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Matchup knowledge right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags character-specific punish opportunities you missed. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Tekken 8 Beginner Guide 2026', url: '/blog/tekken-8-beginner-guide-2026.html' },
       { name: 'Tekken 8 Character Tier List 2026', url: '/blog/tekken-8-tier-list-2026.html' },
@@ -9624,7 +9624,7 @@ const PUBG_POSTS = [
   <li><strong>Day 11-14:</strong> Squad coordination ranked games with role assignment.</li>
 </ul>`,
     },
-    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags drop / loot / rotation mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck despite drilling? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags drop / loot / rotation mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
       { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
@@ -9694,7 +9694,7 @@ const PUBG_POSTS = [
       heading: 'Drill: Drop spot mastery per map',
       html: `<p>Pick 1 hot drop per map. Play 10 games landing there. Track squad wipe rate + loot speed. Then pick 1 edge drop per map. Compare. By 60 games you've mapped drop preferences for all 6 maps.</p>`,
     },
-    aiVodMention: `<p>Drop choice right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags loot priority + rotation mistakes per game. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Drop choice right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags loot priority + rotation mistakes per game. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
       { name: 'PUBG Weapon Tier List 2026', url: '/blog/pubg-weapon-tier-list-2026.html' },
@@ -9787,7 +9787,7 @@ const PUBG_POSTS = [
       heading: 'Drill: Recoil training per weapon',
       html: `<p>Training Mode practice: 100 bullets fired per weapon, recoil pattern memorized. M416 / AKM / Beryl recoil patterns are different — drill each separately. Goal: full 30-round mag headshot at 50m range.</p>`,
     },
-    aiVodMention: `<p>Loadout right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags engagement-range mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Loadout right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags engagement-range mistakes. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
       { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
@@ -9867,7 +9867,7 @@ const PUBG_POSTS = [
   <li><strong>Week 4:</strong> Squad coordination calls regimen — track call count per match.</li>
 </ul>`,
     },
-    aiVodMention: `<p>Gold gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags rotation + 3rd-party timing errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Gold gap won't close? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags rotation + 3rd-party timing errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
       { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
@@ -9942,7 +9942,7 @@ const PUBG_POSTS = [
       heading: 'Drill: Custom games endgame practice',
       html: `<p>Custom games with 4-stack squad. Drop in pre-final circle position. Practice 4v4 vs 4v4 in final 2 circles. Track wipe rate. Repeat 30 games. By game 30 you've practiced endgame instincts that win Chicken Dinners.</p>`,
     },
-    aiVodMention: `<p>Final circle losses? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + grenade chain errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Final circle losses? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + grenade chain errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'PUBG Beginner Guide 2026', url: '/blog/pubg-beginner-guide-2026.html' },
       { name: 'PUBG Best Drop Spots Per Map', url: '/blog/pubg-best-drops-2026.html' },
@@ -10041,7 +10041,7 @@ const DOTA2_POSTS = [
   <li><strong>Day 11-14:</strong> Practice smoke gank coordination + lane phase.</li>
 </ul>`,
     },
-    aiVodMention: `<p>Stuck? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags last-hit + warding + rotation errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Stuck? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags last-hit + warding + rotation errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
       { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
@@ -10135,7 +10135,7 @@ const DOTA2_POSTS = [
       heading: 'Drill: Master 5 S-tier picks per month',
       html: `<p>Pick 5 S-tier heroes from this list. Play 20 ranked games on each. Track win rate. By month 4 you've mastered 5 picks across positions and can flex into any role solo Q forces.</p>`,
     },
-    aiVodMention: `<p>Hero picks right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + mid-game decision errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Hero picks right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + mid-game decision errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
       { name: 'Dota 2 Position 1-5 Item Builds', url: '/blog/dota-2-item-builds-guide.html' },
@@ -10214,7 +10214,7 @@ const DOTA2_POSTS = [
       heading: 'Drill: Build path testing',
       html: `<p>Pick 1 hero. Play 10 games with same build path. Then test 1 alternative item. Track win rate. By 30 games you've tested 3 paths and know which is highest win rate for your playstyle.</p>`,
     },
-    aiVodMention: `<p>Build right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Build right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags positioning + ability sequence errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
       { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
@@ -10296,7 +10296,7 @@ const DOTA2_POSTS = [
   <li><strong>Week 4:</strong> Mid-game 5-man team fight practice.</li>
 </ul>`,
     },
-    aiVodMention: `<p>Archon gap won't close? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + Rosh timing + smoke gank errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Archon gap won't close? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags lane phase + Rosh timing + smoke gank errors. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
       { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },
@@ -10379,7 +10379,7 @@ const DOTA2_POSTS = [
       heading: 'Drill: 7-day warding regimen',
       html: `<p>Play 10 ranked games as Pos 5 Crystal Maiden. Goal: 50+ wards placed per game. Track ward stat at end of match. By game 10 ward placement is muscle memory.</p>`,
     },
-    aiVodMention: `<p>Wards right but losing? <a href="${SITE_URL}/#/vod">Recon 6 Pro reviews match screenshots</a> and flags vision gaps + smoke gank errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
+    aiVodMention: `<p>Wards right but losing? <a href="${SITE_URL}/vod">Recon 6 Pro reviews match screenshots</a> and flags vision gaps + smoke gank errors per fight. Founding rate $9/mo, locked for life if you join before May 31.</p>`,
     relatedLinks: [
       { name: 'Dota 2 Beginner Guide 2026', url: '/blog/dota-2-beginner-guide-2026.html' },
       { name: 'Dota 2 Hero Tier List 2026', url: '/blog/dota-2-hero-tier-list-2026.html' },

@@ -2,7 +2,7 @@
 // Generates public/countdown/index.html — a static, crawlable countdown to the
 // next R6 season. Proven recurring-search play ("when is the next r6 season"):
 // the page ranks, the countdown brings players back every season, and the
-// content funnels into /#/strats and /#/operators where the product lives.
+// content funnels into /strats and /operators where the product lives.
 //
 // ── SEASONAL MAINTENANCE (one-line update) ──────────────────────────────────
 // When Ubisoft confirms the next season's date (or a new season goes live),
@@ -115,11 +115,11 @@ const html = `<!doctype html>
   <h2>How to spend the time left this season</h2>
   <p>Season resets compress your MMR toward the middle — the players who climb fastest after a reset are the ones who fixed their fundamentals <em>before</em> it. Two honest suggestions:</p>
   <ul>
-    <li>Learn the ranked pool properly: <a href="/#/strats">site-by-site strats for every ranked map</a> — free tier covers the whole pool.</li>
-    <li>Find out what actually costs you rounds: <a href="/#/vod">drop a screenshot for an AI breakdown</a>, or browse the <a href="/#/operators">operator index</a> and <a href="/#/meta">live meta board</a>.</li>
+    <li>Learn the ranked pool properly: <a href="/strats">site-by-site strats for every ranked map</a> — free tier covers the whole pool.</li>
+    <li>Find out what actually costs you rounds: <a href="/vod">drop a screenshot for an AI breakdown</a>, or browse the <a href="/operators">operator index</a> and <a href="/meta">live meta board</a>.</li>
   </ul>
 
-  <div class="cta"><strong>Playing ranked tonight?</strong> <a href="/#/live">RECON6's Live Coach</a> calls bans, picks, and site setups in real time — updated for every patch this season.</div>
+  <div class="cta"><strong>Playing ranked tonight?</strong> <a href="/live">RECON6's Live Coach</a> calls bans, picks, and site setups in real time — updated for every patch this season.</div>
 
   <footer>Season facts sourced from Ubisoft's official Year 11 roadmap. Countdown target is our estimate until Ubisoft confirms the date. <a href="/">RECON6</a> · <a href="/blog/">Blog</a></footer>
 </div>

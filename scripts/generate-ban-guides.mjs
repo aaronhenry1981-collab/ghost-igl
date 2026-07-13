@@ -75,7 +75,7 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd }
     <footer>
       <p>Recon 6 — AI-powered coaching for Rainbow Six Siege.<br>
       Operator names are property of Ubisoft Entertainment. Fan-made, not affiliated with Ubisoft.</p>
-      <p><a href="${SITE_URL}/#/strats">Open the interactive strats tool →</a></p>
+      <p><a href="${SITE_URL}/strats">Open the interactive strats tool →</a></p>
     </footer>
   </div>
 </body>

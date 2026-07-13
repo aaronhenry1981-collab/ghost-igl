@@ -14,7 +14,7 @@ import './EmbedMatchPrepPage.css'
 // code" UI further down on the public page):
 //
 //   <iframe
-//     src="https://r6coaching.com/#/embed/match-prep/bank"
+//     src="https://r6coaching.com/embed/match-prep/bank"
 //     width="100%" height="600" frameborder="0"
 //     title="R6 Bank match prep — Recon 6">
 //   </iframe>
@@ -46,7 +46,7 @@ export default function EmbedMatchPrepPage() {
           <strong>Map not found:</strong> {mapId}
           <div className="embed-err-sub">
             Embed URLs follow <code>/embed/match-prep/&lt;map-id&gt;</code> — see the full map list at{' '}
-            <a href="https://r6coaching.com/#/match-prep" target="_blank" rel="noreferrer noopener">r6coaching.com</a>.
+            <a href="https://r6coaching.com/match-prep" target="_blank" rel="noreferrer noopener">r6coaching.com</a>.
           </div>
         </div>
       </div>
@@ -127,11 +127,11 @@ export default function EmbedMatchPrepPage() {
 
       <footer className="embed-foot">
         Powered by{' '}
-        <a href={`https://r6coaching.com/#/match-prep/${mapId}`} target="_blank" rel="noreferrer noopener">
+        <a href={`https://r6coaching.com/match-prep/${mapId}`} target="_blank" rel="noreferrer noopener">
           <strong>Recon 6</strong> — AI-powered R6 coaching
         </a>
         {' · '}
-        <a href={`https://r6coaching.com/#/live`} target="_blank" rel="noreferrer noopener">
+        <a href={`https://r6coaching.com/live`} target="_blank" rel="noreferrer noopener">
           In-match walkthrough →
         </a>
       </footer>

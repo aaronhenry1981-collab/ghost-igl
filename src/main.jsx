@@ -1,6 +1,6 @@
 import { StrictMode, Component, useEffect, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createHashRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom'
 import './index.css'
 import './App.css'
 import './styles/polish.css'
@@ -144,7 +144,7 @@ function RedirectToSection({ sectionId }) {
   return null
 }
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
