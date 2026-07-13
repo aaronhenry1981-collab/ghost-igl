@@ -226,6 +226,34 @@ async function sendMail(to, subject, body) {
   }
 }
 
+// Send with a real .ics attachment (a proper "add to calendar" file, not
+// inline text) via a raw MIME message. Falls back to plain sendMail on error.
+async function sendMailWithIcs(to, subject, body, ics, filename = 'recon6-session.ics') {
+  const boundary = '=_recon6_' + crypto.randomBytes(8).toString('hex')
+  const icsB64 = Buffer.from(ics, 'utf8').toString('base64').replace(/(.{76})/g, '$1\r\n')
+  const raw = [
+    `From: ${FROM}`, `To: ${to}`, `Subject: ${subject}`, 'MIME-Version: 1.0',
+    `Content-Type: multipart/mixed; boundary="${boundary}"`, '',
+    `--${boundary}`, 'Content-Type: text/plain; charset=UTF-8', 'Content-Transfer-Encoding: 7bit', '', body, '',
+    `--${boundary}`,
+    `Content-Type: text/calendar; charset=UTF-8; method=REQUEST; name="${filename}"`,
+    'Content-Transfer-Encoding: base64',
+    `Content-Disposition: attachment; filename="${filename}"`, '', icsB64, '',
+    `--${boundary}--`, '',
+  ].join('\r\n')
+  try {
+    await ses.send(new SendEmailCommand({
+      FromEmailAddress: FROM,
+      Destination: { ToAddresses: [to] },
+      Content: { Raw: { Data: Buffer.from(raw, 'utf8') } },
+    }))
+    return true
+  } catch (err) {
+    console.warn(`ics mail failed → ${to}: ${err.name} — falling back to plain`)
+    return sendMail(to, subject, body)
+  }
+}
+
 function icsFor(slotId, minutes, summary, description) {
   const dt = (iso) => iso.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z').replace(/Z$/, 'Z')
   const end = new Date(Date.parse(slotId) + minutes * 60000).toISOString().replace(/\.\d{3}Z$/, 'Z')
@@ -279,17 +307,15 @@ Where: Discord (you'll get a DM before the session — make sure you've joined: 
 
 Come with 2-3 clips or screenshots of rounds you lost — that's the raw material.
 
-Add to Google Calendar: ${gcal}
-
-Apple/Outlook (.ics):
-----------------------------------------
-${ics}
-----------------------------------------
+Your calendar invite is attached (recon6-session.ics) — open it to add the
+session to Apple/Outlook/Google Calendar.
+Prefer a one-click Google link? ${gcal}
 
 ${manageLinks(item.manageToken)}
 
 Aaron — Recon 6`
-  const sentCustomer = await sendMail(item.customer.email, `Booked: ${title}`, customerBody)
+  // Real .ics attachment so "add to calendar" works in one tap.
+  const sentCustomer = await sendMailWithIcs(item.customer.email, `Booked: ${title}`, customerBody, ics)
   for (const a of ALERT_EMAILS) {
     await sendMail(a, `BOOKING: ${item.sessionType || 'Free Intro'} — ${item.slotId}`,
       `New booking.\n\nSlot: ${item.slotId}\nType: ${item.sessionType}\nName: ${item.customer.name}\nEmail: ${item.customer.email}\nDiscord: ${item.customer.discord || '-'}\nRank/goal: ${item.customer.rank_goal || '-'}\nTZ: ${item.customer.tz || '-'}\nNotes: ${item.customer.notes || '-'}\n\nAdd to Google: ${gcal}\n\nCustomer confirmation ${sentCustomer ? 'sent' : 'HELD BY SES SANDBOX — reach out manually'}.`)
