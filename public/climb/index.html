@@ -373,32 +373,49 @@ const TIERS = [
 }
 ];
 
-/* ================= STORAGE ================= */
+/* ================= STORAGE =================
+   Signed-in users sync to their account (recon6-climb-progress via the Cognito
+   id token in localStorage) so the climb follows them across devices; everyone
+   else falls back to localStorage. localStorage is always kept as an offline
+   cache. (Replaces the old window.storage bridge that never existed.) */
 const KEY = "c2c-progress";
+const API = "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod";
+const COGNITO_CLIENT_ID = "5bpa1cteenctoue24v4e245re8";
 let state = { checks:{}, open:{copper:true} };
 let storageMode = "memory";
 
-async function loadState(){
+function getIdToken(){
   try{
-    if(window.storage){
-      const r = await window.storage.get(KEY);
-      if(r && r.value){ state = JSON.parse(r.value); }
-      storageMode = "cloud";
-      return;
-    }
-  }catch(e){ /* key missing or unavailable — keep defaults */ 
-    if(window.storage){ storageMode = "cloud"; return; }
+    var u = localStorage.getItem("CognitoIdentityServiceProvider." + COGNITO_CLIENT_ID + ".LastAuthUser");
+    if(!u) return null;
+    return localStorage.getItem("CognitoIdentityServiceProvider." + COGNITO_CLIENT_ID + "." + u + ".idToken");
+  }catch(e){ return null; }
+}
+
+async function loadState(){
+  const token = getIdToken();
+  if(token){
+    try{
+      const r = await fetch(API + "/me/climb-progress", { headers: { Authorization: "Bearer " + token } });
+      if(r.ok){
+        const d = await r.json();
+        if(d && d.progress){ state = d.progress; }
+        else { try{ const raw = localStorage.getItem(KEY); if(raw){ state = JSON.parse(raw); } }catch(e){} } // first cloud load: seed from any local progress
+        storageMode = "cloud";
+        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        return;
+      }
+    }catch(e){ /* network — fall back to local */ }
   }
   try{
     const raw = localStorage.getItem(KEY);
     if(raw){ state = JSON.parse(raw); }
     storageMode = "local";
   }catch(e){ storageMode = "memory"; }
-  // LEAD CAPTURE (2026-07-06): no cloud storage = not signed in. Progress
-  // lives in this browser only — soft prompt to create a free account so the
-  // climb survives across devices. Dismiss persists; never nags twice.
+  // LEAD CAPTURE (2026-07-06): not signed in = browser-only progress. Soft
+  // prompt to create a free account so the climb survives across devices.
   try{
-    if(storageMode !== "cloud" && !localStorage.getItem("c2c-account-prompt-dismissed")){
+    if(!token && !localStorage.getItem("c2c-account-prompt-dismissed")){
       const bar = document.createElement("div");
       bar.style.cssText = "position:sticky;top:0;z-index:50;background:#141A21;border-bottom:1px solid #F2A71B;padding:10px 16px;font-family:Barlow,sans-serif;font-size:.9rem;color:#DCE3EA;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap";
       bar.innerHTML = 'Your progress saves in this browser only. <a href="/auth?mode=signup" style="color:#F2A71B;font-weight:700">Create a free account</a> to keep your climb across devices. <button style="background:none;border:none;color:#8B98A5;cursor:pointer;font-size:1.1rem" aria-label="Dismiss">×</button>';
@@ -409,10 +426,11 @@ async function loadState(){
 }
 async function saveState(){
   const raw = JSON.stringify(state);
-  try{
-    if(storageMode === "cloud" && window.storage){ await window.storage.set(KEY, raw); return; }
-  }catch(e){}
-  try{ localStorage.setItem(KEY, raw); }catch(e){}
+  try{ localStorage.setItem(KEY, raw); }catch(e){} // always cache locally
+  const token = getIdToken();
+  if(token){
+    try{ await fetch(API + "/me/climb-progress", { method:"PUT", headers:{ "Content-Type":"application/json", Authorization:"Bearer " + token }, body: JSON.stringify({ progress: state }) }); }catch(e){}
+  }
 }
 
 /* ================= RENDER ================= */
