@@ -496,7 +496,7 @@ export default function LandingPage() {
             A human coach backed by a full AI staff: VOD breakdowns of your actual rounds,
             death-cause tracking across sessions, and live ranked plans for every map and site.
             The AI finds what's costing you rounds — your coach fixes it with you.
-            First session is free, console and PC, any rank.
+            First session is 50% off — $20, console and PC, any rank.
           </p>
           {/* COACHING-FIRST (2026-07-06 master command): the paid-intro CTA is
               primary; the AI VOD demo stays co-primary as the try-it-now path.
