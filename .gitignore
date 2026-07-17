@@ -36,3 +36,6 @@ scripts/update-discord-params.ps1
 
 # Linux fuse artifacts (OneDrive/WSL cruft) - never commit
 .fuse_hidden*
+
+# SAM build cache - machine-specific absolute paths, never commit
+.aws-sam/
