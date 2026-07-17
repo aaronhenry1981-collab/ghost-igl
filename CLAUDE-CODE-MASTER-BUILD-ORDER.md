@@ -6,7 +6,13 @@ Execute these in order. Each has its own detailed command file in this folder �
 - **Never `sam deploy`** — template drift wipes the live Stripe webhook `whsec_`. Lambda changes are per-function zips + `aws lambda update-function-configuration`.
 - **Never touch the Cognito User Pool** (`us-east-1_rvLy8WLQB`). Everything additive. Before calling any task done, verify an existing user can still log in.
 - `.\deploy.ps1` for the site (build + S3 sync + CloudFront invalidate). Lint 0. Never paste secrets.
-- One agent on `ghost-igl` at a time (it's OneDrive-synced; concurrent agents corrupt files).
+- **THE REPO MOVED 2026-07-17 → `C:\IronFront_Master\ghost-igl`** (beside `aim-coach`). It was in
+  `OneDrive\Desktop\ghost-igl`, where OneDrive generated 50 `.fuse_hidden` sync-conflict artifacts
+  *inside* `src/components/`. That old folder is now a **stale backup — do NOT work in it.** If you
+  are reading this from an `OneDrive\Desktop\` path, stop and switch. Run `npm install` once in the
+  new clone (node_modules isn't tracked); `.env`/`.env.production` were carried across by hand.
+- One agent on `ghost-igl` at a time — concurrent agents race the git index (`index.lock`) and
+  corrupt work. This is still true off OneDrive; it was never only a sync problem.
 - Commit after each task so they're isolated and rebaseable.
 
 ---
