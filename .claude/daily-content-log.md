@@ -98,6 +98,30 @@ Notes: T+63, founding window closed. Fresh maps this run: Emerald Plains Kitchen
 
 ---
 
+## 2026-07-13 (T+66 from May 8 launch)
+
+- **Tactical** — "Clubhouse Church dies from the Arsenal hatch, not the fro…"
+- **Founding urgency** — SKIPPED (window closed May 8; social-proof/free-trial framing)
+- **Reply-guy hook** — "Most Kanal defenders split Server and Radar and lose both…"
+- **Discord (new-strat announce + engagement Q)** — "**New breakdown live: Clubhouse Church/Arsenal defense.**…"
+- **Reply-guy line (org engagement)** — "Melusi banshees slow, they don't stop. Put one in the ope…"
+
+Notes: T+66, founding window closed. Fresh maps this run: Clubhouse Church/Arsenal (hatch-first reinforce + two-anchor split — also fills the Church content gap in CLAUDE.md) and Kanal Server/Radar (commit-one-site take). Tweet 2 replaced with 30-day free-trial social proof (Stripe-verified); deliberately made NO claim IGL Command has shipped. Reply-guy line = Melusi banshee placement — fresh operator (not repeated). Discord rotated to new-strat announce (07-11 was the hero/Gold-climb story). No maps/sites/operators repeated from prior runs.
+
+---
+
+## 2026-07-14 (T+67 from May 8 launch)
+
+- **Tactical** — "Bank Tellers dies from the CCTV hatch, not the counter. …"
+- **Founding urgency** — SKIPPED (window closed May 8; 30-day free-trial social proof instead)
+- **Reply-guy hook** — "Most Theme Park defenders overload Throne Room and let A…"
+- **Discord (Champion-value feature highlight)** — "**Champion tip you're sleeping on:** every site breakdow…"
+- **Reply-guy line (org engagement)** — "Lesion Gu mines are recon before they're damage. Spread …"
+
+Notes: T+67, founding window closed. Fresh maps/operators this run: Bank Tellers (CCTV-hatch reinforce priority, Azami stairwell denial + Goyo plant — also fills the Bank Tellers content gap in CLAUDE.md), Theme Park Throne/Armory (hatch + Bunk-rotate hold), Border Armory runout (Champion premium-tactics example). Tweet 2 = 30-day free-trial social proof (Stripe-verified); deliberately made NO claim IGL Command has shipped. Discord rotated to Champion-value highlight (last was 07-07, a week ago) to support briefing goal of converting the $29 tier. Reply-guy line = Lesion Gu recon-placement — fresh operator. No maps/sites/operators repeated from prior runs.
+
+---
+
 ## 2026-07-11 (T+64 from May 8 launch)
 
 - **Hero story (X, your channel)** — "just hit gold running the ai coach i've been building… it told me my aim was never the problem. 53% hs. every leak was a decision." → CTA: 30-day free trial. Approved to post as-is.
@@ -109,3 +133,17 @@ Notes: T+63, founding window closed. Fresh maps this run: Emerald Plains Kitchen
 - **Reply-guy line** — NONE generated. Correction applied: no pre-written promo for anyone else's server. Facts only; Aaron writes the sentence himself in-context.
 
 Notes: T+64. Angle this run is the REAL Gold-climb story (primary-source, not tactical filler) — do NOT retell "aim was fine" three ways this week; rotate to a different data point (clutch % or K/D trend) next run. **Trial verified live in Stripe this session**: both RECON6 payment links carry `trial_period_days:30` + `payment_method_collection:always`, attached to founding prices ($9 Pro / $29 Champion) — checkout matches site copy, safe to promote. Clips are local only (nothing uploaded). Clock clips 02/04/05 held as B-roll.
+
+---
+
+## 2026-07-17 (T+70 from May 8 launch)
+
+- **Tactical** — "Bank basement: place the Mute jammer where attackers can'…"
+- **Founding urgency** — SKIPPED (window closed May 8). Replaced with **free-tier / no-card** angle: "You don't need a card to see if it's any good. Free tie…"
+- **Reply-guy hook** — "Most Echos burn both Yokai charges concussing the entry a…"
+- **Discord (debate / hot-take format)** — "**Hot take: basement sites are the easiest sites in the g…"
+- **Reply-guy line (org engagement)** — "Most Valk cams die because they're stuck facing the way a…" — delivered as a TALKING POINT, not a paste-ready script (per the 2026-07-02 no-ghostwriting rule).
+
+Notes: T+70, founding window closed. Fresh maps/operators: Bank Basement (Mute jammer line-of-sight vs Twitch — also fills the Bank basement Tier-1 content gap in CLAUDE.md), Echo/Yokai plant-timer, Valkyrie cam facing. No maps/sites/operators repeated. Tweet 2 rotated OFF the 30-day trial (used 07-13 AND 07-14 back-to-back) onto the free tier — card-up-front is the trial's friction, free tier has none. Deliberately avoided the "X dies from the hatch, not the wall" hook (used 4x) and the "reinforce the wrong wall first" pattern. Discord used debate format (new) and deliberately did NOT announce a Bank basement drop — that content does not exist on the site yet, so an announce would be a false claim.
+
+**VERIFIED THIS RUN — desktop app is NOT shipped, and prod has a live bug.** `aws s3 ls s3://r6coaching.com-site/downloads/` → empty; the installer was never uploaded. `curl -I` on the download URL → HTTP 200 but `Content-Type: text/html`, 13842 bytes (CloudFront SPA fallback serving index.html, masking a 404). But `.env.production` sets `VITE_DOWNLOAD_URL`, so the DEPLOYED `DownloadPage-DvTMHLdK.js` renders "Download for Windows" to Champion + admin users → they download a 13 KB HTML file named `.exe`. Flagged at the top of today's Gmail draft; NOT fixed/deployed (deploy ships the whole working tree, which is dirty). Memory `igl_command_status.md` corrected — it had wrongly claimed v1.0.0 was live. Confirms the 07-10/07-13/07-14 no-shipped-claim stance was right, and that the 05-13 / 05-15 / 06-19 posts asserting the app was live were inaccurate.
