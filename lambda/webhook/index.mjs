@@ -131,6 +131,30 @@ async function subHasGhostIglCustomer(customerId) {
   return (row.Items?.length || 0) > 0
 }
 
+// DUPLICATE-SIGNUP GUARD — Stripe payment links create a NEW customer per
+// checkout, so one person can complete checkout repeatedly and pile up parallel
+// subscriptions. Real incident 2026-07-17: fraser2506@gmail.com held 3 Champion
+// trials across 3 customer IDs → a pending 3× bill. Idempotency (last_processed_
+// event_id) stops the same EVENT twice; it does nothing against the same PERSON
+// checking out twice. This finds a pre-existing live sub of the SAME plan for the
+// same email so the new one can be cancelled before it ever bills.
+//   Same-plan only: an upgrade to a DIFFERENT plan (pro -> champion) is legitimate.
+//   Live only: a resubscribe after a real cancellation (old row 'canceled') is legitimate.
+async function findDuplicateActiveSub(email, plan, excludeSubId) {
+  if (!email) return null
+  const res = await ddb.send(new QueryCommand({
+    TableName: TABLE,
+    IndexName: 'email-index',
+    KeyConditionExpression: 'email = :e',
+    ExpressionAttributeValues: { ':e': email },
+  }))
+  return (res.Items || []).find((r) =>
+    r.plan === plan &&
+    r.stripe_subscription_id && r.stripe_subscription_id !== excludeSubId &&
+    (r.status === 'active' || r.status === 'trialing' || r.status === 'past_due')
+  ) || null
+}
+
 async function handleCheckout(session, eventId) {
   // RECON6 coaching = one-time payment with a booking slot in metadata. Confirm
   // the held slot via the booking API and stop — this is NOT an app sub. The
@@ -155,6 +179,41 @@ async function handleCheckout(session, eventId) {
   if (!plan) {
     console.log(`Skipping non-Ghost-IGL checkout: sub=${subscriptionId} price=${item?.price?.id}`)
     return
+  }
+
+  // Duplicate-signup guard (see findDuplicateActiveSub). If this email already has
+  // a LIVE sub of the SAME plan, this checkout is a repeat — cancel the new one so
+  // the customer is never multi-billed, record it as canceled for the audit trail,
+  // and stop (they already have the account/referral/credits from the first).
+  // Fails OPEN: if the check errors, fall through to normal processing — a rare
+  // dupe is recoverable; a broken checkout loses a paying customer.
+  try {
+    const dup = await findDuplicateActiveSub(customerEmail?.toLowerCase(), plan, subscriptionId)
+    if (dup) {
+      console.log(`DUPLICATE signup: ${customerEmail} already has ${plan} (${dup.stripe_subscription_id}); cancelling new sub ${subscriptionId}`)
+      await stripe.subscriptions.cancel(subscriptionId)
+      await ddb.send(new PutCommand({
+        TableName: TABLE,
+        Item: {
+          stripe_customer_id: customerId,
+          email: customerEmail?.toLowerCase(),
+          stripe_subscription_id: subscriptionId,
+          plan,
+          tier_scope: tierScope,
+          price_id: item?.price?.id,
+          status: 'canceled',
+          note: `auto-cancelled duplicate signup — already had ${plan} (${dup.stripe_subscription_id})`,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          last_processed_event_id: eventId,
+        },
+        ConditionExpression: 'attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId',
+        ExpressionAttributeValues: { ':evtId': eventId },
+      }))
+      return
+    }
+  } catch (err) {
+    console.error('duplicate-signup guard failed (continuing to normal processing):', err)
   }
 
   // As of API version 2025-10-29.clover, current_period_end moved from the
