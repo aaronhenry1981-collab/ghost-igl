@@ -2612,8 +2612,8 @@ function renderIndex(allPosts) {
     </script>`
 
   const bodyInner = `
-    <h1>Recon 6 Blog — Rank-Up Guides for 20 Competitive Games</h1>
-    <p style="color: rgba(230,233,239,0.8)">Tactical rank-up guides for every supported title. Each guide targets a specific rank gap with characters, callouts, common mistakes, and drills you can run today. Filter by genre below.</p>
+    <h1>Recon 6 Blog — Rainbow Six Rank-Up Guides</h1>
+    <p style="color: rgba(230,233,239,0.8)">Rainbow Six guides for specific rank gaps, maps, operators, callouts, common mistakes, and drills you can run today.</p>
     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 1.5rem 0 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
       ${genreTabs}
     </div>
@@ -2630,7 +2630,7 @@ function renderIndex(allPosts) {
       '@context': 'https://schema.org',
       '@type': 'Blog',
       name: 'Recon 6 Blog',
-      description: 'Tactical rank-up guides for 20 supported competitive games — R6 Siege, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, and more.',
+      description: 'Rainbow Six Siege rank-up, map, operator, callout, and decision-making guides.',
       url: `${SITE_URL}/blog/`,
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
     },
@@ -2645,8 +2645,8 @@ function renderIndex(allPosts) {
   ]
 
   return htmlShell({
-    title: 'Rank-Up Guides for 20 Competitive Games — Recon 6 Blog',
-    description: 'Tactical guides for every rank gap across 20 competitive games — R6, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, Apex, Marvel Rivals, Halo, Finals, CoD, Fortnite, RL, Stadium, Deadlock, Naraka, and NBA 2K.',
+    title: 'Rainbow Six Rank-Up Guides — Recon 6 Blog',
+    description: 'Rainbow Six Siege rank-up guides, map setups, operator decisions, callouts, and drills for winning more rounds.',
     canonical: `${SITE_URL}/blog/`,
     bodyInner,
     jsonLdBlocks,
@@ -10398,7 +10398,9 @@ function main() {
 
   // All supported games + 5 new game clusters (LoL + EAFC + TK8 + PUBG + Dota2 = 25 posts).
   // Total ~98 posts across 16 games.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS, ...RL_POSTS, ...LOL_POSTS, ...EAFC_POSTS, ...TK8_POSTS, ...PUBG_POSTS, ...DOTA2_POSTS]
+  // Keep the researched multi-game inventory in this file, but only publish
+  // Rainbow Six content while Recon6 is positioned as an R6-only product.
+  const allPosts = [...R6_POSTS]
 
   let written = 0
   for (const post of allPosts) {

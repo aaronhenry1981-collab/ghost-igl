@@ -73,6 +73,7 @@ const TEAM_DEPENDENT_OPS = new Set([
   'Thermite', 'Hibana', 'Ace', 'Maverick', 'Kali',          // hard breach
   'Thatcher', 'Twitch', 'IQ', 'Dokkaebi', 'Lion', 'Flores', // support / intel
 ])
+const NO_BANS = new Set()
 
 const QUEUE_SIZE_LABELS = {
   1: 'Solo queue',
@@ -317,7 +318,7 @@ function R6LiveCoach() {
   const banSuggestions = BANS[mapId]
   // Current half's bans drive all filtering — half 1 ops bank doesn't
   // contaminate half 2 recommendations and vice versa.
-  const activeBans = bans[activeHalf - 1] || new Set()
+  const activeBans = useMemo(() => bans[activeHalf - 1] || NO_BANS, [bans, activeHalf])
 
   // Filter operator recommendations: not banned + queue-size compatible
   const recommendedOps = useMemo(() => {

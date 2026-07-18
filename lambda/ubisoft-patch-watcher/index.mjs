@@ -47,9 +47,9 @@ function log(level, event, fields = {}) {
   console.log(JSON.stringify({ level, event, at: new Date().toISOString(), ...fields }))
 }
 
-async function fetchOfficial(url) {
+async function fetchOfficial(url, fetchImpl = fetch) {
   const canonicalUrl = canonicalizeUrl(url)
-  const response = await fetch(canonicalUrl, {
+  const response = await fetchImpl(canonicalUrl, {
     headers: { accept: 'text/html', 'user-agent': USER_AGENT },
     redirect: 'error',
     signal: AbortSignal.timeout(15000),
@@ -62,10 +62,10 @@ async function fetchOfficial(url) {
   return { canonicalUrl, body, contentType }
 }
 
-async function putImmutableSnapshot(bucket, canonicalUrl, body, hash) {
+async function putImmutableSnapshot(client, bucket, canonicalUrl, body, hash) {
   const key = `sources/sha256/${hash}.html`
   try {
-    await s3.send(new PutObjectCommand({
+    await client.send(new PutObjectCommand({
       Bucket: bucket,
       Key: key,
       Body: body,
@@ -79,9 +79,9 @@ async function putImmutableSnapshot(bucket, canonicalUrl, body, hash) {
   return key
 }
 
-async function recordDiscovery(tableName, item) {
+async function recordDiscovery(client, tableName, item) {
   try {
-    await dynamodb.send(new PutItemCommand({
+    await client.send(new PutItemCommand({
       TableName: tableName,
       Item: {
         event_id: { S: item.eventId },
@@ -100,7 +100,14 @@ async function recordDiscovery(tableName, item) {
   }
 }
 
-export async function handler(event = {}, context = {}) {
+export function createHandler({
+  fetchImpl = fetch,
+  dynamodbClient = dynamodb,
+  s3Client = s3,
+  now = () => new Date(),
+  uuid = () => crypto.randomUUID(),
+} = {}) {
+  return async function patchWatcherHandler(event = {}, context = {}) {
   const tableName = process.env.PATCH_EVENTS_TABLE
   const bucket = process.env.PATCH_SNAPSHOTS_BUCKET
   if (!tableName || !bucket) throw new Error('missing_required_configuration')
@@ -115,22 +122,22 @@ export async function handler(event = {}, context = {}) {
   const maxArticles = Math.min(Number(process.env.MAX_ARTICLES || 20), 50)
   const candidates = new Set()
   for (const sourceUrl of requested) {
-    const landing = await fetchOfficial(sourceUrl)
+    const landing = await fetchOfficial(sourceUrl, fetchImpl)
     for (const articleUrl of extractArticleUrls(landing.body, sourceUrl)) {
       if (candidates.size < maxArticles) candidates.add(articleUrl)
     }
   }
 
-  const discoveredAt = new Date().toISOString()
+  const discoveredAt = now().toISOString()
   const discoveries = []
   const errors = []
   for (const articleUrl of candidates) {
     try {
-      const page = await fetchOfficial(articleUrl)
+      const page = await fetchOfficial(articleUrl, fetchImpl)
       const hash = contentHash(page.body)
-      const snapshotKey = await putImmutableSnapshot(bucket, page.canonicalUrl, page.body, hash)
+      const snapshotKey = await putImmutableSnapshot(s3Client, bucket, page.canonicalUrl, page.body, hash)
       const eventId = contentHash(`${page.canonicalUrl}\n${hash}`)
-      const isNew = await recordDiscovery(tableName, {
+      const isNew = await recordDiscovery(dynamodbClient, tableName, {
         eventId,
         canonicalUrl: page.canonicalUrl,
         hash,
@@ -150,7 +157,7 @@ export async function handler(event = {}, context = {}) {
     }
   }
 
-  const runId = context.awsRequestId || crypto.randomUUID()
+  const runId = context.awsRequestId || uuid()
   const output = {
     schemaVersion: 1,
     runId,
@@ -162,7 +169,7 @@ export async function handler(event = {}, context = {}) {
     autoPublish: false,
   }
   const runKey = `runs/${discoveredAt.slice(0, 10).replaceAll('-', '/')}/${runId}.json`
-  await s3.send(new PutObjectCommand({
+  await s3Client.send(new PutObjectCommand({
     Bucket: bucket,
     Key: runKey,
     Body: JSON.stringify(output, null, 2),
@@ -175,5 +182,13 @@ export async function handler(event = {}, context = {}) {
     failures: errors.length,
     runKey,
   })
+  if (errors.length) {
+    const failure = new Error(`patch_watcher_partial_failure:${errors.length}`)
+    failure.cause = errors
+    throw failure
+  }
   return output
+  }
 }
+
+export const handler = createHandler()
