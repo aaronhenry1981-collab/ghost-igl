@@ -333,7 +333,6 @@ const PRICING = [
       '+ A weekly drill list built from your own clips (3–5 specific reps)',
       '+ Every R6 legacy map unlocked (Favela, Fortress, Hereford, House, Kanal)',
       '+ Premium tactics — spawn-kills, runouts, anti-spawn-peek setups',
-      '+ Recon 6 Command desktop app (beta — for power users)',
       '+ Early access to new features',
     ],
   },
@@ -354,7 +353,7 @@ const FAQ = [
   },
   {
     q: 'Will I get banned?',
-    a: 'No. Recon 6 is a website that shows you reference data and reviews screenshots you upload. It does not inject into any game, modify game files, or interact with any game client. The optional Champion-tier desktop app reads your screen via OCR (the same way OBS does) and never touches the game process.',
+    a: 'No. Recon 6 is a website that shows you Rainbow Six reference data and reviews screenshots you upload. It does not inject into the game, modify game files, or interact with the game client.',
   },
   {
     q: 'What does a VOD breakdown actually look like?',
@@ -366,7 +365,7 @@ const FAQ = [
   },
   {
     q: 'Pro or Champion — which one fits me?',
-    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, full-round reviews, and the desktop coach app.',
+    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, full-round reviews, every map, and premium tactics.',
   },
   {
     q: 'How often does the content update?',
@@ -664,7 +663,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">How It Works</div>
           <h2>Start Improving in 4 Steps</h2>
-          <p>No downloads, no plugins, no friction. Open the site, pick your game, climb.</p>
+          <p>No downloads, no plugins, no friction. Open the site, study your Siege rounds, climb.</p>
         </div>
         <div className="steps-grid">
           {STEPS.map((s) => (
@@ -761,7 +760,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">Why Recon 6</div>
           <h2>Recon 6 vs The Competition</h2>
-          <p>Boosting services play your account. Human coaches cost $50+/hour and only know one game. Recon 6 does the work of both for the price of a pizza.</p>
+          <p>Boosting services play your account. Human coaching can cost $50+/hour. Recon 6 helps you find the Siege decisions costing you rounds for the price of a pizza.</p>
         </div>
         <div className="compare-table-wrap">
           <table className="compare-table">

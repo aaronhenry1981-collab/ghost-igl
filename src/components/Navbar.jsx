@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
+
 // Unified top navigation — single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
 // top nav and /strats /dashboard /etc used a sidebar — the layout shift
@@ -139,10 +141,10 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/dashboard')}>Dashboard</button>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
-          {isPro && (
+          {isPro && DESKTOP_APP_RELEASED && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop app</button>
           )}
-          {isPro && (
+          {isPro && DESKTOP_APP_RELEASED && (
             <button type="button" className="nav-more-item" onClick={() => go('/activate')}>Activation</button>
           )}
           {isAdmin && (
@@ -358,7 +360,7 @@ export default function Navbar() {
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
-            {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
+            {isPro && DESKTOP_APP_RELEASED && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
             {isPro && <Link to="/activate" onClick={closeMobile} className="mobile-drawer-link">Activation</Link>}
             {isAdmin && <Link to="/admin" onClick={closeMobile} className="mobile-drawer-link">Admin dashboard</Link>}
             <button
