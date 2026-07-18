@@ -98,7 +98,7 @@ export default function AccountPage() {
     }
   }
 
-  if (authLoading) return <div className="account-page"><p>Loading…</p></div>
+  if (authLoading) return <div className="account-page"><p>Loadingâ€¦</p></div>
   if (!user) return null
 
   // Prefer /me response, fall back to local auth state while loading
@@ -145,7 +145,7 @@ export default function AccountPage() {
               </div>
             )}
             {comp && (
-              <div className="account-muted">Full access · no billing</div>
+              <div className="account-muted">Full access Â· no billing</div>
             )}
           </div>
           <div className="account-plan-actions">
@@ -153,7 +153,7 @@ export default function AccountPage() {
               <Link to="/admin" className="btn btn-primary btn-sm">Open admin</Link>
             ) : isPaid ? (
               <button onClick={openBillingPortal} className="btn btn-primary btn-sm" disabled={portalLoading}>
-                {portalLoading ? 'Opening…' : 'Manage billing'}
+                {portalLoading ? 'Openingâ€¦' : 'Manage billing'}
               </button>
             ) : (
               <button type="button" onClick={goToPricing} className="btn btn-primary btn-sm">See plans</button>
@@ -202,7 +202,7 @@ export default function AccountPage() {
             </div>
             {vodUsage.is_trial && (
               <p style={{ marginTop: 10, fontSize: '0.85rem', color: 'rgba(230,233,239,0.7)' }}>
-                Trial allowance is <strong>3 lifetime sessions</strong> — enough to test the AI on real matches. Subscribe to Pro for 20 sessions per month.
+                Trial allowance is <strong>3 lifetime sessions</strong> â€” enough to test the AI on real matches. Subscribe to Pro for 20 sessions per month.
               </p>
             )}
           </div>
@@ -216,7 +216,7 @@ export default function AccountPage() {
         </p>
 
         {loading ? (
-          <p>Loading profile…</p>
+          <p>Loading profileâ€¦</p>
         ) : (
           <form onSubmit={saveProfile} className="account-form">
             <Field label="Discord handle" placeholder="yourname or yourname#1234">
@@ -246,7 +246,7 @@ export default function AccountPage() {
                   onChange={(e) => setForm({ ...form, platform: e.target.value })}
                   className="account-input"
                 >
-                  <option value="">—</option>
+                  <option value="">â€”</option>
                   {PLATFORMS.map((p) => <option key={p} value={p}>{p}</option>)}
                 </select>
               </Field>
@@ -257,7 +257,7 @@ export default function AccountPage() {
                   onChange={(e) => setForm({ ...form, preferred_server: e.target.value })}
                   className="account-input"
                 >
-                  <option value="">—</option>
+                  <option value="">â€”</option>
                   {SERVERS.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </Field>
@@ -268,7 +268,7 @@ export default function AccountPage() {
                   onChange={(e) => setForm({ ...form, main_role: e.target.value })}
                   className="account-input"
                 >
-                  <option value="">—</option>
+                  <option value="">â€”</option>
                   {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </Field>
@@ -279,7 +279,7 @@ export default function AccountPage() {
 
             <div className="account-form-actions">
               <button type="submit" className="btn btn-primary" disabled={saving}>
-                {saving ? 'Saving…' : 'Save profile'}
+                {saving ? 'Savingâ€¦' : 'Save profile'}
               </button>
             </div>
           </form>
@@ -292,12 +292,12 @@ export default function AccountPage() {
           <AccessItem enabled allow="Map strats, operator picks, community access" />
           <AccessItem enabled={isPaid || isAdmin} allow="Ban targets and pick recommendations matched to your role and rank" note="Pro+" />
           <AccessItem enabled={isPaid || isAdmin} allow="Round-by-round VOD breakdowns from your screenshots" note="Pro+" />
-          <AccessItem enabled={plan === 'champion' || isAdmin} allow="Recon 6 Command desktop app (live capture coaching)" note="Champion" />
+          <AccessItem enabled={false} allow="Desktop live coach" note="Planned â€” not currently available" />
           <AccessItem enabled={plan === 'champion' || isAdmin} allow="Real-time 5-stack team sessions + voice callouts" note="Champion" />
         </ul>
         {!isPaid && !isAdmin && (
           <div className="account-upgrade-cta">
-            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Pro →</button>
+            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Pro â†’</button>
           </div>
         )}
       </section>
@@ -317,7 +317,7 @@ function Field({ label, children }) {
 function AccessItem({ enabled, allow, note }) {
   return (
     <li className={`account-access-item${enabled ? ' enabled' : ''}`}>
-      <span className="account-access-mark">{enabled ? '✓' : '×'}</span>
+      <span className="account-access-mark">{enabled ? 'âœ“' : 'Ã—'}</span>
       <span className="account-access-text">{allow}</span>
       {note && <span className="account-access-note">{note}</span>}
     </li>
@@ -330,3 +330,4 @@ function pickFields(o) {
   for (const k of keys) out[k] = o[k] ?? ''
   return out
 }
+
