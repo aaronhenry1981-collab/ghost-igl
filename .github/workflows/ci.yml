@@ -21,6 +21,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Install patch watcher dependencies
+        run: npm ci --prefix lambda/ubisoft-patch-watcher
       - name: Patch watcher tests
         run: npm run test:patch-watcher
       - run: npm run lint
