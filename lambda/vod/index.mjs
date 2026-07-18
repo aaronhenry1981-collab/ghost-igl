@@ -22,6 +22,7 @@ import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { buildMapContext, buildRefundUpdate, validateAnalysis } from './coach-contract.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -201,7 +202,7 @@ function buildGameContextSlice(gameId, userContext) {
   const targetMapKey = resolveMapKey(maps, userContext?.map)
   if (targetMapKey && maps[targetMapKey]) {
     lines.push(`\nMAP CONTEXT: ${maps[targetMapKey].name || targetMapKey}`)
-    lines.push(stringifyForModel(maps[targetMapKey], 2400))
+    lines.push(buildMapContext(maps[targetMapKey], userContext?.site))
   } else if (mapKeys.length) {
     const names = mapKeys.map((k) => maps[k]?.name || k).join(', ')
     lines.push(`\nMAPS IN CATALOG: ${names}`)
@@ -282,6 +283,13 @@ function buildSystemPrompt(gameId, userContext) {
 NEVER give generic advice. Examples of what NOT to say: "improve your aim", "use utility better", "play more cautiously". Examples of what TO say: "your crosshair was on the floor when you peeked at 1:23 — pre-aim head-level when entering through that doorway", "you brought Thermite but I see no charge on the Bandit batteries — that's wasted utility".
 
 Reference the game context I provide below when relevant. If the user didn't specify a map, try to detect it from HUD/visuals. Adapt your vocabulary to ${meta.name} — don't use R6 terms if the game is CS2, don't use CS2 terms if the game is OW2, etc.
+
+EVIDENCE RULES:
+- Tie every diagnosis to something visible in an image or to the supplied authoritative map/site context.
+- Do not invent unseen enemies, utility, sound cues, teammates, routes, or outcomes.
+- When an important detail is unreadable or ambiguous, say "uncertain" and give a conditional recommendation instead of guessing.
+- Prefer the user-selected map/site/side. If the image appears to contradict it, keep the supplied context and explicitly describe the visual uncertainty.
+- Never repeat generic filler across images. Each advice item must name the observed position, timer/phase, utility state, operator interaction, or selected-site callout that makes it useful.
 
 Return STRICT JSON matching this schema exactly — no markdown fences, no prose outside the JSON:
 
@@ -414,9 +422,11 @@ export async function handler(event) {
   // first because Bedrock charges us regardless of whether we can later track
   // it — if the DDB increment fails, we shouldn't have made the model call.
   // Admins skip — they're allowed unlimited.
+  let sessionReserved = false
   if (!isAdmin && activeSub) {
     try {
       await reserveSession(activeSub, isTrial, usageMeta)
+      sessionReserved = true
     } catch (err) {
       if (err?.name === 'ConditionalCheckFailedException') {
         // Race: another concurrent request pushed us over the limit between
@@ -452,6 +462,16 @@ export async function handler(event) {
     return { statusCode: 200, headers, body: JSON.stringify({ ...analysis, tier, game_id: gameId, usage: responseUsage }) }
   } catch (err) {
     console.error('Bedrock error:', err)
+    if (sessionReserved) {
+      try {
+        await refundReservedSession(activeSub, isTrial)
+      } catch (refundError) {
+        // Never hide the original failure. A failed compensation is an
+        // operational alert, and the conditional decrement prevents a count
+        // from going below zero.
+        console.error('refundReservedSession failed:', refundError)
+      }
+    }
     const errName = err.name || ''
     const msg = String(err.message || '')
     let code = 'analysis_failed'
@@ -562,6 +582,12 @@ async function reserveSession(sub, isTrial, usageMeta) {
   }))
 }
 
+// Compensating atomic update for requests where the upstream model failed or
+// returned unusable output. Customers only spend a session on a valid result.
+async function refundReservedSession(sub, isTrial) {
+  return ddb.send(new UpdateCommand(buildRefundUpdate(sub, isTrial, SUBS_TABLE)))
+}
+
 async function callBedrock(gameId, images, userContext, tier) {
   const meta = GAME_DISPLAY[gameId] || GAME_DISPLAY.r6
   const content = []
@@ -592,21 +618,44 @@ async function callBedrock(gameId, images, userContext, tier) {
     messages: [{ role: 'user', content }],
   }
 
+  const text = await invokeModel(input)
+  let parsed = parseModelJson(text)
+  let validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['result was not valid JSON']
+  if (validationErrors.length === 0) return parsed
+
+  // One bounded repair attempt is cheaper and kinder than returning malformed
+  // data to the UI. It receives no images or secrets, only the model output.
+  const repairInput = {
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: tier === 'champion' ? 3500 : 2200,
+    temperature: 0,
+    system: `Repair the candidate into strict JSON matching this schema. Preserve supported observations; do not add facts. Return JSON only.\n${RESPONSE_SCHEMA}`,
+    messages: [{ role: 'user', content: [{ type: 'text', text: `Validation errors:\n- ${validationErrors.join('\n- ')}\n\nCandidate:\n${text.slice(0, 14000)}` }] }],
+  }
+  const repairedText = await invokeModel(repairInput)
+  parsed = parseModelJson(repairedText)
+  validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['repair was not valid JSON']
+  if (validationErrors.length) {
+    const err = new Error(`Model result failed schema validation: ${validationErrors.slice(0, 5).join('; ')}`)
+    err.name = 'ModelSchemaError'
+    throw err
+  }
+  return parsed
+}
+
+async function invokeModel(input) {
   const resp = await bedrock.send(new InvokeModelCommand({
     modelId: MODEL_ID,
     contentType: 'application/json',
     accept: 'application/json',
     body: JSON.stringify(input),
   }))
-
   const decoded = JSON.parse(new TextDecoder().decode(resp.body))
-  const text = decoded.content?.[0]?.text || ''
-  const cleaned = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+  return decoded.content?.[0]?.text || ''
+}
 
-  let parsed
-  try { parsed = JSON.parse(cleaned) }
-  catch {
-    throw new Error(`Model did not return JSON: ${text.slice(0, 200)}`)
-  }
-  return parsed
+function parseModelJson(text) {
+  const cleaned = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+  try { return JSON.parse(cleaned) }
+  catch { return null }
 }
