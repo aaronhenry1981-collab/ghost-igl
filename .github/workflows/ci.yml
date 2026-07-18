@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Install patch watcher dependencies
+        run: npm ci --prefix lambda/ubisoft-patch-watcher
+      - name: Patch watcher tests
+        run: npm run test:patch-watcher
+      - run: npm run lint
+      - run: npm run build
+      - name: Product truth
+        run: npm run check:truth
+      - run: npm run check:metadata
+      - run: npm run test:rss

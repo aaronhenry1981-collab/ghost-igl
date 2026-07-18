@@ -23,7 +23,6 @@ const StratsPage = lazy(() => import('./pages/StratsPage'))
 const LiveCoachPage = lazy(() => import('./pages/LiveCoachPage'))
 const PressPage = lazy(() => import('./pages/PressPage'))
 const R6TierListPage = lazy(() => import('./pages/R6TierListPage'))
-const OW2StadiumTierListPage = lazy(() => import('./pages/OW2StadiumTierListPage'))
 const EmbedMatchPrepPage = lazy(() => import('./pages/EmbedMatchPrepPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
@@ -44,6 +43,7 @@ const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
 
 // Tiny loading fallback shown while a route's chunk fetches. Keep it minimal
 // — typical chunk fetch on a warm connection is <100ms and the user shouldn't
@@ -156,7 +156,6 @@ const router = createBrowserRouter([
       { path: '/changelog', element: <L><ChangelogPage /></L> },
       { path: '/press', element: <L><PressPage /></L> },
       { path: '/tools/r6-tier-list', element: <L><R6TierListPage /></L> },
-      { path: '/tools/ow2-stadium-tier-list', element: <L><OW2StadiumTierListPage /></L> },
       { path: '/r/:code', element: <L><ReferralLandingPage /></L> },
       { path: '/strats', element: <L><StratsPage /></L> },
       { path: '/strats/:mapId', element: <L><StratsPage /></L> },
@@ -177,7 +176,7 @@ const router = createBrowserRouter([
       { path: '/admin', element: <L><AdminPage /></L> },
       { path: '/account', element: <L><AccountPage /></L> },
       { path: '/activate', element: <L><ActivatePage /></L> },
-      { path: '/download', element: <L><DownloadPage /></L> },
+      { path: '/download', element: DESKTOP_APP_RELEASED ? <L><DownloadPage /></L> : <Navigate to="/account" replace /> },
     ],
   },
   // Embed routes — registered OUTSIDE the Layout wrapper so the iframed
@@ -191,8 +190,8 @@ const router = createBrowserRouter([
   // and desktop have real routes — these aliases just match common guesses.
   { path: '/pricing', element: <RedirectToSection sectionId="pricing" /> },
   { path: '/activation', element: <Navigate to="/activate" replace /> },
-  { path: '/desktop', element: <Navigate to="/download" replace /> },
-  { path: '/desktop-app', element: <Navigate to="/download" replace /> },
+  { path: '/desktop', element: <Navigate to={DESKTOP_APP_RELEASED ? '/download' : '/account'} replace /> },
+  { path: '/desktop-app', element: <Navigate to={DESKTOP_APP_RELEASED ? '/download' : '/account'} replace /> },
   { path: '/sign-in', element: <Navigate to="/auth" replace /> },
   { path: '/signin', element: <Navigate to="/auth" replace /> },
   { path: '/login', element: <Navigate to="/auth" replace /> },

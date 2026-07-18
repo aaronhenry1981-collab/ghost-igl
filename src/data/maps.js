@@ -6,11 +6,13 @@
 // maps with full premium tactics live here). MapSelector shows a star badge and
 // disables the card for non-Champions; StratsPage redirects URL access.
 
+import { isRankedMap } from './rankedRotation.js'
+
 const MAPS = [
   {
     id: 'bank',
     name: 'Bank',
-    rankedPool: true,
+    rankedPool: isRankedMap('bank'),
     freeSample: true, // free/anon taste map — see full free-tier content here
     sites: [
       { id: 'ceo', name: 'CEO Office / Executive Lounge', floor: '2F' },
@@ -22,7 +24,7 @@ const MAPS = [
   {
     id: 'border',
     name: 'Border',
-    rankedPool: true,
+    rankedPool: isRankedMap('border'),
     sites: [
       { id: 'armory-archives', name: 'Armory Lockers / Archives', floor: '2F' },
       { id: 'workshop-ventilation', name: 'Workshop / Ventilation Room', floor: '1F' },
@@ -33,7 +35,7 @@ const MAPS = [
   {
     id: 'chalet',
     name: 'Chalet',
-    rankedPool: true,
+    rankedPool: isRankedMap('chalet'),
     sites: [
       { id: 'master-office', name: 'Master Bedroom / Office', floor: '2F' },
       { id: 'bar-gaming', name: 'Bar / Gaming Room', floor: '1F' },
@@ -44,7 +46,7 @@ const MAPS = [
   {
     id: 'clubhouse',
     name: 'Clubhouse',
-    rankedPool: true,
+    rankedPool: isRankedMap('clubhouse'),
     sites: [
       { id: 'cash-cctv', name: 'Cash Room / CCTV Room', floor: '2F' },
       { id: 'bar-stock', name: 'Bar / Stock Room', floor: '1F' },
@@ -55,7 +57,7 @@ const MAPS = [
   {
     id: 'coastline',
     name: 'Coastline',
-    rankedPool: true,
+    rankedPool: isRankedMap('coastline'),
     freeSample: true, // free/anon taste map — see full free-tier content here
     sites: [
       { id: 'hookah-billiards', name: 'Hookah Lounge / Billiards Room', floor: '2F' },
@@ -71,7 +73,7 @@ const MAPS = [
     // Tellers/Servers, Cafeteria/Garage, Meeting/Consulate Office).
     id: 'consulate',
     name: 'Consulate',
-    rankedPool: true,
+    rankedPool: isRankedMap('consulate'),
     sites: [
       { id: 'consul-meeting', name: 'Consul Office / Meeting Room', floor: '2F' },
       { id: 'piano-expo', name: 'Piano Room / Exposition Room', floor: '1F' },
@@ -86,7 +88,7 @@ const MAPS = [
     // Marked comingSoon until strats are rewritten.
     id: 'emerald-plains',
     name: 'Emerald Plains',
-    rankedPool: true,
+    rankedPool: isRankedMap('emerald-plains'),
     sites: [
       { id: 'admin-ceo', name: 'Administration / CEO Office', floor: '2F' },
       { id: 'gallery-meeting', name: 'Private Gallery / Meeting', floor: '2F' },
@@ -149,7 +151,7 @@ const MAPS = [
     // remains 1F.
     id: 'kafe',
     name: 'Kafe Dostoyevsky',
-    rankedPool: true,
+    rankedPool: isRankedMap('kafe'),
     sites: [
       { id: 'bar-cocktail', name: 'Bar / Cocktail Lounge', floor: '3F' },
       { id: 'reading-fireplace', name: 'Reading Room / Fireplace Hall', floor: '2F' },
@@ -164,7 +166,7 @@ const MAPS = [
     // in-game before strats are written.
     id: 'kanal',
     name: 'Kanal',
-    rankedPool: true,
+    rankedPool: isRankedMap('kanal'),
     sites: [
       { id: 'server-radio', name: 'Server Room / Radar Room', floor: '2F' },
       { id: 'kitchen-coast', name: 'Security Room / Map Room', floor: '1F' },
@@ -179,7 +181,7 @@ const MAPS = [
     // comingSoon until Aaron writes fresh strats with the new room names.
     id: 'lair',
     name: 'Lair',
-    rankedPool: true,
+    rankedPool: isRankedMap('lair'),
     sites: [
       { id: 'master-r6', name: 'Master Office / R6 Room', floor: '2F' },
       { id: 'bunks-briefing', name: 'Bunks / Briefing', floor: '1F' },
@@ -194,7 +196,7 @@ const MAPS = [
     // (2F), Control/Storage (1F), Kitchen/Cafeteria (1F), Tank/Assembly (B).
     id: 'nighthaven',
     name: 'Nighthaven Labs',
-    rankedPool: true,
+    rankedPool: isRankedMap('nighthaven'),
     sites: [
       { id: 'command-server', name: 'Command / Server', floor: '2F' },
       { id: 'control-storage', name: 'Control / Storage', floor: '1F' },
@@ -210,7 +212,7 @@ const MAPS = [
     // the post-Silent-Hunt layout.
     id: 'oregon',
     name: 'Oregon',
-    rankedPool: true,
+    rankedPool: isRankedMap('oregon'),
     sites: [
       { id: 'kids-dorms', name: "Kids' Dorms / Dorms Main Hall", floor: '2F' },
       { id: 'meeting-hall', name: 'Meeting Hall / Kitchen', floor: '1F' },
@@ -225,7 +227,7 @@ const MAPS = [
     // Bedrooms, Mechanic Shop/Kitchen.
     id: 'outback',
     name: 'Outback',
-    rankedPool: true,
+    rankedPool: isRankedMap('outback'),
     sites: [
       { id: 'laundry-piano', name: 'Laundry / Piano', floor: '2F' },
       { id: 'party-office', name: 'Party / Office', floor: '2F' },
@@ -251,7 +253,7 @@ const MAPS = [
     // Verified against Liquipedia + r6calls SVG.
     id: 'skyscraper',
     name: 'Skyscraper',
-    rankedPool: true,
+    rankedPool: isRankedMap('skyscraper'),
     sites: [
       { id: 'tea-room', name: 'Tea Room / Karaoke', floor: '2F' },
       { id: 'work-office', name: 'Work Office / Exhibition', floor: '2F' },
@@ -273,7 +275,7 @@ const MAPS = [
   {
     id: 'theme-park',
     name: 'Theme Park',
-    rankedPool: true,
+    rankedPool: isRankedMap('theme-park'),
     sites: [
       { id: 'throne-room', name: 'Throne Room / Armory', floor: '1F' },
       { id: 'lab', name: 'Lab / Storage', floor: '1F' },
@@ -295,7 +297,7 @@ const MAPS = [
   {
     id: 'villa',
     name: 'Villa',
-    rankedPool: true,
+    rankedPool: isRankedMap('villa'),
     sites: [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },
@@ -312,7 +314,7 @@ const MAPS = [
   {
     id: 'calypso-casino',
     name: 'Calypso Casino',
-    rankedPool: true,
+    rankedPool: isRankedMap('calypso-casino'),
     season: 'Y11S2 Operation System Override',
     sites: [
       { id: 'vip-cash', name: 'Cigar Room / Pool', floor: '2F' },
