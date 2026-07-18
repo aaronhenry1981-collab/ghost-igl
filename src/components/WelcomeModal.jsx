@@ -8,6 +8,7 @@ import { foundingPromisePhrase } from '../config/founding'
 import './WelcomeModal.css'
 
 const SEEN_KEY = 'ghost-igl-welcome-seen'
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
 
 const ROLES = [
   { id: 'Entry', label: 'Entry', emoji: '⚔️', desc: 'First through doors. Frag out fights.' },
@@ -189,7 +190,7 @@ export default function WelcomeModal() {
               {isPro && !isChampion && (
                 <button type="button" onClick={() => { dismiss(); goToPricing() }} className="btn btn-primary btn-sm">Upgrade to Champion</button>
               )}
-              {isChampion && !isAdmin && (
+              {isChampion && !isAdmin && DESKTOP_APP_RELEASED && (
                 <Link to="/download" onClick={dismiss} className="btn btn-primary btn-sm">Get desktop app</Link>
               )}
               {isAdmin && (
