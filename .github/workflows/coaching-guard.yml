@@ -1,0 +1,43 @@
+name: coaching-guard
+
+# Guards the coaching launch surface:
+#   1. public/coaching/index.html must be exactly what the generator produces
+#      (the generator is the source of truth — no hand-edits to the artifact).
+#   2. No stale coaching pricing / "free session" claims anywhere customer-facing.
+#   3. The $70/mo add-on credit backend (webhook -> /booking/credits) stays proven.
+
+on:
+  pull_request:
+  push:
+    branches: [main, coaching-launch-reconcile]
+
+jobs:
+  page-and-terms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Regenerate coaching page from the generator (source of truth)
+        run: npm run generate:coaching
+      - name: Coaching page must match generator output (no hand-edited drift)
+        run: git diff --exit-code public/coaching/index.html public/coaching/booked/index.html
+      - name: No stale coaching pricing / "free" claims
+        run: npm run check:coaching-terms
+
+  addon-backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install webhook Lambda deps
+        run: npm install --omit=dev --prefix lambda/webhook
+      - name: Install booking Lambda deps (+ runtime aws-sdk for tests)
+        run: |
+          npm install --omit=dev --prefix lambda/booking
+          npm install --no-save --prefix lambda/booking @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @aws-sdk/client-sesv2
+      - name: Prove the $70 add-on credit backend (webhook + /booking/credits)
+        run: npm run test:coaching-addon
