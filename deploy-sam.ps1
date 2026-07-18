@@ -70,10 +70,66 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "    OK" -ForegroundColor DarkGreen
 
-# 4. Smoke check the new endpoint is reachable
+# 4. Preserve booking routes. The booking Lambda is deployed separately from
+#    this stack, while SAM updates the shared HTTP API from an OpenAPI body.
+#    API updates can therefore remove those out-of-stack routes. Reconcile them
+#    idempotently after every stack update before running smoke tests.
 Write-Host ""
-Write-Host "[4/4] Verifying /desktop/verify route..." -ForegroundColor Yellow
+Write-Host "[4/5] Reconciling booking routes..." -ForegroundColor Yellow
+$ApiId = 'u0k402df6j'
+$BookingFunctionArn = 'arn:aws:lambda:us-east-1:183678667221:function:recon6-booking'
+$BookingIntegrationUri = "arn:aws:apigateway:${Region}:lambda:path/2015-03-31/functions/${BookingFunctionArn}/invocations"
+$BookingRoutes = @(
+    'GET /booking/slots',
+    'POST /booking/hold',
+    'POST /booking/checkout',
+    'POST /booking/finalize',
+    'GET /booking/manage',
+    'POST /booking/manage'
+)
+
+$integrations = aws apigatewayv2 get-integrations --api-id $ApiId --region $Region --output json | ConvertFrom-Json
+$bookingIntegration = $integrations.Items | Where-Object { $_.IntegrationUri -eq $BookingIntegrationUri } | Select-Object -First 1
+if (-not $bookingIntegration) {
+    $integrationId = aws apigatewayv2 create-integration `
+        --api-id $ApiId `
+        --integration-type AWS_PROXY `
+        --integration-uri $BookingIntegrationUri `
+        --payload-format-version 2.0 `
+        --timeout-in-millis 30000 `
+        --region $Region `
+        --query IntegrationId `
+        --output text
+    if ($LASTEXITCODE -ne 0) { Write-Error "Could not create booking integration."; exit 1 }
+} else {
+    $integrationId = $bookingIntegration.IntegrationId
+}
+
+$existingRoutes = aws apigatewayv2 get-routes --api-id $ApiId --region $Region --output json | ConvertFrom-Json
+foreach ($routeKey in $BookingRoutes) {
+    if (-not ($existingRoutes.Items | Where-Object { $_.RouteKey -eq $routeKey })) {
+        aws apigatewayv2 create-route `
+            --api-id $ApiId `
+            --route-key $routeKey `
+            --target "integrations/$integrationId" `
+            --region $Region | Out-Null
+        if ($LASTEXITCODE -ne 0) { Write-Error "Could not restore booking route: $routeKey"; exit 1 }
+    }
+}
+
 $ApiBase = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
+try {
+    $bookingResponse = Invoke-WebRequest -Uri "$ApiBase/booking/slots" -Method GET -ErrorAction Stop
+    if ($bookingResponse.StatusCode -ne 200) { throw "Unexpected status $($bookingResponse.StatusCode)" }
+    Write-Host "    OK (booking slots returned 200)" -ForegroundColor DarkGreen
+} catch {
+    Write-Error "Booking route reconciliation failed its smoke test: $_"
+    exit 1
+}
+
+# 5. Smoke check the new endpoint is reachable
+Write-Host ""
+Write-Host "[5/5] Verifying /desktop/verify route..." -ForegroundColor Yellow
 try {
     # Should return 400 "Missing email or token" — that's the new handler responding.
     # If it returns 404, the route isn't deployed.
