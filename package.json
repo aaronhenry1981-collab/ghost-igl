@@ -28,7 +28,9 @@
     "preview": "vite preview",
     "generate:countdown": "node scripts/generate-countdown.mjs",
     "generate:coaching": "node scripts/generate-coaching-page.mjs",
-    "generate:brand": "node scripts/generate-brand-assets.mjs"
+    "generate:brand": "node scripts/generate-brand-assets.mjs",
+    "check:coaching-terms": "node scripts/check-coaching-terms.mjs",
+    "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.21",
