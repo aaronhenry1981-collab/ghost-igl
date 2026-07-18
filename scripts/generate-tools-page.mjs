@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Generates /tools/index.html — a discoverable landing page surfacing every
+// Generates /tools/index.html â€” a discoverable landing page surfacing every
 // customer tool (Strats, Loadouts, Match Prep, Operators, Meta, VOD Review,
-// per-game catalogs). Captures generic search queries like "FPS coaching
+// R6 catalogs). Captures generic search queries like "R6 coaching
 // tools" and serves as a soft on-ramp for users who don't know where to
 // start.
 
@@ -22,43 +22,43 @@ const TOOLS = [
     id: 'strats',
     name: 'Strats Browser',
     href: '/strats',
-    summary: 'Site-by-site breakdowns for every map. Picks, callouts, utility, post-plant — by side. Switches with active game.',
-    pill: 'All 20 games',
+    summary: 'Site-by-site Rainbow Six breakdowns. Picks, callouts, utility, and post-plant plans by side.',
+    pill: 'Rainbow Six',
   },
   {
     id: 'loadouts',
     name: 'Loadouts',
     href: '/loadouts',
-    summary: 'Weapon picks, ability priorities, team-comp combos. Real loadouts for every supported game — not generic meta.',
-    pill: 'All 20 games',
+    summary: 'Rainbow Six weapon picks, gadget priorities, and operator combinations.',
+    pill: 'Rainbow Six',
   },
   {
     id: 'match-prep',
     name: 'Match Prep Cheatsheet',
     href: '/match-prep',
     summary: 'One-screen pre-round prep. Bans, picks, callouts. Bookmark-able. Copy as text for Discord. Print-friendly.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'operators',
     name: 'Cast Catalog',
     href: '/operators',
-    summary: 'Browse every operator / agent / hero / legend. Search by name, role, ability. See where each one fits.',
-    pill: 'All 20 games',
+    summary: 'Browse every Rainbow Six operator by name, role, and gadget. See where each one fits.',
+    pill: 'Rainbow Six',
   },
   {
     id: 'meta',
     name: 'Meta Board',
     href: '/meta',
-    summary: 'Aggregate competitive intel — top picks, most-banned characters, frequency across maps. Refreshed each season.',
-    pill: 'All 20 games',
+    summary: 'Aggregate competitive intel â€” top picks, most-banned characters, frequency across maps. Refreshed each season.',
+    pill: 'Rainbow Six',
   },
   {
     id: 'vod',
     name: 'VOD Review',
     href: '/vod',
     summary: 'Drop a screenshot, get a specific fix. Round-by-round breakdowns with positioning, crosshair, and utility feedback.',
-    pill: 'R6 live · preview for 9 more',
+    pill: 'Rainbow Six',
   },
   {
     id: 'r6-guides',
@@ -68,37 +68,16 @@ const TOOLS = [
     pill: 'R6 SEO surface',
   },
   {
-    id: 'all-games',
-    name: 'All-Games Catalog',
-    href: '/games/',
-    summary: 'Per-game landing pages with maps, characters, loadouts, and rank-up posts for all 20 supported games.',
-    pill: 'Multi-game hub',
-  },
-  {
     id: 'blog',
     name: 'Rank-Up Guides',
     href: '/blog/',
-    summary: '60+ structured rank-up guides. R6 Copper→Champion, CS2 Silver→Global, Valorant Iron→Immortal, all 20 games.',
-    pill: '62 posts',
+    summary: 'Structured Rainbow Six rank-up guides for improving decisions at every rank.',
+    pill: 'R6 guides',
   },
 ]
 
-const GAMES = [
-  { id: 'r6', name: 'Rainbow Six Siege', color: '#ff9b5c', live: true },
-  { id: 'cs2', name: 'Counter-Strike 2', color: '#F2A526', live: true },
-  { id: 'valorant', name: 'Valorant', color: '#FF4655', live: true },
-  { id: 'ow2', name: 'Overwatch 2', color: '#F99E1A', live: true },
-  { id: 'apex', name: 'Apex Legends', color: '#DA292A', live: true },
-  { id: 'mvr', name: 'Marvel Rivals', color: '#E10A19', live: true },
-  { id: 'halo', name: 'Halo Infinite', color: '#5cb85c', live: true },
-  { id: 'finals', name: 'The Finals', color: '#00d4ff', live: true },
-  { id: 'cod', name: 'Call of Duty', color: '#7ed321', live: true },
-  { id: 'fn', name: 'Fortnite', color: '#5d3fd3', live: true },
-  { id: 'rl', name: 'Rocket League', color: '#f7941d', live: true },
-]
-
-const title = 'All Recon 6 Tools — FPS Coaching Toolkit | Recon 6'
-const description = 'Strats, loadouts, match prep, VOD review, meta board, and 60+ rank-up guides. Every tool Recon 6 ships, in one place. Free to browse — Pro unlocks the deep AI VOD review.'
+const title = 'Rainbow Six Coaching Tools | Recon 6'
+const description = 'Strats, loadouts, match prep, VOD review, meta board, and 60+ rank-up guides. Every tool Recon 6 ships, in one place. Free to browse â€” Pro unlocks the deep AI VOD review.'
 
 const html = `<!doctype html>
 <html lang="en">
@@ -174,7 +153,7 @@ const html = `<!doctype html>
   <div class="container">
     <div class="nav">
       <a href="/">Recon 6</a>
-      <a href="/games/">All Games</a>
+      <a href="/guides/">R6 Guides</a>
       <a href="/blog/">Blog</a>
       <a href="/#pricing">Pricing</a>
     </div>
@@ -183,7 +162,7 @@ const html = `<!doctype html>
       <div class="badge">Recon 6 Tools</div>
       <h1>Every <span class="accent">Tool</span> in One Place</h1>
       <p class="lead">
-        Strats, loadouts, match prep, VOD review, meta intel, and 60+ rank-up guides &mdash; across 20 competitive games. Free to browse. Pro unlocks the deep AI VOD analysis.
+        Rainbow Six strats, loadouts, match prep, VOD review, meta intel, and rank-up guides. Free to browse. Pro unlocks deeper AI VOD analysis.
       </p>
     </div>
 
@@ -200,25 +179,15 @@ const html = `<!doctype html>
       `).join('')}
     </div>
 
-    <h2><span class="num">02</span>Pick Your Game</h2>
-    <div class="grid">
-      ${GAMES.map((g) => `
-        <a href="${g.id === 'r6' ? '/guides/' : `/games/${g.id}/`}" class="card game-card" style="border-left-color: ${g.color};">
-          <div class="game-card-name" style="color: ${g.color};">${escape(g.name)}</div>
-          <div class="game-card-status ${g.live ? 'live-pill' : 'soon-pill'}">${g.live ? 'Live' : 'Catalog ready'}</div>
-        </a>
-      `).join('')}
-    </div>
-
     <div class="pricing-cta">
       <h3>Most of these tools are free. Pro unlocks the AI VOD reviews.</h3>
-      <p>$9/mo founding rate (locked for life if you join before May 31, 2026). Pro gets you 5-screenshot VOD breakdowns, ban intel, and opponent reads. Champion adds 10-screenshot multi-round sessions, recurring-weakness reports, and a weekly drill list. All-Access extends to all 20 games.</p>
+      <p>Pro gets you 5-screenshot VOD breakdowns, ban intel, and opponent reads. Champion adds 10-screenshot multi-round sessions, recurring-weakness reports, every R6 map, premium tactics, and a weekly drill list.</p>
       <a href="/#pricing" class="cta">See pricing &rarr;</a>
     </div>
 
     <footer>
-      <p>Recon 6 &mdash; coaching across 20 competitive games.<br>
-      Game names + characters are property of their respective owners. Fan-made, not affiliated.</p>
+      <p>Recon 6 &mdash; coaching for Rainbow Six Siege.<br>
+      Rainbow Six and its operators are property of Ubisoft. Fan-made, not affiliated.</p>
     </footer>
   </div>
 </body>
@@ -227,4 +196,5 @@ const html = `<!doctype html>
 const outDir = join(ROOT, 'public', 'tools')
 mkdirSync(outDir, { recursive: true })
 writeFileSync(join(outDir, 'index.html'), html)
-console.log('✓ Generated /tools/index.html')
+console.log('âœ“ Generated /tools/index.html')
+
