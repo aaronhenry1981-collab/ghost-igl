@@ -8,14 +8,15 @@ import { foundingPromisePhrase } from '../config/founding'
 import './WelcomeModal.css'
 
 const SEEN_KEY = 'ghost-igl-welcome-seen'
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
 
 const ROLES = [
-  { id: 'Entry', label: 'Entry', emoji: '⚔️', desc: 'First through doors. Frag out fights.' },
-  { id: 'Support', label: 'Support', emoji: '🛠️', desc: 'Open walls, clear utility, enable your team.' },
-  { id: 'Anchor', label: 'Anchor', emoji: '🗿', desc: 'Hold site. Deny plants. Sustain through pressure.' },
-  { id: 'Roamer', label: 'Roamer', emoji: '🥷', desc: 'Flank, trade, disrupt — waste attacker time.' },
-  { id: 'IGL', label: 'IGL', emoji: '🧠', desc: 'Call the round, drone, flex where needed.' },
-  { id: 'Flex', label: 'Flex', emoji: '🎯', desc: 'Fill whatever slot the team needs.' },
+  { id: 'Entry', label: 'Entry', emoji: 'âš”ï¸', desc: 'First through doors. Frag out fights.' },
+  { id: 'Support', label: 'Support', emoji: 'ðŸ› ï¸', desc: 'Open walls, clear utility, enable your team.' },
+  { id: 'Anchor', label: 'Anchor', emoji: 'ðŸ—¿', desc: 'Hold site. Deny plants. Sustain through pressure.' },
+  { id: 'Roamer', label: 'Roamer', emoji: 'ðŸ¥·', desc: 'Flank, trade, disrupt â€” waste attacker time.' },
+  { id: 'IGL', label: 'IGL', emoji: 'ðŸ§ ', desc: 'Call the round, drone, flex where needed.' },
+  { id: 'Flex', label: 'Flex', emoji: 'ðŸŽ¯', desc: 'Fill whatever slot the team needs.' },
 ]
 
 export default function WelcomeModal() {
@@ -78,7 +79,7 @@ export default function WelcomeModal() {
 
   const baseSteps = [
     {
-      icon: isAdmin ? '👑' : isChampion ? '🏆' : isPro ? '⚡' : '🎯',
+      icon: isAdmin ? 'ðŸ‘‘' : isChampion ? 'ðŸ†' : isPro ? 'âš¡' : 'ðŸŽ¯',
       title: isAdmin
         ? `Welcome back, boss.`
         : isChampion
@@ -89,33 +90,33 @@ export default function WelcomeModal() {
       body: isAdmin
         ? `You have full access to everything plus the admin dashboard. Users, announcements, and backfills live at /admin.`
         : isChampion
-        ? `You have the full stack — round-by-round VOD breakdowns up to 10 screenshots per session, weekly drill plans built from your own clips, and the desktop coach app once it ships.`
+        ? `You have the full stack â€” round-by-round VOD breakdowns up to 10 screenshots per session, weekly drill plans built from your own clips, and the desktop coach app once it ships.`
         : isPro
         ? `You've unlocked the round-by-round VOD breakdowns, ban targets, and the read on what the enemy is most likely to do. Most of the site is now open to you.`
-        : `You're on the free tier — every strat, every callout, every operator. Upgrade anytime to start reviewing your own matches.`,
+        : `You're on the free tier â€” every strat, every callout, every operator. Upgrade anytime to start reviewing your own matches.`,
     },
   ]
 
   if (showRoleStep) {
     baseSteps.push({
-      icon: '🎯',
+      icon: 'ðŸŽ¯',
       title: 'What do you play?',
-      body: `Pick your main role. Recon 6 will highlight the operator in every lineup that matches your playstyle — on every map, every site.`,
+      body: `Pick your main role. Recon 6 will highlight the operator in every lineup that matches your playstyle â€” on every map, every site.`,
       rolePicker: true,
     })
   }
 
   baseSteps.push(
     {
-      icon: '🗺️',
+      icon: 'ðŸ—ºï¸',
       title: 'Pick a map, study a site',
       body: `Every R6 ranked map, every site, with operator picks, callouts, and utility plans. Press / on the strats page to jump-search any operator, callout, or map name.`,
     },
     {
-      icon: isPro ? '🎬' : '🔒',
+      icon: isPro ? 'ðŸŽ¬' : 'ðŸ”’',
       title: isPro ? 'Drop a screenshot, find out what cost you the round' : 'Pro unlocks the round-by-round breakdowns',
       body: isPro
-        ? `Paste 1-10 in-match screenshots and get specific feedback on positioning, crosshair placement, utility usage, and decision-making — in under 30 seconds.`
+        ? `Paste 1-10 in-match screenshots and get specific feedback on positioning, crosshair placement, utility usage, and decision-making â€” in under 30 seconds.`
         : (() => {
             const promise = foundingPromisePhrase()
             return promise
@@ -132,7 +133,7 @@ export default function WelcomeModal() {
   return (
     <div className="welcome-overlay" onClick={dismiss}>
       <div className="welcome-modal" onClick={(e) => e.stopPropagation()}>
-        <button onClick={dismiss} className="welcome-close" aria-label="Close">×</button>
+        <button onClick={dismiss} className="welcome-close" aria-label="Close">Ã—</button>
 
         <div className="welcome-icon">{current.icon}</div>
         <h2>{current.title}</h2>
@@ -189,7 +190,7 @@ export default function WelcomeModal() {
               {isPro && !isChampion && (
                 <button type="button" onClick={() => { dismiss(); goToPricing() }} className="btn btn-primary btn-sm">Upgrade to Champion</button>
               )}
-              {isChampion && !isAdmin && (
+              {isChampion && !isAdmin && DESKTOP_APP_RELEASED && (
                 <Link to="/download" onClick={dismiss} className="btn btn-primary btn-sm">Get desktop app</Link>
               )}
               {isAdmin && (
@@ -202,3 +203,4 @@ export default function WelcomeModal() {
     </div>
   )
 }
+
