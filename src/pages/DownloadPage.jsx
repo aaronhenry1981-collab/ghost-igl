@@ -6,6 +6,9 @@ import { useSectionNavigate } from '../utils/sectionLink'
 const DOWNLOAD_URL = import.meta.env.VITE_DOWNLOAD_URL || ''
 const DOWNLOAD_VERSION = import.meta.env.VITE_DOWNLOAD_VERSION || ''
 const DOWNLOAD_FILENAME = import.meta.env.VITE_DOWNLOAD_FILENAME || ''
+// Require an explicit release switch after the installer and activation flow are verified.
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
+const ACTIVE_DOWNLOAD_URL = DESKTOP_APP_RELEASED ? DOWNLOAD_URL : ''
 
 // Everything both platforms get — console is never the lesser tier, it just
 // reaches the live coach through a capture card instead of native capture.
@@ -104,15 +107,13 @@ export default function DownloadPage() {
           </div>
           {isPro && (
             <p className="activate-note" style={{ marginBottom: '1rem' }}>
-              You're on the <strong>Pro</strong> plan. The desktop app is a Champion-tier feature —
-              upgrade from your <Link to="/account">Account</Link> page to lock in your founding-member
-              spot. Champions get the signed installer by email as soon as it ships.
+              You're on the <strong>Pro</strong> plan. Desktop live coaching is still in development
+              and is not currently part of an upgrade you can use today.
             </p>
           )}
           <p>
-            <strong>Recon 6 Command Desktop</strong> is in <strong>final pre-release</strong>. Champion
-            subscribers are queued for the signed installer the moment it's ready — web features are
-            live right now.
+            <strong>Recon 6 Command Desktop</strong> is still in development. There is no public
+            installer or announced release date. The web features listed on pricing are live now.
           </p>
           <ul className="activate-feature-list">
             <li><strong>Now:</strong> full web access — strats, operators, VOD review, callouts</li>
@@ -141,7 +142,7 @@ export default function DownloadPage() {
           </div>
         </div>
 
-        {DOWNLOAD_URL ? (
+        {ACTIVE_DOWNLOAD_URL ? (
           <>
             <p className="activate-intro">
               Your real-time coach for Rainbow Six Siege. Install on your Windows PC, capture your PC
@@ -155,7 +156,7 @@ export default function DownloadPage() {
                 </div>
               </div>
               <a
-                href={DOWNLOAD_URL}
+                href={ACTIVE_DOWNLOAD_URL}
                 className="btn btn-primary btn-lg download-btn"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -199,12 +200,11 @@ export default function DownloadPage() {
         ) : (
           <>
             <div className="activate-eyebrow" style={{ color: '#ff9b5c', marginBottom: '0.5rem' }}>
-              Final pre-release — installer shipping soon
+              Desktop app not currently available
             </div>
             <p className="activate-intro">
-              <strong>Your Champion spot is locked in.</strong> The signed Windows installer is in
-              final pre-release — we'll email it to you the moment it's ready, along with the
-              activation steps. Until then, your subscription gives you full Pro-level web access.
+              Recon 6 Command is still in development. There is no public installer or announced
+              release date. Your subscription's current benefits are the web features below.
             </p>
 
             <div className="activate-note" style={{ marginTop: '1rem' }}>
