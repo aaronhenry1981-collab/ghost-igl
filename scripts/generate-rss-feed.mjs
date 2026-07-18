@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Generates an RSS 2.0 feed at public/feed.xml listing the most recent
 // guides + announcements. Aggregators (Feedly, NewsBlur, gaming-tool sites)
-// pick up RSS feeds and auto-publish entries — every pickup is a backlink.
+// pick up RSS feeds and auto-publish entries â€” every pickup is a backlink.
 //
 // Cost: zero. Effort: zero ongoing (regenerate on each deploy).
 // Tradeoff: small. Backlink yield: meaningful over months.
@@ -15,7 +15,7 @@ import STRATS from '../src/data/strats.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const SITE = 'https://r6coaching.com'
-const FEED_TITLE = 'Recon 6 — R6 Siege Strategy Updates'
+const FEED_TITLE = 'Recon 6 â€” R6 Siege Strategy Updates'
 const FEED_DESC = 'Latest map guides, operator analysis, and ranked strategy from Recon 6.'
 
 function escape(s) {
@@ -28,17 +28,32 @@ function rfc822(d) {
 
 const items = []
 const now = new Date()
+const feedPath = join(ROOT, 'public', 'feed.xml')
+const existingDates = new Map()
+try {
+  const oldFeed = readFileSync(feedPath, 'utf8')
+  for (const match of oldFeed.matchAll(/<item>[\s\S]*?<guid[^>]*>(.*?)<\/guid>[\s\S]*?<pubDate>(.*?)<\/pubDate>[\s\S]*?<\/item>/g)) {
+    existingDates.set(match[1], match[2])
+  }
+} catch {
+  // First generation has no previous feed to preserve.
+}
+
+function publicationDate(guid, sourceDate) {
+  if (sourceDate) return rfc822(`${sourceDate}T00:00:00Z`)
+  return existingDates.get(guid) || rfc822(now)
+}
 
 // Per-map guides as feed items
 for (const map of MAPS) {
   if (map.comingSoon) continue
   if (!STRATS[map.id]) continue
   items.push({
-    title: `${map.name} Strategy Guide — Ranked Loadouts, Callouts, Bans`,
+    title: `${map.name} Strategy Guide â€” Ranked Loadouts, Callouts, Bans`,
     link: `${SITE}/guides/${map.id}.html`,
     guid: `${SITE}/guides/${map.id}.html`,
-    description: `Complete strategy guide for ${map.name} — operator picks, callouts, utility usage, and ban recommendations for every bombsite. Updated for current ranked meta.`,
-    pubDate: rfc822(now),
+    description: `Complete strategy guide for ${map.name} â€” operator picks, callouts, utility usage, and ban recommendations for every bombsite. Updated for current ranked meta.`,
+    pubDate: publicationDate(`${SITE}/guides/${map.id}.html`),
     category: 'Strategy Guides',
   })
 }
@@ -62,16 +77,16 @@ const topOperators = Object.entries(operatorAppearances)
 for (const opName of topOperators) {
   const slug = opName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   items.push({
-    title: `${opName} Operator Guide — Where to Play`,
+    title: `${opName} Operator Guide â€” Where to Play`,
     link: `${SITE}/guides/operators/${slug}.html`,
     guid: `${SITE}/guides/operators/${slug}.html`,
     description: `Complete ${opName} guide for Rainbow Six Siege: every site where ${opName} is picked, role, and priority. Recon 6's tactical reference.`,
-    pubDate: rfc822(now),
+    pubDate: publicationDate(`${SITE}/guides/operators/${slug}.html`),
     category: 'Operators',
   })
 }
 
-// Blog posts as feed items (added 2026-07-06 — the feed predated the blog and
+// Blog posts as feed items (added 2026-07-06 â€” the feed predated the blog and
 // never picked it up). Sourced from the generated HTML in public/blog/ so this
 // stays in sync with whatever the blog generator produced this build (the
 // generate:all chain runs generate:blog before generate:rss).
@@ -82,13 +97,14 @@ try {
     const html = readFileSync(join(blogDir, f), 'utf8')
     const title = (html.match(/<title>([^<]+)<\/title>/) || [])[1]
     const desc = (html.match(/<meta name="description" content="([^"]+)"/) || [])[1]
+    const published = (html.match(/"datePublished":"(\d{4}-\d{2}-\d{2})"/) || [])[1]
     if (!title) continue
     items.push({
       title,
       link: `${SITE}/blog/${f}`,
       guid: `${SITE}/blog/${f}`,
       description: desc || title,
-      pubDate: rfc822(now),
+      pubDate: publicationDate(`${SITE}/blog/${f}`, published),
       category: 'Blog',
     })
   }
@@ -120,5 +136,5 @@ ${itemsXml}
 </rss>
 `
 
-writeFileSync(join(ROOT, 'public', 'feed.xml'), feed)
-console.log(`✓ Generated feed.xml with ${items.length} items`)
+writeFileSync(feedPath, feed)
+console.log(`âœ“ Generated feed.xml with ${items.length} items`)
