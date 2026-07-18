@@ -61,3 +61,31 @@ export function buildRefundUpdate(sub, isTrial, tableName, now = new Date().toIS
     ExpressionAttributeValues: { ':one': 1, ':zero': 0, ':now': now },
   }
 }
+
+export function buildRolloverReserveUpdate(sub, tableName, now = new Date().toISOString()) {
+  const previous = sub.vod_period_start_at
+  return {
+    TableName: tableName,
+    Key: { stripe_customer_id: sub.stripe_customer_id },
+    UpdateExpression: 'SET vod_sessions_used = :one, vod_period_start_at = :now, vod_updated_at = :now',
+    ConditionExpression: previous ? 'vod_period_start_at = :previous' : 'attribute_not_exists(vod_period_start_at)',
+    ExpressionAttributeValues: previous
+      ? { ':one': 1, ':now': now, ':previous': previous }
+      : { ':one': 1, ':now': now },
+  }
+}
+
+export function buildConcurrentRolloverFollowupUpdate(sub, tableName, limit, now = new Date().toISOString()) {
+  const previous = sub.vod_period_start_at
+  return {
+    TableName: tableName,
+    Key: { stripe_customer_id: sub.stripe_customer_id },
+    UpdateExpression: 'SET vod_sessions_used = vod_sessions_used + :one, vod_updated_at = :now',
+    ConditionExpression: previous
+      ? 'vod_period_start_at <> :previous AND vod_sessions_used < :limit'
+      : 'attribute_exists(vod_period_start_at) AND vod_sessions_used < :limit',
+    ExpressionAttributeValues: previous
+      ? { ':one': 1, ':now': now, ':limit': limit, ':previous': previous }
+      : { ':one': 1, ':now': now, ':limit': limit },
+  }
+}
