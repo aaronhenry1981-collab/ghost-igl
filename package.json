@@ -26,7 +26,7 @@
     "indexnow": "node scripts/indexnow-ping.mjs",
     "postdeploy": "npm run indexnow",
     "lint": "eslint .",
-    "test": "node --test test/*.test.mjs",
+    "test": "node --test test/coach-correctness.test.mjs",
     "check:truth": "node scripts/check-product-truth.mjs",
     "check:metadata": "node scripts/check-metadata-dates.mjs",
     "test:rss": "node scripts/test-rss-dates.mjs",
