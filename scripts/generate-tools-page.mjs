@@ -23,35 +23,35 @@ const TOOLS = [
     name: 'Strats Browser',
     href: '/strats',
     summary: 'Site-by-site breakdowns for every map. Picks, callouts, utility, post-plant — by side. Switches with active game.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'loadouts',
     name: 'Loadouts',
     href: '/loadouts',
     summary: 'Weapon picks, ability priorities, team-comp combos. Real loadouts for every supported game — not generic meta.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'match-prep',
     name: 'Match Prep Cheatsheet',
     href: '/match-prep',
     summary: 'One-screen pre-round prep. Bans, picks, callouts. Bookmark-able. Copy as text for Discord. Print-friendly.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'operators',
     name: 'Cast Catalog',
     href: '/operators',
     summary: 'Browse every operator / agent / hero / legend. Search by name, role, ability. See where each one fits.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'meta',
     name: 'Meta Board',
     href: '/meta',
     summary: 'Aggregate competitive intel — top picks, most-banned characters, frequency across maps. Refreshed each season.',
-    pill: 'All 20 games',
+    pill: 'Rainbow Six',
   },
   {
     id: 'vod',
@@ -68,17 +68,10 @@ const TOOLS = [
     pill: 'R6 SEO surface',
   },
   {
-    id: 'all-games',
-    name: 'All-Games Catalog',
-    href: '/games/',
-    summary: 'Per-game landing pages with maps, characters, loadouts, and rank-up posts for all 20 supported games.',
-    pill: 'Multi-game hub',
-  },
-  {
     id: 'blog',
     name: 'Rank-Up Guides',
     href: '/blog/',
-    summary: '60+ structured rank-up guides. R6 Copper→Champion, CS2 Silver→Global, Valorant Iron→Immortal, all 20 games.',
+    summary: 'Structured Rainbow Six rank-up guides for improving decisions at every rank.',
     pill: '62 posts',
   },
 ]
@@ -212,7 +205,7 @@ const html = `<!doctype html>
 
     <div class="pricing-cta">
       <h3>Most of these tools are free. Pro unlocks the AI VOD reviews.</h3>
-      <p>$9/mo founding rate (locked for life if you join before May 31, 2026). Pro gets you 5-screenshot VOD breakdowns, ban intel, and opponent reads. Champion adds 10-screenshot multi-round sessions, recurring-weakness reports, and a weekly drill list. All-Access extends to all 20 games.</p>
+      <p>$9/mo founding rate (locked for life if you join before May 31, 2026). Pro gets you 5-screenshot VOD breakdowns, ban intel, and opponent reads. Champion adds 10-screenshot multi-round sessions, recurring-weakness reports, and a weekly drill list. Champion adds every R6 map and premium tactics.</p>
       <a href="/#pricing" class="cta">See pricing &rarr;</a>
     </div>
 
