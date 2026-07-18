@@ -2,9 +2,11 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
-// Unified top navigation — single nav across the entire site (landing +
+const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
+
+// Unified top navigation â€” single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
-// top nav and /strats /dashboard /etc used a sidebar — the layout shift
+// top nav and /strats /dashboard /etc used a sidebar â€” the layout shift
 // was jarring and unprofessional.
 //
 // Sections:
@@ -49,7 +51,7 @@ function MoreDropdown({ onClose }) {
       if (isLanding) scrollToSection(to.slice(1))
       else { navigate('/'); setTimeout(() => scrollToSection(to.slice(1)), 300) }
     } else if (to.startsWith('/') && !to.includes('#')) {
-      // External static page (e.g. /blog/, /games/) — full page nav
+      // External static page (e.g. /blog/, /games/) â€” full page nav
       if (to.endsWith('/') || to.endsWith('.html')) window.location.href = to
       else navigate(to)
     } else {
@@ -139,10 +141,10 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/dashboard')}>Dashboard</button>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
-          {isPro && (
+          {isPro && DESKTOP_APP_RELEASED && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop app</button>
           )}
-          {isPro && (
+          {isPro && DESKTOP_APP_RELEASED && (
             <button type="button" className="nav-more-item" onClick={() => go('/activate')}>Activation</button>
           )}
           {isAdmin && (
@@ -196,35 +198,35 @@ export default function Navbar() {
         <div className="navbar-left">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
             {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
-                DOM text — never a <text> node inside the SVG, which would render
+                DOM text â€” never a <text> node inside the SVG, which would render
                 differently in every browser. */}
             <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
             Recon<span>6</span>
           </Link>
-          {/* GameSwitcher removed 2026-07-06 — RECON6 is R6-only now. The
+          {/* GameSwitcher removed 2026-07-06 â€” RECON6 is R6-only now. The
               component + game data stay in the tree (existing All-Access subs
               keep their entitlements; routes stay live for SEO). */}
         </div>
 
-        {/* Desktop nav — center cluster. Hidden on mobile in favor of the
+        {/* Desktop nav â€” center cluster. Hidden on mobile in favor of the
             drawer. Each Link is a NavLink so the current route gets the
-            "active" class — that gives users a real visual signal of which
+            "active" class â€” that gives users a real visual signal of which
             tab they're on. The old standalone Dashboard pill was always
             bright cyan, which read as "I'm always on Dashboard" no matter
-            the route — we removed it. Signed-in users still get to /dashboard
+            the route â€” we removed it. Signed-in users still get to /dashboard
             via the logo (left), the avatar dropdown (right), or the More
             menu.
 
             AUTH-SPLIT: signed-in users get the in-app TOOL nav (Live Coach,
             Strats, etc). Signed-OUT visitors used to see this exact same
-            nav — clicking any of it just hit a sign-in wall (LiveCoachPage,
+            nav â€” clicking any of it just hit a sign-in wall (LiveCoachPage,
             StratsPage's gated features, etc.), a dead end for someone who
             hasn't decided to sign up yet. Logged-out visitors now get a
-            MARKETING nav instead (How It Works / Pricing / Guides / FAQ) —
+            MARKETING nav instead (How It Works / Pricing / Guides / FAQ) â€”
             real anchors on the landing page, nothing that walls them off. */}
-        {/* 4-ITEM NAV (2026-07-06 coherence pass): Coaching · Learn · Tools ▾
+        {/* 4-ITEM NAV (2026-07-06 coherence pass): Coaching Â· Learn Â· Tools â–¾
             + a right-aligned "Book a free session" button. Same structure for
-            both auth states — the old 7-link sprawl buried the one action
+            both auth states â€” the old 7-link sprawl buried the one action
             that makes money. Every tool still one click away in the dropdown. */}
         <ul id="primary-nav" className="navbar-links navbar-desktop-only">
           <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
@@ -233,7 +235,7 @@ export default function Navbar() {
         </ul>
 
         <div className="navbar-right navbar-desktop-only">
-          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book your first session — $20</a>
+          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book your first session â€” $20</a>
           {user ? (
             <AccountDropdown
               user={user}
@@ -247,7 +249,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile-only avatar (shown above the hamburger) — quick visual
+        {/* Mobile-only avatar (shown above the hamburger) â€” quick visual
             anchor for plan tier even without opening the drawer. */}
         {user && (
           <button
@@ -286,7 +288,7 @@ export default function Navbar() {
         <div className="mobile-drawer-head">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
             {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
-                DOM text — never a <text> node inside the SVG, which would render
+                DOM text â€” never a <text> node inside the SVG, which would render
                 differently in every browser. */}
             <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
             Recon<span>6</span>
@@ -296,7 +298,7 @@ export default function Navbar() {
             onClick={closeMobile}
             aria-label="Close menu"
           >
-            ×
+            Ã—
           </button>
         </div>
 
@@ -312,18 +314,18 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Mobile "Active game" switcher removed 2026-07-06 — R6-only. */}
+        {/* Mobile "Active game" switcher removed 2026-07-06 â€” R6-only. */}
 
         {/* Signed-in users get the in-app tool list. Signed-out visitors used
-            to see this same list — every link walled them off immediately
+            to see this same list â€” every link walled them off immediately
             (Live Coach, Strats' gated features, etc). Give them a marketing
             section instead; the real Explore section below still works for
             everyone. */}
         <div className="mobile-drawer-section">
           <div className="mobile-drawer-section-label">Coaching</div>
-          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session — $20 →</a>
+          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session â€” $20 â†’</a>
           <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
-          <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn — the Climb pipeline</a>
+          <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn â€” the Climb pipeline</a>
           <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Guides & blog</a>
         </div>
 
@@ -358,7 +360,7 @@ export default function Navbar() {
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
-            {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
+            {isPro && DESKTOP_APP_RELEASED && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
             {isPro && <Link to="/activate" onClick={closeMobile} className="mobile-drawer-link">Activation</Link>}
             {isAdmin && <Link to="/admin" onClick={closeMobile} className="mobile-drawer-link">Admin dashboard</Link>}
             <button
@@ -371,7 +373,7 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="mobile-drawer-section mobile-drawer-section-cta">
-            <Link to="/auth?mode=signup" onClick={closeMobile} className="btn btn-primary btn-block">Sign Up — Free</Link>
+            <Link to="/auth?mode=signup" onClick={closeMobile} className="btn btn-primary btn-block">Sign Up â€” Free</Link>
             <Link to="/auth" onClick={closeMobile} className="btn btn-ghost btn-block">Sign In</Link>
           </div>
         )}
@@ -379,3 +381,4 @@ export default function Navbar() {
     </>
   )
 }
+
