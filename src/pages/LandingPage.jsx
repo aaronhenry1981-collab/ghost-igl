@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { getCurrentSeason } from '../utils/season'
-// All-Access link/amount imports removed 2026-07-06 (R6-only) — the constants
+// All-Access link/amount imports removed 2026-07-06 (R6-only) â€” the constants
 // stay exported from config/stripe.js for existing subscribers' plumbing.
 import {
   PRO_CHECKOUT_LINK,
@@ -19,11 +19,11 @@ import { useTestimonials } from '../hooks/useTestimonials'
 
 // R6-ONLY flag (2026-07-06): RECON6 is a Rainbow Six product. The multi-game
 // showcase and All-Access upsell JSX below are kept behind this flag instead
-// of deleted — flip to false to instantly restore them if the direction
+// of deleted â€” flip to false to instantly restore them if the direction
 // changes. Existing All-Access subscribers are unaffected either way.
 const R6_ONLY = true
 
-// Days until the expected Y11S3 launch — SAME date as scripts/generate-countdown.mjs
+// Days until the expected Y11S3 launch â€” SAME date as scripts/generate-countdown.mjs
 // (bump both each season; the /countdown/ page is the source of truth users see).
 // Computed once at module load: day-granularity, so no live ticking needed here.
 const Y11S3_DAYS_LEFT = Math.max(0, Math.ceil((Date.parse('2026-09-01T13:00:00Z') - Date.now()) / 86400000))
@@ -39,7 +39,7 @@ const PREVIEW_STRATS = {
 }
 
 // Opens Stripe's customer portal via a freshly-created session. Never fall back to
-// a hardcoded portal URL — portal session IDs change and static URLs 404.
+// a hardcoded portal URL â€” portal session IDs change and static URLs 404.
 async function openStripePortal() {
   const cognitoUser = getCurrentUser()
   if (!cognitoUser) throw new Error('Not signed in')
@@ -61,7 +61,7 @@ async function openStripePortal() {
 // Counter that displays the final value by default and only animates the
 // count-up once when first scrolled into view. Previous version started at 0
 // every render, which meant scrolling, navigating, or any re-render briefly
-// showed "0 Maps / 2+ Strategies / 4% Ranked Pool" — terrible first
+// showed "0 Maps / 2+ Strategies / 4% Ranked Pool" â€” terrible first
 // impression. Now the displayed number is always the real value (or higher).
 function AnimatedCounter({ end, suffix = '', duration = 1400 }) {
   const [count, setCount] = useState(end) // start at final value so we never flash low numbers
@@ -127,7 +127,7 @@ const FEATURES = [
   {
     icon: 'roster',
     title: 'Stop Guessing Who to Pick',
-    desc: 'Get the lineup the meta actually supports for your map, side, and role — not whatever your duo last saw on YouTube. Every recommendation has a reason behind it.',
+    desc: 'Get the lineup the meta actually supports for your map, side, and role â€” not whatever your duo last saw on YouTube. Every recommendation has a reason behind it.',
     link: '/strats',
   },
   {
@@ -139,13 +139,13 @@ const FEATURES = [
   {
     icon: 'meta',
     title: 'See What\'s Actually Working',
-    desc: 'Top picks, biggest ban targets, and map complexity at your rank — refreshed every season. Stop running last patch\'s loadout when the meta has already moved.',
+    desc: 'Top picks, biggest ban targets, and map complexity at your rank â€” refreshed every season. Stop running last patch\'s loadout when the meta has already moved.',
     link: '/meta',
   },
   {
     icon: 'vod',
     title: 'Find Out Exactly Why You Lost the Round',
-    desc: 'Drop 1–10 screenshots from a match — death cams, post-plant freezes, scoreboards. You get a specific fix per shot ("you held off-angle on the wrong window") instead of generic "use utility better" advice. Live today for R6.',
+    desc: 'Drop 1â€“10 screenshots from a match â€” death cams, post-plant freezes, scoreboards. You get a specific fix per shot ("you held off-angle on the wrong window") instead of generic "use utility better" advice. Live today for R6.',
     link: '/vod?demo=1',
   },
   {
@@ -157,19 +157,19 @@ const FEATURES = [
   {
     icon: 'predict',
     title: 'Know What They\'ll Do Before They Do It',
-    desc: 'The standard executes, the standard setups, the standard re-aggression timing — for any map and side. Counter-strat the meta, not the last clip you watched.',
+    desc: 'The standard executes, the standard setups, the standard re-aggression timing â€” for any map and side. Counter-strat the meta, not the last clip you watched.',
     link: '/strats',
   },
   {
     icon: 'squad',
     title: 'Plays That Work With Your Stack',
-    desc: 'Solo, duo, three-stack, full squad — you get a different role and different priorities. Recon 6 tells you which one to take.',
+    desc: 'Solo, duo, three-stack, full squad â€” you get a different role and different priorities. Recon 6 tells you which one to take.',
     link: '/strats',
   },
   {
     icon: 'plan',
     title: 'A Weekly Drill List Built From Your Own VODs',
-    desc: 'After a few uploads we know your patterns. You get 3–5 specific drills per week (e.g. "Bandit-trick the next 20 reinforce attempts on Bank") so practice actually moves the needle.',
+    desc: 'After a few uploads we know your patterns. You get 3â€“5 specific drills per week (e.g. "Bandit-trick the next 20 reinforce attempts on Bank") so practice actually moves the needle.',
     link: '/vod?demo=1',
     badge: 'Champion',
   },
@@ -250,10 +250,10 @@ const RANKS = [
 ]
 
 const STEPS = [
-  { num: '01', title: 'Pick Your Game & Role', desc: 'Choose one of the 11 supported games and tell Recon 6 how you play — Entry, Support, Anchor, IGL, AWPer, Duelist, 1st Man, whatever fits. Every strat is filtered to your playstyle.' },
-  { num: '02', title: 'Open the Map You\'re Loading Into', desc: 'Pull up any map in seconds. Sites, callouts, common executes, and the lineup the meta supports — all in one screen.' },
+  { num: '01', title: 'Pick Your Game & Role', desc: 'Choose one of the 11 supported games and tell Recon 6 how you play â€” Entry, Support, Anchor, IGL, AWPer, Duelist, 1st Man, whatever fits. Every strat is filtered to your playstyle.' },
+  { num: '02', title: 'Open the Map You\'re Loading Into', desc: 'Pull up any map in seconds. Sites, callouts, common executes, and the lineup the meta supports â€” all in one screen.' },
   { num: '03', title: 'Study the Strat', desc: 'Character picks, positioning, callouts, and utility usage. Plus what to ban and how the enemy is most likely to set up.' },
-  { num: '04', title: 'Review Your Gameplay', desc: 'Drop 1-10 screenshots from a match — death cams, post-plant freezes, scoreboards. The AI references the actual map, your character, and the strats — and tells you what to fix.' },
+  { num: '04', title: 'Review Your Gameplay', desc: 'Drop 1-10 screenshots from a match â€” death cams, post-plant freezes, scoreboards. The AI references the actual map, your character, and the strats â€” and tells you what to fix.' },
 ]
 
 const COMPARE = [
@@ -273,7 +273,7 @@ const COMPARE = [
 // while the desktop app finishes). After this date payment links swap to the
 // regular-price Stripe price IDs and the `price` / `regularPrice` fields flip
 // (regular becomes current). Existing subscribers stay locked in at the
-// founding rate — that's the promise.
+// founding rate â€” that's the promise.
 // Pricing copy is intentionally explicit about what each tier ADDS vs the
 // previous one. Reviewers and visitors should be able to read the cards and
 // know in 5 seconds why they'd pay more. "Everything in Pro / Recruit"
@@ -283,12 +283,12 @@ const PRICING = [
     tier: 'Recruit',
     price: 'Free',
     period: '',
-    desc: 'A real taste — the operator catalog and two full sample maps. Start a trial for the rest.',
+    desc: 'A real taste â€” the operator catalog and two full sample maps. Start a trial for the rest.',
     link: '/strats',
     features: [
-      'Full operator catalog — who to pick, every op',
+      'Full operator catalog â€” who to pick, every op',
       'Two sample maps, full free-tier detail (Bank & Coastline)',
-      'Key callouts — click to copy',
+      'Key callouts â€” click to copy',
       'Discord community access',
       'Start a 30-day trial anytime to unlock everything',
     ],
@@ -298,21 +298,21 @@ const PRICING = [
     price: '$9',
     regularPrice: '$12',
     period: '/mo',
-    desc: 'Start free for 30 days — the deep intel that wins rounds, all unlocked.',
+    desc: 'Start free for 30 days â€” the deep intel that wins rounds, all unlocked.',
     featured: true,
     founding: true,
     trialDays: 30,
     link: PRO_CHECKOUT_LINK,
     features: [
-      '30-day free trial — card up front, cancel anytime before it bills',
+      '30-day free trial â€” card up front, cancel anytime before it bills',
       'Everything in Recruit',
-      '+ Round-by-round breakdowns — upload 5 screenshots per session, get specific fixes',
+      '+ Round-by-round breakdowns â€” upload 5 screenshots per session, get specific fixes',
       '+ Tells you exactly which utility to use, where, and when',
       '+ The right ban for every map (with reasoning so you remember why)',
       '+ Read the enemy\'s likely setup before round start',
-      '+ Plays scaled to your squad size — solo to full stack',
+      '+ Plays scaled to your squad size â€” solo to full stack',
       '+ Priority Discord support',
-      'Pro applies to one game of your choice — switch in the sidebar anytime',
+      'Pro applies to one game of your choice â€” switch in the sidebar anytime',
     ],
   },
   {
@@ -320,20 +320,19 @@ const PRICING = [
     price: '$29',
     regularPrice: '$39',
     period: '/mo',
-    desc: 'Start free for 30 days — Pro plus deeper VOD analysis, practice plans, and every map unlocked.',
+    desc: 'Start free for 30 days â€” Pro plus deeper VOD analysis, practice plans, and every map unlocked.',
     founding: true,
     trialDays: 30,
     link: CHAMPION_CHECKOUT_LINK,
     features: [
-      '30-day free trial — card up front, cancel anytime before it bills',
+      '30-day free trial â€” card up front, cancel anytime before it bills',
       'Everything in Pro',
-      '+ Review a full round at once — upload up to 10 screenshots per session',
+      '+ Review a full round at once â€” upload up to 10 screenshots per session',
       '+ Held accountable for every pick (did you actually use the gadget?)',
       '+ Recurring-weakness reports across all your sessions',
-      '+ A weekly drill list built from your own clips (3–5 specific reps)',
+      '+ A weekly drill list built from your own clips (3â€“5 specific reps)',
       '+ Every R6 legacy map unlocked (Favela, Fortress, Hereford, House, Kanal)',
-      '+ Premium tactics — spawn-kills, runouts, anti-spawn-peek setups',
-      '+ Recon 6 Command desktop app (beta — for power users)',
+      '+ Premium tactics â€” spawn-kills, runouts, anti-spawn-peek setups',
       '+ Early access to new features',
     ],
   },
@@ -342,31 +341,31 @@ const PRICING = [
 const FAQ = [
   {
     q: 'What does Recon 6 actually do for me?',
-    a: 'Two things. First, it pulls every callout, lineup, ban target, and site setup for any map into one screen so you walk into the round prepared instead of guessing. Second, you can upload screenshots from your matches and get a specific breakdown of what cost you the round — with a fix you can use next game, not vague tips. The result: you stop losing rounds you should win, and you climb faster.',
+    a: 'Two things. First, it pulls every callout, lineup, ban target, and site setup for any map into one screen so you walk into the round prepared instead of guessing. Second, you can upload screenshots from your matches and get a specific breakdown of what cost you the round â€” with a fix you can use next game, not vague tips. The result: you stop losing rounds you should win, and you climb faster.',
   },
   {
     q: 'Which games does Recon 6 support today?',
-    a: 'RECON6 is a Rainbow Six Siege coaching platform. Everything on the site is built for Siege: the full strat library for every ranked map, premium tactics, AI VOD review, the live coach, and the meta board — all updated every season and every balance patch.',
+    a: 'RECON6 is a Rainbow Six Siege coaching platform. Everything on the site is built for Siege: the full strat library for every ranked map, premium tactics, AI VOD review, the live coach, and the meta board â€” all updated every season and every balance patch.',
   },
   {
     q: 'Is Recon 6 a boosting service?',
-    a: 'No. Nobody ever logs into your account. You earn your rank through better game sense, positioning, and decision-making — Recon 6 just shortens the learning curve so you stop making the same mistake five matches in a row.',
+    a: 'No. Nobody ever logs into your account. You earn your rank through better game sense, positioning, and decision-making â€” Recon 6 just shortens the learning curve so you stop making the same mistake five matches in a row.',
   },
   {
     q: 'Will I get banned?',
-    a: 'No. Recon 6 is a website that shows you reference data and reviews screenshots you upload. It does not inject into any game, modify game files, or interact with any game client. The optional Champion-tier desktop app reads your screen via OCR (the same way OBS does) and never touches the game process.',
+    a: 'No. Recon 6 is a website that shows you Rainbow Six reference data and reviews screenshots you upload. It does not inject into the game, modify game files, or interact with the game client.',
   },
   {
     q: 'What does a VOD breakdown actually look like?',
-    a: 'Drop 1–10 screenshots from a match — death cams, post-plant freezes, end-of-round scoreboards. You get back: the specific mistake on each shot ("you held off-angle on the wrong window"), the recurring patterns across the session, and a fix you can apply next round. Not "use utility better." Specifics. Pro reviews 5 screenshots per session; Champion reviews 10 and stitches patterns across multiple sessions.',
+    a: 'Drop 1â€“10 screenshots from a match â€” death cams, post-plant freezes, end-of-round scoreboards. You get back: the specific mistake on each shot ("you held off-angle on the wrong window"), the recurring patterns across the session, and a fix you can apply next round. Not "use utility better." Specifics. Pro reviews 5 screenshots per session; Champion reviews 10 and stitches patterns across multiple sessions.',
   },
   {
     q: 'What ranks does Recon 6 help?',
-    a: 'Every rank, Copper to Champion. The site adjusts the read to your skill level — you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
+    a: 'Every rank, Copper to Champion. The site adjusts the read to your skill level â€” you don\'t need pro-tier lineups to climb out of Bronze, you need the basics done correctly. As you climb, the depth scales with you.',
   },
   {
-    q: 'Pro or Champion — which one fits me?',
-    a: 'Pro gives you the strats plus AI VOD breakdowns — the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, full-round reviews, and the desktop coach app.',
+    q: 'Pro or Champion â€” which one fits me?',
+    a: 'Pro gives you the strats plus AI VOD breakdowns â€” the right pick for most players who want to climb. Champion adds a structured-climb layer: weekly drill plans built from your own clips, recurring-weakness reports, full-round reviews, every map, and premium tactics.',
   },
   {
     q: 'How often does the content update?',
@@ -393,312 +392,7 @@ function FaqItem({ item }) {
 }
 
 function MetaStrip() {
-  const top3 = META.opBoard.slice(0, 3)
-  const topBans = META.banBoard.slice(0, 3)
-  return (
-    <div className="meta-strip">
-      <div className="meta-strip-col">
-        <div className="meta-strip-label">Top essential picks</div>
-        <ol className="meta-strip-list">
-          {top3.map((op, i) => (
-            <li key={op.name}>
-              <span className="meta-strip-rank">{i + 1}</span>
-              <Link to={`/operators/${encodeURIComponent(op.name.toLowerCase())}`} className="meta-strip-name">
-                {op.name}
-              </Link>
-              <span className="meta-strip-count">{op.essential} sites</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-      <div className="meta-strip-col">
-        <div className="meta-strip-label">Most-banned targets</div>
-        <ol className="meta-strip-list">
-          {topBans.map((b, i) => (
-            <li key={b.name}>
-              <span className="meta-strip-rank">{i + 1}</span>
-              <span className="meta-strip-name">{b.name}</span>
-              <span className="meta-strip-count">{b.total} maps</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-      <div className="meta-strip-cta">
-        <Link to="/meta" className="btn btn-primary btn-sm">See full meta →</Link>
-      </div>
-    </div>
-  )
-}
-
-function StratPreview() {
-  const [key, setKey] = useState('bank-ceo-attack')
-  const current = PREVIEW_STRATS[key]
-  return (
-    <div className="strat-preview-wrap">
-      <div className="strat-preview-tabs">
-        {Object.entries(PREVIEW_STRATS).map(([k, v]) => (
-          <button
-            key={k}
-            type="button"
-            className={`strat-preview-tab${k === key ? ' active' : ''}`}
-            onClick={() => setKey(k)}
-          >
-            <span className="strat-preview-map">{v.map}</span>
-            <span className="strat-preview-site">{v.site} · {v.side === 'attack' ? 'Attack' : 'Defense'}</span>
-          </button>
-        ))}
-      </div>
-      <div className="strat-preview-body">
-        <StratDisplay strat={current.data} side={current.side} gated={true} />
-      </div>
-    </div>
-  )
-}
-
-export default function LandingPage() {
-  const { user, isPro } = useAuth()
-  const { visible: testimonials } = useTestimonials()
-  const { video: demoVideo } = useDemoVideo()
-  const [portalLoading, setPortalLoading] = useState(false)
-  const [portalError, setPortalError] = useState(null)
-  // R6-ONLY (2026-07-06): the billing-scope toggle and All-Access SKUs are no
-  // longer offered to NEW visitors — RECON6 is a Rainbow Six product. The
-  // All-Access price IDs stay live in config/stripe.js and useAuth still
-  // honors tier_scope 'all_access' so existing subscribers lose nothing.
-  useReveal()
-
-  const handleManageSubscription = useCallback(async () => {
-    setPortalLoading(true)
-    setPortalError(null)
-    try {
-      await openStripePortal()
-    } catch (err) {
-      setPortalError(err.message || 'Could not open billing portal')
-      setPortalLoading(false)
-    }
-  }, [])
-
-  return (
-    <>
-      <section className="hero">
-        <div className="hero-grid-bg" />
-        <div className="hero-glow" />
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="pulse-dot" />
-            Recon 6 · Rainbow Six Siege · Season {getCurrentSeason()}
-          </div>
-          <h1>
-            AI-augmented coaching for <br />
-            <span className="accent">Rainbow Six</span>.
-          </h1>
-          <p className="hero-subtitle">
-            A human coach backed by a full AI staff: VOD breakdowns of your actual rounds,
-            death-cause tracking across sessions, and live ranked plans for every map and site.
-            The AI finds what's costing you rounds — your coach fixes it with you.
-            First session is 50% off — $20, console and PC, any rank.
-          </p>
-          {/* COACHING-FIRST (2026-07-06 master command): the paid-intro CTA is
-              primary; the AI VOD demo stays co-primary as the try-it-now path.
-              AI is the headline, never hidden. First session is 50% off ($20). */}
-          <div className="hero-cta">
-            <a
-              href="/coaching/"
-              className="btn btn-primary btn-lg"
-              onClick={() => track('Hero CTA Click', { type: 'coaching-intro-paid' })}
-            >
-              Book your first session — 50% off ($20)
-            </a>
-            <Link
-              to="/vod?demo=1"
-              className="btn btn-ghost btn-lg hero-cta-vod"
-              onClick={() => track('Hero CTA Click', { type: 'vod-demo' })}
-            >
-              ▶ Try AI VOD Review — Free
-            </Link>
-            <a
-              href="#pricing"
-              onClick={(e) => {
-                e.preventDefault()
-                track('Pricing CTA Click', { tier: 'pro', location: 'hero' })
-                document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="btn btn-ghost btn-lg"
-            >
-              See plans & pricing
-            </a>
-          </div>
-          <div className="hero-cta-sub" style={{ textAlign: 'center', fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)', marginTop: '0.5rem' }}>
-            Drop a screenshot from any match. We tell you exactly what cost you the round, with a fix you can use next game. <strong style={{ color: '#00e5ff' }}>No signup to try.</strong>
-          </div>
-          {isFoundingOpen() && (
-            <div className="hero-tertiary" style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
-              <FoundingCountdown variant="pill" />
-            </div>
-          )}
-          <div className="hero-tertiary" style={{ display: 'flex', gap: 16, justifyContent: 'center', fontSize: '0.85rem' }}>
-            <Link to="/strats">Or browse R6 Strats (free) →</Link>
-            <Link to="/live">Try Live Coach →</Link>
-            {/* Season countdown badge — target date lives in ONE place:
-                scripts/generate-countdown.mjs (bump it each season). This badge
-                intentionally recomputes from the same expected date so the two
-                never disagree by more than the config constant. */}
-            <a href="/countdown/" style={{ color: '#00e5ff' }}>
-              ⏳ Y11S3 in ~{Y11S3_DAYS_LEFT} days →
-            </a>
-          </div>
-          <div className="hero-micro-trust">
-            <span>✓ No credit card to try</span>
-            <span>✓ Free tier covers every R6 ranked map</span>
-            <span>✓ 7-day money-back on any plan</span>
-          </div>
-          {/* R6-only stats (2026-07-06) — real numbers counted from strats.js:
-              25 maps, 107 sites with full setups. Operator count = full Siege
-              roster incl. crossovers. Update alongside data, not vibes. */}
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <strong><AnimatedCounter end={25} /></strong>
-              <span>R6 Maps Covered</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <strong><AnimatedCounter end={107} /></strong>
-              <span>Sites With Full Setups</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <strong><AnimatedCounter end={78} /></strong>
-              <span>Operators Indexed</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <strong><AnimatedCounter end={24} />/7</strong>
-              <span>AI Coach On Call</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="trust-bar">
-        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> No Account Sharing</div>
-        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> TOS-Safe by Design</div>
-        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Cancel in One Click</div>
-        <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> Refreshed Every Season</div>
-      </div>
-
-      {/* Testimonials moved directly under the hero (2026-07-06 coherence
-          pass) \u2014 social proof belongs before the feature tour, not below it. */}
-      {testimonials.length > 0 && (
-      <section className="section" id="testimonials">
-        <div className="section-header">
-          <div className="section-label">Testimonials</div>
-          <h2>Players Are Ranking Up</h2>
-          <p>Real climbs from R6 players who use Recon 6.</p>
-        </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <div className="testimonial-card" key={t.id || t.name}>
-              <div className="testimonial-stars">{'\u2605\u2605\u2605\u2605\u2605'}</div>
-              <p className="testimonial-text">\u201c{t.text}\u201d</p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">{t.initials}</div>
-                <div className="testimonial-meta">
-                  <strong>{t.name}</strong>
-                  {t.rank && <span className="rank-up">{t.rank}</span>}
-                </div>
-              </div>
-              {t.hours && <div className="testimonial-hours">{t.hours}</div>}
-            </div>
-          ))}
-        </div>
-      </section>
-      )}
-
-      <section className="section" id="features">
-        <div className="section-header">
-          <div className="section-label">Features</div>
-          <h2>Everything You Need to Rank Up</h2>
-          <p>What a pro coach would tell you about your map, your pick, and your last round — available the moment you need it, for a fraction of the cost.</p>
-        </div>
-        <div className="features-grid">
-          {FEATURES.map((f) => {
-            const iconNode = FEATURE_ICONS[f.icon] || null
-            const Card = (
-              <>
-                {f.badge && <span className="feature-badge">{f.badge}</span>}
-                <div className="feature-icon" aria-hidden="true">{iconNode}</div>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
-              </>
-            )
-            return f.link ? (
-              <Link to={f.link} className={`feature-card${f.badge ? ' feature-card-champion' : ''}`} key={f.title}>{Card}</Link>
-            ) : (
-              <div className={`feature-card${f.badge ? ' feature-card-champion' : ''}`} key={f.title}>{Card}</div>
-            )
-          })}
-        </div>
-      </section>
-
-      {demoVideo && (
-        <section className="section" id="demo">
-          <div className="section-header">
-            <div className="section-label">Demo</div>
-            <h2>{demoVideo.title}</h2>
-            <p>{demoVideo.caption}</p>
-          </div>
-          <div className="demo-video-wrap">
-            <iframe
-              src={demoVideo.embedUrl}
-              title={demoVideo.title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        </section>
-      )}
-
-      <section className="section section-dark" id="how-it-works">
-        <div className="section-header">
-          <div className="section-label">How It Works</div>
-          <h2>Start Improving in 4 Steps</h2>
-          <p>No downloads, no plugins, no friction. Open the site, pick your game, climb.</p>
-        </div>
-        <div className="steps-grid">
-          {STEPS.map((s) => (
-            <div className="step-card" key={s.num}>
-              <div className="step-num">{s.num}</div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="preview">
-        <div className="section-header">
-          <div className="section-label">Live Preview — R6</div>
-          <h2>Try a Real Strat — No Signup</h2>
-          <p>An honest preview of what every site looks like inside Recon 6. Pick an R6 map and side, see real tactical content — the full utility / character / callout breakdown unlocks on Pro.</p>
-        </div>
-        <StratPreview />
-        <div className="section-sub-header">
-          <div className="section-label">R6 Ranked Meta — Live</div>
-          <h3>What’s defining the R6 ranked pool right now</h3>
-        </div>
-        <MetaStrip />
-      </section>
-
-      {/* Multi-game showcase REMOVED 2026-07-06 — RECON6 is R6-only. The
-          /games/ static pages stay live for their indexed SEO value, but the
-          product story on this page is pure Rainbow Six. */}
-      {!R6_ONLY && <section className="section" id="games">
-        <div className="section-header">
-          <div className="section-label">Built for R6 first</div>
-          <h2>Rainbow Six is home. Your other games come free.</h2>
-          <p>Recon 6 goes deepest on Siege — premium tactics, AI VOD review, the desktop coach. The same toolkit (strats, loadouts, match prep, meta) is there for the other games you play too, one switch away in the sidebar. No extra subscription.</p>
+  …3462 tokens truncated…tra subscription.</p>
         </div>
         <div style={{
           display: 'grid',
@@ -752,7 +446,7 @@ export default function LandingPage() {
           ))}
         </div>
         <p style={{ textAlign: 'center', color: 'rgba(230,233,239,0.6)', fontSize: '0.9rem', marginTop: '1.5rem', maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
-          Rainbow Six goes deepest — every map, site, operator, and the AI VOD review. Your other games are covered too: maps, characters, loadouts, strats, and match prep, with more depth shipping every week.
+          Rainbow Six goes deepest â€” every map, site, operator, and the AI VOD review. Your other games are covered too: maps, characters, loadouts, strats, and match prep, with more depth shipping every week.
           <strong style={{ color: '#00e5ff' }}> All-Access ($19/mo)</strong> adds every game to one plan as it grows.
         </p>
       </section>}
@@ -761,7 +455,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">Why Recon 6</div>
           <h2>Recon 6 vs The Competition</h2>
-          <p>Boosting services play your account. Human coaches cost $50+/hour and only know one game. Recon 6 does the work of both for the price of a pizza.</p>
+          <p>Boosting services play your account. Human coaching can cost $50+/hour. Recon 6 helps you find the Siege decisions costing you rounds for the price of a pizza.</p>
         </div>
         <div className="compare-table-wrap">
           <table className="compare-table">
@@ -820,28 +514,28 @@ export default function LandingPage() {
 
         <div className="pricing-reassure">
           <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">⟲</span>
+            <span className="pricing-reassure-icon">âŸ²</span>
             <div>
               <strong>7-day money-back</strong>
               <p>If Recon 6 doesn't help you climb, we refund you. No questions, no argument.</p>
             </div>
           </div>
           <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">⊘</span>
+            <span className="pricing-reassure-icon">âŠ˜</span>
             <div>
               <strong>Cancel in one click</strong>
               <p>Stripe customer portal from your Account page. No phone calls, no retention tricks.</p>
             </div>
           </div>
           <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">∞</span>
+            <span className="pricing-reassure-icon">âˆž</span>
             <div>
               <strong>Your rank stays yours</strong>
               <p>Nobody ever logs into your account. Ubisoft TOS safe by design.</p>
             </div>
           </div>
         </div>
-        {/* Billing-scope toggle REMOVED 2026-07-06 — R6-only: pricing is just
+        {/* Billing-scope toggle REMOVED 2026-07-06 â€” R6-only: pricing is just
             Pro + Champion for Rainbow Six. All-Access SKUs live on for
             existing subscribers (config/stripe.js + useAuth tier_scope). */}
         <div className="pricing-grid">
@@ -886,7 +580,7 @@ export default function LandingPage() {
                     borderRadius: 999,
                   }}
                 >
-                  Founding rate — locked for life
+                  Founding rate â€” locked for life
                 </div>
               )}
               <p className="pricing-desc">{p.desc}</p>
@@ -900,7 +594,7 @@ export default function LandingPage() {
                   disabled={portalLoading}
                   className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
                 >
-                  {portalLoading ? 'Opening…' : 'Manage Subscription'}
+                  {portalLoading ? 'Openingâ€¦' : 'Manage Subscription'}
                 </button>
               ) : p.price === 'Free' && user ? (
                 <Link to="/strats" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
@@ -924,14 +618,14 @@ export default function LandingPage() {
             )
           })}
         </div>
-        <p className="pricing-note">Paid plans start with a 30-day free trial — cancel anytime before it bills and you're never charged.</p>
+        <p className="pricing-note">Paid plans start with a 30-day free trial â€” cancel anytime before it bills and you're never charged.</p>
         {portalError && (
           <p className="pricing-note" style={{ color: '#ff6b6b' }}>
-            {portalError} — you can also <Link to="/account">manage from Account</Link>.
+            {portalError} â€” you can also <Link to="/account">manage from Account</Link>.
           </p>
         )}
 
-        {/* All-Access upsell REMOVED 2026-07-06 — R6-only. Existing All-Access
+        {/* All-Access upsell REMOVED 2026-07-06 â€” R6-only. Existing All-Access
             subscribers keep their plans; new visitors only see Pro/Champion. */}
         {!R6_ONLY && <div
           style={{
@@ -952,11 +646,11 @@ export default function LandingPage() {
                 Play more than just Siege? One plan covers your whole rotation.
               </h3>
               <p style={{ color: 'rgba(230,233,239,0.85)', margin: '0 0 0.75rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                R6 is home — the deepest content plus AI VOD review. The same toolkit (strats, loadouts, match prep, meta board) is ready for CS2, Valorant, Call of Duty, Apex, Overwatch 2, Marvel Rivals, The Finals, Halo Infinite, Fortnite, and Rocket League — switch in the sidebar, no per-game upgrade.
+                R6 is home â€” the deepest content plus AI VOD review. The same toolkit (strats, loadouts, match prep, meta board) is ready for CS2, Valorant, Call of Duty, Apex, Overwatch 2, Marvel Rivals, The Finals, Halo Infinite, Fortnite, and Rocket League â€” switch in the sidebar, no per-game upgrade.
               </p>
               <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.85rem', color: 'rgba(230,233,239,0.7)' }}>
-                <span><strong style={{ color: '#fff' }}>Pro+</strong> $19/mo — unlock all 20 games on Pro tier</span>
-                <span><strong style={{ color: '#fff' }}>Champion+</strong> $49/mo — full Champion across all games</span>
+                <span><strong style={{ color: '#fff' }}>Pro+</strong> $19/mo â€” unlock all 20 games on Pro tier</span>
+                <span><strong style={{ color: '#fff' }}>Champion+</strong> $49/mo â€” full Champion across all games</span>
                 <span style={{ color: '#7ee2a4' }}>Annual: save 17%</span>
               </div>
             </div>
@@ -968,7 +662,7 @@ export default function LandingPage() {
                 onClick={() => track('Pricing CTA Click', { tier: 'pro-all-access', location: 'all-access-banner' })}
                 className="btn btn-primary"
               >
-                Pro+ — $19/mo →
+                Pro+ â€” $19/mo â†’
               </a>
               <a
                 href="https://buy.stripe.com/eVq7sM8N4crO9V55BU7ss0j"
@@ -977,7 +671,7 @@ export default function LandingPage() {
                 onClick={() => track('Pricing CTA Click', { tier: 'champion-all-access', location: 'all-access-banner' })}
                 className="btn btn-outline"
               >
-                Champion+ — $49/mo →
+                Champion+ â€” $49/mo â†’
               </a>
               <div style={{ fontSize: '0.78rem', color: 'rgba(230,233,239,0.55)', textAlign: 'center' }}>
                 Annual options at checkout
@@ -1004,10 +698,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Featured rank-up guides — gives the homepage internal links to the
+      {/* Featured rank-up guides â€” gives the homepage internal links to the
           highest-SEO-potential posts so they inherit crawl equity from the
           root domain. Without these direct links the homepage's PageRank
-          can't flow to individual posts (Google crawls /blog/ → posts, but
+          can't flow to individual posts (Google crawls /blog/ â†’ posts, but
           gives less weight than a direct homepage link). */}
       <section className="section" id="featured-guides">
         <div className="section-header">
@@ -1025,12 +719,12 @@ export default function LandingPage() {
           }}
         >
           {[
-            { href: '/blog/lol-champion-tier-list-2026.html', game: 'League of Legends', title: 'LoL Champion Tier List 2026', sub: 'S/A/B/C picks per role — top, jungle, mid, ADC, support — for the current meta patch.' },
-            { href: '/blog/tekken-8-tier-list-2026.html', game: 'Tekken 8', title: 'Tekken 8 Tier List 2026', sub: 'Character rankings by archetype — Mishima, rushdown, grappler, counter, all-rounder.' },
+            { href: '/blog/lol-champion-tier-list-2026.html', game: 'League of Legends', title: 'LoL Champion Tier List 2026', sub: 'S/A/B/C picks per role â€” top, jungle, mid, ADC, support â€” for the current meta patch.' },
+            { href: '/blog/tekken-8-tier-list-2026.html', game: 'Tekken 8', title: 'Tekken 8 Tier List 2026', sub: 'Character rankings by archetype â€” Mishima, rushdown, grappler, counter, all-rounder.' },
             { href: '/blog/ow2-stadium-tier-list.html', game: 'OW2 Stadium', title: 'OW2 Stadium Tier List 2026', sub: 'S/A/B/C tiers for every Stadium hero, ranked by build ceiling + R7 impact.' },
-            { href: '/blog/eafc-best-formations-2026.html', game: 'EA Sports FC', title: 'EA FC Best Formations 2026', sub: '4-3-3 vs 4-2-3-1 vs 5-3-2 — when each wins, custom tactics presets, FUT chemistry.' },
+            { href: '/blog/eafc-best-formations-2026.html', game: 'EA Sports FC', title: 'EA FC Best Formations 2026', sub: '4-3-3 vs 4-2-3-1 vs 5-3-2 â€” when each wins, custom tactics presets, FUT chemistry.' },
             { href: '/blog/r6-copper-to-bronze.html', game: 'R6 Siege', title: 'How to Climb Out of Copper', sub: 'The 5 operators to main, drone discipline, reinforcement priority.' },
-            { href: '/blog/pubg-best-drops-2026.html', game: 'PUBG', title: 'Best PUBG Drop Locations 2026', sub: 'Drop strategy per map — Erangel, Miramar, Sanhok — with loot priority and rotation paths.' },
+            { href: '/blog/pubg-best-drops-2026.html', game: 'PUBG', title: 'Best PUBG Drop Locations 2026', sub: 'Drop strategy per map â€” Erangel, Miramar, Sanhok â€” with loot priority and rotation paths.' },
             { href: '/blog/dota-2-hero-tier-list-2026.html', game: 'Dota 2', title: 'Dota 2 Hero Tier List 2026', sub: 'Position 1-5 rankings, item priority, draft logic for current patch.' },
             { href: '/blog/valorant-iron-to-bronze.html', game: 'VALORANT', title: 'How to Climb Out of Iron', sub: 'Crosshair placement, agent picks, util usage that wins Iron rounds.' },
           ].map((post) => (
@@ -1062,7 +756,7 @@ export default function LandingPage() {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-          <a href="/blog/" className="btn btn-ghost btn-sm">All 98 Guides →</a>
+          <a href="/blog/" className="btn btn-ghost btn-sm">All 98 Guides â†’</a>
         </div>
       </section>
 
@@ -1081,10 +775,11 @@ export default function LandingPage() {
             </div>
           )}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats — Free</Link>
+            <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats â€” Free</Link>
           </div>
         </div>
       </section>
     </>
   )
 }
+
