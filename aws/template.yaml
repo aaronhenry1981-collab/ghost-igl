@@ -476,6 +476,11 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
+                - dynamodb:UpdateItem
+              Resource: !GetAtt SubscriptionsTable.Arn
+        - Statement:
+            - Effect: Allow
+              Action:
                 - bedrock:InvokeModel
               Resource:
                 - arn:aws:bedrock:*::foundation-model/*
