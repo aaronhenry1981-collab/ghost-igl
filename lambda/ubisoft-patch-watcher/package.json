@@ -1,0 +1,13 @@
+{
+  "name": "ghost-igl-ubisoft-patch-watcher",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1049.0",
+    "@aws-sdk/client-s3": "^3.1049.0"
+  }
+}
