@@ -713,38 +713,22 @@ async function putMe(email, bodyJson, headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ profile: stripProfile(fresh.Item || {}) }) }
 }
 
-// Desktop-app license check. Accepts either:
-//   - an HMAC-signed activation token (issued by /me/activation-token after
-//     Cognito auth confirmed the user is Champion), OR
-//   - a bare email (used by the desktop app on periodic re-verification, ONLY
-//     after the original signed token already proved identity at activation
-//     time and the email is stored locally).
-//
-// Token-based path is the strong-auth path: signed by the server, faked tokens
-// fail signature verification. Email-only path trusts that the desktop app
-// already activated successfully. If you want to harden further, store the
-// stripe_customer_id from the verify response on the desktop app and also
-// re-verify against that.
+// Desktop-app license check. Every request must prove possession of a current
+// HMAC-signed activation token. A bare email is never sufficient.
 async function postDesktopVerify(bodyJson, headers) {
   let body
   try { body = JSON.parse(bodyJson || '{}') }
   catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) } }
 
-  let email = typeof body.email === 'string' ? body.email.toLowerCase() : null
-
-  if (typeof body.token === 'string' && body.token.length > 0) {
-    const result = verifyActivationToken(body.token.trim())
-    if (!result.ok) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: `Invalid activation token: ${result.reason}` }) }
-    }
-    if (typeof result.payload?.email === 'string') {
-      email = result.payload.email.toLowerCase()
-    }
+  if (typeof body.token !== 'string' || body.token.length === 0) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing activation token' }) }
   }
-
-  if (!email) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing email or token' }) }
+  const result = verifyActivationToken(body.token.trim())
+  if (!result.ok) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: `Invalid activation token: ${result.reason}` }) }
   }
+  const email = typeof result.payload?.email === 'string' ? result.payload.email.toLowerCase() : null
+  if (!email) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Activation token missing email' }) }
 
   const sub = await getActiveSub(email)
   if (isActiveSub(sub)) {
@@ -794,6 +778,8 @@ async function postActivationToken(email, headers, payload) {
   const issuedAt = Date.now()
   const expiresAt = issuedAt + ACTIVATION_TTL_MS
   const tokenStr = signActivationToken({
+    user_id: payload?.sub || email,
+    token_id: crypto.randomUUID(),
     email,
     plan: 'champion',
     issued_at: issuedAt,

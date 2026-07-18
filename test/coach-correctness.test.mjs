@@ -86,3 +86,11 @@ test('CRM win-back requires consent and honors durable marketing suppression', (
   assert.match(crm, /!log\.welcome_sent_at && !marketingSuppressed/)
   assert.match(crm, /profile\?\.marketing_consent_at/)
 })
+
+test('desktop verification requires a signed token and issued tokens identify the user', () => {
+  const subscription = readFileSync(new URL('../lambda/subscription/index.mjs', import.meta.url), 'utf8')
+  assert.match(subscription, /Missing activation token/)
+  assert.equal(subscription.includes("typeof body.email === 'string'"), false)
+  assert.match(subscription, /user_id: payload\?\.sub \|\| email/)
+  assert.match(subscription, /token_id: crypto\.randomUUID\(\)/)
+})
