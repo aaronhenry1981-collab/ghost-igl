@@ -25,6 +25,7 @@
     "indexnow": "node scripts/indexnow-ping.mjs",
     "postdeploy": "npm run indexnow",
     "lint": "eslint .",
+    "test": "node --test test/*.test.mjs",
     "preview": "vite preview",
     "generate:countdown": "node scripts/generate-countdown.mjs",
     "generate:coaching": "node scripts/generate-coaching-page.mjs",
