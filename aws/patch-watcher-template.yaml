@@ -1,0 +1,105 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Recon6 official Ubisoft patch watcher foundation (review-only, no auto-publish)
+
+Parameters:
+  ScheduleExpression:
+    Type: String
+    Default: cron(15 12 * * ? *)
+    Description: Daily EventBridge schedule in UTC
+  SourceUrls:
+    Type: String
+    Default: https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates
+    Description: Comma-separated official Ubisoft R6 news landing pages
+
+Resources:
+  PatchSnapshotsBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-noncurrent-versions
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 90
+
+  PatchEventsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: event_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: event_id
+          KeyType: HASH
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+
+  PatchWatcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-ubisoft-patch-watcher
+      Runtime: nodejs20.x
+      Handler: index.handler
+      CodeUri: ../lambda/ubisoft-patch-watcher/
+      Timeout: 60
+      MemorySize: 256
+      Environment:
+        Variables:
+          PATCH_EVENTS_TABLE: !Ref PatchEventsTable
+          PATCH_SNAPSHOTS_BUCKET: !Ref PatchSnapshotsBucket
+          SOURCE_URLS: !Ref SourceUrls
+          MAX_ARTICLES: '20'
+      Policies:
+        - Statement:
+            - Sid: RecordPatchDiscovery
+              Effect: Allow
+              Action: dynamodb:PutItem
+              Resource: !GetAtt PatchEventsTable.Arn
+            - Sid: StorePatchEvidence
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub ${PatchSnapshotsBucket.Arn}/*
+      Events:
+        DailyPatchCheck:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: !Ref ScheduleExpression
+            State: ENABLED
+            RetryPolicy:
+              MaximumRetryAttempts: 2
+              MaximumEventAgeInSeconds: 3600
+
+  PatchWatcherLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: /aws/lambda/ghost-igl-ubisoft-patch-watcher
+      RetentionInDays: 30
+
+Outputs:
+  PatchWatcherFunctionName:
+    Value: !Ref PatchWatcherFunction
+  PatchEventsTableName:
+    Value: !Ref PatchEventsTable
+  PatchSnapshotsBucketName:
+    Value: !Ref PatchSnapshotsBucket
