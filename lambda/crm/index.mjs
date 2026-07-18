@@ -74,9 +74,36 @@ Aaron — Recon 6`,
   }
 }
 
+// One-time coaching-intro campaign (NOT part of the daily lifecycle — only
+// runs when invoked with {campaign:'coaching-intro'}). Pushes the $20 first
+// session. ?ref=email so the booking Lambda's referral_source attribution
+// records which channel converted. Aaron's voice, no emojis (CRM convention).
+function coachingIntroEmail() {
+  return {
+    subject: 'The thing costing you the most rounds — let us find it ($20)',
+    body: `Hey,
+
+You have the strat library. Here is the part it cannot do for you: watch YOUR rounds and tell you which mistake you are repeating five matches in a row.
+
+That is a coaching session. Your first one is $20 — half the $40 single rate, first-timers only.
+
+How it works:
+- Bring 2-3 clips or screenshots of rounds you lost.
+- The AI processes them before we meet: what killed you, where, and the pattern across rounds.
+- We watch the moments that matter, fix ONE thing properly, and you leave with a concrete plan for your next queue.
+- Console (PS5 capture-card) or PC. Any rank. Sessions run on Discord. 7-day money-back guarantee.
+
+Pick a time: ${SITE}/coaching/?ref=email#book
+
+Not boosting — nobody touches your account, ever. You earn the rank; coaching just stops the repeat mistakes.
+
+Aaron — Recon 6`,
+  }
+}
+
 // ---- helpers ----------------------------------------------------------------
-async function sendEmail(to, { subject, body }) {
-  if (DRY_RUN) { console.log(`DRY_RUN send → ${to}: ${subject}`); return true }
+async function sendEmail(to, { subject, body }, forceDry = false) {
+  if (DRY_RUN || forceDry) { console.log(`DRY_RUN send → ${to}: ${subject}`); return true }
   try {
     await ses.send(new SendEmailCommand({
       FromEmailAddress: FROM,
@@ -134,8 +161,95 @@ async function scanAll(table) {
   return items
 }
 
+// ---- coaching-intro campaign (invoke-triggered, NOT the daily cron) ----------
+// Invoke with { campaign: 'coaching-intro', segment?, limit?, dryRun? }.
+//   segment: 'all' (default) | 'free' (no active sub) | 'subscribers' (active sub)
+//   limit:   cap this batch (send to a small first wave, then the rest)
+//   dryRun:  force preview even if env DRY_RUN is unset — logs + counts, no send
+// Once-only per address via crm-log flag `coaching_intro_sent_at`. Best-effort
+// exclusion of anyone who already booked a coaching session (the $20 "first
+// session" copy would be wrong for them; the server enforces first-timer-only
+// anyway, so this is a courtesy filter, not a correctness gate).
+const BOOKINGS_TABLE = process.env.BOOKINGS_TABLE || 'recon6-bookings'
+
+async function priorCoachingEmails() {
+  try {
+    const rows = await scanAll(BOOKINGS_TABLE)
+    const set = new Set()
+    for (const b of rows) {
+      if (['confirmed', 'comped', 'completed'].includes(b.status) && b.customer?.email) {
+        set.add(String(b.customer.email).toLowerCase())
+      }
+    }
+    return set
+  } catch (err) {
+    console.warn(`priorCoachingEmails: could not read ${BOOKINGS_TABLE} (${err.name}) — proceeding without prior-customer exclusion`)
+    return null // signal "unknown" so the digest can flag it
+  }
+}
+
+async function runCoachingIntroCampaign(event) {
+  const now = Date.now()
+  const segment = ['all', 'free', 'subscribers'].includes(event.segment) ? event.segment : 'all'
+  const limit = Number.isInteger(event.limit) && event.limit > 0 ? event.limit : Infinity
+  const dryRun = DRY_RUN || event.dryRun === true
+  const tmpl = coachingIntroEmail()
+
+  const [users, subs] = await Promise.all([listAllUsers(), scanAll(SUBS_TABLE)])
+  const activeSubEmails = new Set(
+    subs.filter((s) => ['active', 'trialing'].includes(s.status) && s.email)
+      .map((s) => String(s.email).toLowerCase()),
+  )
+  const prior = await priorCoachingEmails()
+  // Never pitch the owner/alert inboxes — they receive the digest, not the ad.
+  const ownerEmails = new Set(ALERT_EMAILS.map((e) => String(e).toLowerCase()))
+
+  const report = { campaign: 'coaching-intro', segment, dryRun, sent: [], skipped: {}, failures: [] }
+  const skip = (why) => { report.skipped[why] = (report.skipped[why] || 0) + 1 }
+
+  for (const u of users) {
+    if (report.sent.length >= limit) { skip('over_batch_limit'); continue }
+    if (u.status !== 'CONFIRMED') { skip('unconfirmed'); continue }
+    if (ownerEmails.has(u.email)) { skip('owner_address'); continue }
+    const isSub = activeSubEmails.has(u.email)
+    if (segment === 'free' && isSub) { skip('is_subscriber'); continue }
+    if (segment === 'subscribers' && !isSub) { skip('not_subscriber'); continue }
+    if (prior && prior.has(u.email)) { skip('already_coached'); continue }
+    const log = await crmGet(u.email)
+    if (log.coaching_intro_sent_at) { skip('already_emailed'); continue }
+
+    if (await sendEmail(u.email, tmpl, dryRun)) {
+      if (!dryRun) await crmSet(u.email, { coaching_intro_sent_at: new Date(now).toISOString() })
+      report.sent.push(u.email)
+    } else report.failures.push(u.email)
+  }
+
+  const mask = (e) => String(e).replace('@', ' [at] ')
+  const few = (arr) => arr.slice(0, 5).map(mask).join(', ') + (arr.length > 5 ? ` +${arr.length - 5} more` : '')
+  const digest = [
+    `Recon 6 coaching-intro campaign ${dryRun ? '(DRY RUN — nothing sent)' : '(LIVE SEND)'}`,
+    `Segment: ${segment}${limit !== Infinity ? ` · batch limit ${limit}` : ''}`,
+    prior === null ? 'WARNING: could not read bookings table — prior coaching customers NOT excluded.' : `Prior coaching customers excluded: ${prior.size}`,
+    '',
+    `${dryRun ? 'WOULD send' : 'Sent'}: ${report.sent.length}${report.sent.length ? ' (' + few(report.sent) + ')' : ''}`,
+    `Skipped: ${Object.entries(report.skipped).map(([k, v]) => `${k}=${v}`).join(', ') || 'none'}`,
+    report.failures.length ? `Send failures (SES): ${report.failures.length}` : '',
+    '',
+    `Universe: ${users.length} accounts, ${activeSubEmails.size} active subs.`,
+  ].filter((l) => l !== '').join('\n')
+  for (const addr of ALERT_EMAILS) {
+    await sendEmail(addr, { subject: `Coaching-intro campaign: ${dryRun ? 'DRY RUN' : 'SENT'} ${report.sent.length}`, body: digest })
+  }
+  console.log(JSON.stringify(report))
+  return report
+}
+
 // ---- main -------------------------------------------------------------------
-export async function handler() {
+export async function handler(event = {}) {
+  // Invoke-triggered campaigns branch off here so the daily EventBridge run
+  // (no event.campaign) keeps its exact prior behavior.
+  if (event?.campaign === 'coaching-intro') return runCoachingIntroCampaign(event)
+
   const now = Date.now()
   const report = { welcome: [], confirmNudge: [], winback: [], orphans: [], pastDue: [], failures: [] }
 
