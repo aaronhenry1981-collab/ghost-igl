@@ -102,7 +102,7 @@ export const CHAMPION_ALL_ACCESS_ANNUAL_AMOUNT = 490 // saves $98 vs monthly
 // enforced first-session-only SERVER-SIDE — never trust the client.
 // Reconciled model (2026-07-12): $20 one-time intro + $70/mo add-on (2 session
 // credits/mo, reset monthly, no rollover). "Academy" = Champion + add-on = $99
-// (marketing label, not a SKU). The old à-la-carte $40 single / $140 package
+// (marketing label, not a SKU). The old à-la-carte single-session and multi-session package
 // prices were archived — one model, no mismatch.
 export const COACHING_PRODUCT_ID = 'prod_Us9Aa8zlWWiHjM'
 export const COACHING_INTRO_PRICE_ID = 'price_1TsOskJNddvjgWcgOPhkaqnK'  // $20 intro, one-time, first-timers only (50% off the single)

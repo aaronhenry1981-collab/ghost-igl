@@ -1655,7 +1655,7 @@ const R6_POSTS = [
         heading: 'The fix',
         html: `<p>Aim training feels productive because it's measurable. Information discipline is what actually moves rank — and it's easier to build with someone pointing at the exact rounds where your reads broke.</p>
 <ul>
-  <li><a href="/coaching/">Work with a human coach backed by an AI staff — first session free.</a> Bring your rank goal; leave with the three habits costing you the most rounds.</li>
+  <li><a href="/coaching/">Work with a human coach backed by an AI staff — first session 50% off ($20).</a> Bring your rank goal; leave with the three habits costing you the most rounds.</li>
   <li><a href="/vod">AI VOD breakdown</a> — upload a loss and see, round by round, whether you died with info or without.</li>
   <li><a href="/strats">The ranked strat book</a> — site-by-site setups so you stop improvising the part of the game that's already solved.</li>
 </ul>

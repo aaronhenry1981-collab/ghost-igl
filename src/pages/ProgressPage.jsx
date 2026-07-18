@@ -189,7 +189,7 @@ export default function ProgressPage() {
             <p style={{ color: 'rgba(230,233,239,0.7)', marginBottom: 12 }}>
               Sessions land here automatically after you play with the coach. The fastest way to start:
             </p>
-            <a href="/coaching/" className="btn btn-primary">Book your free intro session</a>
+            <a href="/coaching/" className="btn btn-primary">Book your first session — $20</a>
           </div>
         )
       )}
