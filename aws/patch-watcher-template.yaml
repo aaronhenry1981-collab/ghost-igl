@@ -69,10 +69,15 @@ Resources:
           SOURCE_URLS: !Ref SourceUrls
           MAX_ARTICLES: '20'
       Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref PatchEventsTable
-        - S3CrudPolicy:
-            BucketName: !Ref PatchSnapshotsBucket
+        - Statement:
+            - Sid: RecordPatchDiscovery
+              Effect: Allow
+              Action: dynamodb:PutItem
+              Resource: !GetAtt PatchEventsTable.Arn
+            - Sid: StorePatchEvidence
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub ${PatchSnapshotsBucket.Arn}/*
       Events:
         DailyPatchCheck:
           Type: ScheduleV2
