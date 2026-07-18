@@ -295,7 +295,7 @@ function manageLinks(token) {
 }
 
 async function notifyBooked(item, cfg) {
-  const title = `RECON6 Coaching — ${item.sessionType || 'Free Intro'}`
+  const title = `RECON6 Coaching — ${item.sessionType || 'Intro Session'}`
   const when = `${item.slotId} (UTC) — your calendar file/link shows it in your local time`
   const gcal = googleCalLink(item.slotId, cfg.session_minutes, title)
   const ics = icsFor(item.slotId, cfg.session_minutes, title, `With your RECON6 coach. ${manageLinks(item.manageToken)}`)
@@ -317,7 +317,7 @@ Aaron — Recon 6`
   // Real .ics attachment so "add to calendar" works in one tap.
   const sentCustomer = await sendMailWithIcs(item.customer.email, `Booked: ${title}`, customerBody, ics)
   for (const a of ALERT_EMAILS) {
-    await sendMail(a, `BOOKING: ${item.sessionType || 'Free Intro'} — ${item.slotId}`,
+    await sendMail(a, `BOOKING: ${item.sessionType || 'Intro Session'} — ${item.slotId}`,
       `New booking.\n\nSlot: ${item.slotId}\nType: ${item.sessionType}\nName: ${item.customer.name}\nEmail: ${item.customer.email}\nDiscord: ${item.customer.discord || '-'}\nRank/goal: ${item.customer.rank_goal || '-'}\nTZ: ${item.customer.tz || '-'}\nNotes: ${item.customer.notes || '-'}\n\nAdd to Google: ${gcal}\n\nCustomer confirmation ${sentCustomer ? 'sent' : 'HELD BY SES SANDBOX — reach out manually'}.`)
   }
   return sentCustomer
@@ -355,9 +355,9 @@ async function runReminders() {
     if (!due) continue
     const label = due === '24' ? 'tomorrow' : 'in about an hour'
     await sendMail(b.customer.email, `Reminder: your RECON6 coaching session is ${label}`,
-      `Your ${b.sessionType || 'Free Intro'} session is ${label}.\n\nSlot (UTC): ${b.slotId}\nBring 2-3 clips of rounds you lost.\nDiscord: https://discord.gg/namGQqs3jb\n\n${manageLinks(b.manageToken)}\n\nAaron — Recon 6`)
+      `Your ${b.sessionType || 'Intro Session'} session is ${label}.\n\nSlot (UTC): ${b.slotId}\nBring 2-3 clips of rounds you lost.\nDiscord: https://discord.gg/namGQqs3jb\n\n${manageLinks(b.manageToken)}\n\nAaron — Recon 6`)
     for (const a of ALERT_EMAILS) {
-      await sendMail(a, `Session ${label}: ${b.customer.name} (${b.sessionType || 'Free Intro'})`,
+      await sendMail(a, `Session ${label}: ${b.customer.name} (${b.sessionType || 'Intro Session'})`,
         `Slot (UTC): ${b.slotId}\nCustomer: ${b.customer.name} <${b.customer.email}> discord: ${b.customer.discord || '-'}`)
     }
     await ddb.send(new UpdateCommand({
@@ -503,7 +503,7 @@ export async function handler(event) {
           ExpressionAttributeNames: { '#s': 'status' },
           ExpressionAttributeValues: {
             ':c': 'confirmed', ':held': 'held', ':h': String(holdToken),
-            ':cust': customer, ':ty': String(sessionType || 'Free Intro').slice(0, 60),
+            ':cust': customer, ':ty': String(sessionType || 'Intro Session').slice(0, 60),
             ':m': manageToken, ':rs': referralSource, ':t': new Date().toISOString(),
           },
         }))
@@ -511,7 +511,7 @@ export async function handler(event) {
         return resp(409, { error: 'Hold expired or slot taken — pick another slot.' })
       }
       const cfg = await getConfig()
-      const item = { slotId, customer, sessionType: sessionType || 'Free Intro', manageToken }
+      const item = { slotId, customer, sessionType: sessionType || 'Intro Session', manageToken }
       const emailed = await notifyBooked(item, cfg)
       return resp(200, { booked: true, slotId, manageToken, confirmationEmail: emailed ? 'sent' : 'pending' })
     }
