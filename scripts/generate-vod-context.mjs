@@ -14,6 +14,7 @@ import MAPS from '../src/data/maps.js'
 import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
 import STRATS from '../src/data/strats.js'
 import BANS from '../src/data/bans.js'
+import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -22,6 +23,7 @@ const OUT = join(ROOT, 'lambda', 'vod', 'r6-context.json')
 const ctx = {
   generated_at: new Date().toISOString(),
   ranked_rotation: RANKED_ROTATION,
+  current_patch: R6_PATCH_FACTS,
   maps: {},
   // Operator role lookup — useful for prompting the AI to judge utility
   // usage based on what the operator's gadget is actually for.

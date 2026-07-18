@@ -66,7 +66,7 @@ You signed up for Recon 6 but haven't been back — fair enough, so here's the o
 
 Live Coach walks you through your actual ranked match in real time — map bans, operator bans, what to pick, where to spawn, how to play the site: ${SITE}/#/live
 
-It's updated for the current patch (Dokkaebi cooldown, the prone-cancel removal — the meta moved). Takes one match to see if it helps.
+It's updated for Y11S2.2 (Dokkaebi's Jegeo Payload is now 14 seconds per target, not the old 7-second global timing). Takes one match to see if it helps.
 
 If Recon 6 wasn't what you were looking for, reply and tell me what was missing — that's genuinely useful to me.
 
@@ -154,10 +154,13 @@ export async function handler() {
 
   for (const u of users) {
     const log = await crmGet(u.email)
+    const profile = profileByEmail.get(u.email)
+    const marketingSuppressed = Boolean(log.marketing_suppressed_at)
+    const marketingConsented = Boolean(profile?.marketing_consent_at)
     const ageDays = (now - u.created) / DAY
 
     // 1. Welcome — confirmed, fresh, not yet welcomed
-    if (u.status === 'CONFIRMED' && ageDays <= 14 && !log.welcome_sent_at) {
+    if (u.status === 'CONFIRMED' && ageDays <= 14 && !log.welcome_sent_at && !marketingSuppressed) {
       if (await sendEmail(u.email, welcomeEmail(u.email))) {
         await crmSet(u.email, { welcome_sent_at: new Date(now).toISOString() })
         report.welcome.push(u.email)
@@ -180,9 +183,9 @@ export async function handler() {
     }
 
     // 3. Winback — signed up a while ago, never/not recently active, once ever
-    const lastSeen = profileByEmail.get(u.email)?.last_seen_at ? Date.parse(profileByEmail.get(u.email).last_seen_at) : 0
+    const lastSeen = profile?.last_seen_at ? Date.parse(profile.last_seen_at) : 0
     const dormant = now - Math.max(lastSeen, 0) > 14 * DAY
-    if (u.status === 'CONFIRMED' && ageDays > 7 && dormant && !log.winback_sent_at && !log.welcome_sent_at) {
+    if (u.status === 'CONFIRMED' && ageDays > 7 && dormant && marketingConsented && !marketingSuppressed && !log.winback_sent_at && !log.welcome_sent_at) {
       if (await sendEmail(u.email, winbackEmail(u.email))) {
         await crmSet(u.email, { winback_sent_at: new Date(now).toISOString() })
         report.winback.push(u.email)

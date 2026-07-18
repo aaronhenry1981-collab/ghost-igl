@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import MAPS from '../src/data/maps.js'
 import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
-import { buildMapContext, buildRefundUpdate, validateAnalysis } from '../lambda/vod/coach-contract.mjs'
+import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
+import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from '../lambda/vod/coach-contract.mjs'
 
 const vodContext = JSON.parse(readFileSync(new URL('../lambda/vod/r6-context.json', import.meta.url), 'utf8'))
 
@@ -53,4 +54,35 @@ test('repeated generic tactic text is quarantined from coach context', () => {
     .flatMap((map) => map.sites)
     .reduce((sum, site) => sum + site.attack_quarantined_repeated_tactics + site.defense_quarantined_repeated_tactics, 0)
   assert.ok(quarantineCount > 0)
+})
+
+test('paid-period rollover uses compare-and-set and counts the losing concurrent request', () => {
+  const sub = { stripe_customer_id: 'cus_test', vod_period_start_at: '2026-06-01T00:00:00.000Z' }
+  const rollover = buildRolloverReserveUpdate(sub, 'subs', '2026-07-18T00:00:00.000Z')
+  assert.match(rollover.ConditionExpression, /vod_period_start_at = :previous/)
+  assert.equal(rollover.ExpressionAttributeValues[':previous'], sub.vod_period_start_at)
+  const followup = buildConcurrentRolloverFollowupUpdate(sub, 'subs', 20, '2026-07-18T00:00:00.000Z')
+  assert.match(followup.UpdateExpression, /vod_sessions_used = vod_sessions_used \+ :one/)
+  assert.match(followup.ConditionExpression, /vod_period_start_at <> :previous/)
+  assert.equal(followup.ExpressionAttributeValues[':limit'], 20)
+})
+
+test('current R6 patch facts supersede the stale Dokkaebi timing', () => {
+  assert.equal(R6_PATCH_FACTS.patch, 'Y11S2.2')
+  assert.equal(R6_PATCH_FACTS.operatorChanges.Dokkaebi.jegeoPayloadCooldownSeconds, 14)
+  assert.equal(R6_PATCH_FACTS.operatorChanges.Dokkaebi.cooldownScope, 'per-target')
+  assert.equal(vodContext.current_patch.operatorChanges.Dokkaebi.jegeoPayloadCooldownSeconds, 14)
+})
+
+test('generated content does not teach the superseded seven-second recovery window', () => {
+  const generator = readFileSync(new URL('../scripts/generate-blog-posts.mjs', import.meta.url), 'utf8')
+  assert.equal(generator.includes('guaranteed ~7 seconds'), false)
+  assert.equal(generator.includes('put a 7-second cooldown between activations'), false)
+})
+
+test('CRM win-back requires consent and honors durable marketing suppression', () => {
+  const crm = readFileSync(new URL('../lambda/crm/index.mjs', import.meta.url), 'utf8')
+  assert.match(crm, /marketingConsented && !marketingSuppressed/)
+  assert.match(crm, /!log\.welcome_sent_at && !marketingSuppressed/)
+  assert.match(crm, /profile\?\.marketing_consent_at/)
 })
