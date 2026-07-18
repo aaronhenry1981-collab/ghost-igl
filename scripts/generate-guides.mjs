@@ -201,24 +201,10 @@ function renderMapGuide(map) {
     ${siteSections}
     <div class="intro-cta">
       <h3>Want the full utility breakdown + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis for $9/mo (R6 only) or $19/mo All-Access (10 games).</p>
+      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered Rainbow Six gameplay analysis.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>
 
-    <!-- Multi-game cross-link: R6 visitors who also play other tactical FPS see
-         the All-Access value prop here. Doesn't hurt R6-only conversion since
-         it's below the fold, after the strats they came for. -->
-    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
-      <div style="font-size: 0.78rem; font-weight: 800; color: #00e5ff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Recon 6 Multi-Game</div>
-      <h3 style="margin: 0 0 8px;">Also play CS2, Valorant, or another tactical FPS?</h3>
-      <p style="margin: 0 0 12px; color: rgba(230,233,239,0.8);">Recon 6 covers 10 games with the same AI VOD analysis and map-aware feedback. All-Access ($19/mo Pro+) unlocks every game as it launches.</p>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="${SITE_URL}/games/cs2/" style="padding: 6px 12px; background: rgba(245,184,0,0.12); color: #f5b800; border: 1px solid rgba(245,184,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">CS2 →</a>
-        <a href="${SITE_URL}/games/valorant/" style="padding: 6px 12px; background: rgba(255,70,85,0.12); color: #ff4655; border: 1px solid rgba(255,70,85,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Valorant →</a>
-        <a href="${SITE_URL}/games/apex/" style="padding: 6px 12px; background: rgba(155,81,224,0.12); color: #9b51e0; border: 1px solid rgba(155,81,224,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Apex →</a>
-        <a href="${SITE_URL}/games/ow2/" style="padding: 6px 12px; background: rgba(255,140,0,0.12); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">OW2 →</a>
-        <a href="${SITE_URL}/games/" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: rgba(230,233,239,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">All 10 →</a>
-      </div>
     </div>`
 
   const jsonLd = {

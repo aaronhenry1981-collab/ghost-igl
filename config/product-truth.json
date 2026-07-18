@@ -1,0 +1,11 @@
+{
+  "activeMarketingGames": ["r6"],
+  "products": {
+    "desktop": {
+      "shipped": false,
+      "live": false,
+      "downloadable": false,
+      "allowedLabel": "early access"
+    }
+  }
+}

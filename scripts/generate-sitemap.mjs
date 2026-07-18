@@ -158,7 +158,10 @@ function urlEntry({ loc, freq, pri, lastmod }) {
 
 async function main() {
   const urls = []
-  for (const u of STATIC_URLS) urls.push(urlEntry({ ...u, lastmod: today }))
+  for (const u of STATIC_URLS) {
+    if (u.loc === '/download' || u.loc === '/tools/ow2-stadium-tier-list' || u.loc.startsWith('/games/')) continue
+    urls.push(urlEntry({ ...u, lastmod: today }))
+  }
 
   // Per-map guide pages (only maps with strat data)
   for (const map of MAPS) {
@@ -197,13 +200,8 @@ async function main() {
       }
     }
   }
-  // Append multi-game per-map URLs from local Claude's data
-  const gameMapUrls = await getMultiGameMapUrls()
-  for (const u of gameMapUrls) urls.push(urlEntry({ ...u, lastmod: today }))
-
-  // Append multi-game per-cast (agent/hero/legend/loadout) URLs.
-  const gameCastUrls = await getMultiGameCastUrls()
-  for (const u of gameCastUrls) urls.push(urlEntry({ ...u, lastmod: today }))
+  // Multi-game data remains in the repository as dormant inventory, but is
+  // deliberately excluded from the active R6 sitemap.
 
   for (const opName of [...operatorSet].sort()) {
     const slug = opName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -356,6 +354,7 @@ async function main() {
     'r6-operator-zero', 'r6-operator-zofia',
   ]
   for (const slug of BLOG_SLUGS) {
+    if (!slug.startsWith('r6-')) continue
     urls.push(urlEntry({
       loc: `/blog/${slug}.html`,
       freq: 'monthly',

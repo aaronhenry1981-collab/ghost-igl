@@ -82,16 +82,26 @@ export function useGameData() {
   useEffect(() => {
     // Standard fetch-effect loading flags around the lazy game-data load —
     // one set per game change, guarded against cancellation.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!game?.load) { setLoading(false); return }
+    const load = game?.load
     let cancelled = false
-    setLoading(true)
-    game.load()
-      .then(mod => { if (!cancelled) { setData(mod); setError(null) } })
-      .catch(err => { if (!cancelled) setError(err.message || 'Failed to load game data') })
-      .finally(() => { if (!cancelled) setLoading(false) })
+    async function loadData() {
+      if (!load) {
+        if (!cancelled) setLoading(false)
+        return
+      }
+      setLoading(true)
+      try {
+        const mod = await load()
+        if (!cancelled) { setData(mod); setError(null) }
+      } catch (err) {
+        if (!cancelled) setError(err.message || 'Failed to load game data')
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    void loadData()
     return () => { cancelled = true }
-  }, [game?.id])
+  }, [game?.id, game?.load])
 
   return { game, data, loading, error }
 }

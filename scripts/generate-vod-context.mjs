@@ -11,6 +11,7 @@ import { writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
+import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
 import STRATS from '../src/data/strats.js'
 import BANS from '../src/data/bans.js'
 
@@ -20,10 +21,55 @@ const OUT = join(ROOT, 'lambda', 'vod', 'r6-context.json')
 
 const ctx = {
   generated_at: new Date().toISOString(),
+  ranked_rotation: RANKED_ROTATION,
   maps: {},
   // Operator role lookup — useful for prompting the AI to judge utility
   // usage based on what the operator's gadget is actually for.
   operator_roles: {},
+}
+
+// Exact summaries repeated across multiple sites are templated filler, not
+// trustworthy site knowledge. Keep the source data intact, but quarantine
+// those sentences from coach context until a human verifies replacements.
+const summaryFrequency = new Map()
+const longStringFrequency = new Map()
+function countLongStrings(value) {
+  if (typeof value === 'string' && value.length >= 60) {
+    longStringFrequency.set(value, (longStringFrequency.get(value) || 0) + 1)
+  } else if (Array.isArray(value)) {
+    value.forEach(countLongStrings)
+  } else if (value && typeof value === 'object') {
+    Object.values(value).forEach(countLongStrings)
+  }
+}
+countLongStrings(STRATS)
+
+for (const mapStrats of Object.values(STRATS)) {
+  for (const siteStrat of Object.values(mapStrats)) {
+    for (const side of ['attack', 'defense']) {
+      const summary = siteStrat?.[side]?.strategy?.trim()
+      if (summary) summaryFrequency.set(summary, (summaryFrequency.get(summary) || 0) + 1)
+    }
+  }
+}
+
+function repeatedTacticCount(value) {
+  let count = 0
+  function walk(item) {
+    if (typeof item === 'string' && item.length >= 60 && (longStringFrequency.get(item) || 0) >= 3) count++
+    else if (Array.isArray(item)) item.forEach(walk)
+    else if (item && typeof item === 'object') Object.values(item).forEach(walk)
+  }
+  walk(value)
+  return count
+}
+
+function safeSummary(summary) {
+  if (!summary) return { summary: null, context_status: 'missing' }
+  if ((summaryFrequency.get(summary.trim()) || 0) >= 3) {
+    return { summary: null, context_status: 'quarantined_repeated_generic' }
+  }
+  return { summary: summary.slice(0, 250), context_status: 'available' }
 }
 
 // Build map index
@@ -37,6 +83,8 @@ for (const map of MAPS) {
       const attackOps = siteStrat?.attack?.operators?.map(o => `${o.name} (${o.role})`) || []
       const defenseOps = siteStrat?.defense?.operators?.map(o => `${o.name} (${o.role})`) || []
       const callouts = siteStrat?.attack?.callouts || siteStrat?.defense?.callouts || []
+      const attack = safeSummary(siteStrat?.attack?.strategy)
+      const defense = safeSummary(siteStrat?.defense?.strategy)
       return {
         id: site.id,
         name: site.name,
@@ -44,8 +92,12 @@ for (const map of MAPS) {
         attack_operators: attackOps,
         defense_operators: defenseOps,
         callouts,
-        attack_strategy_summary: siteStrat?.attack?.strategy?.slice(0, 250) || null,
-        defense_strategy_summary: siteStrat?.defense?.strategy?.slice(0, 250) || null,
+        attack_strategy_summary: attack.summary,
+        attack_context_status: attack.context_status,
+        attack_quarantined_repeated_tactics: repeatedTacticCount(siteStrat?.attack),
+        defense_strategy_summary: defense.summary,
+        defense_context_status: defense.context_status,
+        defense_quarantined_repeated_tactics: repeatedTacticCount(siteStrat?.defense),
       }
     }),
     bans: {
