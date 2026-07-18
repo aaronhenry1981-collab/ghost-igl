@@ -46,7 +46,7 @@ const FAQ = [
   ['Is this boosting?', 'No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row.'],
   ['Console or PC?', 'Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same.'],
   ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
-  ['What rank do I need to be?', 'Any rank. Copper to Diamond, the process is the same: find the leak that costs the most rounds, fix it, measure it. The lower your rank, the faster the results.'],
+  ['What rank do I need to be?', 'The best fit is a Silver or Gold player whose aim is fine but whose decisions keep costing rounds. Other ranks are welcome, but I will tell you honestly if your problem needs a different coach or more mechanical practice.'],
 ]
 
 const tierCards = TIERS.map((t) => `
@@ -88,7 +88,7 @@ const jsonLd = [
   },
 ]
 
-const title = 'Rainbow Six Siege Coaching — AI-Augmented 1-on-1 Sessions | RECON6'
+const title = 'Find Out Why You Lose Rounds — Rainbow Six Siege Coaching | RECON6'
 const description = 'Human coaching with an AI staff: VOD breakdowns, death-cause tracking, live ranked plans. First session 50% off ($20) — console and PC, any rank.'
 
 const html = `<!doctype html>
@@ -130,7 +130,7 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   .price { font-size:1.6rem; font-weight:800; color:var(--cyan); }
   .price span { font-size:.8rem; color:var(--dim); font-weight:400; }
   .tier p { font-size:.92rem; color:var(--dim); margin-top:8px; min-height:66px; }
-  details { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin:10px 0; }
+  .proof { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px; }\n  .proof p + p { margin-top:12px; }\n  details { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin:10px 0; }
   summary { cursor:pointer; font-weight:700; }
   details p { margin-top:10px; color:var(--dim); }
   form { background:var(--panel); border:1px solid var(--cyan); border-radius:14px; padding:24px; margin-top:16px; }
@@ -143,7 +143,7 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
 </head>
 <body>
 <div class="wrap">
-  <h1>A human coach. An AI staff. Your rank.</h1>
+  <h1>Find out why you're losing rounds.</h1>
   <p class="sub">1-on-1 Rainbow Six Siege coaching backed by the full RECON6 AI stack — VOD breakdowns, death-cause tracking, and live ranked plans. The AI finds what's costing you rounds; your coach fixes it with you. First session is <strong style="color:var(--cyan)">50% off the $40 single — just $20</strong>.</p>
   <a class="btn primary" href="#book">Book your first session — 50% off ($20)</a>
   <a class="btn" href="/strats" style="margin-left:8px">Browse the strat library</a>
@@ -164,6 +164,12 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
 ${tierCards}
   </div>
   <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that a single session is $40, no subscription required (ongoing $70/mo coaching plans are on the way). Pay securely at checkout; slot confirmed instantly with a calendar invite. 7-day money-back guarantee.</p>
+
+  <h2>Who you're working with</h2>
+  <div class="proof">
+    <p><strong>I'm Aaron.</strong> I built RECON6 while working through the same problem it solves: my aim was fine, but my decisions kept costing me rounds on PS5. I'm not going to pretend I'm a pro player or promise you a rank. I use your own rounds and the RECON6 tools to find the decision leak you can actually fix.</p>
+    <p><strong>If I don't find something useful, I'll tell you straight.</strong> Your session ends with three things: the round pattern holding you back, the decision to make instead, and one drill for your next queue.</p>
+  </div>
 
   <h2>How a session works</h2>
   <p class="sub">Before we meet, the AI has already processed your clips: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
