@@ -135,7 +135,7 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
     ${bodyInner}
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon 6 — AI-powered Rainbow Six Siege coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 â€” AI-powered Rainbow Six Siege coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
   </div>
 </body>
 </html>`
@@ -184,8 +184,8 @@ function renderMapGuide(map) {
       <div class="bans">
         <h4>Ban recommendations</h4>
         <ul>
-          ${(bans.attack || []).map((b) => `<li><strong>${escape(b.name)}</strong> (attack) — ${escape(b.reason)}</li>`).join('')}
-          ${(bans.defense || []).map((b) => `<li><strong>${escape(b.name)}</strong> (defense) — ${escape(b.reason)}</li>`).join('')}
+          ${(bans.attack || []).map((b) => `<li><strong>${escape(b.name)}</strong> (attack) â€” ${escape(b.reason)}</li>`).join('')}
+          ${(bans.defense || []).map((b) => `<li><strong>${escape(b.name)}</strong> (defense) â€” ${escape(b.reason)}</li>`).join('')}
         </ul>
       </div>`
   }
@@ -194,37 +194,21 @@ function renderMapGuide(map) {
   const description = `Complete Rainbow Six Siege strategy guide for ${map.name}: operator picks, callouts, utility usage, and ban recommendations for every bomb site (${siteNames}). Attack and defense strats for ranked play.`
 
   const bodyInner = `
-    <h1>${escape(map.name)} — Complete Strategy Guide</h1>
+    <h1>${escape(map.name)} â€” Complete Strategy Guide</h1>
     <p class="sub">Operator picks, callouts, utility, and ban recommendations for every bomb site. Free tactical guide from Recon 6.</p>
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}">Open interactive ${escape(map.name)} strats &rarr;</a>
     ${bansHtml}
     ${siteSections}
     <div class="intro-cta">
       <h3>Want the full utility breakdown + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis for $9/mo (R6 only) or $19/mo All-Access (10 games).</p>
+      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered Rainbow Six gameplay analysis.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
-    </div>
-
-    <!-- Multi-game cross-link: R6 visitors who also play other tactical FPS see
-         the All-Access value prop here. Doesn't hurt R6-only conversion since
-         it's below the fold, after the strats they came for. -->
-    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
-      <div style="font-size: 0.78rem; font-weight: 800; color: #00e5ff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Recon 6 Multi-Game</div>
-      <h3 style="margin: 0 0 8px;">Also play CS2, Valorant, or another tactical FPS?</h3>
-      <p style="margin: 0 0 12px; color: rgba(230,233,239,0.8);">Recon 6 covers 10 games with the same AI VOD analysis and map-aware feedback. All-Access ($19/mo Pro+) unlocks every game as it launches.</p>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="${SITE_URL}/games/cs2/" style="padding: 6px 12px; background: rgba(245,184,0,0.12); color: #f5b800; border: 1px solid rgba(245,184,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">CS2 →</a>
-        <a href="${SITE_URL}/games/valorant/" style="padding: 6px 12px; background: rgba(255,70,85,0.12); color: #ff4655; border: 1px solid rgba(255,70,85,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Valorant →</a>
-        <a href="${SITE_URL}/games/apex/" style="padding: 6px 12px; background: rgba(155,81,224,0.12); color: #9b51e0; border: 1px solid rgba(155,81,224,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Apex →</a>
-        <a href="${SITE_URL}/games/ow2/" style="padding: 6px 12px; background: rgba(255,140,0,0.12); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">OW2 →</a>
-        <a href="${SITE_URL}/games/" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: rgba(230,233,239,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">All 10 →</a>
-      </div>
     </div>`
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: `${map.name} — Complete Rainbow Six Siege Strategy Guide`,
+    headline: `${map.name} â€” Complete Rainbow Six Siege Strategy Guide`,
     description,
     author: { '@type': 'Organization', name: 'Recon 6' },
     publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
@@ -233,7 +217,7 @@ function renderMapGuide(map) {
   }
 
   return htmlShell({
-    title: `${map.name} Strategy Guide — Recon 6 (R6 Siege)`,
+    title: `${map.name} Strategy Guide â€” Recon 6 (R6 Siege)`,
     description,
     canonical: `${SITE_URL}/guides/${map.id}.html`,
     bodyInner,
@@ -247,7 +231,7 @@ function renderMapGuide(map) {
   })
 }
 
-// Per-site SEO pages — one per (map, site) covering both attack and defense.
+// Per-site SEO pages â€” one per (map, site) covering both attack and defense.
 // Targets long-tail queries like "bank ceo defense strat", "kafe cocktail
 // callouts", which are the actual searches an R6 player runs mid-prep.
 // Higher specificity = less competition = easier to rank.
@@ -257,10 +241,10 @@ function renderSiteGuide(map, site) {
 
   const canonical = `${SITE_URL}/guides/${map.id}/${site.id}.html`
   const slug = `${map.name} ${site.name}`
-  const title = `${slug} — Attack & Defense Strats (R6 Siege) | Recon 6`
+  const title = `${slug} â€” Attack & Defense Strats (R6 Siege) | Recon 6`
   const description = `${map.name} ${site.name} (${site.floor}) Rainbow Six Siege strategy: attack lineup, defense setup, callouts, and utility usage. Free tactical guide.`
 
-  // Sibling sites for internal linking — Google rewards a tight cluster.
+  // Sibling sites for internal linking â€” Google rewards a tight cluster.
   const siblingsHtml = map.sites
     .filter((s) => s.id !== site.id && STRATS[map.id]?.[s.id])
     .map((s) => `<li><a href="/guides/${map.id}/${escape(s.id)}.html">${escape(s.name)}</a> <span style="color:rgba(230,233,239,0.5);font-size:0.8rem">(${escape(s.floor)})</span></li>`)
@@ -273,19 +257,19 @@ function renderSiteGuide(map, site) {
       <div class="bans">
         <h4>Map-wide ban recommendations (${escape(map.name)})</h4>
         <ul>
-          ${(bans.attack || []).map((b) => `<li><strong>${escape(b.name)}</strong> (attack ban) — ${escape(b.reason)}</li>`).join('')}
-          ${(bans.defense || []).map((b) => `<li><strong>${escape(b.name)}</strong> (defense ban) — ${escape(b.reason)}</li>`).join('')}
+          ${(bans.attack || []).map((b) => `<li><strong>${escape(b.name)}</strong> (attack ban) â€” ${escape(b.reason)}</li>`).join('')}
+          ${(bans.defense || []).map((b) => `<li><strong>${escape(b.name)}</strong> (defense ban) â€” ${escape(b.reason)}</li>`).join('')}
         </ul>
       </div>`
   }
 
   const bodyInner = `
     <nav class="breadcrumb" style="font-size:0.85rem;color:rgba(230,233,239,0.6);margin-bottom:8px">
-      <a href="/guides/">Map Guides</a> ›
-      <a href="/guides/${map.id}.html">${escape(map.name)}</a> ›
+      <a href="/guides/">Map Guides</a> â€º
+      <a href="/guides/${map.id}.html">${escape(map.name)}</a> â€º
       <span>${escape(site.name)}</span>
     </nav>
-    <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(230,233,239,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
+    <h1>${escape(map.name)} â€” ${escape(site.name)} <span style="color:rgba(230,233,239,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
     <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
 
@@ -312,7 +296,7 @@ function renderSiteGuide(map, site) {
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
-  // Layered JSON-LD via @graph — Article + HowTo + breadcrumbs in one block.
+  // Layered JSON-LD via @graph â€” Article + HowTo + breadcrumbs in one block.
   // HowTo schema captures Google's "how to do X" SERP rich-results card,
   // which is huge for queries like "how to attack bank ceo office".
   const howToSteps = []
@@ -337,7 +321,7 @@ function renderSiteGuide(map, site) {
     '@graph': [
       {
         '@type': 'Article',
-        headline: `${map.name} ${site.name} — Rainbow Six Siege Attack & Defense Strategy`,
+        headline: `${map.name} ${site.name} â€” Rainbow Six Siege Attack & Defense Strategy`,
         description,
         author: { '@type': 'Organization', name: 'Recon 6' },
         publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
@@ -378,14 +362,14 @@ function renderIndex(mapsWithStrats) {
         <li class="guide-card">
           <a href="${escape(m.id)}.html">
             <h3>${escape(m.name)}</h3>
-            <p>${m.sites.length} bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>${m.sites.length} bomb sites Â· Attack &amp; defense strats Â· Ban recommendations</p>
           </a>
         </li>`,
     )
     .join('\n')
 
   const bodyInner = `
-    <h1>Recon 6 — Rainbow Six Siege Map Guides</h1>
+    <h1>Recon 6 â€” Rainbow Six Siege Map Guides</h1>
     <p class="sub">Free strategy guides for every map in the ranked pool. Operators, callouts, utility, and bans for every bomb site.</p>
     <style>
       .guide-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
@@ -404,7 +388,7 @@ function renderIndex(mapsWithStrats) {
     </div>`
 
   return htmlShell({
-    title: 'Rainbow Six Siege Strategy Guides — Recon 6',
+    title: 'Rainbow Six Siege Strategy Guides â€” Recon 6',
     description: 'Free R6 Siege map strategy guides for every map in the ranked pool. Operator picks, callouts, utility, and ban recommendations for every bomb site.',
     canonical: `${SITE_URL}/guides/`,
     bodyInner,
@@ -424,7 +408,7 @@ function main() {
     writeFileSync(join(OUT_DIR, `${map.id}.html`), html, 'utf8')
     mapPages++
 
-    // Per-site SEO pages — one per (map, site) targeting long-tail queries.
+    // Per-site SEO pages â€” one per (map, site) targeting long-tail queries.
     const mapDir = join(OUT_DIR, map.id)
     mkdirSync(mapDir, { recursive: true })
     for (const site of map.sites) {
@@ -437,8 +421,9 @@ function main() {
 
   writeFileSync(join(OUT_DIR, 'index.html'), renderIndex(playable), 'utf8')
 
-  console.log(`✓ Generated ${mapPages} map guides + ${sitePages} per-site guides + index in public/guides/`)
+  console.log(`âœ“ Generated ${mapPages} map guides + ${sitePages} per-site guides + index in public/guides/`)
   console.log(`  Maps: ${playable.map((m) => m.id).join(', ')}`)
 }
 
 main()
+
