@@ -1,59 +1,52 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs'
-import { execFileSync } from 'node:child_process'
-import { extname } from 'node:path'
 
-const registry = JSON.parse(readFileSync(new URL('../config/product-truth.json', import.meta.url)))
-const MARKETING_ROOTS = /^(src\/(pages|components)\/|scripts\/generate-(blog-posts|coaching-page|tools-page)\.mjs$)/
-const TEXT_EXTENSIONS = new Set(['.js', '.jsx', '.mjs', '.html', '.md'])
-const OTHER_GAMES = /\b(apex|valorant|overwatch|ow2|fortnite|rocket league|call of duty|cod|counter-strike|cs2|league of legends|dota|tekken|street fighter|pubg|marvel rivals|halo)\b/i
-
-function changedFiles() {
-  if (process.env.TRUTH_FILES) return process.env.TRUTH_FILES.split(/\r?\n/).filter(Boolean)
-  try {
-    return execFileSync('git', ['diff', '--name-only', '--diff-filter=ACMR', 'origin/main...HEAD'], { encoding: 'utf8' })
-      .split(/\r?\n/).filter(Boolean)
-  } catch {
-    return []
-  }
-}
-
-function violationsFor(path, text) {
-  const problems = []
-  if (registry.activeMarketingGames.length === 1 && registry.activeMarketingGames[0] === 'r6' && OTHER_GAMES.test(text)) {
-    problems.push('active marketing mentions a non-R6 game')
-  }
-  const desktop = registry.products.desktop
-  if (!desktop.shipped || !desktop.live || !desktop.downloadable) {
-    const unsupported = [
-      /desktop(?: coach| app)?[^\n]{0,70}\b(?:shipped|live now|available now|download now|get the app)\b/i,
-      /\b(?:download now|get the desktop app)\b[^\n]{0,70}desktop/i,
-    ]
-    if (unsupported.some(pattern => pattern.test(text))) {
-      problems.push(`desktop claim conflicts with registry (use "${desktop.allowedLabel}")`)
-    }
-  }
-  return problems.map(message => `${path}: ${message}`)
-}
-
-// Fixture assertions keep the detector itself from silently weakening.
-const fixtureFailures = [
-  ...violationsFor('fixture.jsx', 'Coaching for Valorant players'),
-  ...violationsFor('fixture.jsx', 'Get the desktop app â€” live now'),
-]
-if (fixtureFailures.length !== 2) throw new Error('product-truth detector fixture failed')
-if (violationsFor('fixture.jsx', 'Rainbow Six Siege coaching. Desktop coach early access.').length) {
-  throw new Error('product-truth detector rejected valid R6 early-access copy')
-}
-
+const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')
 const errors = []
-for (const path of changedFiles()) {
-  if (!MARKETING_ROOTS.test(path) || !TEXT_EXTENSIONS.has(extname(path))) continue
-  errors.push(...violationsFor(path, readFileSync(path, 'utf8')))
+const requireText = (path, pattern, message) => {
+  if (!pattern.test(read(path))) errors.push(`${path}: ${message}`)
+}
+const forbidText = (path, pattern, message) => {
+  if (pattern.test(read(path))) errors.push(`${path}: ${message}`)
+}
+
+const registry = JSON.parse(read('config/product-truth.json'))
+if (JSON.stringify(registry.activeMarketingGames) !== JSON.stringify(['r6'])) {
+  errors.push('config/product-truth.json: activeMarketingGames must remain ["r6"]')
+}
+
+// Dormant inventory may remain available to existing customers and future work,
+// but the normal production build must never regenerate or promote it.
+forbidText('package.json', /"generate:all"[^\n]+generate:(?:games|gameog|stadiumog|cast|loadouts|maploadouts)/,
+  'default build includes dormant multi-game generators')
+requireText('src/pages/LandingPage.jsx', /const R6_ONLY = true/,
+  'R6-only marketing kill switch is not enabled')
+forbidText('src/main.jsx', /path: '\/tools\/ow2-stadium-tier-list'/,
+  'non-R6 tool route is active')
+requireText('src/main.jsx', /path: '\/download'.+DESKTOP_APP_RELEASED[^\n]+Navigate to="\/account"/,
+  'desktop download route is not release-gated')
+
+const otherGames = /\b(?:Counter-Strike|CS2|Valorant|Overwatch|OW2|Apex|Marvel Rivals|Halo|Fortnite|Rocket League|Call of Duty|CoD|League of Legends|Dota|Tekken|PUBG)\b/i
+forbidText('index.html', otherGames, 'homepage metadata promotes a non-R6 product')
+
+// These files are generated before this check in CI. Validate what search
+// engines and users will actually receive rather than only changed source.
+forbidText('public/tools/index.html', otherGames, 'tools page promotes a non-R6 product')
+forbidText('public/tools/index.html', /across\s+20|All Games|Pick Your Game/i,
+  'tools page promotes multi-game availability')
+forbidText('public/sitemap.xml', /<loc>[^<]*\/(?:games\/|tools\/ow2|download)/i,
+  'sitemap promotes a dormant or unreleased surface')
+forbidText('public/sitemap.xml', /<loc>[^<]*\/blog\/(?!r6-)[^<]+<\/loc>/i,
+  'sitemap promotes a non-R6 blog')
+forbidText('public/blog/index.html', otherGames, 'blog index promotes a non-R6 product')
+forbidText('public/feed.xml', otherGames, 'RSS feed promotes a non-R6 product')
+
+for (const path of ['src/components/Navbar.jsx', 'src/components/WelcomeModal.jsx']) {
+  requireText(path, /DESKTOP_APP_RELEASED/, 'desktop link is missing the release gate')
 }
 
 if (errors.length) {
   console.error(`Product-truth check failed:\n- ${errors.join('\n- ')}`)
   process.exit(1)
 }
-console.log('Product-truth check passed')
+console.log('Product-truth check passed (R6-only active surfaces; desktop release-gated)')

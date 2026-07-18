@@ -99,6 +99,7 @@ try {
     const desc = (html.match(/<meta name="description" content="([^"]+)"/) || [])[1]
     const published = (html.match(/"datePublished":"(\d{4}-\d{2}-\d{2})"/) || [])[1]
     if (!title) continue
+    if (!/\b(?:Rainbow Six|R6|Siege)\b/i.test(`${title} ${desc || ''}`)) continue
     items.push({
       title,
       link: `${SITE}/blog/${f}`,

@@ -40,8 +40,10 @@ export async function handler(event) {
       process.env.STRIPE_WEBHOOK_SECRET
     )
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message)
-    return { statusCode: 400, body: `Webhook Error: ${err.message}` }
+    // Invalid signatures are expected internet noise, not Lambda failures.
+    // Keep a countable warning without echoing attacker-controlled details.
+    console.warn(JSON.stringify({ level: 'warn', event: 'stripe_signature_rejected' }))
+    return { statusCode: 400, body: 'Webhook Error: invalid signature' }
   }
 
   // Pass the event ID into each handler so they can skip duplicate processing.

@@ -18,12 +18,14 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
-      - name: Product truth
-        run: npm run check:truth
+      - name: Patch watcher tests
+        run: npm run test:patch-watcher
       - run: npm run lint
       - run: npm run build
+      - name: Product truth
+        run: npm run check:truth
       - run: npm run check:metadata
       - run: npm run test:rss
