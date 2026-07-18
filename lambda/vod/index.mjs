@@ -22,7 +22,7 @@ import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { buildMapContext, buildRefundUpdate, validateAnalysis } from './coach-contract.mjs'
+import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from './coach-contract.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -181,6 +181,9 @@ function buildGameContextSlice(gameId, userContext) {
 
   const lines = []
   lines.push(`GAME: ${meta.name} (${meta.short})`)
+  if (gameId === 'r6' && ctx.current_patch) {
+    lines.push(`CURRENT PATCH FACTS (authoritative; prefer these over model memory):\n${JSON.stringify(ctx.current_patch, null, 2)}`)
+  }
   if (gameMeta?.tagline) lines.push(`MODE: ${gameMeta.tagline}`)
   if (gameMeta?.sides && typeof gameMeta.sides === 'object') {
     const sides = Object.entries(gameMeta.sides).map(([k, v]) => `${k}: ${v}`).join(' · ')
@@ -563,11 +566,16 @@ async function reserveSession(sub, isTrial, usageMeta) {
     // Period rollover — reset count to 1 + new period_start. Conditional on
     // the existing period_start matching what we read, so two concurrent
     // rollover writes don't both reset.
-    return ddb.send(new UpdateCommand({
-      TableName: SUBS_TABLE,
-      Key: key,
-      UpdateExpression: 'SET vod_sessions_used = :one, vod_period_start_at = :now, vod_updated_at = :now',
-    }))
+    try {
+      return await ddb.send(new UpdateCommand(buildRolloverReserveUpdate(sub, SUBS_TABLE, now)))
+    } catch (err) {
+      if (err?.name !== 'ConditionalCheckFailedException') throw err
+      // Another request won the rollover race. Count this request in the new
+      // period instead of resetting the winner's count back to one.
+      return ddb.send(new UpdateCommand(buildConcurrentRolloverFollowupUpdate(
+        sub, SUBS_TABLE, usageMeta.limit, now,
+      )))
+    }
   }
 
   // Within the current period — atomic increment with cap enforcement.

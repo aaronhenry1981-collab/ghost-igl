@@ -12,6 +12,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -123,7 +124,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     ${bodyInner}
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon 6 — coaching across 20 competitive games. <a href="${SITE_URL}/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 — Rainbow Six Siege decision coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
   </div>
 </body>
 </html>`
@@ -139,6 +140,62 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
 // the HowTo schema steps from the headings.
 
 const R6_POSTS = [
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Y11S2.1',
+    toRank: R6_PATCH_FACTS.patch,
+    slug: 'r6-y11s2-2-midseason-patch-ranked-impact',
+    datePublished: '2026-07-18',
+    readMinutes: 6,
+    metaTitle: 'R6 Y11S2.2 Patch: The Changes That Win Ranked Rounds',
+    metaDescription: 'The current Y11S2.2 Rainbow Six Siege timings and what they change in ranked: Dokkaebi 14s per target, Wamai, Jäger, Zofia, Twitch, Lesion and more.',
+    intro: `<p>Y11S2.2 changes decisions more than it changes aim. The biggest correction is Dokkaebi: the Jegeo Payload cooldown is now <strong>${R6_PATCH_FACTS.operatorChanges.Dokkaebi.jegeoPayloadCooldownSeconds} seconds per target</strong>, not the old 7-second global timer. The numbers below come from <a href="${R6_PATCH_FACTS.sourceUrl}" rel="noopener" target="_blank">Ubisoft's official Y11S2.2 notes</a>. Here is what those numbers mean when the round is live.</p>`,
+    sections: [
+      {
+        heading: 'Dokkaebi: track the defender you called',
+        html: `<p>The same defender cannot be hit again for <strong>14 seconds</strong>, but the cooldown is tracked per target. If the first payload forces a Maestro off cams, use that opening or switch pressure to another defender. Do not treat it like one team-wide timer.</p><p>On defense, call which player was targeted and use that player's recovery window to reposition. The safe call is specific: “Maestro has 14.” A generic “Dokk is on cooldown” can be wrong because another defender may still be targetable.</p>`,
+      },
+      {
+        heading: 'Wamai and Jäger now solve different problems',
+        html: `<p><strong>Wamai:</strong> Mag-NETs charge every 20 seconds, cap at 7, and activate in 0.5 seconds. He also gains a Deployable Shield and swaps impacts for C4. That rewards a reactive anchor who stays alive and keeps adding denial through the round.</p><p><strong>Jäger:</strong> he returns to 3 Speed / 1 Health and the 416-C recoil is softer. His ADS utility is still placed early, so the mobility buff favors finishing setup and moving before attackers establish their first hold.</p>`,
+      },
+      {
+        heading: 'The smaller timers still change executes',
+        html: `<ul><li><strong>Zofia:</strong> 3 concussion and 3 impact rounds. You can spend utility on the entry and still keep a charge for the execute.</li><li><strong>Rauora:</strong> D.O.M. Panel shot cooldown drops to 1 second. Consecutive panels are less awkward under pressure.</li><li><strong>Melusi:</strong> Banshee radius is 4.3m. Placements get slightly more forgiving.</li><li><strong>Twitch:</strong> Shock Drone refill is 28 seconds. Preserve the drone long enough to earn the next shot.</li><li><strong>Lesion:</strong> Gu refill is 25 seconds. Staying alive produces traps faster.</li></ul>`,
+      },
+      {
+        heading: 'What to change tonight',
+        html: `<p>Stop repeating the old 7-second Dokkaebi call. Decide between Wamai's live-round flexibility and Jäger's set-and-move speed based on the site. If you bring Twitch or Lesion, value survival because the shorter refill only matters while your utility engine is still running.</p><p>Recon 6 now passes these exact Y11S2.2 facts into its VOD coach so a review cannot fall back to an older patch timer.</p>`,
+      },
+    ],
+  },
+  {
+    game: 'r6',
+    gameLabel: 'Rainbow Six Siege',
+    fromRank: 'Console',
+    toRank: 'PC Pool',
+    slug: 'r6-console-mouse-keyboard-pools-explained',
+    datePublished: '2026-07-18',
+    readMinutes: 4,
+    metaTitle: 'R6 Console Mouse & Keyboard: Which Pool You Actually Enter',
+    metaDescription: 'Native mouse and keyboard on Rainbow Six Siege console explained: PC & Consoles pool, controller-only console pools, squad leader rules and text chat.',
+    intro: `<p>Native mouse and keyboard support arrived on console with Y11S2.2, but it does <strong>not</strong> put mouse players into controller-only lobbies. Ubisoft's rule is simple: M&amp;K on console requires the <strong>PC &amp; Consoles</strong> pool. The <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/35zOD6cqVS4JlQJePp0vmt/native-mouse-keyboard-support-on-consoles" rel="noopener" target="_blank">official explanation is here</a>.</p>`,
+    sections: [
+      {
+        heading: 'Pick the pool before you pick the input',
+        html: `<ul><li><strong>PC &amp; Consoles:</strong> mouse and keyboard or controller; matched with PC players and console players who chose that pool.</li><li><strong>Console crossplay:</strong> controllers only; PlayStation and Xbox console pool.</li><li><strong>PlayStation-only or Xbox-only:</strong> controllers only; platform-specific pool.</li></ul><p>If M&amp;K is connected while a console-only pool is selected, Siege keeps the controller as the allowed match input.</p>`,
+      },
+      {
+        heading: 'The squad leader controls the rule',
+        html: `<p>For a squad, the leader's Crossplay &amp; Input Devices setting determines the matchmaking pool and allowed inputs. Check that setting before queueing. A console player joining a PC player's squad will be placed in the PC &amp; Consoles pool.</p>`,
+      },
+      {
+        heading: 'What changes for a PS5 controller player',
+        html: `<p>If you want controller-only opponents, keep a console-only or PlayStation-only pool selected and make sure your squad leader does the same. If you deliberately enter PC &amp; Consoles, expect both input types and PC players. Console text chat is also live; controller players use the on-screen keyboard, while a connected keyboard can type directly.</p>`,
+      },
+    ],
+  },
   // Y11S2.1 patch analysis — shipped 2026-07-02, same day the patch went live.
   // Same-day patch breakdowns are the highest-leverage organic play: searches
   // spike for ~72h and links accrue to whoever publishes first + best.
@@ -152,15 +209,15 @@ const R6_POSTS = [
     datePublished: '2026-07-02',
     readMinutes: 7,
     metaTitle: 'R6 Y11S2.1 Patch Notes Breakdown — Dokkaebi Cooldown Nerf, Ash Buff & the Movement Change Nobody Noticed (July 2026)',
-    metaDescription: 'Rainbow Six Siege Y11S2.1 patch is live: Dokkaebi Jegeo Payload gets a 7s cooldown, Ash breaching rounds buffed, Thatcher EMP radius up, Thorn nerfed, and the prone-cancel sprint-shoot tech is removed. What every change means for your ranked climb.',
+    metaDescription: 'Rainbow Six Siege Y11S2.1 introduced Dokkaebi\'s 7s cooldown; Y11S2.2 superseded it with a 14s per-target cooldown. See what the current timing means for ranked.',
     intro: `<p>The Y11S2.1 patch went live today (July 2, 2026). On paper it's a "small" balancing pass — one real nerf, a stack of refinements, and bug fixes. In practice it changes the ban phase on every map where Dokkaebi was auto-banned, buffs the most-picked entry operator in the game, and quietly deletes a movement tech that's been winning close-range fights since System Override launched. Here's every change and what it actually means for your rank, straight from <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/7tAny5W9p4yrHmIiH51noI/y11s21-patch-notes" rel="noopener" target="_blank">Ubisoft's official patch notes</a>.</p>`,
     sections: [
       {
         heading: 'Dokkaebi — the Jegeo Payload finally gets a cooldown',
-        html: `<p>The headline change: <strong>Jegeo Payload now has a 7-second cooldown</strong> between activations. Since the Y11S2 remaster, Dokkaebi could chain calls back-to-back, keeping an entire defense locked out of cams and gadgets while eating chip damage with no window to breathe.</p>
+        html: `<p><strong>Current-patch correction:</strong> Y11S2.1 introduced a 7-second global cooldown, but Y11S2.2 superseded it on July 14. Jegeo Payload now has a <strong>14-second cooldown per target</strong>. Dokkaebi can pressure different defenders independently, but a defender she just targeted gets a longer recovery window.</p>
 <p><strong>What changes in your matches:</strong></p>
 <ul>
-  <li><strong>Defenders get repositioning windows.</strong> When a call ends, you have a guaranteed ~7 seconds before the next one starts. That's your rotate window — use it, don't freeze.</li>
+  <li><strong>Track the target, not one global timer.</strong> The same defender gets 14 seconds of relief, while another defender may still be available to target.</li>
   <li><strong>Anchoring gadget ops is viable again.</strong> Maestro, Echo, Mozzie and Fenrir anchors were nearly unplayable into a good Dokkaebi. They're back on the table.</li>
   <li><strong>Her ban value drops.</strong> Dokkaebi has been a top-3 attack ban since June 2. Post-patch, banning a hard breacher (Ace/Thermite) or Buck on vertical-heavy maps is usually stronger value. If your lobby still reflex-bans Dokkaebi, that's a free win for your side's ban.</li>
 </ul>
@@ -232,7 +289,7 @@ const R6_POSTS = [
         heading: 'Attack: the operators winning rounds',
         html: `<p><strong>Solid Snake</strong> is the story of the season, even though he arrived back in Silent Hunt. His Soliton Radar MK III gives you real-time awareness of nearby defenders and traps — green for clear, yellow for caution, red for alert, with a Precision Mode that briefly shows exact positions and even facing direction. Which means the number-one thing that loses you ranked rounds (walking into a fight blind) just got a lot harder to do. Worth knowing: the Y11S2.1 patch fixed three radar exploits (the Emerald Plains rooftop detect, the prone floor-below detect, the weapon-cycling break), so he now reads as designed — strong intel, no cheese. If you take one op away from this article: he's an S-tier pick specifically because he fixes bad information, which is exactly what plateaued players lack. Don't rush with the radar up — use it to hold the first fight, then commit.</p>
 <p><strong>Ace</strong> is the safest hard breach in the game right now, and in ranked "safe" wins more than "flashy." His broad breach range plus the AK-12 means you open the wall you need without dying to a runout doing it. If your team never has a plan for the reinforced wall, Ace is the pick that gives you one.</p>
-<p><strong>Dokkaebi</strong> got the season's headline rework — the Jegeo Payload — and she's still a top-tier disruption pick, with an asterisk: the July 2 patch put a 7-second cooldown between activations, so the chain-spam lockout is gone. Her ranked value now is timing, not volume: sync one call with your team's execute to deny cams and force defenders off comfortable holds at the moment it matters. If your lobby still reflex-bans her, that ban slot is overpaying post-patch.</p>
+<p><strong>Dokkaebi</strong> got the season's headline rework — the Jegeo Payload — and she's still a top-tier disruption pick, with an asterisk: Y11S2.2 changed the cooldown to <strong>14 seconds per target</strong>. Her ranked value is target selection and timing: pressure one defender, then either capitalize or switch targets instead of wasting another payload into that defender's recovery window.</p>
 <p>Rounding out the strong attack picks: <strong>Thatcher</strong> (still the answer to electrified walls — his EMP radius even got a small buff in S2.1, but stop throwing EMPs at the wall too early; save one for the actual breach), <strong>Nomad</strong> (flank denial that keeps your push from getting collapsed), <strong>Maverick</strong> (the surgical breach when Thermite/Hibana get denied), and <strong>Lion</strong> (info + pressure).</p>`,
       },
       {

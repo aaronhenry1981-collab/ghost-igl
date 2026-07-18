@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-18T17:07:36.170Z",
+  "generated_at": "2026-07-18T18:21:19.387Z",
   "ranked_rotation": {
     "effectiveDate": "2026-07-16",
     "verifiedDate": "2026-07-18",
@@ -31,6 +31,49 @@
       "villa",
       "calypso-casino"
     ]
+  },
+  "current_patch": {
+    "patch": "Y11S2.2",
+    "publishedDate": "2026-07-14",
+    "verifiedDate": "2026-07-18",
+    "sourceUrl": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/3IoMKS8f3AHlOwBQXfiytt/y11s22-midseason-patch-notes",
+    "operatorChanges": {
+      "Dokkaebi": {
+        "jegeoPayloadCooldownSeconds": 14,
+        "cooldownScope": "per-target",
+        "previousSeconds": 7
+      },
+      "Wamai": {
+        "chargeSeconds": 20,
+        "maxCharges": 7,
+        "activationSeconds": 0.5,
+        "secondaryGadgets": [
+          "Deployable Shield",
+          "C4"
+        ]
+      },
+      "Jager": {
+        "speed": 3,
+        "health": 1,
+        "recoil": "416-C recoil reduced and softened"
+      },
+      "Zofia": {
+        "concussionAmmo": 3,
+        "impactAmmo": 3
+      },
+      "Rauora": {
+        "panelShotCooldownSeconds": 1
+      },
+      "Melusi": {
+        "bansheeRadiusMeters": 4.3
+      },
+      "Twitch": {
+        "shockDroneRefillSeconds": 28
+      },
+      "Lesion": {
+        "guMineRefillSeconds": 25
+      }
+    }
   },
   "maps": {
     "bank": {
