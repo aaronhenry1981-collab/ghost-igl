@@ -292,7 +292,7 @@ export default function AccountPage() {
           <AccessItem enabled allow="Map strats, operator picks, community access" />
           <AccessItem enabled={isPaid || isAdmin} allow="Ban targets and pick recommendations matched to your role and rank" note="Pro+" />
           <AccessItem enabled={isPaid || isAdmin} allow="Round-by-round VOD breakdowns from your screenshots" note="Pro+" />
-          <AccessItem enabled={plan === 'champion' || isAdmin} allow="Recon 6 Command desktop app (live capture coaching)" note="Champion" />
+          <AccessItem enabled={false} allow="Desktop live coach" note="Planned — not currently available" />
           <AccessItem enabled={plan === 'champion' || isAdmin} allow="Real-time 5-stack team sessions + voice callouts" note="Champion" />
         </ul>
         {!isPaid && !isAdmin && (
