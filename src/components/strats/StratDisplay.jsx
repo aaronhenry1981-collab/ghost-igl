@@ -54,6 +54,42 @@ export default function StratDisplay({ strat, side, gated }) {
 
   return (
     <div className="strat-display">
+      <div
+        className="strat-beta-notice"
+        role="note"
+        style={{
+          display: 'flex',
+          gap: '0.6rem',
+          alignItems: 'flex-start',
+          margin: '0 0 1rem',
+          padding: '0.65rem 0.85rem',
+          borderRadius: '8px',
+          border: '1px solid rgba(245, 158, 11, 0.4)',
+          background: 'rgba(245, 158, 11, 0.08)',
+          fontSize: '0.85rem',
+          lineHeight: 1.45,
+          color: 'var(--text-secondary, #cbd5e1)',
+        }}
+      >
+        <span aria-hidden="true" style={{ fontSize: '1rem', lineHeight: 1.3 }}>
+          {'\u{1F6E0}'}
+        </span>
+        <span>
+          <strong style={{ color: 'var(--text-primary, #f1f5f9)' }}>Strats are in beta.</strong>{' '}
+          They&rsquo;re AI-assisted and we&rsquo;re reviewing every map with real players right now.
+          If a callout or setup looks off, tell us in{' '}
+          <a
+            href="https://discord.gg/namGQqs3jb"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--accent, #f59e0b)', fontWeight: 600 }}
+          >
+            Discord
+          </a>{' '}
+          and we&rsquo;ll fix it fast.
+        </span>
+      </div>
+
       {userRole && matches.length > 0 && (
         <div className="strat-role-banner">
           <span className="strat-role-banner-label">Playing {userRole}?</span>
