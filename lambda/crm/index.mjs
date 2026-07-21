@@ -47,9 +47,9 @@ function welcomeEmail(email) {
 
 You're in. Three things worth doing first:
 
-1. Live Coach — the in-match walkthrough. Pick your stack size, map, and bans, and it tells you what to pick and how to play it: ${SITE}/#/live
-2. Map strats — every ranked map, site by site: ${SITE}/#/strats
-3. Finish your profile (30 seconds) and you get a free 7-day Pro trial — no card: ${SITE}/#/account
+1. Live Coach — the in-match walkthrough. Pick your stack size, map, and bans, and it tells you what to pick and how to play it: ${SITE}/live
+2. Map strats — every ranked map, site by site: ${SITE}/strats
+3. Finish your profile (30 seconds) and you get a free 7-day Pro trial — no card: ${SITE}/account
 
 If anything's confusing or broken, just reply to this email. I read everything.
 
@@ -64,11 +64,112 @@ function winbackEmail(email) {
 
 You signed up for Recon 6 but haven't been back — fair enough, so here's the one thing worth returning for:
 
-Live Coach walks you through your actual ranked match in real time — map bans, operator bans, what to pick, where to spawn, how to play the site: ${SITE}/#/live
+Live Coach walks you through your actual ranked match in real time — map bans, operator bans, what to pick, where to spawn, how to play the site: ${SITE}/live
 
 It's updated for the current patch (Dokkaebi cooldown, the prone-cancel removal — the meta moved). Takes one match to see if it helps.
 
 If Recon 6 wasn't what you were looking for, reply and tell me what was missing — that's genuinely useful to me.
+
+Aaron — Recon 6`,
+  }
+}
+
+// ---- TRIAL LIFECYCLE --------------------------------------------------------
+// Trials take the card UP FRONT and auto-bill, so these are TRANSPARENCY
+// emails, not a pitch. The pricing page promises "cancel in one click, no
+// retention tricks" and this has to match that or the promise is a lie.
+// Branches on real usage (vod_lifetime_used): a ghost and a daily user need
+// completely different mail. Amounts come from the verified live Stripe prices.
+const PRICE_LABEL = {
+  price_1TPtOKJNddvjgWcg47I16AQp: '$9',   // Pro founding
+  price_1TLEtrJNddvjgWcg9iTWJoLS: '$12',  // Pro regular
+  price_1TLEtsJNddvjgWcgYcmiNmW7: '$29',  // Champion founding
+  price_1TPtOYJNddvjgWcgfEWjzGnp: '$39',  // Champion regular
+}
+
+function trialNudgeEmail({ dormant }) {
+  if (dormant) {
+    return {
+      subject: 'did this not land?',
+      body: `Hey,
+
+You started a Pro trial and haven't been back since. That usually means it didn't do what you hoped in the first five minutes, and I'd rather fix that than let it quietly run out.
+
+Here's the five minutes worth doing: upload one screenshot from a round you LOST.
+
+${SITE}/vod
+
+You get a read on the decision that actually cost you the round, not "work on your aim".
+
+I spent 700 hours blaming my aim. The data said my aim was fine, my decisions were the leak. I stopped forcing fights, played for the round instead of the frag, and went Bronze II to Silver in four days.
+
+If it's still useless after that, reply and tell me why. I'd genuinely rather know.
+
+Aaron — Recon 6`,
+    }
+  }
+  return {
+    subject: 'the part everyone skips',
+    body: `Hey,
+
+You've been in a few times, good. The piece most people never touch: upload a round you LOST, not one you won. That's where it tells you something specific.
+
+${SITE}/vod
+
+Aaron — Recon 6`,
+  }
+}
+
+function trialEndingEmail({ rounds, price, daysLeft }) {
+  const when = daysLeft <= 1 ? 'tomorrow' : `in ${Math.round(daysLeft)} days`
+  const charge = price ? `the card on file gets charged ${price}` : 'the card on file gets charged'
+  if (rounds > 0) {
+    return {
+      subject: `your trial ends ${when}`,
+      body: `Hey,
+
+Your Pro trial ends ${when} and ${charge} for the next month.
+
+You've run ${rounds} ${rounds === 1 ? 'round' : 'rounds'} through it so far.
+
+If that's worth it, do nothing. ${price ? price + ' is' : 'That rate is'} your founding rate for as long as you stay subscribed.
+
+If it isn't, cancel in one click from your account page and you won't be charged:
+${SITE}/account
+
+Either way, reply and tell me what worked and what didn't.
+
+Aaron — Recon 6`,
+    }
+  }
+  return {
+    subject: "don't let this bill you",
+    body: `Hey,
+
+Your Pro trial ends ${when} and ${charge}.
+
+You haven't used it. I'm not going to quietly take the money and hope you don't notice.
+
+Cancel here and you won't be charged:
+${SITE}/account
+
+If you'd rather give it one honest shot first, upload a screenshot from a round you lost and see whether it tells you anything real:
+${SITE}/vod
+
+Aaron — Recon 6`,
+  }
+}
+
+function trialCancelledEmail() {
+  return {
+    subject: 'what missed?',
+    body: `Hey,
+
+You cancelled before the trial billed. No pitch here.
+
+I'd just like to know what didn't land. One line is plenty, it genuinely shapes what I build next.
+
+The founding rate is still there if you want back in later.
 
 Aaron — Recon 6`,
   }
@@ -251,7 +352,7 @@ export async function handler(event = {}) {
   if (event?.campaign === 'coaching-intro') return runCoachingIntroCampaign(event)
 
   const now = Date.now()
-  const report = { welcome: [], confirmNudge: [], winback: [], orphans: [], pastDue: [], failures: [] }
+  const report = { welcome: [], confirmNudge: [], winback: [], orphans: [], pastDue: [], trialNudge: [], trialEnding: [], trialCancelAsk: [], failures: [] }
 
   const [users, subs, profiles] = await Promise.all([
     listAllUsers(), scanAll(SUBS_TABLE), scanAll(PROFILES_TABLE),
@@ -304,7 +405,54 @@ export async function handler(event = {}) {
     }
   }
 
-  // 5. Digest to Aaron — the daily pulse, replaces manually scanning the table.
+  // 5. TRIAL LIFECYCLE — the money moment, and previously the biggest hole:
+  // a trial just ended in silence and nobody was ever told. Driven off the
+  // subscription rows (that's where trial state and usage live), not Cognito.
+  const ownerSet = new Set(ALERT_EMAILS.map((e) => String(e).toLowerCase()))
+  for (const s of subs) {
+    const email = String(s.email || '').toLowerCase()
+    if (!email || ownerSet.has(email)) continue
+    const log = await crmGet(email)
+    const rounds = Number(s.vod_lifetime_used || 0) // absent = never analysed a round
+
+    // Feedback ask — only for people we actually emailed mid-trial, so we never
+    // cold-poke someone who churned for unrelated reasons.
+    if (s.status === 'canceled' && log.trial_ending_sent_at && !log.trial_cancel_ask_at) {
+      if (await sendEmail(email, trialCancelledEmail())) {
+        await crmSet(email, { trial_cancel_ask_at: new Date(now).toISOString() })
+        report.trialCancelAsk.push(email)
+      } else report.failures.push('trialcancel:' + email)
+      continue
+    }
+    if (s.status !== 'trialing') continue
+
+    const endMs = s.current_period_end ? Date.parse(s.current_period_end) : 0
+    const daysLeft = endMs ? (endMs - now) / DAY : null
+    const startedDays = s.created_at ? (now - Date.parse(s.created_at)) / DAY : 0
+    const seenRaw = profileByEmail.get(email)?.last_seen_at
+    const lastSeen = seenRaw ? Date.parse(seenRaw) : 0
+    const dormant = rounds === 0 && (now - Math.max(lastSeen, 0)) > 2 * DAY
+
+    // Billing heads-up, 3 days out. Highest value, so it wins over the nudge.
+    if (daysLeft !== null && daysLeft <= 3 && daysLeft > 0 && !log.trial_ending_sent_at) {
+      const tmpl = trialEndingEmail({ rounds, price: PRICE_LABEL[s.price_id] || null, daysLeft })
+      if (await sendEmail(email, tmpl)) {
+        await crmSet(email, { trial_ending_sent_at: new Date(now).toISOString() })
+        report.trialEnding.push(email + (rounds ? ` (${rounds} rounds)` : ' (UNUSED)'))
+      } else report.failures.push('trialending:' + email)
+      continue
+    }
+
+    // Activation nudge, a few days in with plenty of trial left.
+    if (startedDays >= 3 && (daysLeft === null || daysLeft > 5) && !log.trial_nudge_sent_at) {
+      if (await sendEmail(email, trialNudgeEmail({ dormant }))) {
+        await crmSet(email, { trial_nudge_sent_at: new Date(now).toISOString() })
+        report.trialNudge.push(email + (dormant ? ' (dormant)' : ' (active)'))
+      } else report.failures.push('trialnudge:' + email)
+    }
+  }
+
+  // 6. Digest to Aaron — the daily pulse, replaces manually scanning the table.
   // FILTER-FRIENDLY: the first version dumped 20+ raw email addresses into the
   // body and Google Workspace silently binned it as spam (the plain-sentence
   // delivery test arrived fine; every digest vanished). Addresses are obfuscated
@@ -317,6 +465,10 @@ export async function handler(event = {}) {
     `Welcome emails sent: ${report.welcome.length}${report.welcome.length ? ' (' + few(report.welcome) + ')' : ''}`,
     `Confirmation nudges: ${report.confirmNudge.length}${report.confirmNudge.length ? ' (' + few(report.confirmNudge) + ')' : ''}`,
     `Win-back emails sent: ${report.winback.length}${report.winback.length ? ' (' + few(report.winback) + ')' : ''}`,
+    '',
+    `Trial activation nudges: ${report.trialNudge.length}${report.trialNudge.length ? ' (' + few(report.trialNudge) + ')' : ''}`,
+    `TRIAL ENDING billing heads-up: ${report.trialEnding.length}${report.trialEnding.length ? ' (' + few(report.trialEnding) + ')' : ''}`,
+    `Post-cancel feedback asks: ${report.trialCancelAsk.length}${report.trialCancelAsk.length ? ' (' + few(report.trialCancelAsk) + ')' : ''}`,
     '',
     `ORPHANS (paying, no login, needs your action): ${report.orphans.length ? report.orphans.map(mask).join(', ') : 'none'}`,
     `Past due: ${report.pastDue.length ? report.pastDue.map(mask).join(', ') : 'none'}`,
