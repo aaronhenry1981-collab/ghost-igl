@@ -40,8 +40,14 @@ export async function handler(event) {
       process.env.STRIPE_WEBHOOK_SECRET
     )
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message)
-    return { statusCode: 400, body: `Webhook Error: ${err.message}` }
+    // Invalid signatures are expected internet noise, not Lambda failures.
+    // Keep a countable warning without echoing attacker-controlled details.
+    // NOTE: this warn is what the Recon6-StripeWebhookRejected CloudWatch alarm
+    // counts (metric filter 'recon6-stripe-signature-rejected'). A sustained
+    // count here means payments are NOT being recorded — on 2026-07-18 the
+    // signing secret was corrupted to '****' and this fired silently for 3 days.
+    console.warn(JSON.stringify({ level: 'warn', event: 'stripe_signature_rejected' }))
+    return { statusCode: 400, body: 'Webhook Error: invalid signature' }
   }
 
   // Pass the event ID into each handler so they can skip duplicate processing.
