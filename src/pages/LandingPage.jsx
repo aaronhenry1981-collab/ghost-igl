@@ -6,6 +6,7 @@ import { getCurrentSeason } from '../utils/season'
 import {
   PRO_CHECKOUT_LINK,
   CHAMPION_CHECKOUT_LINK,
+  withCheckoutEmail,
 } from '../config/stripe'
 import { isFoundingOpen } from '../config/founding'
 import { track } from '../utils/analytics'
@@ -847,7 +848,12 @@ export default function LandingPage() {
         <div className="pricing-grid">
           {PRICING.map((p) => {
             const displayPrice = p.price
-            const displayLink = p.link
+            // Lock checkout to the signed-in account's email. Subscriptions link
+            // to a login by email alone, so paying with a different address
+            // silently orphans them (billed, no access). Signed-out visitors are
+            // unaffected — they type their email at Stripe and the post-checkout
+            // page tells them to sign up with that same address.
+            const displayLink = withCheckoutEmail(p.link, user?.email)
             const showFounding = p.founding
             const showRegular = p.regularPrice
             return (

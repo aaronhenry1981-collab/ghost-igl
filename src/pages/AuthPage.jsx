@@ -75,7 +75,33 @@ export default function AuthPage() {
     if (mode === 'signup') {
       const { error: err } = await signUp(email, password)
       if (err) {
-        setError(err.message)
+        // The Stripe webhook auto-provisions a Cognito login the instant payment
+        // lands, so someone arriving straight from checkout usually ALREADY has
+        // an account they never knowingly created. Cognito's raw "already
+        // exists" error dead-ended them seconds after paying, with no hint that
+        // a temporary password had been emailed — a top source of orphaned
+        // paying customers. Send a reset code and drop them into the reset step
+        // so they can set their own password and get in.
+        const exists = err.name === 'UsernameExistsException'
+          || /already exists/i.test(err.message || '')
+        if (exists) {
+          const { error: resetErr } = await forgotPassword(email)
+          setError(null)
+          if (resetErr) {
+            setSuccess('You already have an account with that email. Use "Forgot password" below to set a password and sign in.')
+            setMode('forgot')
+          } else {
+            setSuccess(
+              fromCheckout
+                ? 'Your account was already created when your payment went through. We just emailed you a 6-digit code — enter it below with a password of your choice to finish and unlock everything.'
+                : 'You already have an account with that email. We just emailed you a 6-digit code — enter it below with a new password.',
+            )
+            setMode('reset')
+            setCode('')
+          }
+        } else {
+          setError(err.message)
+        }
       } else {
         track('Signup Started')
         setSuccess('Account created! Check your email for a 6-digit confirmation code.')
