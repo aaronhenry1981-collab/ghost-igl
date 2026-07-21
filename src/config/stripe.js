@@ -68,6 +68,15 @@ export const CHAMPION_REGULAR_AMOUNT = 39
 // link visitors to today.
 export const PRO_CHECKOUT_LINK = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_LINK : PRO_REGULAR_LINK
 export const CHAMPION_CHECKOUT_LINK = STRIPE_FOUNDING_ACTIVE ? CHAMPION_FOUNDING_LINK : CHAMPION_REGULAR_LINK
+// Lock Stripe checkout to the SAME email as the signed-in account. Subscriptions
+// link to a login purely by email, so a user paying with a different address
+// than they signed up with silently orphans themselves — they get billed and
+// get nothing. Prefilling removes the chance to typo or use another inbox.
+export function withCheckoutEmail(link, email) {
+  if (!link || !email) return link
+  return link + (link.includes('?') ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email)
+}
+
 export const PRO_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_AMOUNT : PRO_REGULAR_AMOUNT
 export const CHAMPION_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? CHAMPION_FOUNDING_AMOUNT : CHAMPION_REGULAR_AMOUNT
 
