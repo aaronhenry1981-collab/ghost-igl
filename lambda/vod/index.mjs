@@ -340,9 +340,15 @@ export async function handler(event) {
     tier = 'champion'
   } else {
     activeSub = await getActiveSub(email)
-    if (activeSub && activeSub.status === 'active' && (activeSub.plan === 'pro' || activeSub.plan === 'champion')) {
+    if (activeSub && (activeSub.status === 'active' || activeSub.status === 'trialing')
+        && (activeSub.plan === 'pro' || activeSub.plan === 'champion')) {
       tier = activeSub.plan
       tierScope = activeSub.tier_scope || (activeSub.plan === 'champion' ? 'all_access' : 'single')
+      // DELIBERATE: `trial` is the no-card 3-session-lifetime trial flag. A
+      // Stripe 'trialing' row has a card on file and auto-bills, so it gets the
+      // normal PAID cap (Pro 20/mo ≈ $2 worst-case Bedrock against $9 revenue).
+      // Capping a card-on-file trialist at 3 lifetime sessions would strangle
+      // the exact activation that converts them.
       isTrial = !!activeSub.trial
     } else {
       return {
@@ -503,7 +509,15 @@ async function getActiveSub(email) {
     ExpressionAttributeValues: { ':email': email },
   }))
   const items = r.Items || []
-  return items.find((s) => s.status === 'active') || null
+  // Stripe 'trialing' subscribers are paying customers in waiting: card on
+  // file, auto-converts at period end. Excluding them meant /me reported pro,
+  // the UI unlocked the upload zone, and this API returned 402 — so NO
+  // subscriber had ever completed a VOD analysis (no row has ever carried
+  // vod_lifetime_used, and invocations were flat at the keep-warm rate).
+  // Prefer a fully active row when one exists, otherwise accept trialing.
+  return items.find((s) => s.status === 'active')
+    || items.find((s) => s.status === 'trialing')
+    || null
 }
 
 // Returns { used, limit, remaining, periodEnd, message, isExpired }.
