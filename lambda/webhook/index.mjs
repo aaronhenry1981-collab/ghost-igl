@@ -24,6 +24,16 @@ const REFERRAL_QUALIFY_DAYS = 30
 const REFERRAL_FOUNDING_CUTOFF_MS = Date.parse('2026-05-11T00:00:00.000Z') + 90 * 86400000
 
 export async function handler(event) {
+  // Keep-warm ping (ghost-igl-warmer, rate(5 minutes), Input {"warmer":true}).
+  // It carries no stripe-signature, so it used to fall through to verification
+  // and log stripe_signature_rejected every 5 minutes forever. That pinned the
+  // Recon6-StripeWebhookRejected alarm permanently in ALARM, so a REAL outage
+  // produced no state transition and no notification — the same silence that
+  // hid the 3-day payment outage. Answer and stop before touching Stripe.
+  if (event?.warmer === true) {
+    return { statusCode: 200, body: 'warm' }
+  }
+
   const sig = event.headers?.['stripe-signature']
   let stripeEvent
 
