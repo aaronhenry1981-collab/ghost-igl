@@ -18,13 +18,17 @@ const SHARED_FEATURES = [
 ]
 // PC-only because the coach runs on the same machine as the game. now=shipped,
 // now:false = on the roadmap (labelled honestly, never sold as live).
+//
+// All false until the installer is actually downloadable. "Now" has to mean
+// "you can have this today" — while no installer exists, a customer cannot get
+// any of these, so labelling them shipped is selling something we don't hand over.
 const PC_EXTRAS = [
-  { t: 'Native window & region capture — no capture-card latency', now: true },
-  { t: 'Sharper map / site / ban / operator recognition from a clean render', now: true },
-  { t: 'On-screen overlay HUD — callouts, timer and site setup on your game screen', now: true },
-  { t: 'Global hotkeys — overlay, mute, re-brief, mark-clip, record (while in-game)', now: true },
-  { t: 'One-key session recording + auto-clips — no capture card, no OBS', now: true },
-  { t: 'Auto game-window detection — no manual region boxing', now: true },
+  { t: 'Native window & region capture — no capture-card latency', now: false },
+  { t: 'Sharper map / site / ban / operator recognition from a clean render', now: false },
+  { t: 'On-screen overlay HUD — callouts, timer and site setup on your game screen', now: false },
+  { t: 'Global hotkeys — overlay, mute, re-brief, mark-clip, record (while in-game)', now: false },
+  { t: 'One-key session recording + auto-clips — no capture card, no OBS', now: false },
+  { t: 'Auto game-window detection — no manual region boxing', now: false },
 ]
 
 function PlatformSplit() {
