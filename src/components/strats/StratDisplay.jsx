@@ -1,8 +1,13 @@
 import { useState } from 'react'
+// Own our styles so StratDisplay is never rendered unstyled — the landing-page
+// preview embedded this without StratsPage.css and it rendered as raw stacked
+// text (Aaron, 2026-07-20). Importing here guarantees it's styled everywhere.
+import '../../pages/StratsPage.css'
 import OperatorCard from './OperatorCard'
 import ProGate from './ProGate'
 import ChampionGate from './ChampionGate'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
+import { verifiedFor, isVerifiedName } from '../../data/verified-callouts'
 
 function CalloutTag({ label }) {
   const [copied, setCopied] = useState(false)
@@ -48,9 +53,45 @@ function attackCamNotes(strat) {
   return notes
 }
 
-export default function StratDisplay({ strat, side, gated }) {
+// Callouts read straight off real match footage, with the evidence attached.
+// This exists because a Champion cancelled on 2026-07-18 calling the content
+// "AI slop", and he was right: the strat data was generated, and the word
+// "Verified" appears 196 times in it emitted by a script that verified nothing.
+// Everything in this block was actually on screen, and says how many frames and
+// how many separate recordings back it.
+function VerifiedCallouts({ mapId }) {
+  const v = mapId ? verifiedFor(mapId) : null
+  if (!v || !v.callouts?.length) return null
+  const shown = v.callouts.slice(0, 18)
+  return (
+    <div className="strat-section">
+      <div className="strat-section-title">
+        Verified Callouts{' '}
+        <span className="strat-section-hint">
+          read off {v.framesRead} frames from {v.sessions} recorded {v.sessions === 1 ? 'match' : 'matches'}
+        </span>
+      </div>
+      <div className="callout-tags">
+        {shown.map((c) => (
+          <CalloutTag key={c.floor ? `${c.floor} ${c.name}` : c.name} label={c.floor ? `${c.floor} ${c.name}` : c.name} />
+        ))}
+      </div>
+      {!!v.spawns?.length && (
+        <p className="strat-text" style={{ marginTop: '0.6rem', fontSize: '0.86rem', opacity: 0.85 }}>
+          <strong>Attacker spawns on this map:</strong>{' '}
+          {v.spawns.map((s) => s.name).join(' · ')}
+        </p>
+      )}
+    </div>
+  )
+}
+
+export default function StratDisplay({ strat, side, gated, mapId }) {
   const { role: userRole } = useUserRole()
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
+  // Flag any listed callout the footage does NOT back, so nothing here is
+  // presented with more confidence than the evidence supports.
+  const hasFootage = !!(mapId && verifiedFor(mapId))
 
   return (
     <div className="strat-display">
@@ -129,7 +170,15 @@ export default function StratDisplay({ strat, side, gated }) {
             <CalloutTag key={c} label={c} />
           ))}
         </div>
+        {hasFootage && strat.callouts.some((c) => !isVerifiedName(mapId, c)) && (
+          <p className="strat-section-hint" style={{ marginTop: '0.45rem', display: 'block' }}>
+            Not yet confirmed against footage:{' '}
+            {strat.callouts.filter((c) => !isVerifiedName(mapId, c)).join(', ')}
+          </p>
+        )}
       </div>
+
+      <VerifiedCallouts mapId={mapId} />
 
       {side === 'attack' && (
         <div className="strat-section">
