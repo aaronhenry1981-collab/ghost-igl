@@ -383,7 +383,7 @@ function R6StratsPage() {
                   <>
                     <SquadToggle size={squadSize} onToggle={setSquadSize} />
                     {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
-                    <StratDisplay strat={strat} side={side} gated={false} />
+                    <StratDisplay strat={strat} side={side} gated={false} mapId={selectedMap} />
                     {enemyIntel && <EnemyIntel intel={enemyIntel} />}
                   </>
                 )}
@@ -401,7 +401,7 @@ function R6StratsPage() {
                   <SquadToggle size={squadSize} onToggle={setSquadSize} />
                   {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
                 </ProGate>
-                <StratDisplay strat={strat} side={side} gated />
+                <StratDisplay strat={strat} side={side} gated mapId={selectedMap} />
                 {enemyIntel && (
                   <ProGate label="Enemy Intel & Predictions">
                     <EnemyIntel intel={enemyIntel} />
