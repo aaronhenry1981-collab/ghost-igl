@@ -198,6 +198,10 @@ ${faqHtml}
       </select>
       <label for="c-notes">What's costing you rounds? (optional)</label>
       <textarea id="c-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
+      <label style="display:flex;gap:8px;align-items:flex-start;font-size:.88rem;color:var(--dim);margin-top:10px;cursor:pointer">
+        <input type="checkbox" id="c-kbconsent" checked style="margin-top:3px;flex:none">
+        <span>OK to add my session (anonymized — no name or contact info) to the Recon6 coaching knowledge base. Helps future players with the same leaks; uncheck to opt out.</span>
+      </label>
       <button type="submit" id="confirmBtn">Continue to payment →</button>
       <div class="ok" id="confirmOk"></div>
       <div id="confirmErr" style="color:#ff6b6b;margin-top:12px;display:none"></div>
@@ -351,6 +355,7 @@ ${faqHtml}
         slotId: held.slotId, holdToken: held.token, tz: tz,
         name: val('c-name'), email: val('c-email'), discord: val('c-discord'),
         rank_goal: val('c-rank'), type: val('c-type'), notes: val('c-notes'),
+        kb_consent: !!(document.getElementById('c-kbconsent') || {}).checked,
         referral_source: getRef(),
       }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })

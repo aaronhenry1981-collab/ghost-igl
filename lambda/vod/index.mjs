@@ -16,7 +16,8 @@
 // Response: see RESPONSE_SCHEMA below.
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { createHash, randomUUID } from 'node:crypto'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { readFileSync, existsSync } from 'node:fs'
@@ -463,6 +464,30 @@ export async function handler(event) {
 
   try {
     const analysis = await callBedrock(gameId, images, userContext, tier)
+    // KNOWLEDGE-BASE CAPTURE (2026-07-23). Every delivered review is the future
+    // knowledge base — the archive has to fill from review #1 or the RAG layer
+    // starts from zero when it's finally built. Anonymized: the email is stored
+    // only as a SHA-256 hash (enough to group "same customer" without naming
+    // them), and no image data is kept. Fire-and-forget and NON-FATAL: a DDB
+    // hiccup must never break a paying user's review.
+    try {
+      await ddb.send(new PutCommand({
+        TableName: process.env.ARCHIVE_TABLE || 'recon6-review-archive',
+        Item: {
+          review_id: randomUUID(),
+          created_at: new Date().toISOString(),
+          game_id: gameId,
+          tier,
+          email_hash: createHash('sha256').update(String(email || '')).digest('hex').slice(0, 24),
+          images_count: images.length,
+          user_context: String(userContext || '').slice(0, 1000),
+          analysis,
+          source: 'vod-api',
+        },
+      }))
+    } catch (archiveErr) {
+      console.error('review archive failed (non-fatal):', archiveErr?.message || archiveErr)
+    }
     // Compute the updated usage AFTER reservation so the response can show
     // the user their remaining count without an extra round-trip.
     const responseUsage = !isAdmin && activeSub
