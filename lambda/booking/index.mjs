@@ -490,6 +490,11 @@ export async function handler(event) {
         name: String(name).slice(0, 80), email: String(email).slice(0, 120),
         discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
         tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
+        // Knowledge-base consent (2026-07-23): may this session, anonymized, be
+        // added to the Recon6 coaching knowledge base? Recorded from review #1
+        // so the archive is clean from the start. STRICT: only a literal true
+        // from the form counts — absent/undefined stores false, never assumed.
+        kb_consent: body.kb_consent === true,
       }
       // Channel attribution: the widget passes the first-touch ?ref source
       // (from localStorage 'recon:src'); default 'direct'. Same sanitize as
@@ -539,6 +544,11 @@ export async function handler(event) {
         name: String(name).slice(0, 80), email: String(email).slice(0, 120),
         discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
         tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
+        // Knowledge-base consent (2026-07-23): may this session, anonymized, be
+        // added to the Recon6 coaching knowledge base? Recorded from review #1
+        // so the archive is clean from the start. STRICT: only a literal true
+        // from the form counts — absent/undefined stores false, never assumed.
+        kb_consent: body.kb_consent === true,
       }
       try {
         await ddb.send(new UpdateCommand({
