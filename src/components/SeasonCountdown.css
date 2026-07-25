@@ -1,0 +1,41 @@
+.season-countdown { font-family: inherit; }
+
+.season-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #cfd8e3;
+  background: rgba(255, 183, 51, 0.08);
+  border: 1px solid rgba(255, 183, 51, 0.35);
+  white-space: nowrap;
+}
+.season-pill b { color: #ffb733; font-weight: 700; }
+
+.season-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 51, 0.10), rgba(255, 183, 51, 0.02));
+  border: 1px solid rgba(255, 183, 51, 0.28);
+  font-size: 14px;
+  color: #cfd8e3;
+}
+.season-banner .season-name { font-weight: 700; color: #eef3f8; }
+.season-banner .season-time b { color: #ffb733; }
+.season-banner .season-next {
+  margin-left: auto;
+  font-size: 12px;
+  color: #8a97a8;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 640px) {
+  .season-banner .season-next { margin-left: 0; }
+}

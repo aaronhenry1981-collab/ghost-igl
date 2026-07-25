@@ -3,6 +3,21 @@
 
 const CHANGELOG = [
   {
+    date: '2026-07-25',
+    tag: 'content',
+    title: 'R6 Y11S2.2 mid-season patch coverage + season countdown',
+    items: [
+      'Season countdown is live on the Strats and Meta pages — Y11S2 ends ~September 1 (expected; Ubisoft confirms in late August)',
+      'Meta tier list and ban recommendations updated for the July 14 mid-season patch (Ubisoft Plat+ ban data)',
+      'Wamai reworked into a top defender: 7 Mag-NETs, 20s regen, 0.5s activation, and his loadout now carries C4 + deployable shield instead of impacts',
+      'Jager is now 3-speed/1-health with a smoother 416-C — fast rotates, punishing mistakes',
+      'Dokkaebi nerfed again (14s per-target cooldown on the Jegeo Payload) but still a top-value attacker ban above Gold',
+      'Zofia +1 concussion and +1 impact round, Melusi Banshee range up, Lesion Gu refill 25s, Twitch drone recharge 28s',
+      'Ranked map pool corrected to the verified Y11S2 fourteen: Fortress is IN; Villa, Skyscraper, Theme Park and Kanal are out this season',
+      'Native mouse & keyboard support on console — M&K players now matchmake in the PC crossplay pool only',
+    ],
+  },
+  {
     date: '2026-05-21',
     tag: 'content',
     title: 'R6 Y11S2 Operation System Override — early coverage',

@@ -4,6 +4,7 @@ import META from '../data/meta'
 import { useUserRole, operatorFitsRole } from '../hooks/useUserRole'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameMetaPage from './GameMetaPage'
+import SeasonCountdown from '../components/SeasonCountdown'
 import './MetaPage.css'
 
 function SideFilter({ value, onChange }) {
@@ -183,6 +184,7 @@ function R6MetaPage() {
           <strong>{totals.sites}</strong> sites, and <strong>{totals.operators}</strong> operators.
           Updated whenever the strat data changes.
         </p>
+        <SeasonCountdown variant="banner" />
       </div>
 
       <div className="meta-controls">
