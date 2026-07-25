@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useActiveGame } from '../hooks/useActiveGame'
 import { useGameData } from '../hooks/useGameData'
+import SeasonCountdown from '../components/SeasonCountdown'
 import './GameMetaPage.css'
 
 // Generic game-aware Meta board. Computes top picks across all sites and
@@ -77,6 +78,7 @@ export default function GameMetaPage() {
         <div className="game-meta-eyebrow" style={{ color: accent }}>{displayName} · Meta</div>
         <h1>What's <span style={{ color: accent }}>Working</span> Right Now</h1>
         <p>Aggregate competitive intel across <strong>{maps.length}</strong> {gameMeta.vocab?.map?.toLowerCase() || 'map'}s, <strong>{computed.totalSites}</strong> {gameMeta.vocab?.site?.toLowerCase() || 'site'}s, and <strong>{cast.length}</strong> {castWord.toLowerCase()}s.</p>
+        {activeGameId === 'r6' && <SeasonCountdown variant="banner" />}
       </header>
 
       <div className="game-meta-grid">

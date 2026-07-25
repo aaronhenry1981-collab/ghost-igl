@@ -1,5 +1,10 @@
 // Rainbow Six Siege maps with bomb sites.
 // `rankedPool: true` flags maps currently in the competitive rotation.
+// Verified 2026-07-25 against the Y11S2 (System Override) pool of 14: Bank,
+// Border, Calypso Casino, Chalet, Club House, Coastline, Consulate, Emerald
+// Plains, Fortress, Kafe, Lair, Nighthaven Labs, Oregon, Outback. Villa,
+// Skyscraper, Theme Park and Kanal rotated OUT at season start (multiple
+// sources + no rotation in the Y11S2.2 mid-season notes). Re-check at Y11S3.
 // `comingSoon: true` marks maps that are listed but don't yet have strat data —
 // MapSelector disables those cards. Remove the flag once strats.js has entries.
 // `championOnly: true` restricts a map to Champion subscribers (legacy/non-ranked
@@ -112,7 +117,7 @@ const MAPS = [
     // when Aaron writes strats; comingSoon stays until then.
     id: 'fortress',
     name: 'Fortress',
-    rankedPool: false,
+    rankedPool: true,
     sites: [
       { id: 'commander-briefing', name: 'Bedroom / Commander Office', floor: '2F' },
       { id: 'kitchen-dining', name: 'Dormitory / Briefing Room', floor: '2F' },
@@ -164,7 +169,7 @@ const MAPS = [
     // in-game before strats are written.
     id: 'kanal',
     name: 'Kanal',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'server-radio', name: 'Server Room / Radar Room', floor: '2F' },
       { id: 'kitchen-coast', name: 'Security Room / Map Room', floor: '1F' },
@@ -251,7 +256,7 @@ const MAPS = [
     // Verified against Liquipedia + r6calls SVG.
     id: 'skyscraper',
     name: 'Skyscraper',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'tea-room', name: 'Tea Room / Karaoke', floor: '2F' },
       { id: 'work-office', name: 'Work Office / Exhibition', floor: '2F' },
@@ -273,7 +278,7 @@ const MAPS = [
   {
     id: 'theme-park',
     name: 'Theme Park',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'throne-room', name: 'Throne Room / Armory', floor: '1F' },
       { id: 'lab', name: 'Lab / Storage', floor: '1F' },
@@ -295,7 +300,7 @@ const MAPS = [
   {
     id: 'villa',
     name: 'Villa',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },

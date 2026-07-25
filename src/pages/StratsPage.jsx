@@ -23,6 +23,7 @@ import { useRecentStrats } from '../hooks/useRecentStrats'
 import { useAuth } from '../hooks/useAuth'
 import { useFreeStratLimit } from '../hooks/useFreeStratLimit'
 import SoftPaywall from '../components/strats/SoftPaywall'
+import SeasonCountdown from '../components/SeasonCountdown'
 import './StratsPage.css'
 
 const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode'
@@ -292,6 +293,7 @@ function R6StratsPage() {
           Map <span className="accent">Strategies</span>
         </h1>
         <p>Select a map, pick a site, choose your side. Get the strat your team needs to win.</p>
+        <SeasonCountdown variant="pill" />
       </div>
 
       {selectedMap && (
