@@ -26,6 +26,7 @@ export default function AuthPage() {
     ['signup', 'forgot'].includes(requestedMode) ? requestedMode : 'signin',
   )
   const [email, setEmail] = useState('')
+  const [fullName, setFullName] = useState('')
   const [password, setPassword] = useState('')
   const [code, setCode] = useState('')
   const [error, setError] = useState(null)
@@ -73,7 +74,7 @@ export default function AuthPage() {
     setLoading(true)
 
     if (mode === 'signup') {
-      const { error: err } = await signUp(email, password)
+      const { error: err } = await signUp(email, password, fullName)
       if (err) {
         // The Stripe webhook auto-provisions a Cognito login the instant payment
         // lands, so someone arriving straight from checkout usually ALREADY has
@@ -249,6 +250,24 @@ export default function AuthPage() {
         {success && <div className="auth-success">{success}</div>}
 
         <form onSubmit={handleSubmit}>
+          {/* Sign-up only: capture who they actually are. An email alone makes
+              every support reply and coaching session start with "hey there" —
+              and the admin member list unreadable. */}
+          {mode === 'signup' && (
+            <label className="auth-label">
+              Full Name
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                autoComplete="name"
+                className="auth-input"
+                placeholder="First and last name"
+              />
+            </label>
+          )}
+
           {showEmail && (
             <label className="auth-label">
               Email
