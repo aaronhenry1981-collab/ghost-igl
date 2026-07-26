@@ -141,14 +141,19 @@ export function AuthProvider({ children }) {
     return (raw || '').trim().toLowerCase()
   }
 
-  async function signUp(email, password) {
+  // fullName is optional at the API level so existing callers keep working,
+  // but the sign-up form now asks for it — knowing who a member actually is
+  // (not just their email) is what makes support and coaching personal.
+  async function signUp(email, password, fullName = '') {
     if (!userPool) return { error: { message: 'Auth not configured' } }
     const normEmail = normalizeEmail(email)
+    const name = (fullName || '').trim()
 
     return new Promise((resolve) => {
       const attributes = [
         new CognitoUserAttribute({ Name: 'email', Value: normEmail }),
       ]
+      if (name) attributes.push(new CognitoUserAttribute({ Name: 'name', Value: name }))
 
       userPool.signUp(normEmail, password, attributes, null, (err, result) => {
         if (err) {
