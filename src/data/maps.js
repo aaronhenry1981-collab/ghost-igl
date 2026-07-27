@@ -20,7 +20,7 @@ const MAPS = [
     sites: [
       { id: 'ceo', name: 'CEO Office / Executive Lounge', floor: '2F' },
       { id: 'open-area', name: 'Open Area / Staff Room', floor: '1F' },
-      { id: 'tellers', name: "Teller's Office / Archives", floor: '1F' },
+      { id: 'tellers', name: "Tellers' Office / Archives", floor: '1F' },
       { id: 'basement', name: 'Lockers / CCTV Room', floor: 'B' },
     ],
   },
@@ -119,7 +119,7 @@ const MAPS = [
     name: 'Fortress',
     rankedPool: true,
     sites: [
-      { id: 'commander-briefing', name: 'Bedroom / Commander Office', floor: '2F' },
+      { id: 'commander-briefing', name: "Bedroom / Commander's Office", floor: '2F' },
       { id: 'kitchen-dining', name: 'Dormitory / Briefing Room', floor: '2F' },
       { id: 'council-guard', name: 'Kitchen / Cafeteria', floor: '1F' },
       { id: 'tower-rooftop', name: 'Hammam / Sitting Room', floor: '1F' },
