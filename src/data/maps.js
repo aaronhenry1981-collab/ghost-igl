@@ -104,9 +104,9 @@ const MAPS = [
     name: 'Favela',
     rankedPool: false,
     sites: [
-      { id: 'bedroom-autoshop', name: 'Meth Lab / Packaging Room', floor: '3F' },
+      { id: 'bedroom-autoshop', name: 'Blue Bedroom / Green Apartment', floor: '1F' },
       { id: 'kitchen-meeting', name: 'Football Office / Football Bedroom', floor: '2F' },
-      { id: 'market-party', name: "Biker's Apartment / Biker's Bedroom", floor: '1F' },
+      { id: 'market-party', name: 'Pink Apartment / Pink Kitchen', floor: '1F' },
       { id: 'aunts-footsie', name: "Aunt's Bedroom / Aunt's Apartment", floor: '2F' },
     ],
   },
@@ -119,9 +119,9 @@ const MAPS = [
     name: 'Fortress',
     rankedPool: true,
     sites: [
-      { id: 'commander-briefing', name: "Bedroom / Commander's Office", floor: '2F' },
-      { id: 'kitchen-dining', name: 'Dormitory / Briefing Room', floor: '2F' },
-      { id: 'council-guard', name: 'Kitchen / Cafeteria', floor: '1F' },
+      { id: 'commander-briefing', name: "Bathroom / Commander's Office", floor: '2F' },
+      { id: 'kitchen-dining', name: 'Dormitory / Games Room', floor: '2F' },
+      { id: 'council-guard', name: 'Waiting Room / Cafeteria', floor: '1F' },
       { id: 'tower-rooftop', name: 'Hammam / Sitting Room', floor: '1F' },
     ],
   },
@@ -141,7 +141,7 @@ const MAPS = [
     name: 'House',
     rankedPool: false,
     sites: [
-      { id: 'master-closet', name: 'Master Bedroom / Closet', floor: '2F' },
+      { id: 'master-closet', name: 'Master Bedroom / Car Room', floor: '2F' },
       { id: 'kitchen-living', name: 'Kitchen / Living Room', floor: '1F' },
       { id: 'garage-workshop', name: 'Garage / Workshop', floor: '1F' },
       { id: 'boiler-laundry', name: 'Boiler / Laundry', floor: 'B' },

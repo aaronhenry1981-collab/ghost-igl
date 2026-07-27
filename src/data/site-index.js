@@ -421,13 +421,13 @@ export const SITE_INDEX = [
     "sites": [
       {
         "id": "bedroom-autoshop",
-        "name": "Meth Lab / Packaging Room",
-        "floor": "3F",
+        "name": "Blue Bedroom / Green Apartment",
+        "floor": "1F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
+        "status": "geography",
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 0
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-meeting",
@@ -441,13 +441,13 @@ export const SITE_INDEX = [
       },
       {
         "id": "market-party",
-        "name": "Biker's Apartment / Biker's Bedroom",
+        "name": "Pink Apartment / Pink Kitchen",
         "floor": "1F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
+        "status": "geography",
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 0
+        "roomsOnObjective": 2
       },
       {
         "id": "aunts-footsie",
@@ -478,33 +478,33 @@ export const SITE_INDEX = [
     "sites": [
       {
         "id": "commander-briefing",
-        "name": "Bedroom / Commander's Office",
+        "name": "Bathroom / Commander's Office",
         "floor": "2F",
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 1
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-dining",
-        "name": "Dormitory / Briefing Room",
+        "name": "Dormitory / Games Room",
         "floor": "2F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 1
+        "roomsOnObjective": 2
       },
       {
         "id": "council-guard",
-        "name": "Kitchen / Cafeteria",
+        "name": "Waiting Room / Cafeteria",
         "floor": "1F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 1
+        "roomsOnObjective": 2
       },
       {
         "id": "tower-rooftop",
@@ -585,13 +585,13 @@ export const SITE_INDEX = [
     "sites": [
       {
         "id": "master-closet",
-        "name": "Master Bedroom / Closet",
+        "name": "Master Bedroom / Car Room",
         "floor": "2F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 1
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-living",
@@ -1394,7 +1394,7 @@ export const SITE_INDEX = [
   }
 ];
 
-export const SITE_TALLY = {"verified":12,"geography":60,"unverified":28};
+export const SITE_TALLY = {"verified":12,"geography":62,"unverified":26};
 
 export function mapEntry(mapId) {
   return SITE_INDEX.find((m) => m.id === mapId) || null;
