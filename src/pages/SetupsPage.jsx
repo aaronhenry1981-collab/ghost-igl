@@ -7,6 +7,7 @@ import VERIFIED_CALLOUTS from '../data/verified-callouts'
 import { PICK_ORDER, AVOID, poolFor } from '../data/pick-order'
 import { OP_ROSTER } from '../data/op-roster'
 import { teamCapabilities, stepNeeds } from '../data/capabilities'
+import { variationFor } from '../data/variations'
 import SquadRoster, { loadRoster, rosterPool } from '../components/SquadRoster'
 import './SetupsPage.css'
 
@@ -30,6 +31,51 @@ const STATUS = {
 function Badge({ status }) {
   const s = STATUS[status] || STATUS.unverified
   return <span className={`sx-badge sx-${s.cls}`}>{s.label}</span>
+}
+
+// How many times you have already run this site this session, and what to
+// change because of it. Repeating a setup is the fastest way to lose a site:
+// they watched you reinforce that wall and hold that corner, and on the
+// rematch they are already looking at it.
+//
+// Per site AND per side, because attacking Kitchen twice is a repeat and
+// attacking it once then defending it is not.
+const RUN_KEY = 'recon6-site-runs-v1'
+function loadRuns() {
+  try { return JSON.parse(localStorage.getItem(RUN_KEY) || '{}') } catch { return {} }
+}
+
+function RunTracker({ runKey, runs, setRuns, side }) {
+  const n = runs[runKey] || 1
+  const v = variationFor(side, n)
+  const bump = (d) => setRuns((prev) => {
+    const next = { ...prev, [runKey]: Math.max(1, (prev[runKey] || 1) + d) }
+    try { localStorage.setItem(RUN_KEY, JSON.stringify(next)) } catch { /* quota */ }
+    return next
+  })
+  if (!v) return null
+
+  return (
+    <div className={`sx-run${n > 1 ? ' changed' : ''}`}>
+      <div className="sx-run-head">
+        <div className="sx-run-count">
+          <button onClick={() => bump(-1)} disabled={n <= 1} aria-label="previous run">−</button>
+          <span>Run <b>{n}</b> on this site</span>
+          <button onClick={() => bump(1)} aria-label="next run">+</button>
+        </div>
+        <span className="sx-run-name">{v.name} · {v.tempo.toLowerCase()} tempo</span>
+      </div>
+      <p className="sx-run-lead">{v.lead}</p>
+      <ul className="sx-run-changes">{v.changes.map((c) => <li key={c}>{c}</li>)}</ul>
+      <p className="sx-run-why"><span>Why</span>{v.why}</p>
+      {n > 1 && (
+        <p className="sx-run-foot">
+          The written plan below is still the base — these are the changes on top of it. Anything
+          not listed here stays the same.
+        </p>
+      )}
+    </div>
+  )
 }
 
 // A plan is written assuming a full toolkit. Bans and teammates' picks take
@@ -266,7 +312,7 @@ function TeamCapabilities({ side, taken, mates }) {
   )
 }
 
-function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new Set(), banned = new Set(), side, setSide }) {
+function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new Set(), banned = new Set(), side, setSide, runs = {}, setRuns = () => {} }) {
   const data = setupFor(setupKey.split(':')[0], setupKey.split(':')[1])
   if (!data) return null
   // The page shows the FULL plan. The short fields exist for the coach's voice,
@@ -316,6 +362,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
 
   return (
     <div className="sx-setup">
+      <RunTracker runKey={`${setupKey}:${side}`} runs={runs} setRuns={setRuns} side={side} />
       {(() => {
         const broken = brokenPremise(d, seats, gone, side)
         if (!broken.length) return null
@@ -358,6 +405,118 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
       )}
 
       <Assumptions full={data.full} side={side} />
+    </div>
+  )
+}
+
+// A playable card for a site with NO written setup.
+//
+// Twenty-three of twenty-five maps used to render one paragraph saying no setup
+// exists, which is honest and useless: "I can not play off 2 sites in this."
+// But the reason those maps have no setup is that we have their callouts and
+// not their geometry, and a plan invented from callout names is exactly what
+// put a ceiling hatch above Kids' Dorms.
+//
+// So this is composed, never generated. Every line is either a field read off
+// his own screen (floor, rooms, spawns, callouts), a number from his own
+// tracker (the picks), or a rule that holds regardless of what the building
+// looks like. There is no step here that names a wall, because nobody has
+// confirmed a wall. It cannot invent geometry because it never writes any.
+const TWO_MAN_RULES = {
+  attack: [
+    'Travel together from the same spawn. A two-man split on attack is two 1v5s.',
+    'Drone before you walk, and keep one drone alive for the entry. The round is decided by who has intel when the first shot goes off, not by who peeks first.',
+    'You are utility, not entry — that is where your win rate is. Let the site come to you and take the trade, not the duel.',
+    'Never re-enter through the hole you just took fire from. Make a second way in, or wait for them to look away from the first.',
+    'Plant where you can defend it from outside the room. Both of you standing over the defuser is one grenade.',
+  ],
+  defense: [
+    'Two of you cannot hold four entries. Pick the two that reach the defuser and give up the far lane deliberately.',
+    'Short roam only — the top of the nearest stairs, one angle, one trade, back inside. Deep roaming with two is how the site gets taken for free.',
+    'Set up after their drone phase, not before it. The spot you took in prep is the spot they cleared.',
+    'One of you calls, one of you holds. If you are both talking about where they are, nobody is watching the door.',
+    'Do not walk back into the angle that just killed your teammate. That is the one angle you know is covered.',
+  ],
+}
+
+// What he would need to look at, once, for this site to earn a real setup.
+// This is the loop he asked for: "as I play them then they become verified."
+const CONFIRM_LIST = {
+  attack: [
+    'Which spawn actually reaches this site fastest — run each once.',
+    'Which walls into the site are reinforceable, and which are already soft.',
+    'Whether there is a hatch above or below this site, and which room it drops into.',
+    'What has a sightline onto the plant area once the site is open.',
+  ],
+  defense: [
+    'How many walls in this site can actually be reinforced.',
+    'What is directly above and directly below it — and whether there is a hatch either way.',
+    'Which entry is furthest from the defuser, so you know which one to give up.',
+    'Where an anchor can sit with cover and still see the main door.',
+  ],
+}
+
+function DraftCard({ mapId, site, side, squad, mates, gone, taken, banned, roster, runs = {}, setRuns = () => {} }) {
+  const geo = VERIFIED_CALLOUTS[mapId]
+  const rooms = site.name.split(' / ')
+  const spawns = (geo?.spawns || []).map((s) => s.name)
+  // Same floor first — on a 2F site the basement callouts are real but they are
+  // not what he needs in his mouth during the round.
+  const nearby = (geo?.callouts || [])
+    .filter((c) => !rooms.some((r) => r.toLowerCase() === c.name.toLowerCase()))
+    .sort((a, b) => (b.floor === site.floor) - (a.floor === site.floor))
+    .slice(0, 16)
+
+  return (
+    <div className="sx-draft">
+      <p className="sx-draft-lead">
+        No written setup for this site — nobody has confirmed its walls or hatches yet, and a plan
+        invented from room names is how a ceiling hatch that does not exist ended up in a Verified
+        setup. Everything below is either read off your own screen or true regardless of the layout.
+      </p>
+
+      <div className="sx-draft-grid">
+        <div className="sx-block">
+          <h4>The site</h4>
+          <p className="sx-draft-rooms">
+            <b>{site.floor}</b> · {rooms.join('  and  ')}
+          </p>
+          {side === 'attack' && spawns.length > 0 && (
+            <p className="sx-field"><span>Spawns</span>{spawns.join(' · ')} — pick one and both go there.</p>
+          )}
+        </div>
+
+        <div className="sx-block">
+          <h4>Who to play</h4>
+          <PickOrder side={side} squad={squad} mates={mates} gone={gone} roster={roster} />
+        </div>
+      </div>
+
+      <RunTracker runKey={`${mapId}:${site.id}:${side}`} runs={runs} setRuns={setRuns} side={side} />
+
+      <Steps title={`Rules that hold on any layout — ${side}`} items={TWO_MAN_RULES[side]} side={side} capState={null} />
+
+      {nearby.length > 0 && (
+        <div className="sx-block">
+          <h4>Confirmed callouts on this map — use these names on comms</h4>
+          <p className="sx-callouts">
+            {nearby.map((c) => `${c.floor ? c.floor + ' ' : ''}${c.name}`).join('  ·  ')}
+          </p>
+        </div>
+      )}
+
+      <div className="sx-assume">
+        <h4>Check these while you are in there and this becomes a real setup</h4>
+        <ul className="sx-assume-list">
+          {CONFIRM_LIST[side].map((q) => (
+            <li key={q}><span className="sx-assume-n">?</span><span>{q}</span></li>
+          ))}
+        </ul>
+        <p className="sx-assume-foot">
+          Tell me the answers and I will write this site properly. That is the whole loop — the maps
+          with real setups got them exactly this way.
+        </p>
+      </div>
     </div>
   )
 }
@@ -494,6 +653,7 @@ export default function SetupsPage() {
   })
   const [editSquad, setEditSquad] = useState(false)
   const [roster, setRoster] = useState(() => loadRoster())
+  const [runs, setRuns] = useState(() => loadRuns())
   const [rankedOnly, setRankedOnly] = useState(true)
   // Two different facts that used to be one. Both remove an operator from YOUR
   // options, so the old code stored a single "gone" set — but they mean opposite
@@ -701,7 +861,7 @@ export default function SetupsPage() {
                         <p className="sx-status-blurb">{STATUS[s.status].blurb}</p>
                         {s.status === 'verified' ? (
                           <ChampionGate label="Champion — verified setups">
-                            <VerifiedSetup setupKey={s.setupKey} squad={squad} mates={mates} gone={gone} taken={taken} banned={banned}
+                            <VerifiedSetup setupKey={s.setupKey} squad={squad} mates={mates} gone={gone} taken={taken} banned={banned} runs={runs} setRuns={setRuns}
                                            side={openSide} setSide={setOpenSide} />
                           </ChampionGate>
                         ) : (
@@ -709,7 +869,9 @@ export default function SetupsPage() {
                             {/* No setup yet, but the pick is still answerable. */}
                             <PickOrder side={openSide} squad={squad} mates={mates} gone={gone} roster={roster} />
                             {s.status === 'geography'
-                              ? <GeographyOnly mapId={active.id} site={s} />
+                              ? <DraftCard mapId={active.id} site={s} side={openSide} squad={squad}
+                                            mates={mates} gone={gone} taken={taken} banned={banned}
+                                            roster={roster} runs={runs} setRuns={setRuns} />
                               : <Unverified />}
                           </>
                         )}
