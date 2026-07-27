@@ -33,7 +33,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "open-area",
@@ -42,16 +43,18 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "tellers",
-        "name": "Teller's Office / Archives",
+        "name": "Tellers' Office / Archives",
         "floor": "1F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsConfirmed": 2,
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "basement",
@@ -60,7 +63,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -85,7 +89,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "workshop-ventilation",
@@ -94,7 +99,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "customs-supply",
@@ -103,7 +109,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bathroom-tellers",
@@ -112,7 +119,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -137,7 +145,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bar-gaming",
@@ -146,7 +155,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-trophy",
@@ -155,7 +165,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "wine-snowmobile",
@@ -164,7 +175,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -190,7 +202,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bar-stock",
@@ -198,8 +211,9 @@ export const SITE_INDEX = [
         "floor": "1F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsConfirmed": 2,
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "church",
@@ -208,7 +222,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "gym-bedroom",
@@ -217,7 +232,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -242,7 +258,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "theater-penthouse",
@@ -251,7 +268,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-service",
@@ -260,7 +278,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "blue-bar",
@@ -269,7 +288,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -294,7 +314,8 @@ export const SITE_INDEX = [
         "setupKey": "consulate:cn_meet",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "piano-expo",
@@ -303,7 +324,8 @@ export const SITE_INDEX = [
         "setupKey": "consulate:cn_lob",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "garage-cafeteria",
@@ -312,7 +334,8 @@ export const SITE_INDEX = [
         "setupKey": "consulate:cn_gar",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "tellers-servers",
@@ -321,7 +344,8 @@ export const SITE_INDEX = [
         "setupKey": "consulate:cn_press",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -346,7 +370,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "gallery-meeting",
@@ -355,7 +380,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bar-lounge",
@@ -364,7 +390,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-dining",
@@ -373,7 +400,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -398,7 +426,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "kitchen-meeting",
@@ -407,7 +436,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "market-party",
@@ -416,7 +446,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "aunts-footsie",
@@ -425,7 +456,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -446,12 +478,13 @@ export const SITE_INDEX = [
     "sites": [
       {
         "id": "commander-briefing",
-        "name": "Bedroom / Commander Office",
+        "name": "Bedroom / Commander's Office",
         "floor": "2F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "status": "geography",
+        "roomsConfirmed": 2,
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "kitchen-dining",
@@ -460,7 +493,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "council-guard",
@@ -469,7 +503,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "tower-rooftop",
@@ -478,7 +513,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -499,7 +535,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "kitchen-dining",
@@ -508,7 +545,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "briefing-stairs",
@@ -517,7 +555,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "wine-cellar",
@@ -526,7 +565,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -550,7 +590,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "kitchen-living",
@@ -559,16 +600,18 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "garage-workshop",
         "name": "Garage / Workshop",
         "floor": "1F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "status": "geography",
+        "roomsConfirmed": 1,
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "boiler-laundry",
@@ -577,7 +620,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -601,7 +645,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "reading-fireplace",
@@ -610,7 +655,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "mining-train",
@@ -619,7 +665,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-bakery",
@@ -628,7 +675,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -653,7 +701,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-coast",
@@ -662,7 +711,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "construction-control",
@@ -671,7 +721,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "engine-supply",
@@ -680,7 +731,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -703,8 +755,9 @@ export const SITE_INDEX = [
         "floor": "2F",
         "setupKey": null,
         "status": "geography",
-        "roomsConfirmed": 1,
-        "roomsTotal": 2
+        "roomsConfirmed": 2,
+        "roomsTotal": 2,
+        "roomsOnObjective": 1
       },
       {
         "id": "bunks-briefing",
@@ -713,7 +766,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "armory-weapon",
@@ -722,7 +776,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "lab-support",
@@ -731,7 +786,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -756,7 +812,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "control-storage",
@@ -765,7 +822,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-cafeteria",
@@ -774,7 +832,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "tank-assembly",
@@ -783,7 +842,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -808,7 +868,8 @@ export const SITE_INDEX = [
         "setupKey": "oregon:or_bsmt",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "meeting-hall",
@@ -817,7 +878,8 @@ export const SITE_INDEX = [
         "setupKey": "oregon:or_meet",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-dining",
@@ -826,7 +888,8 @@ export const SITE_INDEX = [
         "setupKey": "oregon:or_kit",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "laundry",
@@ -835,7 +898,8 @@ export const SITE_INDEX = [
         "setupKey": "oregon:or_laundry",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -860,7 +924,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "party-office",
@@ -869,7 +934,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bedrooms",
@@ -878,7 +944,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "mechanic-kitchen",
@@ -887,7 +954,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -908,7 +976,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "security-cargo",
@@ -917,7 +986,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "kitchen-stateroom",
@@ -926,7 +996,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "work-lobby",
@@ -935,7 +1006,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -960,7 +1032,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "work-office",
@@ -969,7 +1042,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "kitchen",
@@ -978,7 +1052,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bedroom",
@@ -987,7 +1062,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -1008,7 +1084,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "locker-dispensary",
@@ -1017,7 +1094,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "garage-press",
@@ -1026,7 +1104,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "nats-oregon",
@@ -1035,7 +1114,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -1060,7 +1140,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "lab",
@@ -1069,7 +1150,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "office",
@@ -1078,7 +1160,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "bunk",
@@ -1087,7 +1170,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -1108,7 +1192,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "ventilation-seating",
@@ -1117,7 +1202,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "tea-exhibition",
@@ -1126,7 +1212,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "ballroom-bedroom",
@@ -1135,7 +1222,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   },
@@ -1160,7 +1248,8 @@ export const SITE_INDEX = [
         "setupKey": "villa:vi_av",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "trophy-statuary",
@@ -1169,7 +1258,8 @@ export const SITE_INDEX = [
         "setupKey": "villa:vi_trophy",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "kitchen-dining",
@@ -1178,7 +1268,8 @@ export const SITE_INDEX = [
         "setupKey": "villa:vi_kit",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "living-library",
@@ -1187,7 +1278,8 @@ export const SITE_INDEX = [
         "setupKey": "villa:vi_living",
         "status": "verified",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -1213,7 +1305,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "casino-keno",
@@ -1222,7 +1315,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "lobby-mezzanine",
@@ -1231,7 +1325,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       },
       {
         "id": "vault-security",
@@ -1240,7 +1335,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "geography",
         "roomsConfirmed": 2,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 2
       }
     ]
   },
@@ -1261,7 +1357,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "casino-bar",
@@ -1270,7 +1367,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "kitchen-engine",
@@ -1279,7 +1377,8 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       },
       {
         "id": "submarine-stern",
@@ -1288,13 +1387,14 @@ export const SITE_INDEX = [
         "setupKey": null,
         "status": "unverified",
         "roomsConfirmed": 0,
-        "roomsTotal": 2
+        "roomsTotal": 2,
+        "roomsOnObjective": 0
       }
     ]
   }
 ];
 
-export const SITE_TALLY = {"verified":12,"geography":58,"unverified":30};
+export const SITE_TALLY = {"verified":12,"geography":60,"unverified":28};
 
 export function mapEntry(mapId) {
   return SITE_INDEX.find((m) => m.id === mapId) || null;
