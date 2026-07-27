@@ -262,3 +262,46 @@
    striking a step he can still run is its own kind of wrong information. */
 .sx-gap-uncovered { border-left-color: #8b97a8; color: #8b97a8; }
 .sx-step-uncovered > :not(.sx-step-gap) { opacity: .82; }
+
+/* A site with confirmed names but no confirmed geometry. Everything here is
+   composed from verified fields — it never writes a wall it cannot prove. */
+.sx-draft-lead {
+  margin: 0 0 14px; font-size: 12.8px; line-height: 1.6;
+  color: var(--muted, #8b97a8); max-width: 82ch;
+}
+.sx-draft-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 4px; }
+.sx-draft-rooms { margin: 0; font-size: 14px; }
+.sx-draft-rooms b { color: #00e5ff; }
+
+/* Round-to-round variation. Running the same setup twice loses the second time. */
+.sx-run {
+  border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.03);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;
+}
+.sx-run.changed { border-color: rgba(0,229,255,.42); background: rgba(0,229,255,.06); }
+.sx-run-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.sx-run-count { display: inline-flex; align-items: center; gap: 4px; }
+.sx-run-count span { font-size: 12.5px; color: var(--muted, #8b97a8); padding: 0 6px; }
+.sx-run-count b { color: inherit; font-size: 14px; }
+.sx-run-count button {
+  width: 26px; height: 26px; border-radius: 7px; cursor: pointer; font-size: 15px; line-height: 1;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); color: inherit;
+}
+.sx-run-count button:disabled { opacity: .3; cursor: default; }
+.sx-run-name {
+  font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+  color: #00e5ff; background: rgba(0,229,255,.12); border: 1px solid rgba(0,229,255,.32);
+  border-radius: 999px; padding: 3px 11px;
+}
+.sx-run-lead { margin: 0 0 8px; font-size: 13.4px; font-weight: 650; line-height: 1.5; }
+.sx-run-changes { margin: 0 0 9px; padding-left: 18px; display: grid; gap: 5px; }
+.sx-run-changes li { font-size: 13px; line-height: 1.55; }
+.sx-run-why { margin: 0; font-size: 12.6px; line-height: 1.55; color: var(--muted, #8b97a8); }
+.sx-run-why span {
+  display: inline-block; margin-right: 7px; font-size: 10.5px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .06em; color: #00e5ff;
+}
+.sx-run-foot {
+  margin: 8px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.09);
+  font-size: 12px; line-height: 1.5; color: var(--muted, #8b97a8);
+}
