@@ -6,6 +6,7 @@ import { setupFor } from '../data/verified-setups'
 import VERIFIED_CALLOUTS from '../data/verified-callouts'
 import { PICK_ORDER, AVOID, poolFor } from '../data/pick-order'
 import { OP_ROSTER } from '../data/op-roster'
+import { teamCapabilities, stepNeeds } from '../data/capabilities'
 import SquadRoster, { loadRoster, rosterPool } from '../components/SquadRoster'
 import './SetupsPage.css'
 
@@ -31,12 +32,43 @@ function Badge({ status }) {
   return <span className={`sx-badge sx-${s.cls}`}>{s.label}</span>
 }
 
-function Steps({ title, items }) {
+// A plan is written assuming a full toolkit. Bans and teammates' picks take
+// pieces of that toolkit away, and leaving the text unchanged tells the player
+// to do something nobody in the match can do — which is how "Ace opens the
+// wall" stayed on screen while Ace was banned and the duo had been swapped to
+// Osa. Mark it on the step itself, where he is actually reading.
+function Steps({ title, items, side, capState }) {
   if (!items || !items.length) return null
+  const { dead = new Set(), uncovered = new Set() } = capState || {}
+  const verdict = (t) => {
+    if (!dead.size && !uncovered.size) return null
+    const needs = stepNeeds(side, t)
+    const gone = needs.find((c) => dead.has(c.key))
+    if (gone) return { cap: gone, kind: 'dead' }
+    const open = needs.find((c) => uncovered.has(c.key))
+    return open ? { cap: open, kind: 'uncovered' } : null
+  }
+  const lower = (s) => s.charAt(0).toLowerCase() + s.slice(1)
   return (
     <div className="sx-block">
       <h4>{title}</h4>
-      <ol>{items.map((t, i) => <li key={i}>{t}</li>)}</ol>
+      <ol>
+        {items.map((t, i) => {
+          const v = verdict(t)
+          return (
+            <li key={i} className={v ? `sx-step-${v.kind}` : undefined}>
+              {t}
+              {v && (
+                <span className={`sx-step-gap sx-gap-${v.kind}`}>
+                  {v.kind === 'dead'
+                    ? <>Every {v.cap.label.toLowerCase()} operator is banned — {lower(v.cap.then)}</>
+                    : <>Nobody on your cards has {v.cap.label.toLowerCase()}. If a random brings it this still works — otherwise {lower(v.cap.then)}</>}
+                </span>
+              )}
+            </li>
+          )
+        })}
+      </ol>
     </div>
   )
 }
@@ -175,7 +207,66 @@ function Assumptions({ full, side }) {
   )
 }
 
-function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), side, setSide }) {
+// What the squad's locked picks mean for the round.
+//
+// Telling him "Thermite is gone" was only ever half the information. If a
+// teammate took it, the reinforced wall is covered and he should stop planning
+// around it; if it was banned and nobody else brings hard breach, the wall is
+// never opening and half the plan below is fiction. Same chip, opposite advice.
+function TeamCapabilities({ side, taken, mates }) {
+  if (!taken.size) return null
+  const mine = new Set((PICK_ORDER[side] || []).map((p) => p.op.toLowerCase()))
+  const caps = teamCapabilities(side, taken)
+  const have = caps.filter((c) => c.covered)
+  // With one pick locked, everything reads as "missing" and it is all noise —
+  // the round has barely started. Gaps only mean something once most of the
+  // team has committed, and even then only the two that cost the most.
+  const missing = taken.size >= 3 ? caps.filter((c) => !c.covered).slice(0, 2) : []
+
+  return (
+    <div className="sx-caps">
+      <div className="sx-caps-head">
+        <strong>What your team can do</strong>
+        <span>{taken.size} pick{taken.size === 1 ? '' : 's'} locked{mates[0] ? ` · with ${mates.filter(Boolean).join(', ')}` : ''}</span>
+      </div>
+
+      {have.length > 0 && (
+        <ul className="sx-caps-have">
+          {have.map((c) => (
+            <li key={c.key}>
+              <span className="sx-cap-tag">{c.label}</span>
+              <span className="sx-cap-by">{c.by.join(', ')}</span>
+              <span className="sx-cap-txt">{c.have}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {missing.length > 0 && (
+        <div className="sx-caps-gap">
+          <h4>Missing — and you are still picking</h4>
+          <ul>
+            {missing.map((c) => {
+              // The most useful thing a gap can say is "you can close this".
+              // Only offer operators he actually plays and can still take.
+              const canFix = c.ops.filter((op) => mine.has(op.toLowerCase()) && !taken.has(op.toLowerCase()))
+              return (
+                <li key={c.key}>
+                  <b>{c.missing}</b>{' '}
+                  {canFix.length
+                    ? <>You play <b className="sx-cap-fix">{canFix.join(' and ')}</b> — taking {canFix.length > 1 ? 'one' : 'it'} closes this. Otherwise: {c.then.charAt(0).toLowerCase() + c.then.slice(1)}</>
+                    : c.then}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new Set(), banned = new Set(), side, setSide }) {
   const data = setupFor(setupKey.split(':')[0], setupKey.split(':')[1])
   if (!data) return null
   // The page shows the FULL plan. The short fields exist for the coach's voice,
@@ -202,6 +293,26 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), side, setSide
       note: `next best open · ${p.win}`,
     })),
   ], side, gone)
+
+  // Two different verdicts on a step, and they are not the same strength.
+  //
+  //   dead    — every operator that could do it is banned. Nobody in the match
+  //             can run this step. It is not advice, it is fiction.
+  //   uncovered — the squad's own cards do not cover it, but it is not banned,
+  //             so a random might bring it. Worth saying, not worth striking.
+  //
+  // Derived from the seats actually assigned above, so it works from the ban
+  // chips alone — he should not have to tell us his whole team before the page
+  // notices that the plan's breacher is gone.
+  const capState = useMemo(() => {
+    const held = new Set([...taken, ...seats.map((s) => s.op).filter(Boolean).map((o) => o.toLowerCase())])
+    const dead = new Set(); const uncovered = new Set()
+    for (const c of teamCapabilities(side, held)) {
+      if (c.ops.every((op) => banned.has(op.toLowerCase()))) dead.add(c.key)
+      else if (!c.covered) uncovered.add(c.key)
+    }
+    return { dead, uncovered }
+  }, [taken, banned, seats, side])
 
   return (
     <div className="sx-setup">
@@ -230,18 +341,18 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), side, setSide
 
       {side === 'defense' ? (
         <>
-          <Steps title="Reinforce, in this order" items={d.reinforce} />
-          <Steps title="Your job" items={d.job} />
-          {stacked && <Steps title={mates[0] ? `Tell ${mates[0]}` : 'Tell your duo'} items={d.duoJob} />}
+          <Steps title="Reinforce, in this order" items={d.reinforce} side={side} capState={capState} />
+          <Steps title="Your job" items={d.job} side={side} capState={capState} />
+          {stacked && <Steps title={mates[0] ? `Tell ${mates[0]}` : 'Tell your duo'} items={d.duoJob} side={side} capState={capState} />}
           <Field label="Anchor" value={d.anchor} />
           <Field label="If you lose site" value={d.fallback} />
         </>
       ) : (
         <>
           <Field label="Spawn" value={d.spawn} />
-          <Steps title="Approach" items={d.approach} />
-          <Steps title="Your job" items={d.job} />
-          {stacked && <Steps title={mates[0] ? `Tell ${mates[0]}` : 'Tell your duo'} items={d.duoJob} />}
+          <Steps title="Approach" items={d.approach} side={side} capState={capState} />
+          <Steps title="Your job" items={d.job} side={side} capState={capState} />
+          {stacked && <Steps title={mates[0] ? `Tell ${mates[0]}` : 'Tell your duo'} items={d.duoJob} side={side} capState={capState} />}
           <Field label="Plant" value={d.plant} />
         </>
       )}
@@ -384,16 +495,37 @@ export default function SetupsPage() {
   const [editSquad, setEditSquad] = useState(false)
   const [roster, setRoster] = useState(() => loadRoster())
   const [rankedOnly, setRankedOnly] = useState(true)
-  // Banned by either team, or already locked by a teammate. From your seat the
-  // two are the same problem: you cannot have it. Not persisted — bans change
-  // every match, and a stale ban is worse than no ban.
-  const [gone, setGone] = useState(() => new Set())
-  const toggleGone = (op) => setGone((prev) => {
-    const next = new Set(prev)
+  // Two different facts that used to be one. Both remove an operator from YOUR
+  // options, so the old code stored a single "gone" set — but they mean opposite
+  // things for the plan. A banned Thermite means nobody opens the wall. A
+  // teammate's Thermite means the wall is already somebody's job.
+  //
+  // One tap cycles open -> banned -> taken by team -> open, because this gets
+  // used during a prep phase and nobody has time for a menu.
+  // Not persisted: bans change every match and a stale ban is worse than none.
+  const [marks, setMarks] = useState(() => new Map())
+  const cycleMark = (op) => setMarks((prev) => {
+    const next = new Map(prev)
     const k = op.toLowerCase()
-    if (next.has(k)) next.delete(k); else next.add(k)
+    const cur = next.get(k)
+    if (!cur) next.set(k, 'ban')
+    else if (cur === 'ban') next.set(k, 'take')
+    else next.delete(k)
     return next
   })
+  // Unavailable to you, whatever the reason — what the pick logic still wants.
+  const gone = useMemo(() => new Set(marks.keys()), [marks])
+  // Locked by a teammate: this is capability the squad HAS.
+  const taken = useMemo(
+    () => new Set([...marks].filter(([, v]) => v === 'take').map(([k]) => k)),
+    [marks],
+  )
+  // Banned outright: nobody in the match gets it. The only signal strong enough
+  // to call a step impossible rather than merely uncovered.
+  const banned = useMemo(
+    () => new Set([...marks].filter(([, v]) => v === 'ban').map(([k]) => k)),
+    [marks],
+  )
 
   const setSquadSize = (n) => {
     setSquad(n)
@@ -471,26 +603,32 @@ export default function SetupsPage() {
 
       <div className="sx-bans">
         <div className="sx-bans-head">
-          <strong>Gone this round</strong>
-          <span>Tap anything banned or already taken on the <strong>{openSide}</strong> side — every pick re-sorts around it.</span>
-          {gone.size > 0 && <button className="sx-clear" onClick={() => setGone(new Set())}>clear {gone.size}</button>}
+          <strong>Who's off the board</strong>
+          <span>
+            Tap once if it's <b className="sx-k-ban">banned</b>, twice if <b className="sx-k-take">someone on your team locked it</b>.
+            Bans take an option away; a teammate's pick gives the squad something, and the plan below changes for both.
+          </span>
+          {marks.size > 0 && <button className="sx-clear" onClick={() => setMarks(new Map())}>clear {marks.size}</button>}
         </div>
         <div className="sx-banchips">
           {/* Full roster for the side you are actually on. Yours are marked so
               they are findable in a list of forty. */}
           {[...(OP_ROSTER[openSide] || [])].sort().map((op) => {
             const mine = (PICK_ORDER[openSide] || []).some((p) => p.op.toLowerCase() === op.toLowerCase())
+            const mark = marks.get(op.toLowerCase())
             return (
               <button
                 key={op}
-                className={`sx-banchip${gone.has(op.toLowerCase()) ? ' out' : ''}${mine ? ' mine' : ''}`}
-                onClick={() => toggleGone(op)}
-                title={mine ? 'in your pool' : undefined}
+                className={`sx-banchip${mark === 'ban' ? ' out' : ''}${mark === 'take' ? ' took' : ''}${mine ? ' mine' : ''}`}
+                onClick={() => cycleMark(op)}
+                title={mark === 'ban' ? 'banned' : mark === 'take' ? 'your team has this' : mine ? 'in your pool' : undefined}
               >{op}</button>
             )
           })}
         </div>
       </div>
+
+      <TeamCapabilities side={openSide} taken={taken} mates={mates} />
 
       {squad > 1 && editSquad && (
         <>
@@ -563,7 +701,7 @@ export default function SetupsPage() {
                         <p className="sx-status-blurb">{STATUS[s.status].blurb}</p>
                         {s.status === 'verified' ? (
                           <ChampionGate label="Champion — verified setups">
-                            <VerifiedSetup setupKey={s.setupKey} squad={squad} mates={mates} gone={gone}
+                            <VerifiedSetup setupKey={s.setupKey} squad={squad} mates={mates} gone={gone} taken={taken} banned={banned}
                                            side={openSide} setSide={setOpenSide} />
                           </ChampionGate>
                         ) : (
