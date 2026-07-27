@@ -208,3 +208,57 @@
   margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted, #8b97a8);
   max-width: 78ch; border-top: 1px solid rgba(255,255,255,.08); padding-top: 8px;
 }
+
+/* A ban and a teammate's pick are opposite facts. They must never look alike. */
+.sx-k-ban  { color: #e06a5a; }
+.sx-k-take { color: #6ee7a8; }
+.sx-banchip.took {
+  background: rgba(110,231,168,.16); border-color: rgba(110,231,168,.5);
+  color: #6ee7a8; text-decoration: none; opacity: 1;
+}
+
+/* What the squad's locked picks actually buy you. */
+.sx-caps {
+  border: 1px solid rgba(110,231,168,.28); background: rgba(110,231,168,.05);
+  border-radius: 10px; padding: 12px 15px; margin-bottom: 18px;
+}
+.sx-caps-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.sx-caps-head strong {
+  font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #6ee7a8;
+}
+.sx-caps-head span { font-size: 12.5px; color: var(--muted, #8b97a8); }
+
+.sx-caps-have { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.sx-caps-have li { display: flex; gap: 9px; align-items: baseline; flex-wrap: wrap; font-size: 13px; line-height: 1.5; }
+.sx-cap-tag {
+  flex: none; background: rgba(110,231,168,.15); border: 1px solid rgba(110,231,168,.35);
+  color: #6ee7a8; border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.sx-cap-by { flex: none; font-weight: 700; font-size: 12.5px; }
+.sx-cap-txt { color: var(--muted, #8b97a8); font-size: 12.7px; }
+
+.sx-caps-gap { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.1); }
+.sx-caps-gap h4 {
+  margin: 0 0 7px; font-size: 11.5px; text-transform: uppercase;
+  letter-spacing: .06em; color: #e8a84a;
+}
+.sx-caps-gap ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.sx-caps-gap li { font-size: 12.8px; line-height: 1.55; color: var(--muted, #8b97a8); }
+.sx-caps-gap li b { color: #e8a84a; font-weight: 700; }
+
+/* A step the squad physically cannot perform. Struck through, not deleted —
+   he still needs to see what the plan wanted, and why it is off the table. */
+.sx-step-dead > :not(.sx-step-gap) { opacity: .5; }
+.sx-step-dead { text-decoration: line-through; text-decoration-color: rgba(232,168,74,.55); }
+.sx-step-gap {
+  display: block; margin-top: 5px; text-decoration: none; opacity: 1;
+  border-left: 2px solid #e8a84a; padding-left: 9px;
+  font-size: 12.4px; line-height: 1.5; color: #e8a84a;
+}
+.sx-cap-fix { color: #6ee7a8; font-weight: 800; }
+
+/* Uncovered: a real note, but a random might still bring it. Not struck out —
+   striking a step he can still run is its own kind of wrong information. */
+.sx-gap-uncovered { border-left-color: #8b97a8; color: #8b97a8; }
+.sx-step-uncovered > :not(.sx-step-gap) { opacity: .82; }
