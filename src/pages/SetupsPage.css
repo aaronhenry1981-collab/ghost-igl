@@ -1,0 +1,210 @@
+/* Setup Library. The status colours carry the meaning of this page, so they
+   stay consistent everywhere: green = proven from footage, amber = names
+   confirmed only, grey = nothing yet. Never reuse them for anything else. */
+
+.setups-page { max-width: 1180px; margin: 0 auto; padding: 28px 18px 60px; }
+
+.sx-head h1 { margin: 0 0 8px; font-size: 30px; letter-spacing: .01em; }
+.sx-sub { margin: 0 0 14px; max-width: 70ch; color: var(--muted, #8b97a8); line-height: 1.55; }
+.sx-tally { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+
+.sx-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; letter-spacing: .02em; white-space: nowrap;
+}
+.sx-ok   { background: rgba(46,160,90,.16);  color: #4ad48a; border: 1px solid rgba(46,160,90,.42); }
+.sx-part { background: rgba(214,158,46,.16); color: #e0ac4a; border: 1px solid rgba(214,158,46,.42); }
+.sx-none { background: rgba(140,150,165,.14); color: #93a0b2; border: 1px solid rgba(140,150,165,.34); }
+
+.sx-controls { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+.sx-seg { display: inline-flex; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; overflow: hidden; }
+.sx-seg button {
+  background: transparent; border: 0; color: var(--muted, #8b97a8);
+  padding: 7px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.sx-seg button.on { background: rgba(0,229,255,.14); color: #00e5ff; }
+.sx-check { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted, #8b97a8); cursor: pointer; }
+
+.sx-layout { display: grid; grid-template-columns: 260px 1fr; gap: 22px; align-items: start; }
+
+.sx-maps { display: flex; flex-direction: column; gap: 6px; position: sticky; top: 16px; }
+.sx-maps button {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name dots" "meta dots";
+  gap: 2px 10px; text-align: left; cursor: pointer;
+  background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.07);
+  border-radius: 9px; padding: 9px 11px; color: inherit;
+}
+.sx-maps button:hover { border-color: rgba(255,255,255,.18); }
+.sx-maps button.on { border-color: rgba(0,229,255,.5); background: rgba(0,229,255,.07); }
+.sx-mapname { grid-area: name; font-weight: 700; font-size: 14px; }
+.sx-mapmeta { grid-area: meta; font-size: 11px; color: var(--muted, #8b97a8); }
+.sx-dots { grid-area: dots; display: flex; gap: 3px; align-self: center; }
+.sx-dot { width: 7px; height: 7px; border-radius: 50%; display: block; }
+.sx-dot.sx-ok { background: #4ad48a; } .sx-dot.sx-part { background: #e0ac4a; } .sx-dot.sx-none { background: #55606f; }
+
+.sx-detail-head h2 { margin: 0 0 4px; font-size: 22px; }
+.sx-receipt { margin: 0 0 16px; font-size: 12.5px; color: var(--muted, #8b97a8); }
+
+.sx-site { border: 1px solid rgba(255,255,255,.08); border-radius: 10px; margin-bottom: 9px; overflow: hidden; }
+.sx-site.open { border-color: rgba(255,255,255,.18); }
+.sx-site-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: rgba(255,255,255,.02); border: 0; color: inherit;
+  padding: 12px 14px; cursor: pointer; text-align: left;
+}
+.sx-site-head:hover { background: rgba(255,255,255,.045); }
+.sx-site-name { font-weight: 650; font-size: 15px; }
+.sx-site-name em { font-style: normal; color: var(--muted, #8b97a8); font-size: 12px; margin-right: 5px; }
+.sx-site-body { padding: 4px 14px 16px; }
+.sx-status-blurb { margin: 6px 0 14px; font-size: 13px; color: var(--muted, #8b97a8); }
+
+.sx-sidetabs { display: inline-flex; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.sx-sidetabs button { background: transparent; border: 0; color: var(--muted, #8b97a8); padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.sx-sidetabs button.on { background: rgba(0,229,255,.14); color: #00e5ff; }
+
+.sx-picks { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.sx-pick { background: rgba(0,229,255,.06); border: 1px solid rgba(0,229,255,.24); border-radius: 9px; padding: 8px 14px; }
+.sx-pick-who { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #8b97a8); }
+.sx-pick strong { font-size: 17px; }
+
+.sx-block { margin-bottom: 15px; }
+.sx-block h4 { margin: 0 0 7px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #00e5ff; }
+.sx-block ol { margin: 0; padding-left: 20px; }
+.sx-block li { margin-bottom: 6px; line-height: 1.5; font-size: 14px; }
+.sx-field { margin: 0 0 9px; font-size: 14px; line-height: 1.5; }
+.sx-field span { display: inline-block; min-width: 108px; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .06em; color: #00e5ff; font-weight: 700; }
+.sx-callouts { font-size: 13px; line-height: 1.7; color: var(--muted, #8b97a8); margin: 0; }
+.sx-partial p { font-size: 14px; line-height: 1.6; max-width: 72ch; }
+
+.sx-foot { margin-top: 34px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); }
+.sx-foot p { font-size: 13px; color: var(--muted, #8b97a8); line-height: 1.6; max-width: 78ch; }
+.sx-foot-cta { color: #00e5ff !important; margin-top: 8px; }
+
+@media (max-width: 820px) {
+  .sx-layout { grid-template-columns: 1fr; }
+  .sx-maps { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 6px; }
+  .sx-maps button { min-width: 168px; flex: 0 0 auto; }
+  .setups-page { padding: 20px 14px 48px; }
+  .sx-field span { display: block; min-width: 0; margin-bottom: 2px; }
+}
+
+/* Pick order — shown on EVERY site, verified or not. The setup is map-specific;
+   who to play is not, and a blank page mid-match is worse than no page. */
+.sx-sidetabs-inline { margin-bottom: 12px; }
+.sx-pickorder { margin-bottom: 18px; }
+.sx-pickorder h4 { margin: 0 0 5px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #00e5ff; }
+.sx-pickorder-note { margin: 0 0 10px; font-size: 12.5px; color: var(--muted, #8b97a8); line-height: 1.5; max-width: 70ch; }
+.sx-picklist { margin: 0; padding-left: 22px; }
+.sx-picklist li { margin-bottom: 5px; font-size: 14px; line-height: 1.45; }
+.sx-picklist strong { display: inline-block; min-width: 92px; }
+.sx-win { display: inline-block; min-width: 46px; color: #4ad48a; font-weight: 700; font-size: 12.5px; }
+.sx-why { color: var(--muted, #8b97a8); font-size: 13px; }
+.sx-avoid { margin: 12px 0 0; font-size: 12.5px; color: var(--muted, #8b97a8); line-height: 1.55; }
+.sx-avoid span { display: block; color: #e06a5a; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; font-size: 11px; margin-bottom: 3px; }
+@media (max-width: 820px) {
+  .sx-picklist strong { min-width: 0; margin-right: 6px; }
+  .sx-why { display: block; }
+}
+
+/* Squad: size AND names. "Duo" alone could not say WHICH mate takes the second
+   pick, and a trio or 5-stack had no control at all. */
+.sx-who {
+  background: rgba(0,229,255,.08); border: 1px solid rgba(0,229,255,.28);
+  color: #00e5ff; border-radius: 8px; padding: 6px 13px;
+  font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.sx-who:hover { background: rgba(0,229,255,.14); }
+.sx-squadedit {
+  border: 1px solid rgba(0,229,255,.24); background: rgba(0,229,255,.04);
+  border-radius: 10px; padding: 13px 15px; margin-bottom: 18px;
+}
+.sx-squadedit p { margin: 0 0 10px; font-size: 12.5px; color: var(--muted, #8b97a8); line-height: 1.5; max-width: 74ch; }
+.sx-mateinputs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.sx-mateinputs input {
+  background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 7px; padding: 7px 11px; color: inherit; font-size: 13px; min-width: 190px;
+}
+.sx-mateinputs input:focus { outline: none; border-color: rgba(0,229,255,.5); }
+.sx-done {
+  background: rgba(0,229,255,.16); border: 1px solid rgba(0,229,255,.4);
+  color: #00e5ff; border-radius: 7px; padding: 6px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.sx-pick-soft { background: rgba(255,255,255,.03); border-color: rgba(255,255,255,.12); }
+.sx-pick-note { display: block; font-size: 10.5px; color: var(--muted, #8b97a8); margin-top: 2px; }
+
+/* Out of the ranked rotation but verified from footage — shown, and labelled. */
+.sx-offpool { font-size: 10px; color: #93a0b2; letter-spacing: .05em; }
+.sx-seats { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+
+/* Bans and taken picks. Not persisted on purpose — these change every round,
+   and a stale ban steering your pick is worse than no ban at all. */
+.sx-bans { border: 1px solid rgba(255,255,255,.09); border-radius: 10px; padding: 11px 13px; margin-bottom: 18px; }
+.sx-bans-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+.sx-bans-head strong { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #e06a5a; }
+.sx-bans-head span { font-size: 12px; color: var(--muted, #8b97a8); }
+.sx-clear { background: none; border: 0; color: #00e5ff; font-size: 12px; cursor: pointer; text-decoration: underline; }
+.sx-banchips { display: flex; flex-wrap: wrap; gap: 5px; }
+.sx-banchip {
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px; padding: 4px 11px; font-size: 12px; color: inherit; cursor: pointer;
+}
+.sx-banchip:hover { border-color: rgba(255,255,255,.28); }
+.sx-banchip.out {
+  background: rgba(224,106,90,.14); border-color: rgba(224,106,90,.45);
+  color: #e06a5a; text-decoration: line-through;
+}
+.sx-pick-swapped { border-color: rgba(224,106,90,.4); }
+.sx-swap { color: #e06a5a !important; }
+.sx-banchip.mine { border-color: rgba(0,229,255,.4); color: #9fe9f5; }
+.sx-banchip.mine.out { border-color: rgba(224,106,90,.55); color: #e06a5a; }
+.sx-seg-side button.on { background: rgba(0,229,255,.2); }
+
+/* A plan whose premise a ban has destroyed. Loud on purpose: following it would
+   have you calling for a gadget nobody brought. */
+.sx-broken {
+  border: 1px solid rgba(224,106,90,.5); background: rgba(224,106,90,.09);
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+}
+.sx-broken strong { display: block; color: #e06a5a; font-size: 13px; margin-bottom: 5px; }
+.sx-broken p { margin: 0 0 6px; font-size: 13.5px; line-height: 1.55; }
+.sx-broken-alt span { color: #00e5ff; font-weight: 700; text-transform: uppercase;
+  font-size: 11px; letter-spacing: .05em; margin-right: 6px; }
+.sx-mateinputs select {
+  background: rgba(0,0,0,.32); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 7px; padding: 7px 11px; color: inherit; font-size: 13px; min-width: 170px;
+}
+.sx-mateinputs select:focus { outline: none; border-color: rgba(0,229,255,.5); }
+
+/* What the plan takes on faith. Rendered because not rendering it is exactly
+   how a ceiling hatch that does not exist survived into a Verified setup. */
+.sx-assume {
+  margin-top: 16px; padding: 12px 14px; border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.028);
+}
+.sx-assume h4 {
+  margin: 0 0 9px; font-size: 11.5px; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--muted, #8b97a8);
+}
+.sx-assume.heavy { border-color: rgba(232,168,74,.42); background: rgba(232,168,74,.07); }
+.sx-assume.heavy h4 { color: #e8a84a; }
+
+.sx-assume-list { list-style: none; margin: 0 0 9px; padding: 0; display: grid; gap: 6px; }
+.sx-assume-list li { display: flex; gap: 9px; font-size: 12.8px; line-height: 1.5; align-items: baseline; }
+.sx-assume-n {
+  flex: none; min-width: 20px; text-align: center; border-radius: 5px; padding: 1px 5px;
+  font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums;
+  background: rgba(255,255,255,.08); color: var(--muted, #8b97a8);
+}
+.sx-assume.heavy .sx-assume-n { background: rgba(232,168,74,.2); color: #e8a84a; }
+
+.sx-assume-more { margin-bottom: 9px; }
+.sx-assume-more summary { cursor: pointer; font-size: 12.5px; color: #00e5ff; }
+.sx-assume-more ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 5px; }
+.sx-assume-more li { font-size: 12.6px; line-height: 1.55; color: var(--muted, #8b97a8); }
+
+.sx-assume-foot {
+  margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted, #8b97a8);
+  max-width: 78ch; border-top: 1px solid rgba(255,255,255,.08); padding-top: 8px;
+}
