@@ -742,7 +742,7 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 124,
+    "framesRead": 89,
     "sessions": 3,
     "spawns": [
       "Gate",
@@ -853,7 +853,7 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 284,
+    "framesRead": 247,
     "sessions": 4,
     "spawns": [
       "Construction Site",
