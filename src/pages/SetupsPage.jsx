@@ -6,7 +6,7 @@ import { setupFor } from '../data/verified-setups'
 import VERIFIED_CALLOUTS from '../data/verified-callouts'
 import { PICK_ORDER, AVOID, poolFor } from '../data/pick-order'
 import { OP_ROSTER } from '../data/op-roster'
-import { teamCapabilities, stepNeeds } from '../data/capabilities'
+import { teamCapabilities, stepNeeds, floorPicks } from '../data/capabilities'
 import { variationFor } from '../data/variations'
 import SquadRoster, { loadRoster, rosterPool } from '../components/SquadRoster'
 import './SetupsPage.css'
@@ -488,6 +488,21 @@ function DraftCard({ mapId, site, side, squad, mates, gone, taken, banned, roste
 
         <div className="sx-block">
           <h4>Who to play</h4>
+          {/* Site-specific BEFORE the generic ladder. On defense the pick is
+              final once op select closes, so "figure it out yourself" is the
+              one thing the page must not do. */}
+          {side === 'defense' && (() => {
+            const fp = floorPicks(site.floor, (PICK_ORDER.defense || []).map((p) => p.op), gone)
+            if (!fp) return null
+            return (
+              <div className="sx-floor">
+                <h5>{fp.label} site — take these first</h5>
+                <p className="sx-floor-ops">{fp.lift.join(' · ')}</p>
+                <p className="sx-floor-why">{fp.why}</p>
+                <p className="sx-floor-check"><span>Check in prep</span>{fp.check}</p>
+              </div>
+            )
+          })()}
           <PickOrder side={side} squad={squad} mates={mates} gone={gone} roster={roster} />
         </div>
       </div>
@@ -623,8 +638,14 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
         {list.map((p) => (
           <li key={p.op}>
             <strong>{p.op}</strong>
-            <span className="sx-win">{p.win}</span>
+            {/* A number earned on a loadout he no longer runs must not be shown
+                as if it were current — that is what kept pushing him onto Vigil
+                while he was struggling with the BOSG. */}
+            <span className={`sx-win${p.staleStat ? ' stale' : ''}`} title={p.staleStat || undefined}>
+              {p.win}{p.staleStat ? ' ⚠' : ''}
+            </span>
             <span className="sx-why">{p.why}</span>
+            {p.staleStat && <span className="sx-stale">Stat {p.staleStat}</span>}
           </li>
         ))}
       </ol>

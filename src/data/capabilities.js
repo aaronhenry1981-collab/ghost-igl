@@ -117,6 +117,59 @@ export const CAPABILITIES = {
   ],
 }
 
+// Which defenders matter MORE on this particular site.
+//
+// Aaron: "operator pick is very important definately on defense bc after
+// picking there is no going back and these should also be site specific not
+// just for me to figure out." A generic ladder is the same answer on a basement
+// site as on a top floor, and those are not the same round.
+//
+// The only site fact confirmed on all 100 sites is the FLOOR — read off his own
+// objective screen. That is enough to shift a pick order honestly, because where
+// the attack can come FROM is what makes a defender good. Stated as a tendency
+// with its reason, never as verified geometry: nobody has confirmed this
+// specific site's hatches, so the text says "if" and asks him to check.
+export const FLOOR_PRIORITY = {
+  B: {
+    label: 'Basement',
+    lift: ['Kaid', 'Mute', 'Bandit', 'Kapkan', 'Frost', 'Lesion', 'Ela'],
+    why: 'Everything arrives from above — down the stairs or through a hatch. Denial on the ceiling and traps on the drop are worth more here than anything watching a door.',
+    check: 'Find the hatches into this site in prep. If there are none, drop the electric denial and put that pick into another gun.',
+  },
+  '1F': {
+    label: 'Ground floor',
+    lift: ['Castle', 'Goyo', 'Kapkan', 'Mute', 'Valkyrie', 'Melusi', 'Azami'],
+    why: 'Pressure comes from outside AND from the floor above, so there are more ways in than you have bodies. Closing entries and slowing the push beats trying to watch them all.',
+    check: 'Count the outside entries before you reinforce. Anything you cannot watch should be barricaded or trapped, not left open.',
+  },
+  '2F': {
+    label: 'Top floor',
+    lift: ['Kapkan', 'Frost', 'Valkyrie', 'Vigil', 'Melusi', 'Mute'],
+    why: 'They rappel to your windows and push up the stairs, so the fight is same-floor and from below. Traps on windows and vault points pay more than ceiling denial.',
+    check: 'Check whether anything above you opens into this site. If nothing does, no reinforcement or gadget should be pointing up.',
+  },
+  '3F': {
+    label: 'Top floor',
+    lift: ['Kapkan', 'Frost', 'Valkyrie', 'Vigil', 'Melusi', 'Mute'],
+    why: 'They rappel to your windows and push up the stairs, so the fight is same-floor and from below. Traps on windows and vault points pay more than ceiling denial.',
+    check: 'Check whether anything above you opens into this site. If nothing does, no reinforcement or gadget should be pointing up.',
+  },
+}
+
+/**
+ * Re-order a defender pool for this site's floor, keeping only operators the
+ * player actually owns. Returns null when the floor is unknown — a guess about
+ * an unknown floor is worse than the plain ladder.
+ */
+export function floorPicks(floor, pool = [], gone = new Set()) {
+  const f = FLOOR_PRIORITY[floor]
+  if (!f) return null
+  const own = new Set(pool.map((o) => String(o).toLowerCase()))
+  const lift = f.lift.filter((o) => own.has(o.toLowerCase()) && !gone.has(o.toLowerCase()))
+  if (!lift.length) return null
+  return { ...f, lift }
+}
+
 const norm = (s) => String(s || '').toLowerCase().trim()
 
 /**
