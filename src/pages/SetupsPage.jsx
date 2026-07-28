@@ -83,6 +83,64 @@ function RunTracker({ runKey, runs, setRuns, side }) {
 // to do something nobody in the match can do — which is how "Ace opens the
 // wall" stayed on screen while Ace was banned and the duo had been swapped to
 // Osa. Mark it on the step itself, where he is actually reading.
+// Every written plan is a two-man plan — it names Aaron and Jackson because
+// that is how the pages were authored. Set the queue to Solo and the page still
+// said "Jackson opens the floor where Aaron marks it", which is not a strat, it
+// is a person who is not in the lobby.
+//
+// The coach already solved this with deduo(); the site never got it. Ported so
+// both surfaces read the same way, plus the part the coach did not need: a step
+// whose ENTIRE content was the partner's job has to disappear, not render as an
+// empty bullet.
+function soloise(t, duoName) {
+  // Strip BOTH names. The written pages say "Jackson" because that is who they
+  // were authored for, while mates[0] is whatever gamertag he has saved — so
+  // matching only the configured name found nothing and left every Jackson
+  // instruction on a solo card. Caught in the browser, not by the unit test,
+  // which had hardcoded 'Jackson' and so tested the wrong thing.
+  const names = ['Jackson', 'your duo', (duoName || '').trim()]
+    .filter((n) => n && n.length > 1)
+    .map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  const esc = [...new Set(names)].join('|')
+  const out = String(t || '')
+    .replace(/\bboth of you\b/gi, 'you')
+    // Duo phrasing that survives because it never names the partner. "Stay
+    // together" reads as nonsense on a solo card, but the intent still holds
+    // against randoms, so it is rewritten rather than cut.
+    .replace(/\b(stay|travel|move|go|push|enter|rotate)\s+together\b/gi, '$1 with the team')
+    .replace(/\bno split\b/gi, 'do not split off alone')
+    .replace(new RegExp(`\\byou and (?:${esc})\\b`, 'gi'), 'you')
+    // Lower case here; sentence capitals are restored at the end. Substituting
+    // "Your" directly produced "that fight happens with Your gun" mid-sentence.
+    .replace(/\bAaron's\b/g, 'your')
+    .replace(/\bAaron\b/g, 'you')
+    // Drop the partner's clause wherever it sits in the sentence.
+    .replace(new RegExp(`[,;]?\\s*(?:and\\s+)?\\b(?:${esc})\\b[^.;]*(?=[.;]|$)`, 'gi'), '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([.,;])/g, '$1')
+    .trim()
+    // "you goes up first" -> "you go up first"
+    .replace(/\byou (goes|does|watches|catches|pushes)\b/gi, (m, v) => 'you ' + v.replace(/es$/, ''))
+    .replace(/\byou ([a-z]{3,})s\b/gi, 'you $1')
+    // Second verb in a compound: "You enter the room and clears it" -> "and
+    // clear it". Only when an object follows, so "and cameras second" (a noun)
+    // is left alone.
+    .replace(/\band ([a-z]{3,})s\b(?=\s+(?:it|them|the|this|that|his|her|their|up|down|out|in|through|from|back|off))/g,
+      'and $1')
+    // Cutting the partner's clause can strand the conjunction that introduced
+    // it: "clears it before Jackson comes up" -> "clears it before."
+    .replace(/[,\s]+(?:before|after|while|until|unless|as|and|then|so|once|whenever|where)\s*(?=[.;]|$)/gi, '')
+    .replace(/\s+([.,;])/g, '$1')
+    // Capitalise the start of the string and after a full stop only. An em-dash
+    // does not begin a sentence — including it produced "— Even just droning".
+    .replace(/(^|[.;]\s+)([a-z])/g, (m, pre, c) => pre + c.toUpperCase())
+  // Nothing but punctuation left means the whole instruction belonged to a
+  // player who is not in this lobby.
+  return /[a-z]{3}/i.test(out) ? out : ''
+}
+
+const soloList = (arr, duoName) => (arr || []).map((t) => soloise(t, duoName)).filter(Boolean)
+
 function Steps({ title, items, side, capState }) {
   if (!items || !items.length) return null
   const { dead = new Set(), uncovered = new Set() } = capState || {}
@@ -327,8 +385,24 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
   // The page shows the FULL plan. The short fields exist for the coach's voice,
   // and rendering those here produced fragments like "confirm it worked" with
   // nothing before it saying what to do.
-  const d = (data.full && data.full[side]) || data[side]
+  const raw = (data.full && data.full[side]) || data[side]
   const stacked = squad > 1
+  // Solo queue: strip the partner out of the prose. Written plans name Aaron and
+  // Jackson throughout, and in solo that is instructions for someone who is not
+  // in the lobby. Steps that were ENTIRELY the partner's job drop out.
+  const d = stacked ? raw : {
+    ...raw,
+    reinforce: soloList(raw.reinforce, mates[0]),
+    job: soloList(raw.job, mates[0]),
+    approach: soloList(raw.approach, mates[0]),
+    anchor: soloise(raw.anchor, mates[0]),
+    fallback: soloise(raw.fallback, mates[0]),
+    roam: soloise(raw.roam, mates[0]),
+    randoms: soloise(raw.randoms, mates[0]),
+    spawn: soloise(raw.spawn, mates[0]),
+    plant: soloise(raw.plant, mates[0]),
+    ifStalled: soloise(raw.ifStalled, mates[0]),
+  }
 
   // The verified data names two picks: his and his partner's. For a trio or
   // bigger, fill the remaining seats from the pick order, skipping anything
@@ -426,7 +500,18 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
         </>
       )}
 
-      <Assumptions full={data.full} side={side} />
+      {/* Same solo treatment. These are verification notes rather than in-round
+          instructions, but "Aaron's second-room job assumes..." still reads as
+          third person on his own page. */}
+      <Assumptions
+        full={stacked ? data.full : {
+          ...data.full,
+          [side]: d,
+          uncertain: soloList(data.full?.uncertain, mates[0]),
+          unverifiedSpots: soloList(data.full?.unverifiedSpots, mates[0]),
+        }}
+        side={side}
+      />
     </div>
   )
 }
