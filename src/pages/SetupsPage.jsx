@@ -409,6 +409,66 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
   )
 }
 
+// One custom game, one map, and the site stops being a guess.
+//
+// 62 sites have confirmed room names and no confirmed geometry, and no amount
+// of ranked play fixes that on its own — the objective screen prints names, not
+// walls. The three facts below are the whole gap between "names confirmed" and
+// a setup that can actually be written: what reinforces, what is overhead, and
+// where they come in.
+//
+// Deliberately per MAP rather than per site, because he walks the whole building
+// in one custom game. Twelve short answers and the map is done.
+function verifyTemplate(map) {
+  const pending = map.sites.filter((s) => s.status !== 'verified')
+  const lines = [map.name.toUpperCase(), '']
+  for (const s of pending) {
+    lines.push(`${s.floor} ${s.name}`)
+    lines.push('  reinforce:   ')       // which walls into the site can be reinforced
+    lines.push('  overhead:    ')       // hatch above? soft ceiling? nothing?
+    lines.push('  under:       ')       // hatch in the floor? which room below?
+    lines.push('  main way in: ')
+    lines.push('')
+  }
+  lines.push('Shorthand is fine — "no hatch above, floor hatch to 1F Kitchen,')
+  lines.push('2 walls: Hallway + exterior, they come from Hallway" is plenty.')
+  return lines.join('\n')
+}
+
+function VerifyMap({ map }) {
+  const [open, setOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const pending = map.sites.filter((s) => s.status !== 'verified').length
+  if (!pending) return null
+  const text = verifyTemplate(map)
+
+  const copy = () => {
+    navigator.clipboard?.writeText(text).then(
+      () => { setCopied(true); setTimeout(() => setCopied(false), 2000) },
+      () => { /* clipboard blocked — the textarea is still selectable */ },
+    )
+  }
+
+  return (
+    <div className="sx-verify">
+      <button className="sx-verify-toggle" onClick={() => setOpen(!open)}>
+        {open ? 'Hide' : `Verify this map — ${pending} site${pending === 1 ? '' : 's'} need geometry`}
+      </button>
+      {open && (
+        <div className="sx-verify-body">
+          <p>
+            Load {map.name} in a custom game, walk each site once, and fill these in. Paste it back
+            and I write the real setups the same day. Everything else about this map is already read
+            off your own screen — this is the only part footage cannot give me.
+          </p>
+          <textarea readOnly value={text} rows={Math.min(26, text.split('\n').length)} spellCheck={false} />
+          <button className="sx-verify-copy" onClick={copy}>{copied ? 'Copied' : 'Copy template'}</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // A playable card for a site with NO written setup.
 //
 // Twenty-three of twenty-five maps used to render one paragraph saying no setup
@@ -866,6 +926,8 @@ export default function SetupsPage() {
                   </p>
                 )}
               </div>
+
+              <VerifyMap map={active} />
 
               {active.sites.map((s) => {
                 const open = openSite === s.id
