@@ -16,24 +16,24 @@ export const VERIFIED_SETUPS = {
         "duo": "Mute",
         "reinforce": [
           "Ground rule: there is no ceiling hatch above 2F Kids' Dorms — confirmed in game. Nothing gets reinforced overhead and no claw goes on a ceiling. Reinforcing is prep-phase only; if it isn't placed when the clock flips, it isn't happening.",
-          "1. AARON — the floor hatch INSIDE 2F Kids' Dorms, the hole in the site's own floor that drops to 1F. One reinforcement kills the entire from-below plan.",
+          "1. AARON — the hatch in the Kids' Dorms floor, beside the bunk. It drops straight into 1F Kitchen, so leaving it open hands them a route up into the site from a room they may already be attacking. One reinforcement kills the entire from-below plan.",
           "2. AARON — the wall between 2F Kids' Dorms and 2F Dorms Main Hall. Widest same-floor entry and the first thing a hard breacher picks.",
           "3. JACKSON — the exterior-facing wall of 2F Kids' Dorms that attackers reach off EXT Meeting Hall Roof. Same floor for them, no climbing, and it's the wall duos forget.",
           "4. JACKSON — his second goes on whatever else in the site is reinforceable and faces a room you are not holding. We have not confirmed how many reinforceable walls this site actually has, so walk it in prep round one. If there is no sensible fourth, he holds it rather than spending it badly — an unspent reinforcement beats a wall that boxes you in.",
           "The two randoms cover anything left over. Nobody spends one overhead."
         ],
         "job": [
-          "Prep, first thing: walk down to 1F and put one cam on the approach to the room underneath the site, covering the ground below the floor hatch. That cam is your early warning that they're stacking under you. Note the real callout for that room while you're standing in it — we have it written down as a guess.",
+          "Prep, first thing: walk down to 1F Kitchen and put one cam on it, covering the ground under the bunk hatch. That is the room they come up from — the cam is your early warning that they are stacking under you.",
           "Cam two out the 2F Kids' Dorms window looking onto EXT Meeting Hall Roof. Same-floor entry with no climb for them, and it's the one that goes unwatched.",
           "Cam three high in 2F Dorms Main Hall, angled down the length of the hall and covering the top of 2F Tower Stairs. Point it down the hall, not at the door — you want them walking into frame, not already on top of it.",
           "Spend your two reinforcements in order: the floor hatch, then the 2F Dorms Main Hall wall.",
-          "Round start you are the voice. Call which side the drones came from and whether bodies are gathering below the site or crossing 2F.",
+          "Round start you are the voice. Call which side the drones came from and whether bodies are gathering in 1F Kitchen below the bunk hatch or crossing 2F.",
           "Short roam only: 2F Dorms Main Hall and the top of 2F Tower Stairs to punish the stair push. One angle, one trade, back inside. You're playing utility here, not entry — don't go hunting.",
           "Fall-back trigger: the first hard-breach charge goes on a wall, or you take fire from two directions. Reset into the site on either. Don't buy the hall with your body."
         ],
         "duoJob": [
           "Four GC90 jammers. All four go down in prep and then you never think about them again.",
-          "Jammer 1 on the reinforced floor hatch inside 2F Kids' Dorms — that denies a breach charge on it from 1F below.",
+          "Jammer 1 on the reinforced bunk hatch — that denies a breach charge on it from 1F Kitchen below.",
           "Jammer 2 covering the reinforced 2F Kids' Dorms / 2F Dorms Main Hall wall. Place it inside the site tight against that wall so it can't be shot out from the hall side.",
           "Jammer 3 on the window side facing EXT Meeting Hall Roof. Eats drones coming in that way and covers that reinforced wall.",
           "Jammer 4 out in 2F Dorms Main Hall to kill early drones before they ever see the site.",
@@ -44,14 +44,14 @@ export const VERIFIED_SETUPS = {
         "anchor": "Jackson sits in the deep corner of 2F Kids' Dorms diagonally opposite the door from 2F Dorms Main Hall, crouched behind furniture. One job in that corner: gun up at head height on that doorway before the action phase starts. If the defuser ends up outside that view, he does not turn for it — Aaron covers the plant, Jackson covers the door. The corner is chosen for the longest sightline onto the same-floor entry. He does not leave it for anything short of the fallback call.",
         "fallback": "Trigger: the 2F Dorms Main Hall wall opens, or both randoms are down. Jackson does not move — he stays in the deep corner as the last gun covering the defuser. Aaron does not stack in that corner with him; he peels into 2F Dorms Main Hall and holds the hall side of the hole so anyone stepping through gets shot from behind. Two guns on two different sides of the same hole beats two guns in one corner. If the defuser goes down and the site is lost, Aaron plays the retake from 2F Dorms Main Hall through the hole they made and Jackson calls the defuser position — one peek at a time, never both at once.",
         "roam": "Aaron only, and no further than 2F Dorms Main Hall and the top of 2F Tower Stairs. Two-man top-floor site — nobody deep-roams to 1F or the basement. If Aaron isn't back inside by the time a hard-breach charge is placed, this becomes a solo hold and it's a lost round.",
-        "randoms": "Ask them for three things and nothing else: one body covering 2F Tower Stairs / 2F Big Tower so nobody walks in behind you, one covering the 1F room underneath the site, and any spare reinforcements on Kids' Dorms walls the two of you didn't get to. One line in comms on the hatch: leave the floor hatch alone until Aaron has reinforced it, and once it's up nobody tries to open it."
+        "randoms": "Ask them for three things and nothing else: one body covering 2F Tower Stairs / 2F Big Tower so nobody walks in behind you, one covering 1F Kitchen, which is directly under the bunk hatch, and any spare reinforcements on Kids' Dorms walls the two of you didn't get to. One line in comms on the hatch: leave the floor hatch alone until Aaron has reinforced it, and once it's up nobody tries to open it."
       },
       "attack": {
         "me": "Thatcher",
         "duo": "Ace",
         "spawn": "Junkyard. Both of you spawn the same side and travel together — no split. Junkyard gets you onto EXT Meeting Hall Roof and into 2F on the same floor as the site, which is the whole plan: there is no ceiling hatch above 2F Kids' Dorms, so every route is same-floor or up from 1F.",
         "approach": [
-          "Frame the round correctly before you move: this is a same-floor hard breach into 2F Kids' Dorms from 2F Dorms Main Hall. The floor hatch under the site (the hole in the site's floor, opened from 1F) is the pressure valve, not the entry.",
+          "Frame the round correctly before you move: this is a same-floor hard breach into 2F Kids' Dorms from 2F Dorms Main Hall. The bunk hatch — in the site's floor, dropping to 1F Kitchen — is the pressure valve, not the entry.",
           "Drone phase out of Junkyard. Aaron drones 2F Dorms Main Hall and the site — find the Mute jammers, find the anchor's corner, confirm whether the Dorms Main Hall wall is reinforced. Jackson keeps his drone alive and parks it in 2F Dorms Main Hall for the entry.",
           "Climb onto EXT Meeting Hall Roof and enter 2F through the window into 2F Dorms Main Hall. Clear the hall before anyone touches a wall — a roamer behind you ends this round faster than the anchor will.",
           "Own the hall. Aaron faces 2F Tower Stairs and 2F Big Tower watching the flank while Jackson sets up on the wall.",
@@ -71,16 +71,15 @@ export const VERIFIED_SETUPS = {
         "duoJob": [
           "One job: put a SELMA charge on the wall the drone marked, and only after you hear 'EMP out.' Never before.",
           "If a jammer is still live the charge is dead on the wall. Waiting for Aaron's call is the only decision you make all round — everything else is aim.",
-          "Ace charges also open the reinforced floor hatch in the site's floor from 1F below. That's the backup route and it goes off only on Aaron's call, not on your own idea.",
+          "Ace charges also open the reinforced bunk hatch from 1F Kitchen below. That is the backup route and it goes off only on Aaron's call, not on your own idea.",
           "Once the wall is open, hold the hole at head height from the hall side. You're the trigger on that angle, not the runner.",
           "Enter on Aaron's call, clear the deep corner diagonal from the doorway, then get on the defuser while Aaron holds 2F Dorms Main Hall.",
           "No laser sight on the gun you're holding that angle with — it gives your position away the moment you ADS on the hole."
         ],
         "plant": "Plant inside 2F Kids' Dorms against the wall you just opened, low behind furniture, so the defuser sits in the open lane between your hole and the deep corner. Jackson plants, Aaron holds 2F Dorms Main Hall. The second it's down, both of you get back out through the hole and hold the hall side of it — you defend the defuser through the wall you made, not from inside the room where one retake or one runout catches you both standing together.",
-        "ifStalled": "If 2F Dorms Main Hall is locked down and you're bleeding clock on the wall, go under the site instead of forcing it. Ace puts a charge on the hatch in the Kids' Dorms FLOOR and blows it open from 1F below. Do not climb up through it; that's a free kill for the anchor. Open it, Jackson holds it from below so the deep corner and the plant area are no longer safe to sit in, and Aaron re-enters alone from 2F Dorms Main Hall while the anchor is turned the wrong way. Still stuck after that: take it as a hall fight. Hold 2F Dorms Main Hall, make them leave the site to contest you, and plant late."
+        "ifStalled": "If 2F Dorms Main Hall is locked down and you're bleeding clock on the wall, go under the site instead of forcing it. Ace puts a charge on the bunk hatch and blows it open from 1F Kitchen below. Do not climb up through it; that's a free kill for the anchor. Open it, Jackson holds it from below so the deep corner and the plant area are no longer safe to sit in, and Aaron re-enters alone from 2F Dorms Main Hall while the anchor is turned the wrong way. Still stuck after that: take it as a hall fight. Hold 2F Dorms Main Hall, make them leave the site to contest you, and plant late."
       },
       "uncertain": [
-        "Which 1F room the 2F Kids' Dorms floor hatch actually drops into. Every instruction says 'the room below the site' rather than naming one — walk it in prep round one and lock the real callout in.",
         "How many walls in 2F Kids' Dorms are genuinely reinforceable versus already solid. The priority order holds either way, but the count might not, and Jackson's second reinforcement depends on it.",
         "Whether the wall between 2F Kids' Dorms and 2F Dorms Main Hall is a full hard-breach wall or has a soft section. If it's soft, Ace's charges belong on the floor hatch instead and the entry is an impact/soft breach.",
         "Whether EXT Junkyard or EXT Construction Site is the shorter route onto EXT Meeting Hall Roof. Run each once and keep the faster one; the plan doesn't change, only the spawn.",
@@ -89,10 +88,9 @@ export const VERIFIED_SETUPS = {
         "There is no ceiling hatch above the site — that is confirmed. What is NOT confirmed is whether the ceiling is soft enough to shoot or vertical-breach through. Nobody has checked, so nothing in this plan assumes either way."
       ],
       "unverifiedSpots": [
+        "CONFIRMED 2026-07-28, not a guess: the hatch is in the Kids' Dorms floor beside the bunk and drops into 1F Kitchen. Named directly throughout.",
         "The climb from EXT Junkyard up onto EXT Meeting Hall Roof — route described by position only, no verified callout for the climb point.",
         "The 2F window off EXT Meeting Hall Roof leading into 2F Dorms Main Hall — described by position only.",
-        "The floor hatch inside 2F Kids' Dorms (the hole in the site's own floor, dropping to 1F) — no verified callout name for it.",
-        "The 1F room that floor hatch drops into — not named anywhere in this plan because it has not been confirmed.",
         "The deep corner of 2F Kids' Dorms diagonally opposite the door from 2F Dorms Main Hall — Jackson's anchor spot, described by position only.",
         "The furniture inside 2F Kids' Dorms used as head-height cover for the anchor and for the plant — position only.",
         "The exterior-facing reinforceable wall of 2F Kids' Dorms reachable from EXT Meeting Hall Roof — described by which side it faces, no verified callout.",
@@ -104,17 +102,17 @@ export const VERIFIED_SETUPS = {
       "duo": "Mute",
       "reinforce": [
         "Ground rule: there is no ceiling hatch above 2F Kids' Dorms — confirmed in game.",
-        "AARON — the floor hatch INSIDE 2F Kids' Dorms, the hole in the site's own floor that drops to 1F.",
+        "AARON — the hatch in the Kids' Dorms floor, beside the bunk.",
         "AARON — the wall between 2F Kids' Dorms and 2F Dorms Main Hall."
       ],
       "job": [
-        "Walk down to 1F and put one cam on the approach to the room underneath the site.",
+        "Prep, first thing: walk down to 1F Kitchen and put one cam on it, covering the ground under the bunk hatch.",
         "Cam two out the 2F Kids' Dorms window looking onto EXT Meeting Hall Roof.",
         "Cam three high in 2F Dorms Main Hall, angled down the length of the hall and covering the top of 2F Tower Stairs."
       ],
       "duoJob": [
         "All four go down in prep and then you never think about them again.",
-        "Jammer 1 on the reinforced floor hatch inside 2F Kids' Dorms."
+        "Jammer 1 on the reinforced bunk hatch — that denies a breach charge on it from 1F Kitchen below."
       ],
       "anchor": "Jackson sits in the deep corner of 2F Kids' Dorms diagonally opposite the door from 2F Dorms Main Hall.",
       "fallback": "Trigger: the 2F Dorms Main Hall wall opens, or both randoms are down."
