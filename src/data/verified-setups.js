@@ -271,14 +271,14 @@ export const VERIFIED_SETUPS = {
         "me": "Kaid",
         "duo": "Mute",
         "reinforce": [
-          "The ceiling hatch above Meeting Hall (the one that opens onto EXT Meeting Hall Roof). First reinforce of every round, no exceptions. An open hatch there means they fight you from a place you physically cannot shoot back into.",
-          "The exterior wall panels of Meeting Hall facing EXT Construction Site. That is the hard-breach wall from the closest spawn, so it is the second reinforce every round.",
+          "ROUND ONE, BEFORE YOU SPEND ANYTHING: look up in Meeting Hall and check whether there is actually a ceiling hatch there. Nobody has confirmed it, and the identical assumption on 2F Kids' Dorms turned out to be false. IF IT IS THERE: reinforce it first, every round, no exceptions — an open hatch means they fight you from a place you cannot shoot back into. IF IT IS NOT: skip straight to the exterior wall below, tell me, and I will rewrite this page.",
+          "The exterior wall panels of Meeting Hall facing EXT Construction Site. That is the hard-breach wall from the closest spawn. Second reinforce if the hatch exists, FIRST if it does not.",
           "The Kitchen side of the wall Kitchen shares with 1F Dining Hall, so the only way in from Dining Hall is the doorway your randoms are already watching. If you need that soft wall as a rotate, leave one panel and SAY IT OUT LOUD so nobody sprints into a reinforcement.",
           "Leftovers go on the floor hatch in Kitchen down to the basement. Low priority — nobody reaches the basement in the first minute — but a spare panel there stops a late Buck or Sledge opening it behind you."
         ],
         "job": [
-          "Reinforce the Meeting Hall ceiling hatch yourself in the first eight seconds.",
-          "Claw #1 on that hatch. Place it on the adjacent wall or ceiling, not out on the open Meeting Hall floor where a roof drone or a hole from above can pop it before the round starts.",
+          "First eight seconds: look up. If the Meeting Hall ceiling hatch is real, reinforce it now. If it is not, put that reinforcement on the exterior wall instead and say so on comms.",
+          "Claw #1 goes on the hatch if it exists — on the adjacent wall or ceiling, not out on the open Meeting Hall floor where a drone or a hole from above pops it before the round starts. No hatch: claw #1 goes on the exterior reinforcement instead.",
           "Hold claw #2 through prep. You do not yet know if they are committing roof or wall. When Jackson calls drones on the Construction Site side, claw the exterior reinforcement; if you hear them stacking above you, save it to re-claw the hatch after their EMPs land.",
           "Anchor in Kitchen, not in Meeting Hall. Meeting Hall is too big a room to hold from inside it — make them cross the connector between the two rooms instead.",
           "Once both claws are gone and you hear EMPs, stop playing the wall entirely. Back to your Kitchen angle and let them walk to you.",
@@ -326,7 +326,7 @@ export const VERIFIED_SETUPS = {
         "ifStalled": "Two dead EMPs and a jammer you cannot find means the wall is not happening — stop feeding it. At 1:20, switch to the roof: get up onto EXT Meeting Hall Roof, Aaron EMPs the hatch, Jackson's third SELMA opens it, and you fight down while the randoms keep the exterior hole hot. If the roof climb is contested too, abandon Meeting Hall completely and take Kitchen from 1F Dining Hall with the randoms — a plant in Kitchen counts the same, and by then the defenders will often have spent their utility on the wrong room."
       },
       "uncertain": [
-        "THE CEILING HATCH ABOVE 1F MEETING HALL — check this one first, in a custom, before you use the page at all. The first reinforce, both Kaid claws, Jackson's leave-trigger and the entire roof backup plan are downstream of it. If there is no hatch there, the defense page needs rebuilding from the exterior wall outward and Kaid stops being the automatic pick.",
+        "WHETHER THERE IS A CEILING HATCH ABOVE 1F MEETING HALL AT ALL. The first reinforcement of every round, the first electroclaw and the whole reason Kaid is the pick all hang off it, and it has never been confirmed. Look up once in round one and this page becomes solid.",
         "How you actually get onto EXT Meeting Hall Roof from EXT Construction Site — ladder vs. needing a boost. Check it in a custom before the roof plan is trusted as a real backup. If it needs a gadget: Jackson swaps to Osa, Aaron swaps to Osa or Amaru (Amaru is in Aaron's pool only — never Jackson's).",
         "Whether EXT Construction Site is genuinely the spawn closest to the Meeting Hall exterior wall, AND whether the roof climb is reachable from that same spawn. Both adjacency claims carry the attack page and the ifStalled plan; if either is wrong the spawn choice changes.",
         "Exactly how many exterior panels on the Meeting Hall wall facing EXT Construction Site are reinforceable, and whether one Kaid claw covers both the hatch and an adjacent wall panel from a single placement. Walk it once in a custom and Aaron will know whether he really needs to hold claw #2.",
@@ -351,13 +351,13 @@ export const VERIFIED_SETUPS = {
       "me": "Kaid",
       "duo": "Mute",
       "reinforce": [
-        "The ceiling hatch above Meeting Hall (the one that opens onto EXT Meeting Hall Roof).",
+        "Look up in Meeting Hall and check whether there is actually a ceiling hatch there.",
         "The exterior wall panels of Meeting Hall facing EXT Construction Site.",
         "The Kitchen side of the wall Kitchen shares with 1F Dining Hall."
       ],
       "job": [
-        "Reinforce the Meeting Hall ceiling hatch yourself in the first eight seconds.",
-        "Place it on the adjacent wall or ceiling.",
+        "If the Meeting Hall ceiling hatch is real, reinforce it now.",
+        "Claw #1 goes on the hatch if it exists — on the adjacent wall or ceiling.",
         "Hold claw #2 through prep."
       ],
       "duoJob": [
