@@ -6,7 +6,7 @@ import { setupFor } from '../data/verified-setups'
 import VERIFIED_CALLOUTS from '../data/verified-callouts'
 import { PICK_ORDER, AVOID, poolFor } from '../data/pick-order'
 import { OP_ROSTER } from '../data/op-roster'
-import { teamCapabilities, stepNeeds, floorPicks } from '../data/capabilities'
+import { teamCapabilities, stepNeeds, floorPicks, seatJob } from '../data/capabilities'
 import { variationFor } from '../data/variations'
 import SquadRoster, { loadRoster, rosterPool } from '../components/SquadRoster'
 import './SetupsPage.css'
@@ -147,7 +147,10 @@ function resolveSeats(wanted, side, gone) {
   })
 }
 
-function Seat({ who, op, swappedFrom, swapReason, note }) {
+function Seat({ who, op, swappedFrom, swapReason, note, side }) {
+  // A 4-stack used to hand seats 3 and 4 an operator and nothing else. Two of
+  // four players got a name and were left to guess what to do with it.
+  const role = seatJob(op, side)
   return (
     <div className={`sx-pick${swappedFrom ? ' sx-pick-swapped' : ''}`}>
       <span className="sx-pick-who">{who === 'You' ? 'You play' : `${who} plays`}</span>
@@ -155,6 +158,12 @@ function Seat({ who, op, swappedFrom, swapReason, note }) {
       {swappedFrom
         ? <span className="sx-pick-note sx-swap">{swappedFrom} {swapReason === 'taken' ? 'taken' : 'banned'} · next best</span>
         : note ? <span className="sx-pick-note">{note}</span> : null}
+      {role && (
+        <span className="sx-pick-role">
+          <b>{role.role}</b>
+          {role.job}
+        </span>
+      )}
     </div>
   )
 }
@@ -381,7 +390,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
 
       <div className="sx-picks">
         {seats.map((s) => (
-          <Seat key={s.who + (s.op || '')} who={s.who} op={s.op}
+          <Seat key={s.who + (s.op || '')} who={s.who} op={s.op} side={side}
                 swappedFrom={s.swappedFrom} swapReason={s.swapReason} note={s.note} />
         ))}
       </div>
@@ -392,6 +401,19 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
           <Steps title="Your job" items={d.job} side={side} capState={capState} />
           {stacked && <Steps title={mates[0] ? `Tell ${mates[0]}` : 'Tell your duo'} items={d.duoJob} side={side} capState={capState} />}
           <Field label="Anchor" value={d.anchor} />
+          {/* The plan writes this as "ask your randoms for three things". In a
+              3+ stack they are not randoms — they are named players on comms, so
+              it becomes an assignment rather than a request. It was rendered
+              nowhere at all before, which left the extra seats with no job. */}
+          {d.randoms && (
+            <Field
+              label={stacked && squad > 2
+                ? `Tell ${mates.slice(1, squad - 1).filter(Boolean).join(' and ') || 'the other two'}`
+                : 'Ask your randoms'}
+              value={d.randoms}
+            />
+          )}
+          <Field label="Roam" value={d.roam} />
           <Field label="If you lose site" value={d.fallback} />
         </>
       ) : (
@@ -674,13 +696,8 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
           <h4>Your squad here — {side}</h4>
           <div className="sx-picks">
             {seats.map((s) => (
-              <div className={`sx-pick${s.sure ? '' : ' sx-pick-soft'}`} key={s.who + s.op}>
-                <span className="sx-pick-who">{s.who === 'You' ? 'You play' : `${s.who} plays`}</span>
-                <strong>{s.op}</strong>
-                <span className="sx-pick-note">
-                  {s.win ? `your ${s.win}` : s.sure ? 'from their own pool' : 'best still open'}
-                </span>
-              </div>
+              <Seat key={s.who + s.op} who={s.who} op={s.op} side={side}
+                    note={s.win ? `your ${s.win}` : s.sure ? 'from their own pool' : 'best still open'} />
             ))}
           </div>
           <p className="sx-pickorder-note">
