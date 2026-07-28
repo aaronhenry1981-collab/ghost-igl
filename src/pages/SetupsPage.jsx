@@ -345,7 +345,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
     ...extras.map((p, i) => ({
       who: mates[i + 1] || `Player ${i + 3}`,
       op: p.op,
-      note: `next best open · ${p.win}`,
+      note: p.win ? `next best open · ${p.win}` : 'next best open · unmeasured',
     })),
   ], side, gone)
 
@@ -719,7 +719,7 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
                 as if it were current — that is what kept pushing him onto Vigil
                 while he was struggling with the BOSG. */}
             <span className={`sx-win${p.staleStat ? ' stale' : ''}`} title={p.staleStat || undefined}>
-              {p.win}{p.staleStat ? ' ⚠' : ''}
+              {p.win || 'n/a'}{p.staleStat ? ' ⚠' : ''}
             </span>
             <span className="sx-why">{p.why}</span>
             {p.staleStat && <span className="sx-stale">Stat {p.staleStat}</span>}
