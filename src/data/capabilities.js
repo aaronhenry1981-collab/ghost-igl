@@ -13,6 +13,7 @@ export const CAPABILITIES = {
   attack: [
     {
       key: 'hardBreach',
+      job: 'You open the reinforced wall — on the call, never on your own read. Nobody walks through it until it is clear.',
       label: 'Hard breach',
       ops: ['Thermite', 'Hibana', 'Ace', 'Maverick'],
       have: 'Reinforced walls and hatches can be opened. Run the plan as written.',
@@ -23,6 +24,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'utilityClear',
+      job: 'You kill the jammer or the electric claw before the breach, and you say it out loud when it is down.',
       label: 'Utility clear',
       ops: ['Thatcher', 'Twitch', 'Kali', 'Brava', 'Flores', 'Zero'],
       have: 'Jammers, electric claws and cams can be removed before the breach.',
@@ -32,6 +34,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'intel',
+      job: 'You find the roamer and the anchor before anyone commits, and you keep one drone alive for the entry.',
       label: 'Intel',
       ops: ['IQ', 'Jackal', 'Dokkaebi', 'Lion', 'Zero', 'Twitch', 'Flores', 'Brava', 'Iana'],
       have: 'You can find the roamer and the anchor before committing.',
@@ -41,6 +44,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'softBreach',
+      job: 'You make the rotates and the extra sightlines — open the angle the anchor is not expecting.',
       label: 'Soft breach',
       ops: ['Sledge', 'Buck', 'Zofia', 'Ash', 'Ram', 'Striker', 'Amaru'],
       have: 'You can make your own rotates, sightlines and vertical holes.',
@@ -50,6 +54,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'cover',
+      job: 'You break the anchor sightline before anyone steps into the plant lane. Shield or flash first, bodies second.',
       label: 'Cover',
       ops: ['Montagne', 'Blitz', 'Osa', 'Blackbeard', 'Rauora', 'Ying', 'Capitao'],
       have: 'Someone can hold an angle open without winning a duel first.',
@@ -62,6 +67,7 @@ export const CAPABILITIES = {
   defense: [
     {
       key: 'breachDenial',
+      job: 'You keep the reinforced walls alive — electrics and jammers on the wall they want, placed in prep.',
       label: 'Breach denial',
       ops: ['Mute', 'Bandit', 'Kaid'],
       have: 'The reinforced walls in the plan can actually be defended.',
@@ -71,6 +77,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'intelDenial',
+      job: 'You kill their drones early so they never map the site. Jammers down in prep, then anchor.',
       label: 'Intel denial',
       ops: ['Mute', 'Mozzie', 'Vigil', 'Bandit', 'Aruni', 'Fenrir', 'Skopos'],
       have: 'Their drones die before they map the site.',
@@ -80,6 +87,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'traps',
+      job: 'You cover the lanes nobody is standing in. Traps on the flank, not on the door someone already watches.',
       label: 'Traps',
       ops: ['Kapkan', 'Frost', 'Lesion', 'Ela', 'Thorn', 'Melusi', 'Fenrir', 'Tubarao'],
       have: 'Flanks and unwatched entries cost them something without a body there.',
@@ -89,6 +97,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'intel',
+      job: 'You are the eyes — cams placed in prep covering approaches nobody is standing in, then call from them. You do not chase what you see.',
       label: 'Intel',
       ops: ['Valkyrie', 'Echo', 'Maestro', 'Mozzie', 'Pulse', 'Solis'],
       have: 'You can watch approaches you are not standing in.',
@@ -98,6 +107,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'projectileDenial',
+      job: 'You eat the grenades aimed at the anchor. Place it covering the spot people actually stand.',
       label: 'Projectile denial',
       ops: ['Jager', 'Wamai', 'Aruni'],
       have: 'Grenades and breach charges thrown at your setup get eaten.',
@@ -107,6 +117,7 @@ export const CAPABILITIES = {
     },
     {
       key: 'anchor',
+      job: 'You make sure the first trade does not lose the site — hold with the second gun, heal or shield after it.',
       label: 'Anchor support',
       ops: ['Doc', 'Rook', 'Thunderbird', 'Azami', 'Goyo', 'Castle', 'Aruni'],
       have: 'A trade or a bad opening does not immediately lose the site.',
@@ -198,3 +209,21 @@ export function stepNeeds(side, text) {
 }
 
 export default CAPABILITIES
+
+/**
+ * What the player in this seat actually DOES, from the operator they hold.
+ *
+ * A 4-stack used to hand seats 3 and 4 an operator and nothing else — "Amaru,
+ * next best open · 54%" and not one word about their job. Two of four players
+ * were told a name and left to guess, which is the exact thing the library
+ * exists to stop.
+ *
+ * Derived from the operator's own gadget, so it is true on every site including
+ * the 62 with no written setup.
+ */
+export function seatJob(op, side) {
+  if (!op) return null
+  const k = String(op).toLowerCase()
+  const c = (CAPABILITIES[side] || []).find((x) => x.ops.some((o) => o.toLowerCase() === k))
+  return c ? { role: c.label, job: c.job } : null
+}
