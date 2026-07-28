@@ -11,7 +11,7 @@
 // matters more than being wrong anywhere else — the ladder is read top-down:
 //
 //   Melusi   was 9th at "50%"   -> actually 55.3% over 257 rounds. HIS BEST.
-//   Vigil    was 1st at "63%"   -> does not appear in this season at all.
+//   Vigil    was 1st at "63%"   -> 45% over 20 rounds at 0.47 K/D this season.
 //   Kapkan   was "55%"          -> 51.2%, but the best K/D on the account (1.55)
 //   Dokkaebi was "52%"          -> 54.0% over 211 rounds
 //   Ash      was on the AVOID list at "47%" -> 50.3% over 189 rounds
@@ -19,7 +19,7 @@
 // Aaron had already caught the Vigil entry from the other end: "Vigil might have
 // been a top pick for me but I wasn't using the BOSG then, now you having me
 // running it and im struggling." He was right, and it was worse than a loadout
-// change — the number was not from this season at all.
+// change: on this season's own numbers he is the worst operator on the account.
 //
 // `season` marks an entry measured this season. Everything else is a legacy
 // figure of unknown origin, kept because the operator is still reasonable but
@@ -53,8 +53,13 @@ export const PICK_ORDER = {
     { op: 'Goyo', win: '51%', why: 'Shields on the entry lane and plant deny' },
     { op: 'Valkyrie', win: '48%', season: { rounds: 270, kd: 1.00 },
       why: 'Your most-played defender and one of your weakest — 47.8% over 270 rounds. Cams early, then anchor' },
-    { op: 'Vigil', win: null, staleStat: 'no rounds recorded this season',
-      why: 'Invisible to attacker drones, but you have not played him this season. The old 63% was a different season and a different gun — treat this as unproven, not as your best pick' },
+    // CORRECTED 2026-07-28. I first wrote "no rounds recorded this season",
+    // inferred from a summary that only listed operators with significant
+    // playtime. Vigil was under that cut, not absent from the data. Absence
+    // from a filtered summary is not absence from the record, and I stated it
+    // as fact. The real figures argue the same way, harder:
+    { op: 'Vigil', win: '45%', season: { rounds: 20, kd: 0.47 },
+      why: 'Bottom of the ladder on measured form — 45% over 20 rounds at 0.47 K/D, the worst on your account. Invisible to drones, but nothing else about it is working. The old 63% was another season and another gun' },
   ],
 }
 
