@@ -84,6 +84,43 @@ building a separate offline CV pipeline, since it already reads the HUD.
 
 ---
 
+## TikTok already cuts LIVE highlights and hosts the posting flow
+
+Seen in LIVE Studio's notification centre on 2026-07-29, during a live stream:
+
+> **Post your LIVE highlights to reach more viewers.** hrunovosti got 819,658
+> LIVE views from the posts they created from highlights. Check out the best
+> highlights from your recent LIVE and post them now.
+
+This matters more than it looks. The spec's Section 0 opens with the constraint
+that there is no open posting API for a personal creator, and Automation 2
+budgets significant effort for OpenCV highlight detection. **For LIVE content,
+TikTok does both itself** — it detects the highlights and hosts the posting flow
+in-app. No Content Posting API application, no CV, no clip export.
+
+What it does NOT solve, and the spec should keep:
+
+- Highlights are picked on **TikTok's** signals — engagement spikes, not the
+  14-script framework. What gets a reaction is not automatically what converts
+  to a VOD booking, which is exactly the distinction Automation 2 stage 8 is
+  built to measure.
+- **No caption control** in that flow. Captions carry the script framework and
+  the brand voice; that is still ours to generate.
+- **LIVE footage only.** Recorded ranked sessions still need the sidecar-driven
+  pipeline described above.
+
+So the realistic shape is two pipelines, not one:
+
+| Source | Detection | Posting | Built by |
+|---|---|---|---|
+| LIVE streams | TikTok's own highlights | native in-app | TikTok, free |
+| Recorded ranked | `.coaching.json` sidecars (`DIED`, `round WON`) | manual/queue | us |
+
+Use LIVE highlights for reach, sidecar clips for conversion content. That removes
+the two most expensive pieces of Automation 2 for half the content.
+
+---
+
 ## Architecture: the spec's stack is not this stack
 
 The spec specifies **Postgres (Prisma, pgvector)** and **AWS App Runner**.
