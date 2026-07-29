@@ -18,7 +18,7 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 165,
+    "framesRead": 267,
     "sessions": 2,
     "spawns": [
       "Jewelry Front",
@@ -411,7 +411,7 @@ export const SITE_INDEX = [
     "rankedPool": false,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 155,
+    "framesRead": 281,
     "sessions": 2,
     "spawns": [
       "Rooftops",
@@ -576,11 +576,12 @@ export const SITE_INDEX = [
     "rankedPool": false,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 71,
+    "framesRead": 200,
     "sessions": 1,
     "spawns": [
       "Side Street",
-      "Front Street"
+      "Front Street",
+      "APC Area"
     ],
     "sites": [
       {
@@ -631,11 +632,12 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 91,
-    "sessions": 2,
+    "framesRead": 247,
+    "sessions": 3,
     "spawns": [
       "Christmas Market",
-      "Park"
+      "Park",
+      "River Docks"
     ],
     "sites": [
       {
@@ -742,11 +744,13 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 89,
-    "sessions": 3,
+    "framesRead": 236,
+    "sessions": 4,
     "spawns": [
       "Gate",
-      "Dock"
+      "Dock",
+      "Lift",
+      "Shooting Range"
     ],
     "sites": [
       {
@@ -797,8 +801,8 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 379,
-    "sessions": 4,
+    "framesRead": 448,
+    "sessions": 5,
     "spawns": [
       "Park",
       "Helipad",
@@ -853,8 +857,8 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 247,
-    "sessions": 4,
+    "framesRead": 246,
+    "sessions": 3,
     "spawns": [
       "Construction Site",
       "Street",
@@ -1017,7 +1021,7 @@ export const SITE_INDEX = [
     "rankedPool": false,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 146,
+    "framesRead": 395,
     "sessions": 2,
     "spawns": [
       "Ventilation Units",
@@ -1030,10 +1034,10 @@ export const SITE_INDEX = [
         "name": "Tea Room / Karaoke",
         "floor": "2F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
+        "status": "geography",
+        "roomsConfirmed": 2,
         "roomsTotal": 2,
-        "roomsOnObjective": 0
+        "roomsOnObjective": 2
       },
       {
         "id": "work-office",
@@ -1125,7 +1129,7 @@ export const SITE_INDEX = [
     "rankedPool": false,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 138,
+    "framesRead": 229,
     "sessions": 1,
     "spawns": [
       "Main Entrance",
@@ -1289,7 +1293,7 @@ export const SITE_INDEX = [
     "rankedPool": true,
     "comingSoon": false,
     "championOnly": false,
-    "framesRead": 283,
+    "framesRead": 326,
     "sessions": 4,
     "spawns": [
       "Poolside",
@@ -1394,7 +1398,7 @@ export const SITE_INDEX = [
   }
 ];
 
-export const SITE_TALLY = {"verified":12,"geography":62,"unverified":26};
+export const SITE_TALLY = {"verified":12,"geography":63,"unverified":25};
 
 export function mapEntry(mapId) {
   return SITE_INDEX.find((m) => m.id === mapId) || null;
