@@ -14,54 +14,54 @@
 // risk. Footage cannot settle those and this data must never be used to imply
 // it can. Tactical content lives in strats.js and is NOT covered by this.
 //
-// Generated 2026-07-28 from 4708 attributed frames.
+// Generated 2026-07-29 from 5819 attributed frames.
 
 const VERIFIED = {
   "oregon": {
-    "framesRead": 247,
-    "sessions": 4,
+    "framesRead": 246,
+    "sessions": 3,
     "sites": [
       {
         "name": "Kitchen",
         "floor": "1F",
-        "frames": 34,
-        "sessions": 4
+        "frames": 32,
+        "sessions": 3
       },
       {
         "name": "Dorms Main Hall",
         "floor": "2F",
-        "frames": 28,
-        "sessions": 4
+        "frames": 27,
+        "sessions": 3
       },
       {
         "name": "Kids' Dorms",
         "floor": "2F",
-        "frames": 27,
-        "sessions": 4
+        "frames": 26,
+        "sessions": 3
       },
       {
         "name": "Laundry Room",
         "floor": "B",
-        "frames": 24,
-        "sessions": 4
+        "frames": 23,
+        "sessions": 3
       },
       {
         "name": "Supply Room",
         "floor": "B",
-        "frames": 24,
-        "sessions": 4
+        "frames": 23,
+        "sessions": 3
       },
       {
         "name": "Dining Hall",
         "floor": "1F",
-        "frames": 17,
-        "sessions": 4
+        "frames": 16,
+        "sessions": 3
       },
       {
         "name": "Meeting Hall",
         "floor": "1F",
-        "frames": 17,
-        "sessions": 4
+        "frames": 16,
+        "sessions": 3
       }
     ],
     "spawns": [
@@ -642,19 +642,19 @@ const VERIFIED = {
     ]
   },
   "theme-park": {
-    "framesRead": 138,
+    "framesRead": 229,
     "sessions": 1,
     "sites": [
       {
         "name": "Office",
         "floor": "2F",
-        "frames": 16,
+        "frames": 23,
         "sessions": 1
       },
       {
         "name": "Initiation Room",
         "floor": "2F",
-        "frames": 15,
+        "frames": 22,
         "sessions": 1
       },
       {
@@ -704,19 +704,19 @@ const VERIFIED = {
       {
         "name": "Main Entrance",
         "floor": null,
-        "frames": 25,
+        "frames": 70,
         "sessions": 1
       },
       {
         "name": "Bumper Cars",
         "floor": null,
-        "frames": 7,
+        "frames": 18,
         "sessions": 1
       },
       {
         "name": "Teacups",
         "floor": null,
-        "frames": 2,
+        "frames": 8,
         "sessions": 1
       }
     ],
@@ -740,9 +740,27 @@ const VERIFIED = {
         "sessions": 1
       },
       {
+        "name": "Guest Info",
+        "floor": "EXT",
+        "frames": 8,
+        "sessions": 1
+      },
+      {
         "name": "Break Room",
         "floor": "2F",
         "frames": 7,
+        "sessions": 1
+      },
+      {
+        "name": "Castle Entrance",
+        "floor": "EXT",
+        "frames": 6,
+        "sessions": 1
+      },
+      {
+        "name": "Gong Room",
+        "floor": "1F",
+        "frames": 5,
         "sessions": 1
       },
       {
@@ -758,9 +776,21 @@ const VERIFIED = {
         "sessions": 1
       },
       {
-        "name": "Guest Info",
+        "name": "Maintenance",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Palms",
         "floor": "EXT",
-        "frames": 4,
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Service Entrance",
+        "floor": "EXT",
+        "frames": 3,
         "sessions": 1
       },
       {
@@ -788,18 +818,6 @@ const VERIFIED = {
         "sessions": 1
       },
       {
-        "name": "Maintenance",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Palms",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
         "name": "Day Care",
         "floor": "2F",
         "frames": 2,
@@ -812,25 +830,25 @@ const VERIFIED = {
         "sessions": 1
       },
       {
-        "name": "Service Entrance",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
         "name": "Storage",
         "floor": "1F",
         "frames": 2,
         "sessions": 1
       },
       {
-        "name": "Gong Room",
-        "floor": "1F",
+        "name": "Sweet Shop",
+        "floor": "EXT",
         "frames": 2,
         "sessions": 1
       },
       {
         "name": "Yellow Corridor",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Arcade Entrance",
         "floor": "1F",
         "frames": 2,
         "sessions": 1
@@ -844,31 +862,31 @@ const VERIFIED = {
     ]
   },
   "nighthaven": {
-    "framesRead": 379,
-    "sessions": 4,
+    "framesRead": 448,
+    "sessions": 5,
     "sites": [
       {
         "name": "Command Center",
         "floor": "2F",
-        "frames": 25,
+        "frames": 38,
         "sessions": 3
       },
       {
         "name": "Servers",
         "floor": "2F",
-        "frames": 25,
+        "frames": 38,
         "sessions": 3
       },
       {
         "name": "Assembly",
         "floor": "B",
-        "frames": 20,
+        "frames": 24,
         "sessions": 3
       },
       {
         "name": "Tank",
         "floor": "B",
-        "frames": 20,
+        "frames": 24,
         "sessions": 3
       },
       {
@@ -900,19 +918,19 @@ const VERIFIED = {
       {
         "name": "Park",
         "floor": null,
-        "frames": 7,
+        "frames": 8,
         "sessions": 4
       },
       {
         "name": "Helipad",
         "floor": null,
-        "frames": 7,
+        "frames": 8,
         "sessions": 4
       },
       {
         "name": "Generator",
         "floor": null,
-        "frames": 6,
+        "frames": 7,
         "sessions": 3
       }
     ],
@@ -920,7 +938,7 @@ const VERIFIED = {
       {
         "name": "Servers",
         "floor": "2F",
-        "frames": 24,
+        "frames": 27,
         "sessions": 2
       },
       {
@@ -936,6 +954,18 @@ const VERIFIED = {
         "sessions": 3
       },
       {
+        "name": "Command Center",
+        "floor": "2F",
+        "frames": 13,
+        "sessions": 2
+      },
+      {
+        "name": "Storage Containers",
+        "floor": "EXT",
+        "frames": 11,
+        "sessions": 3
+      },
+      {
         "name": "Connector",
         "floor": "2F",
         "frames": 11,
@@ -945,18 +975,6 @@ const VERIFIED = {
         "name": "Electrical",
         "floor": "2F",
         "frames": 10,
-        "sessions": 3
-      },
-      {
-        "name": "Command Center",
-        "floor": "2F",
-        "frames": 10,
-        "sessions": 2
-      },
-      {
-        "name": "Storage Containers",
-        "floor": "EXT",
-        "frames": 9,
         "sessions": 3
       },
       {
@@ -1040,6 +1058,12 @@ const VERIFIED = {
       {
         "name": "Meeting Room Hallway",
         "floor": "2F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Tank",
+        "floor": "B",
         "frames": 2,
         "sessions": 1
       },
@@ -1426,43 +1450,43 @@ const VERIFIED = {
     ]
   },
   "calypso-casino": {
-    "framesRead": 283,
+    "framesRead": 326,
     "sessions": 4,
     "sites": [
       {
         "name": "Cigar Room",
         "floor": "2F",
-        "frames": 17,
+        "frames": 18,
         "sessions": 4
       },
       {
         "name": "Pool",
         "floor": "2F",
-        "frames": 17,
+        "frames": 18,
         "sessions": 4
       },
       {
         "name": "CCTV",
         "floor": "B",
-        "frames": 12,
+        "frames": 13,
         "sessions": 4
       },
       {
         "name": "Vault Checkpoint",
         "floor": "B",
-        "frames": 12,
+        "frames": 13,
         "sessions": 4
       },
       {
         "name": "Blackjack",
         "floor": "1F",
-        "frames": 7,
+        "frames": 13,
         "sessions": 4
       },
       {
         "name": "Poker",
         "floor": "1F",
-        "frames": 7,
+        "frames": 13,
         "sessions": 4
       },
       {
@@ -1508,7 +1532,7 @@ const VERIFIED = {
       {
         "name": "Pool",
         "floor": "2F",
-        "frames": 17,
+        "frames": 19,
         "sessions": 3
       },
       {
@@ -1520,14 +1544,14 @@ const VERIFIED = {
       {
         "name": "Cigar Room",
         "floor": "2F",
-        "frames": 7,
+        "frames": 9,
         "sessions": 3
       },
       {
         "name": "CCTV",
         "floor": "B",
-        "frames": 6,
-        "sessions": 2
+        "frames": 8,
+        "sessions": 3
       },
       {
         "name": "Kitchen",
@@ -1549,6 +1573,12 @@ const VERIFIED = {
       },
       {
         "name": "Vault Checkpoint",
+        "floor": "B",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Ventilation Hallway",
         "floor": "B",
         "frames": 4,
         "sessions": 1
@@ -1636,18 +1666,12 @@ const VERIFIED = {
         "floor": "1F",
         "frames": 2,
         "sessions": 2
-      },
-      {
-        "name": "Ventilation Hallway",
-        "floor": "B",
-        "frames": 2,
-        "sessions": 1
       }
     ]
   },
   "kafe": {
-    "framesRead": 91,
-    "sessions": 2,
+    "framesRead": 247,
+    "sessions": 3,
     "sites": [
       {
         "name": "Fireplace Hall",
@@ -1658,13 +1682,13 @@ const VERIFIED = {
       {
         "name": "Bar",
         "floor": "3F",
-        "frames": 7,
+        "frames": 10,
         "sessions": 1
       },
       {
         "name": "Cocktail Lounge",
         "floor": "3F",
-        "frames": 7,
+        "frames": 10,
         "sessions": 1
       },
       {
@@ -1696,21 +1720,33 @@ const VERIFIED = {
       {
         "name": "Christmas Market",
         "floor": null,
-        "frames": 3,
+        "frames": 7,
         "sessions": 1
       },
       {
         "name": "Park",
         "floor": null,
-        "frames": 3,
+        "frames": 7,
+        "sessions": 1
+      },
+      {
+        "name": "River Docks",
+        "floor": null,
+        "frames": 6,
         "sessions": 1
       }
     ],
     "callouts": [
       {
+        "name": "Back Alley",
+        "floor": "EXT",
+        "frames": 13,
+        "sessions": 1
+      },
+      {
         "name": "Bar",
         "floor": "1F",
-        "frames": 8,
+        "frames": 11,
         "sessions": 1
       },
       {
@@ -1720,15 +1756,9 @@ const VERIFIED = {
         "sessions": 1
       },
       {
-        "name": "Back Alley",
-        "floor": "EXT",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
         "name": "VIP Corridor",
         "floor": "1F",
-        "frames": 5,
+        "frames": 6,
         "sessions": 1
       },
       {
@@ -1744,6 +1774,18 @@ const VERIFIED = {
         "sessions": 1
       },
       {
+        "name": "Bar Backstore",
+        "floor": "3F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Kaga the horse",
+        "floor": null,
+        "frames": 2,
+        "sessions": 1
+      },
+      {
         "name": "Pillar Room",
         "floor": "2F",
         "frames": 2,
@@ -1756,6 +1798,18 @@ const VERIFIED = {
         "sessions": 1
       },
       {
+        "name": "Café Roof Top",
+        "floor": "EXT",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Bakery",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
         "name": "White Corridor",
         "floor": "3F",
         "frames": 2,
@@ -1764,190 +1818,6 @@ const VERIFIED = {
       {
         "name": "Reading Room",
         "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      }
-    ]
-  },
-  "bank": {
-    "framesRead": 165,
-    "sessions": 2,
-    "sites": [
-      {
-        "name": "Executive Lounge",
-        "floor": "2F",
-        "frames": 8,
-        "sessions": 2
-      },
-      {
-        "name": "CEO Office",
-        "floor": "2F",
-        "frames": 8,
-        "sessions": 2
-      },
-      {
-        "name": "Staff Room",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Open Area",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Lockers",
-        "floor": "B",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "CCTV Room",
-        "floor": "B",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Tellers' Office",
-        "floor": "1F",
-        "frames": 6,
-        "sessions": 2
-      },
-      {
-        "name": "Archives",
-        "floor": "1F",
-        "frames": 6,
-        "sessions": 2
-      }
-    ],
-    "spawns": [
-      {
-        "name": "Jewelry Front",
-        "floor": null,
-        "frames": 9,
-        "sessions": 2
-      },
-      {
-        "name": "Parking Front",
-        "floor": null,
-        "frames": 6,
-        "sessions": 2
-      },
-      {
-        "name": "Alley Access",
-        "floor": null,
-        "frames": 3,
-        "sessions": 2
-      }
-    ],
-    "callouts": [
-      {
-        "name": "Hallway",
-        "floor": "2F",
-        "frames": 8,
-        "sessions": 2
-      },
-      {
-        "name": "Square",
-        "floor": "1F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Stock Trading Room",
-        "floor": "2F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Server Room",
-        "floor": "B",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "CEO Office",
-        "floor": "2F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "Lockers",
-        "floor": "B",
-        "frames": 4,
-        "sessions": 1
-      },
-      {
-        "name": "Open Area",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 2
-      },
-      {
-        "name": "Office Hallway",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Plaza",
-        "floor": "EXT",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Archives",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Janitor Closet",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 2
-      },
-      {
-        "name": "Lobby",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Executive Lounge",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Jewelry Front",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 2
-      },
-      {
-        "name": "Boulevard",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Blue Stairs",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 2
-      },
-      {
-        "name": "Secure Hallway",
-        "floor": "B",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "CCTV Room",
-        "floor": "B",
         "frames": 2,
         "sessions": 1
       }
@@ -2144,266 +2014,6 @@ const VERIFIED = {
       {
         "name": "Fountain",
         "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      }
-    ]
-  },
-  "skyscraper": {
-    "framesRead": 146,
-    "sessions": 2,
-    "sites": [
-      {
-        "name": "BBQ",
-        "floor": "1F",
-        "frames": 5,
-        "sessions": 2
-      },
-      {
-        "name": "Kitchen",
-        "floor": "1F",
-        "frames": 5,
-        "sessions": 2
-      },
-      {
-        "name": "Bedroom",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Bathroom",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      }
-    ],
-    "spawns": [
-      {
-        "name": "Ventilation Units",
-        "floor": null,
-        "frames": 13,
-        "sessions": 2
-      },
-      {
-        "name": "Helipad",
-        "floor": null,
-        "frames": 10,
-        "sessions": 2
-      },
-      {
-        "name": "Tower",
-        "floor": null,
-        "frames": 10,
-        "sessions": 2
-      }
-    ],
-    "callouts": [
-      {
-        "name": "Ventilation Units",
-        "floor": "EXT",
-        "frames": 13,
-        "sessions": 2
-      },
-      {
-        "name": "Kitchen",
-        "floor": "1F",
-        "frames": 11,
-        "sessions": 2
-      },
-      {
-        "name": "Bathroom",
-        "floor": "1F",
-        "frames": 9,
-        "sessions": 2
-      },
-      {
-        "name": "Sushi Bar",
-        "floor": "1F",
-        "frames": 5,
-        "sessions": 2
-      },
-      {
-        "name": "Delivery",
-        "floor": "1F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "Reception",
-        "floor": "1F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "BBQ",
-        "floor": "1F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "Pantry",
-        "floor": "1F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "East Garden",
-        "floor": "EXT",
-        "frames": 3,
-        "sessions": 2
-      },
-      {
-        "name": "Mezzanine",
-        "floor": "2F",
-        "frames": 3,
-        "sessions": 2
-      },
-      {
-        "name": "Lounge",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Ventilation Stairs",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 2
-      },
-      {
-        "name": "Office Balcony",
-        "floor": "EXT",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "House Lobby",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Bedroom",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      }
-    ]
-  },
-  "lair": {
-    "framesRead": 89,
-    "sessions": 3,
-    "sites": [
-      {
-        "name": "RG Room",
-        "floor": "2F",
-        "frames": 12,
-        "sessions": 3
-      },
-      {
-        "name": "Master Office",
-        "floor": "2F",
-        "frames": 11,
-        "sessions": 3
-      },
-      {
-        "name": "Bunks",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 3
-      },
-      {
-        "name": "Briefing",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 3
-      },
-      {
-        "name": "Weapon Maintenance",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 3
-      },
-      {
-        "name": "Armory",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 3
-      },
-      {
-        "name": "Lab Support",
-        "floor": "B",
-        "frames": 7,
-        "sessions": 3
-      },
-      {
-        "name": "Lab",
-        "floor": "B",
-        "frames": 7,
-        "sessions": 3
-      }
-    ],
-    "spawns": [
-      {
-        "name": "Gate",
-        "floor": null,
-        "frames": 20,
-        "sessions": 2
-      },
-      {
-        "name": "Dock",
-        "floor": null,
-        "frames": 8,
-        "sessions": 2
-      }
-    ],
-    "callouts": [
-      {
-        "name": "Mezzanine",
-        "floor": "2F",
-        "frames": 6,
-        "sessions": 1
-      },
-      {
-        "name": "Mask Room",
-        "floor": "2F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Master Office",
-        "floor": "2F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Main Stairs",
-        "floor": "1F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Lab",
-        "floor": "B",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "R6 Room",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Operational",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Main Entrance",
-        "floor": "EXT",
         "frames": 2,
         "sessions": 1
       }
@@ -3415,236 +3025,6 @@ const VERIFIED = {
       }
     ]
   },
-  "favela": {
-    "framesRead": 155,
-    "sessions": 2,
-    "sites": [
-      {
-        "name": "Pink Apartment",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Pink Kitchen",
-        "floor": "1F",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Coin Farm",
-        "floor": "2F",
-        "frames": 7,
-        "sessions": 2
-      },
-      {
-        "name": "Storage",
-        "floor": "2F",
-        "frames": 4,
-        "sessions": 2
-      },
-      {
-        "name": "Bunks",
-        "floor": "2F",
-        "frames": 3,
-        "sessions": 2
-      },
-      {
-        "name": "Blue Bedroom",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Green Apartment",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 1
-      }
-    ],
-    "spawns": [
-      {
-        "name": "Rooftops",
-        "floor": null,
-        "frames": 16,
-        "sessions": 2
-      },
-      {
-        "name": "Market",
-        "floor": null,
-        "frames": 13,
-        "sessions": 2
-      },
-      {
-        "name": "Schoolyard",
-        "floor": null,
-        "frames": 9,
-        "sessions": 2
-      }
-    ],
-    "callouts": [
-      {
-        "name": "Trash Chute Stairs",
-        "floor": "1F",
-        "frames": 14,
-        "sessions": 1
-      },
-      {
-        "name": "Street",
-        "floor": "EXT",
-        "frames": 14,
-        "sessions": 2
-      },
-      {
-        "name": "Bunks",
-        "floor": "2F",
-        "frames": 9,
-        "sessions": 1
-      },
-      {
-        "name": "Mezzanine Stairs",
-        "floor": "1F",
-        "frames": 6,
-        "sessions": 2
-      },
-      {
-        "name": "Blue Apartment",
-        "floor": "1F",
-        "frames": 6,
-        "sessions": 2
-      },
-      {
-        "name": "Coin Farm",
-        "floor": "2F",
-        "frames": 6,
-        "sessions": 1
-      },
-      {
-        "name": "Red Stairs",
-        "floor": "3F",
-        "frames": 5,
-        "sessions": 1
-      },
-      {
-        "name": "Football Field",
-        "floor": "EXT",
-        "frames": 5,
-        "sessions": 2
-      },
-      {
-        "name": "Pink Apartment",
-        "floor": "1F",
-        "frames": 4,
-        "sessions": 1
-      },
-      {
-        "name": "Pink Kitchen",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Red Corridor",
-        "floor": "2F",
-        "frames": 3,
-        "sessions": 2
-      },
-      {
-        "name": "Green Apartment",
-        "floor": "1F",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Blue Bedroom",
-        "floor": "1F",
-        "frames": 2,
-        "sessions": 1
-      },
-      {
-        "name": "Storage",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 2
-      }
-    ]
-  },
-  "house": {
-    "framesRead": 71,
-    "sessions": 1,
-    "sites": [
-      {
-        "name": "Car Room",
-        "floor": "2F",
-        "frames": 6,
-        "sessions": 1
-      },
-      {
-        "name": "Master Bedroom",
-        "floor": "2F",
-        "frames": 5,
-        "sessions": 1
-      }
-    ],
-    "spawns": [
-      {
-        "name": "Side Street",
-        "floor": null,
-        "frames": 13,
-        "sessions": 1
-      },
-      {
-        "name": "Front Street",
-        "floor": null,
-        "frames": 12,
-        "sessions": 1
-      }
-    ],
-    "callouts": [
-      {
-        "name": "Garage Entrance",
-        "floor": "EXT",
-        "frames": 14,
-        "sessions": 1
-      },
-      {
-        "name": "Reading Room",
-        "floor": "2F",
-        "frames": 6,
-        "sessions": 1
-      },
-      {
-        "name": "Red Stairs",
-        "floor": "1F",
-        "frames": 6,
-        "sessions": 1
-      },
-      {
-        "name": "Play Room",
-        "floor": "2F",
-        "frames": 4,
-        "sessions": 1
-      },
-      {
-        "name": "Front Yard",
-        "floor": "EXT",
-        "frames": 4,
-        "sessions": 1
-      },
-      {
-        "name": "Master Bedroom",
-        "floor": "2F",
-        "frames": 3,
-        "sessions": 1
-      },
-      {
-        "name": "Car Room",
-        "floor": "2F",
-        "frames": 2,
-        "sessions": 1
-      }
-    ]
-  },
   "outback": {
     "framesRead": 287,
     "sessions": 3,
@@ -3885,6 +3265,794 @@ const VERIFIED = {
         "name": "Bathroom",
         "floor": "1F",
         "frames": 3,
+        "sessions": 1
+      }
+    ]
+  },
+  "favela": {
+    "framesRead": 281,
+    "sessions": 2,
+    "sites": [
+      {
+        "name": "Coin Farm",
+        "floor": "2F",
+        "frames": 11,
+        "sessions": 1
+      },
+      {
+        "name": "Bunks",
+        "floor": "2F",
+        "frames": 6,
+        "sessions": 1
+      },
+      {
+        "name": "Storage",
+        "floor": "2F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Apartment",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Kitchen",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Blue Bedroom",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Green Apartment",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      }
+    ],
+    "spawns": [
+      {
+        "name": "Rooftops",
+        "floor": null,
+        "frames": 93,
+        "sessions": 2
+      },
+      {
+        "name": "Market",
+        "floor": null,
+        "frames": 49,
+        "sessions": 2
+      },
+      {
+        "name": "Schoolyard",
+        "floor": null,
+        "frames": 27,
+        "sessions": 2
+      }
+    ],
+    "callouts": [
+      {
+        "name": "Street",
+        "floor": "EXT",
+        "frames": 19,
+        "sessions": 2
+      },
+      {
+        "name": "Trash Chute Stairs",
+        "floor": "1F",
+        "frames": 14,
+        "sessions": 1
+      },
+      {
+        "name": "Bunks",
+        "floor": "2F",
+        "frames": 9,
+        "sessions": 1
+      },
+      {
+        "name": "Coin Farm",
+        "floor": "2F",
+        "frames": 6,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Apartment",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Mezzanine Stairs",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 2
+      },
+      {
+        "name": "Red Stairs",
+        "floor": "3F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Football Field",
+        "floor": "EXT",
+        "frames": 5,
+        "sessions": 2
+      },
+      {
+        "name": "Blue Apartment",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 2
+      },
+      {
+        "name": "Back Alley",
+        "floor": "EXT",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Kitchen",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "EXT Street",
+        "floor": null,
+        "frames": 3,
+        "sessions": 2
+      },
+      {
+        "name": "Green Apartment",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Blue Bedroom",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Roof",
+        "floor": "EXT",
+        "frames": 2,
+        "sessions": 1
+      }
+    ]
+  },
+  "house": {
+    "framesRead": 200,
+    "sessions": 1,
+    "sites": [
+      {
+        "name": "Car Room",
+        "floor": "2F",
+        "frames": 26,
+        "sessions": 1
+      },
+      {
+        "name": "Master Bedroom",
+        "floor": "2F",
+        "frames": 15,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Room",
+        "floor": "2F",
+        "frames": 11,
+        "sessions": 1
+      }
+    ],
+    "spawns": [
+      {
+        "name": "Side Street",
+        "floor": null,
+        "frames": 32,
+        "sessions": 1
+      },
+      {
+        "name": "Front Street",
+        "floor": null,
+        "frames": 31,
+        "sessions": 1
+      },
+      {
+        "name": "APC Area",
+        "floor": null,
+        "frames": 4,
+        "sessions": 1
+      }
+    ],
+    "callouts": [
+      {
+        "name": "Garage Entrance",
+        "floor": "EXT",
+        "frames": 14,
+        "sessions": 1
+      },
+      {
+        "name": "Car Room",
+        "floor": "2F",
+        "frames": 8,
+        "sessions": 1
+      },
+      {
+        "name": "Front Yard",
+        "floor": "EXT",
+        "frames": 8,
+        "sessions": 1
+      },
+      {
+        "name": "Pink Room",
+        "floor": "2F",
+        "frames": 7,
+        "sessions": 1
+      },
+      {
+        "name": "Reading Room",
+        "floor": "2F",
+        "frames": 7,
+        "sessions": 1
+      },
+      {
+        "name": "Master Bedroom",
+        "floor": "2F",
+        "frames": 7,
+        "sessions": 1
+      },
+      {
+        "name": "Red Stairs",
+        "floor": "1F",
+        "frames": 6,
+        "sessions": 1
+      },
+      {
+        "name": "Play Room",
+        "floor": "2F",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Bathroom Hallway",
+        "floor": "2F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Upper Hallway",
+        "floor": "2F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Master Bedroom Walk In",
+        "floor": "2F",
+        "frames": 2,
+        "sessions": 1
+      }
+    ]
+  },
+  "skyscraper": {
+    "framesRead": 395,
+    "sessions": 2,
+    "sites": [
+      {
+        "name": "Bedroom",
+        "floor": "1F",
+        "frames": 10,
+        "sessions": 1
+      },
+      {
+        "name": "Bathroom",
+        "floor": "1F",
+        "frames": 10,
+        "sessions": 1
+      },
+      {
+        "name": "BBQ",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "Kitchen",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "Karaoke",
+        "floor": "2F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Tea Room",
+        "floor": "2F",
+        "frames": 3,
+        "sessions": 1
+      }
+    ],
+    "spawns": [
+      {
+        "name": "Ventilation Units",
+        "floor": null,
+        "frames": 13,
+        "sessions": 2
+      },
+      {
+        "name": "Helipad",
+        "floor": null,
+        "frames": 10,
+        "sessions": 2
+      },
+      {
+        "name": "Tower",
+        "floor": null,
+        "frames": 10,
+        "sessions": 2
+      }
+    ],
+    "callouts": [
+      {
+        "name": "Ventilation Units",
+        "floor": "EXT",
+        "frames": 23,
+        "sessions": 2
+      },
+      {
+        "name": "BBQ",
+        "floor": "1F",
+        "frames": 16,
+        "sessions": 2
+      },
+      {
+        "name": "Kitchen",
+        "floor": "1F",
+        "frames": 12,
+        "sessions": 2
+      },
+      {
+        "name": "Bathroom",
+        "floor": "1F",
+        "frames": 9,
+        "sessions": 2
+      },
+      {
+        "name": "Delivery",
+        "floor": "1F",
+        "frames": 6,
+        "sessions": 2
+      },
+      {
+        "name": "Mezzanine",
+        "floor": "2F",
+        "frames": 6,
+        "sessions": 2
+      },
+      {
+        "name": "Sushi Bar",
+        "floor": "1F",
+        "frames": 6,
+        "sessions": 2
+      },
+      {
+        "name": "Reception",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 2
+      },
+      {
+        "name": "BBQ / Kitchen",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 2
+      },
+      {
+        "name": "East Garden",
+        "floor": "EXT",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "Bedroom",
+        "floor": "1F",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "Pantry",
+        "floor": "1F",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "Walk-in",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Lounge",
+        "floor": "2F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Ventilation Stairs",
+        "floor": "EXT",
+        "frames": 2,
+        "sessions": 2
+      },
+      {
+        "name": "Office Balcony",
+        "floor": "EXT",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "House Lobby",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 1
+      }
+    ]
+  },
+  "lair": {
+    "framesRead": 236,
+    "sessions": 4,
+    "sites": [
+      {
+        "name": "RG Room",
+        "floor": "2F",
+        "frames": 12,
+        "sessions": 3
+      },
+      {
+        "name": "Master Office",
+        "floor": "2F",
+        "frames": 11,
+        "sessions": 3
+      },
+      {
+        "name": "Bunks",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 3
+      },
+      {
+        "name": "Briefing",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 3
+      },
+      {
+        "name": "Weapon Maintenance",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 3
+      },
+      {
+        "name": "Armory",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 3
+      },
+      {
+        "name": "Lab Support",
+        "floor": "B",
+        "frames": 7,
+        "sessions": 3
+      },
+      {
+        "name": "Lab",
+        "floor": "B",
+        "frames": 7,
+        "sessions": 3
+      }
+    ],
+    "spawns": [
+      {
+        "name": "Gate",
+        "floor": null,
+        "frames": 89,
+        "sessions": 3
+      },
+      {
+        "name": "Dock",
+        "floor": null,
+        "frames": 34,
+        "sessions": 3
+      },
+      {
+        "name": "Lift",
+        "floor": null,
+        "frames": 29,
+        "sessions": 3
+      },
+      {
+        "name": "Shooting Range",
+        "floor": null,
+        "frames": 16,
+        "sessions": 3
+      }
+    ],
+    "callouts": [
+      {
+        "name": "Main Stairs",
+        "floor": "1F",
+        "frames": 8,
+        "sessions": 2
+      },
+      {
+        "name": "Mezzanine",
+        "floor": "2F",
+        "frames": 6,
+        "sessions": 1
+      },
+      {
+        "name": "Mask Room",
+        "floor": "2F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Master Office",
+        "floor": "2F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Main Entrance",
+        "floor": "EXT",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "North Dock",
+        "floor": "EXT",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Lab",
+        "floor": "B",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "R6 Room",
+        "floor": "2F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Operational",
+        "floor": "2F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Warehouse",
+        "floor": "B",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Lockers",
+        "floor": "B",
+        "frames": 2,
+        "sessions": 1
+      }
+    ]
+  },
+  "bank": {
+    "framesRead": 267,
+    "sessions": 2,
+    "sites": [
+      {
+        "name": "Executive Lounge",
+        "floor": "2F",
+        "frames": 15,
+        "sessions": 2
+      },
+      {
+        "name": "CEO Office",
+        "floor": "2F",
+        "frames": 15,
+        "sessions": 2
+      },
+      {
+        "name": "Staff Room",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "Open Area",
+        "floor": "1F",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "Lockers",
+        "floor": "B",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "CCTV Room",
+        "floor": "B",
+        "frames": 7,
+        "sessions": 2
+      },
+      {
+        "name": "Tellers' Office",
+        "floor": "1F",
+        "frames": 6,
+        "sessions": 2
+      },
+      {
+        "name": "Archives",
+        "floor": "1F",
+        "frames": 6,
+        "sessions": 2
+      }
+    ],
+    "spawns": [
+      {
+        "name": "Jewelry Front",
+        "floor": null,
+        "frames": 23,
+        "sessions": 2
+      },
+      {
+        "name": "Parking Front",
+        "floor": null,
+        "frames": 12,
+        "sessions": 2
+      },
+      {
+        "name": "Alley Access",
+        "floor": null,
+        "frames": 5,
+        "sessions": 2
+      }
+    ],
+    "callouts": [
+      {
+        "name": "Plaza",
+        "floor": "EXT",
+        "frames": 8,
+        "sessions": 1
+      },
+      {
+        "name": "Hallway",
+        "floor": "2F",
+        "frames": 8,
+        "sessions": 2
+      },
+      {
+        "name": "Server Room",
+        "floor": "B",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Square",
+        "floor": "1F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Stock Trading Room",
+        "floor": "2F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Executive Lounge",
+        "floor": "2F",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "Boulevard",
+        "floor": "EXT",
+        "frames": 5,
+        "sessions": 1
+      },
+      {
+        "name": "CCTV Room",
+        "floor": "B",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Open Area",
+        "floor": "1F",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "CEO Office",
+        "floor": "2F",
+        "frames": 4,
+        "sessions": 2
+      },
+      {
+        "name": "Lockers",
+        "floor": "B",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Side Alley",
+        "floor": "EXT",
+        "frames": 4,
+        "sessions": 1
+      },
+      {
+        "name": "Staff Room",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Jewelry Front",
+        "floor": "EXT",
+        "frames": 3,
+        "sessions": 2
+      },
+      {
+        "name": "Office Hallway",
+        "floor": "1F",
+        "frames": 3,
+        "sessions": 1
+      },
+      {
+        "name": "Back Alley",
+        "floor": "EXT",
+        "frames": 2,
+        "sessions": 2
+      },
+      {
+        "name": "Janitor Closet",
+        "floor": "2F",
+        "frames": 2,
+        "sessions": 2
+      },
+      {
+        "name": "Secure Hallway",
+        "floor": "B",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Blue Stairs",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 2
+      },
+      {
+        "name": "Archives",
+        "floor": "1F",
+        "frames": 2,
+        "sessions": 1
+      },
+      {
+        "name": "Lobby",
+        "floor": "1F",
+        "frames": 2,
         "sessions": 1
       }
     ]
