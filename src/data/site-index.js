@@ -434,8 +434,8 @@ export const SITE_INDEX = [
         "name": "Football Office / Football Bedroom",
         "floor": "2F",
         "setupKey": null,
-        "status": "unverified",
-        "roomsConfirmed": 0,
+        "status": "geography",
+        "roomsConfirmed": 1,
         "roomsTotal": 2,
         "roomsOnObjective": 0
       },
@@ -1398,7 +1398,7 @@ export const SITE_INDEX = [
   }
 ];
 
-export const SITE_TALLY = {"verified":12,"geography":63,"unverified":25};
+export const SITE_TALLY = {"verified":12,"geography":64,"unverified":24};
 
 export function mapEntry(mapId) {
   return SITE_INDEX.find((m) => m.id === mapId) || null;
