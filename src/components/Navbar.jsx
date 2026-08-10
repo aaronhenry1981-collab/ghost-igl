@@ -229,13 +229,13 @@ export default function Navbar() {
             both auth states — the old 7-link sprawl buried the one action
             that makes money. Every tool still one click away in the dropdown. */}
         <ul id="primary-nav" className="navbar-links navbar-desktop-only">
-          <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
+          <li><a className="nav-marketing-link" href="/coaching/index.html">Coaching</a></li>
           <li><a className="nav-marketing-link" href="/climb/">Learn</a></li>
           <li><MoreDropdown /></li>
         </ul>
 
         <div className="navbar-right navbar-desktop-only">
-          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book your first session — $20</a>
+          <a href="/coaching/index.html#book" className="btn btn-primary btn-sm">Book your first session — $20</a>
           {user ? (
             <AccountDropdown
               user={user}
@@ -323,8 +323,8 @@ export default function Navbar() {
             everyone. */}
         <div className="mobile-drawer-section">
           <div className="mobile-drawer-section-label">Coaching</div>
-          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session — $20 →</a>
-          <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
+          <a href="/coaching/index.html#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session — $20 →</a>
+          <a href="/coaching/index.html" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
           <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn — the Climb pipeline</a>
           <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Guides & blog</a>
         </div>
