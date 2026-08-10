@@ -42,7 +42,7 @@ const rankOptions = (selectedOrder) =>
 
 const FAQ = [
   ['What does "AI-augmented" actually mean?', 'You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point.'],
-  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off the $40 single rate — just $20. After that a single session is $40; ongoing coaching plans launch soon.'],
+  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose $70/mo for two live sessions. Credits reset monthly and do not roll over.'],
   ['Is this boosting?', 'No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row.'],
   ['Console or PC?', 'Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same.'],
   ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
@@ -98,11 +98,11 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${title}</title>
 <meta name="description" content="${description}" />
-<link rel="canonical" href="${SITE}/coaching/" />
+<link rel="canonical" href="${SITE}/coaching/index.html" />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="${title}" />
 <meta property="og:description" content="${description}" />
-<meta property="og:url" content="${SITE}/coaching/" />
+<meta property="og:url" content="${SITE}/coaching/index.html" />
 <meta property="og:image" content="${SITE}/og-image.png" />
 ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n')}
 <style>
@@ -163,7 +163,20 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   <div class="tiers">
 ${tierCards}
   </div>
-  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that a single session is $40, no subscription required (ongoing $70/mo coaching plans are on the way). Pay securely at checkout; slot confirmed instantly with a calendar invite. 7-day money-back guarantee.</p>
+  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single whenever you need another review or choose $70/mo for two live sessions. Credits reset monthly and do not roll over. Pay securely at checkout; booked slots are confirmed with a calendar invite. 7-day money-back guarantee.</p>
+
+  <section id="ongoing" class="tier" style="margin-top:20px">
+    <h3>Ongoing coaching</h3>
+    <div class="price">$70 <span>per month · two live sessions</span></div>
+    <p>Two 1-hour coaching credits each month for players who want follow-through after the first session. Credits reset monthly and do not roll over.</p>
+    <form id="addonForm">
+      <label for="addon-email">Email</label>
+      <input id="addon-email" type="email" required placeholder="you@example.com" />
+      <button type="submit" id="addonBtn">Start ongoing coaching — $70/mo</button>
+      <div id="addonErr" style="color:#ff6b6b;margin-top:12px;display:none"></div>
+    </form>
+  </section>
+
 
   <h2>How a session works</h2>
   <p class="sub">Before we meet, the AI has already processed your clips: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
@@ -263,6 +276,40 @@ ${faqHtml}
     try { return localStorage.getItem(SRC_KEY) || 'direct'; } catch (e) { return 'direct'; }
   }
   captureRef();
+
+  // ---- ongoing coaching membership ----
+  var addonForm = document.getElementById('addonForm');
+  if (addonForm) {
+    var addonErr = document.getElementById('addonErr');
+    var addonBtn = document.getElementById('addonBtn');
+    addonForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = document.getElementById('addon-email').value.trim();
+      if (!email) return;
+      addonErr.style.display = 'none';
+      addonBtn.disabled = true;
+      fetch(API + '/booking/addon-checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, referral_source: getRef() }),
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (res.ok && res.d.checkoutUrl) { window.location.href = res.d.checkoutUrl; return; }
+          addonErr.textContent = (res.d && res.d.error) || 'Could not start checkout. Try again in a minute.';
+          addonErr.style.display = 'block';
+          addonBtn.disabled = false;
+        })
+        .catch(function () {
+          addonErr.textContent = 'Network hiccup — try again in a minute.';
+          addonErr.style.display = 'block';
+          addonBtn.disabled = false;
+        });
+    });
+    if (new URLSearchParams(window.location.search).get('membership') === 'success') {
+      addonErr.style.color = '#7ee2a4';
+      addonErr.textContent = 'Membership started. Your two monthly session credits are ready to use.';
+      addonErr.style.display = 'block';
+    }
+  }
 
   function fallbackToForm() {
     document.getElementById('scheduler').style.display = 'none';
@@ -411,7 +458,7 @@ const bookedHtml = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>You're booked — RECON6 Coaching</title>
 <meta name="robots" content="noindex" />
-<link rel="canonical" href="${SITE}/coaching/booked/" />
+<link rel="canonical" href="${SITE}/coaching/booked/index.html" />
 <style>
   body { background:#0a0e17; color:#dbe4f0; font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; margin:0; }
   .wrap { max-width:620px; margin:0 auto; padding:64px 20px; text-align:center; }
@@ -433,7 +480,7 @@ const bookedHtml = `<!doctype html>
       <li>Sessions run on Discord — join <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">the server</a> and you'll get a DM before your session.</li>
       <li>Bring 2-3 clips or screenshots of rounds you lost — that's the raw material.</li>
     </ul>
-    <a class="btn" href="/coaching/">Back to coaching</a>
+    <a class="btn" href="/coaching/index.html">Back to coaching</a>
   </div>
 </div>
 <script>
