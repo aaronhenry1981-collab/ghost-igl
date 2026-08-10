@@ -17,8 +17,9 @@
 // Routes (existing HTTP API u0k402df6j, all auth in-Lambda per house pattern):
 //   GET  /booking/slots?days=14        public — open slots (UTC ids)
 //   POST /booking/hold                 public — 5-minute hold {slotId}
-//   POST /booking/confirm              public — {slotId, holdToken, customer...}
-//   GET  /booking/manage?token=        public — booking info for the manage page
+//   POST /booking/checkout             public — paid session Checkout
+//   POST /booking/addon-checkout       public — $70/mo coaching add-on Checkout
+//   //   GET  /booking/manage?token=        public — booking info for the manage page
 //   POST /booking/manage               public — {token, action: cancel|reschedule, newSlotId?}
 //   GET  /admin/bookings               admin  — upcoming bookings
 //   GET  /admin/availability           admin  — current config
@@ -482,39 +483,12 @@ export async function handler(event) {
       return resp(200, { holdToken, heldUntil })
     }
 
-    // ---------- public: confirm ----------
+    // ---------- retired: unauthenticated direct confirmation ----------
+    // Every customer-facing booking must pass through Stripe Checkout. Keeping
+    // this route blocked prevents an old client or crafted request from creating
+    // a free confirmed session and bypassing the $20/$40 paid funnel.
     if (method === 'POST' && path.endsWith('/booking/confirm')) {
-      const { slotId, holdToken, name, email, discord, rank_goal, tz, sessionType, notes } = body
-      if (!slotId || !holdToken || !email || !name) return resp(400, { error: 'missing fields' })
-      const manageToken = crypto.randomBytes(20).toString('hex')
-      const customer = {
-        name: String(name).slice(0, 80), email: String(email).slice(0, 120),
-        discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
-        tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
-      }
-      // Channel attribution: the widget passes the first-touch ?ref source
-      // (from localStorage 'recon:src'); default 'direct'. Same sanitize as
-      // src/lib/refSource.js so coaching attribution matches membership.
-      const referralSource = refSource(body.referral_source)
-      try {
-        await ddb.send(new UpdateCommand({
-          TableName: BOOK_TABLE, Key: { slotId },
-          UpdateExpression: 'SET #s = :c, customer = :cust, sessionType = :ty, manageToken = :m, referral_source = :rs, confirmedAt = :t REMOVE holdToken, heldUntil',
-          ConditionExpression: '#s = :held AND holdToken = :h',
-          ExpressionAttributeNames: { '#s': 'status' },
-          ExpressionAttributeValues: {
-            ':c': 'confirmed', ':held': 'held', ':h': String(holdToken),
-            ':cust': customer, ':ty': String(sessionType || 'Free Intro').slice(0, 60),
-            ':m': manageToken, ':rs': referralSource, ':t': new Date().toISOString(),
-          },
-        }))
-      } catch {
-        return resp(409, { error: 'Hold expired or slot taken — pick another slot.' })
-      }
-      const cfg = await getConfig()
-      const item = { slotId, customer, sessionType: sessionType || 'Free Intro', manageToken }
-      const emailed = await notifyBooked(item, cfg)
-      return resp(200, { booked: true, slotId, manageToken, confirmationEmail: emailed ? 'sent' : 'pending' })
+      return resp(410, { error: 'Direct confirmation is retired. Choose a session and continue to payment.' })
     }
 
     // ---------- public: start the $70/mo ongoing coaching membership ----------
