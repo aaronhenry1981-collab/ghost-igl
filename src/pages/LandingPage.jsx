@@ -502,7 +502,7 @@ export default function LandingPage() {
               AI is the headline, never hidden. First session is 50% off ($20). */}
           <div className="hero-cta">
             <a
-              href="/coaching/"
+              href="/coaching/index.html#book"
               className="btn btn-primary btn-lg"
               onClick={() => track('Hero CTA Click', { type: 'coaching-intro-paid' })}
             >
