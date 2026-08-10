@@ -288,11 +288,11 @@ function feedIcs(items, minutes) {
 function googleCalLink(slotId, minutes, title) {
   const s = slotId.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
   const e = new Date(Date.parse(slotId) + minutes * 60000).toISOString().replace(/\.\d{3}Z$/, '').replace(/[-:]/g, '') + 'Z'
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${s}/${e}&details=${encodeURIComponent(SITE + '/coaching/')}`
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${s}/${e}&details=${encodeURIComponent(SITE + '/coaching/index.html')}`
 }
 
 function manageLinks(token) {
-  return `Reschedule or cancel any time: ${SITE}/booking/manage/?token=${token}`
+  return `Reschedule or cancel any time: ${SITE}/booking/manage/index.html?token=${token}`
 }
 
 async function notifyBooked(item, cfg) {
@@ -517,6 +517,42 @@ export async function handler(event) {
       return resp(200, { booked: true, slotId, manageToken, confirmationEmail: emailed ? 'sent' : 'pending' })
     }
 
+    // ---------- public: start the $70/mo ongoing coaching membership ----------
+    // Membership grants two credits first; the member then books each session
+    // through the normal availability flow. It does not reserve a slot here.
+    if (method === 'POST' && path.endsWith('/booking/addon-checkout')) {
+      if (!stripe) return resp(500, { error: 'payments not configured' })
+      const email = String(body.email || '').trim().toLowerCase()
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return resp(400, { error: 'enter a valid email' })
+
+      // A duplicate active membership creates a second charge with no benefit.
+      // If this look-up has a transient Stripe error, continue to checkout
+      // rather than blocking a legitimate buyer.
+      try {
+        const customers = await stripe.customers.list({ email, limit: 100 })
+        for (const customer of customers.data) {
+          const subscriptions = await stripe.subscriptions.list({ customer: customer.id, status: 'all', limit: 100 })
+          const alreadyActive = subscriptions.data.some((sub) =>
+            ['active', 'trialing', 'past_due'].includes(sub.status) &&
+            sub.items.data.some((item) => item.price?.id === COACHING_ADDON_PRICE_ID)
+          )
+          if (alreadyActive) return resp(409, { code: 'already_subscribed', error: 'That email already has ongoing coaching. Use your existing membership to book a session.' })
+        }
+      } catch (err) {
+        console.warn('add-on duplicate check failed; continuing to checkout')
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: 'subscription',
+        line_items: [{ price: COACHING_ADDON_PRICE_ID, quantity: 1 }],
+        customer_email: email,
+        metadata: { coaching_flow: 'addon', email, referral_source: refSource(body.referral_source) },
+        success_url: `${SITE}/coaching/index.html?membership=success`,
+        cancel_url: `${SITE}/coaching/index.html#ongoing`,
+      })
+      return resp(200, { checkoutUrl: session.url })
+    }
+
     // ---------- public: create Stripe checkout for a PAID session ----------
     // The widget holds the slot first (POST /booking/hold), then calls this.
     // Returns a Checkout URL to redirect to; the slot flips to confirmed only
@@ -567,8 +603,8 @@ export async function handler(event) {
         line_items: [{ price: plan.price, quantity: 1 }],
         customer_email: email,
         metadata: { slotId, email: String(email).toLowerCase(), type },
-        success_url: `${SITE}/coaching/booked/?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${SITE}/coaching/?cancelled=1`,
+        success_url: `${SITE}/coaching/booked/index.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${SITE}/coaching/index.html?cancelled=1`,
       })
       return resp(200, { checkoutUrl: session.url })
     }
@@ -648,7 +684,7 @@ export async function handler(event) {
         }))
         await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: b.slotId } }))
         await sendMail(b.customer.email, 'Your RECON6 session is cancelled',
-          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\nBook again any time: ${SITE}/coaching/\n\nAaron — Recon 6`)
+          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\nBook again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
         for (const a of ALERT_EMAILS) await sendMail(a, `CANCELLED: ${b.slotId}`, `${b.customer.name} <${b.customer.email}> cancelled ${b.sessionType} at ${b.slotId}.`)
         return resp(200, { cancelled: true })
       }
