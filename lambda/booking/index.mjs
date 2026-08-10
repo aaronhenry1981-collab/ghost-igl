@@ -19,7 +19,7 @@
 //   POST /booking/hold                 public — 5-minute hold {slotId}
 //   POST /booking/checkout             public — paid session Checkout
 //   POST /booking/addon-checkout       public — $70/mo coaching add-on Checkout
-//   //   GET  /booking/manage?token=        public — booking info for the manage page
+//   GET  /booking/manage?token=        public — booking info for the manage page
 //   POST /booking/manage               public — {token, action: cancel|reschedule, newSlotId?}
 //   GET  /admin/bookings               admin  — upcoming bookings
 //   GET  /admin/availability           admin  — current config
