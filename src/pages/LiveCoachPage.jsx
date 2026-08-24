@@ -308,7 +308,6 @@ function R6LiveCoach() {
 
   // Reset op pick when any upstream state changes (different round = different op).
   // Deliberate reset-on-dependency-change; null set is cheap and terminal.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setSelectedOpName(null) }, [side, siteId, activeHalf])
 
   const map = useMemo(() => MAPS.find((m) => m.id === mapId), [mapId])

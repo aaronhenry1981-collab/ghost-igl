@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run generate:all && vite build",
-    "generate:all": "npm run generate:brand && npm run generate:guides && npm run generate:operators && npm run generate:bans && npm run generate:blog && npm run generate:gameog && npm run generate:stadiumog && npm run generate:games && npm run generate:cast && npm run generate:loadouts && npm run generate:maploadouts && npm run generate:tools && npm run generate:coaching && npm run generate:countdown && npm run generate:rss && npm run generate:status && npm run generate:og && npm run generate:sitemap",
+    "build": "npm run generate:all && vite build && npm run prune:r6 && npm run check:product-truth && npm run check:coaching-terms && npm run check:public-content && node scripts/audit-personal-data.mjs",
+    "audit:personal": "node scripts/audit-personal-data.mjs",
+    "generate:all": "npm run generate:content && npm run generate:brand && npm run generate:guides && npm run generate:operators && npm run generate:bans && npm run generate:blog && npm run generate:tools && npm run generate:coaching && npm run generate:countdown && npm run generate:rss && npm run generate:status && npm run generate:og && npm run generate:sitemap",
+    "generate:content": "node scripts/generate-content-boundaries.mjs",
     "generate:games": "node scripts/generate-game-landing-pages.mjs",
     "generate:gameog": "node scripts/generate-game-og-images.mjs",
     "generate:stadiumog": "node scripts/generate-stadium-og-images.mjs",
@@ -29,8 +31,12 @@
     "generate:countdown": "node scripts/generate-countdown.mjs",
     "generate:coaching": "node scripts/generate-coaching-page.mjs",
     "generate:brand": "node scripts/generate-brand-assets.mjs",
+    "prune:r6": "node scripts/prune-non-r6-output.mjs",
+    "check:product-truth": "node scripts/check-product-truth.mjs",
     "check:coaching-terms": "node scripts/check-coaching-terms.mjs",
-    "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs"
+    "check:public-content": "node scripts/audit-public-content.mjs",
+    "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs",
+    "test:workbook-purchase": "node --test lambda/subscription/workbook-purchase.test.mjs"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.21",

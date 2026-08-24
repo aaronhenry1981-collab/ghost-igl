@@ -204,7 +204,6 @@ export default function GameStratsPage() {
   useEffect(() => {
     if (!selectedMapId && maps.length > 0) {
       const withStrats = maps.find((m) => m.id && data?.STRATS?.[m.id]) || maps[0]
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedMapId(withStrats.id)
     }
   }, [maps, selectedMapId, data])
@@ -214,7 +213,6 @@ export default function GameStratsPage() {
     if (selectedMapId && !selectedSiteId) {
       const map = maps.find((m) => m.id === selectedMapId)
       const sites = Array.isArray(map?.sites) ? map.sites : Object.values(map?.sites || {})
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (sites.length > 0) setSelectedSiteId(sites[0].id)
     }
   }, [selectedMapId, selectedSiteId, maps])

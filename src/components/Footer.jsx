@@ -30,46 +30,36 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-brand">
           <div className="footer-logo">Recon<span>6</span></div>
-          <p className="footer-tagline">Climb faster in every FPS you play.<br />R6 live today. Your rank, earned by you.</p>
+          <p className="footer-tagline">Rainbow Six Siege coaching built around your real matches.</p>
+          <Link to="/progress" className="footer-focus-link">Open Road to Champion →</Link>
         </div>
         <div className="footer-col">
-          <h4>Tools</h4>
+          <h4>Improve</h4>
           <ul>
-            <li><Link to="/strats">Map Strats</Link></li>
-            <li><Link to="/loadouts">Loadouts</Link></li>
-            <li><Link to="/match-prep">Match Prep Cheatsheet</Link></li>
-            <li><Link to="/operators">Operators</Link></li>
-            <li><Link to="/meta">Meta Board</Link></li>
-            <li><Link to="/vod">VOD Review</Link></li>
-            <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('pricing', navigate, isLanding)}>Pricing</button></li>
+            <li><Link to="/live">Live Match Coach</Link></li>
+            <li><Link to="/match-prep">Match Prep</Link></li>
+            <li><Link to="/strats">Site Strategies</Link></li>
+            <li><Link to="/vod">Round Review</Link></li>
+            <li><Link to="/loadouts">Loadout Builder</Link></li>
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h4>Coaching</h4>
+          <ul>
+            <li><a href="/coaching/index.html#book">Book your first session — $20</a></li>
+            <li><a href="/coaching/index.html">1-on-1 coaching</a></li>
+            <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('pricing', navigate, isLanding)}>Membership plans</button></li>
+            <li><Link to="/account">Account & billing</Link></li>
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h4>Help</h4>
+          <ul>
             <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('faq', navigate, isLanding)}>FAQ</button></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4>Guides</h4>
-          <ul>
-            <li><a href="/guides/">All map guides</a></li>
-            <li><a href="/guides/bank.html">Bank guide</a></li>
-            <li><a href="/guides/clubhouse.html">Clubhouse guide</a></li>
-            <li><a href="/guides/kafe.html">Kafe guide</a></li>
-            <li><a href="/coaching/">1-on-1 coaching</a></li>
-            <li><a href="/blog/">Rank-up blog</a></li>
-            <li><a href="/countdown/">Next season countdown</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4>Community</h4>
-          <ul>
-            <li><a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a></li>
-            <li><a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-            <li><a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h4>Recon 6</h4>
-          <ul>
+            <li><a href="/guides/">Map guides</a></li>
+            <li><Link to="/beginner-guide">Beginner workbook</Link></li>
+            <li><a href="/status/">System status</a></li>
             <li><Link to="/changelog">What's new</Link></li>
-            <li><Link to="/press">Press kit</Link></li>
             <li><Link to="/terms">Terms of Service</Link></li>
             <li><Link to="/privacy">Privacy Policy</Link></li>
             <li><Link to="/refund">Refund Policy</Link></li>
@@ -77,7 +67,14 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>© 2026 Recon 6. Game names & characters are property of their respective owners. Fan-made, not affiliated.</p>
+        <div>
+          <div className="footer-community">
+            <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a>
+          </div>
+          <p>© 2026 Recon 6. Fan-made Rainbow Six Siege coaching; not affiliated with Ubisoft.</p>
+        </div>
         <div className="payment-badges" aria-label="Accepted payment methods">
           <svg className="payment-badge" viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg" aria-label="Visa" role="img">
             <title>Visa</title>

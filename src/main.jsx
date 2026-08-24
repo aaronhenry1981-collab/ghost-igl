@@ -20,10 +20,10 @@ import LandingPage from './pages/LandingPage'
 // Page-specific CSS (AdminPage.css, ActivatePage.css) is now imported by
 // the page itself rather than in main.jsx — keeps the landing CSS lean.
 const StratsPage = lazy(() => import('./pages/StratsPage'))
+const SetupsPage = lazy(() => import('./pages/SetupsPage'))
 const LiveCoachPage = lazy(() => import('./pages/LiveCoachPage'))
 const PressPage = lazy(() => import('./pages/PressPage'))
 const R6TierListPage = lazy(() => import('./pages/R6TierListPage'))
-const OW2StadiumTierListPage = lazy(() => import('./pages/OW2StadiumTierListPage'))
 const EmbedMatchPrepPage = lazy(() => import('./pages/EmbedMatchPrepPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
@@ -38,6 +38,7 @@ const TermsPage = lazy(() => import('./pages/TermsPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 const RefundPage = lazy(() => import('./pages/RefundPage'))
 const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
+const BeginnerGuidePage = lazy(() => import('./pages/BeginnerGuidePage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
@@ -154,10 +155,11 @@ const router = createBrowserRouter([
       { path: '/privacy', element: <L><PrivacyPage /></L> },
       { path: '/refund', element: <L><RefundPage /></L> },
       { path: '/changelog', element: <L><ChangelogPage /></L> },
+      { path: '/beginner-guide', element: <L><BeginnerGuidePage /></L> },
       { path: '/press', element: <L><PressPage /></L> },
       { path: '/tools/r6-tier-list', element: <L><R6TierListPage /></L> },
-      { path: '/tools/ow2-stadium-tier-list', element: <L><OW2StadiumTierListPage /></L> },
       { path: '/r/:code', element: <L><ReferralLandingPage /></L> },
+      { path: '/setups', element: <L><SetupsPage /></L> },
       { path: '/strats', element: <L><StratsPage /></L> },
       { path: '/strats/:mapId', element: <L><StratsPage /></L> },
       { path: '/strats/:mapId/:siteId', element: <L><StratsPage /></L> },

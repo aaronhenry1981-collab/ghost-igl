@@ -7,13 +7,9 @@ import { useAuth } from '../hooks/useAuth'
 // top nav and /strats /dashboard /etc used a sidebar — the layout shift
 // was jarring and unprofessional.
 //
-// Sections:
-//   Left:   brand + game switcher (auth'd only)
-//   Center: primary tools (Strats, Loadouts, Match Prep, VOD, Dashboard)
-//   Right:  account dropdown OR sign-in CTA
-//
-// A "More" dropdown collapses secondary nav (Operators, Meta, Blog,
-// Pricing) so the bar doesn't crowd. Mobile gets a hamburger drawer.
+// Public visitors get a short marketing path. Signed-in players get their
+// dashboard, Road to Champion, and five concrete tools. Reference pages stay
+// reachable from the tools themselves and footer instead of crowding the nav.
 
 function scrollToSection(id) {
   const el = document.getElementById(id)
@@ -73,18 +69,22 @@ function MoreDropdown({ onClose }) {
       </button>
       {open && (
         <div className="nav-more-pop" role="menu">
-          <button type="button" className="nav-more-item" onClick={() => go('/live')}>Live Coach</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/strats')}>Strats</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/loadouts')}>Loadouts</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/match-prep')}>Match Prep</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/vod')}>VOD Review</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/operators')}>Operators</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/meta')}>Meta Board</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/progress')}>My Progress</button>
-          <div className="nav-more-divider" />
-          <button type="button" className="nav-more-item" onClick={() => go('#pricing')}>Pricing</button>
-          <button type="button" className="nav-more-item" onClick={() => go('#faq')}>FAQ</button>
-          <button type="button" className="nav-more-item" onClick={() => go('/changelog')}>Changelog</button>
+          <div className="nav-more-label">Five working tools</div>
+          <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/live')}>
+            <strong>Live Match Coach</strong><span>Evidence-based calls while you play</span>
+          </button>
+          <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/match-prep')}>
+            <strong>Match Prep</strong><span>Bans, picks, and your job this round</span>
+          </button>
+          <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/strats')}>
+            <strong>Site Strategy</strong><span>Map, bombsite, side, and execute</span>
+          </button>
+          <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/vod')}>
+            <strong>Round Review</strong><span>Find the mistake shown in your evidence</span>
+          </button>
+          <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/loadouts')}>
+            <strong>Loadout Builder</strong><span>Choose an operator and setup with purpose</span>
+          </button>
         </div>
       )}
     </div>
@@ -108,7 +108,7 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
     }
   }, [open])
 
-  const badge = isAdmin ? 'CEO' : plan === 'champion' ? 'CHAMPION' : plan === 'pro' ? 'PRO' : 'FREE'
+  const badge = isAdmin ? 'CEO' : plan === 'champion' ? 'CHAMPION' : plan === 'elite' ? 'ELITE' : plan === 'pro' ? 'PRO' : 'BASIC'
   const badgeClass = badge.toLowerCase()
   const initial = (user.email || '?')[0].toUpperCase()
 
@@ -137,13 +137,9 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
             <div className="nav-account-pop-email" title={user.email}>{user.email}</div>
             <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
           </div>
-          <button type="button" className="nav-more-item" onClick={() => go('/dashboard')}>Dashboard</button>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
           {isPro && (
-            <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop app</button>
-          )}
-          {isPro && (
-            <button type="button" className="nav-more-item" onClick={() => go('/activate')}>Activation</button>
+            <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop setup</button>
           )}
           {isAdmin && (
             <>
@@ -187,7 +183,7 @@ export default function Navbar() {
     else { navigate('/'); setTimeout(() => scrollToSection(sectionId), 300) }
   }
 
-  const badge = isAdmin ? 'CEO' : plan === 'champion' ? 'CHAMPION' : plan === 'pro' ? 'PRO' : 'FREE'
+  const badge = isAdmin ? 'CEO' : plan === 'champion' ? 'CHAMPION' : plan === 'elite' ? 'ELITE' : plan === 'pro' ? 'PRO' : 'BASIC'
   const badgeClass = badge.toLowerCase()
 
   return (
@@ -222,18 +218,26 @@ export default function Navbar() {
             hasn't decided to sign up yet. Logged-out visitors now get a
             MARKETING nav instead (How It Works / Pricing / Guides / FAQ) —
             real anchors on the landing page, nothing that walls them off. */}
-        {/* 4-ITEM NAV (2026-07-06 coherence pass): Coaching · Learn · Tools ▾
-            + a right-aligned "Book a free session" button. Same structure for
-            both auth states — the old 7-link sprawl buried the one action
-            that makes money. Every tool still one click away in the dropdown. */}
         <ul id="primary-nav" className="navbar-links navbar-desktop-only">
-          <li><a className="nav-marketing-link" href="/coaching/">Coaching</a></li>
-          <li><a className="nav-marketing-link" href="/climb/">Learn</a></li>
-          <li><MoreDropdown /></li>
+          {user ? (
+            <>
+              <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? 'is-active' : ''}>Dashboard</NavLink></li>
+              <li><NavLink to="/progress" className={({ isActive }) => isActive ? 'is-active' : ''}>Road to Champion</NavLink></li>
+              <li><MoreDropdown /></li>
+            </>
+          ) : (
+            <>
+              <li><NavLink to="/strats" className={({ isActive }) => isActive ? 'is-active' : ''}>Free strats</NavLink></li>
+              <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('how-it-works')}>How it works</button></li>
+              <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('pricing')}>Plans</button></li>
+            </>
+          )}
         </ul>
 
         <div className="navbar-right navbar-desktop-only">
-          <a href="/coaching/#book" className="btn btn-primary btn-sm">Book your first session — $20</a>
+          {isAdmin
+            ? <NavLink to="/admin" className={({ isActive }) => `btn btn-primary btn-sm${isActive ? ' is-active' : ''}`}>Admin console</NavLink>
+            : <Link to="/strats" className="btn btn-primary btn-sm">Open a free strat</Link>}
           {user ? (
             <AccountDropdown
               user={user}
@@ -319,38 +323,41 @@ export default function Navbar() {
             (Live Coach, Strats' gated features, etc). Give them a marketing
             section instead; the real Explore section below still works for
             everyone. */}
-        <div className="mobile-drawer-section">
-          <div className="mobile-drawer-section-label">Coaching</div>
-          <a href="/coaching/#book" onClick={closeMobile} className="mobile-drawer-link" style={{ color: '#00e5ff', fontWeight: 700 }}>Book your first session — $20 →</a>
-          <a href="/coaching/" onClick={closeMobile} className="mobile-drawer-link">Coaching & pricing</a>
-          <a href="/climb/" onClick={closeMobile} className="mobile-drawer-link">Learn — the Climb pipeline</a>
-          <a href="/blog/" onClick={closeMobile} className="mobile-drawer-link">Guides & blog</a>
-        </div>
-
         {user ? (
-          <div className="mobile-drawer-section">
-            <div className="mobile-drawer-section-label">Tools</div>
-            <NavLink to="/live" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Live Coach</NavLink>
-            <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Strats</NavLink>
-            <NavLink to="/loadouts" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Loadouts</NavLink>
-            <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
-            <NavLink to="/vod" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>VOD Review</NavLink>
-            <NavLink to="/operators" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Operators</NavLink>
-            <NavLink to="/meta" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Meta Board</NavLink>
-            <NavLink to="/dashboard" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Dashboard</NavLink>
-          </div>
+          <>
+            <div className="mobile-drawer-section">
+              <div className="mobile-drawer-section-label">Your improvement</div>
+              <NavLink to="/dashboard" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Dashboard</NavLink>
+              <NavLink to="/progress" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Road to Champion</NavLink>
+              {isAdmin
+                ? <NavLink to="/admin" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link mobile-drawer-primary${isActive ? ' is-active' : ''}`}>Admin console</NavLink>
+                : <a href="/coaching/index.html#book" onClick={closeMobile} className="mobile-drawer-link mobile-drawer-primary">Book your first session — $20</a>}
+            </div>
+            <div className="mobile-drawer-section">
+              <div className="mobile-drawer-section-label">Working tools</div>
+              <NavLink to="/live" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Live Match Coach</NavLink>
+              <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
+              <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Site Strategy</NavLink>
+              <NavLink to="/vod" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Round Review</NavLink>
+              <NavLink to="/loadouts" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Loadout Builder</NavLink>
+            </div>
+          </>
         ) : (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Recon 6</div>
+            <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link mobile-drawer-primary${isActive ? ' is-active' : ''}`}>Open a free strat</NavLink>
+            <NavLink to="/vod?demo=1" onClick={closeMobile} className="mobile-drawer-link">Review a round free</NavLink>
             <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button>
-            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('testimonials')}>Testimonials</button>
+            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('pricing')}>Plans & pricing</button>
+            <a href="/coaching/index.html" onClick={closeMobile} className="mobile-drawer-link">1-on-1 coaching</a>
           </div>
         )}
 
-        <div className="mobile-drawer-section">
-          <div className="mobile-drawer-section-label">Explore</div>
-          <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('pricing')}>Pricing</button>
+          <div className="mobile-drawer-section">
+            <div className="mobile-drawer-section-label">Explore</div>
+            <Link to="/beginner-guide" onClick={closeMobile} className="mobile-drawer-link">Beginner workbook</Link>
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('faq')}>FAQ</button>
+          <a href="/guides/" onClick={closeMobile} className="mobile-drawer-link">Map guides</a>
           <Link to="/changelog" onClick={closeMobile} className="mobile-drawer-link">Changelog</Link>
         </div>
 
@@ -358,9 +365,7 @@ export default function Navbar() {
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
-            {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
-            {isPro && <Link to="/activate" onClick={closeMobile} className="mobile-drawer-link">Activation</Link>}
-            {isAdmin && <Link to="/admin" onClick={closeMobile} className="mobile-drawer-link">Admin dashboard</Link>}
+            {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop setup</Link>}
             <button
               type="button"
               className="mobile-drawer-link mobile-drawer-signout"

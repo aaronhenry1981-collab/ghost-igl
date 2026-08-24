@@ -25,7 +25,6 @@ export function useGameData() {
     if (cached) {
       // Sync from the module-level cache (external system) on game switch —
       // early-returns, so it can't cascade.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(cached)
       setLoading(false)
       setError(null)

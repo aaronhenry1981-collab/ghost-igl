@@ -2,10 +2,13 @@ export default function RefundPage() {
   return (
     <div className="legal-page">
       <h1>Refund Policy</h1>
-      <p className="legal-updated">Last updated: April 2026</p>
+      <p className="legal-updated">Last updated: August 2026</p>
 
       <h2>7-Day Money-Back Guarantee</h2>
-      <p>All paid plans (Pro and Champion) include a <strong>7-day money-back guarantee</strong>. If you're not satisfied with Recon 6 for any reason, request a full refund within 7 days of your initial purchase. No questions asked.</p>
+      <p>Paid Recon 6 memberships (Pro, Elite, and Champion) and the Siege Starter Field Workbook include a <strong>7-day money-back guarantee</strong>. If you are not satisfied, request a refund within seven days of your first paid membership charge or workbook purchase. This policy does not apply to separately booked coaching sessions.</p>
+
+      <h2>Digital Workbook Purchases</h2>
+      <p>The workbook is delivered immediately as a private digital bundle. If the files are unavailable, damaged, duplicated, or not what the product page described, contact us so we can replace the download or issue a refund. A refunded purchase no longer grants a license to use or distribute the paid files. This does not limit any rights provided by applicable law.</p>
 
       <h2>How to Request a Refund</h2>
       <p>To request a refund, email <strong>support@r6coaching.com</strong> with:</p>
@@ -17,7 +20,7 @@ export default function RefundPage() {
       <p>Refunds are processed within 5-10 business days and returned to your original payment method.</p>
 
       <h2>After the 7-Day Window</h2>
-      <p>After 7 days, refunds are handled on a case-by-case basis. We want you to be happy with the Service. If you're experiencing issues, contact support and we'll do our best to resolve them.</p>
+      <p>After seven days, refunds are handled on a case-by-case basis. If you are experiencing an issue, contact support and we will work to resolve it.</p>
 
       <h2>Cancellation</h2>
       <p>You can cancel your subscription at any time. When you cancel:</p>

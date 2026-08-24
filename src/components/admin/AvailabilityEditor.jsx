@@ -38,7 +38,6 @@ export default function AvailabilityEditor() {
   }, [])
   // Mount-time fetch of admin config/bookings — same pattern as the other
   // admin panels; state lands after awaited API calls, not synchronously.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load() }, [load])
 
   async function save() {

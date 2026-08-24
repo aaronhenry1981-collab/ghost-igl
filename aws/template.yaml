@@ -26,6 +26,18 @@ Parameters:
     Type: String
     NoEcho: true
     Description: HMAC secret for signing desktop activation tokens (random 48+ bytes, base64url)
+  StripeWorkbookPriceId:
+    Type: String
+    Default: price_1U7okSJNddvjgWcgyomwEAa2
+    Description: One-time Stripe Price ID for the Siege Starter Field Workbook
+  PrivateDownloadsBucket:
+    Type: String
+    Default: r6coaching-private-downloads
+    Description: Existing private S3 bucket for paid digital downloads
+  WorkbookDownloadKey:
+    Type: String
+    Default: workbooks/recon6-siege-starter-field-workbook-bundle.zip
+    Description: Private S3 key for the customer workbook bundle
   StripePriceIdPro:
     Type: String
     Default: price_pro
@@ -70,7 +82,7 @@ Parameters:
 
 Globals:
   Function:
-    Runtime: nodejs20.x
+    Runtime: nodejs24.x
     Timeout: 30
     Environment:
       Variables:
@@ -113,6 +125,35 @@ Resources:
         SigningBehavior: always
         SigningProtocol: sigv4
 
+  SiteSecurityHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub ${AWS::StackName}-security-headers
+        SecurityHeadersConfig:
+          ContentSecurityPolicy:
+            ContentSecurityPolicy: >-
+              default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+              font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;
+              connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com
+              https://plausible.io https://cognito-idp.us-east-1.amazonaws.com;
+              frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buy.stripe.com
+            Override: true
+          ContentTypeOptions:
+            Override: true
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          ReferrerPolicy:
+            ReferrerPolicy: strict-origin-when-cross-origin
+            Override: true
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 31536000
+            IncludeSubdomains: true
+            Preload: true
+            Override: true
+
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -136,6 +177,7 @@ Resources:
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          ResponseHeadersPolicyId: !Ref SiteSecurityHeadersPolicy
           Compress: true
         CustomErrorResponses:
           - ErrorCode: 403
@@ -177,11 +219,14 @@ Resources:
         - email
       Policies:
         PasswordPolicy:
-          MinimumLength: 6
+          MinimumLength: 12
           RequireLowercase: false
           RequireNumbers: false
           RequireSymbols: false
           RequireUppercase: false
+      UserAttributeUpdateSettings:
+        AttributesRequireVerificationBeforeUpdate:
+          - email
       Schema:
         - Name: email
           Required: true
@@ -299,11 +344,21 @@ Resources:
           STRIPE_SECRET_KEY: !Ref StripeSecretKey
           PORTAL_RETURN_URL: !Sub https://${DomainName}/#/account
           DESKTOP_TOKEN_SECRET: !Ref DesktopTokenSecret
+          SITE_URL: !Sub https://${DomainName}
+          STRIPE_WORKBOOK_PRICE_ID: !Ref StripeWorkbookPriceId
+          DESKTOP_DOWNLOAD_BUCKET: !Ref PrivateDownloadsBucket
+          WORKBOOK_DOWNLOAD_BUCKET: !Ref PrivateDownloadsBucket
+          WORKBOOK_DOWNLOAD_KEY: !Ref WorkbookDownloadKey
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref SubscriptionsTable
         - DynamoDBCrudPolicy:
             TableName: !Ref ProfilesTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: !Sub arn:aws:s3:::${PrivateDownloadsBucket}/${WorkbookDownloadKey}
       Events:
         GetSub:
           Type: HttpApi
@@ -316,6 +371,18 @@ Resources:
           Properties:
             ApiId: !Ref HttpApi
             Path: /subscription
+            Method: OPTIONS
+        GetProtectedCatalog:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /content/catalog
+            Method: GET
+        ProtectedCatalogOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /content/catalog
             Method: OPTIONS
         GetMe:
           Type: HttpApi
@@ -346,6 +413,30 @@ Resources:
           Properties:
             ApiId: !Ref HttpApi
             Path: /me/billing-portal
+            Method: OPTIONS
+        WorkbookCheckout:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/workbook-checkout
+            Method: POST
+        WorkbookCheckoutOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/workbook-checkout
+            Method: OPTIONS
+        WorkbookDownload:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/workbook-download
+            Method: POST
+        WorkbookDownloadOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/workbook-download
             Method: OPTIONS
         DesktopVerify:
           Type: HttpApi
@@ -452,6 +543,11 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
+                - dynamodb:UpdateItem
+              Resource: !GetAtt SubscriptionsTable.Arn
+        - Statement:
+            - Effect: Allow
+              Action:
                 - bedrock:InvokeModel
               Resource:
                 - arn:aws:bedrock:*::foundation-model/*
@@ -548,10 +644,27 @@ Resources:
             Path: /admin/comp
             Method: OPTIONS
 
+  HttpApiAccessLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RetentionInDays: 30
+
   HttpApi:
     Type: AWS::Serverless::HttpApi
     Properties:
       StageName: prod
+      DefaultRouteSettings:
+        DetailedMetricsEnabled: true
+        ThrottlingBurstLimit: 50
+        ThrottlingRateLimit: 25
+      AccessLogSettings:
+        DestinationArn: !GetAtt HttpApiAccessLogGroup.Arn
+        Format: >-
+          { "requestId":"$context.requestId", "routeKey":"$context.routeKey",
+          "status":"$context.status", "responseLength":"$context.responseLength",
+          "integrationLatency":"$context.integrationLatency" }
       CorsConfiguration:
         AllowOrigins:
           - !Sub https://${DomainName}
@@ -566,6 +679,25 @@ Resources:
           - PUT
           - DELETE
           - OPTIONS
+
+  HttpApiServerErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Recon6 HTTP API returned server errors
+      Namespace: AWS/ApiGateway
+      MetricName: 5xx
+      Dimensions:
+        - Name: ApiId
+          Value: !Ref HttpApi
+        - Name: Stage
+          Value: prod
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      DatapointsToAlarm: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
 
 Outputs:
   SiteBucketName:

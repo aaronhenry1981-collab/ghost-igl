@@ -1,0 +1,483 @@
+.beginner-guide-page {
+  min-width: 0;
+  overflow-x: hidden;
+  background: #05070b;
+}
+.beginner-guide-hero,
+.beginner-guide-section {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.beginner-guide-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.72fr);
+  align-items: center;
+  gap: clamp(46px, 7vw, 104px);
+  min-height: 690px;
+  padding: 70px 0 82px;
+}
+
+.beginner-guide-copy { min-width: 0; }
+
+.beginner-guide-kicker {
+  display: block;
+  color: #67dff2;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.beginner-guide-copy h1 {
+  max-width: 760px;
+  margin: 17px 0 22px;
+  color: #fff;
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.beginner-guide-copy > p {
+  max-width: 680px;
+  margin: 0;
+  color: rgba(230, 239, 244, 0.76);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
+.beginner-guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.beginner-guide-purchase-note {
+  margin-top: 12px !important;
+  color: rgba(225, 239, 244, 0.5) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.beginner-guide-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 25px;
+  color: rgba(225, 239, 244, 0.58);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.beginner-guide-facts strong {
+  margin-right: 5px;
+  color: #fff;
+  font-family: var(--heading);
+  font-size: 1.05rem;
+}
+
+.workbook-mockup {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 390px);
+  aspect-ratio: 8.5 / 11;
+  overflow: hidden;
+  padding: 38px 34px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(155deg, rgba(8, 16, 24, 0.96), rgba(3, 6, 10, 0.99)),
+    #071019;
+  border: 1px solid rgba(103, 223, 242, 0.5);
+  box-shadow: 28px 32px 0 #10151d, 0 34px 100px rgba(0, 0, 0, 0.55);
+  transform: rotate(1.5deg);
+}
+
+.workbook-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(103, 223, 242, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 223, 242, 0.18) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+.workbook-brand,
+.workbook-title,
+.workbook-mockup > p,
+.workbook-mockup > small,
+.workbook-mockup > strong,
+.workbook-mark { position: relative; z-index: 1; }
+
+.workbook-brand {
+  color: #69e1f3;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.workbook-mockup > strong {
+  display: block;
+  margin-top: 82px;
+  color: #fff;
+  font-family: var(--heading);
+  font-size: clamp(3rem, 6vw, 4.6rem);
+  line-height: 0.83;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+}
+
+.workbook-title {
+  display: block;
+  margin-top: 13px;
+  color: #ffad66;
+  font-family: var(--heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.workbook-mockup > p {
+  max-width: 230px;
+  margin: 14px 0 0;
+  color: rgba(240, 246, 249, 0.72);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.workbook-mark {
+  display: flex;
+  gap: 7px;
+  margin-top: 32px;
+}
+
+.workbook-mark i {
+  display: block;
+  width: 34px;
+  height: 5px;
+  background: #65dff2;
+  transform: skewX(-28deg);
+}
+
+.workbook-mark i:nth-child(2) { background: #ffad66; }
+.workbook-mark i:nth-child(3) { background: rgba(255, 255, 255, 0.38); }
+
+.workbook-mockup > small {
+  position: absolute;
+  right: 34px;
+  bottom: 30px;
+  left: 34px;
+  color: rgba(225, 239, 244, 0.45);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.beginner-guide-section {
+  padding: 78px 0;
+}
+
+.beginner-guide-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+  gap: 70px;
+  align-items: end;
+  border-top: 1px solid rgba(103, 223, 242, 0.16);
+  border-bottom: 1px solid rgba(103, 223, 242, 0.16);
+}
+
+.beginner-guide-section h2 {
+  max-width: 800px;
+  margin: 12px 0 0;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
+}
+
+.beginner-guide-intro > p,
+.beginner-guide-section-head > p {
+  color: rgba(225, 239, 244, 0.68);
+  line-height: 1.7;
+}
+
+.beginner-guide-intro > p { margin: 0; }
+.beginner-guide-section-head { margin-bottom: 32px; }
+.beginner-guide-section-head > p { max-width: 760px; margin: 16px 0 0; }
+
+.beginner-guide-upcoming {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.8fr);
+  gap: 50px;
+  width: min(1160px, calc(100% - 48px));
+  margin: 32px auto 0;
+  padding: 28px 30px;
+  box-sizing: border-box;
+  background: linear-gradient(145deg, rgba(17, 35, 49, 0.94), rgba(7, 11, 17, 0.94));
+  border: 1px solid rgba(230, 107, 36, 0.52);
+}
+
+.beginner-guide-upcoming h2 {
+  margin: 10px 0 0;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.6vw, 2.15rem);
+  line-height: 1.08;
+}
+
+.beginner-guide-upcoming p {
+  margin: 0 0 12px;
+  color: rgba(225, 239, 244, 0.68);
+  font-size: 0.86rem;
+  line-height: 1.62;
+}
+
+.beginner-guide-upcoming a {
+  color: #67dff2;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.beginner-guide-upcoming .season-banner {
+  margin: 14px 0;
+}
+
+.beginner-guide-purchase-status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  width: min(1160px, calc(100% - 48px));
+  margin: 30px auto 0;
+  padding: 26px 30px;
+  box-sizing: border-box;
+  background: rgba(31, 20, 13, 0.92);
+  border: 1px solid rgba(255, 173, 102, 0.45);
+}
+
+.beginner-guide-purchase-status.is-success {
+  background: rgba(8, 33, 32, 0.94);
+  border-color: rgba(61, 220, 151, 0.5);
+}
+
+.beginner-guide-purchase-status h2 {
+  margin: 8px 0 6px;
+  color: #fff;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+}
+
+.beginner-guide-purchase-status p {
+  margin: 0;
+  color: rgba(225, 239, 244, 0.7);
+  line-height: 1.55;
+}
+
+.beginner-guide-purchase-error {
+  grid-column: 1 / -1;
+  padding: 12px 14px;
+  color: #ffd2c4 !important;
+  background: rgba(153, 47, 26, 0.18);
+  border: 1px solid rgba(255, 126, 92, 0.35);
+}
+
+.beginner-guide-contents {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.beginner-guide-contents article,
+.beginner-guide-phases article {
+  min-width: 0;
+  padding: 24px;
+  background: linear-gradient(155deg, rgba(14, 23, 33, 0.92), rgba(7, 11, 17, 0.86));
+  border: 1px solid rgba(103, 223, 242, 0.16);
+}
+
+.beginner-guide-contents article > span,
+.beginner-guide-phases article > span {
+  color: #65dff2;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.beginner-guide-contents h3,
+.beginner-guide-phases h3 {
+  margin: 18px 0 9px;
+  color: #fff;
+  font-size: 1.08rem;
+}
+
+.beginner-guide-contents p,
+.beginner-guide-phases p {
+  margin: 0;
+  color: rgba(225, 239, 244, 0.64);
+  font-size: 0.88rem;
+  line-height: 1.58;
+}
+
+.beginner-rank-section {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: none;
+  padding-right: max(24px, calc((100% - 1240px) / 2));
+  padding-left: max(24px, calc((100% - 1240px) / 2));
+  background: #080d13;
+  border-top: 1px solid rgba(103, 223, 242, 0.13);
+  border-bottom: 1px solid rgba(103, 223, 242, 0.13);
+}
+
+.beginner-rank-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.beginner-rank-tier {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.beginner-rank-tier > strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #fff;
+  font-family: var(--heading);
+}
+
+.beginner-rank-tier > div { display: flex; gap: 5px; }
+
+.beginner-rank-tier span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.rank-copper { border-color: rgba(184, 115, 51, 0.45); }
+.rank-bronze { border-color: rgba(205, 127, 50, 0.45); }
+.rank-silver { border-color: rgba(192, 204, 214, 0.42); }
+.rank-gold { border-color: rgba(255, 204, 77, 0.5); }
+.rank-platinum { border-color: rgba(117, 222, 224, 0.48); }
+.rank-emerald { border-color: rgba(61, 220, 151, 0.48); }
+.rank-diamond { border-color: rgba(121, 165, 255, 0.52); }
+.rank-champion { border-color: rgba(255, 92, 122, 0.55); }
+
+.beginner-guide-phases {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.beginner-guide-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+  align-items: center;
+  gap: 22px;
+}
+
+.beginner-guide-pair-card {
+  padding: 38px;
+  background: linear-gradient(145deg, rgba(10, 28, 39, 0.94), rgba(7, 11, 17, 0.92));
+  border: 1px solid rgba(103, 223, 242, 0.35);
+}
+
+.beginner-guide-pair-card p {
+  max-width: 650px;
+  margin: 18px 0 26px;
+  color: rgba(225, 239, 244, 0.68);
+  line-height: 1.65;
+}
+
+.beginner-guide-delivery-card {
+  padding: 34px;
+  background: linear-gradient(155deg, rgba(25, 22, 38, 0.96), rgba(7, 11, 17, 0.92));
+  border: 1px solid rgba(255, 173, 102, 0.38);
+}
+
+.beginner-guide-delivery-card h2 {
+  margin: 12px 0 16px;
+  color: #fff;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+}
+
+.beginner-guide-delivery-card ul {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding-left: 20px;
+  color: rgba(225, 239, 244, 0.7);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.beginner-guide-delivery-card small {
+  display: block;
+  margin-top: 14px;
+  color: rgba(225, 239, 244, 0.48);
+  line-height: 1.5;
+}
+
+.beginner-guide-delivery-card small a { color: #65dff2; }
+
+.beginner-guide-disclaimer {
+  padding: 28px max(24px, calc((100% - 1240px) / 2)) 62px;
+  color: rgba(225, 239, 244, 0.46);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.beginner-guide-disclaimer p { max-width: 980px; margin: 0; }
+.beginner-guide-disclaimer a { color: #65dff2; }
+
+@media (max-width: 960px) {
+  .beginner-guide-hero,
+  .beginner-guide-intro,
+  .beginner-guide-pair,
+  .beginner-guide-upcoming { grid-template-columns: minmax(0, 1fr); }
+  .beginner-guide-hero { min-height: 0; }
+  .workbook-mockup { width: min(76vw, 390px); }
+  .beginner-guide-contents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .beginner-rank-grid,
+  .beginner-guide-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .beginner-guide-hero,
+  .beginner-guide-section { width: calc(100% - 36px); }
+  .beginner-guide-hero { gap: 48px; padding: 44px 0 66px; }
+  .beginner-guide-copy h1 { font-size: clamp(2.45rem, 12vw, 3.25rem); }
+  .beginner-guide-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .beginner-guide-actions .btn { width: 100%; box-sizing: border-box; }
+  .workbook-mockup { width: min(82vw, 350px); padding: 30px 27px; box-shadow: 16px 18px 0 #10151d, 0 28px 70px rgba(0, 0, 0, 0.55); }
+  .workbook-mockup > strong { margin-top: 62px; }
+  .beginner-guide-section { padding: 58px 0; }
+  .beginner-guide-contents,
+  .beginner-rank-grid,
+  .beginner-guide-phases { grid-template-columns: minmax(0, 1fr); }
+  .beginner-rank-section { width: 100%; padding-right: 18px; padding-left: 18px; }
+  .beginner-guide-pair-card { padding: 26px 22px; }
+  .beginner-guide-delivery-card { padding: 26px 22px; }
+  .beginner-guide-pair { gap: 14px; }
+  .beginner-guide-upcoming { width: calc(100% - 36px); padding: 23px 20px; gap: 20px; }
+  .beginner-guide-purchase-status {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 36px);
+    padding: 22px 20px;
+  }
+  .beginner-guide-purchase-status .btn { width: 100%; }
+}

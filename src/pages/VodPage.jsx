@@ -296,7 +296,6 @@ export default function VodPage() {
     // Sync from the URL (?demo=1 deep link — external system) — guarded, and
     // demoMode only ever flips false→true here.
     if (searchParams.get('demo') === '1' && demoAvailable) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDemoMode(true)
       reset()
     }
