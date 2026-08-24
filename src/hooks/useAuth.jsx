@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext, useRef } from 'react'
 import {
   userPool,
   getCognitoUser,
@@ -9,6 +9,7 @@ import {
   API_URL
 } from '../lib/cognito'
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import { hasPlan, normalizePlan } from '../config/memberships'
 
 const AuthContext = createContext(null)
 
@@ -34,6 +35,10 @@ export function AuthProvider({ children }) {
   // every /me fetch + bumped client-side after a successful VOD analyze so
   // the UI reflects the new count without a re-fetch.
   const [vodUsage, setVodUsage] = useState(null)
+  // Cognito keeps the NEW_PASSWORD_REQUIRED challenge on this user object.
+  // Keep it in memory only; refreshing the page intentionally requires the
+  // customer to sign in with the temporary password again.
+  const pendingNewPasswordRef = useRef(null)
 
   // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
   // /me returns { plan, sub_status, profile, profile_complete } so consumers can
@@ -49,9 +54,9 @@ export function AuthProvider({ children }) {
       })
       if (res.ok) {
         const data = await res.json()
-        const p = data?.plan === 'pro' || data?.plan === 'champion' ? data.plan : 'free'
+        const p = normalizePlan(data?.plan)
         setPlan(p)
-        setIsPro(p === 'pro' || p === 'champion')
+        setIsPro(hasPlan(p, 'pro'))
         setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
         setProfile(data?.profile || null)
         setProfileComplete(!!data?.profile_complete)
@@ -95,6 +100,7 @@ export function AuthProvider({ children }) {
           const userData = {
             id: payload.sub,
             email: payload.email,
+            name: payload.name || '',
             cognitoUser,
             session,
           }
@@ -175,6 +181,13 @@ export function AuthProvider({ children }) {
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (session) => resolve({ ok: true, session, cognitoUser }),
         onFailure: (err) => resolve({ ok: false, err }),
+        newPasswordRequired: (userAttributes, requiredAttributes) => resolve({
+          ok: false,
+          challenge: 'NEW_PASSWORD_REQUIRED',
+          cognitoUser,
+          userAttributes,
+          requiredAttributes,
+        }),
       })
     })
   }
@@ -202,16 +215,69 @@ export function AuthProvider({ children }) {
       }
     }
 
+    // Handle the challenge after the casing fallback too, so a legacy account
+    // whose stored email contains capitals gets the same first-login flow.
+    if (result.challenge === 'NEW_PASSWORD_REQUIRED') {
+      // Cognito rejects read-only attributes if they are sent back during
+      // completeNewPasswordChallenge. Keep only mutable attributes supplied
+      // by the challenge and never persist the temporary password.
+      const attributes = { ...(result.userAttributes || {}) }
+      delete attributes.email_verified
+      delete attributes.phone_number_verified
+      delete attributes.sub
+      delete attributes.identities
+      pendingNewPasswordRef.current = {
+        cognitoUser: result.cognitoUser,
+        attributes,
+      }
+      return {
+        data: { challenge: 'NEW_PASSWORD_REQUIRED' },
+        error: null,
+      }
+    }
+
     if (result.ok) {
+      pendingNewPasswordRef.current = null
       const { session, cognitoUser } = result
       const payload = session.getIdToken().decodePayload()
-      const userData = { id: payload.sub, email: payload.email, cognitoUser, session }
+      const userData = { id: payload.sub, email: payload.email, name: payload.name || '', cognitoUser, session }
       setUser(userData)
       setIsAdmin(computeIsAdmin(payload))
       checkProStatus(userData.id, payload, session)
       return { data: { user: userData, session }, error: null }
     }
     return { data: null, error: { message: result.err?.message || 'Sign in failed' } }
+  }
+
+  async function completeNewPassword(newPassword) {
+    const pending = pendingNewPasswordRef.current
+    if (!pending?.cognitoUser) {
+      return { data: null, error: { message: 'Your first-login session expired. Sign in again with the temporary password.' } }
+    }
+
+    return new Promise((resolve) => {
+      pending.cognitoUser.completeNewPasswordChallenge(newPassword, pending.attributes, {
+        onSuccess: async (session) => {
+          pendingNewPasswordRef.current = null
+          const payload = session.getIdToken().decodePayload()
+          const userData = {
+            id: payload.sub,
+            email: payload.email,
+            name: payload.name || '',
+            cognitoUser: pending.cognitoUser,
+            session,
+          }
+          setUser(userData)
+          setIsAdmin(computeIsAdmin(payload))
+          await checkProStatus(userData.id, payload, session)
+          resolve({ data: { user: userData, session }, error: null })
+        },
+        onFailure: (err) => resolve({
+          data: null,
+          error: { message: err?.message || 'Could not set your new password' },
+        }),
+      })
+    })
   }
 
   // Runs a Cognito op that takes a username, trying canonical lowercase first
@@ -264,6 +330,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    pendingNewPasswordRef.current = null
     const cognitoUser = getCurrentUser()
     if (cognitoUser) {
       cognitoUser.signOut()
@@ -304,8 +371,11 @@ export function AuthProvider({ children }) {
     return r.ok ? { data: { ok: true }, error: null } : { data: null, error: { message: r.err?.message || 'Reset failed' } }
   }
 
+  const isElite = hasPlan(plan, 'elite', isAdmin)
+  const isChampion = hasPlan(plan, 'champion', isAdmin)
+
   return (
-    <AuthContext.Provider value={{ user, isPro, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, loading, signUp, signIn, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
+    <AuthContext.Provider value={{ user, isPro, isElite, isChampion, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, loading, signUp, signIn, completeNewPassword, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   )
