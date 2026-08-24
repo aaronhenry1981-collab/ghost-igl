@@ -36,14 +36,13 @@ const CHANGELOG = [
   {
     date: '2026-05-12',
     tag: 'release',
-    title: 'Recon 6 launches with 20 supported games',
+    title: 'Recon 6 focuses on Rainbow Six Siege',
     items: [
-      'Rebranded from Recon+ to Recon 6 — flows with r6coaching.com, broadens the platform mandate from a single title to the 20 most-played competitive games',
-      'Added 9 new games: League of Legends, Dota 2, EA FC, Tekken 8, Street Fighter 6, PUBG, Deadlock, Naraka Bladepoint, NBA 2K — alongside R6, CS2, Valorant, Overwatch 2, Apex, Marvel Rivals, Halo, The Finals, Call of Duty, Fortnite, Rocket League',
-      'AI VOD review now works on every supported game — uploaded a clip from any title and Claude analyzes it with that game\'s map/character/mistake context',
-      'Free trial gives you 3 lifetime VOD analyses on any game — no card required',
-      'New blog clusters across 5 games: Stadium economy for OW2, lane-priority macro for LoL, FUT meta for EA FC, Heihachi punish flows for Tekken 8, drop-rotation reads for PUBG',
-      'Founding rates ($9 Pro / $29 Champion) lock for life through May 31 — banner runs site-wide while the window is open',
+      'Recon 6 is focused on Rainbow Six Siege: map strategies, operator guidance, VOD review, and training progress.',
+      'The free account and paid membership terms were clarified so checkout promises match the product.',
+      'The 30-day Pro trial requires a card and shows its billing terms before checkout.',
+      'Coaching and Road to Champion were updated around R6 match evidence and practice goals.',
+      'Current prices and eligibility are shown on the pricing page.',
     ],
   },
   {

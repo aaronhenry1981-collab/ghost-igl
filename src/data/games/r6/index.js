@@ -12,8 +12,8 @@
 // continues to work unchanged — this wrapper is purely additive.
 
 import MAPS from '../../maps.js'
-import STRATS from '../../strats.js'
-import BANS from '../../bans.js'
+import STRATS from '../../public-strats.generated.js'
+import BANS from '../../public-bans.generated.js'
 import OPERATORS from '../../operators.js'
 import LOADOUTS from './loadouts.js'
 import { META, gameMeta } from './meta.js'

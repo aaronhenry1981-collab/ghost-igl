@@ -119,9 +119,10 @@ function pricingResponse() {
   return [
     '**Recon 6 — Plans**',
     '',
-    '**Recruit** — Free · Map overviews, operator tier lists, Discord',
-    '**Pro** — $12/mo · Live AI callouts, VOD review, advanced strats',
-    '**Champion** — $29/mo · Everything + desktop app, team tools, unlimited VOD',
+    '**Basic** — Free · Foundational strats, operator catalog, Discord',
+    '**Pro** — $12/mo · Advanced strats, AI VOD, PC Live Coach',
+    '**Elite** — $39/mo · Champion-level strategies, 60 VOD reviews, higher live usage',
+    '**Champion** — $70/mo · Everything in Elite + two live sessions with Aaron',
     '',
     `Subscribe at ${INFO_URL}/#pricing`,
   ].join('\n')

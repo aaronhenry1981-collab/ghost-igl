@@ -37,14 +37,14 @@ export default function SeasonCountdown({ variant = 'pill', className = '' }) {
         <span className="season-time">
           ends in <b>{remaining.days}d {fmtN(remaining.hours)}h {fmtN(remaining.minutes)}m</b>{hedge}
         </span>
-        <span className="season-next">{NEXT_SEASON_LABEL} incoming — lock your rank</span>
+        <span className="season-next">{NEXT_SEASON_LABEL} follows the season reset</span>
       </div>
     )
   }
 
   return (
     <span className={`season-countdown season-pill ${className}`.trim()}>
-      Season ends in <b>{remaining.days}d {fmtN(remaining.hours)}h</b>{hedge}
+      {SEASON_LABEL} ends in <b>{remaining.days}d {fmtN(remaining.hours)}h</b>{hedge}
     </span>
   )
 }

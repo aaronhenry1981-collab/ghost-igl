@@ -69,6 +69,7 @@
   background: rgba(255, 255, 255, 0.1);
 }
 .account-plan-card-pro::before { background: #00f5ff; }
+.account-plan-card-elite::before { background: linear-gradient(180deg, #b388ff, #00e5ff); }
 .account-plan-card-champion::before { background: linear-gradient(180deg, #ffd700, #ff9900); }
 .account-plan-card-ceo::before { background: linear-gradient(180deg, #b388ff, #00f5ff); }
 .account-plan-card-ceo {
@@ -78,6 +79,10 @@
 .account-plan-card-champion {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 153, 0, 0.02));
   border-color: rgba(255, 215, 0, 0.2);
+}
+.account-plan-card-elite {
+  background: linear-gradient(135deg, rgba(179, 136, 255, 0.06), rgba(0, 229, 255, 0.025));
+  border-color: rgba(179, 136, 255, 0.22);
 }
 
 .account-plan-name {
@@ -111,6 +116,11 @@
 .account-badge-pro {
   background: rgba(0, 245, 255, 0.15);
   color: #00f5ff;
+}
+
+.account-badge-elite {
+  background: linear-gradient(135deg, rgba(179, 136, 255, 0.9), rgba(0, 229, 255, 0.9));
+  color: #071018;
 }
 
 .account-badge-champion {

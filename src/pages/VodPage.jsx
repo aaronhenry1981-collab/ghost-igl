@@ -273,7 +273,7 @@ export default function VodPage() {
   const { activeGameId } = useActiveGame()
   const { gameMeta, data: gameData } = useGameData()
   const { analysis, loading, error, errorCode, usageError, analyzeSession, reset } = useVodAnalysis()
-  const tier = isAdmin || plan === 'champion' ? 'champion' : 'pro'
+  const tier = isAdmin ? 'champion' : plan === 'champion' ? 'champion' : plan === 'elite' ? 'elite' : 'pro'
   const navigate = useNavigate()
   const goToPricing = useSectionNavigate('pricing')
   const [searchParams, setSearchParams] = useSearchParams()
@@ -328,7 +328,7 @@ export default function VodPage() {
           “you held off-angle on the wrong window when the entry pushed through the courtyard.”
           {' '}
           <strong>
-            Pro: 5 screenshots per session. Champion: 10 screenshots per session plus pattern reports and
+            Pro: 5 screenshots per session. Elite and Champion: 10 screenshots per session plus pattern reports and
             a weekly drill list built from your own clips.
           </strong>
         </p>
@@ -355,7 +355,7 @@ export default function VodPage() {
               <div className="vod-gate">
                 <h3>Sign in to review your gameplay</h3>
                 <p>
-                  Sign in to your Recon 6 account — Pro or Champion unlocks round-by-round breakdowns
+                  Sign in to your Recon 6 account — Pro, Elite, or Champion unlocks round-by-round breakdowns
                   of your {displayName} screenshots.
                 </p>
                 <div className="vod-gate-actions">
@@ -385,7 +385,7 @@ export default function VodPage() {
 
             {canAnalyze && !effectiveAnalysis && !loading && !error && !demoMode && (
               <>
-                <UsageStrip usage={vodUsage} isAdmin={isAdmin} goToPricing={goToPricing} />
+                <UsageStrip usage={vodUsage} isAdmin={isAdmin} goToPricing={goToPricing} goToUsage={() => navigate('/account')} />
                 <SessionUploadZone onUpload={analyzeSession} tier={tier} />
                 {demoAvailable && (
                   <div className="vod-demo-hint">
@@ -443,13 +443,16 @@ export default function VodPage() {
                       {usageError?.isTrial
                         ? 'Subscribe to Pro to keep reviewing — Pro gets you 20 VOD sessions per month plus ban intel and opponent reads.'
                         : plan === 'pro'
-                          ? 'Upgrade to Champion for 60 sessions per month, plus multi-round pattern reports and a weekly drill list.'
-                          : 'Upgrade to Champion All-Access for 75 sessions per month across all 20 games.'}
+                          ? 'Upgrade to Elite for 60 sessions per month, or buy prepaid usage without changing plans.'
+                          : 'Buy a prepaid $10 usage pack. Recon 6 never charges an automatic overage.'}
                     </p>
                     <div className="vod-error-actions">
-                      <button type="button" onClick={goToPricing} className="btn btn-primary">
-                        {usageError?.isTrial ? 'See plans' : 'Upgrade'}
+                      <button type="button" onClick={usageError?.isTrial || plan === 'pro' ? goToPricing : () => navigate('/account')} className="btn btn-primary">
+                        {usageError?.isTrial ? 'See plans' : plan === 'pro' ? 'See Elite' : 'Buy more usage'}
                       </button>
+                      {!usageError?.isTrial && plan === 'pro' && (
+                        <button type="button" onClick={() => navigate('/account')} className="btn btn-outline">Buy usage pack</button>
+                      )}
                       <button className="btn btn-outline" onClick={reset}>Dismiss</button>
                     </div>
                   </>
@@ -573,7 +576,7 @@ export default function VodPage() {
 // before they hit the 429 so the cap doesn't feel like a surprise.
 // Admins + unlimited tiers get a quiet "unlimited" line. Free tier users
 // don't see this at all (they can't upload anyway).
-function UsageStrip({ usage, isAdmin, goToPricing }) {
+function UsageStrip({ usage, isAdmin, goToPricing, goToUsage }) {
   if (!usage) return null
   if (usage.unlimited || isAdmin) {
     return (
@@ -619,7 +622,7 @@ function UsageStrip({ usage, isAdmin, goToPricing }) {
       </div>
       {isLow && (
         <div style={{ marginTop: 6, fontSize: '0.78rem', color: '#ffc97a' }}>
-          Running low — {isTrial ? <button type="button" onClick={goToPricing} style={{ background: 'none', border: 'none', color: '#ffc97a', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>subscribe to Pro</button> : <button type="button" onClick={goToPricing} style={{ background: 'none', border: 'none', color: '#ffc97a', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>upgrade to Champion</button>} for more.
+          Running low — {isTrial ? <button type="button" onClick={goToPricing} style={{ background: 'none', border: 'none', color: '#ffc97a', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>subscribe to Pro</button> : <button type="button" onClick={goToUsage} style={{ background: 'none', border: 'none', color: '#ffc97a', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>buy prepaid usage</button>} for more.
         </div>
       )}
     </div>

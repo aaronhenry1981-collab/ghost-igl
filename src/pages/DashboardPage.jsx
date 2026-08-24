@@ -23,8 +23,9 @@ import './DashboardPage.css'
 
 const TIER_LABEL = {
   champion: { label: 'Champion', color: '#c5a7ff', bg: 'rgba(180,140,255,0.12)', border: 'rgba(180,140,255,0.45)' },
+  elite: { label: 'Elite', color: '#8de8ff', bg: 'rgba(179,136,255,0.12)', border: 'rgba(179,136,255,0.45)' },
   pro: { label: 'Pro', color: '#00e5ff', bg: 'rgba(0,229,255,0.12)', border: 'rgba(0,229,255,0.45)' },
-  free: { label: 'Free', color: 'rgba(230,233,239,0.7)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.15)' },
+  free: { label: 'Basic', color: 'rgba(230,233,239,0.7)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.15)' },
 }
 
 // Discover the freshest blog post for the active game by listing the static
@@ -164,7 +165,7 @@ function pickTip(gameId) {
 }
 
 export default function DashboardPage() {
-  const { user, plan, isAdmin, loading: authLoading } = useAuth()
+  const { user, plan, isAdmin, profile, loading: authLoading } = useAuth()
   const { activeGameId, isR6 } = useActiveGame()
   const { data, gameMeta } = useGameData()
   const { recents } = useRecentStrats()
@@ -173,9 +174,9 @@ export default function DashboardPage() {
   const accent = gameMeta.color || '#00e5ff'
   const displayName = gameMeta.displayName || activeGameId
 
-  const tier = isAdmin ? 'champion' : (plan === 'champion' ? 'champion' : (plan === 'pro' ? 'pro' : 'free'))
+  const tier = isAdmin ? 'champion' : (['pro', 'elite', 'champion'].includes(plan) ? plan : 'free')
   const tierMeta = TIER_LABEL[tier]
-  const isPaid = tier === 'pro' || tier === 'champion'
+  const isPaid = tier !== 'free'
 
   const gameStats = useMemo(() => {
     if (!data) return null
@@ -212,7 +213,8 @@ export default function DashboardPage() {
     return 'Good evening'
   })()
 
-  const firstName = (user.email || '').split('@')[0].split('.')[0].split('+')[0]
+  const profileName = profile?.display_name || profile?.player_name || profile?.name || user.name || (isAdmin ? 'Aaron' : '')
+  const firstName = profileName.trim().split(/\s+/)[0] || (user.email || '').split('@')[0].split('.')[0].split('+')[0]
   const niceName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'player'
 
   return (
@@ -234,22 +236,52 @@ export default function DashboardPage() {
         </div>
       </header>
 
+      <section className="dashboard-focus-grid" aria-label="Recommended next actions">
+        <Link to="/progress" className="dashboard-focus-card dashboard-focus-primary">
+          <div className="dashboard-eyebrow">Your training plan</div>
+          <h2>Open Road to Champion</h2>
+          <p>See what is proven, what is failing, what has not been observed, and the one mission to carry into your next match.</p>
+          <span>See my next-match mission →</span>
+        </Link>
+        {isAdmin ? (
+          <Link to="/admin" className="dashboard-focus-card">
+            <div className="dashboard-eyebrow">Owner workspace</div>
+            <h2>Open the Admin Console</h2>
+            <p>Review members, revenue attention items, coaching appointments, content, and growth from one place.</p>
+            <span>Open business operations →</span>
+          </Link>
+        ) : (
+          <a href="/coaching/index.html#book" className="dashboard-focus-card">
+            <div className="dashboard-eyebrow">Work with Aaron</div>
+            <h2>Book your first session — $20</h2>
+            <p>Use your Coach evidence to spend the session on the mistakes costing you the most rounds.</p>
+            <span>Choose a time →</span>
+          </a>
+        )}
+      </section>
+
       {/* Tip of the day — fresh content each day for retention. */}
       <div className="dashboard-tip" style={{ borderColor: accent }}>
         <div className="dashboard-tip-label" style={{ color: accent }}>Today's {displayName} tip</div>
         <p>{tip}</p>
       </div>
 
-      <ReferralsWidget />
-
-      <h2 className="dashboard-section-h">Pick up where you left off</h2>
+      <h2 className="dashboard-section-h">Choose what you need right now</h2>
       <div className="dashboard-grid dashboard-grid-tools">
+        <Link to="/live" className="dashboard-card" style={{ borderLeftColor: accent }}>
+          <div className="dashboard-card-head">
+            <strong>Live Match Coach</strong>
+            <span className="dashboard-card-pill">During play</span>
+          </div>
+          <p>Connect the PC Coach for evidence-based calls and automatic progress observations.</p>
+        </Link>
+
         <Link to="/strats" className="dashboard-card" style={{ borderLeftColor: accent }}>
           <div className="dashboard-card-head">
             <strong>Strats</strong>
             <span className="dashboard-card-pill">{displayName}</span>
           </div>
-          <p>Site-by-site picks, callouts, utility. {isR6 ? 'Full R6 catalog.' : `${gameStats?.stratSites || 0} sites.`}</p>
+          <p>Choose the map, bombsite, and side to get one usable round plan.</p>
         </Link>
 
         <Link to="/loadouts" className="dashboard-card" style={{ borderLeftColor: accent }}>
@@ -257,7 +289,7 @@ export default function DashboardPage() {
             <strong>Loadouts</strong>
             <span className="dashboard-card-pill">What to pick</span>
           </div>
-          <p>Weapon picks, ability priorities, comp combos for {displayName}.</p>
+          <p>Choose an operator, weapon, and setup that match your job.</p>
         </Link>
 
         <Link to="/match-prep" className="dashboard-card" style={{ borderLeftColor: accent }}>
@@ -265,7 +297,7 @@ export default function DashboardPage() {
             <strong>Match Prep</strong>
             <span className="dashboard-card-pill">90-second prep</span>
           </div>
-          <p>One-screen pre-round cheatsheet. Bans, picks, callouts. Copy to Discord or print.</p>
+          <p>Put bans, picks, roles, and the round plan on one screen.</p>
         </Link>
 
         <Link to="/vod" className="dashboard-card" style={{ borderLeftColor: accent }}>
@@ -278,8 +310,8 @@ export default function DashboardPage() {
       </div>
 
       {recents.length > 0 && isR6 && (
-        <>
-          <h2 className="dashboard-section-h">Your recent strats</h2>
+        <details className="dashboard-more">
+          <summary>Your recent site strategies</summary>
           <div className="dashboard-grid dashboard-grid-recents">
             {recents.slice(0, 6).map((r) => (
               <Link
@@ -293,12 +325,12 @@ export default function DashboardPage() {
               </Link>
             ))}
           </div>
-        </>
+        </details>
       )}
 
       {blogList.length > 0 && (
-        <>
-          <h2 className="dashboard-section-h">Latest {displayName} rank-up guides</h2>
+        <details className="dashboard-more">
+          <summary>Optional rank-up guides</summary>
           <div className="dashboard-grid dashboard-grid-blog">
             {blogList.map((p) => (
               <a key={p.slug} href={`/blog/${p.slug}.html`} className="dashboard-blog-card">
@@ -311,7 +343,7 @@ export default function DashboardPage() {
               <span>62 posts →</span>
             </a>
           </div>
-        </>
+        </details>
       )}
 
       {!isPaid && (
@@ -345,20 +377,24 @@ export default function DashboardPage() {
       {isPaid && (
         <div className="dashboard-tier-status">
           <div>
-            <strong>You're on {tierMeta.label}.</strong>
+            <strong>{isAdmin ? 'Owner access is active.' : `You're on ${tierMeta.label}.`}</strong>
             <p>
-              {tier === 'champion'
-                ? 'Full access — multi-round VOD sessions, weekly drill plans, premium tactics, and the desktop coach app.'
-                : 'Pro access — VOD reviews, ban intel, opponent reads. Want multi-round + drill plans? Upgrade to Champion.'}
+              {isAdmin
+                ? 'Full customer access plus the business command center, member controls, growth tools, and system oversight.'
+                : tier === 'champion'
+                ? 'Everything in Elite plus two live coaching sessions with Aaron each month.'
+                : tier === 'elite'
+                  ? 'Full self-service access — 10-image VOD sessions, weekly drill plans, premium tactics, and the PC Live Coach.'
+                  : 'Pro access — VOD reviews, ban intel, opponent reads, and the PC Live Coach. Upgrade to Elite for deeper analysis and more usage.'}
             </p>
           </div>
-          <Link to="/account" className="btn btn-outline btn-sm">Manage subscription</Link>
+          <Link to={isAdmin ? '/admin' : '/account'} className="btn btn-outline btn-sm">{isAdmin ? 'Open admin console' : 'Manage subscription'}</Link>
         </div>
       )}
 
       {testimonials.length > 0 && (
-        <>
-          <h2 className="dashboard-section-h">Players ranking up</h2>
+        <details className="dashboard-more">
+          <summary>Player results</summary>
           <div className="dashboard-grid dashboard-grid-testi">
             {testimonials.slice(0, 3).map((t) => (
               <div key={t.id || t.name} className="dashboard-testi">
@@ -370,8 +406,13 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
-        </>
+        </details>
       )}
+
+      <details className="dashboard-more dashboard-referrals">
+        <summary>Referral program</summary>
+        <ReferralsWidget />
+      </details>
     </div>
   )
 }

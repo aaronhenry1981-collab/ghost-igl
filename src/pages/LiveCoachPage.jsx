@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import MAPS from '../data/maps'
-import STRATS from '../data/strats'
-import BANS from '../data/bans'
+import PUBLIC_STRATS from '../data/public-strats.generated'
+import PUBLIC_BANS from '../data/public-bans.generated'
 import OPERATORS from '../data/operators'
 import R6_LOADOUTS from '../data/games/r6/loadouts'
 import { useAuth } from '../hooks/useAuth'
 import { useActiveGame } from '../hooks/useActiveGame'
 import SignInGate from '../components/SignInGate'
+import ProGate from '../components/strats/ProGate'
+import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import { track } from '../utils/analytics'
 import './LiveCoachPage.css'
 
@@ -40,7 +42,7 @@ import './LiveCoachPage.css'
 // from whatever map their match (ranked, unranked, quick match, custom) rolls,
 // so the map-ban step shouldn't silently drop non-ranked maps like Favela,
 // Fortress, Hereford, House, Plane, Stadium Bravo, Tower, or Yacht.
-const LIVE_COACH_MAPS = MAPS.filter((m) => !m.comingSoon && STRATS[m.id])
+const LIVE_COACH_MAPS = MAPS.filter((m) => !m.comingSoon && PUBLIC_STRATS[m.id])
 
 // Full attacker / defender rosters (every operator the app has strat data for),
 // alphabetized, for the ban-phase dropdown. Derived from the computed OPERATORS
@@ -228,7 +230,7 @@ function buildLoadoutIndex() {
 const LOADOUT_INDEX = buildLoadoutIndex()
 
 export default function LiveCoachPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, isPro, loading: authLoading } = useAuth()
   const { isR6, activeGame } = useActiveGame()
 
   // R6-only feature. Other games have different pre-round flows
@@ -247,6 +249,13 @@ export default function LiveCoachPage() {
     )
   }
   if (!isR6) return <NonR6Placeholder />
+  if (!authLoading && !isPro) {
+    return (
+      <div className="live-coach-page">
+        <ProGate label="Live Coach is a Pro feature"><span /></ProGate>
+      </div>
+    )
+  }
 
   return <R6LiveCoach />
 }
@@ -267,7 +276,20 @@ function NonR6Placeholder() {
 }
 
 function R6LiveCoach() {
+  const { catalog, loading: catalogLoading, error: catalogError } = useProtectedCatalog()
+  if (catalogLoading && !catalog) {
+    return <div className="live-coach-page"><div className="live-coach-empty"><h1>Loading your Live Coach…</h1></div></div>
+  }
+  if (catalogError && !catalog) {
+    return <div className="live-coach-page"><div className="live-coach-empty"><h1>Live Coach could not load</h1><p>{catalogError.message}</p></div></div>
+  }
+  return <R6LiveCoachReady catalog={catalog} />
+}
+
+function R6LiveCoachReady({ catalog }) {
   const [searchParams] = useSearchParams()
+  const STRATS = catalog?.strategies || PUBLIC_STRATS
+  const BANS = catalog?.bans || PUBLIC_BANS
 
   // URL-encoded prep state takes priority over localStorage on first
   // load — lets squadmates share a Discord link that re-hydrates the
@@ -316,7 +338,7 @@ function R6LiveCoach() {
   const banSuggestions = BANS[mapId]
   // Current half's bans drive all filtering — half 1 ops bank doesn't
   // contaminate half 2 recommendations and vice versa.
-  const activeBans = bans[activeHalf - 1] || new Set()
+  const activeBans = useMemo(() => bans[activeHalf - 1] || new Set(), [bans, activeHalf])
 
   // Filter operator recommendations: not banned + queue-size compatible
   const recommendedOps = useMemo(() => {
@@ -373,7 +395,7 @@ function R6LiveCoach() {
       out[s.id] = { score: banned, banned, total, level, bannedNames: bannedEssentials.map((op) => op.name) }
     }
     return out
-  }, [map, mapId, side, activeBans])
+  }, [map, mapId, side, activeBans, STRATS])
 
   // Sites sorted by ease (easiest first) — so the recommended pick is
   // at the top of the grid. Sites without strats fall to the bottom.
@@ -386,7 +408,7 @@ function R6LiveCoach() {
         const bDiff = siteDifficulty[b.id]?.banned ?? 99
         return aDiff - bDiff
       })
-  }, [map, mapId, siteDifficulty])
+  }, [map, mapId, siteDifficulty, STRATS])
 
   // The single recommended site = easiest one. Shown as a one-line
   // banner under the site grid so the IGL has a default to call.

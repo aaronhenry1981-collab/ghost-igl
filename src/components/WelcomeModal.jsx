@@ -68,28 +68,36 @@ export default function WelcomeModal() {
     }
   }
 
-  if (!visible) return null
+  // Owners use the site as an operating console, not as a new coaching lead.
+  // The multi-step customer tour covered the dashboard and hid the controls
+  // they actually need on first load, so admin accounts skip it entirely.
+  if (!visible || isAdmin) return null
 
   const isChampion = plan === 'champion' || isAdmin
-  const isPro = plan === 'pro' || plan === 'champion' || isAdmin
+  const isElite = plan === 'elite' || isChampion
+  const isPro = plan === 'pro' || isElite
 
   // If they already have a role set, skip the role picker step
   const showRoleStep = !existingRole
 
   const baseSteps = [
     {
-      icon: isAdmin ? '👑' : isChampion ? '🏆' : isPro ? '⚡' : '🎯',
+      icon: isAdmin ? '👑' : isChampion ? '🏆' : isElite ? '★' : isPro ? '⚡' : '🎯',
       title: isAdmin
         ? `Welcome back, boss.`
         : isChampion
         ? `Welcome, Champion.`
+        : isElite
+        ? `Welcome to Elite.`
         : isPro
         ? `Welcome to Pro.`
         : `Welcome to Recon 6.`,
       body: isAdmin
         ? `You have full access to everything plus the admin dashboard. Users, announcements, and backfills live at /admin.`
         : isChampion
-        ? `You have the full stack — round-by-round VOD breakdowns up to 10 screenshots per session, weekly drill plans built from your own clips, and the desktop coach app once it ships.`
+        ? `You have everything in Elite plus two live coaching sessions with Aaron each month.`
+        : isElite
+        ? `You have the full self-service stack — 10-image VOD sessions, Champion-level strategies, recurring-mistake reports, and the PC Live Coach beta.`
         : isPro
         ? `You've unlocked the round-by-round VOD breakdowns, ban targets, and the read on what the enemy is most likely to do. Most of the site is now open to you.`
         : `You're on the free tier — every strat, every callout, every operator. Upgrade anytime to start reviewing your own matches.`,
@@ -186,10 +194,10 @@ export default function WelcomeModal() {
               {!isPro && (
                 <button type="button" onClick={() => { dismiss(); goToPricing() }} className="btn btn-primary btn-sm">See plans</button>
               )}
-              {isPro && !isChampion && (
-                <button type="button" onClick={() => { dismiss(); goToPricing() }} className="btn btn-primary btn-sm">Upgrade to Champion</button>
+              {isPro && !isElite && (
+                <button type="button" onClick={() => { dismiss(); goToPricing() }} className="btn btn-primary btn-sm">Upgrade to Elite</button>
               )}
-              {isChampion && !isAdmin && (
+              {isElite && !isAdmin && (
                 <Link to="/download" onClick={dismiss} className="btn btn-primary btn-sm">Get desktop app</Link>
               )}
               {isAdmin && (

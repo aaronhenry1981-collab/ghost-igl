@@ -10,7 +10,8 @@ import { RANKS } from '../data/ranks' // single source of truth — all 40 R6 ra
 // goal rank). Everything is saved to ghost-igl-profiles via PUT /me.
 //
 // Shown by AppShell when:
-//   - user is signed in AND profile_complete is false AND user hasn't dismissed
+//   - a non-admin user is signed in AND profile_complete is false AND the user
+//     hasn't dismissed it
 //
 // User CAN skip — saved as a localStorage flag to suppress for the session.
 // They get a banner reminder elsewhere later.
@@ -50,7 +51,7 @@ const R6_ROLES = [
 const SKIP_KEY = 'ghost-igl:profile-skip'
 
 export default function ProfileSetupModal() {
-  const { user, profile, profileComplete, loading, refreshProfile } = useAuth()
+  const { user, isAdmin, profile, profileComplete, loading, refreshProfile } = useAuth()
   const [step, setStep] = useState(1)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
@@ -73,9 +74,10 @@ export default function ProfileSetupModal() {
     r6_ubisoft_username: profile?.game_profiles?.r6?.ubisoft_username || '',
   })
 
-  // Don't render if not signed in, still loading, profile already complete,
-  // or user dismissed for the session.
-  if (loading || !user || profileComplete || skipped) return null
+  // Admins are owners/operators, not onboarding leads. Bypass this customer
+  // profile + trial flow using the verified Cognito group claim so the modal
+  // stays suppressed across browser origins, storage resets, and previews.
+  if (loading || !user || isAdmin || profileComplete || skipped) return null
 
   function setField(name, value) {
     setForm(f => ({ ...f, [name]: value }))
@@ -125,17 +127,6 @@ export default function ProfileSetupModal() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         throw new Error(data.error || `HTTP ${res.status}`)
-      }
-      // Auto-grant 7-day Pro trial on first profile setup. Best-effort —
-      // ignore errors (user already had a trial, or endpoint not yet deployed)
-      // so we don't block the profile save flow on the trial grant.
-      try {
-        await fetch(`${API_URL}/me/start-trial`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      } catch (trialErr) {
-        console.warn('Trial grant failed (non-fatal):', trialErr)
       }
       // Attribution landed with the profile save — drop the stored channel
       // so ReferralAttributor doesn't re-send it.
@@ -188,16 +179,6 @@ export default function ProfileSetupModal() {
             ? "We use this to personalize content and know what to call you in emails. Takes 30 seconds."
             : "Tell us about your setup so the strats and VOD breakdowns match your rank and role. You can update this anytime from Account."}
         </p>
-        {step === 2 && (
-          <div style={{
-            padding: '0.75rem 1rem', marginBottom: '1.25rem',
-            background: 'rgba(80,200,120,0.08)', border: '1px solid rgba(80,200,120,0.4)',
-            borderRadius: 8, fontSize: '0.85rem', color: '#7ee2a4',
-          }}>
-            <strong>Bonus:</strong> finishing setup unlocks a free 7-day Pro trial — round-by-round VOD breakdowns, no credit card.
-          </div>
-        )}
-
         {error && (
           <div style={{ background: 'rgba(255,90,90,0.12)', border: '1px solid #ff5a5a', color: '#ff8a8a', padding: '0.75rem 1rem', borderRadius: 8, marginBottom: '1rem', fontSize: '0.9rem' }}>
             {error}
@@ -260,7 +241,7 @@ export default function ProfileSetupModal() {
               </select>
             </Field>
             <Field label="Ubisoft username (optional — unlocks stat-based feedback later)">
-              <input type="text" value={form.r6_ubisoft_username} onChange={(e) => setField('r6_ubisoft_username', e.target.value)} placeholder="Splinter2581" maxLength={40} className="testi-input" />
+              <input type="text" value={form.r6_ubisoft_username} onChange={(e) => setField('r6_ubisoft_username', e.target.value)} placeholder="your Ubisoft name" maxLength={40} className="testi-input" />
             </Field>
           </div>
         )}

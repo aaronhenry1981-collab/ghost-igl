@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Generates a static /status.html page that probes the public API endpoints
+// Generates a static /status/ page plus a /status.html compatibility copy.
 // and shows green/red. Refreshes itself every 60 seconds via a tiny inline
 // script. No backend needed — the static page does the probing client-side.
 //
-// Output: public/status.html
+// Output: public/status/index.html and public/status.html
 // Run: node scripts/generate-status-page.mjs
 
-import { writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -24,7 +24,7 @@ const CHECKS = [
   { name: 'API: /me (auth gate)',       url: `${API_URL}/me`,                           expect: 401 },
   { name: 'API: /admin (auth gate)',    url: `${API_URL}/admin/users`,                  expect: 401 },
   { name: 'Stripe checkout (Pro)',      url: 'https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f', expect: 200 },
-  { name: 'Stripe checkout (Champion)', url: 'https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d', expect: 200 },
+  { name: 'Stripe checkout (Elite)', url: 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h', expect: 200 },
 ]
 
 const html = `<!doctype html>
@@ -34,7 +34,7 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status — Recon 6</title>
   <meta name="description" content="Live operational status for Recon 6. Auto-refreshes every 60 seconds." />
-  <link rel="canonical" href="${SITE_URL}/status.html" />
+  <link rel="canonical" href="${SITE_URL}/status/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="robots" content="noindex, follow" />
   <style>
@@ -156,5 +156,8 @@ const html = `<!doctype html>
 </body>
 </html>`
 
+const statusDir = join(ROOT, 'public', 'status')
+mkdirSync(statusDir, { recursive: true })
+writeFileSync(join(statusDir, 'index.html'), html)
 writeFileSync(join(ROOT, 'public', 'status.html'), html)
-console.log(`✓ Generated public/status.html with ${CHECKS.length} checks`)
+console.log(`✓ Generated /status/ and /status.html with ${CHECKS.length} checks`)

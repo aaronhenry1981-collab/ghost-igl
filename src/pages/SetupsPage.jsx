@@ -2,14 +2,72 @@ import { useMemo, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import ChampionGate from '../components/strats/ChampionGate'
 import SITE_INDEX, { SITE_TALLY } from '../data/site-index'
-import { setupFor } from '../data/verified-setups'
-import VERIFIED_CALLOUTS from '../data/verified-callouts'
-import { PICK_ORDER, AVOID, poolFor } from '../data/pick-order'
 import { OP_ROSTER } from '../data/op-roster'
-import { teamCapabilities, stepNeeds, floorPicks, seatJob } from '../data/capabilities'
-import { variationFor } from '../data/variations'
-import SquadRoster, { loadRoster, rosterPool } from '../components/SquadRoster'
+import SquadRoster from '../components/SquadRoster'
+import { loadRoster, rosterPool } from '../utils/squadRosterStorage'
+import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import './SetupsPage.css'
+
+let VERIFIED_SETUPS = {}
+let VERIFIED_CALLOUTS = {}
+let PICK_ORDER = { attack: [], defense: [] }
+let CAPABILITIES = { attack: [], defense: [] }
+let FLOOR_PRIORITY = {}
+let VARIATIONS = { attack: [], defense: [] }
+const AVOID = []
+
+function configureSetupCatalog(catalog) {
+  VERIFIED_SETUPS = catalog?.verified_setups || {}
+  VERIFIED_CALLOUTS = catalog?.verified_callouts || {}
+  PICK_ORDER = catalog?.setup_pick_order || { attack: [], defense: [] }
+  CAPABILITIES = Object.fromEntries(Object.entries(catalog?.setup_capabilities || {}).map(([side, capabilities]) => [
+    side,
+    (capabilities || []).map((capability) => {
+      try { return { ...capability, needs: new RegExp(capability.needs, 'i') } }
+      catch { return { ...capability, needs: /$a/ } }
+    }),
+  ]))
+  FLOOR_PRIORITY = catalog?.setup_floor_priority || {}
+  VARIATIONS = catalog?.setup_variations || { attack: [], defense: [] }
+}
+
+function setupFor(mapId, siteId) {
+  return VERIFIED_SETUPS[`${mapId}:${siteId}`] || null
+}
+
+function variationFor(side, run) {
+  const list = VARIATIONS[side] || []
+  if (!list.length) return null
+  return list[(Math.max(1, run) - 1) % list.length]
+}
+
+function teamCapabilities(side, taken = new Set(), mine = null) {
+  const held = new Set([...taken].map((value) => String(value || '').toLowerCase().trim()))
+  if (mine) held.add(String(mine).toLowerCase().trim())
+  return (CAPABILITIES[side] || []).map((capability) => {
+    const by = capability.ops.filter((operator) => held.has(operator.toLowerCase()))
+    return { ...capability, by, covered: by.length > 0 }
+  })
+}
+
+function stepNeeds(side, text) {
+  return (CAPABILITIES[side] || []).filter((capability) => capability.needs?.test(String(text || '')))
+}
+
+function floorPicks(floor, pool = [], gone = new Set()) {
+  const priority = FLOOR_PRIORITY[floor]
+  if (!priority) return null
+  const owned = new Set(pool.map((operator) => String(operator).toLowerCase()))
+  const lift = (priority.lift || []).filter((operator) => owned.has(operator.toLowerCase()) && !gone.has(operator.toLowerCase()))
+  return lift.length ? { ...priority, lift } : null
+}
+
+function seatJob(operator, side) {
+  if (!operator) return null
+  const key = String(operator).toLowerCase()
+  const capability = (CAPABILITIES[side] || []).find((entry) => entry.ops.some((candidate) => candidate.toLowerCase() === key))
+  return capability ? { role: capability.label, job: capability.job } : null
+}
 
 // SETUP LIBRARY — every map, every bomb site, with an honest status on each.
 //
@@ -83,22 +141,21 @@ function RunTracker({ runKey, runs, setRuns, side }) {
 // to do something nobody in the match can do — which is how "Ace opens the
 // wall" stayed on screen while Ace was banned and the duo had been swapped to
 // Osa. Mark it on the step itself, where he is actually reading.
-// Every written plan is a two-man plan — it names Aaron and Jackson because
-// that is how the pages were authored. Set the queue to Solo and the page still
-// said "Jackson opens the floor where Aaron marks it", which is not a strat, it
-// is a person who is not in the lobby.
+// Every written plan is a two-man plan. Set the queue to Solo and the page still
+// said "your duo opens the floor where you mark it", which is not a strat, it is
+// a person who is not in the lobby.
 //
 // The coach already solved this with deduo(); the site never got it. Ported so
 // both surfaces read the same way, plus the part the coach did not need: a step
 // whose ENTIRE content was the partner's job has to disappear, not render as an
 // empty bullet.
 function soloise(t, duoName) {
-  // Strip BOTH names. The written pages say "Jackson" because that is who they
-  // were authored for, while mates[0] is whatever gamertag he has saved — so
-  // matching only the configured name found nothing and left every Jackson
-  // instruction on a solo card. Caught in the browser, not by the unit test,
-  // which had hardcoded 'Jackson' and so tested the wrong thing.
-  const names = ['Jackson', 'your duo', (duoName || '').trim()]
+  // Match the literal "your duo" AND whatever gamertag he has saved for the
+  // seat. The pages used to name the partner, which meant matching only the
+  // configured name found nothing and left every partner instruction on a solo
+  // card. Caught in the browser, not by the unit test, which had hardcoded the
+  // name and so tested the wrong thing.
+  const names = ['your duo', (duoName || '').trim()]
     .filter((n) => n && n.length > 1)
     .map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
   const esc = [...new Set(names)].join('|')
@@ -110,36 +167,185 @@ function soloise(t, duoName) {
     .replace(/\b(stay|travel|move|go|push|enter|rotate)\s+together\b/gi, '$1 with the team')
     .replace(/\bno split\b/gi, 'do not split off alone')
     .replace(new RegExp(`\\byou and (?:${esc})\\b`, 'gi'), 'you')
-    // Lower case here; sentence capitals are restored at the end. Substituting
-    // "Your" directly produced "that fight happens with Your gun" mid-sentence.
-    .replace(/\bAaron's\b/g, 'your')
-    .replace(/\bAaron\b/g, 'you')
     // Drop the partner's clause wherever it sits in the sentence.
     .replace(new RegExp(`[,;]?\\s*(?:and\\s+)?\\b(?:${esc})\\b[^.;]*(?=[.;]|$)`, 'gi'), '')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([.,;])/g, '$1')
     .trim()
-    // "you goes up first" -> "you go up first"
-    .replace(/\byou (goes|does|watches|catches|pushes)\b/gi, (m, v) => 'you ' + v.replace(/es$/, ''))
-    .replace(/\byou ([a-z]{3,})s\b/gi, 'you $1')
-    // Second verb in a compound: "You enter the room and clears it" -> "and
-    // clear it". Only when an object follows, so "and cameras second" (a noun)
-    // is left alone.
-    .replace(/\band ([a-z]{3,})s\b(?=\s+(?:it|them|the|this|that|his|her|their|up|down|out|in|through|from|back|off))/g,
-      'and $1')
+  const fixed = agree(out)
     // Cutting the partner's clause can strand the conjunction that introduced
     // it: "clears it before Jackson comes up" -> "clears it before."
     .replace(/[,\s]+(?:before|after|while|until|unless|as|and|then|so|once|whenever|where)\s*(?=[.;]|$)/gi, '')
     .replace(/\s+([.,;])/g, '$1')
     // Capitalise the start of the string and after a full stop only. An em-dash
     // does not begin a sentence — including it produced "— Even just droning".
-    .replace(/(^|[.;]\s+)([a-z])/g, (m, pre, c) => pre + c.toUpperCase())
+    .replace(/(^|[.]\s+)([a-z])/g, (m, pre, c) => pre + c.toUpperCase())
   // Nothing but punctuation left means the whole instruction belonged to a
   // player who is not in this lobby.
-  return /[a-z]{3}/i.test(out) ? out : ''
+  return /[a-z]{3}/i.test(fixed) ? fixed : ''
+}
+
+// Third person -> second person verb agreement.
+//
+// Shared, because it is needed twice for the same underlying reason: the setups
+// were written about a named player, and both the solo rewrite and the
+// depersonalised rewrite turn that name into "you". Written out separately the
+// first time, and the copy without these lines rendered "you goes up first" to
+// the customer it was built for.
+// "you" as the object of a preposition is not the one doing the verb. "A roamer
+// behind Aaron ends this round" became "a roamer behind you end this round" —
+// the rewrite reached across the sentence and conjugated somebody else's verb.
+// Only words that take "you" as an OBJECT belong here. "after", "before",
+// "while" and "than" introduce a clause in which "you" is the subject — listing
+// them left "your duo places SELMA only after you confirms it" on the page.
+const NOT_SUBJECT = new Set([
+  'behind', 'of', 'with', 'for', 'to', 'from', 'at', 'on', 'near', 'past', 'beside',
+  'under', 'over', 'against', 'between', 'around', 'beyond', 'into', 'onto', 'above',
+  'below', 'toward', 'towards', 'alongside', 'both', 'neither', 'either',
+])
+// Chopping the trailing s is wrong on words where the s is part of the word, and
+// on verbs that inflect irregularly.
+const KEEP_S = new Set(['cross', 'pass', 'miss', 'press', 'access', 'focus', 'this', 'his', 'its'])
+const IRREGULAR = { has: 'have', does: 'do', goes: 'go', is: 'are', was: 'were' }
+
+// One verb, third person -> second. Returns null when the word should be left
+// exactly as it is.
+//
+// Shared by both passes below because the first version had two copies and only
+// one of them knew about -es endings, so "you watch" came out right and "and
+// watche" did not.
+function deinflect(verb) {
+  const w = verb.toLowerCase()
+  if (IRREGULAR[w]) return IRREGULAR[w]
+  if (KEEP_S.has(w) || !w.endsWith('s') || w.endsWith('ss')) return null
+  // "crosses" -> "cross", "watches" -> "watch". The sibilant class has to
+  // include ss, or one letter comes off and it lands as "crosse".
+  return /(ch|sh|ss|x|z|o)es$/.test(w) ? verb.slice(0, -2) : verb.slice(0, -1)
+}
+
+function agree(t) {
+  return String(t || '')
+    // Contractions first — the apostrophe hides the verb from the main pass, so
+    // "if Aaron isn't back inside" was landing as "if you isn't back inside".
+    .replace(/\byou isn't\b/gi, "you aren't")
+    .replace(/\byou wasn't\b/gi, "you weren't")
+    .replace(/\byou doesn't\b/gi, "you don't")
+    .replace(/\byou hasn't\b/gi, "you haven't")
+    // Third person singular -> second person, but only where "you" is the
+    // subject. The hyphen class keeps "re-enters" in one piece; the i flag
+    // catches "EMPs the jammer".
+    .replace(/(\S+\s+)?\byou\s+([a-z][a-z-]*)\b/gi, (m, pre, verb) => {
+      const prev = String(pre || '').trim().toLowerCase().replace(/[^a-z]/g, '')
+      if (NOT_SUBJECT.has(prev)) return m
+      const base = deinflect(verb)
+      return base ? `${pre || ''}you ${base}` : m
+    })
+    // Second verb in a compound: "You give up B Cafeteria and falls back into
+    // B Garage." The first verb gets fixed above; the one after "and" keeps its
+    // third-person ending because nothing near it says who is acting.
+    //
+    // The earlier version of this rule ran on every sentence and so rewrote
+    // "Ace puts a charge on the hatch and blows it open" into "and blow it
+    // open" — silently reassigning Ace's job to the reader. Scoped now to
+    // sentences that OPEN with "you", where the subject is not in doubt.
+    .split(/(?<=[.;])\s+/)
+    .map((sentence) => (/^\W*you\b/i.test(sentence)
+      // The object list keeps the rule off plural nouns ("and cameras second").
+      // A quote counts as an object: "and says 'EMP out'" is a verb, and leaving
+      // quotes out of the list is why that line shipped as "You EMP the jammer
+      // and says 'EMP out'".
+      ? sentence.replace(/\band ([a-z]{3,}(?:es|s))\b(?=\s+(?:it|them|the|this|that|his|her|their|up|down|out|in|through|from|back|off|["'‘“]))/g,
+        (m, v) => {
+          const base = deinflect(v)
+          return base ? `and ${base}` : m
+        })
+      : sentence))
+    .join(' ')
 }
 
 const soloList = (arr, duoName) => (arr || []).map((t) => soloise(t, duoName)).filter(Boolean)
+
+// A paying customer must never be shown the coach's own record or his duo's
+// gamertag. Everything on this page was authored for one account: the setups name
+// Aaron and Jackson in the prose, the ladder is Aaron's Y11S2 win rates, and
+// KNOWN_MATES holds a real person's handle. A Champion who signed up today was
+// getting all three.
+//
+// Two separate wrongs. It is useless — "your best attacker, 54% over 211 rounds"
+// is not their number. And it leaks: Jackson's gamertag is his, not ours to ship
+// to strangers, and Aaron's rank and rates are his own business.
+//
+// Until per-user pools exist, the fix is that non-owners get the TACTICS with the
+// identities and the personal statistics stripped out. The plan still works —
+// "you open the wall, your duo holds the hole" coaches exactly as well as the
+// named version.
+function depersonalise(t) {
+  // No name substitutions here any more. verified-setups.js is written in second
+  // person at source, so there is nothing to strip — and a real first name has
+  // no business shipping in a public bundle just to be laundered back out at
+  // render time. scripts/audit-personal-data.mjs fails the build if one returns.
+  //
+  // What this pass does now is conjugate. The data literally reads "you goes up
+  // first", because a data file cannot know who the subject of a sentence is and
+  // agree() can.
+  return agree(String(t || ''))
+    .replace(/\s{2,}/g, ' ')
+    .replace(/(^|[.]\s+)([a-z])/g, (m, pre, c) => pre + c.toUpperCase())
+    .trim()
+}
+const dpList = (arr) => (arr || []).map(depersonalise).filter(Boolean)
+
+// Owner = the one account these pages were authored from. Deliberately an
+// allow-list and not "is this a customer", so a bug in tier detection fails
+// CLOSED: an unrecognised account gets the depersonalised page, which is merely
+// less tailored. Getting it the other way round ships a stranger Aaron's rank
+// and his duo's gamertag, and that is not recoverable by a later fix.
+const OWNERS = ['aaronhenry1981@gmail.com']
+function useIsOwner() {
+  const { user } = useAuth()
+  const email = String(user?.email || user?.attributes?.email || '').trim().toLowerCase()
+  return !!email && OWNERS.includes(email)
+}
+
+// The half of a pick rationale that is about the OPERATOR, not about Aaron's
+// season.
+//
+// The first attempt deleted the numbers and kept the sentences. That does not
+// work, and the output proved it: "Was wrongly on the avoid list at. Actually —
+// the best soft breach", and worse, "The single best operator on the account"
+// survived intact because it never mentions a number. Deleting digits does not
+// make a claim about one player's record into general advice; it just hides that
+// it was one.
+//
+// Every rationale is really two things bolted together — a record note ("was
+// wrongly on your avoid list at 44%") and a tactical note ("Phone the cams back,
+// hunt the roamer"). The tactical half is already true for anybody. So: keep
+// that, drop the rest, and where nothing tactical was written, show the operator
+// with no reason rather than an invented one.
+const RECORD_CLAUSE = /%|\bK\/D\b|\brounds?\b|\bwin rate\b|\bavoid list\b|\baccount\b|\bsample\b|\bwas (?:listed|ranked|on|wrongly)\b|\brecord\b|\blosing\b|\bmost-played\b|\bvolume\b|\bbreak-even\b|\bbaseline\b|\bfabricated\b|\bwrongly\b|\bhighest raw\b|\bsecond-most\b/i
+
+// A bare verdict is the record with the evidence removed, which is worse than
+// the record: "one of the worst" and "clearly the best attacker" read as facts
+// about the game when they are rankings of one player's season. Only the clauses
+// that tell you what to DO survive.
+const BARE_VERDICT = /^(?:clearly|quietly|actually|also|still)?\s*(?:it is|one of)?\s*(?:the\s+)?(?:single\s+)?(?:best|worst|strongest|weakest|top)\b/i
+
+const dpWhy = (t) => String(t || '')
+  // Before the split, not after: BARE_VERDICT has to see "the best attacker" to
+  // recognise it, and while the clause still said "your best attacker" the rule
+  // silently matched nothing and every verdict came through.
+  .replace(/\byour\b/gi, 'the')
+  .split(/(?<=[.])\s+|\s+—\s+/)
+  .map((c) => c.trim().replace(/[.\s]+$/, ''))
+  .filter((c) => c && !RECORD_CLAUSE.test(c) && !BARE_VERDICT.test(c))
+  .join('. ')
+  .replace(/\s{2,}/g, ' ').replace(/\s+([.,;])/g, '$1')
+  .replace(/^[\s,;:—-]+/, '').replace(/[\s,;:—-]+$/, '')
+  .trim()
+  // Capitalise every sentence, not just the first — clauses that were mid-
+  // sentence before the record half was cut now start one.
+  .replace(/(^|[.]\s+)([a-z])/g, (m, pre, c) => pre + c.toUpperCase())
+
 
 function Steps({ title, items, side, capState }) {
   if (!items || !items.length) return null
@@ -379,7 +585,7 @@ function TeamCapabilities({ side, taken, mates }) {
   )
 }
 
-function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new Set(), banned = new Set(), side, setSide, runs = {}, setRuns = () => {} }) {
+function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new Set(), banned = new Set(), side, runs = {}, setRuns = () => {} }) {
   const data = setupFor(setupKey.split(':')[0], setupKey.split(':')[1])
   if (!data) return null
   // The page shows the FULL plan. The short fields exist for the coach's voice,
@@ -390,7 +596,27 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
   // Solo queue: strip the partner out of the prose. Written plans name Aaron and
   // Jackson throughout, and in solo that is instructions for someone who is not
   // in the lobby. Steps that were ENTIRELY the partner's job drop out.
-  const d = stacked ? raw : {
+  // Non-owners get the same plan with the names and personal numbers taken out.
+  // Runs for EVERYONE, owner included.
+  //
+  // The setup data no longer contains a name — it says "you" and "your duo"
+  // literally, so the substitutions below are no-ops now and what actually earns
+  // its keep is the verb agreement and sentence casing that agree() does. The
+  // raw prose reads "you goes up first"; conjugating it is this pass, not the
+  // data file.
+  //
+  // One path for owner and customer on purpose. A gate that changes the words
+  // people read is a gate whose broken side nobody notices, and the broken side
+  // would have been the paying customer's.
+  const own = (o) => ({
+    ...o,
+    reinforce: dpList(o.reinforce), job: dpList(o.job), duoJob: dpList(o.duoJob),
+    approach: dpList(o.approach), anchor: depersonalise(o.anchor),
+    fallback: depersonalise(o.fallback), roam: depersonalise(o.roam),
+    randoms: depersonalise(o.randoms), spawn: depersonalise(o.spawn),
+    plant: depersonalise(o.plant), ifStalled: depersonalise(o.ifStalled),
+  })
+  const d = stacked ? own(raw) : own({
     ...raw,
     reinforce: soloList(raw.reinforce, mates[0]),
     job: soloList(raw.job, mates[0]),
@@ -402,7 +628,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
     spawn: soloise(raw.spawn, mates[0]),
     plant: soloise(raw.plant, mates[0]),
     ifStalled: soloise(raw.ifStalled, mates[0]),
-  }
+  })
 
   // The verified data names two picks: his and his partner's. For a trio or
   // bigger, fill the remaining seats from the pick order, skipping anything
@@ -433,7 +659,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
   // Derived from the seats actually assigned above, so it works from the ban
   // chips alone — he should not have to tell us his whole team before the page
   // notices that the plan's breacher is gone.
-  const capState = useMemo(() => {
+  const capState = (() => {
     const held = new Set([...taken, ...seats.map((s) => s.op).filter(Boolean).map((o) => o.toLowerCase())])
     const dead = new Set(); const uncovered = new Set()
     for (const c of teamCapabilities(side, held)) {
@@ -441,7 +667,7 @@ function VerifiedSetup({ setupKey, squad, mates, gone = new Set(), taken = new S
       else if (!c.covered) uncovered.add(c.key)
     }
     return { dead, uncovered }
-  }, [taken, banned, seats, side])
+  })()
 
   return (
     <div className="sx-setup">
@@ -623,7 +849,7 @@ const CONFIRM_LIST = {
   ],
 }
 
-function DraftCard({ mapId, site, side, squad, mates, gone, taken, banned, roster, runs = {}, setRuns = () => {} }) {
+function DraftCard({ mapId, site, side, squad, mates, gone, roster, runs = {}, setRuns = () => {} }) {
   const geo = VERIFIED_CALLOUTS[mapId]
   const rooms = site.name.split(' / ')
   const spawns = (geo?.spawns || []).map((s) => s.name)
@@ -703,7 +929,7 @@ function DraftCard({ mapId, site, side, squad, mates, gone, taken, banned, roste
   )
 }
 
-function GeographyOnly({ mapId, site }) {
+function GeographyOnly({ mapId }) {
   const geo = VERIFIED_CALLOUTS[mapId]
   const callouts = geo ? geo.callouts.slice(0, 14) : []
   return (
@@ -745,6 +971,11 @@ function Unverified() {
 // is not — it comes from his own win rates. Withholding it on unverified sites
 // left the page blank in the exact moment it was needed.
 function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] }) {
+  // Every percentage in PICK_ORDER is Aaron's, off his own Tracker table. A
+  // customer reading "Ash 54%" reasonably assumes it is THEIRS, and plays a
+  // season on someone else's ladder. The ORDER is still defensible general
+  // advice; the numbers behind it are not transferable, so they come off.
+  const isOwner = useIsOwner()
   // "gone" = banned by either team, or already taken by a teammate. Same thing
   // from your seat: you cannot have it, so it must not be the recommendation.
   const list = (PICK_ORDER[side] || []).filter((p) => !gone.has(p.op.toLowerCase()))
@@ -758,10 +989,10 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
   if (yours) { taken.add(yours.op.toLowerCase()); seats.push({ who: 'You', op: yours.op, win: yours.win, sure: true }) }
   for (let i = 0; i < squad - 1; i++) {
     const name = mates[i]
-    // Saved roster first — that is the one HE curated. poolFor() is the built-in
-    // fallback for Jackson, who predates the roster feature.
+    // Saved roster is the only teammate-specific source. We do not ship a
+    // private player's historical pool in the browser bundle.
     const saved = rosterPool(roster, name, side)
-    const own = saved ? { [side]: saved } : poolFor(name)
+    const own = saved ? { [side]: saved } : null
     const pick = own
       ? (own[side] || []).find((op) => !taken.has(op.toLowerCase()) && !gone.has(op.toLowerCase()))
       : (list.find((p) => !taken.has(p.op.toLowerCase())) || {}).op
@@ -782,7 +1013,15 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
           <div className="sx-picks">
             {seats.map((s) => (
               <Seat key={s.who + s.op} who={s.who} op={s.op} side={side}
-                    note={s.win ? `your ${s.win}` : s.sure ? 'from their own pool' : 'best still open'} />
+                    note={
+                      // Your own seat is not "their own pool" — that label is
+                      // for a teammate we hold a saved pool for. With the win
+                      // rate hidden from non-owners the seat fell through to it
+                      // and told the reader his own pick came from someone else.
+                      s.who === 'You'
+                        ? (isOwner && s.win ? `your ${s.win}` : 'highest still open')
+                        : s.sure ? 'from their own pool' : 'best still open'
+                    } />
             ))}
           </div>
           <p className="sx-pickorder-note">
@@ -793,8 +1032,9 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
       )}
       <h4>Full order — {side === 'attack' ? 'attack' : 'defense'}</h4>
       <p className="sx-pickorder-note">
-        Take the highest name that is open and not banned. This comes from your own win rate, so it
-        holds on every map — including the ones with no setup written yet.
+        {isOwner
+          ? 'Take the highest name that is open and not banned. This comes from your own win rate, so it holds on every map — including the ones with no setup written yet.'
+          : 'Take the highest name that is open and not banned. This order is the coach’s, built from tracked ranked play, not from your account — it is a starting point that holds on every map, including the ones with no setup written yet. Link your own tracker and it gets rebuilt around what you actually play.'}
       </p>
       <ol className="sx-picklist">
         {list.map((p) => (
@@ -803,24 +1043,45 @@ function PickOrder({ side, squad = 1, mates = [], gone = new Set(), roster = [] 
             {/* A number earned on a loadout he no longer runs must not be shown
                 as if it were current — that is what kept pushing him onto Vigil
                 while he was struggling with the BOSG. */}
-            <span className={`sx-win${p.staleStat ? ' stale' : ''}`} title={p.staleStat || undefined}>
-              {p.win || 'n/a'}{p.staleStat ? ' ⚠' : ''}
-            </span>
-            <span className="sx-why">{p.why}</span>
-            {p.staleStat && <span className="sx-stale">Stat {p.staleStat}</span>}
+            {isOwner && (
+              <span className={`sx-win${p.staleStat ? ' stale' : ''}`} title={p.staleStat || undefined}>
+                {p.win || 'n/a'}{p.staleStat ? ' ⚠' : ''}
+              </span>
+            )}
+            {/* Eight of the twenty-three rationales are nothing but Aaron's
+                record once the tactical half is taken out, so a customer gets
+                the operator and no reason. That is the honest outcome — an
+                empty line beats a sentence we made up to fill it. */}
+            {(isOwner ? p.why : dpWhy(p.why)) && (
+              <span className="sx-why">{isOwner ? p.why : dpWhy(p.why)}</span>
+            )}
+            {isOwner && p.staleStat && <span className="sx-stale">Stat {p.staleStat}</span>}
           </li>
         ))}
       </ol>
-      <p className="sx-avoid">
-        <span>Not these</span>
-        {AVOID.map((a) => `${a.op} ${a.win}${a.note ? ` (${a.note})` : ''}`).join(' · ')}
-      </p>
+      {/* Owner only, and not merely because of the numbers.
+          AVOID is "operators Aaron personally loses on" — Mute is on it at a
+          0.73 K/D. Mute is one of the strongest defenders in the game. Shown to
+          a customer under the heading "Not these" that is not a redacted stat,
+          it is bad coaching: we would be talking someone off a good operator on
+          the strength of one player's bad season with it. Scrubbing the number
+          off makes it worse, not better, because it removes the only clue that
+          the advice was personal. */}
+      {isOwner && (
+        <p className="sx-avoid">
+          <span>Not these</span>
+          {AVOID.map((a) => `${a.op} ${a.win}${a.note ? ` (${a.note})` : ''}`).join(' · ')}
+        </p>
+      )}
     </div>
   )
 }
 
 export default function SetupsPage() {
   const { plan, isAdmin } = useAuth()
+  const { catalog, loading: catalogLoading, error: catalogError } = useProtectedCatalog()
+  const hasEliteAccess = isAdmin || plan === 'elite' || plan === 'champion'
+  configureSetupCatalog(hasEliteAccess ? catalog : null)
   const [openMap, setOpenMap] = useState('oregon')
   const [openSite, setOpenSite] = useState(null)
   const [openSide, setOpenSide] = useState('attack')
@@ -914,6 +1175,8 @@ export default function SetupsPage() {
           <span className="sx-badge sx-part">{SITE_TALLY.geography} names confirmed</span>
           <span className="sx-badge sx-none">{SITE_TALLY.unverified} not yet</span>
         </div>
+        {hasEliteAccess && catalogLoading && <p className="sx-sub">Loading your verified setup library…</p>}
+        {hasEliteAccess && catalogError && <p className="sx-sub">The protected setup library could not load: {catalogError.message}</p>}
       </header>
 
       <div className="sx-controls">
@@ -1045,7 +1308,7 @@ export default function SetupsPage() {
                       <div className="sx-site-body">
                         <p className="sx-status-blurb">{STATUS[s.status].blurb}</p>
                         {s.status === 'verified' ? (
-                          <ChampionGate label="Champion — verified setups">
+                          <ChampionGate label="Elite — verified setups">
                             <VerifiedSetup setupKey={s.setupKey} squad={squad} mates={mates} gone={gone} taken={taken} banned={banned} runs={runs} setRuns={setRuns}
                                            side={openSide} setSide={setOpenSide} />
                           </ChampionGate>
@@ -1076,8 +1339,8 @@ export default function SetupsPage() {
           and in-world labels are read straight off your own footage, so the room names here are the ones
           the game actually prints — not the ones a guide remembers.
         </p>
-        {!isAdmin && plan !== 'champion' && (
-          <p className="sx-foot-cta">Verified setups are Champion. Everything else on this page is free to browse.</p>
+        {!isAdmin && plan !== 'elite' && plan !== 'champion' && (
+          <p className="sx-foot-cta">Verified setups unlock at Elite. Everything else on this page is free to browse.</p>
         )}
       </footer>
     </div>

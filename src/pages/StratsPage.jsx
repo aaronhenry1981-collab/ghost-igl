@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import MAPS from '../data/maps'
-import STRATS from '../data/strats'
-import BANS from '../data/bans'
-import SQUAD_ROLES from '../data/squadRoles'
-import ENEMY_META from '../data/enemyMeta'
+import PUBLIC_STRATS from '../data/public-strats.generated'
+import PUBLIC_BANS from '../data/public-bans.generated'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameStratsPage from './GameStratsPage'
 import MapSelector from '../components/strats/MapSelector'
@@ -24,6 +22,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useFreeStratLimit } from '../hooks/useFreeStratLimit'
 import SoftPaywall from '../components/strats/SoftPaywall'
 import SeasonCountdown from '../components/SeasonCountdown'
+import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import './StratsPage.css'
 
 const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode'
@@ -87,7 +86,12 @@ function R6StratsPage() {
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const { recents, track } = useRecentStrats()
   const { user, isPro, isAdmin, plan } = useAuth()
-  const isChampion = isAdmin || plan === 'champion'
+  const { catalog, loading: catalogLoading, error: catalogError } = useProtectedCatalog()
+  const isChampion = isAdmin || plan === 'elite' || plan === 'champion'
+  const STRATS = catalog?.strategies || PUBLIC_STRATS
+  const BANS = catalog?.bans || PUBLIC_BANS
+  const squadRoles = catalog?.squad_roles || {}
+  const enemyMeta = catalog?.enemy_meta || {}
   // Free-tier soft paywall: only count views for unauthed users and unsubscribed
   // free users. Pro / Champion / admin get full access without nudging.
   const paywallEnabled = !isPro && !isAdmin
@@ -101,11 +105,11 @@ function R6StratsPage() {
   const mapData = urlMapId ? MAPS.find((m) => m.id === urlMapId) : null
   // Access rules:
   //   - Admins: see everything (testing).
-  //   - Champions: see everything — including comingSoon maps. They get the
+  //   - Elite/Champion: see everything — including comingSoon maps. They get the
   //     full catalog as part of their tier benefit; comingSoon strats show a
   //     friendly "being written" placeholder rather than blocking access.
-  //   - Pro / Free: blocked from comingSoon and championOnly maps.
-  // The useEffect below redirects the URL back to /strats so non-Champions
+  //   - Pro / Free: blocked from comingSoon and legacy championOnly maps.
+  // The useEffect below redirects the URL back to /strats so non-Elite users
   // can't bypass MapSelector by typing a URL.
   // Thin free tier: non-subscribers (free / signed-out) can open ONLY the free
   // SAMPLE maps (freeSample: true) — the rest needs a trial or a paid plan.
@@ -150,17 +154,16 @@ function R6StratsPage() {
 
   const strat = selectedMap && selectedSite && STRATS[selectedMap]?.[selectedSite]?.[side]
   const bans = selectedMap && BANS[selectedMap]
-  const squadGuide = SQUAD_ROLES[side]?.[squadSize]
+  const squadGuide = squadRoles[side]?.[squadSize]
   const enemySide = side === 'attack' ? 'defense' : 'attack'
   const enemyIntel =
-    selectedMap && selectedSite && ENEMY_META[selectedMap]?.[selectedSite]?.[enemySide]
+    selectedMap && selectedSite && enemyMeta[selectedMap]?.[selectedSite]?.[enemySide]
 
   function goMap(mapId) {
     const map = MAPS.find((m) => m.id === mapId)
     if (!map) return
     if (subscriber) {
-      // Admins + Champions bypass comingSoon + championOnly gates.
-      // Pro is still blocked from coming-soon and Champion-only maps.
+      // Admins + Elite/Champion bypass comingSoon + premium-map gates.
       if (!isAdmin && !isChampion) {
         if (map.comingSoon) return
         if (map.championOnly) return
@@ -296,6 +299,15 @@ function R6StratsPage() {
         <SeasonCountdown variant="pill" />
       </div>
 
+      {subscriber && catalogLoading && (
+        <div className="strats-empty">Loading your protected strategy library…</div>
+      )}
+      {subscriber && catalogError && (
+        <div className="strats-empty" role="alert">
+          Your paid strategy library could not be verified. Refresh the page or sign in again; protected intel stays locked when verification fails.
+        </div>
+      )}
+
       {selectedMap && (
         <div className="strats-toolbar">
           <button className="strats-back" onClick={handleBack}>
@@ -341,11 +353,9 @@ function R6StratsPage() {
           <div className="strats-controls">
             <SideToggle side={side} onToggle={changeSide} />
           </div>
-          {bans && (
-            <ProGate label="Ban Recommendations">
-              <BanDisplay bans={bans} side={side} />
-            </ProGate>
-          )}
+          <ProGate label="Ban Recommendations">
+            {bans ? <BanDisplay bans={bans} side={side} /> : <div className="strats-empty">Loading ban intel…</div>}
+          </ProGate>
           <SiteSelector sites={mapData?.sites || []} onSelect={goSite} />
         </>
       )}
@@ -361,11 +371,9 @@ function R6StratsPage() {
           <div className="strats-controls">
             <SideToggle side={side} onToggle={changeSide} />
           </div>
-          {bans && (
-            <ProGate label="Ban Recommendations">
-              <BanDisplay bans={bans} side={side} />
-            </ProGate>
-          )}
+          <ProGate label="Ban Recommendations">
+            {bans ? <BanDisplay bans={bans} side={side} /> : <div className="strats-empty">Loading ban intel…</div>}
+          </ProGate>
           {strat ? (
             // Stadium-mode strats are Pro-only end-to-end. The mode requires
             // build/economy/Power knowledge that maps poorly to a free preview —
@@ -385,7 +393,7 @@ function R6StratsPage() {
                   <>
                     <SquadToggle size={squadSize} onToggle={setSquadSize} />
                     {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
-                    <StratDisplay strat={strat} side={side} gated={false} mapId={selectedMap} />
+                    <StratDisplay strat={strat} side={side} gated={false} mapId={selectedMap} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
                     {enemyIntel && <EnemyIntel intel={enemyIntel} />}
                   </>
                 )}
@@ -403,7 +411,7 @@ function R6StratsPage() {
                   <SquadToggle size={squadSize} onToggle={setSquadSize} />
                   {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
                 </ProGate>
-                <StratDisplay strat={strat} side={side} gated mapId={selectedMap} />
+                <StratDisplay strat={strat} side={side} gated mapId={selectedMap} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
                 {enemyIntel && (
                   <ProGate label="Enemy Intel & Predictions">
                     <EnemyIntel intel={enemyIntel} />

@@ -2,12 +2,8 @@ import { Link, useLocation } from 'react-router-dom'
 import './SignInGate.css'
 
 // Sign-in gate for premium interactive tools (Match Prep, Loadouts).
-// Static SEO pages (/games/<id>/, /games/<id>/loadouts.html, /guides/, etc.)
-// stay public — Google indexes them and they drive traffic. The in-app
-// interactive versions require an account so we can:
-//   1. Track which tools each customer uses (drives retention)
-//   2. Give the auto 7-day Pro trial that ships with every signup
-//   3. Stop competitors from scraping the deep curated picks
+// Static R6 guides stay public. The in-app interactive versions require an
+// account so settings and training progress can be saved per player.
 //
 // Props:
 //   feature  — short label shown in the headline ("Match Prep", "Loadouts")
@@ -36,9 +32,8 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
           Sign in to see your <span style={{ color: accent }}>{feature.toLowerCase()}</span>
         </h1>
         <p className="signin-gate-lead">
-          Free to use — just need an account so we can save your settings,
-          track your active game, and give you the 7-day Pro trial on signup.
-          Takes 30 seconds.
+          Create a free account to save your settings and keep your R6 training
+          progress together. Takes about 30 seconds.
         </p>
 
         {benefits && benefits.length > 0 && (
@@ -62,8 +57,8 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
         </div>
 
         <div className="signin-gate-foot">
-          7-day Pro trial included with every signup. No credit card needed.
-          Cancel anytime.
+          A free account never requires a card. Paid plans show their trial and
+          billing terms before checkout.
         </div>
       </div>
     </div>

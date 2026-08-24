@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status — Recon 6</title>
   <meta name="description" content="Live operational status for Recon 6. Auto-refreshes every 60 seconds." />
-  <link rel="canonical" href="https://r6coaching.com/status.html" />
+  <link rel="canonical" href="https://r6coaching.com/status/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="robots" content="noindex, follow" />
   <style>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="check pending" data-idx="8">
-          <span class="check-name">Stripe checkout (Champion)</span>
+          <span class="check-name">Stripe checkout (Elite)</span>
           <span class="check-pill pill-pending">Checking…</span>
         </div>
     </div>
@@ -113,7 +113,7 @@
   </div>
 
   <script>
-    const CHECKS = [{"name":"Site (CloudFront)","url":"https://r6coaching.com/","expect":200},{"name":"Strats data (cached chunk)","url":"https://r6coaching.com/sitemap.xml","expect":200},{"name":"API: announcements","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements","expect":200},{"name":"API: testimonials","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials","expect":200},{"name":"API: demo-video","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/demo-video","expect":200},{"name":"API: /me (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/me","expect":401},{"name":"API: /admin (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/admin/users","expect":401},{"name":"Stripe checkout (Pro)","url":"https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f","expect":200},{"name":"Stripe checkout (Champion)","url":"https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d","expect":200}];
+    const CHECKS = [{"name":"Site (CloudFront)","url":"https://r6coaching.com/","expect":200},{"name":"Strats data (cached chunk)","url":"https://r6coaching.com/sitemap.xml","expect":200},{"name":"API: announcements","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements","expect":200},{"name":"API: testimonials","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials","expect":200},{"name":"API: demo-video","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/demo-video","expect":200},{"name":"API: /me (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/me","expect":401},{"name":"API: /admin (auth gate)","url":"https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/admin/users","expect":401},{"name":"Stripe checkout (Pro)","url":"https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f","expect":200},{"name":"Stripe checkout (Elite)","url":"https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h","expect":200}];
 
     async function probe(url, expect) {
       try {

@@ -11,14 +11,11 @@
 
 export const SEASON_LABEL = 'Y11S2 · Operation System Override'
 export const NEXT_SEASON_LABEL = 'Y11S3'
-// Evidence (2026-07-25): Ubisoft hasn't announced Y11S3's date, but three
-// independent signals converge on Sep 1: the ~91-day cadence (last three
-// seasons exactly 91 days; Jun 2 + 91 = Sep 1, a Tuesday — Siege's launch
-// day), community season timers counting to Sep 1, and the in-game battle
-// pass timer (38d 13h on Jul 24) landing there. CONFIRMED stays false until
-// Ubisoft posts the date (usually late August) — the UI shows "(expected)".
+// Verified 2026-08-02: Ubisoft's official Siege page lists the Operation
+// System Override Battle Pass as running June 2 through September 1. The
+// exact daily reset hour is still based on the normal update window.
 export const SEASON_END = new Date('2026-09-01T13:00:00Z')
-export const CONFIRMED = false
+export const CONFIRMED = true
 
 export function seasonTimeRemaining(now = Date.now()) {
   const totalMs = SEASON_END.getTime() - now

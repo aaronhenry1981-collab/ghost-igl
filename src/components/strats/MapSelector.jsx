@@ -17,8 +17,8 @@ const MAP_ICONS = {
   'calypso-casino': '🎰',
 }
 
-// Champion-only maps (championOnly: true in maps.js) display a star badge.
-// Non-Champion users get a disabled card with the "Champion Only" label and
+// Premium maps retain the legacy championOnly data flag but now unlock at
+// Elite. Pro/Basic users get a disabled card with the "Elite" label and
 // can't open it; the StratsPage upstream blocks navigation as a safety net.
 //
 // CHAMPION + ADMIN OVERRIDE: Champions and admins bypass both `comingSoon`
@@ -28,7 +28,7 @@ const MAP_ICONS = {
 // hard "Coming Soon" lock free/pro see).
 export default function MapSelector({ maps, onSelect }) {
   const { isAdmin, plan, isPro } = useAuth()
-  const isChampion = isAdmin || plan === 'champion'
+  const isChampion = isAdmin || plan === 'elite' || plan === 'champion'
   const subscriber = isAdmin || isPro // pro / champion / admin
 
   return (
@@ -44,17 +44,17 @@ export default function MapSelector({ maps, onSelect }) {
         // badge upfront so the expectation is set.
         const locked = (!isAdmin && !isChampion && (map.comingSoon || championLocked)) || sampleLocked
         const tierLabel = sampleLocked
-          ? 'Start free trial'
+          ? 'See Pro options'
           : isAdmin && map.comingSoon
           ? 'Admin · Strats coming'
           : isChampion && map.comingSoon
             ? `Strats coming · ${map.sites?.length || 0} sites`
             : isAdmin && map.championOnly
-              ? `Champion · ${map.sites?.length || 0} sites`
+              ? `Elite · ${map.sites?.length || 0} sites`
               : isChampion && map.championOnly
-                ? `Champion · ${map.sites?.length || 0} sites`
+                ? `Elite · ${map.sites?.length || 0} sites`
                 : championLocked
-                  ? 'Champion Only'
+                  ? 'Elite Only'
                   : map.comingSoon
                     ? 'Coming Soon'
                     : isStadium && !isPro
@@ -71,7 +71,7 @@ export default function MapSelector({ maps, onSelect }) {
             disabled={locked}
             aria-label={
               championLocked
-                ? `${map.name} (Champion only)`
+                ? `${map.name} (Elite only)`
                 : map.comingSoon
                   ? `${map.name} (coming soon)`
                   : isStadium && !isPro
@@ -96,7 +96,7 @@ export default function MapSelector({ maps, onSelect }) {
                   letterSpacing: '0.05em',
                 }}
               >
-                {'★'} CHAMP
+                {'★'} ELITE
               </div>
             )}
             {isStadium && !map.championOnly && !isPro && (

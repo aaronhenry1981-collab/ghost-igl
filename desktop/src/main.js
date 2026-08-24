@@ -44,19 +44,24 @@ app.on('window-all-closed', () => {
 })
 
 // ─── License management ───
-function decodeToken(b64) {
+async function verifyLicense(token) {
   try {
-    const json = Buffer.from(b64, 'base64').toString('utf8')
-    return JSON.parse(json)
+    const response = await fetch(`${API_BASE}/desktop/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    })
+    const body = await response.json().catch(() => ({}))
+    if (!response.ok || body.valid !== true) return { valid: false }
+    return { valid: true, payload: { plan: body.plan, expires_at: body.expires_at } }
   } catch {
-    return null
+    return { valid: false, error: 'Recon 6 could not verify this license. Check your connection and try again.' }
   }
 }
 
 async function saveLicense(token) {
   if (!safeStorage.isEncryptionAvailable()) {
-    await fs.writeFile(LICENSE_FILE, token, 'utf8')
-    return
+    throw new Error('Secure license storage is unavailable on this device.')
   }
   const encrypted = safeStorage.encryptString(token)
   await fs.writeFile(LICENSE_FILE, encrypted)
@@ -66,10 +71,9 @@ async function loadLicense() {
   try {
     const data = await fs.readFile(LICENSE_FILE)
     if (safeStorage.isEncryptionAvailable()) {
-      try { return safeStorage.decryptString(data) }
-      catch { return data.toString('utf8') }
+      return safeStorage.decryptString(data)
     }
-    return data.toString('utf8')
+    return null
   } catch {
     return null
   }
@@ -82,21 +86,23 @@ async function clearLicense() {
 ipcMain.handle('license:load', async () => {
   const token = await loadLicense()
   if (!token) return { valid: false }
-  const payload = decodeToken(token)
-  if (!payload) return { valid: false }
-  return { valid: true, token, payload }
+  const result = await verifyLicense(token)
+  if (!result.valid) await clearLicense()
+  return result
 })
 
 ipcMain.handle('license:activate', async (_e, token) => {
-  const payload = decodeToken(token)
-  if (!payload || !payload.user_id || !payload.email) {
-    return { ok: false, error: 'Invalid token format. Copy it again from r6coaching.com/#/activate.' }
+  if (typeof token !== 'string' || token.length < 40 || token.length > 8192) {
+    return { ok: false, error: 'Invalid token. Copy it again from r6coaching.com/#/activate.' }
   }
-  if (payload.plan !== 'champion') {
-    return { ok: false, error: 'This license is not for the Champion plan.' }
+  const result = await verifyLicense(token.trim())
+  if (!result.valid) return { ok: false, error: result.error || 'This license is invalid or no longer active.' }
+  try {
+    await saveLicense(token.trim())
+    return { ok: true, payload: result.payload }
+  } catch (err) {
+    return { ok: false, error: err.message || 'License could not be stored securely.' }
   }
-  await saveLicense(token)
-  return { ok: true, payload }
 })
 
 ipcMain.handle('license:clear', async () => {

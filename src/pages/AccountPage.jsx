@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useSectionNavigate } from '../utils/sectionLink'
+import { AI_USAGE_PACK_AMOUNT, AI_USAGE_PACK_CREDITS } from '../config/stripe'
 import './AccountPage.css'
 
 const PLATFORMS = ['PC', 'Xbox', 'PlayStation']
@@ -10,7 +11,7 @@ const SERVERS = ['US East', 'US Central', 'US West', 'EU', 'SEA', 'OCE', 'LATAM'
 const ROLES = ['IGL', 'Entry', 'Support', 'Anchor', 'Roamer', 'Flex']
 
 export default function AccountPage() {
-  const { user, plan: authPlan, isAdmin, vodUsage, loading: authLoading, signOut } = useAuth()
+  const { user, plan: authPlan, isPro, isAdmin, vodUsage, loading: authLoading, signOut } = useAuth()
   const navigate = useNavigate()
   const goToPricing = useSectionNavigate('pricing')
   const [me, setMe] = useState(null)
@@ -24,6 +25,7 @@ export default function AccountPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [portalLoading, setPortalLoading] = useState(false)
+  const [usageCheckoutLoading, setUsageCheckoutLoading] = useState(false)
   const [notice, setNotice] = useState(null)
   const [error, setError] = useState(null)
 
@@ -95,6 +97,18 @@ export default function AccountPage() {
     } catch (err) {
       setError(err.message)
       setPortalLoading(false)
+    }
+  }
+
+  async function buyUsagePack() {
+    setUsageCheckoutLoading(true)
+    setError(null)
+    try {
+      const res = await authedFetch('/me/billing-portal', { method: 'POST', body: JSON.stringify({ action: 'usage_pack' }) })
+      window.location.href = res.url
+    } catch (err) {
+      setError(err.message)
+      setUsageCheckoutLoading(false)
     }
   }
 
@@ -205,6 +219,19 @@ export default function AccountPage() {
                 Trial allowance is <strong>3 lifetime sessions</strong> — enough to test the AI on real matches. Subscribe to Pro for 20 sessions per month.
               </p>
             )}
+            {!vodUsage.is_trial && (
+              <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <div>
+                  <strong>{me?.ai_usage?.purchased_credits || 0} prepaid AI credits</strong>
+                  <div style={{ fontSize: '0.82rem', color: 'rgba(230,233,239,0.65)', marginTop: 3 }}>
+                    Monthly usage is used first. A VOD review uses 5 prepaid credits only after the monthly allowance is gone.
+                  </div>
+                </div>
+                <button type="button" className="btn btn-outline btn-sm" onClick={buyUsagePack} disabled={usageCheckoutLoading}>
+                  {usageCheckoutLoading ? 'Opening…' : `Buy ${AI_USAGE_PACK_CREDITS} credits — $${AI_USAGE_PACK_AMOUNT}`}
+                </button>
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -292,8 +319,9 @@ export default function AccountPage() {
           <AccessItem enabled allow="Map strats, operator picks, community access" />
           <AccessItem enabled={isPaid || isAdmin} allow="Ban targets and pick recommendations matched to your role and rank" note="Pro+" />
           <AccessItem enabled={isPaid || isAdmin} allow="Round-by-round VOD breakdowns from your screenshots" note="Pro+" />
-          <AccessItem enabled={plan === 'champion' || isAdmin} allow="Recon 6 Command desktop app (live capture coaching)" note="Champion" />
-          <AccessItem enabled={plan === 'champion' || isAdmin} allow="Real-time 5-stack team sessions + voice callouts" note="Champion" />
+          <AccessItem enabled={isPro || isAdmin} allow="Recon 6 Command desktop coach for Windows" note="Pro+" />
+          <AccessItem enabled={plan === 'elite' || plan === 'champion' || isAdmin} allow="Champion-level strategies, premium tactics, and 10-image VOD sessions" note="Elite+" />
+          <AccessItem enabled={plan === 'champion' || isAdmin} allow="Two live 1:1 coaching sessions with Aaron each month" note="Champion" />
         </ul>
         {!isPaid && !isAdmin && (
           <div className="account-upgrade-cta">

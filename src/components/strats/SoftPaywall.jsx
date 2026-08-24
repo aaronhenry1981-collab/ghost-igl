@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   PRO_CHECKOUT_LINK,
-  CHAMPION_CHECKOUT_LINK,
+  ELITE_CHECKOUT_LINK,
   PRO_CURRENT_AMOUNT,
-  CHAMPION_CURRENT_AMOUNT,
+  ELITE_CURRENT_AMOUNT,
   PRO_REGULAR_AMOUNT,
 } from '../../config/stripe'
 import { isFoundingOpen, FOUNDING_END_SHORT } from '../../config/founding'
@@ -137,14 +137,14 @@ export default function SoftPaywall({ open, viewCount, onDismiss, isAuthed }) {
             Lock in Pro — ${PRO_CURRENT_AMOUNT}/mo
           </a>
           <a
-            href={CHAMPION_CHECKOUT_LINK}
+            href={ELITE_CHECKOUT_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => track('Pricing CTA Click', { tier: 'champion', location: 'softpaywall' })}
+            onClick={() => track('Pricing CTA Click', { tier: 'elite', location: 'softpaywall' })}
             className="btn btn-outline"
             style={{ flex: '1 1 auto', minWidth: 200, textAlign: 'center', borderColor: 'rgba(0,229,255,0.5)', color: '#00e5ff' }}
           >
-            Champion — ${CHAMPION_CURRENT_AMOUNT}/mo
+            Elite — ${ELITE_CURRENT_AMOUNT}/mo
           </a>
         </div>
 

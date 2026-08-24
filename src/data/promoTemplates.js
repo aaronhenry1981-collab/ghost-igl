@@ -4,10 +4,10 @@
 // a seed and returns { channel, subject, body, whyItWorks, cta }.
 
 import MAPS from './maps'
-import STRATS from './strats'
+import STRATS from './public-strats.generated'
 import OPERATORS from './operators'
 import META from './meta'
-import BANS from './bans'
+import BANS from './public-bans.generated'
 
 const SITE_URL = 'https://r6coaching.com'
 

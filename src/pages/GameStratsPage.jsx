@@ -182,7 +182,7 @@ export default function GameStratsPage() {
   const { data, loading, error, gameMeta } = useGameData()
   const { plan, isAdmin, isPro } = useAuth()
   const goToPricing = useSectionNavigate('pricing')
-  const isChampion = isAdmin || plan === 'champion'
+  const isChampion = isAdmin || plan === 'elite' || plan === 'champion'
   // Pro+: gates Stadium-mode strats (OW2 Stadium = Pro-only feature).
   // Admin always bypasses; Champion is a superset of Pro so they pass too.
   const hasProAccess = isAdmin || isPro || isChampion

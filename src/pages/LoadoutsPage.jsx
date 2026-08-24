@@ -106,7 +106,7 @@ export default function LoadoutsPage() {
 
   // Gate behind sign-in. Static SEO pages at /games/<id>/loadouts.html stay
   // public for Google indexing; the interactive in-app tool requires an
-  // account so we can save settings, drive the 7-day Pro trial, and keep
+  // account so we can save settings and keep
   // competitors from scraping the full curated picks.
   if (!authLoading && !user) {
     return <SignInGate
@@ -115,7 +115,7 @@ export default function LoadoutsPage() {
       benefits={[
         'Real weapon priorities, ability combos, and team-comp picks',
         'Switches with your active game — all 20 supported games covered',
-        '7-day Pro trial on signup — VOD breakdowns, ban intel, opponent reads',
+        'Free account for saved settings; paid plans show their trial terms before checkout',
       ]}
     />
   }

@@ -21,19 +21,20 @@ import { GameProvider } from '../hooks/useActiveGame'
 export default function Layout() {
   const location = useLocation()
   const isLanding = location.pathname === '/'
+  const isAdmin = location.pathname.startsWith('/admin')
 
   return (
     <ErrorBoundary>
       <GameProvider>
-        <FoundingTopBanner />
+        {isLanding && <FoundingTopBanner />}
         <AnnouncementBanner />
         <Navbar />
         <main className="app-main">
           <Outlet />
         </main>
-        <Footer />
-        <WelcomeModal />
-        <ProfileSetupModal />
+        {!isAdmin && <Footer />}
+        {!isAdmin && <WelcomeModal />}
+        {!isAdmin && <ProfileSetupModal />}
         {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
             game to pick. Component kept in tree (see GameSwitcher note). */}
         <ReferralAttributor />

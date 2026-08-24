@@ -16,14 +16,15 @@
 // Response: see RESPONSE_SCHEMA below.
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, PutCommand, QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
 import { createHash, randomUUID } from 'node:crypto'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from './coach-contract.mjs'
+import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRolloverReserveUpdate, validateAnalysis } from './coach-contract.mjs'
+import { normalizeRankSnapshot, RANK_SNAPSHOT_SCHEMA } from './rank-snapshot.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -81,11 +82,15 @@ const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'us-east-1' })
 
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
+const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const MODEL_ID = process.env.VOD_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0'
+const BUDGET_MODEL_ID = process.env.VOD_READER_MODEL_ID || 'us.anthropic.claude-haiku-4-5-20251001-v1:0'
+const VOD_AI_ENABLED = !['0', 'false', 'off', 'no'].includes(String(process.env.VOD_AI_ENABLED || '1').toLowerCase())
+const VOD_ADMIN_DAILY_LIMIT = Math.max(1, parseInt(process.env.VOD_ADMIN_DAILY_LIMIT || '3', 10))
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5MB decoded per image
 const MAX_IMAGES_PER_SESSION = 10
 const PRO_MAX_IMAGES = 5    // Pro tier: up to 5 images per session
-const CHAMPION_MAX_IMAGES = 10  // Champion tier: up to 10 images per session
+const ELITE_MAX_IMAGES = 10  // Elite/Champion: up to 10 images per session
 
 // Per-tier session caps. Caps prevent Bedrock cost blowouts on trial abuse
 // and on heavy paying-user runs (one Pro at $9/mo running 500 sessions a
@@ -97,20 +102,42 @@ const CHAMPION_MAX_IMAGES = 10  // Champion tier: up to 10 images per session
 // Paid users: monthly cap, rolls every 30 days from period_start_at.
 //   Pro single ($9):  20 sessions → ~$2 worst-case Bedrock vs $7+ margin
 //   Pro all ($19):    30 sessions → ~$3 worst-case vs $16+ margin
-//   Champ single ($29): 60 sessions → ~$6 worst-case vs $23+ margin
+//   Elite single ($39): 60 sessions → ~$6 worst-case vs $33+ margin
 //   Champ all ($49):   75 sessions → ~$7.50 worst-case vs $41+ margin
 //
 // All limits are env-configurable so they can be tuned without redeploy.
 const VOD_TRIAL_LIMIT = parseInt(process.env.VOD_TRIAL_LIMIT || '3', 10)
 const VOD_PRO_LIMIT = parseInt(process.env.VOD_PRO_LIMIT || '20', 10)
 const VOD_PRO_ALL_LIMIT = parseInt(process.env.VOD_PRO_ALL_LIMIT || '30', 10)
-const VOD_CHAMPION_LIMIT = parseInt(process.env.VOD_CHAMPION_LIMIT || '60', 10)
-const VOD_CHAMPION_ALL_LIMIT = parseInt(process.env.VOD_CHAMPION_ALL_LIMIT || '75', 10)
+const VOD_ELITE_LIMIT = parseInt(process.env.VOD_ELITE_LIMIT || '60', 10)
+const VOD_ELITE_ALL_LIMIT = parseInt(process.env.VOD_ELITE_ALL_LIMIT || '75', 10)
+const VOD_CHAMPION_LIMIT = parseInt(process.env.VOD_CHAMPION_LIMIT || '75', 10)
+const VOD_CHAMPION_ALL_LIMIT = parseInt(process.env.VOD_CHAMPION_ALL_LIMIT || '90', 10)
+const VOD_PURCHASED_CREDIT_COST = parseInt(process.env.VOD_PURCHASED_CREDIT_COST || '5', 10)
 const VOD_PERIOD_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
+const LEGACY_ELITE_PRICE_IDS = new Set([
+  process.env.STRIPE_CHAMPION_PRICE_ID,
+  process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID,
+  process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID,
+  'price_1TLEtsJNddvjgWcgYcmiNmW7',
+  'price_1TPtOYJNddvjgWcgfEWjzGnp',
+  'price_1TVUd0JNddvjgWcgIPWakA3S',
+  'price_1TVUd6JNddvjgWcgc3csHICD',
+].filter(Boolean))
+
+function effectivePlan(sub) {
+  if (!sub) return 'free'
+  return LEGACY_ELITE_PRICE_IDS.has(sub.price_id) ? 'elite' : sub.plan || 'free'
+}
 
 function getMonthlyLimit(plan, tierScope) {
   if (plan === 'champion') {
     return tierScope === 'all_access' ? VOD_CHAMPION_ALL_LIMIT : VOD_CHAMPION_LIMIT
+  }
+  if (plan === 'elite') {
+    return tierScope === 'all_access' ? VOD_ELITE_ALL_LIMIT : VOD_ELITE_LIMIT
   }
   if (plan === 'pro') {
     return tierScope === 'all_access' ? VOD_PRO_ALL_LIMIT : VOD_PRO_LIMIT
@@ -323,10 +350,22 @@ export async function handler(event) {
   }
 
   const email = payload.email?.toLowerCase()
+  if (!email || payload.email_verified !== true) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Verified email required' }) }
+  }
   const groups = payload['cognito:groups'] || []
   const isAdmin = Array.isArray(groups) && groups.includes('admins')
 
-  // Subscription gate + session-usage cap. Admins bypass everything.
+  if (!VOD_AI_ENABLED) {
+    return {
+      statusCode: 503,
+      headers: { ...headers, 'Retry-After': '3600' },
+      body: JSON.stringify({ error: 'ai_temporarily_disabled', message: 'AI review is temporarily paused by the cost safeguard.' }),
+    }
+  }
+
+  // Subscription gate + session-usage cap. Admins keep access, but no longer
+  // bypass the daily cost firewall.
   //
   // Trial users are capped at VOD_TRIAL_LIMIT lifetime sessions to prevent
   // multi-account trial abuse from burning Bedrock credits. Paid users are
@@ -340,11 +379,12 @@ export async function handler(event) {
   if (isAdmin) {
     tier = 'champion'
   } else {
-    activeSub = await getActiveSub(email)
+    activeSub = await getActiveSub(email, payload.sub)
+    const activePlan = effectivePlan(activeSub)
     if (activeSub && (activeSub.status === 'active' || activeSub.status === 'trialing')
-        && (activeSub.plan === 'pro' || activeSub.plan === 'champion')) {
-      tier = activeSub.plan
-      tierScope = activeSub.tier_scope || (activeSub.plan === 'champion' ? 'all_access' : 'single')
+        && ['pro', 'elite', 'champion'].includes(activePlan)) {
+      tier = activePlan
+      tierScope = activeSub.tier_scope || 'single'
       // DELIBERATE: `trial` is the no-card 3-session-lifetime trial flag. A
       // Stripe 'trialing' row has a card on file and auto-bills, so it gets the
       // normal PAID cap (Pro 20/mo ≈ $2 worst-case Bedrock against $9 revenue).
@@ -355,29 +395,38 @@ export async function handler(event) {
       return {
         statusCode: 402,
         headers,
-        body: JSON.stringify({ error: 'pro_required', message: 'VOD review requires Pro or Champion.' }),
+        body: JSON.stringify({ error: 'pro_required', message: 'VOD review requires a paid Recon 6 membership.' }),
       }
     }
   }
 
-  // Enforce usage cap before we hit Bedrock. Non-admins only — admins bypass.
+  // Enforce usage cap before we hit Bedrock.
   let usageMeta = null
+  let usePurchasedUsage = false
+  let purchasedCredits = 0
   if (!isAdmin && activeSub) {
     const usage = computeUsage(activeSub, tier, tierScope, isTrial)
     if (usage.remaining <= 0) {
-      return {
-        statusCode: 429,
-        headers,
-        body: JSON.stringify({
-          error: 'usage_limit_exceeded',
-          message: usage.message,
-          used: usage.used,
-          limit: usage.limit,
-          is_trial: isTrial,
-          period_end: usage.periodEnd,
-          upgrade_url: 'https://r6coaching.com/#pricing',
-        }),
+      purchasedCredits = await getPurchasedCredits(email)
+      if (isTrial || purchasedCredits < VOD_PURCHASED_CREDIT_COST) {
+        return {
+          statusCode: 429,
+          headers,
+          body: JSON.stringify({
+            error: 'usage_limit_exceeded',
+            message: usage.message,
+            used: usage.used,
+            limit: usage.limit,
+            purchased_credits: purchasedCredits,
+            purchased_credit_cost: VOD_PURCHASED_CREDIT_COST,
+            is_trial: isTrial,
+            period_end: usage.periodEnd,
+            upgrade_url: 'https://r6coaching.com/#pricing',
+            usage_url: 'https://r6coaching.com/#/account',
+          }),
+        }
       }
+      usePurchasedUsage = true
     }
     usageMeta = usage
   }
@@ -393,13 +442,10 @@ export async function handler(event) {
     (body.game_id && String(body.game_id).toLowerCase()) ||
     (body.context && body.context.game_id && String(body.context.game_id).toLowerCase()) ||
     'r6'
-  const gameId = CONTEXTS_BY_GAME[requestedGame] ? requestedGame : 'r6'
-
-  // Tier-scope check: 'single' tier_scope users can only review their active
-  // game. For now we don't know which game they bought without more data, so
-  // we just allow any game the contexts file knows about — the active-game
-  // gate is enforced client-side. Champion/all-access bypass any check.
-  // (Future: bind subs.active_game_id and reject mismatches here.)
+  if (requestedGame !== 'r6' || !CONTEXTS_BY_GAME[requestedGame]) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'game_not_entitled', message: 'This Recon 6 membership only covers Rainbow Six Siege.' }) }
+  }
+  const gameId = 'r6'
 
   let images = body.images
   if (!images && body.image_base64) {
@@ -408,7 +454,11 @@ export async function handler(event) {
   if (!Array.isArray(images) || images.length === 0) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'images array required (1-10 items)' }) }
   }
-  const maxImages = tier === 'champion' ? CHAMPION_MAX_IMAGES : PRO_MAX_IMAGES
+  const analysisType = body.analysis_type === 'rank_snapshot' ? 'rank_snapshot' : 'vod_review'
+  if (analysisType === 'rank_snapshot' && (gameId !== 'r6' || images.length !== 1)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Rank import requires exactly one Rainbow Six screenshot.' }) }
+  }
+  const maxImages = tier === 'pro' ? PRO_MAX_IMAGES : ELITE_MAX_IMAGES
   if (images.length > maxImages) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: `Max ${maxImages} images per session on ${tier} tier — got ${images.length}` }) }
   }
@@ -431,12 +481,37 @@ export async function handler(event) {
   // Atomically reserve this session BEFORE calling Bedrock. We do the reserve
   // first because Bedrock charges us regardless of whether we can later track
   // it — if the DDB increment fails, we shouldn't have made the model call.
-  // Admins skip — they're allowed unlimited.
-  let sessionReserved = false
-  if (!isAdmin && activeSub) {
+  // Admins reserve from a small daily test allowance; customer sessions keep
+  // their existing paid/trial allowance and purchased-credit behavior.
+  if (isAdmin) {
     try {
-      await reserveSession(activeSub, isTrial, usageMeta)
-      sessionReserved = true
+      await reserveAdminUsage(email)
+    } catch (err) {
+      if (err?.name === 'ConditionalCheckFailedException') {
+        return {
+          statusCode: 429,
+          headers: { ...headers, 'Retry-After': '3600' },
+          body: JSON.stringify({
+            error: 'admin_daily_limit_reached',
+            message: `Owner testing is limited to ${VOD_ADMIN_DAILY_LIMIT} AI reviews per day by the cost safeguard.`,
+            limit: VOD_ADMIN_DAILY_LIMIT,
+          }),
+        }
+      }
+      console.error('reserveAdminUsage failed; blocking paid model call:', err)
+      return {
+        statusCode: 503,
+        headers: { ...headers, 'Retry-After': '30' },
+        body: JSON.stringify({ error: 'usage_reservation_unavailable', message: 'AI usage could not be reserved safely. Nothing was charged.' }),
+      }
+    }
+  } else if (activeSub) {
+    try {
+      if (usePurchasedUsage) {
+        await reservePurchasedUsage(email)
+      } else {
+        await reserveSession(activeSub, isTrial, usageMeta)
+      }
     } catch (err) {
       if (err?.name === 'ConditionalCheckFailedException') {
         // Race: another concurrent request pushed us over the limit between
@@ -452,18 +527,35 @@ export async function handler(event) {
             limit: usage.limit,
             is_trial: isTrial,
             period_end: usage.periodEnd,
+            purchased_credits: Math.max(0, purchasedCredits),
             upgrade_url: 'https://r6coaching.com/#pricing',
+            usage_url: 'https://r6coaching.com/#/account',
           }),
         }
       }
-      // Don't fail the request on a DDB hiccup — log and proceed. Better to
-      // serve one over-quota session than to break a paying user's review.
-      console.error('reserveSession failed (non-fatal):', err)
+      // Fail closed: if we cannot prove that this request owns usage, do not
+      // contact Bedrock. A temporary retry is safer than an unmetered AI bill.
+      console.error('reserveSession failed; blocking paid model call:', err)
+      return {
+        statusCode: 503,
+        headers: { ...headers, 'Retry-After': '30' },
+        body: JSON.stringify({
+          error: 'usage_reservation_unavailable',
+          message: 'We could not reserve AI usage safely. Nothing was charged or used. Please try again in a moment.',
+        }),
+      }
     }
   }
 
   try {
-    const analysis = await callBedrock(gameId, images, userContext, tier)
+    const analysis = analysisType === 'rank_snapshot'
+      ? { analysis_type: analysisType, snapshot: await callRankSnapshot(images[0]) }
+      : await callBedrock(gameId, images, userContext, tier)
+    if (analysisType === 'rank_snapshot' && !analysis.snapshot) {
+      const err = new Error('No exact Rainbow Six rank could be verified from the visible screenshot.')
+      err.name = 'RankSnapshotError'
+      throw err
+    }
     // KNOWLEDGE-BASE CAPTURE (2026-07-23). Every delivered review is the future
     // knowledge base — the archive has to fill from review #1 or the RAG layer
     // starts from zero when it's finally built. Anonymized: the email is stored
@@ -482,7 +574,7 @@ export async function handler(event) {
           images_count: images.length,
           user_context: String(userContext || '').slice(0, 1000),
           analysis,
-          source: 'vod-api',
+          source: analysisType === 'rank_snapshot' ? 'rank-snapshot' : 'vod-api',
         },
       }))
     } catch (archiveErr) {
@@ -491,28 +583,32 @@ export async function handler(event) {
     // Compute the updated usage AFTER reservation so the response can show
     // the user their remaining count without an extra round-trip.
     const responseUsage = !isAdmin && activeSub
-      ? { used: (usageMeta?.used || 0) + 1, limit: usageMeta?.limit || 0, remaining: Math.max(0, (usageMeta?.limit || 0) - (usageMeta?.used || 0) - 1), is_trial: isTrial, period_end: usageMeta?.periodEnd || null }
+      ? {
+          used: usePurchasedUsage ? (usageMeta?.used || 0) : (usageMeta?.used || 0) + 1,
+          limit: usageMeta?.limit || 0,
+          remaining: usePurchasedUsage ? 0 : Math.max(0, (usageMeta?.limit || 0) - (usageMeta?.used || 0) - 1),
+          purchased_credits: usePurchasedUsage ? Math.max(0, purchasedCredits - VOD_PURCHASED_CREDIT_COST) : purchasedCredits,
+          is_trial: isTrial,
+          period_end: usageMeta?.periodEnd || null,
+        }
       : null
     return { statusCode: 200, headers, body: JSON.stringify({ ...analysis, tier, game_id: gameId, usage: responseUsage }) }
   } catch (err) {
     console.error('Bedrock error:', err)
-    if (sessionReserved) {
-      try {
-        await refundReservedSession(activeSub, isTrial)
-      } catch (refundError) {
-        // Never hide the original failure. A failed compensation is an
-        // operational alert, and the conditional decrement prevents a count
-        // from going below zero.
-        console.error('refundReservedSession failed:', refundError)
-      }
-    }
+    // Usage is intentionally not refunded after model invocation starts.
+    // Bedrock bills the request even when its output is malformed or the
+    // provider throttles mid-flight; refunding here enabled unlimited paid
+    // inference retries against our AWS account.
     const errName = err.name || ''
     const msg = String(err.message || '')
     let code = 'analysis_failed'
     let status = 502
     let friendly = msg || 'Upstream model error'
 
-    if (errName === 'ThrottlingException' || /throttl|too many tokens/i.test(msg)) {
+    if (errName === 'RankSnapshotError') {
+      code = 'rank_not_verified'; status = 422
+      friendly = 'No exact current Rainbow Six rank was readable. Upload a clearer overview image with the rank text visible.'
+    } else if (errName === 'ThrottlingException' || /throttl|too many tokens/i.test(msg)) {
       code = 'quota_throttled'; status = 503
       friendly = 'VOD analysis is temporarily rate-limited. Try again in a few minutes.'
     } else if (errName === 'AccessDeniedException' || /not authorized/i.test(msg)) {
@@ -526,23 +622,64 @@ export async function handler(event) {
   }
 }
 
-async function getActiveSub(email) {
+async function getActiveSub(email, subject) {
   if (!email) return null
   const r = await ddb.send(new QueryCommand({
     TableName: SUBS_TABLE, IndexName: 'email-index',
     KeyConditionExpression: 'email = :email',
     ExpressionAttributeValues: { ':email': email },
   }))
-  const items = r.Items || []
+  const items = []
+  for (const row of r.Items || []) {
+    if (row.cognito_sub && row.cognito_sub !== subject) continue
+    if (!row.cognito_sub && subject) {
+      try {
+        await ddb.send(new UpdateCommand({
+          TableName: SUBS_TABLE,
+          Key: { stripe_customer_id: row.stripe_customer_id },
+          ConditionExpression: 'attribute_not_exists(cognito_sub)',
+          UpdateExpression: 'SET cognito_sub = :subject, identity_bound_at = :now',
+          ExpressionAttributeValues: { ':subject': subject, ':now': new Date().toISOString() },
+        }))
+        row.cognito_sub = subject
+      } catch (err) {
+        if (err.name !== 'ConditionalCheckFailedException') throw err
+        const current = await ddb.send(new GetCommand({
+          TableName: SUBS_TABLE,
+          Key: { stripe_customer_id: row.stripe_customer_id },
+        }))
+        if (current.Item?.cognito_sub !== subject) continue
+        Object.assign(row, current.Item)
+      }
+    }
+    items.push(row)
+  }
   // Stripe 'trialing' subscribers are paying customers in waiting: card on
   // file, auto-converts at period end. Excluding them meant /me reported pro,
   // the UI unlocked the upload zone, and this API returned 402 — so NO
   // subscriber had ever completed a VOD analysis (no row has ever carried
   // vod_lifetime_used, and invocations were flat at the keep-warm rate).
-  // Prefer a fully active row when one exists, otherwise accept trialing.
-  return items.find((s) => s.status === 'active')
-    || items.find((s) => s.status === 'trialing')
-    || null
+  //
+  // Rank by PLAN first, not by status. One email can hold several live rows
+  // (every Checkout mints a new customer id = a new partition key) and
+  // `email-index` is HASH-only, so the order is arbitrary. Preferring 'active'
+  // over 'trialing' quietly meant an older active Pro row beat the Champion
+  // trial the customer had just paid for — the same defect that had a real
+  // subscriber re-buying Champion four times on 2026-07-29 and still being shown
+  // Pro. VOD quota is tiered, so picking the wrong row shortchanges him twice.
+  const RANK = { champion: 4, elite: 3, pro: 2, free: 1 }
+  const now = Date.now()
+  const live = items.filter((s) => {
+    if (s.status !== 'active' && s.status !== 'trialing') return false
+    const paidThrough = Date.parse(s.current_period_end || '')
+    return Number.isFinite(paidThrough) && paidThrough > now
+  })
+  if (!live.length) return null
+  return live.slice().sort((a, b) => (RANK[effectivePlan(b)] || 0) - (RANK[effectivePlan(a)] || 0)
+    // Same tier: an 'active' row (already converted) outranks one still trialing,
+    // then the furthest paid-through date wins.
+    || (a.status === b.status ? 0 : a.status === 'active' ? -1 : 1)
+    || String(b.current_period_end || '').localeCompare(String(a.current_period_end || '')))[0]
 }
 
 // Returns { used, limit, remaining, periodEnd, message, isExpired }.
@@ -576,7 +713,7 @@ function computeUsage(sub, tier, tierScope, isTrial) {
     isExpired: periodExpired,
     message: remaining > 0
       ? `${remaining} of ${limit} VOD sessions left this month.`
-      : `You've used all ${limit} VOD sessions for this billing period. ${tier === 'pro' ? 'Upgrade to Champion for ' + VOD_CHAMPION_LIMIT + '/month, ' : ''}or wait until your next period.`,
+      : `You've used all ${limit} VOD sessions for this billing period. ${tier === 'pro' ? 'Upgrade to Elite for ' + VOD_ELITE_LIMIT + '/month, ' : ''}buy prepaid usage, or wait until your next period.`,
   }
 }
 
@@ -629,10 +766,57 @@ async function reserveSession(sub, isTrial, usageMeta) {
   }))
 }
 
-// Compensating atomic update for requests where the upstream model failed or
-// returned unusable output. Customers only spend a session on a valid result.
-async function refundReservedSession(sub, isTrial) {
-  return ddb.send(new UpdateCommand(buildRefundUpdate(sub, isTrial, SUBS_TABLE)))
+async function getPurchasedCredits(email) {
+  const r = await ddb.send(new GetCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    ProjectionExpression: 'ai_usage_credits',
+  }))
+  return Math.max(0, Number(r.Item?.ai_usage_credits || 0))
+}
+
+async function reservePurchasedUsage(email) {
+  return ddb.send(new UpdateCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    UpdateExpression: 'SET ai_usage_credits = ai_usage_credits - :cost, updated_at = :now',
+    ConditionExpression: 'attribute_exists(ai_usage_credits) AND ai_usage_credits >= :cost',
+    ExpressionAttributeValues: { ':cost': VOD_PURCHASED_CREDIT_COST, ':now': new Date().toISOString() },
+  }))
+}
+
+async function reserveAdminUsage(email) {
+  const day = new Date().toISOString().slice(0, 10)
+  const current = await ddb.send(new GetCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    ProjectionExpression: 'vod_admin_usage_day, vod_admin_usage_count',
+  }))
+  const sameDay = current.Item?.vod_admin_usage_day === day
+  const used = sameDay ? Math.max(0, Number(current.Item?.vod_admin_usage_count || 0)) : 0
+  if (used >= VOD_ADMIN_DAILY_LIMIT) {
+    const err = new Error('Owner daily VOD limit reached')
+    err.name = 'ConditionalCheckFailedException'
+    throw err
+  }
+
+  const names = { '#day': 'vod_admin_usage_day', '#count': 'vod_admin_usage_count' }
+  const values = { ':day': day, ':next': used + 1 }
+  let condition
+  if (sameDay) {
+    condition = '#day = :day AND (attribute_not_exists(#count) OR #count = :expected)'
+    values[':expected'] = used
+  } else {
+    condition = 'attribute_not_exists(#day) OR #day <> :day'
+  }
+  return ddb.send(new UpdateCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    UpdateExpression: 'SET #day = :day, #count = :next',
+    ConditionExpression: condition,
+    ExpressionAttributeNames: names,
+    ExpressionAttributeValues: values,
+  }))
 }
 
 async function callBedrock(gameId, images, userContext, tier) {
@@ -659,7 +843,7 @@ async function callBedrock(gameId, images, userContext, tier) {
 
   const input = {
     anthropic_version: 'bedrock-2023-05-31',
-    max_tokens: tier === 'champion' ? 3500 : 2200,
+    max_tokens: tier === 'pro' ? 1400 : 2400,
     temperature: 0.2,
     system: buildSystemPrompt(gameId, userContext),
     messages: [{ role: 'user', content }],
@@ -674,12 +858,12 @@ async function callBedrock(gameId, images, userContext, tier) {
   // data to the UI. It receives no images or secrets, only the model output.
   const repairInput = {
     anthropic_version: 'bedrock-2023-05-31',
-    max_tokens: tier === 'champion' ? 3500 : 2200,
+    max_tokens: tier === 'pro' ? 1400 : 2400,
     temperature: 0,
     system: `Repair the candidate into strict JSON matching this schema. Preserve supported observations; do not add facts. Return JSON only.\n${RESPONSE_SCHEMA}`,
     messages: [{ role: 'user', content: [{ type: 'text', text: `Validation errors:\n- ${validationErrors.join('\n- ')}\n\nCandidate:\n${text.slice(0, 14000)}` }] }],
   }
-  const repairedText = await invokeModel(repairInput)
+  const repairedText = await invokeModel(repairInput, BUDGET_MODEL_ID)
   parsed = parseModelJson(repairedText)
   validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['repair was not valid JSON']
   if (validationErrors.length) {
@@ -690,9 +874,24 @@ async function callBedrock(gameId, images, userContext, tier) {
   return parsed
 }
 
-async function invokeModel(input) {
+async function callRankSnapshot(image) {
+  const input = {
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: 650,
+    temperature: 0,
+    system: `Read a Rainbow Six Siege rank/stat overview screenshot. This is evidence extraction, not coaching. Read only text and numbers visibly present. Never infer a rank from colors, emblems, prior seasons, username history, or model memory. Use null for every unreadable field. Rank must be one exact Ranked 3.0 division from Copper V through Champion I. Confidence must measure legibility of the exact rank text. Return strict JSON only matching:\n${RANK_SNAPSHOT_SCHEMA}`,
+    messages: [{ role: 'user', content: [
+      { type: 'image', source: { type: 'base64', media_type: image.media_type, data: image.base64 } },
+      { type: 'text', text: 'Extract the exact current visible rank and any visible RP, K/D, win rate, match, win, loss, season, and platform fields. JSON only.' },
+    ] }],
+  }
+  const text = await invokeModel(input, BUDGET_MODEL_ID)
+  return normalizeRankSnapshot(parseModelJson(text))
+}
+
+async function invokeModel(input, modelId = MODEL_ID) {
   const resp = await bedrock.send(new InvokeModelCommand({
-    modelId: MODEL_ID,
+    modelId,
     contentType: 'application/json',
     accept: 'application/json',
     body: JSON.stringify(input),

@@ -149,6 +149,7 @@ export default function TestimonialBuilder() {
             >
               <option value="">No badge</option>
               <option value="pro">Pro subscriber</option>
+              <option value="elite">Elite subscriber</option>
               <option value="champion">Champion subscriber</option>
             </select>
           </label>
@@ -185,6 +186,7 @@ export default function TestimonialBuilder() {
                   <strong>{t.name}</strong>
                   {t.featured && <span className="testi-row-rank" style={{ background: 'rgba(255,155,92,0.2)', color: '#ff9b5c' }}>★ Featured</span>}
                   {t.tier === 'champion' && <span className="testi-row-rank" style={{ background: 'rgba(0,229,255,0.18)', color: '#00e5ff' }}>Champion</span>}
+                  {t.tier === 'elite' && <span className="testi-row-rank" style={{ background: 'rgba(179,136,255,0.18)', color: '#bfa2ff' }}>Elite</span>}
                   {t.tier === 'pro' && <span className="testi-row-rank" style={{ background: 'rgba(120,180,255,0.18)', color: '#7eb4ff' }}>Pro</span>}
                   {t.rank && <span className="testi-row-rank">{t.rank}</span>}
                   {t.hours && <span className="testi-row-hours">{t.hours}</span>}

@@ -2,33 +2,26 @@
 // posts by "comment fit" (keyword match × engagement × freshness × flair),
 // and writes a daily digest to S3 that Aaron can check once a day.
 //
-// PHASE 1 (this file): post discovery + scoring + digest generation.
-// PHASE 2 (later): per-post comment draft via Bedrock Claude.
-// PHASE 3 (later): SES email push instead of S3 check.
+// BUILD 205: post discovery + scoring + one daily digest only.
+// AI drafting is deliberately absent. Aaron writes or requests a draft only
+// after choosing a real opportunity; an unattended lead scanner never spends.
 //
 // Why this is Reddit-safe:
 //   - Read-only via public .json endpoints (no API key needed)
-//   - One request per sub per run × 8 subs × ~6 runs/day = 48 requests/day
+//   - One request per sub per run × 8 subs × 1 run/day = 8 requests/day
 //     (well under Reddit's 60-per-minute unauthenticated limit)
 //   - User-Agent set with contact info (Reddit etiquette + bot-spam avoidance)
 //   - No posting, no upvoting, no scraping of comment threads
 //   - Aaron manually reads the digest, manually posts whatever he writes
 //
-// Trigger: EventBridge cron, every 4 hours (rate-cron 4 hours).
+// Trigger: EventBridge, once daily.
 // Output: s3://r6coaching.com-site/reddit-digest/{latest.html,YYYY-MM-DD.html}
-//   + JSON sidecars for programmatic consumption (Phase 2 will use these)
+//   + JSON sidecars for programmatic consumption
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
 const s3 = new S3Client({ region: process.env.AWS_REGION || 'us-east-1' })
-const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'us-east-1' })
 const BUCKET = process.env.OUTPUT_BUCKET || 'r6coaching.com-site'
-// Same model as the VOD analysis Lambda — keeps coaching voice consistent
-const BEDROCK_MODEL = process.env.BEDROCK_MODEL || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0'
-// Top-N posts to auto-draft. Each draft costs ~$0.005 — capping at 8 keeps
-// the daily Bedrock budget under $0.25/day even at 6 runs.
-const DRAFT_TOP_N = parseInt(process.env.DRAFT_TOP_N || '8', 10)
 const USER_AGENT = 'recon6-reddit-watcher/1.0 (contact: aaronhenry1981@gmail.com)'
 
 // Reddit blocks unauthenticated requests from AWS IP ranges (403). The
@@ -197,58 +190,6 @@ function scorePost(post, gameTag) {
   return Math.max(0, Math.round(raw - stalenessPenalty))
 }
 
-// Draft a copy-paste-ready Reddit comment via Bedrock Claude. The prompt
-// constrains tone (genuine community insight, NOT promotion), length
-// (100-200 words), and structure (validates → analyzes → ends with a
-// question for engagement). Zero r6coaching.com mentions — drafts are
-// pure value-add so Aaron's username builds reputation.
-async function draftComment(post) {
-  const gameContext = {
-    ow2: 'Overwatch 2 — focus on Stadium mode mechanics (Cash economy, Power picks, Item shop) if Stadium-related; otherwise hero positioning, ult timing, cooldown tracking, team comp synergy.',
-    r6: 'Rainbow Six Siege ranked — focus on operator picks, ban-phase strategy, site setups, drone discipline, utility timing (Thatcher EMP / Thermite / Bandit-trick combos), spawn-peek windows.',
-    tk8: 'Tekken 8 — focus on punish flows, frame data, matchup-specific punish strings, neutral game positioning, wall-game pressure.',
-    apex: 'Apex Legends ranked — focus on rotation reads, edge fights, third-party awareness, legend synergy, ring positioning.',
-    dota2: 'Dota 2 — focus on lane priority, item timings, ward placement, rotation reads, draft strategy.',
-  }[post.gameTag] || 'competitive multiplayer game — focus on tactical decision-making and game-sense fundamentals.'
-
-  const prompt = `You're helping me write a Reddit comment for r/${post.sub}. I run a coaching SaaS but my comments are PURE VALUE — NEVER mention any website, tool, or product. Just genuine tactical insight that builds my reputation as someone who knows the game.
-
-GAME CONTEXT: ${gameContext}
-
-POST TITLE: ${post.title}
-
-POST BODY: ${post.selftext || '(image/link post — react to the title)'}
-
-Write a 120-180 word Reddit comment that:
-1. Opens by validating the OP's framing (no condescension)
-2. Adds a SPECIFIC tactical insight they probably haven't considered (named operators/heroes/items, real numbers, concrete situations)
-3. Avoids generic advice — specificity is what gets upvoted
-4. Ends with a question that invites the OP to share more (drives reply engagement = upvote multiplier)
-5. NO links, NO mentions of any tool/site/app
-6. Uses casual Reddit voice — contractions, occasional bolded keyword, NOT corporate
-
-Output ONLY the comment text — no preamble, no "Here's a draft:", no quotes around it. Just the comment ready to copy-paste.`
-
-  try {
-    const res = await bedrock.send(new InvokeModelCommand({
-      modelId: BEDROCK_MODEL,
-      contentType: 'application/json',
-      accept: 'application/json',
-      body: JSON.stringify({
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: 600,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    }))
-    const payload = JSON.parse(new TextDecoder().decode(res.body))
-    const text = payload?.content?.[0]?.text || ''
-    return text.trim() || null
-  } catch (err) {
-    console.warn(`Draft failed for "${post.title.slice(0, 40)}":`, err.message)
-    return null
-  }
-}
-
 function htmlEscape(s) {
   return String(s || '')
     .replace(/&/g, '&amp;')
@@ -272,15 +213,9 @@ function renderDigestHtml(picks, generatedAt) {
           ${p.flair ? `<span class="flair">${htmlEscape(p.flair)}</span>` : ''}
         </div>
         ${p.selftext ? `<div class="body">${htmlEscape(p.selftext).slice(0, 300)}${p.selftext.length > 300 ? '…' : ''}</div>` : ''}
-        ${p.draft ? `
-          <div class="draft-wrap">
-            <div class="draft-label">✏️ Ready-to-post draft (review, edit, paste into Reddit)</div>
-            <textarea class="draft-text" readonly onclick="this.select()">${htmlEscape(p.draft)}</textarea>
-          </div>
-        ` : '<div class="draft-pending">Draft generation pending — set REDDIT_CLIENT_ID/SECRET/USERNAME/PASSWORD env vars on the Lambda to enable.</div>'}
+        <div class="draft-pending">No automatic AI draft. Open the strongest opportunity and write one specific, truthful response.</div>
         <div class="action">
           <a class="btn" href="${htmlEscape(p.url)}" target="_blank" rel="noopener">Open on Reddit →</a>
-          ${p.draft ? '<span class="hint">Click the draft to select-all → copy → paste in Reddit → edit → post.</span>' : ''}
         </div>
       </td>
     </tr>
@@ -309,7 +244,6 @@ function renderDigestHtml(picks, generatedAt) {
     .body { font-size: 0.86rem; color: rgba(230,233,239,0.75); margin-top: 4px; padding: 6px 10px; background: rgba(255,255,255,0.02); border-left: 2px solid rgba(0,229,255,0.3); }
     .action { margin-top: 8px; display: flex; align-items: center; gap: 12px; }
     .btn { display: inline-block; padding: 5px 12px; background: rgba(0,229,255,0.12); border: 1px solid rgba(0,229,255,0.5); border-radius: 6px; color: #00e5ff; font-weight: 700; text-decoration: none; font-size: 0.82rem; }
-    .hint { font-size: 0.75rem; color: rgba(230,233,239,0.5); }
     .empty { padding: 24px; background: rgba(255,180,80,0.06); border: 1px dashed rgba(255,180,80,0.3); border-radius: 8px; color: rgba(230,233,239,0.75); }
     .draft-wrap { margin-top: 10px; padding: 10px 12px; background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.25); border-radius: 6px; }
     .draft-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #00e5ff; margin-bottom: 6px; }
@@ -319,7 +253,7 @@ function renderDigestHtml(picks, generatedAt) {
 </head>
 <body>
   <h1>🔍 Recon 6 Reddit Watcher</h1>
-  <div class="gen">Top ${picks.length} high-fit posts · Generated ${generatedAt} UTC · Refreshes every 4 hours · Powered by Reddit JSON API (read-only)</div>
+  <div class="gen">Top ${picks.length} high-fit posts · Generated ${generatedAt} UTC · Refreshes once daily · Read-only, zero AI drafting cost</div>
   ${picks.length === 0
     ? '<div class="empty">No high-fit posts right now. Check back in 4 hours.</div>'
     : `<table>${rows}</table>`
@@ -369,25 +303,10 @@ export const handler = async () => {
     })
     .slice(0, 12)
 
-  // Phase 2: auto-draft comments for the top DRAFT_TOP_N posts via Bedrock.
-  // Runs in parallel — Lambda has plenty of compute and the calls are
-  // independent. Each draft adds ~2-4s; parallelized = ~5s total max.
-  if (top.length > 0) {
-    console.log(`Drafting comments for top ${Math.min(DRAFT_TOP_N, top.length)} posts…`)
-    const draftPromises = top.slice(0, DRAFT_TOP_N).map(async (post, idx) => {
-      const draft = await draftComment(post)
-      if (draft) top[idx].draft = draft
-    })
-    await Promise.all(draftPromises)
-    const draftedCount = top.filter((p) => p.draft).length
-    console.log(`Drafted ${draftedCount}/${Math.min(DRAFT_TOP_N, top.length)} comments`)
-  }
-
   const generatedAt = new Date().toISOString()
   const today = generatedAt.slice(0, 10)
 
-  // Write both an HTML view (human-readable) and a JSON sidecar (Phase 2
-  // will consume this to draft comments via Bedrock).
+  // Write both an HTML view (human-readable) and a JSON sidecar.
   const html = renderDigestHtml(top, generatedAt)
   const jsonPayload = JSON.stringify({ generatedAt, picks: top }, null, 2)
 

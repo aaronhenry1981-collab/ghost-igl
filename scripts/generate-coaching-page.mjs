@@ -27,12 +27,15 @@ const FORM_ENDPOINT = 'https://formspree.io/f/mykbrrob' // same pipe as EmailCap
 
 // Live now: the $20 first session (50% off the $40 single) and the $40 single
 // itself — the anchor that makes "50% off" literally true, and a no-commitment
-// option. The $70/mo add-on + $99 Academy come with the add-on pass; not shown
-// until they can be charged (copy must agree with the charge — the "$39 fire").
+// option. Champion is the $70/mo high-touch membership with two sessions;
+// its checkout is owned by the main pricing flow so booking credits and the
+// digital entitlement activate together.
 const TIERS = [
   { id: 'intro', type: 'intro', name: 'First Session', price: '$20', unit: '50% off the $40 single · first-timers', desc: 'Your first hour at half the single-session price. Full VOD review of the rounds you lost + a live-coached plan for your next queue. First-timers only.', cta: 'Book your first session — $20', featured: true },
   { id: 'single', type: 'single', name: 'Single Session', price: '$40', unit: 'per session', desc: 'One full hour: VOD review of your rounds and a live-coached plan for your next queue. The standard rate — book one any time, no subscription.' },
+  { id: 'champion', name: 'Champion Membership', price: '$70', unit: '/month · 2 sessions', desc: 'Everything in Elite plus two live 1:1 sessions each month. Sessions do not roll over; cancel at period end.', link: '/#pricing', cta: 'See Champion membership' },
 ]
+const BOOKABLE_TIERS = TIERS.filter((tier) => tier.type)
 
 // Rank <option>s built from the 40-rank source of truth. value = global order
 // (1..40) so the recommendation logic compares by rank distance. Defaults:
@@ -42,11 +45,11 @@ const rankOptions = (selectedOrder) =>
 
 const FAQ = [
   ['What does "AI-augmented" actually mean?', 'You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point.'],
-  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down what actually cost you the rounds (it is usually not what you think), and you leave with a concrete plan for your next queue. Your first session is 50% off the $40 single rate — just $20. After that a single session is $40; ongoing coaching plans launch soon.'],
+  ['What happens in the first session?', 'A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down the decisions that cost you rounds, and you leave with a concrete plan for your next queue. Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose Champion at $70/month for two sessions.'],
   ['Is this boosting?', 'No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row.'],
   ['Console or PC?', 'Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same.'],
-  ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar, pay securely through Stripe (first session $20), and the slot is instantly confirmed with a calendar invite. The 7-day money-back guarantee covers every session.'],
-  ['What rank do I need to be?', 'Any rank. Copper to Diamond, the process is the same: find the leak that costs the most rounds, fix it, measure it. The lower your rank, the faster the results.'],
+  ['How do sessions get scheduled and paid?', 'Pick an open time on the calendar and pay securely through Stripe. Your first session is $20; later single sessions are $40. A booked slot is confirmed with a calendar invite.'],
+  ['What rank do I need to be?', 'Any rank. Copper through Champion, the process is the same: identify one decision pattern that is costing rounds, practice the correction, and review the evidence in your next games.'],
 ]
 
 const tierCards = TIERS.map((t) => `
@@ -55,7 +58,7 @@ const tierCards = TIERS.map((t) => `
     <h3>${t.name}</h3>
     <div class="price">${t.price} <span>${t.unit}</span></div>
     <p>${t.desc}</p>
-    <a class="btn${t.featured ? ' primary' : ''}" href="#book" data-type="${t.type}">${t.cta || `Book — ${t.name}`}</a>
+    <a class="btn${t.featured ? ' primary' : ''}" href="${t.link || '#book'}"${t.type ? ` data-type="${t.type}"` : ''}>${t.cta || `Book — ${t.name}`}</a>
   </div>`).join('\n')
 
 const faqHtml = FAQ.map(([q, a]) => `
@@ -98,11 +101,11 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${title}</title>
 <meta name="description" content="${description}" />
-<link rel="canonical" href="${SITE}/coaching/" />
+<link rel="canonical" href="${SITE}/coaching/index.html" />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="${title}" />
 <meta property="og:description" content="${description}" />
-<meta property="og:url" content="${SITE}/coaching/" />
+<meta property="og:url" content="${SITE}/coaching/index.html" />
 <meta property="og:image" content="${SITE}/og-image.png" />
 ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n')}
 <style>
@@ -163,7 +166,7 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   <div class="tiers">
 ${tierCards}
   </div>
-  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that a single session is $40, no subscription required (ongoing $70/mo coaching plans are on the way). Pay securely at checkout; slot confirmed instantly with a calendar invite. 7-day money-back guarantee.</p>
+  <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose Champion at $70/month for two sessions. Pay securely at checkout; booked slots are confirmed with a calendar invite.</p>
 
   <h2>How a session works</h2>
   <p class="sub">Before we meet, the AI has already processed your clips: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
@@ -194,7 +197,7 @@ ${faqHtml}
       <input id="c-rank" name="rank_goal" type="text" placeholder="Silver → Gold" />
       <label for="c-type">Session type</label>
       <select id="c-type" name="type">
-        ${TIERS.map((t) => `<option value="${t.type}">${t.name} — ${t.price}</option>`).join('')}
+        ${BOOKABLE_TIERS.map((t) => `<option value="${t.type}">${t.name} — ${t.price}</option>`).join('')}
       </select>
       <label for="c-notes">What's costing you rounds? (optional)</label>
       <textarea id="c-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
@@ -218,7 +221,7 @@ ${faqHtml}
     <input id="f-rank" name="rank_goal" type="text" placeholder="Silver → Gold" />
     <label for="f-tier">Which session</label>
     <select id="f-tier" name="tier">
-      ${TIERS.map((t) => `<option>${t.name} — ${t.price} ${t.unit}</option>`).join('')}
+      ${BOOKABLE_TIERS.map((t) => `<option>${t.name} — ${t.price} ${t.unit}</option>`).join('')}
     </select>
     <label for="f-notes">What's costing you rounds? (optional)</label>
     <textarea id="f-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
@@ -234,15 +237,15 @@ ${faqHtml}
   var cur = document.getElementById('cur'), goal = document.getElementById('goal'), reco = document.getElementById('reco');
   function update() {
     // Option values are the global rank order (1..40). Goal must sit above
-    // current rank. Everything funnels to the $20 first session.
+    // current rank. This is a planning prompt, not a prediction of outcomes.
     var c = parseInt(cur.value, 10), g = parseInt(goal.value, 10);
     if (g <= c) {
-      reco.innerHTML = '<strong style="color:var(--orange)">Pick a goal above your current rank.</strong> Even one division up is a real target — that is exactly what a session fixes.';
+      reco.innerHTML = '<strong style="color:var(--orange)">Pick a goal above your current rank.</strong> Even one division up is a useful target to plan and practice toward.';
       return;
     }
     var gap = g - c;
     var span = gap <= 5 ? 'a division or two' : 'a multi-rank climb';
-    reco.innerHTML = 'That is <strong>' + span + '</strong> — exactly what coaching targets. <a href="#book">Start with your first session — 50% off ($20)</a>.';
+    reco.innerHTML = 'That is <strong>' + span + '</strong>. A coaching session can help you identify the next decision or habit to practice. <a href="#book">Start with your first session — 50% off ($20)</a>.';
   }
   cur.addEventListener('change', update); goal.addEventListener('change', update); update();
 
@@ -438,7 +441,7 @@ const bookedHtml = `<!doctype html>
       <li>Sessions run on Discord — join <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener">the server</a> and you'll get a DM before your session.</li>
       <li>Bring 2-3 clips or screenshots of rounds you lost — that's the raw material.</li>
     </ul>
-    <a class="btn" href="/coaching/">Back to coaching</a>
+    <a class="btn" href="/coaching/index.html">Back to coaching</a>
   </div>
 </div>
 <script>
