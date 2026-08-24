@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { track } from '../utils/analytics'
 import './AuthPage.css'
@@ -15,7 +15,7 @@ function safeRedirect(raw) {
 }
 
 export default function AuthPage() {
-  // 'signin' | 'signup' | 'confirm' | 'forgot' | 'reset'
+  // 'signin' | 'signup' | 'confirm' | 'forgot' | 'reset' | 'new-password'
   // forgot → enter email, request reset code
   // reset  → enter code + new password (after forgot flow emails the code)
   // Honor ?mode=signup (etc.) so the "Sign Up" deep links in the navbar/landing
@@ -34,6 +34,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false)
   const {
     signIn,
+    completeNewPassword,
     signUp,
     confirmSignUp,
     resendConfirmationCode,
@@ -131,6 +132,14 @@ export default function AuthPage() {
           setCode('')
         }
       }
+    } else if (mode === 'new-password') {
+      const { error: err } = await completeNewPassword(password)
+      if (err) {
+        setError(err.message)
+      } else {
+        track('First Login Password Set')
+        navigate(redirectTarget)
+      }
     } else if (mode === 'forgot') {
       const { error: err } = await forgotPassword(email)
       if (err) {
@@ -156,7 +165,15 @@ export default function AuthPage() {
         }
       }
     } else {
-      const { error: err } = await signIn(email, password)
+      const { data, error: err } = await signIn(email, password)
+      if (data?.challenge === 'NEW_PASSWORD_REQUIRED') {
+        setError(null)
+        setSuccess('Temporary password accepted. Choose your permanent password to finish setting up your account.')
+        setPassword('')
+        setMode('new-password')
+        setLoading(false)
+        return
+      }
       if (err) {
         if (err.message === 'User is not confirmed.') {
           setError(null)
@@ -203,13 +220,15 @@ export default function AuthPage() {
     mode === 'signup' ? 'Create Account' :
     mode === 'confirm' ? 'Confirm Your Email' :
     mode === 'forgot' ? 'Reset Password' :
+    mode === 'new-password' ? 'Finish Account Setup' :
     'Set New Password'
 
   const subtitle =
     mode === 'signin' ? 'Sign in to your Recon 6 account.' :
-    mode === 'signup' ? 'Create an account — first 7 days of Pro on us.' :
+    mode === 'signup' ? 'Create your free Recon 6 account.' :
     mode === 'confirm' ? 'Enter the 6-digit code we emailed to confirm your account.' :
     mode === 'forgot' ? "Enter your email and we'll send a 6-digit reset code." :
+    mode === 'new-password' ? 'Your temporary password worked. Choose the permanent password you will use from now on.' :
     'Enter the reset code we emailed and pick a new password.'
 
   const submitLabel =
@@ -217,14 +236,15 @@ export default function AuthPage() {
     mode === 'signup' ? 'Create Account' :
     mode === 'confirm' ? 'Confirm Account' :
     mode === 'forgot' ? 'Send Reset Code' :
+    mode === 'new-password' ? 'Save Password and Sign In' :
     'Set New Password'
 
   // Field visibility per mode
   const showEmail = true
-  const emailDisabled = mode === 'confirm' || mode === 'reset'
-  const showPassword = mode === 'signin' || mode === 'signup' || mode === 'reset'
+  const emailDisabled = mode === 'confirm' || mode === 'reset' || mode === 'new-password'
+  const showPassword = mode === 'signin' || mode === 'signup' || mode === 'reset' || mode === 'new-password'
   const passwordPlaceholder =
-    mode === 'reset' ? 'New password (min 8 chars)' :
+    mode === 'reset' || mode === 'new-password' ? 'New password (min 8 chars)' :
     mode === 'signin' ? 'Your password' :
     'Min 8 characters, mix of letters and numbers'
   // Cognito default policy requires 8+ chars with upper/lower/number. Match
@@ -232,9 +252,52 @@ export default function AuthPage() {
   const passwordMinLength = mode === 'signin' ? 1 : 8
   const showCode = mode === 'confirm' || mode === 'reset'
 
+  const storyTitle = mode === 'signup'
+    ? 'Your next round starts with a clear job.'
+    : mode === 'signin'
+      ? 'Get back to the plan. Keep climbing.'
+      : 'Get your account secure and get back in.'
+
+  const storyBody = mode === 'signup'
+    ? 'Create a free player account to keep your R6 preparation, round reviews, and next-match focus in one place.'
+    : mode === 'signin'
+      ? 'Your saved plan, Road to Champion progress, and coaching tools are waiting.'
+      : 'We will walk you through the account step without losing your place or your plan.'
+
   return (
-    <div className="auth-page">
-      <div className="auth-card">
+    <div className={`auth-page auth-page-${mode}`}>
+      <div className="auth-page-art" aria-hidden="true" />
+      <div className="auth-page-shade" aria-hidden="true" />
+      <div className="auth-shell">
+        <aside className="auth-story">
+          <div className="auth-story-kicker">RECON 6 · PLAYER ACCESS</div>
+          <h1>{storyTitle}</h1>
+          <p>{storyBody}</p>
+          <div className="auth-story-brief">
+            <div className="auth-story-brief-head">
+              <span>EXAMPLE PLAYER JOB</span>
+              <i />
+            </div>
+            <strong>Bank · 2F CEO · Attack</strong>
+            <div className="auth-story-job">
+              <span>TH</span>
+              <div><strong>Thermite</strong><small>Hard breach</small></div>
+              <p>Open the CEO double wall after denial clears.</p>
+            </div>
+          </div>
+          <ul className="auth-story-points">
+            <li><span>01</span> Free map, operator, and strategy foundation</li>
+            <li><span>02</span> Try a real round review before paying</li>
+            <li><span>03</span> No game login, injection, or account sharing</li>
+          </ul>
+        </aside>
+
+        <div className="auth-card-wrap">
+          <div className="auth-card-eyebrow">
+            <span>{mode === 'signup' ? 'FREE PLAYER ACCOUNT' : 'SECURE PLAYER LOGIN'}</span>
+            <Link to="/strats">Preview a strat →</Link>
+          </div>
+          <div className="auth-card">
         <h1>{title}</h1>
         <p className="auth-subtitle">{subtitle}</p>
 
@@ -302,7 +365,7 @@ export default function AuthPage() {
 
           {showPassword && (
             <label className="auth-label">
-              {mode === 'reset' ? 'New Password' : 'Password'}
+              {mode === 'reset' || mode === 'new-password' ? 'New Password' : 'Password'}
               <input
                 type="password"
                 value={password}
@@ -319,6 +382,12 @@ export default function AuthPage() {
             {loading ? 'Loading...' : submitLabel}
           </button>
         </form>
+
+        {mode === 'signup' && (
+          <p className="auth-legal">
+            By creating an account, you agree to the <Link to="/terms">Terms</Link> and <Link to="/privacy">Privacy Policy</Link>.
+          </p>
+        )}
 
         {mode === 'signin' && (
           <p className="auth-switch" style={{ marginTop: '0.75rem' }}>
@@ -359,6 +428,20 @@ export default function AuthPage() {
             )}
           </p>
         )}
+
+        {mode === 'new-password' && (
+          <p className="auth-switch">
+            Temporary password expired?{' '}
+            <button type="button" onClick={() => switchMode('signin')}>Start again</button>
+          </p>
+        )}
+          </div>
+          <div className="auth-card-trust">
+            <span><i /> Free to start</span>
+            <span>No credit card</span>
+            <span>Cancel paid plans online</span>
+          </div>
+        </div>
       </div>
     </div>
   )
