@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 // more views, then re-nudge. After that, every view re-nudges (graceful escalation).
 //
 // `useFreeStratLimit({ enabled, mapId, siteId, side })` — pass enabled=false for
-// authed Pro/Champion (never gate them) and the function no-ops.
+// paid Pro/Elite/Champion members (never gate them) and the function no-ops.
 
 const STORAGE_KEY = 'ghost-igl:free-strat-views'
 const FIRST_NUDGE_AT = 5

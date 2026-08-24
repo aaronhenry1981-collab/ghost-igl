@@ -35,15 +35,15 @@ const CURRENT_SEASON = {
 }
 const NEXT_SEASON = {
   code: 'Y11S3',
-  // Expected date — Siege seasons run ~3 months; S2 went live June 2.
-  // NOT officially confirmed. Update + set confirmed: true when Ubisoft posts it.
+  // Ubisoft's official Siege page lists the Y11S2 Battle Pass through Sep 1.
+  // The exact daily reset hour still follows the customary update window.
   target: '2026-09-01T13:00:00Z',
-  confirmed: false,
+  confirmed: true,
   headline: 'a new anti-shield Defender (codename "Fireworks")',
 }
 
 const title = `Rainbow Six Siege Next Season Countdown — ${NEXT_SEASON.code} Release Date`
-const description = `Live countdown to R6 ${NEXT_SEASON.code}. Expected release, what's coming (the anti-shield defender "Fireworks", Villa rework, Operator Mastery, Legend Division), and how to prep your rank before the reset.`
+const description = `Live countdown to R6 ${NEXT_SEASON.code}, what is coming next season, and how to prepare your rank before the reset.`
 
 const html = `<!doctype html>
 <html lang="en">
@@ -67,30 +67,44 @@ const html = `<!doctype html>
   isPartOf: { '@type': 'WebSite', name: 'RECON6', url: SITE },
 })}</script>
 <style>
-  :root { --bg:#0a0e17; --panel:#111827; --line:#1f2a3f; --cyan:#00e5ff; --text:#dbe4f0; --dim:#8b98ab; }
+  :root { --bg:#080c12; --panel:#111925; --line:#243248; --cyan:#5dd8e8; --text:#eaf1f8; --dim:#91a0b4; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.65; }
-  .wrap { max-width:760px; margin:0 auto; padding:48px 20px 80px; }
+  body { background:radial-gradient(circle at 50% 0,rgba(93,216,232,.09),transparent 34%),var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.65; }
+  .topbar { max-width:960px; margin:0 auto; padding:20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.06); }
+  .brand { color:var(--text); font-weight:800; letter-spacing:.12em; }
+  .brand b { color:var(--cyan); }
+  .toplinks { display:flex; gap:18px; font-size:.84rem; }
+  .wrap { max-width:900px; margin:0 auto; padding:54px 20px 80px; }
   a { color:var(--cyan); text-decoration:none; }
   a:hover { text-decoration:underline; }
-  h1 { font-size:1.7rem; line-height:1.3; margin-bottom:8px; }
-  .sub { color:var(--dim); margin-bottom:34px; }
-  .timer { display:flex; gap:12px; justify-content:center; margin:30px 0 10px; flex-wrap:wrap; }
-  .cell { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 8px; width:110px; text-align:center; }
+  .season-hero { text-align:center; padding:34px 24px 28px; background:linear-gradient(180deg,rgba(93,216,232,.06),rgba(17,25,37,.72)); border:1px solid var(--line); border-radius:18px; box-shadow:0 22px 60px rgba(0,0,0,.28); }
+  .eyebrow { color:var(--cyan); font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
+  h1 { font-size:clamp(2rem,6vw,3.3rem); line-height:1.08; letter-spacing:-.04em; margin-bottom:12px; }
+  .sub { color:var(--dim); margin:0 auto 24px; max-width:650px; }
+  .timer { display:flex; gap:10px; justify-content:center; margin:24px 0 12px; flex-wrap:wrap; }
+  .cell { background:rgba(7,12,18,.78); border:1px solid var(--line); border-radius:12px; padding:16px 8px; width:112px; text-align:center; }
   .cell b { display:block; font-size:2.4rem; color:var(--cyan); font-variant-numeric:tabular-nums; }
   .cell span { color:var(--dim); font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; }
-  .hedge { text-align:center; color:var(--dim); font-size:.9rem; margin-bottom:36px; }
+  .hedge { text-align:center; color:var(--dim); font-size:.86rem; margin:0 auto; max-width:650px; }
+  .content { max-width:760px; margin:40px auto 0; }
   h2 { font-size:1.15rem; color:var(--cyan); margin:34px 0 10px; }
   ul { padding-left:22px; margin:10px 0; }
   li { margin:7px 0; }
-  .cta { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--cyan); border-radius:10px; padding:16px 18px; margin:28px 0; }
+  .cta { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--cyan); border-radius:12px; padding:18px 20px; margin:30px 0; }
   footer { margin-top:48px; color:var(--dim); font-size:.85rem; border-top:1px solid var(--line); padding-top:18px; }
+  @media (max-width:560px) { .toplinks { display:none; } .wrap { padding-top:30px; } .season-hero { padding:26px 14px 22px; } .cell { width:42%; } }
 </style>
 </head>
 <body>
+<nav class="topbar">
+  <a class="brand" href="/">RECON <b>6</b></a>
+  <div class="toplinks"><a href="/strats">Strategies</a><a href="/vod">VOD review</a><a href="/coaching/index.html">Human coaching</a></div>
+</nav>
 <div class="wrap">
-  <h1>Rainbow Six Siege: Next Season Countdown</h1>
-  <p class="sub">Current season: <strong>${CURRENT_SEASON.code} ${CURRENT_SEASON.name}</strong> (live since June 2, 2026). Next up: <strong>${NEXT_SEASON.code}</strong>.</p>
+  <section class="season-hero">
+  <div class="eyebrow">Live season clock</div>
+  <h1>Rainbow Six Siege<br>Season Countdown</h1>
+  <p class="sub">Current season: <strong>${CURRENT_SEASON.code} ${CURRENT_SEASON.name}</strong>. Next up: <strong>${NEXT_SEASON.code}</strong>.</p>
 
   <div class="timer" id="timer" data-target="${NEXT_SEASON.target}">
     <div class="cell"><b id="d">–</b><span>days</span></div>
@@ -99,8 +113,11 @@ const html = `<!doctype html>
     <div class="cell"><b id="s">–</b><span>seconds</span></div>
   </div>
   <p class="hedge" id="hedge">${NEXT_SEASON.confirmed
-    ? `Confirmed launch: ${new Date(NEXT_SEASON.target).toUTCString().slice(0, 16)}.`
+    ? `Current season and Battle Pass end September 1, 2026. The exact daily reset hour may shift.`
     : `Expected around September 1, 2026 — Ubisoft has <em>not</em> announced the exact date yet. Siege seasons run ~3 months and ${CURRENT_SEASON.code} went live June 2. We'll update this the day it's confirmed.`}</p>
+  </section>
+
+  <div class="content">
 
   <h2>What's coming in ${NEXT_SEASON.code}</h2>
   <p>Announced on the official Year 11 roadmap (Six Invitational, February 2026):</p>
@@ -121,7 +138,8 @@ const html = `<!doctype html>
 
   <div class="cta"><strong>Playing ranked tonight?</strong> <a href="/live">RECON6's Live Coach</a> calls bans, picks, and site setups in real time — updated for every patch this season.</div>
 
-  <footer>Season facts sourced from Ubisoft's official Year 11 roadmap. Countdown target is our estimate until Ubisoft confirms the date. <a href="/">RECON6</a> · <a href="/blog/">Blog</a></footer>
+  <footer>Season timing is based on Ubisoft's official June 2–September 1 Battle Pass window. <a href="/">RECON6</a> · <a href="/blog/">Blog</a></footer>
+  </div>
 </div>
 <script>
 (function () {

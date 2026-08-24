@@ -1,45 +1,66 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
-import PromoKit from '../components/admin/PromoKit'
 import TestimonialBuilder from '../components/admin/TestimonialBuilder'
 import DemoVideoManager from '../components/admin/DemoVideoManager'
 import CompManager from '../components/admin/CompManager'
 import AuditLog from '../components/admin/AuditLog'
 import GameCatalog from '../components/admin/GameCatalog'
-import DailyPlaybook from '../components/admin/DailyPlaybook'
 import AvailabilityEditor from '../components/admin/AvailabilityEditor'
 import AppointmentsCalendar from '../components/admin/AppointmentsCalendar'
+import GrowthEngine from '../components/admin/GrowthEngine'
 import './AdminPage.css'
 
 const EMPTY_SUMMARY = {
   total: 0, active: 0, canceled: 0, past_due: 0,
-  pro_active: 0, champion_active: 0,
-  mrr_dollars: '0.00', arr_dollars: '0.00', new_last_30_days: 0,
+  pro_active: 0, elite_active: 0, champion_active: 0,
+  trialing: 0, trials_expected_to_convert: 0, ending: 0,
+  mrr_dollars: '0.00', arr_dollars: '0.00', trial_mrr_dollars: '0.00',
+  collected_30d_dollars: '0.00', refunds_30d_dollars: '0.00', new_last_30_days: 0,
 }
 
-// Display-only id -> name map for the "Active Game" column. Deliberately NOT
-// importing the full GAMES catalog (src/data/games/index.js) here — each
-// entry lazy-loads a whole game module via load(), way too heavy just to
-// print a label in an admin table. Keep in sync with GAMES' id list.
-const GAME_NAMES = {
-  r6: 'Rainbow Six Siege', cs2: 'Counter-Strike 2', valorant: 'Valorant',
-  ow2: 'Overwatch 2', apex: 'Apex Legends', mvr: 'Marvel Rivals',
-  halo: 'Halo', finals: 'The Finals', cod: 'Call of Duty', fn: 'Fortnite',
-  rl: 'Rocket League', lol: 'League of Legends', dota2: 'Dota 2',
-  eafc: 'EA FC', tk8: 'Tekken 8', sf6: 'Street Fighter 6', pubg: 'PUBG',
-  deadlock: 'Deadlock', naraka: 'Naraka: Bladepoint', nba2k: 'NBA 2K',
+const PLAN_LABELS = { free: 'Basic', pro: 'Pro', elite: 'Elite', champion: 'Champion' }
+
+function formatMoney(cents) {
+  const value = Number(cents || 0) / 100
+  return value.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
+}
+
+function formatDate(iso) {
+  if (!iso) return '—'
+  const date = new Date(iso)
+  return Number.isNaN(date.getTime()) ? '—' : date.toLocaleDateString()
+}
+
+function billingLabel(user) {
+  const date = formatDate(user.next_billing_at)
+  const amount = formatMoney(user.price_amount_cents)
+  switch (user.billing_state) {
+    case 'paid': return { title: 'Paid', detail: `Renews ${date} · ${amount}` }
+    case 'trialing': return { title: 'Trial', detail: `First charge ${date} · ${amount}` }
+    case 'ending': return { title: user.sub_status === 'trialing' ? 'Trial ending' : 'Ending', detail: `No charge after ${date}` }
+    case 'payment_issue': return { title: 'Payment issue', detail: 'Action needed in Stripe' }
+    case 'comp': return { title: 'Complimentary', detail: `Access through ${formatDate(user.current_period_end)}` }
+    case 'canceled': return { title: 'Canceled', detail: user.has_collected_payment ? 'Previously paid' : 'No payment collected' }
+    case 'free':
+    case 'none':
+    case undefined:
+    case null:
+    case '':
+      return { title: 'No subscription', detail: 'Basic access' }
+    default: return { title: user.sub_status || 'Unknown', detail: date !== '—' ? date : 'Check Stripe' }
+  }
 }
 
 // Admin console is grouped into tabs so it's not one endless scroll. Every
 // existing panel is preserved — just sorted into a logical home. Members is
 // the default (the day-to-day view: who's signed up, who's active, billing).
 const ADMIN_TABS = [
-  { id: 'members', label: 'Members' },
-  { id: 'appointments', label: 'Appointments' },
-  { id: 'growth', label: 'Growth' },
-  { id: 'content', label: 'Content' },
-  { id: 'system', label: 'System' },
+  { id: 'members', label: 'Members', hint: 'Access and billing' },
+  { id: 'appointments', label: 'Coaching', hint: 'Appointments and contact' },
+  { id: 'growth', label: 'Growth', hint: 'Evidence publishing' },
+  { id: 'content', label: 'Site content', hint: 'Proof and product content' },
+  { id: 'system', label: 'System', hint: 'Reconciliation and audit' },
 ]
 
 // "Active" = seen within the last 15 minutes (rough, matches typical
@@ -66,6 +87,8 @@ export default function AdminPage() {
   const { user, isAdmin, loading: authLoading } = useAuth()
   const [users, setUsers] = useState([])
   const [summary, setSummary] = useState(EMPTY_SUMMARY)
+  const [billingSource, setBillingSource] = useState(null)
+  const [billingWarning, setBillingWarning] = useState(null)
   const [loadingData, setLoadingData] = useState(false)
   const [error, setError] = useState(null)
   const [notice, setNotice] = useState(null)
@@ -104,9 +127,14 @@ export default function AdminPage() {
     try {
       const data = await authedFetch('/admin/users')
       setUsers(data.users || [])
-      setSummary(data.summary || EMPTY_SUMMARY)
+      setSummary({ ...EMPTY_SUMMARY, ...(data.summary || {}) })
+      setBillingSource(data.billing_source || null)
+      setBillingWarning(data.billing_warning || null)
     } catch (err) {
-      setError(err.message)
+      const isLocalPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+      setError(isLocalPreview && /fetch/i.test(err.message)
+        ? 'Local preview cannot reach the live admin data service. The layout is available to review, but member totals and admin actions require the deployed site.'
+        : `Admin data could not be loaded. ${err.message}`)
     } finally {
       setLoadingData(false)
     }
@@ -175,8 +203,13 @@ export default function AdminPage() {
       if (planFilter !== 'all' && u.plan !== planFilter) return false
       if (statusFilter !== 'all') {
         if (statusFilter === 'free' && u.plan !== 'free') return false
-        if (statusFilter === 'active' && u.sub_status !== 'active') return false
-        if (statusFilter === 'past_due' && u.sub_status !== 'past_due') return false
+        if (statusFilter === 'paid' && u.billing_state !== 'paid') return false
+        if (statusFilter === 'trialing' && u.billing_state !== 'trialing') return false
+        if (statusFilter === 'ending' && u.billing_state !== 'ending') return false
+        if (statusFilter === 'payment_issue' && u.billing_state !== 'payment_issue') return false
+        if (statusFilter === 'comp' && u.billing_state !== 'comp') return false
+        if (statusFilter === 'stripe_only' && !(u.orphan === true || u.cognito_status === 'NO_ACCOUNT')) return false
+        if (statusFilter === 'duplicate' && Number(u.live_subscription_count || 0) <= 1) return false
         if (statusFilter === 'canceled' && u.sub_status !== 'canceled') return false
         if (statusFilter === 'unconfirmed' && u.cognito_status !== 'UNCONFIRMED') return false
       }
@@ -187,6 +220,26 @@ export default function AdminPage() {
       )
     })
   }, [users, query, planFilter, statusFilter])
+
+  const attention = useMemo(() => {
+    const paymentIssues = users.filter((u) => u.billing_state === 'payment_issue').length
+    const ending = users.filter((u) => u.billing_state === 'ending').length
+    const stripeOnly = users.filter((u) => u.orphan === true || u.cognito_status === 'NO_ACCOUNT').length
+    const duplicateBilling = users.filter((u) => Number(u.live_subscription_count || 0) > 1).length
+    return [
+      { id: 'payment_issue', label: 'Payment issues', count: paymentIssues, tone: 'danger' },
+      { id: 'ending', label: 'Ending plans', count: ending, tone: 'warning' },
+      { id: 'stripe_only', label: 'Paid without site account', count: stripeOnly, tone: 'warning' },
+      { id: 'duplicate', label: 'Duplicate live subscriptions', count: duplicateBilling, tone: 'danger' },
+    ]
+  }, [users])
+
+  function openAttention(item) {
+    setAdminTab('members')
+    setPlanFilter('all')
+    setQuery('')
+    setStatusFilter(item.id)
+  }
 
   if (authLoading) return <div className="admin-page"><p>Loading…</p></div>
   if (!user) return <div className="admin-page admin-locked"><h1>Sign in required</h1><p>You must sign in to view admin.</p></div>
@@ -208,7 +261,7 @@ export default function AdminPage() {
   }
 
   // Comp grant + management UI moved to <CompManager /> component below.
-  // Form supports plan (Pro/Champion), duration (1mo/3mo/6mo/1yr/forever),
+  // Form supports plan (Pro/Elite/Champion), duration (1mo/3mo/6mo/1yr/forever),
   // active comp list with days-remaining + one-click revoke.
 
   // Permanently delete a user account. Cascades across Cognito + profiles +
@@ -253,7 +306,7 @@ export default function AdminPage() {
   }
 
   function exportCsv() {
-    const cols = ['email', 'plan', 'sub_status', 'cognito_status', 'referral_source', 'created_at', 'current_period_end', 'stripe_customer_id']
+    const cols = ['email', 'plan', 'billing_state', 'sub_status', 'price_amount_cents', 'next_billing_at', 'will_renew', 'has_collected_payment', 'live_subscription_count', 'billing_alerts', 'cognito_status', 'referral_source', 'created_at', 'stripe_customer_id']
     const rows = [cols.join(',')]
     for (const u of filtered) rows.push(cols.map((c) => csvEscape(u[c])).join(','))
     const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
@@ -275,33 +328,59 @@ export default function AdminPage() {
   return (
     <div className="admin-page">
       <header className="admin-header">
-        <h1>Recon 6 Admin</h1>
-        <p style={{ color: 'rgba(230,233,239,0.6)', marginTop: '-0.5rem', fontSize: '0.9rem' }}>
-          Multi-game console — users, subscriptions, content, audit log, and per-game catalog.
-        </p>
-        <p>Signed in as <span className="admin-mono">{user.email}</span></p>
+        <div>
+          <div className="admin-eyebrow">Business operations</div>
+          <h1>Recon 6 Command Center</h1>
+          <p>Members, coaching appointments, growth, content, and system controls in one place.</p>
+        </div>
+        <div className="admin-account-chip">
+          <span>Signed in</span>
+          <strong>{user.email}</strong>
+        </div>
       </header>
 
       {/* MRR + paying counts exclude comp grants (admin-granted 2099 access
           with no Stripe sub) — comps are access, not revenue. They get their
           own card so the split is always visible. */}
-      <div className="admin-stats-grid">
-        <StatCard label="MRR (paying)" value={`$${summary.mrr_dollars}`} />
-        <StatCard label="ARR (projected)" value={`$${summary.arr_dollars}`} />
-        <StatCard label="Paying subs" value={summary.paying_active ?? '—'} />
-        <StatCard label="Comp access" value={summary.comp_active ?? '—'} />
-        <StatCard label="Total users" value={users.length} />
-        <StatCard label="Active now" value={activeNowCount} />
-        <StatCard label="Pro" value={summary.pro_active} />
-        <StatCard label="Champion" value={summary.champion_active} />
-        <StatCard label="Past due" value={summary.past_due} />
-        <StatCard label="New (30d)" value={summary.new_last_30_days} />
-      </div>
+      <section className="admin-overview" aria-label="Business overview">
+        <div className="admin-stats-grid">
+          <StatCard label="Current MRR" value={`$${summary.mrr_dollars}`} />
+          <StatCard label="Collected (30 days)" value={billingSource === 'dynamodb' ? 'Unavailable' : `$${summary.collected_30d_dollars}`} />
+          <StatCard label="Trials expected to convert" value={`${summary.trials_expected_to_convert ?? 0} · $${summary.trial_mrr_dollars}`} />
+          <StatCard label="Payment issues" value={summary.past_due ?? 0} />
+        </div>
+        <div className="admin-summary-strip">
+          <SummaryMetric label="Paying" value={summary.paying_active ?? '—'} />
+          <SummaryMetric label="Trials" value={summary.trialing ?? 0} />
+          <SummaryMetric label="Ending" value={summary.ending ?? 0} tone={summary.ending > 0 ? 'warning' : ''} />
+          <SummaryMetric label="Pro" value={summary.pro_active} />
+          <SummaryMetric label="Elite" value={summary.elite_active} />
+          <SummaryMetric label="Champion" value={summary.champion_active} />
+          <SummaryMetric label="Complimentary" value={summary.comp_active ?? '—'} />
+          <SummaryMetric label="Active now" value={activeNowCount} />
+          <SummaryMetric label="Refunds (30d)" value={billingSource === 'dynamodb' ? 'Unavailable' : `$${summary.refunds_30d_dollars}`} />
+        </div>
+      </section>
 
       {notice && <div className="admin-note admin-note-success">{notice}</div>}
       {error && <div className="admin-note admin-note-error">{error}</div>}
+      {billingWarning && <div className="admin-note admin-note-warning">{billingWarning} Cash and refund totals are hidden until live reconciliation recovers.</div>}
 
-      <div className="admin-tabs" role="tablist">
+      <section className="admin-attention" aria-label="Items needing attention">
+        <div className="admin-attention-heading">
+          <div><span className="admin-eyebrow">Needs attention</span><h2>Protect revenue and customer access</h2></div>
+          <small>Zero is good. Open an item to review the affected members.</small>
+        </div>
+        <div className="admin-attention-grid">
+          {attention.map((item) => (
+            <button key={item.id} type="button" className={`admin-attention-card is-${item.tone}${item.count === 0 ? ' is-clear' : ''}`} onClick={() => openAttention(item)}>
+              <strong>{item.count}</strong><span>{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <div className="admin-tabs" role="tablist" aria-label="Admin sections">
         {ADMIN_TABS.map((t) => (
           <button
             key={t.id}
@@ -311,7 +390,8 @@ export default function AdminPage() {
             className={`admin-tab${adminTab === t.id ? ' active' : ''}`}
             onClick={() => setAdminTab(t.id)}
           >
-            {t.label}
+            <strong>{t.label}</strong>
+            <small>{t.hint}</small>
           </button>
         ))}
       </div>
@@ -323,9 +403,6 @@ export default function AdminPage() {
           <div className="admin-actions">
             <button onClick={loadData} className="btn btn-sm btn-outline" disabled={loadingData}>
               {loadingData ? 'Loading…' : 'Refresh'}
-            </button>
-            <button onClick={runBackfill} className="btn btn-sm btn-outline" disabled={backfilling}>
-              {backfilling ? 'Backfilling…' : 'Backfill from Stripe'}
             </button>
             <button onClick={copyEmails} className="btn btn-sm btn-outline" disabled={!filtered.length}>Copy emails</button>
             <button onClick={exportCsv} className="btn btn-sm btn-outline" disabled={!filtered.length}>Export CSV</button>
@@ -343,15 +420,21 @@ export default function AdminPage() {
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="admin-input">
             <option value="all">All statuses</option>
             <option value="free">Free only</option>
-            <option value="active">Active paying</option>
-            <option value="past_due">Past due</option>
+            <option value="paid">Paid and renewing</option>
+            <option value="trialing">Trial — scheduled to charge</option>
+            <option value="ending">Ending — no next charge</option>
+            <option value="payment_issue">Payment issue</option>
+            <option value="comp">Complimentary</option>
+            <option value="stripe_only">Paid without site account</option>
+            <option value="duplicate">Duplicate live subscriptions</option>
             <option value="canceled">Canceled</option>
             <option value="unconfirmed">Email unconfirmed</option>
           </select>
           <select value={planFilter} onChange={(e) => setPlanFilter(e.target.value)} className="admin-input">
             <option value="all">All plans</option>
-            <option value="free">Free</option>
+            <option value="free">Basic</option>
             <option value="pro">Pro</option>
+            <option value="elite">Elite</option>
             <option value="champion">Champion</option>
           </select>
         </div>
@@ -368,14 +451,12 @@ export default function AdminPage() {
               <thead>
                 <tr>
                   <th>Email</th>
-                  <th>Plan</th>
-                  <th>Status</th>
-                  <th>Verified</th>
-                  <th>Active game</th>
+                  <th>Access</th>
+                  <th>Billing</th>
+                  <th>Next</th>
+                  <th>Website account</th>
                   <th>Last active</th>
                   <th>Source</th>
-                  <th>Signed up</th>
-                  <th>Renews</th>
                   <th>Stripe</th>
                   <th></th>
                 </tr>
@@ -386,68 +467,55 @@ export default function AdminPage() {
                   // Keeps the button visible but greyed out so it's obvious
                   // why some users can't be deleted from this UI.
                   const isYou = u.email === user.email
-                  const isActivePaid = u.sub_status === 'active' && u.stripe_customer_id && !u.stripe_customer_id.startsWith('comp_') && !u.stripe_customer_id.startsWith('admin_')
-                  // Orphan = paid in Stripe but never created a Cognito
-                  // account. Renders with an amber row tint + "NO ACCOUNT"
-                  // badge so Aaron can spot customers who need a signup
-                  // chase before they churn.
+                  const isLiveStripe = Number(u.live_subscription_count || 0) > 0
                   const isOrphan = u.orphan === true || u.cognito_status === 'NO_ACCOUNT'
-                  const cannotDelete = isYou || isActivePaid || isOrphan
+                  const cannotDelete = isYou || isLiveStripe || isOrphan
+                  const billing = billingLabel(u)
+                  const hasAlerts = Array.isArray(u.billing_alerts) && u.billing_alerts.length > 0
                   const deleteTooltip = isYou
                     ? "You can't delete your own admin account here."
                     : isOrphan
                       ? 'Stripe-only customer — no Cognito account to delete. Cancel via Stripe instead.'
-                      : isActivePaid
-                        ? 'Active paying customer — cancel their Stripe subscription first.'
+                      : isLiveStripe
+                        ? 'Live Stripe subscription — change or cancel it in Stripe first.'
                         : 'Permanently delete this account.'
                   return (
                     <tr
                       key={u.username || u.email}
-                      style={isOrphan ? { background: 'rgba(255, 180, 80, 0.06)' } : undefined}
-                      title={isOrphan ? 'Paid in Stripe but never created a Recon 6 account — send them a signup link.' : undefined}
+                      className={`${isOrphan ? 'admin-row-orphan ' : ''}${hasAlerts ? 'admin-row-warning' : ''}`.trim()}
+                      title={isOrphan ? 'Stripe subscription exists, but this email has no Recon 6 website account.' : hasAlerts ? 'This email has overlapping, duplicate, or ending billing records. Open Stripe to review.' : undefined}
                     >
                       <td className="admin-mono">
                         {u.email || '-'}
                         {isOrphan && (
-                          <span
-                            className="admin-badge"
-                            style={{
-                              marginLeft: 8,
-                              background: 'rgba(255, 180, 80, 0.18)',
-                              border: '1px solid rgba(255, 180, 80, 0.5)',
-                              color: '#ffc97a',
-                              fontSize: '0.65rem',
-                              padding: '2px 7px',
-                              borderRadius: 999,
-                              fontWeight: 700,
-                              letterSpacing: '0.05em',
-                            }}
-                          >
-                            ⚠ NO ACCOUNT
-                          </span>
+                          <span className="admin-badge admin-badge-warning-soft">NO ACCOUNT</span>
                         )}
                       </td>
                       <td>
-                        <span className={`admin-badge admin-badge-${u.plan}`}>{u.plan}</span>
+                        <span className={`admin-badge admin-badge-${u.plan}`}>{PLAN_LABELS[u.plan] || u.plan}</span>
                         {u.is_comp && (
-                          <span
-                            className="admin-badge"
-                            title="Comp grant — free access, no Stripe subscription, not counted in MRR"
-                            style={{ marginLeft: 6, background: 'rgba(160,120,255,0.15)', border: '1px solid rgba(160,120,255,0.45)', color: '#c9b3ff', fontSize: '0.62rem', padding: '2px 6px', borderRadius: 999, fontWeight: 700 }}
-                          >
-                            COMP
-                          </span>
+                          <span className="admin-badge admin-badge-comp" title="Free access; excluded from revenue">COMP</span>
                         )}
+                        {hasAlerts && <div className="admin-cell-alert">Review {u.live_subscription_count > 1 ? `${u.live_subscription_count} live subscriptions` : 'billing'}</div>}
                       </td>
-                      <td><span className={`admin-badge admin-badge-${u.sub_status === 'none' ? 'free' : u.sub_status}`}>{u.sub_status === 'none' ? '—' : u.sub_status}</span></td>
-                      <td>
+                      <td className="admin-billing-cell">
+                        <span className={`admin-badge admin-badge-${u.billing_state || 'free'}`}>{billing.title}</span>
+                        <small>{billing.detail}</small>
+                      </td>
+                      <td className="admin-next-cell">
+                        {u.will_renew
+                          ? <><strong>{formatMoney(u.price_amount_cents)}</strong><small>{formatDate(u.next_billing_at)}</small></>
+                          : u.billing_state === 'ending'
+                            ? <><strong>No next charge</strong><small>Ends {formatDate(u.next_billing_at)}</small></>
+                            : <span className="admin-muted">—</span>}
+                      </td>
+                      <td className="admin-account-state">
                         {u.cognito_status === 'CONFIRMED'
-                          ? '✓'
+                          ? <span className="admin-account-ok">Ready</span>
                           : u.cognito_status === 'NO_ACCOUNT'
                             ? <span style={{ color: '#ffc97a', fontSize: '0.85rem' }}>Stripe-only</span>
                             : <span className="admin-badge admin-badge-past_due">{u.cognito_status}</span>}
                       </td>
-                      <td>{u.active_game_id ? (GAME_NAMES[u.active_game_id] || u.active_game_id) : <span style={{ opacity: 0.4 }}>—</span>}</td>
                       <td>
                         {(() => {
                           const seen = formatLastSeen(u.last_seen_at)
@@ -459,8 +527,6 @@ export default function AdminPage() {
                         })()}
                       </td>
                       <td>{u.referral_source || <span style={{ opacity: 0.4 }}>—</span>}</td>
-                      <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
-                      <td>{u.current_period_end ? new Date(u.current_period_end).toLocaleDateString() : '-'}</td>
                       <td>
                         {u.stripe_customer_id ? (
                           <a href={`https://dashboard.stripe.com/customers/${u.stripe_customer_id}`} target="_blank" rel="noreferrer" className="admin-link-inline">
@@ -488,7 +554,7 @@ export default function AdminPage() {
         )}
 
         <p className="admin-footnote">
-          To upgrade a customer, click <strong>Open</strong> next to their row to go to their Stripe customer page, then use Stripe's native upgrade flow (applies proration automatically). Changes flow back here via webhook.
+          “Paid” means Stripe has an active paid subscription. “Trial” means $0 has been collected so far. “Ending” means Stripe is not expected to charge again. Use <strong>Open</strong> for plan changes so Stripe applies proration correctly.
         </p>
       </section>
       )}
@@ -502,9 +568,8 @@ export default function AdminPage() {
 
       {adminTab === 'growth' && (
         <>
-          <DailyPlaybook />
+          <GrowthEngine currentMrr={Number(summary.mrr_dollars || 0)} />
           <CompManager />
-          <PromoKit />
         </>
       )}
 
@@ -518,6 +583,16 @@ export default function AdminPage() {
 
       {adminTab === 'system' && (
       <>
+      <section className="admin-section admin-system-actions">
+        <div className="admin-section-header"><div><span className="admin-eyebrow">Billing source of truth</span><h2>Stripe reconciliation</h2></div></div>
+        <p className="admin-footnote">Use this only when the website membership table is missing or mislabeling Stripe subscriptions. It does not reprice, charge, or cancel customers.</p>
+        <div className="admin-actions">
+          <button onClick={runBackfill} className="btn btn-sm btn-outline" disabled={backfilling}>
+            {backfilling ? 'Reconciling…' : 'Reconcile memberships from Stripe'}
+          </button>
+          <a className="btn btn-sm btn-outline" href="https://dashboard.stripe.com/" target="_blank" rel="noreferrer">Open Stripe dashboard</a>
+        </div>
+      </section>
       <AuditLog />
 
       <section className="admin-section">
@@ -603,6 +678,15 @@ function StatCard({ label, value }) {
     <div className="admin-stat-card">
       <div className="admin-stat-label">{label}</div>
       <div className="admin-stat-value">{value}</div>
+    </div>
+  )
+}
+
+function SummaryMetric({ label, value, tone = '' }) {
+  return (
+    <div className={`admin-summary-metric${tone ? ` admin-summary-${tone}` : ''}`}>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
   )
 }

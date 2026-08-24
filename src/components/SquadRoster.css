@@ -1,0 +1,60 @@
+/* Saved teammates. Add once, reuse forever. */
+
+.sr {
+  border: 1px solid rgba(0,229,255,.26); background: rgba(0,229,255,.045);
+  border-radius: 10px; padding: 13px 15px; margin-bottom: 18px;
+}
+.sr-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 11px; }
+.sr-head strong { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #00e5ff; }
+.sr-head span { font-size: 12.5px; color: var(--muted, #8b97a8); flex: 1; min-width: 220px; }
+.sr-close { background: none; border: 0; color: #00e5ff; font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+.sr-add { display: flex; gap: 8px; margin-bottom: 11px; flex-wrap: wrap; }
+.sr-add input {
+  flex: 1; min-width: 200px; background: rgba(0,0,0,.32);
+  border: 1px solid rgba(255,255,255,.15); border-radius: 7px;
+  padding: 7px 11px; color: inherit; font-size: 13px;
+}
+.sr-add input:focus { outline: none; border-color: rgba(0,229,255,.5); }
+.sr-add button {
+  background: rgba(0,229,255,.16); border: 1px solid rgba(0,229,255,.4);
+  color: #00e5ff; border-radius: 7px; padding: 7px 16px;
+  font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.sr-add button:disabled { opacity: .4; cursor: default; }
+
+.sr-empty { margin: 0; font-size: 13px; color: var(--muted, #8b97a8); line-height: 1.55; max-width: 70ch; }
+
+.sr-list { list-style: none; margin: 0 0 4px; padding: 0; display: flex; flex-wrap: wrap; gap: 7px; }
+.sr-list li {
+  display: flex; align-items: stretch;
+  border: 1px solid rgba(255,255,255,.13); border-radius: 8px; overflow: hidden;
+}
+.sr-list li.on { border-color: rgba(0,229,255,.5); }
+.sr-name {
+  background: transparent; border: 0; color: inherit; cursor: pointer;
+  padding: 6px 11px; text-align: left; display: flex; flex-direction: column; gap: 1px;
+  font-size: 13px; font-weight: 650;
+}
+.sr-count { font-size: 10.5px; font-weight: 400; color: var(--muted, #8b97a8); }
+.sr-del {
+  background: transparent; border: 0; border-left: 1px solid rgba(255,255,255,.1);
+  color: var(--muted, #8b97a8); cursor: pointer; padding: 0 10px; font-size: 15px;
+}
+.sr-del:hover { color: #e06a5a; background: rgba(224,106,90,.1); }
+
+.sr-ops { margin-top: 12px; padding-top: 11px; border-top: 1px solid rgba(255,255,255,.1); }
+.sr-ops-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+.sr-ops-head span { font-size: 13px; }
+.sr-sides { display: inline-flex; border: 1px solid rgba(255,255,255,.14); border-radius: 7px; overflow: hidden; }
+.sr-sides button { background: transparent; border: 0; color: var(--muted, #8b97a8); padding: 5px 13px; font-size: 12px; font-weight: 700; cursor: pointer; }
+.sr-sides button.on { background: rgba(0,229,255,.14); color: #00e5ff; }
+
+.sr-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.sr-chip {
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px; padding: 4px 11px; font-size: 12px; color: inherit; cursor: pointer;
+}
+.sr-chip:hover { border-color: rgba(255,255,255,.28); }
+.sr-chip.on { background: rgba(0,229,255,.16); border-color: rgba(0,229,255,.45); color: #9fe9f5; }
+.sr-hint { margin: 0; font-size: 12px; color: var(--muted, #8b97a8); line-height: 1.5; max-width: 74ch; }

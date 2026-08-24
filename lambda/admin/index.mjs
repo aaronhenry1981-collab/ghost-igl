@@ -11,12 +11,30 @@ const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const AUDIT_TABLE = process.env.AUDIT_TABLE || 'ghost-igl-audit-log'
 const POOL_ID = process.env.COGNITO_USER_POOL_ID
 const PRO_CENTS = parseInt(process.env.PRO_PLAN_AMOUNT_CENTS || '1200', 10)
-const CHAMPION_CENTS = parseInt(process.env.CHAMPION_PLAN_AMOUNT_CENTS || '2900', 10)
+const ELITE_CENTS = parseInt(process.env.ELITE_PLAN_AMOUNT_CENTS || '3900', 10)
+const CHAMPION_CENTS = parseInt(process.env.CHAMPION_PLAN_AMOUNT_CENTS || '7000', 10)
 const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY
 const STRIPE_PRO_PRICE_ID = process.env.STRIPE_PRO_PRICE_ID
 const STRIPE_CHAMPION_PRICE_ID = process.env.STRIPE_CHAMPION_PRICE_ID
 const STRIPE_PRO_FOUNDING_PRICE_ID = process.env.STRIPE_PRO_FOUNDING_PRICE_ID
 const STRIPE_CHAMPION_REGULAR_PRICE_ID = process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID
+const STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID = process.env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88'
+const LEGACY_ELITE_PRICE_IDS = new Set([
+  process.env.STRIPE_CHAMPION_PRICE_ID,
+  process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID,
+  process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID,
+  'price_1TLEtsJNddvjgWcgYcmiNmW7',
+  'price_1TPtOYJNddvjgWcgfEWjzGnp',
+  'price_1TVUd0JNddvjgWcgIPWakA3S',
+  'price_1TVUd6JNddvjgWcgc3csHICD',
+].filter(Boolean))
+
+function effectivePlan(sub) {
+  if (!sub) return 'free'
+  return LEGACY_ELITE_PRICE_IDS.has(sub.price_id) ? 'elite' : sub.plan || 'free'
+}
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: POOL_ID,
@@ -112,7 +130,7 @@ async function compUser(bodyJson, headers, actorEmail) {
   catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) } }
 
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
-  const plan = body.plan === 'pro' ? 'pro' : 'champion'
+  const plan = ['pro', 'elite', 'champion'].includes(body.plan) ? body.plan : 'elite'
   const note = typeof body.note === 'string' ? body.note.slice(0, 200) : ''
   const durationDays = Number.isFinite(body.durationDays) ? Math.max(0, Math.floor(body.durationDays)) : 365
 
@@ -186,7 +204,7 @@ async function scanAllProfiles() {
 }
 
 async function getSubscriptions(headers) {
-  const items = await scanAllSubs()
+  const items = (await scanAllSubs()).filter((item) => item.record_type !== 'usage_purchase')
   return { statusCode: 200, headers, body: JSON.stringify({ subscriptions: items, summary: computeSummary(items) }) }
 }
 
@@ -204,14 +222,17 @@ async function getUsers(headers) {
     nextToken = r.PaginationToken
   } while (nextToken)
 
-  const subs = await scanAllSubs()
-  // Index subs by lowercased email. Prefer active sub if multiple.
+  const subs = (await scanAllSubs()).filter((item) => item.record_type !== 'usage_purchase')
+  // Index subs by lowercased email. Prefer the highest live tier if multiple.
   const subByEmail = new Map()
+  const rank = { champion: 4, elite: 3, pro: 2, free: 1 }
   for (const s of subs) {
     const key = (s.email || '').toLowerCase()
     if (!key) continue
     const prev = subByEmail.get(key)
-    if (!prev || (s.status === 'active' && prev.status !== 'active')) subByEmail.set(key, s)
+    const sLive = s.status === 'active' || s.status === 'trialing'
+    const prevLive = prev && (prev.status === 'active' || prev.status === 'trialing')
+    if (!prev || (sLive && !prevLive) || (sLive === prevLive && (rank[effectivePlan(s)] || 0) > (rank[effectivePlan(prev)] || 0))) subByEmail.set(key, s)
   }
 
   // Index profiles (active_game_id + last_seen_at) by email — powers the
@@ -241,7 +262,7 @@ async function getUsers(headers) {
       cognito_status: u.UserStatus,
       enabled: u.Enabled,
       created_at: u.UserCreateDate,
-      plan: sub?.plan || 'free',
+      plan: effectivePlan(sub),
       sub_status: sub?.status || 'none',
       stripe_customer_id: sub?.stripe_customer_id || null,
       stripe_subscription_id: sub?.stripe_subscription_id || null,
@@ -265,7 +286,7 @@ async function getUsers(headers) {
       cognito_status: 'NO_ACCOUNT',
       enabled: false,
       created_at: sub.created_at || null,
-      plan: sub.plan || 'unknown',
+      plan: effectivePlan(sub),
       sub_status: sub.status || 'unknown',
       stripe_customer_id: sub.stripe_customer_id || null,
       stripe_subscription_id: sub.stripe_subscription_id || null,
@@ -282,7 +303,7 @@ async function getUsers(headers) {
 
 async function backfill(headers) {
   if (!STRIPE_SECRET) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured' }) }
-  // Map every known Pro/Champion price ID (founding + regular + All-Access
+  // Map every known Pro/Elite/Champion price ID (founding + regular + All-Access
   // monthly + All-Access annual) to a plan label. Must stay in sync with the
   // webhook's getPlanFromPrice() — when those diverge, backfill silently
   // drops subs the webhook would have accepted (e.g. All-Access SKUs were
@@ -293,12 +314,15 @@ async function backfill(headers) {
   if (process.env.STRIPE_PRO_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_PRO_FOUNDING_PRICE_ID] = 'pro'
   if (process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID] = 'pro'
   if (process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID] = 'pro'
-  // Champion tier
-  if (process.env.STRIPE_CHAMPION_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID] = 'champion'
+  for (const id of ['price_1TPtOKJNddvjgWcg47I16AQp', 'price_1TLEtrJNddvjgWcg9iTWJoLS', 'price_1TVUcxJNddvjgWcgBImnUKZe', 'price_1TVUd3JNddvjgWcgShz9Ndg5']) PRICES[id] = 'pro'
+  // Legacy Champion digital prices are Elite now; price and access are preserved.
+  if (process.env.STRIPE_CHAMPION_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_PRICE_ID] = 'elite'
+  if (process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID] = 'elite'
+  if (process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID] = 'elite'
+  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID] = 'elite'
+  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID] = 'elite'
+  for (const id of ['price_1TLEtsJNddvjgWcgYcmiNmW7', 'price_1TPtOYJNddvjgWcgfEWjzGnp', 'price_1TVUd0JNddvjgWcgIPWakA3S', 'price_1TVUd6JNddvjgWcgc3csHICD']) PRICES[id] = 'elite'
+  PRICES[STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID] = 'champion'
 
   let upserted = 0
   let scanned = 0
@@ -334,6 +358,8 @@ async function backfill(headers) {
           email,
           stripe_subscription_id: sub.id,
           plan,
+          price_id: priceId,
+          tier_scope: 'single',
           status: sub.status,
           current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
           created_at: sub.created ? new Date(sub.created * 1000).toISOString() : null,
@@ -358,10 +384,17 @@ function isComp(it) {
   return !it.stripe_subscription_id || (it.current_period_end || '').startsWith('2099')
 }
 
+const KNOWN_PRICE_CENTS = {
+  price_1TPtOKJNddvjgWcg47I16AQp: 900,
+  price_1TLEtrJNddvjgWcg9iTWJoLS: 1200,
+  price_1TLEtsJNddvjgWcgYcmiNmW7: 2900,
+  price_1TPtOYJNddvjgWcgfEWjzGnp: 3900,
+}
+
 function computeSummary(items) {
   const now = Date.now()
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000
-  let active = 0, canceled = 0, pastDue = 0, pro = 0, champion = 0, mrrCents = 0, newLast30 = 0
+  let active = 0, canceled = 0, pastDue = 0, pro = 0, elite = 0, champion = 0, mrrCents = 0, newLast30 = 0
   let paying = 0, comps = 0
 
   for (const it of items) {
@@ -374,8 +407,12 @@ function computeSummary(items) {
         comps += 1
       } else {
         paying += 1
-        if (it.plan === 'pro') { pro += 1; mrrCents += PRO_CENTS }
-        else if (it.plan === 'champion') { champion += 1; mrrCents += CHAMPION_CENTS }
+        const plan = effectivePlan(it)
+        const fallback = plan === 'champion' ? CHAMPION_CENTS : plan === 'elite' ? ELITE_CENTS : PRO_CENTS
+        mrrCents += KNOWN_PRICE_CENTS[it.price_id] || fallback
+        if (plan === 'pro') pro += 1
+        else if (plan === 'elite') elite += 1
+        else if (plan === 'champion') champion += 1
       }
     }
 
@@ -389,7 +426,7 @@ function computeSummary(items) {
     total: items.length,
     active, canceled, past_due: pastDue,
     paying_active: paying, comp_active: comps,
-    pro_active: pro, champion_active: champion,
+    pro_active: pro, elite_active: elite, champion_active: champion,
     mrr_cents: mrrCents,
     mrr_dollars: (mrrCents / 100).toFixed(2),
     arr_dollars: ((mrrCents * 12) / 100).toFixed(2),

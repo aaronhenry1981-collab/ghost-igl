@@ -12,6 +12,7 @@ import assert from 'node:assert/strict'
 process.env.STRIPE_SECRET_KEY = 'sk_test_dummy'
 process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_secret'
 process.env.COACHING_ADDON_PRICE_ID = 'price_addon_test'
+process.env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID = 'price_champion_membership_test'
 process.env.BOOKING_API = 'https://booking.test'
 
 const { handler } = await import('./index.mjs')
@@ -30,8 +31,8 @@ mock.method(subsProto, 'retrieve', async (id) => ({
 // Capture outbound POSTs the webhook makes to the booking Lambda.
 let fetchCalls = []
 globalThis.fetch = async (url, opts) => {
-  fetchCalls.push({ url, body: JSON.parse(opts.body) })
-  return { status: 200, json: async () => ({ ok: true }) }
+  fetchCalls.push({ url, body: JSON.parse(opts.body), headers: opts.headers })
+  return { ok: true, status: 200, json: async () => ({ ok: true }) }
 }
 
 // Build a signed API-Gateway event Stripe's constructEvent() will accept.
@@ -51,6 +52,20 @@ test('invoice.paid on the add-on price resets the monthly credit (pings /booking
   const call = fetchCalls.find((c) => c.url === 'https://booking.test/booking/credits')
   assert.ok(call, 'add-on invoice.paid must POST /booking/credits')
   assert.equal(call.body.subscriptionId, 'sub_ADDON')
+  assert.equal(call.body.sourceEventId, 'evt_addon')
+  assert.ok(call.headers['X-Recon6-Internal-Signature'])
+})
+
+test('invoice.paid on Champion membership resets its two monthly coaching credits', async () => {
+  fetchCalls = []
+  const res = await handler(signed({
+    id: 'evt_champion', type: 'invoice.paid',
+    data: { object: { id: 'in_champion', subscription: 'sub_CHAMPION', lines: { data: [{ price: { id: 'price_champion_membership_test' } }] } } },
+  }))
+  assert.equal(res.statusCode, 200)
+  const call = fetchCalls.find((c) => c.url === 'https://booking.test/booking/credits')
+  assert.ok(call, 'Champion invoice.paid must POST /booking/credits')
+  assert.equal(call.body.subscriptionId, 'sub_CHAMPION')
 })
 
 test('invoice.paid on an ordinary app-plan invoice does NOT touch coaching credits', async () => {

@@ -18,10 +18,19 @@ async function init() {
     await refreshStatus()
   }
   render()
+  window.setInterval(async () => {
+    if (!state.license) return
+    const latest = await window.igl.loadLicense()
+    if (!latest.valid) {
+      setState({ license: null, subStatus: 'none', error: 'Your membership could not be reverified. Sign in again to continue.' })
+    } else {
+      setState({ license: latest.payload, subStatus: 'active' })
+    }
+  }, 15 * 60 * 1000)
 }
 
 async function refreshStatus() {
-  // Stub for future backend verification — v0.1 trusts the local token.
+  // The main process has already revalidated the token with Recon 6.
   state.subStatus = state.license ? 'active' : 'none'
 }
 
@@ -92,7 +101,7 @@ function renderSidebar() {
     <div class="nav-item${state.view === 'settings' ? ' active' : ''}" data-view="settings">Settings</div>
     <div class="sidebar-footer">
       <div class="badge champion">${escapeHtml(plan.toUpperCase())}</div><br/>
-      <div style="margin-top:0.5rem;word-break:break-all;">${escapeHtml(state.license?.email || '')}</div>
+      <div style="margin-top:0.5rem;">Verified Recon 6 membership</div>
       <div style="margin-top:0.5rem;">v0.1.0</div>
     </div>
   `
@@ -117,7 +126,7 @@ function viewOverview() {
   const rankedCount = MAPS.filter((m) => m.rankedPool).length
   el.innerHTML = `
     <h1>Welcome, IGL</h1>
-    <p>Your Champion license is active. Browse map strats offline and get ready for live in-match coaching.</p>
+    <p>Your Recon 6 license is active. Browse map strats and get ready for live in-match coaching.</p>
     <div class="stat-row">
       <div class="stat"><div class="stat-label">Status</div><div class="stat-value">Active</div></div>
       <div class="stat"><div class="stat-label">Plan</div><div class="stat-value">${escapeHtml(state.license.plan || 'champion')}</div></div>
@@ -193,7 +202,7 @@ function viewSettings() {
     <h1>Settings</h1>
     <div class="card">
       <h2>License</h2>
-      <p>Signed in as <strong>${escapeHtml(state.license?.email || '')}</strong></p>
+      <p><strong>Membership verified with r6coaching.com</strong></p>
       <p>Plan: <span class="badge champion">${escapeHtml(state.license?.plan || 'champion')}</span></p>
       <div class="row">
         <button class="btn ghost" id="open-site">Manage billing on r6coaching.com</button>

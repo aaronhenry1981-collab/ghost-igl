@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import MAPS from '../data/maps'
-import STRATS from '../data/strats'
-import BANS from '../data/bans'
+import STRATS from '../data/public-strats.generated'
+import BANS from '../data/public-bans.generated'
 import { useAuth } from '../hooks/useAuth'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameMatchPrepPage from './GameMatchPrepPage'
@@ -62,7 +62,7 @@ export default function MatchPrepPage() {
   const { isR6, activeGame } = useActiveGame()
   // Sign-in gate. Static SEO pages at /games/<id>/<map>-loadouts.html stay
   // public; the interactive cheatsheet requires an account so we can save
-  // their settings + drive the 7-day Pro trial on signup.
+  // their settings and keep their R6 preparation consistent.
   if (!authLoading && !user) {
     return <SignInGate
       feature="Match Prep"

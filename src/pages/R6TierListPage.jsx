@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MAPS from '../data/maps'
-import STRATS from '../data/strats'
+import STRATS from '../data/public-strats.generated'
 import { track } from '../utils/analytics'
 import './R6TierListPage.css'
 

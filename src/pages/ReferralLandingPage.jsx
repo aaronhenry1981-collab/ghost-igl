@@ -69,8 +69,8 @@ export default function ReferralLandingPage() {
           <div className="ref-eyebrow">Invite not found</div>
           <h1>That invite code didn’t match anyone.</h1>
           <p>
-            The link may be expired or mistyped. You can still sign up directly
-            and start a 7-day Pro trial — we just can’t credit a friend.
+            The link may be expired or mistyped. You can still create a free
+            Recon 6 account — we just can’t credit a friend.
           </p>
           <div className="ref-cta-row">
             <Link to="/auth?mode=signup" className="btn btn-primary btn-lg">Sign up — free</Link>
@@ -84,6 +84,7 @@ export default function ReferralLandingPage() {
   const tierLabel =
     state.tier === 'champion' ? 'Champion' :
     state.tier === 'pro' ? 'Pro' :
+    state.tier === 'elite' ? 'Elite' :
     'Recon 6'
 
   return (
@@ -94,24 +95,23 @@ export default function ReferralLandingPage() {
           <span className="ref-name">{state.referrerName}</span> invited you to <span className="ref-accent">Recon 6</span>.
         </h1>
         <p className="ref-lead">
-          {state.referrerName} is a {tierLabel} subscriber and thinks you’d climb
-          faster with Recon 6. Sign up now and you get a free 7-day Pro trial —
-          no credit card. {state.referrerName} gets credit toward their next free month
-          when 3 friends stay subscribed.
+          {state.referrerName} is a {tierLabel} subscriber and invited you to
+          start with Recon 6’s free R6 tools. {state.referrerName} gets credit
+          toward their next free month when 3 friends stay subscribed.
         </p>
 
         <ul className="ref-perks">
           <li>
             <span className="ref-check">&#10003;</span>
-            <strong>Free 7-day Pro trial</strong> — round-by-round VOD breakdowns, ban intel, opponent reads
+            <strong>Free R6 account</strong> — save your settings and use the available R6 reference tools
           </li>
           <li>
             <span className="ref-check">&#10003;</span>
-            <strong>Strats, loadouts, match prep</strong> across all 20 supported games
+            <strong>Strats, loadouts, and match prep</strong> built for Rainbow Six Siege
           </li>
           <li>
             <span className="ref-check">&#10003;</span>
-            <strong>No credit card to start</strong>. Cancel in one click if it’s not for you.
+            <strong>No credit card for a free account</strong>. Paid plans show their terms before checkout.
           </li>
           {isFoundingOpen() && (
             <li>
@@ -123,7 +123,7 @@ export default function ReferralLandingPage() {
 
         <div className="ref-cta-row">
           <Link to="/auth?mode=signup" className="btn btn-primary btn-lg">
-            Start free trial →
+            Create a free account →
           </Link>
           <Link to="/strats" className="btn btn-ghost btn-lg">
             Browse the strats first

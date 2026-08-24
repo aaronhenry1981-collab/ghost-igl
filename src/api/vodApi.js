@@ -19,6 +19,13 @@ export async function analyzeScreenshotApi(file, context = {}) {
   return analyzeSessionApi([file], context)
 }
 
+// Supported rank/stat intake. Tracker Network does not expose a dependable
+// third-party Siege API, so users import a screenshot they can already view.
+// The backend uses a separate evidence-only contract and never scrapes TRN.
+export async function analyzeRankSnapshotApi(file) {
+  return analyzeSessionApi([file], { game_id: 'r6', analysis_type: 'rank_snapshot' })
+}
+
 // Multi-image session analysis. Accepts 1-10 files + optional context hints
 // (game_id, map, side, operator/character) and returns the session-shaped
 // response.
@@ -56,6 +63,7 @@ export async function analyzeSessionApi(files, context = {}) {
   // game_id rides at the top level so the Lambda doesn't have to dig into
   // context to route. Default to r6 server-side if missing.
   if (context.game_id) body.game_id = context.game_id
+  if (context.analysis_type) body.analysis_type = context.analysis_type
 
   // Only include context fields the user actually set — empty strings would
   // confuse the AI into thinking the user specified empty values.

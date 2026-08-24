@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../../lib/cognito'
 
-// Comp account manager — grant time-limited Pro/Champion access without
+// Comp account manager — grant time-limited Pro/Elite/Champion access without
 // charging, then convert to paid or revoke when the trial ends.
 //
 // Use cases: influencer trials, Discord giveaways, refunds-in-progress,
@@ -65,7 +65,7 @@ export default function CompManager() {
 
   // Grant-form state
   const [email, setEmail] = useState('')
-  const [plan, setPlan] = useState('champion')
+  const [plan, setPlan] = useState('elite')
   const [durationDays, setDurationDays] = useState(90) // default 3 months — Aaron's primary use case
   const [note, setNote] = useState('')
   const [granting, setGranting] = useState(false)
@@ -140,7 +140,7 @@ export default function CompManager() {
       <div className="admin-section-header">
         <h2>Comp Accounts</h2>
         <p className="admin-section-sub">
-          Free Pro / Champion access for influencers, Discord giveaways, refunds, beta testers.
+          Free Pro, Elite, or Champion access for influencers, Discord giveaways, refunds, and beta testers.
           Excluded from MRR. Auto-expires when the period ends — no cron needed.
         </p>
       </div>
@@ -164,6 +164,7 @@ export default function CompManager() {
           <span style={{ color: 'rgba(230,233,239,0.65)' }}>Plan</span>
           <select value={plan} onChange={(e) => setPlan(e.target.value)} className="admin-input">
             <option value="champion">Champion</option>
+            <option value="elite">Elite</option>
             <option value="pro">Pro</option>
           </select>
         </label>

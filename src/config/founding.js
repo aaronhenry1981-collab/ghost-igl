@@ -1,8 +1,8 @@
 // Founding-window single source of truth.
 //
 // The founding-rate launch promise: any subscriber who signs up before
-// FOUNDING_END_ISO is locked at their founding rate (Pro $9, Champion $29,
-// Pro All-Access $19, Champion All-Access $49) for the life of their
+// FOUNDING_END_ISO is locked at their founding rate (Pro $9 and legacy
+// digital-tier $29, plus older All-Access offers) for the life of their
 // subscription. After this date new sign-ups pay regular rates.
 //
 // Why centralize: previously every "Ends May 31" mention was a hardcoded

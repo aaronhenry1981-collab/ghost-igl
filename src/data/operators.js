@@ -2,7 +2,7 @@
 // Shape: { [opName]: { name, roles: Set, sites: [{ mapId, siteId, side, priority, role }] } }
 
 import MAPS from './maps'
-import STRATS from './strats'
+import STRATS from './public-strats.generated'
 
 function buildOperatorIndex() {
   const index = {}

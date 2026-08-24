@@ -89,7 +89,7 @@ export function useGameData() {
       .catch(err => { if (!cancelled) setError(err.message || 'Failed to load game data') })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [game?.id])
+  }, [game])
 
   return { game, data, loading, error }
 }

@@ -4,12 +4,12 @@
 // Run: node scripts/generate-guides.mjs
 // Output: public/guides/<map-id>.html + public/guides/index.html
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
-import STRATS from '../src/data/strats.js'
-import BANS from '../src/data/bans.js'
+import STRATS from '../src/data/public-strats.generated.js'
+import BANS from '../src/data/public-bans.generated.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -191,34 +191,18 @@ function renderMapGuide(map) {
   }
 
   const siteNames = map.sites.map((s) => s.name).join(', ')
-  const description = `Complete Rainbow Six Siege strategy guide for ${map.name}: operator picks, callouts, utility usage, and ban recommendations for every bomb site (${siteNames}). Attack and defense strats for ranked play.`
+  const description = `Rainbow Six Siege strategy preview for ${map.name}: operator picks, a short execute overview, and key callouts for every bomb site (${siteNames}).`
 
   const bodyInner = `
     <h1>${escape(map.name)} — Complete Strategy Guide</h1>
-    <p class="sub">Operator picks, callouts, utility, and ban recommendations for every bomb site. Free tactical guide from Recon 6.</p>
+    <p class="sub">Operator picks, a short execute overview, and key callouts for every bomb site. Full utility and ban intel unlock after sign-in.</p>
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}">Open interactive ${escape(map.name)} strats &rarr;</a>
     ${bansHtml}
     ${siteSections}
     <div class="intro-cta">
       <h3>Want the full utility breakdown + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis for $9/mo (R6 only) or $19/mo All-Access (10 games).</p>
+      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis. Review the current R6 plans before you subscribe.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
-    </div>
-
-    <!-- Multi-game cross-link: R6 visitors who also play other tactical FPS see
-         the All-Access value prop here. Doesn't hurt R6-only conversion since
-         it's below the fold, after the strats they came for. -->
-    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
-      <div style="font-size: 0.78rem; font-weight: 800; color: #00e5ff; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;">Recon 6 Multi-Game</div>
-      <h3 style="margin: 0 0 8px;">Also play CS2, Valorant, or another tactical FPS?</h3>
-      <p style="margin: 0 0 12px; color: rgba(230,233,239,0.8);">Recon 6 covers 10 games with the same AI VOD analysis and map-aware feedback. All-Access ($19/mo Pro+) unlocks every game as it launches.</p>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="${SITE_URL}/games/cs2/" style="padding: 6px 12px; background: rgba(245,184,0,0.12); color: #f5b800; border: 1px solid rgba(245,184,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">CS2 →</a>
-        <a href="${SITE_URL}/games/valorant/" style="padding: 6px 12px; background: rgba(255,70,85,0.12); color: #ff4655; border: 1px solid rgba(255,70,85,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Valorant →</a>
-        <a href="${SITE_URL}/games/apex/" style="padding: 6px 12px; background: rgba(155,81,224,0.12); color: #9b51e0; border: 1px solid rgba(155,81,224,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">Apex →</a>
-        <a href="${SITE_URL}/games/ow2/" style="padding: 6px 12px; background: rgba(255,140,0,0.12); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">OW2 →</a>
-        <a href="${SITE_URL}/games/" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: rgba(230,233,239,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;">All 10 →</a>
-      </div>
     </div>`
 
   const jsonLd = {
@@ -308,7 +292,7 @@ function renderSiteGuide(map, site) {
 
     <div class="intro-cta">
       <h3>Want full utility placement + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility breakdown, enemy predictions, and AI-powered gameplay analysis. Founding rate $9/mo before May 31.</p>
+      <p>Recon 6 Pro unlocks per-operator utility breakdown, enemy predictions, and AI-powered gameplay analysis. Review current pricing and trial terms before checkout.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
@@ -427,6 +411,12 @@ function main() {
     // Per-site SEO pages — one per (map, site) targeting long-tail queries.
     const mapDir = join(OUT_DIR, map.id)
     mkdirSync(mapDir, { recursive: true })
+    const expectedSiteFiles = new Set(
+      map.sites.filter((site) => STRATS[map.id]?.[site.id]).map((site) => `${site.id}.html`),
+    )
+    for (const file of readdirSync(mapDir)) {
+      if (file.endsWith('.html') && !expectedSiteFiles.has(file)) unlinkSync(join(mapDir, file))
+    }
     for (const site of map.sites) {
       const siteHtml = renderSiteGuide(map, site)
       if (!siteHtml) continue

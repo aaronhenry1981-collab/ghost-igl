@@ -49,7 +49,7 @@ You're in. Three things worth doing first:
 
 1. Live Coach — the in-match walkthrough. Pick your stack size, map, and bans, and it tells you what to pick and how to play it: ${SITE}/live
 2. Map strats — every ranked map, site by site: ${SITE}/strats
-3. Finish your profile (30 seconds) and you get a free 7-day Pro trial — no card: ${SITE}/account
+3. Finish your profile (30 seconds) so your R6 setup and training progress are saved: ${SITE}/account
 
 If anything's confusing or broken, just reply to this email. I read everything.
 
@@ -192,9 +192,9 @@ How it works:
 - Bring 2-3 clips or screenshots of rounds you lost.
 - The AI processes them before we meet: what killed you, where, and the pattern across rounds.
 - We watch the moments that matter, fix ONE thing properly, and you leave with a concrete plan for your next queue.
-- Console (PS5 capture-card) or PC. Any rank. Sessions run on Discord. 7-day money-back guarantee.
+- Console (PS5 capture-card) or PC. Any rank. Sessions run on Discord.
 
-Pick a time: ${SITE}/coaching/?ref=email#book
+Pick a time: ${SITE}/coaching/index.html?ref=email#book
 
 Not boosting — nobody touches your account, ever. You earn the rank; coaching just stops the repeat mistakes.
 

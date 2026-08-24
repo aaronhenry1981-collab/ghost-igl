@@ -17,9 +17,6 @@ export default function ProGate({ label, children }) {
 
   return (
     <div className="pro-gate">
-      <div className="pro-gate-content">
-        {children}
-      </div>
       <div className="pro-gate-overlay">
         <div className="pro-gate-lock">{'🔒'}</div>
         <div className="pro-gate-text">

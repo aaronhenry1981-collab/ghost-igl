@@ -83,6 +83,7 @@ try {
     const title = (html.match(/<title>([^<]+)<\/title>/) || [])[1]
     const desc = (html.match(/<meta name="description" content="([^"]+)"/) || [])[1]
     if (!title) continue
+    if (!/\b(?:Rainbow Six|R6|Siege)\b/i.test(`${title} ${desc || ''}`)) continue
     items.push({
       title,
       link: `${SITE}/blog/${f}`,

@@ -118,11 +118,15 @@ npm run build
 # Dev server
 npm run dev   # http://localhost:5173
 
-# Deploy a Lambda (subscription / webhook / admin)
+# Deploy a simple single-file Lambda (subscription / webhook / admin)
 cd lambda/<name>
 npm install --omit=dev
 Compress-Archive -Path index.mjs,package.json,node_modules -DestinationPath function.zip -Force
 aws lambda update-function-code --function-name ghost-igl-<name>-api --zip-file fileb://function.zip --region us-east-1
+
+# Deploy VOD (required imported module + game contexts; never use the generic ZIP command above)
+cd ../..
+.\deploy-vod.ps1
 
 # Full SAM stack deploy (only when template.yaml changes)
 cd aws && sam build && sam deploy

@@ -115,23 +115,47 @@ export const SMALL_SAMPLE = {
   ],
 }
 
-// Jackson's pool, in his own order. Known because he is the regular duo — the
-// only teammate we have real data on. Assigning him an operator he does not own
-// is the same failure as recommending Aaron one he loses on.
+// The regular duo's pool, in his own order — the only teammate we have real data
+// on. Assigning him an operator he does not own is the same failure as
+// recommending the wrong one to you.
 export const DUO_POOL = {
   attack: ['Ace', 'Hibana', 'Osa', 'Buck', 'Sledge', 'Jackal', 'Ash'],
   defense: ['Mute', 'Melusi', 'Azami', 'Thorn', 'Aruni', 'Echo', 'Frost', 'Kapkan', 'Wamai', 'Bandit'],
 }
 
-export const KNOWN_MATES = {
-  jocephus88: { label: 'JoCephus88', pool: DUO_POOL },
-  jocephis88: { label: 'JoCephis88', pool: DUO_POOL },
+// Keyed by hash, not by handle.
+//
+// This file ships to every browser that loads the site. A plaintext map from a
+// real PSN gamertag to "here is that person's operator pool" is a fact about
+// someone who never agreed to be in our bundle, and no amount of UI gating helps
+// — devtools reads the source. Hashing keeps the lookup working for the account
+// that needs it while the handle itself stops being shipped at all.
+//
+// Not a security control. It is one-way for a reader with the bundle and nothing
+// else, which is exactly the exposure that existed.
+const MATE_POOLS = {
+  '1417d751200043c7': DUO_POOL,
+  'dd0baa3d2e36d623': DUO_POOL,
+}
+
+function mateKey(name) {
+  const k = String(name).toLowerCase().replace(/[^a-z0-9]/g, '')
+  if (!k) return ''
+  // FNV-1a, 64-bit, over the same salted string the build hashed. Small and
+  // dependency-free; we are hiding a handle from a casual reader, not resisting
+  // an attacker who already has the pool contents sitting next to it.
+  let hi = 0x811c9dc5, lo = 0x9dc5811c
+  const src = 'recon6-mate:' + k
+  for (let i = 0; i < src.length; i++) {
+    hi ^= src.charCodeAt(i); hi = Math.imul(hi, 16777619) >>> 0
+    lo ^= (src.charCodeAt(i) + i); lo = Math.imul(lo, 16777619) >>> 0
+  }
+  return (hi.toString(16).padStart(8, '0') + lo.toString(16).padStart(8, '0'))
 }
 
 export function poolFor(name) {
   if (!name) return null
-  const k = String(name).toLowerCase().replace(/[^a-z0-9]/g, '')
-  return KNOWN_MATES[k] ? KNOWN_MATES[k].pool : null
+  return MATE_POOLS[mateKey(name)] || null
 }
 
 // Real losing records with enough rounds to mean it.

@@ -15,7 +15,7 @@ export default function ActivatePage() {
   const [tokenExpiresAt, setTokenExpiresAt] = useState(null)
   const [copied, setCopied] = useState(false)
 
-  const isChampion = isAdmin || userPlan === 'champion'
+  const hasDesktopAccess = isAdmin || userPlan === 'pro' || userPlan === 'elite' || userPlan === 'champion'
 
   useEffect(() => {
     if (!loading && !user) {
@@ -27,7 +27,7 @@ export default function ActivatePage() {
   // base64 trick — the new HMAC-signed token can't be forged by anyone who
   // happens to know a Champion's email.
   useEffect(() => {
-    if (!user || !isChampion || !API_URL) {
+    if (!user || !hasDesktopAccess || !API_URL) {
       setToken('')
       setTokenError(null)
       return
@@ -61,7 +61,7 @@ export default function ActivatePage() {
     }
     fetchToken()
     return () => { cancelled = true }
-  }, [user, isChampion])
+  }, [user, hasDesktopAccess])
 
   async function copyToken() {
     try {
@@ -94,20 +94,20 @@ export default function ActivatePage() {
     return null // redirect in effect
   }
 
-  if (!isChampion) {
+  if (!hasDesktopAccess) {
     return (
       <div className="activate-page">
         <div className="activate-box">
           <div className="activate-header">
             <div className="activate-icon locked">🔒</div>
-            <h1>Champion Only</h1>
+            <h1>Pro Membership Required</h1>
           </div>
           <p>
-            The <strong>Recon 6 Command</strong> desktop app is exclusive to <strong>Champion</strong>{' '}
-            subscribers. Upgrade to unlock live capture-based coaching, team sessions, and voice guidance.
+            The <strong>Recon 6 Command</strong> desktop app is included with <strong>Pro, Elite, and Champion</strong>{' '}
+            memberships. Upgrade to unlock the PC beta and its metered AI coaching allowance.
           </p>
           <div className="activate-actions">
-            <button type="button" onClick={goToPricing} className="btn btn-primary">Upgrade to Champion</button>
+            <button type="button" onClick={goToPricing} className="btn btn-primary">See Pro Membership</button>
             <Link to="/" className="btn btn-ghost">Back to Home</Link>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function ActivatePage() {
         <div className="activate-header">
           <div className="activate-icon">✓</div>
           <div>
-            <div className="activate-eyebrow">Champion Subscription Verified</div>
+            <div className="activate-eyebrow">{isAdmin ? 'Admin' : `${userPlan[0].toUpperCase()}${userPlan.slice(1)}`} Membership Verified</div>
             <h1>Activate Recon 6 Command</h1>
           </div>
         </div>

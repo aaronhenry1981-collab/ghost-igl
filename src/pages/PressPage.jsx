@@ -13,15 +13,14 @@ import './PressPage.css'
 // + Person so Google's knowledge panel can pull from this directly.
 
 const COPY_PRESETS = {
-  oneLine: 'Recon 6 is the AI-powered in-match coach for 20 competitive games — every map, every site, every callout pre-loaded for you, plus AI VOD review on your own clips.',
-  paragraph: `Recon 6 (r6coaching.com) gives competitive players a single screen that walks them through every pre-round decision: map, bans, side, queue size, site, operator, loadout, and site setup. AI VOD review reads screenshots and tells players exactly what cost them the round. Live across R6 Siege, CS2, Valorant, Overwatch 2 (including Stadium mode), Apex, LoL, Dota 2, Tekken 8, EAFC, PUBG, and 10 more competitive titles. Founding-rate Pro subscriptions ($9/mo) are locked for life through May 31, 2026.`,
-  founder: `Aaron Henry founded Recon 6 (originally Ghost IGL, rebranded May 12, 2026) after six months of recording his own ranked R6 matches looking for the patterns that kept him and his friends stuck at Plat. The tactical observations from those replays became the seed for the coaching tool. He builds the platform solo from Texas while playing Siege competitively.`,
+  oneLine: 'Recon 6 is a Rainbow Six Siege coaching and reference platform with map plans, operator guidance, screenshot-based VOD feedback, and live 1:1 coaching.',
+  paragraph: `Recon 6 (r6coaching.com) helps Rainbow Six Siege players prepare a round: map, bans, side, site, operator, loadout, and site setup. Its screenshot-based VOD feedback is tied to the moments a player shares, so the result is a specific correction to test in the next match. Free accounts provide selected reference tools; paid plans and optional 1:1 sessions are described on the current pricing page.`,
+  founder: `Aaron Henry founded Recon 6 after recording his own ranked R6 matches to find the patterns behind repeated round losses. Those observations became the seed for a practical coaching tool focused on decisions players can test in their next Siege match. He builds the platform independently from Texas.`,
 }
 
 const SCREENSHOTS = [
   { src: '/og-image.png', label: 'Site preview card (1200×630)', alt: 'Recon 6 landing page social preview' },
   { src: '/guides/og/bank.svg', label: 'R6 map guide preview — Bank', alt: 'Bank strategy guide social card' },
-  { src: '/games/og/stadium-busan.svg', label: 'OW2 Stadium map preview — Busan', alt: 'Stadium Busan Downtown share preview' },
 ]
 
 const LOGOS = [
@@ -37,7 +36,7 @@ const OUTREACH_TEMPLATES = [
 
 I built a free in-match coaching tool for R6 — r6coaching.com/live — that walks you through map → bans → site → operator → loadout in one screen. It's the kind of thing I wish existed when I was grinding ranked solo.
 
-The Pro tier ($9/mo founding rate, locked for life if you sub before May 31) adds AI VOD review on screenshots — drop a clip, get back what cost you the round. I'd love to send you a free Champion comp if you want to take it for a spin on stream. No strings, just want feedback from real Diamond+ players.
+Pro begins with a card-required 30-day trial and then the founding rate of $9/month. It adds AI VOD review on screenshots — share a moment from a match and get feedback tied to that evidence. I'd value feedback from real Diamond+ players.
 
 If you want a thumbnail-friendly intro for your audience, the press kit (logos, screenshots, one-line description) is at r6coaching.com/press.
 
@@ -49,12 +48,12 @@ Recon 6`,
     label: 'For gaming / esports journalists',
     body: `Hi {{name}},
 
-Pitching a story angle on AI coaching tools in tactical FPS — Recon 6 (r6coaching.com) just expanded from R6-only to 20 competitive games, including the first dedicated coaching coverage of OW2's new Stadium mode (Cash economy, Power picks, Item shop builds).
+Pitching a story angle on practical coaching tools for Rainbow Six Siege — Recon 6 (r6coaching.com) combines pre-round reference material, screenshot-based VOD feedback, and optional 1:1 sessions.
 
 Bullets that might fit a piece:
-- Single founder, bootstrapped, profitable on a $9/mo founding rate
-- AI VOD review reads screenshots round-by-round (not full video) — drastically cheaper than what was previously possible
-- 20-game coverage including non-FPS titles (LoL, Dota 2, Tekken 8, EAFC, NBA 2K) on the same coaching engine
+- Single founder, bootstrapped
+- AI VOD review reads player-provided screenshots rather than full video
+- Paid plans are explicit about the card-required Pro trial and current pricing
 
 Happy to provide founder quotes, screenshots, or a free Champion sub for review purposes. Press kit (logos, copy presets, screenshots) at r6coaching.com/press.
 
@@ -165,9 +164,9 @@ export default function PressPage() {
           <ul className="press-founder-facts">
             <li><strong>Based:</strong> Texas, USA</li>
             <li><strong>Company:</strong> Iron Front Digital LLC (parent)</li>
-            <li><strong>Founded:</strong> 2025 (as Ghost IGL); rebranded to Recon 6 May 12, 2026</li>
-            <li><strong>Funding:</strong> Bootstrapped, profitable</li>
-            <li><strong>Tech:</strong> React + AWS (Cognito, Lambda, DynamoDB, S3 + CloudFront) + Stripe + AWS Bedrock (Claude Sonnet 4.5 for VOD analysis)</li>
+            <li><strong>Founded:</strong> 2025</li>
+            <li><strong>Funding:</strong> Bootstrapped</li>
+            <li><strong>Tech:</strong> React + AWS + Stripe</li>
           </ul>
         </div>
       </section>
@@ -187,7 +186,7 @@ export default function PressPage() {
           <li><strong>Partnerships / collabs:</strong> Same — DMs welcome</li>
           <li><strong>Live site:</strong> <a href="https://r6coaching.com">r6coaching.com</a></li>
           <li><strong>Try the in-match coach:</strong> <Link to="/live">/live</Link></li>
-          <li><strong>Founding-rate cutoff:</strong> May 31, 2026 (then regular rates apply; founding subscribers stay locked for life)</li>
+          <li><strong>Current plans:</strong> <Link to="/#pricing">View pricing and terms</Link></li>
         </ul>
       </section>
 

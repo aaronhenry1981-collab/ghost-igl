@@ -2,8 +2,8 @@
 // Computed once at module load from OPERATORS + MAPS + BANS + STRATS.
 
 import MAPS from './maps'
-import STRATS from './strats'
-import BANS from './bans'
+import STRATS from './public-strats.generated'
+import BANS from './public-bans.generated'
 import OPERATORS from './operators'
 
 function computeMeta() {

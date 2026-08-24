@@ -9,7 +9,6 @@ import { writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
-import BANS from '../src/data/bans.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -83,22 +82,8 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd }
 }
 
 function banGuidePage(map) {
-  const bans = BANS[map.id]
-  if (!bans) return null
-
-  const attackBansHtml = bans.attack.map(b => `
-    <div class="ban-card">
-      <div class="ban-name">${escape(b.name)} <span style="color:#ff5a5a; font-size:0.8rem; font-weight:600;">— ATTACK BAN</span></div>
-      <p class="ban-reason">${escape(b.reason)}</p>
-    </div>`).join('\n')
-
-  const defenseBansHtml = bans.defense.map(b => `
-    <div class="ban-card defense">
-      <div class="ban-name">${escape(b.name)} <span style="color:#5a99ff; font-size:0.8rem; font-weight:600;">— DEFENSE BAN</span></div>
-      <p class="ban-reason">${escape(b.reason)}</p>
-    </div>`).join('\n')
-
-  const description = `Best operators to ban on ${map.name} in Rainbow Six Siege ranked. ${bans.attack.length} attacker bans, ${bans.defense.length} defender bans, with reasoning per pick.`
+  if (map.comingSoon) return null
+  const description = `How to approach the ban phase on ${map.name} in Rainbow Six Siege ranked, with map-specific recommendations available inside Recon 6.`
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -113,13 +98,13 @@ function banGuidePage(map) {
   const inner = `
     <div class="eyebrow">Ban Guide</div>
     <h1>${escape(map.name)} — Ban Order</h1>
-    <p class="lead">Optimal ban targets for ${escape(map.name)} ranked play. Attack bans neutralize the most dangerous attacker operators against this map; defense bans neutralize the most oppressive defender setups.</p>
+    <p class="lead">The right ban depends on the map, your side, and the execute you plan to run. Recon 6 keeps the current map-specific recommendations inside the signed-in strategy tool.</p>
 
-    <h2>Attack Bans (ban these attackers)</h2>
-    ${attackBansHtml}
+    <h2>Attack ban</h2>
+    <div class="ban-card"><div class="ban-name">Map-specific recommendation</div><p class="ban-reason">Sign in to see the attacker ban and the reason it disrupts this map.</p></div>
 
-    <h2>Defense Bans (ban these defenders)</h2>
-    ${defenseBansHtml}
+    <h2>Defense ban</h2>
+    <div class="ban-card defense"><div class="ban-name">Map-specific recommendation</div><p class="ban-reason">Sign in to see the defender ban and the setup it removes.</p></div>
 
     <h2>Want full strats?</h2>
     <p>Ban order is half the round. The other half is execute, anchor, and rotation reads.</p>
@@ -137,14 +122,12 @@ function banGuidePage(map) {
 
 function indexPage(maps) {
   const itemsHtml = maps
-    .filter(m => BANS[m.id])
+    .filter(m => !m.comingSoon)
     .map(m => {
-      const ab = BANS[m.id].attack.map(x => x.name).join(', ')
-      const db = BANS[m.id].defense.map(x => x.name).join(', ')
       return `<li>
         <a href="/guides/bans/${m.id}.html"><strong>${escape(m.name)}</strong></a>
         <div style="font-size:0.85rem; color:rgba(230,233,239,0.6); margin-top:4px;">
-          Attack: ${escape(ab)} · Defense: ${escape(db)}
+          Map-specific attacker and defender ban framework
         </div>
       </li>`
     }).join('\n')
@@ -159,7 +142,7 @@ function indexPage(maps) {
   `
   return htmlShell({
     title: 'R6 Siege Ban Order Guides — Per-Map Ban Recommendations | Recon 6',
-    description: `Complete ban guide catalog for Rainbow Six Siege ranked play. Per-map ban recommendations across ${maps.filter(m => BANS[m.id]).length} maps.`,
+    description: `Ban-phase guide catalog for Rainbow Six Siege ranked play across ${maps.filter(m => !m.comingSoon).length} maps.`,
     canonical: `${SITE_URL}/guides/bans/`,
     bodyInner: inner,
   })

@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import MAPS from '../data/maps'
-import STRATS from '../data/strats'
-import BANS from '../data/bans'
+import STRATS from '../data/public-strats.generated'
+import BANS from '../data/public-bans.generated'
 import './EmbedMatchPrepPage.css'
 
 // Embeddable Match Prep widget — designed for iframe embedding on other

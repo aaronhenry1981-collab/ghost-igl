@@ -26,7 +26,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
   const { activeGameId } = useActiveGame()
   const { data, gameMeta } = useGameData()
 
-  const maxImages = tier === 'champion' ? MAX_IMAGES_CHAMPION : MAX_IMAGES_PRO
+  const maxImages = tier === 'pro' ? MAX_IMAGES_PRO : MAX_IMAGES_CHAMPION
 
   // Maps from the active game's data, fall back to empty.
   const playableMaps = useMemo(() => {
@@ -140,7 +140,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
           <>
             <div className="upload-zone-icon">📸</div>
             <h3>Drop your screenshots here</h3>
-            <p>1–{maxImages} images per session ({tier === 'champion' ? 'Champion' : 'Pro'} tier)</p>
+            <p>1–{maxImages} images per session ({tier === 'champion' ? 'Champion' : tier === 'elite' ? 'Elite' : 'Pro'} tier)</p>
             <span className="upload-zone-btn">Choose Files</span>
             <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', marginTop: '1rem' }}>
               Death cams, post-plant freezes, round-end scoreboards. Multi-round sessions get holistic

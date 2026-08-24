@@ -17,7 +17,7 @@
 // Routes (existing HTTP API u0k402df6j, all auth in-Lambda per house pattern):
 //   GET  /booking/slots?days=14        public — open slots (UTC ids)
 //   POST /booking/hold                 public — 5-minute hold {slotId}
-//   POST /booking/confirm              public — {slotId, holdToken, customer...}
+//   POST /booking/confirm              retired — payment/credit proof is required
 //   GET  /booking/manage?token=        public — booking info for the manage page
 //   POST /booking/manage               public — {token, action: cancel|reschedule, newSlotId?}
 //   GET  /admin/bookings               admin  — upcoming bookings
@@ -28,7 +28,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand,
-  DeleteCommand, ScanCommand, BatchGetCommand,
+  DeleteCommand, ScanCommand, BatchGetCommand, TransactWriteCommand,
 } from '@aws-sdk/lib-dynamodb'
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
@@ -55,7 +55,10 @@ const COACHING = {
 const PACKAGE_SESSIONS = 4 // legacy à-la-carte package (archived); kept for old rows
 // Reconciled model: the $70/mo add-on grants a fixed monthly credit balance.
 const COACHING_ADDON_PRICE_ID = process.env.COACHING_ADDON_PRICE_ID || 'price_1TsZtQJNddvjgWcgwPKVEYQm'
+const CHAMPION_MEMBERSHIP_PRICE_ID = process.env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88'
+const COACHING_CREDIT_PRICE_IDS = new Set([COACHING_ADDON_PRICE_ID, CHAMPION_MEMBERSHIP_PRICE_ID].filter(Boolean))
 const CREDITS_PER_MONTH = 2 // set (not incremented) each cycle — no rollover
+const CHECKIN_COOLDOWN_MS = 5 * 60 * 1000
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 Coaching <coach@r6coaching.com>'
 const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const SITE = 'https://r6coaching.com'
@@ -287,7 +290,7 @@ function feedIcs(items, minutes) {
 function googleCalLink(slotId, minutes, title) {
   const s = slotId.replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
   const e = new Date(Date.parse(slotId) + minutes * 60000).toISOString().replace(/\.\d{3}Z$/, '').replace(/[-:]/g, '') + 'Z'
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${s}/${e}&details=${encodeURIComponent(SITE + '/coaching/')}`
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${s}/${e}&details=${encodeURIComponent(SITE + '/coaching/index.html')}`
 }
 
 function manageLinks(token) {
@@ -325,15 +328,56 @@ Aaron — Recon 6`
 
 // ---- auth ---------------------------------------------------------------------
 async function requireAdmin(event) {
+  const payload = await optionalUser(event)
+  const groups = payload?.['cognito:groups']
+  return Array.isArray(groups) && groups.includes('admins') ? payload : null
+}
+
+async function optionalUser(event) {
   const auth = event.headers?.authorization || event.headers?.Authorization || ''
   const token = auth.replace(/^Bearer\s+/i, '')
   if (!token) return null
   try {
     const payload = await verifier.verify(token)
-    const groups = payload['cognito:groups']
-    if (Array.isArray(groups) && groups.includes('admins')) return payload
+    return payload.email_verified === true ? payload : null
   } catch (err) { console.warn('JWT verify failed:', err.name) }
   return null
+}
+
+function bookingActorKey(event) {
+  const ip = event.requestContext?.http?.sourceIp || 'unknown'
+  const ua = event.headers?.['user-agent'] || event.headers?.['User-Agent'] || ''
+  return `hold-actor#${crypto.createHash('sha256').update(`${ip}|${ua}`).digest('hex').slice(0, 32)}`
+}
+
+function createManageToken(slotId) {
+  if (!process.env.STRIPE_SECRET_KEY) throw new Error('manage token signing is not configured')
+  const payload = Buffer.from(JSON.stringify({ slotId, nonce: crypto.randomBytes(16).toString('hex') })).toString('base64url')
+  const signature = crypto.createHmac('sha256', process.env.STRIPE_SECRET_KEY).update(payload).digest('base64url')
+  return `${payload}.${signature}`
+}
+
+function slotIdFromManageToken(token) {
+  if (typeof token !== 'string' || token.length < 40 || token.length > 2048) return null
+  const [payload, signature] = token.split('.')
+  if (!payload || !signature || !process.env.STRIPE_SECRET_KEY) return null
+  const expected = crypto.createHmac('sha256', process.env.STRIPE_SECRET_KEY).update(payload).digest('base64url')
+  const a = Buffer.from(signature)
+  const b = Buffer.from(expected)
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null
+  try {
+    const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'))
+    return typeof decoded.slotId === 'string' ? decoded.slotId : null
+  } catch {
+    return null
+  }
+}
+
+async function getBookingByManageToken(token) {
+  const slotId = slotIdFromManageToken(token)
+  if (!slotId) return null
+  const result = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId } }))
+  return result.Item?.manageToken === token ? result.Item : null
 }
 
 // ---- reminders (EventBridge, every 30 min) -------------------------------------
@@ -392,6 +436,7 @@ async function hasPriorConfirmed(email) {
 const creditKey = (email) => `credits#${String(email || '').toLowerCase()}`
 async function getCredits(email) {
   const r = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: creditKey(email) } }))
+  if (r.Item?.creditType === 'membership' && Date.parse(r.Item?.validUntil || '') <= Date.now()) return 0
   return Number(r.Item?.credits || 0)
 }
 async function addCredits(email, n) {
@@ -402,32 +447,120 @@ async function addCredits(email, n) {
   }))
 }
 // SET the balance (add-on monthly grant/reset — no rollover).
-async function setCredits(email, n) {
-  await ddb.send(new UpdateCommand({
-    TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
-    UpdateExpression: 'SET credits = :n, email = :e, updatedAt = :t',
-    ExpressionAttributeValues: { ':n': n, ':e': String(email || '').toLowerCase(), ':t': new Date().toISOString() },
-  }))
+async function setMembershipCredits(email, n, subscriptionId, syncKey, validUntil) {
+  try {
+    await ddb.send(new UpdateCommand({
+      TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
+      ConditionExpression: 'attribute_not_exists(creditSyncKey) OR creditSyncKey <> :sync',
+      UpdateExpression: 'SET credits = :n, email = :e, updatedAt = :t, creditType = :type, sourceSubscriptionId = :sub, creditSyncKey = :sync, validUntil = :until',
+      ExpressionAttributeValues: {
+        ':n': n,
+        ':e': String(email || '').toLowerCase(),
+        ':t': new Date().toISOString(),
+        ':type': 'membership',
+        ':sub': subscriptionId,
+        ':sync': syncKey,
+        ':until': validUntil,
+      },
+    }))
+    return true
+  } catch (err) {
+    if (err.name === 'ConditionalCheckFailedException') return false
+    throw err
+  }
 }
 
 // Confirm a held slot and send the confirmation email. Shared by paid finalize
 // and credit-based booking. Idempotent: a already-confirmed slot just re-sends
 // nothing and reports ok.
-async function confirmHeld(slotId, extra) {
+async function confirmHeld(slotId, extra, expectedHoldToken) {
+  if (!expectedHoldToken) return { ok: false, error: 'missing hold proof' }
   const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId } }))
   const row = g.Item
   if (!row) return { ok: false, error: 'slot not found' }
-  if (row.status === 'confirmed' || row.status === 'comped') return { ok: true, already: true }
-  const manageToken = row.manageToken || crypto.randomBytes(20).toString('hex')
-  await ddb.send(new UpdateCommand({
-    TableName: BOOK_TABLE, Key: { slotId },
-    UpdateExpression: 'SET #s = :c, manageToken = :m, confirmedAt = :t, payment = :p REMOVE holdToken, heldUntil',
-    ExpressionAttributeNames: { '#s': 'status' },
-    ExpressionAttributeValues: { ':c': 'confirmed', ':m': manageToken, ':t': new Date().toISOString(), ':p': extra?.payment || { status: 'paid' } },
-  }))
+  if (row.status === 'confirmed' || row.status === 'comped') {
+    const existingPayment = String(row.payment?.stripe_id || '')
+    const incomingPayment = String(extra?.payment?.stripe_id || '')
+    return existingPayment && incomingPayment && existingPayment === incomingPayment
+      ? { ok: true, already: true }
+      : { ok: false, error: 'slot already confirmed by different proof' }
+  }
+  const manageToken = row.manageToken || createManageToken(slotId)
+  try {
+    await ddb.send(new UpdateCommand({
+      TableName: BOOK_TABLE, Key: { slotId },
+      UpdateExpression: 'SET #s = :c, manageToken = :m, confirmedAt = :t, payment = :p REMOVE holdToken, heldUntil',
+      ConditionExpression: '#s = :held AND holdToken = :hold',
+      ExpressionAttributeNames: { '#s': 'status' },
+      ExpressionAttributeValues: {
+        ':c': 'confirmed', ':held': 'held', ':hold': String(expectedHoldToken),
+        ':m': manageToken, ':t': new Date().toISOString(), ':p': extra?.payment || { status: 'paid' },
+      },
+    }))
+  } catch {
+    return { ok: false, error: 'hold expired or slot was replaced' }
+  }
   const cfg = await getConfig()
   await notifyBooked({ slotId, customer: row.customer || {}, sessionType: row.sessionType, manageToken }, cfg)
   return { ok: true, slotId }
+}
+
+export function buildCheckinMessage(booking, timeZone = 'America/New_York') {
+  const name = String(booking?.customer?.name || '').trim().split(/\s+/)[0] || 'there'
+  let when = `${booking?.slotId || 'your scheduled time'} UTC`
+  const startMs = Date.parse(booking?.slotId || '')
+  if (Number.isFinite(startMs)) {
+    when = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    }).format(new Date(startMs))
+  }
+  return {
+    subject: 'Are you joining your RECON6 coaching session?',
+    body: `Hi ${name},\n\nYour RECON6 coaching session is scheduled for ${when}. I’m online and ready. If you’re having trouble joining, reply to this email right away.\n\nAaron — RECON6 Coaching`,
+  }
+}
+
+async function confirmHeldWithCredit(slotId, holdToken, email) {
+  const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId } }))
+  const row = g.Item
+  if (!row || row.status !== 'held' || row.holdToken !== String(holdToken)) {
+    return { ok: false, error: 'hold expired or slot was replaced' }
+  }
+  const manageToken = createManageToken(slotId)
+  const now = new Date().toISOString()
+  try {
+    await ddb.send(new TransactWriteCommand({
+      TransactItems: [
+        { Update: {
+          TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
+          UpdateExpression: 'SET credits = credits - :one, updatedAt = :t',
+          ConditionExpression: 'attribute_exists(credits) AND credits >= :one AND (attribute_not_exists(validUntil) OR validUntil >= :t)',
+          ExpressionAttributeValues: { ':one': 1, ':t': now },
+        } },
+        { Update: {
+          TableName: BOOK_TABLE, Key: { slotId },
+          UpdateExpression: 'SET #s = :confirmed, manageToken = :manage, confirmedAt = :t, payment = :payment REMOVE holdToken, heldUntil',
+          ConditionExpression: '#s = :held AND holdToken = :hold',
+          ExpressionAttributeNames: { '#s': 'status' },
+          ExpressionAttributeValues: {
+            ':confirmed': 'confirmed', ':held': 'held', ':hold': String(holdToken),
+            ':manage': manageToken, ':t': now, ':payment': { status: 'credit', amount: 0 },
+          },
+        } },
+      ],
+    }))
+  } catch {
+    return { ok: false, error: 'credit unavailable or hold expired' }
+  }
+  const cfg = await getConfig()
+  await notifyBooked({ slotId, customer: row.customer || {}, sessionType: row.sessionType, manageToken }, cfg)
+  return { ok: true, slotId, creditsLeft: await getCredits(email) }
 }
 
 // ---- handler --------------------------------------------------------------------
@@ -458,67 +591,56 @@ export async function handler(event) {
       const holdToken = crypto.randomBytes(16).toString('hex')
       const heldUntil = new Date(Date.now() + HOLD_MINUTES * 60000).toISOString()
       const nowIso = new Date().toISOString()
+      const actorKey = bookingActorKey(event)
+      const actorRecord = {
+        slotId: actorKey,
+        status: 'hold-actor',
+        heldSlotId: slotId,
+        heldUntil,
+        ttl: Math.ceil(Date.parse(heldUntil) / 1000),
+      }
       try {
-        await ddb.send(new PutCommand({
-          TableName: BOOK_TABLE,
-          Item: { slotId, status: 'held', holdToken, heldUntil, createdAt: nowIso },
-          ConditionExpression: 'attribute_not_exists(slotId)',
-        }))
+        await ddb.send(new TransactWriteCommand({ TransactItems: [
+          { Put: {
+            TableName: BOOK_TABLE,
+            Item: { slotId, status: 'held', holdToken, heldUntil, createdAt: nowIso },
+            ConditionExpression: 'attribute_not_exists(slotId)',
+          } },
+          { Put: {
+            TableName: BOOK_TABLE,
+            Item: actorRecord,
+            ConditionExpression: 'attribute_not_exists(slotId) OR heldUntil < :now',
+            ExpressionAttributeValues: { ':now': nowIso },
+          } },
+        ] }))
       } catch {
         // Slot row exists — reclaim only if it's an EXPIRED hold.
         try {
-          await ddb.send(new UpdateCommand({
-            TableName: BOOK_TABLE, Key: { slotId },
-            UpdateExpression: 'SET holdToken = :t, heldUntil = :u, createdAt = :c',
-            ConditionExpression: '#s = :held AND heldUntil < :now',
-            ExpressionAttributeNames: { '#s': 'status' },
-            ExpressionAttributeValues: { ':t': holdToken, ':u': heldUntil, ':held': 'held', ':now': nowIso, ':c': nowIso },
-          }))
+          await ddb.send(new TransactWriteCommand({ TransactItems: [
+            { Update: {
+              TableName: BOOK_TABLE, Key: { slotId },
+              UpdateExpression: 'SET holdToken = :t, heldUntil = :u, createdAt = :c REMOVE customer, sessionType, coachingType, referral_source, manageToken, payment',
+              ConditionExpression: '#s = :held AND heldUntil < :now',
+              ExpressionAttributeNames: { '#s': 'status' },
+              ExpressionAttributeValues: { ':t': holdToken, ':u': heldUntil, ':held': 'held', ':now': nowIso, ':c': nowIso },
+            } },
+            { Put: {
+              TableName: BOOK_TABLE,
+              Item: actorRecord,
+              ConditionExpression: 'attribute_not_exists(slotId) OR heldUntil < :now',
+              ExpressionAttributeValues: { ':now': nowIso },
+            } },
+          ] }))
         } catch {
-          return resp(409, { error: 'That slot just went — pick another.' })
+          return resp(429, { error: 'You already have an active hold, or that slot was taken. Wait five minutes or finish the current booking.' })
         }
       }
       return resp(200, { holdToken, heldUntil })
     }
 
-    // ---------- public: confirm ----------
+    // ---------- retired: public confirm (payment bypass in legacy clients) ----------
     if (method === 'POST' && path.endsWith('/booking/confirm')) {
-      const { slotId, holdToken, name, email, discord, rank_goal, tz, sessionType, notes } = body
-      if (!slotId || !holdToken || !email || !name) return resp(400, { error: 'missing fields' })
-      const manageToken = crypto.randomBytes(20).toString('hex')
-      const customer = {
-        name: String(name).slice(0, 80), email: String(email).slice(0, 120),
-        discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
-        tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
-        // Knowledge-base consent (2026-07-23): may this session, anonymized, be
-        // added to the Recon6 coaching knowledge base? Recorded from review #1
-        // so the archive is clean from the start. STRICT: only a literal true
-        // from the form counts — absent/undefined stores false, never assumed.
-        kb_consent: body.kb_consent === true,
-      }
-      // Channel attribution: the widget passes the first-touch ?ref source
-      // (from localStorage 'recon:src'); default 'direct'. Same sanitize as
-      // src/lib/refSource.js so coaching attribution matches membership.
-      const referralSource = refSource(body.referral_source)
-      try {
-        await ddb.send(new UpdateCommand({
-          TableName: BOOK_TABLE, Key: { slotId },
-          UpdateExpression: 'SET #s = :c, customer = :cust, sessionType = :ty, manageToken = :m, referral_source = :rs, confirmedAt = :t REMOVE holdToken, heldUntil',
-          ConditionExpression: '#s = :held AND holdToken = :h',
-          ExpressionAttributeNames: { '#s': 'status' },
-          ExpressionAttributeValues: {
-            ':c': 'confirmed', ':held': 'held', ':h': String(holdToken),
-            ':cust': customer, ':ty': String(sessionType || 'Intro Session').slice(0, 60),
-            ':m': manageToken, ':rs': referralSource, ':t': new Date().toISOString(),
-          },
-        }))
-      } catch {
-        return resp(409, { error: 'Hold expired or slot taken — pick another slot.' })
-      }
-      const cfg = await getConfig()
-      const item = { slotId, customer, sessionType: sessionType || 'Intro Session', manageToken }
-      const emailed = await notifyBooked(item, cfg)
-      return resp(200, { booked: true, slotId, manageToken, confirmationEmail: emailed ? 'sent' : 'pending' })
+      return resp(410, { error: 'This route is retired. Use checkout so payment or a coaching credit is verified.' })
     }
 
     // ---------- public: create Stripe checkout for a PAID session ----------
@@ -540,8 +662,9 @@ export async function handler(event) {
 
       // Attach customer + type to the held row (conditional on the hold) so
       // finalize can confirm after payment.
+      const normalizedEmail = String(email).trim().toLowerCase().slice(0, 120)
       const customer = {
-        name: String(name).slice(0, 80), email: String(email).slice(0, 120),
+        name: String(name).slice(0, 80), email: normalizedEmail,
         discord: String(discord || '').slice(0, 60), rank_goal: String(rank_goal || '').slice(0, 60),
         tz: String(tz || '').slice(0, 60), notes: String(notes || '').slice(0, 500),
         // Knowledge-base consent (2026-07-23): may this session, anonymized, be
@@ -554,30 +677,37 @@ export async function handler(event) {
         await ddb.send(new UpdateCommand({
           TableName: BOOK_TABLE, Key: { slotId },
           UpdateExpression: 'SET customer = :cust, sessionType = :ty, coachingType = :ct, referral_source = :rs',
-          ConditionExpression: '#s = :held AND holdToken = :h',
+          ConditionExpression: '#s = :held AND holdToken = :h AND heldUntil >= :now',
           ExpressionAttributeNames: { '#s': 'status' },
-          ExpressionAttributeValues: { ':cust': customer, ':ty': plan.label, ':ct': type, ':rs': refSource(body.referral_source), ':held': 'held', ':h': String(holdToken) },
+          ExpressionAttributeValues: {
+            ':cust': customer, ':ty': plan.label, ':ct': type, ':rs': refSource(body.referral_source),
+            ':held': 'held', ':h': String(holdToken), ':now': new Date().toISOString(),
+          },
         }))
       } catch {
         return resp(409, { error: 'Hold expired or slot taken — pick another slot.' })
       }
 
       // Pre-paid package credit → confirm now, skip checkout, decrement.
-      const credits = await getCredits(email)
+      const identity = await optionalUser(event)
+      const identityEmail = String(identity?.email || '').trim().toLowerCase()
+      const creditOwner = identityEmail && identityEmail === normalizedEmail ? identityEmail : null
+      const credits = creditOwner ? await getCredits(creditOwner) : 0
       if (credits > 0) {
-        await addCredits(email, -1)
-        const r = await confirmHeld(slotId, { payment: { status: 'credit', amount: 0 } })
-        if (!r.ok) { await addCredits(email, 1); return resp(409, r) } // refund the credit if confirm failed
-        return resp(200, { booked: true, viaCredit: true, creditsLeft: credits - 1, slotId })
+        const r = await confirmHeldWithCredit(slotId, holdToken, creditOwner)
+        if (!r.ok) return resp(409, r)
+        return resp(200, { booked: true, viaCredit: true, creditsLeft: r.creditsLeft, slotId })
       }
 
       const session = await stripe.checkout.sessions.create({
         mode: 'payment',
         line_items: [{ price: plan.price, quantity: 1 }],
-        customer_email: email,
-        metadata: { slotId, email: String(email).toLowerCase(), type },
+        customer_email: normalizedEmail,
+        metadata: { slotId, holdToken: String(holdToken), email: normalizedEmail, type },
         success_url: `${SITE}/coaching/booked/?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${SITE}/coaching/?cancelled=1`,
+        cancel_url: `${SITE}/coaching/index.html?cancelled=1`,
+      }, {
+        idempotencyKey: crypto.createHash('sha256').update(`booking:${slotId}:${holdToken}`).digest('hex'),
       })
       return resp(200, { checkoutUrl: session.url })
     }
@@ -598,7 +728,9 @@ export async function handler(event) {
       const type = cs.metadata?.type
       const email = cs.metadata?.email
       if (!slotId) return resp(400, { error: 'no slot in session metadata' })
-      const r = await confirmHeld(slotId, { payment: { status: 'paid', amount: (cs.amount_total || 0) / 100, stripe_id: cs.payment_intent || cs.id } })
+      const r = await confirmHeld(slotId,
+        { payment: { status: 'paid', amount: (cs.amount_total || 0) / 100, stripe_id: cs.payment_intent || cs.id } },
+        cs.metadata?.holdToken)
       if (!r.ok) return resp(404, r)
       if (type === 'package' && !r.already) await addCredits(email, PACKAGE_SESSIONS - 1)
       return resp(200, { booked: true, slotId, alreadyConfirmed: !!r.already })
@@ -612,28 +744,48 @@ export async function handler(event) {
     if (method === 'POST' && path.endsWith('/booking/credits')) {
       if (!stripe) return resp(500, { error: 'payments not configured' })
       const subscriptionId = String(body.subscriptionId || '')
-      if (!subscriptionId) return resp(400, { error: 'subscriptionId required' })
+      const sourceEventId = String(body.sourceEventId || '')
+      const supplied = String(event.headers?.['x-recon6-internal-signature'] || event.headers?.['X-Recon6-Internal-Signature'] || '')
+      if (!subscriptionId || !sourceEventId || !supplied || !process.env.STRIPE_SECRET_KEY) {
+        return resp(401, { error: 'internal authorization required' })
+      }
+      const expected = crypto
+        .createHmac('sha256', process.env.STRIPE_SECRET_KEY)
+        .update(`booking-credits:${subscriptionId}:${sourceEventId}`)
+        .digest('base64url')
+      const suppliedBytes = Buffer.from(supplied)
+      const expectedBytes = Buffer.from(expected)
+      if (suppliedBytes.length !== expectedBytes.length || !crypto.timingSafeEqual(suppliedBytes, expectedBytes)) {
+        return resp(401, { error: 'internal authorization required' })
+      }
       let sub
       try { sub = await stripe.subscriptions.retrieve(subscriptionId) } catch { return resp(400, { error: 'unknown subscription' }) }
-      if (!['active', 'trialing'].includes(sub.status)) return resp(402, { error: 'subscription not active' })
-      if (sub.items?.data?.[0]?.price?.id !== COACHING_ADDON_PRICE_ID) return resp(400, { error: 'not the coaching add-on' })
+      if (!COACHING_CREDIT_PRICE_IDS.has(sub.items?.data?.[0]?.price?.id)) return resp(400, { error: 'not a coaching-credit membership' })
       let email = sub.customer_email
       if (!email && sub.customer) { try { const c = await stripe.customers.retrieve(sub.customer); email = c.email } catch { /* fall through */ } }
       if (!email) return resp(400, { error: 'no customer email on subscription' })
-      await setCredits(email, CREDITS_PER_MONTH)
-      return resp(200, { ok: true, email: String(email).toLowerCase(), credits: CREDITS_PER_MONTH })
+      const item = sub.items?.data?.[0]
+      const periodEnd = Number(item?.current_period_end ?? sub.current_period_end ?? 0)
+      const live = ['active', 'trialing'].includes(sub.status) && periodEnd * 1000 > Date.now()
+      const validUntil = live ? new Date(periodEnd * 1000).toISOString() : new Date(0).toISOString()
+      const syncKey = live
+        ? `${sub.id}:period:${periodEnd}`
+        : `${sub.id}:inactive:${sub.status}:${sub.canceled_at || periodEnd || 0}`
+      const changed = await setMembershipCredits(
+        email,
+        live ? CREDITS_PER_MONTH : 0,
+        sub.id,
+        syncKey,
+        validUntil,
+      )
+      return resp(200, { ok: true, active: live, credits: live ? CREDITS_PER_MONTH : 0, changed })
     }
 
     // ---------- public: manage (info) ----------
     if (method === 'GET' && path.endsWith('/booking/manage')) {
       const token = event.queryStringParameters?.token || ''
       if (!token) return resp(400, { error: 'no token' })
-      const scan = await ddb.send(new ScanCommand({
-        TableName: BOOK_TABLE,
-        FilterExpression: 'manageToken = :t',
-        ExpressionAttributeValues: { ':t': token },
-      }))
-      const b = (scan.Items || [])[0]
+      const b = await getBookingByManageToken(String(token))
       if (!b) return resp(404, { error: 'booking not found' })
       return resp(200, { slotId: b.slotId, status: b.status, sessionType: b.sessionType, name: b.customer?.name })
     }
@@ -642,11 +794,7 @@ export async function handler(event) {
     if (method === 'POST' && path.endsWith('/booking/manage')) {
       const { token, action, newSlotId } = body
       if (!token) return resp(400, { error: 'no token' })
-      const scan = await ddb.send(new ScanCommand({
-        TableName: BOOK_TABLE, FilterExpression: 'manageToken = :t',
-        ExpressionAttributeValues: { ':t': String(token) },
-      }))
-      const b = (scan.Items || [])[0]
+      const b = await getBookingByManageToken(String(token))
       if (!b || b.status !== 'confirmed') return resp(404, { error: 'active booking not found' })
 
       if (action === 'cancel') {
@@ -657,7 +805,7 @@ export async function handler(event) {
         }))
         await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: b.slotId } }))
         await sendMail(b.customer.email, 'Your RECON6 session is cancelled',
-          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\nBook again any time: ${SITE}/coaching/\n\nAaron — Recon 6`)
+          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\nBook again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
         for (const a of ALERT_EMAILS) await sendMail(a, `CANCELLED: ${b.slotId}`, `${b.customer.name} <${b.customer.email}> cancelled ${b.sessionType} at ${b.slotId}.`)
         return resp(200, { cancelled: true })
       }
@@ -665,18 +813,19 @@ export async function handler(event) {
       if (action === 'reschedule') {
         const cfg = await getConfig()
         if (!newSlotId || !expandSlots(cfg).includes(newSlotId)) return resp(400, { error: 'pick a valid new slot' })
+        const nextManageToken = createManageToken(String(newSlotId))
         try {
           await ddb.send(new PutCommand({
             TableName: BOOK_TABLE,
             Item: {
               slotId: newSlotId, status: 'confirmed', customer: b.customer, sessionType: b.sessionType,
-              manageToken: b.manageToken, confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId,
+              manageToken: nextManageToken, confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId,
             },
             ConditionExpression: 'attribute_not_exists(slotId)',
           }))
         } catch { return resp(409, { error: 'That slot just went — pick another.' }) }
         await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: b.slotId } }))
-        const item = { slotId: newSlotId, customer: b.customer, sessionType: b.sessionType, manageToken: b.manageToken }
+        const item = { slotId: newSlotId, customer: b.customer, sessionType: b.sessionType, manageToken: nextManageToken }
         await notifyBooked(item, cfg)
         return resp(200, { rescheduled: true, slotId: newSlotId })
       }
@@ -736,10 +885,37 @@ export async function handler(event) {
       }
 
       // Admin booking actions: private notes, mark complete, comp ($0
-      // confirmed), cancel (notify + free slot), reschedule (atomic move).
+      // confirmed), customer check-in, cancel (notify + free slot),
+      // reschedule (atomic move).
       if (method === 'POST' && path.endsWith('/admin/booking')) {
         const { action, slotId, newSlotId, notes } = body
         const cfg = await getConfig()
+        if (action === 'checkin') {
+          if (!slotId) return resp(400, { error: 'slotId required' })
+          const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          const booking = g.Item
+          if (!booking) return resp(404, { error: 'booking not found' })
+          if (!['confirmed', 'comped'].includes(booking.status)) {
+            return resp(409, { error: 'check-ins are only available for confirmed sessions' })
+          }
+          const email = String(booking.customer?.email || '').trim()
+          if (!email) return resp(409, { error: 'customer email is missing' })
+          const lastCheckinMs = Date.parse(booking.lastCheckinAt || '')
+          if (Number.isFinite(lastCheckinMs) && Date.now() - lastCheckinMs < CHECKIN_COOLDOWN_MS) {
+            return resp(409, { error: 'a check-in was already sent in the last 5 minutes' })
+          }
+          const message = buildCheckinMessage(booking, cfg.timezone)
+          const sent = await sendMail(email, message.subject, message.body)
+          if (!sent) return resp(502, { error: 'email provider did not accept the check-in' })
+          const sentAt = new Date().toISOString()
+          await ddb.send(new UpdateCommand({
+            TableName: BOOK_TABLE,
+            Key: { slotId: String(slotId) },
+            UpdateExpression: 'SET lastCheckinAt = :sentAt, lastCheckinChannel = :channel, lastCheckinCount = if_not_exists(lastCheckinCount, :zero) + :one',
+            ExpressionAttributeValues: { ':sentAt': sentAt, ':channel': 'email', ':zero': 0, ':one': 1 },
+          }))
+          return resp(200, { sent: true, channel: 'email', sentAt })
+        }
         if (action === 'notes') {
           if (!slotId) return resp(400, { error: 'slotId required' })
           await ddb.send(new UpdateCommand({
@@ -762,7 +938,7 @@ export async function handler(event) {
           // Create a $0 confirmed booking directly on an open slot (the pass).
           if (!slotId || !body.email || !body.name) return resp(400, { error: 'slotId, name, email required' })
           if (!expandSlots(cfg).includes(String(slotId))) return resp(400, { error: 'not an open slot' })
-          const manageToken = crypto.randomBytes(20).toString('hex')
+          const manageToken = createManageToken(String(slotId))
           const customer = {
             name: String(body.name).slice(0, 80), email: String(body.email).slice(0, 120),
             discord: String(body.discord || '').slice(0, 60), rank_goal: String(body.rank_goal || '').slice(0, 60),
@@ -793,7 +969,7 @@ export async function handler(event) {
           }))
           await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
           if (b.customer?.email) await sendMail(b.customer.email, 'Your RECON6 session was cancelled',
-            `Your ${b.sessionType || 'session'} at ${b.slotId} (UTC) was cancelled by the coach.\nBook again any time: ${SITE}/coaching/\n\nAaron — Recon 6`)
+            `Your ${b.sessionType || 'session'} at ${b.slotId} (UTC) was cancelled by the coach.\nBook again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
           return resp(200, { cancelled: true })
         }
         if (action === 'reschedule') {
@@ -802,15 +978,16 @@ export async function handler(event) {
           const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
           const b = g.Item
           if (!b) return resp(404, { error: 'booking not found' })
+          const nextManageToken = createManageToken(String(newSlotId))
           try {
             await ddb.send(new PutCommand({
               TableName: BOOK_TABLE,
-              Item: { ...b, slotId: String(newSlotId), confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId },
+              Item: { ...b, slotId: String(newSlotId), manageToken: nextManageToken, confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId },
               ConditionExpression: 'attribute_not_exists(slotId)',
             }))
           } catch { return resp(409, { error: 'That slot just went — pick another.' }) }
           await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
-          await notifyBooked({ slotId: String(newSlotId), customer: b.customer, sessionType: b.sessionType, manageToken: b.manageToken }, cfg)
+          await notifyBooked({ slotId: String(newSlotId), customer: b.customer, sessionType: b.sessionType, manageToken: nextManageToken }, cfg)
           return resp(200, { rescheduled: true, slotId: newSlotId })
         }
         return resp(400, { error: 'unknown action' })

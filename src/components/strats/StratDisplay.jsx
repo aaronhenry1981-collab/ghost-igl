@@ -7,7 +7,6 @@ import OperatorCard from './OperatorCard'
 import ProGate from './ProGate'
 import ChampionGate from './ChampionGate'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
-import { verifiedFor, isVerifiedName } from '../../data/verified-callouts'
 
 function CalloutTag({ label }) {
   const [copied, setCopied] = useState(false)
@@ -59,8 +58,16 @@ function attackCamNotes(strat) {
 // "Verified" appears 196 times in it emitted by a script that verified nothing.
 // Everything in this block was actually on screen, and says how many frames and
 // how many separate recordings back it.
-function VerifiedCallouts({ mapId }) {
-  const v = mapId ? verifiedFor(mapId) : null
+function isVerifiedName(verified, name) {
+  if (!verified || !name) return false
+  const key = String(name).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+  return [...(verified.sites || []), ...(verified.spawns || []), ...(verified.callouts || [])].some((entry) => {
+    const normalized = String(entry?.name || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+    return normalized === key || normalized.includes(key) || key.includes(normalized)
+  })
+}
+
+function VerifiedCallouts({ verified: v }) {
   if (!v || !v.callouts?.length) return null
   const shown = v.callouts.slice(0, 18)
   return (
@@ -86,12 +93,12 @@ function VerifiedCallouts({ mapId }) {
   )
 }
 
-export default function StratDisplay({ strat, side, gated, mapId }) {
+export default function StratDisplay({ strat, side, gated, verifiedCallouts }) {
   const { role: userRole } = useUserRole()
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
   // Flag any listed callout the footage does NOT back, so nothing here is
   // presented with more confidence than the evidence supports.
-  const hasFootage = !!(mapId && verifiedFor(mapId))
+  const hasFootage = !!verifiedCallouts
 
   return (
     <div className="strat-display">
@@ -170,15 +177,15 @@ export default function StratDisplay({ strat, side, gated, mapId }) {
             <CalloutTag key={c} label={c} />
           ))}
         </div>
-        {hasFootage && strat.callouts.some((c) => !isVerifiedName(mapId, c)) && (
+        {hasFootage && strat.callouts.some((c) => !isVerifiedName(verifiedCallouts, c)) && (
           <p className="strat-section-hint" style={{ marginTop: '0.45rem', display: 'block' }}>
             Not yet confirmed against footage:{' '}
-            {strat.callouts.filter((c) => !isVerifiedName(mapId, c)).join(', ')}
+            {strat.callouts.filter((c) => !isVerifiedName(verifiedCallouts, c)).join(', ')}
           </p>
         )}
       </div>
 
-      <VerifiedCallouts mapId={mapId} />
+      <VerifiedCallouts verified={verifiedCallouts} />
 
       {side === 'attack' && (
         <div className="strat-section">

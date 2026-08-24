@@ -1655,7 +1655,7 @@ const R6_POSTS = [
         heading: 'The fix',
         html: `<p>Aim training feels productive because it's measurable. Information discipline is what actually moves rank — and it's easier to build with someone pointing at the exact rounds where your reads broke.</p>
 <ul>
-  <li><a href="/coaching/">Work with a human coach backed by an AI staff — first session 50% off ($20).</a> Bring your rank goal; leave with the three habits costing you the most rounds.</li>
+  <li><a href="/coaching/index.html#book">Work with a human coach backed by AI tools — first session $20.</a> Bring your rank goal and leave with a clear practice focus for your next games.</li>
   <li><a href="/vod">AI VOD breakdown</a> — upload a loss and see, round by round, whether you died with info or without.</li>
   <li><a href="/strats">The ranked strat book</a> — site-by-site setups so you stop improvising the part of the game that's already solved.</li>
 </ul>
@@ -2573,52 +2573,10 @@ function renderIndex(allPosts) {
       </ul>
     </section>`).join('')
 
-  const genreTabs = Object.entries(GENRE_LABELS).map(([id, label]) => `
-    <button type="button" class="blog-filter-tab" data-filter="${id}" aria-pressed="${id === 'all' ? 'true' : 'false'}" style="padding: 6px 14px; background: ${id === 'all' ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${id === 'all' ? 'rgba(0,229,255,0.5)' : 'rgba(255,255,255,0.1)'}; color: ${id === 'all' ? '#00e5ff' : 'rgba(230,233,239,0.8)'}; border-radius: 999px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s;">
-      ${label}
-    </button>`).join('')
-
-  const filterScript = `
-    <script>
-      // Genre filter — show/hide sections by data-genre. Pure client-side, no
-      // re-fetch. Also respects ?genre=X query param on load so links from
-      // other pages can deep-link to a specific genre view.
-      (function() {
-        var tabs = document.querySelectorAll('.blog-filter-tab')
-        var sections = document.querySelectorAll('.blog-game-section')
-        function applyFilter(genre) {
-          for (var i = 0; i < sections.length; i++) {
-            var s = sections[i]
-            s.style.display = (genre === 'all' || s.getAttribute('data-genre') === genre) ? '' : 'none'
-          }
-          for (var j = 0; j < tabs.length; j++) {
-            var t = tabs[j]
-            var active = t.getAttribute('data-filter') === genre
-            t.setAttribute('aria-pressed', active ? 'true' : 'false')
-            t.style.background = active ? 'rgba(0,229,255,0.15)' : 'rgba(255,255,255,0.03)'
-            t.style.borderColor = active ? 'rgba(0,229,255,0.5)' : 'rgba(255,255,255,0.1)'
-            t.style.color = active ? '#00e5ff' : 'rgba(230,233,239,0.8)'
-          }
-        }
-        for (var i = 0; i < tabs.length; i++) {
-          tabs[i].addEventListener('click', function(e) {
-            applyFilter(e.currentTarget.getAttribute('data-filter'))
-          })
-        }
-        var params = new URLSearchParams(location.search)
-        var fromQuery = params.get('genre')
-        if (fromQuery) applyFilter(fromQuery)
-      })()
-    </script>`
-
   const bodyInner = `
-    <h1>Recon 6 Blog — Rank-Up Guides for 20 Competitive Games</h1>
-    <p style="color: rgba(230,233,239,0.8)">Tactical rank-up guides for every supported title. Each guide targets a specific rank gap with characters, callouts, common mistakes, and drills you can run today. Filter by genre below.</p>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 1.5rem 0 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
-      ${genreTabs}
-    </div>
+    <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
+    <p style="color: rgba(230,233,239,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
     ${sectionsHtml}
-    ${filterScript}
     <div class="intro-cta">
       <h3>Want AI VOD review on top of these guides?</h3>
       <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round.</p>
@@ -2630,7 +2588,7 @@ function renderIndex(allPosts) {
       '@context': 'https://schema.org',
       '@type': 'Blog',
       name: 'Recon 6 Blog',
-      description: 'Tactical rank-up guides for 20 supported competitive games — R6 Siege, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, and more.',
+      description: 'Practical Rainbow Six Siege guides for ranked play, map plans, operators, and decision-making.',
       url: `${SITE_URL}/blog/`,
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
     },
@@ -2645,8 +2603,8 @@ function renderIndex(allPosts) {
   ]
 
   return htmlShell({
-    title: 'Rank-Up Guides for 20 Competitive Games — Recon 6 Blog',
-    description: 'Tactical guides for every rank gap across 20 competitive games — R6, CS2, Valorant, OW2, LoL, Tekken 8, EA FC, PUBG, Dota 2, Apex, Marvel Rivals, Halo, Finals, CoD, Fortnite, RL, Stadium, Deadlock, Naraka, and NBA 2K.',
+    title: 'Rainbow Six Siege Guides — Recon 6 Blog',
+    description: 'Practical Rainbow Six Siege guides for ranked play, map plans, operators, and decision-making.',
     canonical: `${SITE_URL}/blog/`,
     bodyInner,
     jsonLdBlocks,
@@ -10396,9 +10354,31 @@ const DOTA2_POSTS = [
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  // All supported games + 5 new game clusters (LoL + EAFC + TK8 + PUBG + Dota2 = 25 posts).
-  // Total ~98 posts across 16 games.
-  const allPosts = [...R6_POSTS, ...CS2_POSTS, ...VALORANT_POSTS, ...OW2_POSTS, ...OW2_POSTS_HIGH, ...APEX_POSTS, ...APEX_POSTS_HIGH, ...MVR_POSTS, ...MVR_POSTS_HIGH, ...HALO_POSTS, ...HALO_POSTS_HIGH, ...FINALS_POSTS, ...FINALS_POSTS_GAPS, ...COD_POSTS, ...COD_POSTS_GAPS, ...FN_POSTS, ...FN_POSTS_GAPS, ...RL_POSTS, ...LOL_POSTS, ...EAFC_POSTS, ...TK8_POSTS, ...PUBG_POSTS, ...DOTA2_POSTS]
+  const allPosts = R6_POSTS.map((post) => {
+    if (!post.slug.endsWith('-defense-setups-ranked')) return post
+    return {
+      ...post,
+      metaDescription: `${post.gameLabel || 'Rainbow Six Siege'} setup preview. The complete verified setup, operator jobs, utility order, and adaptations are available in the signed-in Recon 6 library.`,
+      intro: '<p>A static article goes stale the moment a patch changes a site or the enemy reads the setup. Recon 6 keeps this map’s verified defense plan inside the signed-in library so paid members get the current version instead of an old copy indexed by search engines.</p>',
+      sections: [
+        {
+          heading: 'What the verified setup includes',
+          html: '<ul><li>Operator jobs in order</li><li>Reinforcement and utility priorities</li><li>Callouts tied to the site</li><li>What to change when you run the site again</li></ul><p>The tactical steps themselves are protected member content.</p>',
+        },
+      ],
+      mistakes: [
+        'Running the same setup twice without changing the read',
+        'Picking operators without covering the jobs the site requires',
+        'Treating an unverified room name like confirmed geometry',
+      ],
+      drill: {
+        heading: 'Open the current setup',
+        html: '<p>Sign in, open the Setup Library, choose the map and site, then mark the bans and teammate picks from your actual lobby.</p>',
+      },
+      aiVodMention: `<p><a href="${SITE_URL}/auth">Sign in</a> to open the protected setup library, or review the plans on the <a href="${SITE_URL}/#pricing">pricing page</a>.</p>`,
+      readMinutes: 2,
+    }
+  })
 
   let written = 0
   for (const post of allPosts) {

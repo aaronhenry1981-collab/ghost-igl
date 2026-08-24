@@ -235,7 +235,7 @@ async function createTestimonial(bodyStr, authorEmail, headers) {
   const text = (body.text || '').toString().trim()
   const rank = (body.rank || '').toString().trim()
   const hours = (body.hours || '').toString().trim()
-  const tier = ['pro', 'champion'].includes(body.tier) ? body.tier : null
+  const tier = ['pro', 'elite', 'champion'].includes(body.tier) ? body.tier : null
   const featured = body.featured === true
 
   if (!name || name.length > 60) {
