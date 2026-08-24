@@ -81,7 +81,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (!userPool) {
       // Terminal state when Cognito isn't configured — set once on mount.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false)
       return
     }

@@ -56,7 +56,6 @@ export function useFreeStratLimit({ enabled, mapId, siteId, side }) {
 
     // Synced from localStorage (external view-count state), once per new
     // strat key — the recordedKeysRef guard makes cascades impossible.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setViewCount(nextKeys.length)
 
     let shouldShow = false

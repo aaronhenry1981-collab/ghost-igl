@@ -2,8 +2,20 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, QueryCommand, GetCommand, UpdateCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import crypto from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { validateWorkbookPurchase, workbookIntegrationIdentifier } from './workbook-purchase.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
+const s3 = new S3Client({ region: process.env.AWS_REGION || 'us-east-1' })
+const DESKTOP_DOWNLOAD_BUCKET = process.env.DESKTOP_DOWNLOAD_BUCKET || 'r6coaching-private-downloads'
+const DESKTOP_DOWNLOAD_KEY = process.env.DESKTOP_DOWNLOAD_KEY || 'windows/Recon-6-Command-2.0.4-x64.exe'
+const DESKTOP_DOWNLOAD_FILENAME = 'Recon-6-Command-2.0.4-x64.exe'
+const WORKBOOK_PRICE_ID = process.env.STRIPE_WORKBOOK_PRICE_ID || 'price_1U7okSJNddvjgWcgyomwEAa2'
+const WORKBOOK_DOWNLOAD_BUCKET = process.env.WORKBOOK_DOWNLOAD_BUCKET || DESKTOP_DOWNLOAD_BUCKET
+const WORKBOOK_DOWNLOAD_KEY = process.env.WORKBOOK_DOWNLOAD_KEY || 'workbooks/recon6-siege-starter-field-workbook-bundle.zip'
+const WORKBOOK_DOWNLOAD_FILENAME = 'Recon6-Siege-Starter-Workbook-Bundle.zip'
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const REFERRALS_TABLE = process.env.REFERRALS_TABLE || 'ghost-igl-referrals'
@@ -16,7 +28,7 @@ const REFERRAL_QUALIFY_DAYS = 30
 // the first 90 days any paid tier subscriber can refer + earn a free
 // month at their current tier (founding-referrer pattern, parallel to
 // founding pricing). After 2026-08-09, NEW referrers must be on Champion+
-// All-Access to qualify; founding referrers who locked in before that
+// Elite+ All-Access to qualify; founding referrers who locked in before that
 // keep their benefit at their original tier forever.
 const REFERRAL_PROGRAM_LAUNCH_ISO = '2026-05-11T00:00:00.000Z'
 const REFERRAL_FOUNDING_WINDOW_DAYS = 90
@@ -28,13 +40,13 @@ const REFERRAL_FOUNDING_CUTOFF_MS =
 // comp. Three rules in order of precedence:
 //   1. Founding referrer (first paid sub before the cutoff) → always eligible
 //      at their original tier, forever
-//   2. Currently a Champion+ All-Access subscriber → eligible regardless
+//   2. Currently an Elite+ All-Access subscriber → eligible regardless
 //      of when they joined
 //   3. Else: not eligible (post-launch restriction)
 function referrerIsEligible({ plan, tierScope, foundingReferrer, isAdmin }) {
   if (isAdmin) return true
   if (foundingReferrer) return true
-  return plan === 'champion' && tierScope === 'all_access'
+  return (plan === 'elite' || plan === 'champion') && tierScope === 'all_access'
 }
 
 // Has the founding window passed? Used by getMyReferrals to label new
@@ -44,9 +56,31 @@ function isFoundingWindowOpen(now = Date.now()) {
   return now < REFERRAL_FOUNDING_CUTOFF_MS
 }
 const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY
+const STRIPE_API_VERSION = process.env.STRIPE_API_VERSION || '2026-07-29.dahlia'
+const SITE_URL = String(process.env.SITE_URL || 'https://r6coaching.com').replace(/\/$/, '')
 const PORTAL_RETURN_URL = process.env.PORTAL_RETURN_URL || 'https://r6coaching.com/#/account'
+const AI_USAGE_PACK_PRICE_ID = process.env.AI_USAGE_PACK_PRICE_ID || 'price_1TzrjoJNddvjgWcgzp9RSUOK'
+const AI_USAGE_PACK_CREDITS = parseInt(process.env.AI_USAGE_PACK_CREDITS || '100', 10)
 const DESKTOP_TOKEN_SECRET = process.env.DESKTOP_TOKEN_SECRET || ''
 const ACTIVATION_TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
+let protectedCatalog = null
+const protectedCatalogByPlan = new Map()
+const LEGACY_ELITE_PRICE_IDS = new Set([
+  process.env.STRIPE_CHAMPION_PRICE_ID,
+  process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID,
+  process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID,
+  process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID,
+  'price_1TLEtsJNddvjgWcgYcmiNmW7',
+  'price_1TPtOYJNddvjgWcgfEWjzGnp',
+  'price_1TVUd0JNddvjgWcgIPWakA3S',
+  'price_1TVUd6JNddvjgWcgc3csHICD',
+].filter(Boolean))
+
+function effectivePlan(sub) {
+  if (!sub) return 'free'
+  return LEGACY_ELITE_PRICE_IDS.has(sub.price_id) ? 'elite' : sub.plan || 'free'
+}
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: process.env.COGNITO_USER_POOL_ID,
@@ -123,6 +157,15 @@ function verifyActivationToken(tokenStr) {
   if (payload.expires_at && Date.now() > payload.expires_at) {
     return { ok: false, reason: 'Token expired' }
   }
+  if (payload.iss !== 'https://r6coaching.com' || payload.aud !== 'recon6-desktop' || payload.product !== 'recon6' || payload.version !== 2) {
+    return { ok: false, reason: 'Wrong token audience' }
+  }
+  if (!payload.user_id || !payload.email || !payload.issued_at || !payload.expires_at) {
+    return { ok: false, reason: 'Incomplete token' }
+  }
+  if (payload.issued_at > Date.now() + 60000 || payload.expires_at - payload.issued_at > ACTIVATION_TTL_MS) {
+    return { ok: false, reason: 'Invalid token lifetime' }
+  }
   return { ok: true, payload }
 }
 
@@ -193,14 +236,37 @@ export async function handler(event) {
 
   const email = payload.email?.toLowerCase()
   if (!email) return { statusCode: 400, headers, body: JSON.stringify({ error: 'No email in token' }) }
+  if (payload.email_verified !== true) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Verified email required' }) }
+  }
 
   try {
+    const identityBound = await bindIdentity(email, payload.sub)
+    if (!identityBound) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: 'This billing identity belongs to a different account' }) }
+    }
     if (path.endsWith('/subscription') && method === 'GET') return await getSubscription(email, headers, payload)
+    if (path.endsWith('/content/catalog') && method === 'GET') return await getProtectedCatalog(email, headers, payload)
     if (path.endsWith('/me') && method === 'GET') return await getMe(email, headers, payload)
     if (path.endsWith('/me') && method === 'PUT') return await putMe(email, event.body, headers)
-    if (path.endsWith('/me/billing-portal') && method === 'POST') return await postBillingPortal(email, headers)
-    if (path.endsWith('/me/activation-token') && method === 'POST') return await postActivationToken(email, headers, payload)
-    if (path.endsWith('/me/start-trial') && method === 'POST') return await postStartTrial(email, headers)
+    if (path.endsWith('/me/billing-portal') && method === 'POST') {
+      let billingAction = null
+      try { billingAction = JSON.parse(event.body || '{}')?.action || null } catch { /* normal portal open */ }
+      return billingAction === 'usage_pack' ? await postUsageCheckout(email, headers) : await postBillingPortal(email, headers)
+    }
+    if (path.endsWith('/me/workbook-checkout') && method === 'POST') {
+      return await postWorkbookCheckout(email, headers, payload)
+    }
+    if (path.endsWith('/me/workbook-download') && method === 'POST') {
+      return await postWorkbookDownload(email, event.body, headers)
+    }
+    if (path.endsWith('/me/activation-token') && method === 'POST') {
+      let action = null
+      try { action = JSON.parse(event.body || '{}')?.action || null } catch { /* activation body remains optional */ }
+      return action === 'desktop_download'
+        ? await postDesktopDownload(email, headers, payload)
+        : await postActivationToken(email, headers, payload)
+    }
     if (path.endsWith('/me/referrals') && method === 'GET') return await getMyReferrals(email, headers, payload)
     if (path.endsWith('/me/referral-attribution') && method === 'POST') return await postReferralAttribution(email, event.body, headers)
     return { statusCode: 404, headers, body: JSON.stringify({ error: `Unknown route: ${method} ${path}` }) }
@@ -210,6 +276,38 @@ export async function handler(event) {
   }
 }
 
+// Rank order for picking between several live rows on one email. Higher wins.
+const PLAN_RANK = { champion: 4, elite: 3, pro: 2, free: 1 }
+
+// Pick the BEST live subscription row for an email, not the first one found.
+//
+// One email can legitimately hold several rows: every Stripe Checkout mints a
+// new customer id (the table's partition key), so an upgrade does not replace
+// the old row, it adds one. `email-index` is a HASH-only GSI — no sort key — so
+// the order DynamoDB returns them in is arbitrary.
+//
+// The old code took `items.find(isActiveSub)`, i.e. whichever arbitrary row came
+// back first. On 2026-07-29 that cost a real customer: he bought Pro at 07:00,
+// upgraded to Champion at 07:29, and the query kept returning the Pro row. The
+// site told him he was Pro. He re-bought Champion at 07:30, 07:31 and 07:34 —
+// the webhook's duplicate guard correctly auto-cancelled the last two, so he was
+// not billed four times, but he still never saw the Champion content he had paid
+// for. At 07:38 he gave up, signed up under a second email, and it worked first
+// try — because that email had exactly one row.
+//
+// So: rank by plan, then by the furthest paid-through date. A customer who is
+// paying for Champion gets Champion regardless of what else is on the account.
+function pickBestSub(items) {
+  const live = (items || []).filter(isActiveSub)
+  if (!live.length) return (items || [])[0] || null
+  return live.slice().sort((a, b) => {
+    const byPlan = (PLAN_RANK[effectivePlan(b)] || 0) - (PLAN_RANK[effectivePlan(a)] || 0)
+    if (byPlan) return byPlan
+    // Same tier: the row paid furthest into the future is the current one.
+    return String(b.current_period_end || '').localeCompare(String(a.current_period_end || ''))
+  })[0]
+}
+
 async function getActiveSub(email) {
   const r = await ddb.send(new QueryCommand({
     TableName: SUBS_TABLE,
@@ -217,8 +315,7 @@ async function getActiveSub(email) {
     KeyConditionExpression: 'email = :email',
     ExpressionAttributeValues: { ':email': email },
   }))
-  const items = r.Items || []
-  return items.find((s) => isActiveSub(s)) || items[0] || null
+  return pickBestSub(r.Items || [])
 }
 
 // Returns true if a subscription row should grant access right now.
@@ -239,11 +336,126 @@ function isActiveSub(s) {
   // trial ends. Comp / no-card trials use status 'active' + comp:true and are
   // still bounded by current_period_end below.
   if (s.status !== 'active' && s.status !== 'trialing') return false
-  if (s.comp === true && s.current_period_end) {
-    const end = Date.parse(s.current_period_end)
-    if (Number.isFinite(end) && end < Date.now()) return false
+  const end = Date.parse(s.current_period_end || '')
+  if (!Number.isFinite(end) || end <= Date.now()) return false
+  return true
+}
+
+async function bindIdentity(email, subject) {
+  if (!email || !subject) return false
+  const subscriptions = await ddb.send(new QueryCommand({
+    TableName: SUBS_TABLE,
+    IndexName: 'email-index',
+    KeyConditionExpression: 'email = :email',
+    ExpressionAttributeValues: { ':email': email },
+  }))
+  for (const row of subscriptions.Items || []) {
+    if (isActiveSub(row) && row.cognito_sub && row.cognito_sub !== subject) return false
+    if (!row.cognito_sub) {
+      try {
+        await ddb.send(new UpdateCommand({
+          TableName: SUBS_TABLE,
+          Key: { stripe_customer_id: row.stripe_customer_id },
+          ConditionExpression: 'attribute_not_exists(cognito_sub)',
+          UpdateExpression: 'SET cognito_sub = :subject, identity_bound_at = :now',
+          ExpressionAttributeValues: { ':subject': subject, ':now': new Date().toISOString() },
+        }))
+      } catch (err) {
+        if (err.name !== 'ConditionalCheckFailedException') throw err
+        const current = await ddb.send(new GetCommand({
+          TableName: SUBS_TABLE,
+          Key: { stripe_customer_id: row.stripe_customer_id },
+        }))
+        if (isActiveSub(current.Item) && current.Item?.cognito_sub !== subject) return false
+      }
+    }
+  }
+
+  const profile = await ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } }))
+  if (profile.Item?.cognito_sub && profile.Item.cognito_sub !== subject) return false
+  if (!profile.Item?.cognito_sub) {
+    try {
+      await ddb.send(new UpdateCommand({
+        TableName: PROFILES_TABLE,
+        Key: { email },
+        ConditionExpression: 'attribute_not_exists(cognito_sub)',
+        UpdateExpression: 'SET cognito_sub = :subject, identity_bound_at = :now, created_at = if_not_exists(created_at, :now)',
+        ExpressionAttributeValues: { ':subject': subject, ':now': new Date().toISOString() },
+      }))
+    } catch (err) {
+      if (err.name !== 'ConditionalCheckFailedException') throw err
+      const current = await ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } }))
+      if (current.Item?.cognito_sub !== subject) return false
+    }
   }
   return true
+}
+
+function loadProtectedCatalog() {
+  if (protectedCatalog) return protectedCatalog
+  protectedCatalog = JSON.parse(readFileSync(new URL('./protected-content.json', import.meta.url), 'utf8'))
+  return protectedCatalog
+}
+
+function catalogForPlan(plan) {
+  if (protectedCatalogByPlan.has(plan)) return protectedCatalogByPlan.get(plan)
+  const source = loadProtectedCatalog()
+  const elite = plan === 'elite' || plan === 'champion'
+  const strategies = {}
+  for (const [mapId, sites] of Object.entries(source.strategies || {})) {
+    strategies[mapId] = {}
+    for (const [siteId, sides] of Object.entries(sites || {})) {
+      strategies[mapId][siteId] = {}
+      for (const [side, strat] of Object.entries(sides || {})) {
+        const projection = { ...strat }
+        if (!elite) delete projection.premiumTactics
+        strategies[mapId][siteId][side] = projection
+      }
+    }
+  }
+  const result = {
+    schema_version: source.schema_version,
+    generated_at: source.generated_at,
+    plan,
+    strategies,
+    bans: source.bans || {},
+    enemy_meta: source.enemy_meta || {},
+    squad_roles: source.squad_roles || {},
+    verified_setups: elite ? source.verified_setups || {} : {},
+    verified_callouts: elite ? source.verified_callouts || {} : {},
+    setup_capabilities: elite ? source.setup_capabilities || {} : {},
+    setup_floor_priority: elite ? source.setup_floor_priority || {} : {},
+    setup_variations: elite ? source.setup_variations || {} : {},
+    setup_pick_order: elite ? source.setup_pick_order || {} : {},
+  }
+  protectedCatalogByPlan.set(plan, result)
+  return result
+}
+
+async function getProtectedCatalog(email, headers, payload) {
+  if (payload?.email_verified !== true) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Verified email required.' }) }
+  }
+  const groups = payload?.['cognito:groups'] || []
+  const isAdmin = Array.isArray(groups) && groups.includes('admins')
+  let plan = isAdmin ? 'champion' : 'free'
+  if (!isAdmin) {
+    const sub = await getActiveSub(email)
+    if (isActiveSub(sub)) plan = effectivePlan(sub)
+  }
+  if (!['pro', 'elite', 'champion'].includes(plan)) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'An active paid membership is required.' }) }
+  }
+  try {
+    return {
+      statusCode: 200,
+      headers: { ...headers, 'Cache-Control': 'private, no-store' },
+      body: JSON.stringify(catalogForPlan(plan)),
+    }
+  } catch (err) {
+    console.error('Protected catalog load failed:', err)
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'Protected content is temporarily unavailable.' }) }
+  }
 }
 
 async function getSubscription(email, headers, payload) {
@@ -255,7 +467,7 @@ async function getSubscription(email, headers, payload) {
 
   const sub = await getActiveSub(email)
   if (isActiveSub(sub)) {
-    return { statusCode: 200, headers, body: JSON.stringify({ plan: sub.plan, status: sub.status, current_period_end: sub.current_period_end, comp: sub.comp === true }) }
+    return { statusCode: 200, headers, body: JSON.stringify({ plan: effectivePlan(sub), status: sub.status, current_period_end: sub.current_period_end, comp: sub.comp === true }) }
   }
   return { statusCode: 200, headers, body: JSON.stringify({ plan: 'free', status: 'none' }) }
 }
@@ -301,7 +513,7 @@ async function getMe(email, headers, payload) {
   const isAdmin = Array.isArray(groups) && groups.includes('admins')
 
   const subActive = isActiveSub(sub)
-  const plan = isAdmin ? 'champion' : subActive ? sub.plan : 'free'
+  const plan = isAdmin ? 'champion' : subActive ? effectivePlan(sub) : 'free'
   // Tier scope determines whether the subscription unlocks one game (single)
   // or all 11 games (all_access). Admins always get all_access. Free users
   // get all_access too (they're just browsing — gating doesn't matter).
@@ -345,6 +557,11 @@ async function getMe(email, headers, payload) {
       // on Account page + upload zone so users know where they stand
       // before hitting the 429.
       vod_usage: vodUsage,
+      ai_usage: {
+        purchased_credits: Math.max(0, Number(profile?.ai_usage_credits || 0)),
+        pack_credits: AI_USAGE_PACK_CREDITS,
+        pack_price_dollars: 10,
+      },
     }),
   }
 }
@@ -355,8 +572,10 @@ async function getMe(email, headers, payload) {
 const VOD_TRIAL_LIMIT = parseInt(process.env.VOD_TRIAL_LIMIT || '3', 10)
 const VOD_PRO_LIMIT = parseInt(process.env.VOD_PRO_LIMIT || '20', 10)
 const VOD_PRO_ALL_LIMIT = parseInt(process.env.VOD_PRO_ALL_LIMIT || '30', 10)
-const VOD_CHAMPION_LIMIT = parseInt(process.env.VOD_CHAMPION_LIMIT || '60', 10)
-const VOD_CHAMPION_ALL_LIMIT = parseInt(process.env.VOD_CHAMPION_ALL_LIMIT || '75', 10)
+const VOD_ELITE_LIMIT = parseInt(process.env.VOD_ELITE_LIMIT || '60', 10)
+const VOD_ELITE_ALL_LIMIT = parseInt(process.env.VOD_ELITE_ALL_LIMIT || '75', 10)
+const VOD_CHAMPION_LIMIT = parseInt(process.env.VOD_CHAMPION_LIMIT || '75', 10)
+const VOD_CHAMPION_ALL_LIMIT = parseInt(process.env.VOD_CHAMPION_ALL_LIMIT || '90', 10)
 const VOD_PERIOD_MS = 30 * 24 * 60 * 60 * 1000
 
 function computeVodUsage(sub, plan, tierScope) {
@@ -383,6 +602,7 @@ function computeVodUsage(sub, plan, tierScope) {
   const used = expired ? 0 : (sub.vod_sessions_used || 0)
   let limit = 0
   if (plan === 'champion') limit = tierScope === 'all_access' ? VOD_CHAMPION_ALL_LIMIT : VOD_CHAMPION_LIMIT
+  else if (plan === 'elite') limit = tierScope === 'all_access' ? VOD_ELITE_ALL_LIMIT : VOD_ELITE_LIMIT
   else if (plan === 'pro') limit = tierScope === 'all_access' ? VOD_PRO_ALL_LIMIT : VOD_PRO_LIMIT
   return {
     used, limit, remaining: Math.max(0, limit - used),
@@ -437,7 +657,7 @@ async function getReferralByCode(code, headers) {
     // Look up referrer's tier to display "Pro user invited you" / "Champion
     // invited you" — small social proof on the landing page.
     const sub = await getActiveSub(referrer.email)
-    const tier = isActiveSub(sub) ? sub.plan : 'free'
+    const tier = isActiveSub(sub) ? effectivePlan(sub) : 'free'
     const firstName = (referrer.display_name || referrer.email.split('@')[0]).split(/[.\s+]/)[0]
     return {
       statusCode: 200,
@@ -534,7 +754,7 @@ async function getMyReferrals(email, headers, payload) {
     const groups = payload?.['cognito:groups'] || []
     const isAdmin = Array.isArray(groups) && groups.includes('admins')
     const ownSub = await getActiveSub(email)
-    const ownTier = isAdmin ? 'champion' : (isActiveSub(ownSub) ? ownSub.plan : 'free')
+    const ownTier = isAdmin ? 'champion' : (isActiveSub(ownSub) ? effectivePlan(ownSub) : 'free')
     const ownTierScope = isAdmin
       ? 'all_access'
       : (isActiveSub(ownSub) ? (ownSub.tier_scope || 'single') : 'all_access')
@@ -713,38 +933,20 @@ async function putMe(email, bodyJson, headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ profile: stripProfile(fresh.Item || {}) }) }
 }
 
-// Desktop-app license check. Accepts either:
-//   - an HMAC-signed activation token (issued by /me/activation-token after
-//     Cognito auth confirmed the user is Champion), OR
-//   - a bare email (used by the desktop app on periodic re-verification, ONLY
-//     after the original signed token already proved identity at activation
-//     time and the email is stored locally).
-//
-// Token-based path is the strong-auth path: signed by the server, faked tokens
-// fail signature verification. Email-only path trusts that the desktop app
-// already activated successfully. If you want to harden further, store the
-// stripe_customer_id from the verify response on the desktop app and also
-// re-verify against that.
+// Desktop-app license check. A signed activation token is always required;
+// bare email lookups are intentionally rejected to prevent account enumeration.
 async function postDesktopVerify(bodyJson, headers) {
   let body
   try { body = JSON.parse(bodyJson || '{}') }
   catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) } }
 
-  let email = typeof body.email === 'string' ? body.email.toLowerCase() : null
-
-  if (typeof body.token === 'string' && body.token.length > 0) {
-    const result = verifyActivationToken(body.token.trim())
-    if (!result.ok) {
-      return { statusCode: 401, headers, body: JSON.stringify({ error: `Invalid activation token: ${result.reason}` }) }
-    }
-    if (typeof result.payload?.email === 'string') {
-      email = result.payload.email.toLowerCase()
-    }
+  if (typeof body.token !== 'string' || !body.token.trim()) {
+    return { statusCode: 401, headers, body: JSON.stringify({ valid: false }) }
   }
-
-  if (!email) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing email or token' }) }
-  }
+  const result = verifyActivationToken(body.token.trim())
+  if (!result.ok) return { statusCode: 401, headers, body: JSON.stringify({ valid: false }) }
+  const activationPayload = result.payload
+  const email = activationPayload.email.toLowerCase()
 
   const sub = await getActiveSub(email)
   if (isActiveSub(sub)) {
@@ -752,23 +954,29 @@ async function postDesktopVerify(bodyJson, headers) {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        plan: sub.plan,
-        status: sub.status,
-        email,
-        current_period_end: sub.current_period_end ?? null,
-        comp: sub.comp === true,
+        valid: true,
+        plan: effectivePlan(sub),
+        expires_at: Math.min(activationPayload.expires_at, Date.parse(sub.current_period_end)),
       }),
     }
   }
+  if (activationPayload?.admin === true) {
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ valid: true, plan: 'champion', expires_at: activationPayload.expires_at }),
+    }
+  }
   return {
-    statusCode: 200,
+    statusCode: 403,
     headers,
-    body: JSON.stringify({ plan: 'free', status: 'none', email, current_period_end: null }),
+    body: JSON.stringify({ valid: false }),
   }
 }
 
-// Issues a signed activation token to a Cognito-authenticated Champion (or
-// admin). The frontend ActivatePage calls this and pastes the result into
+// Issues a signed activation token to a Cognito-authenticated paid member (or
+// admin). Champion remains a superset, so no existing customer loses access.
+// The frontend ActivatePage calls this and pastes the result into
 // the desktop app. Token includes email, plan, expiry; signature proves it
 // came from us.
 async function postActivationToken(email, headers, payload) {
@@ -779,23 +987,33 @@ async function postActivationToken(email, headers, payload) {
   const isAdmin = Array.isArray(groups) && groups.includes('admins')
 
   let plan = 'free'
+  let activeSub = null
   if (isAdmin) {
     plan = 'champion'
   } else {
     const sub = await getActiveSub(email)
-    // Trialing Champions (card-up-front trial) can activate the desktop app too.
-    if (isActiveSub(sub) && sub.plan === 'champion') plan = 'champion'
+    activeSub = sub
+    // Trialing paid members can activate too. Desktop access begins at Pro.
+    const subPlan = effectivePlan(sub)
+    if (isActiveSub(sub) && ['pro', 'elite', 'champion'].includes(subPlan)) plan = subPlan
   }
 
-  if (plan !== 'champion') {
-    return { statusCode: 403, headers, body: JSON.stringify({ error: 'Champion subscription required to activate the desktop app.' }) }
+  if (!['pro', 'elite', 'champion'].includes(plan)) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'A paid Recon 6 membership is required to activate the desktop app.' }) }
   }
 
   const issuedAt = Date.now()
-  const expiresAt = issuedAt + ACTIVATION_TTL_MS
+  const paidThrough = activeSub ? Date.parse(activeSub.current_period_end || '') : Number.POSITIVE_INFINITY
+  const expiresAt = Math.min(issuedAt + ACTIVATION_TTL_MS, Number.isFinite(paidThrough) ? paidThrough : issuedAt + ACTIVATION_TTL_MS)
   const tokenStr = signActivationToken({
+    iss: 'https://r6coaching.com',
+    aud: 'recon6-desktop',
+    product: 'recon6',
+    version: 2,
+    user_id: payload?.sub || email,
     email,
-    plan: 'champion',
+    plan,
+    admin: isAdmin,
     issued_at: issuedAt,
     expires_at: expiresAt,
   })
@@ -808,6 +1026,32 @@ async function postActivationToken(email, headers, payload) {
       expires_at: expiresAt,
       email,
     }),
+  }
+}
+
+async function postDesktopDownload(email, headers, payload) {
+  const groups = payload?.['cognito:groups'] || []
+  const isAdmin = Array.isArray(groups) && groups.includes('admins')
+  let plan = 'free'
+  if (isAdmin) plan = 'champion'
+  else {
+    const sub = await getActiveSub(email)
+    if (isActiveSub(sub)) plan = effectivePlan(sub)
+  }
+  if (!['pro', 'elite', 'champion'].includes(plan)) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'A paid Recon 6 membership is required to download the desktop coach.' }) }
+  }
+  const command = new GetObjectCommand({
+    Bucket: DESKTOP_DOWNLOAD_BUCKET,
+    Key: DESKTOP_DOWNLOAD_KEY,
+    ResponseContentDisposition: `attachment; filename="${DESKTOP_DOWNLOAD_FILENAME}"`,
+    ResponseContentType: 'application/vnd.microsoft.portable-executable',
+  })
+  const url = await getSignedUrl(s3, command, { expiresIn: 300 })
+  return {
+    statusCode: 200,
+    headers,
+    body: JSON.stringify({ url, filename: DESKTOP_DOWNLOAD_FILENAME, version: '2.0.4', expires_in: 300, plan }),
   }
 }
 
@@ -838,67 +1082,133 @@ async function postBillingPortal(email, headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ url: data.url }) }
 }
 
-// Self-service 7-day Pro trial. Called once per user on first profile setup.
-// Grants them 'pro' plan with comp:true and current_period_end 7 days out.
-//
-// Why this matters for MRR: free→Pro conversion in SaaS averages 2-5%. Trial→
-// paid conversion averages 15-25%. Auto-granting a trial 5x the conversion
-// rate of asking users to pay upfront. Critical for the launch push.
-//
-// Idempotency: blocks repeat calls. If the user already has ANY subscription
-// row (active, expired, canceled, or trial), we refuse so customers can't
-// game the system by deleting + re-trialing.
-async function postStartTrial(email, headers) {
-  if (!email) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Not signed in' }) }
-
-  // Check for any existing sub row
-  const r = await ddb.send(new QueryCommand({
-    TableName: SUBS_TABLE,
-    IndexName: 'email-index',
-    KeyConditionExpression: 'email = :email',
-    ExpressionAttributeValues: { ':email': email },
-  }))
-  if (r.Items && r.Items.length > 0) {
-    return {
-      statusCode: 409,
-      headers,
-      body: JSON.stringify({ error: 'trial_already_used', message: 'You\'ve already started a trial or subscription on this account.' }),
-    }
+async function postUsageCheckout(email, headers) {
+  if (!STRIPE_SECRET || !AI_USAGE_PACK_PRICE_ID) {
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'Usage packs are not configured yet.' }) }
+  }
+  const sub = await getActiveSub(email)
+  if (!isActiveSub(sub) || !['pro', 'elite', 'champion'].includes(effectivePlan(sub))) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: 'A paid membership is required before buying extra AI usage.' }) }
   }
 
-  const now = new Date().toISOString()
-  const sevenDaysOut = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-  const customerId = `trial_${email.replace(/[^a-z0-9]/g, '_')}`
-
-  await ddb.send(new PutCommand({
-    TableName: SUBS_TABLE,
-    Item: {
-      stripe_customer_id: customerId,
-      email,
-      plan: 'pro',
-      status: 'active',
-      comp: true,
-      comp_note: 'Auto-granted 7-day Pro trial on signup',
-      tier_scope: 'single', // R6 only during trial
-      created_at: now,
-      updated_at: now,
-      current_period_end: sevenDaysOut,
-      trial: true,
-      // VOD usage tracking: trials use vod_lifetime_used (capped lifetime,
-      // never resets). Initial value 0; VOD Lambda increments atomically.
-      vod_lifetime_used: 0,
+  const form = new URLSearchParams({
+    mode: 'payment',
+    'line_items[0][price]': AI_USAGE_PACK_PRICE_ID,
+    'line_items[0][quantity]': '1',
+    customer_email: email,
+    success_url: 'https://r6coaching.com/#/account?usage=success',
+    cancel_url: 'https://r6coaching.com/#/account?usage=cancelled',
+    'metadata[kind]': 'ai_usage_pack',
+    'metadata[email]': email,
+    'metadata[credits]': String(AI_USAGE_PACK_CREDITS),
+  })
+  const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${STRIPE_SECRET}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-  }))
+    body: form,
+  })
+  const data = await r.json()
+  if (!r.ok || !data.url) {
+    console.error('Usage-pack checkout error:', data?.error?.type || r.status)
+    return { statusCode: 502, headers, body: JSON.stringify({ error: data?.error?.message || 'Could not open usage checkout.' }) }
+  }
+  return { statusCode: 200, headers, body: JSON.stringify({ url: data.url }) }
+}
 
+async function postWorkbookCheckout(email, headers, payload) {
+  if (!STRIPE_SECRET || !WORKBOOK_PRICE_ID) {
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'Workbook checkout is not configured yet.' }) }
+  }
+
+  const form = new URLSearchParams({
+    mode: 'payment',
+    'line_items[0][price]': WORKBOOK_PRICE_ID,
+    'line_items[0][quantity]': '1',
+    customer_email: email,
+    client_reference_id: payload?.sub || email,
+    success_url: `${SITE_URL}/beginner-guide?workbook=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${SITE_URL}/beginner-guide?workbook=cancelled`,
+    submit_type: 'pay',
+    integration_identifier: workbookIntegrationIdentifier(),
+    'metadata[kind]': 'beginner_workbook',
+    'metadata[email]': email,
+    'metadata[price_id]': WORKBOOK_PRICE_ID,
+  })
+  const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${STRIPE_SECRET}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Stripe-Version': STRIPE_API_VERSION,
+    },
+    body: form,
+  })
+  const data = await response.json()
+  if (!response.ok || !data.url) {
+    console.error('Workbook checkout error:', data?.error?.type || response.status)
+    return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not open workbook checkout.' }) }
+  }
+  return { statusCode: 200, headers, body: JSON.stringify({ url: data.url }) }
+}
+
+async function postWorkbookDownload(email, bodyJson, headers) {
+  if (!STRIPE_SECRET || !WORKBOOK_PRICE_ID || !WORKBOOK_DOWNLOAD_BUCKET || !WORKBOOK_DOWNLOAD_KEY) {
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'Workbook delivery is not configured yet.' }) }
+  }
+
+  let body
+  try { body = JSON.parse(bodyJson || '{}') }
+  catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid request.' }) } }
+  const sessionId = String(body.session_id || '').trim()
+  if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(sessionId)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid checkout session.' }) }
+  }
+
+  const stripeHeaders = {
+    Authorization: `Bearer ${STRIPE_SECRET}`,
+    'Stripe-Version': STRIPE_API_VERSION,
+  }
+  const [sessionResponse, lineItemsResponse] = await Promise.all([
+    fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, { headers: stripeHeaders }),
+    fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}/line_items?limit=10`, { headers: stripeHeaders }),
+  ])
+  const [session, lineItems] = await Promise.all([
+    sessionResponse.json(),
+    lineItemsResponse.json(),
+  ])
+  if (!sessionResponse.ok || !lineItemsResponse.ok) {
+    console.error('Workbook purchase verification failed:', session?.error?.type || lineItems?.error?.type || 'stripe_error')
+    return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not verify this purchase. Please retry.' }) }
+  }
+
+  const validation = validateWorkbookPurchase({
+    session,
+    lineItems: lineItems.data || [],
+    accountEmail: email,
+    expectedPriceId: WORKBOOK_PRICE_ID,
+  })
+  if (!validation.ok) {
+    return { statusCode: 403, headers, body: JSON.stringify({ error: validation.error }) }
+  }
+
+  const command = new GetObjectCommand({
+    Bucket: WORKBOOK_DOWNLOAD_BUCKET,
+    Key: WORKBOOK_DOWNLOAD_KEY,
+    ResponseContentDisposition: `attachment; filename="${WORKBOOK_DOWNLOAD_FILENAME}"`,
+    ResponseContentType: 'application/zip',
+  })
+  const url = await getSignedUrl(s3, command, { expiresIn: 300 })
   return {
     statusCode: 200,
     headers,
     body: JSON.stringify({
-      ok: true,
-      plan: 'pro',
-      trial: true,
-      current_period_end: sevenDaysOut,
-      days_remaining: 7,
+      url,
+      filename: WORKBOOK_DOWNLOAD_FILENAME,
+      expires_in: 300,
+      purchase: 'verified',
     }),
   }
 }

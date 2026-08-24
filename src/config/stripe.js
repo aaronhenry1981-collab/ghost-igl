@@ -15,8 +15,8 @@
 //     (Stripe doesn't auto-bump prices on existing subscriptions).
 //
 // Keep these in sync with:
-//   - The webhook Lambda's getPlanFromPrice() — it must recognize all 4 price
-//     IDs to map incoming events to the right plan label.
+//   - The webhook Lambda's getPlanFromPrice() — it must recognize every legacy
+//     and current price ID to map incoming events to the right plan label.
 //   - aws/template.yaml stack params (StripePriceIdPro, ...).
 //   - The Stripe MCP / dashboard — these are real production IDs.
 
@@ -49,25 +49,38 @@ export const PRO_FOUNDING_LINK = 'https://buy.stripe.com/4gM00kd3k0J61oz8O67ss0n
 export const PRO_FOUNDING_PRICE_ID = 'price_1TPtOKJNddvjgWcg47I16AQp'
 export const PRO_FOUNDING_AMOUNT = 9 // dollars
 
-export const CHAMPION_FOUNDING_LINK = 'https://buy.stripe.com/14AeVe8N4dvS4AL4xQ7ss0o'
-export const CHAMPION_FOUNDING_PRICE_ID = 'price_1TLEtsJNddvjgWcgYcmiNmW7'
-export const CHAMPION_FOUNDING_AMOUNT = 29
+// The former Champion digital tier is now Elite. Existing $29 subscribers
+// remain locked at $29 and keep every digital entitlement they bought. The
+// public Elite offer uses the regular $39 price; the $29 link is retained only
+// for account reconciliation and rollback, never for new sales.
+export const ELITE_LEGACY_FOUNDING_LINK = 'https://buy.stripe.com/14AeVe8N4dvS4AL4xQ7ss0o'
+export const ELITE_LEGACY_FOUNDING_PRICE_ID = 'price_1TLEtsJNddvjgWcgYcmiNmW7'
+export const ELITE_LEGACY_FOUNDING_AMOUNT = 29
 
 // Regular rates — flip to these after the founding window for new sign-ups.
-// The Champion regular ($39) doesn't have a payment link yet; create one
-// in Stripe before flipping STRIPE_FOUNDING_ACTIVE off.
+// New public Elite uses the former $39 digital-tier price. New Champion is
+// a separate $70 high-touch membership so coaching credits and access match.
 export const PRO_REGULAR_LINK = 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c'
 export const PRO_REGULAR_PRICE_ID = 'price_1TLEtrJNddvjgWcg9iTWJoLS'
 export const PRO_REGULAR_AMOUNT = 12
 
-export const CHAMPION_REGULAR_LINK = 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h' // $39 Champion regular — created 2026-05-09, plink_1TVMeeJNddvjgWcgEFTWe8uz
-export const CHAMPION_REGULAR_PRICE_ID = 'price_1TPtOYJNddvjgWcgfEWjzGnp'
-export const CHAMPION_REGULAR_AMOUNT = 39
+export const ELITE_CHECKOUT_LINK = 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h'
+export const ELITE_REGULAR_PRICE_ID = 'price_1TPtOYJNddvjgWcgfEWjzGnp'
+export const ELITE_CURRENT_AMOUNT = 39
+
+// New Champion is the high-touch membership: everything in Elite plus two
+// live coaching sessions each billing cycle. The environment override lets a
+// tested Stripe Payment Link be staged without hardcoding it into an older
+// build. The fallback keeps visitors on the coaching page until that link is
+// present, so nobody can reach a mismatched checkout.
+export const CHAMPION_MEMBERSHIP_PRICE_ID = import.meta.env?.VITE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88'
+export const CHAMPION_CHECKOUT_LINK = import.meta.env?.VITE_CHAMPION_CHECKOUT_LINK || ''
+export const CHAMPION_CHECKOUT_AVAILABLE = Boolean(CHAMPION_CHECKOUT_LINK)
+export const CHAMPION_CURRENT_AMOUNT = 70
 
 // Resolved at runtime based on STRIPE_FOUNDING_ACTIVE — what the site should
 // link visitors to today.
 export const PRO_CHECKOUT_LINK = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_LINK : PRO_REGULAR_LINK
-export const CHAMPION_CHECKOUT_LINK = STRIPE_FOUNDING_ACTIVE ? CHAMPION_FOUNDING_LINK : CHAMPION_REGULAR_LINK
 // Lock Stripe checkout to the SAME email as the signed-in account. Subscriptions
 // link to a login purely by email, so a user paying with a different address
 // than they signed up with silently orphans themselves — they get billed and
@@ -78,7 +91,6 @@ export function withCheckoutEmail(link, email) {
 }
 
 export const PRO_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_AMOUNT : PRO_REGULAR_AMOUNT
-export const CHAMPION_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? CHAMPION_FOUNDING_AMOUNT : CHAMPION_REGULAR_AMOUNT
 
 // All-Access tier — covers all 10 supported FPS games (R6 today, CS2/Val/etc
 // rolling out as data is generated). Higher willingness-to-pay since most
@@ -119,10 +131,24 @@ export const COACHING_SINGLE_PRICE_ID = 'price_1TsOsaJNddvjgWcgmalTAfcn' // $40 
 export const COACHING_ADDON_PRICE_ID = 'price_1TsZtQJNddvjgWcgwPKVEYQm'  // $70/mo recurring, grants 2 credits/month
 export const COACHING_AMOUNTS = { intro: 20, single: 40, addon: 70, academy: 99 } // dollars, for copy
 
+// Prepaid usage add-on. The authenticated backend creates Checkout sessions
+// so it can attach the account email and an idempotent credit-grant marker.
+// No client ever receives a Stripe secret, and no overage is automatic.
+export const AI_USAGE_PACK_AMOUNT = 10
+export const AI_USAGE_PACK_CREDITS = 100
+
+// Siege Starter Field Workbook — one-time digital product. Checkout sessions
+// are created by the authenticated backend so purchase identity and private
+// delivery stay tied to the signed-in Recon 6 account.
+export const WORKBOOK_PRODUCT_ID = 'prod_V84uw1PNvl0qTD'
+export const WORKBOOK_PRICE_ID = 'price_1U7okSJNddvjgWcgyomwEAa2'
+export const WORKBOOK_AMOUNT = 14.99
+
 // Convenience helper for components — what's the current best link to
 // upsell a non-paying user to a given tier.
 export function checkoutLinkFor(tier) {
   if (tier === 'champion') return CHAMPION_CHECKOUT_LINK
+  if (tier === 'elite') return ELITE_CHECKOUT_LINK
   if (tier === 'pro-all') return PRO_ALL_ACCESS_LINK
   if (tier === 'champion-all') return CHAMPION_ALL_ACCESS_LINK
   return PRO_CHECKOUT_LINK

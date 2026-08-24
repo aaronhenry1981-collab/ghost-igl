@@ -37,7 +37,6 @@ export default function GameMatchPrepPage() {
   useEffect(() => {
     // Default-select the first map once the async map list lands — guarded
     // by !mapId so it fires at most once per game load.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!mapId && maps.length > 0) setMapId(maps[0].id)
   }, [maps, mapId])
 

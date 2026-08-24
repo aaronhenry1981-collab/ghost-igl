@@ -28,7 +28,6 @@ export default function CoachConnectPage() {
     } catch { /* storage blocked */ }
 
     // One-shot mount handoff — terminal status per branch, no cascade possible.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!window.opener) { setStatus('no-opener'); return }
 
     if (!Object.keys(entries).length) {

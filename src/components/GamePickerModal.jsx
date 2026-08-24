@@ -26,7 +26,6 @@ export default function GamePickerModal() {
     try { seen = !!localStorage.getItem(SEEN_KEY) } catch { /* SSR safe */ }
     // One-shot open gated on localStorage (external system) once auth
     // settles — a guarded init, not a render-cascade loop.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!seen) setOpen(true)
   }, [loading, user])
 
