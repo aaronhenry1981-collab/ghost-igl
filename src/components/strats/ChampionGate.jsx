@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { ELITE_CHECKOUT_LINK, ELITE_CURRENT_AMOUNT } from '../../config/stripe'
-import { track } from '../../utils/analytics'
+import { ELITE_CURRENT_AMOUNT } from '../../config/stripe'
+import MembershipCheckoutButton from '../MembershipCheckoutButton'
 
 // Legacy component name retained so existing strategy content does not need a
 // risky bulk migration. In the four-tier model this gates the Champion-level
@@ -38,16 +38,14 @@ export default function ChampionGate({ label, children, compact = false }) {
           <p>{helperText}</p>
         </div>
         {user ? (
-          <a
-            href={ELITE_CHECKOUT_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track('Pricing CTA Click', { tier: 'elite', location: 'elite-gate' })}
+          <MembershipCheckoutButton
+            tier="elite"
+            location="elite-gate"
             className="btn btn-primary btn-sm pro-gate-btn"
             style={{ background: 'linear-gradient(135deg, #00e5ff 0%, #0091ea 100%)' }}
           >
             {ctaCopy}
-          </a>
+          </MembershipCheckoutButton>
         ) : (
           <Link to="/auth" className="btn btn-primary btn-sm pro-gate-btn">
             Sign Up Free

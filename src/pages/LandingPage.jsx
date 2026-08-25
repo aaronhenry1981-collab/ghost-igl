@@ -1,15 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getCurrentSeason } from '../utils/season'
 // All-Access link/amount imports removed 2026-07-06 (R6-only) — the constants
 // stay exported from config/stripe.js for existing subscribers' plumbing.
 import {
-  PRO_CHECKOUT_LINK,
-  ELITE_CHECKOUT_LINK,
-  CHAMPION_CHECKOUT_LINK,
-  CHAMPION_CHECKOUT_AVAILABLE,
   AI_USAGE_PACK_AMOUNT,
-  withCheckoutEmail,
 } from '../config/stripe'
 import { isFoundingOpen } from '../config/founding'
 import { track } from '../utils/analytics'
@@ -30,6 +25,8 @@ import { useDemoVideo } from '../hooks/useDemoVideo'
 import { useReveal } from '../hooks/useReveal'
 import './WorkbookLanding.css'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { openMembershipCheckout } from '../lib/membershipCheckout'
+import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
 
 const PREVIEW_STRATS = {
   'bank-ceo-attack': { map: 'Bank', site: 'CEO Office', side: 'attack', data: STRATS.bank.ceo.attack },
@@ -241,7 +238,6 @@ const PRICING = [
     desc: 'Advanced strategies, AI analysis, and the optional PC Live Coach.',
     founding: true,
     trialDays: 30,
-    link: PRO_CHECKOUT_LINK,
     features: [
       '30-day free trial — card up front, cancel anytime before it bills',
       'Everything in Basic',
@@ -260,7 +256,6 @@ const PRICING = [
     period: '/mo',
     desc: 'The full self-service coaching system for players who use Recon 6 every week.',
     featured: true,
-    link: ELITE_CHECKOUT_LINK,
     features: [
       'Everything in Pro',
       '+ Champion-level strategy library and premium tactics',
@@ -277,8 +272,7 @@ const PRICING = [
     price: '$70',
     period: '/mo',
     desc: 'High-touch coaching: everything in Elite plus two live sessions with Aaron every month.',
-    link: CHAMPION_CHECKOUT_LINK || '/coaching/index.html#book',
-    cta: CHAMPION_CHECKOUT_AVAILABLE ? 'Start Champion membership' : 'Book a $20 first session',
+    cta: 'Start Champion membership',
     features: [
       'Everything in Elite',
       '+ 75 VOD review sessions each month',
@@ -457,10 +451,13 @@ function HeroBriefing() {
 
 export default function LandingPage() {
   const { user, isPro, plan } = useAuth()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { visible: testimonials } = useTestimonials()
   const { video: demoVideo } = useDemoVideo()
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState(null)
+  const [checkoutError, setCheckoutError] = useState(null)
+  const checkoutResumeRef = useRef(false)
   // R6-ONLY (2026-07-06): the billing-scope toggle and All-Access SKUs are no
   // longer offered to NEW visitors — RECON6 is a Rainbow Six product. The
   // All-Access price IDs stay live in config/stripe.js and useAuth still
@@ -477,6 +474,21 @@ export default function LandingPage() {
       setPortalLoading(false)
     }
   }, [])
+
+  // A signed-out visitor chooses a tier, creates/signs into a verified account,
+  // then returns here. Resume the server-owned Checkout Session exactly once.
+  useEffect(() => {
+    const tier = searchParams.get('checkout')
+    if (!user || checkoutResumeRef.current || !['pro', 'elite', 'champion'].includes(tier)) return
+    checkoutResumeRef.current = true
+    const next = new URLSearchParams(searchParams)
+    next.delete('checkout')
+    setSearchParams(next, { replace: true })
+    openMembershipCheckout(tier).catch((error) => {
+      checkoutResumeRef.current = false
+      setCheckoutError(error.message || 'Could not open secure checkout.')
+    })
+  }, [user, searchParams, setSearchParams])
 
   return (
     <div className="recon-landing-v2">
@@ -794,12 +806,6 @@ export default function LandingPage() {
           {PRICING.map((p) => {
             const foundingOpen = isFoundingOpen()
             const displayPrice = p.founding && !foundingOpen && p.regularPrice ? p.regularPrice : p.price
-            // Lock checkout to the signed-in account's email. Subscriptions link
-            // to a login by email alone, so paying with a different address
-            // silently orphans them (billed, no access). Signed-out visitors are
-            // unaffected — they type their email at Stripe and the post-checkout
-            // page tells them to sign up with that same address.
-            const displayLink = p.link.startsWith('http') ? withCheckoutEmail(p.link, user?.email) : p.link
             const showFounding = p.founding && foundingOpen
             const showRegular = showFounding && p.regularPrice
             return (
@@ -858,20 +864,23 @@ export default function LandingPage() {
                 <Link to="/strats" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
                   Go to Strats
                 </Link>
-              ) : (
-                <a
-                  href={displayLink}
-                  target={displayLink.startsWith('http') ? '_blank' : undefined}
-                  onClick={() => {
-                    if (p.tier === 'Pro') track('Pricing CTA Click', { tier: 'pro', location: 'pricing-card' })
-                    else if (p.tier === 'Elite') track('Pricing CTA Click', { tier: 'elite', location: 'pricing-card' })
-                    else if (p.tier === 'Champion') track('Pricing CTA Click', { tier: 'champion', location: 'pricing-card' })
-                    else if (p.price === 'Free') track('Free Tier CTA Click', { location: 'pricing-card' })
-                  }}
+              ) : p.price === 'Free' ? (
+                <Link
+                  to={p.link}
+                  onClick={() => track('Free Tier CTA Click', { location: 'pricing-card' })}
                   className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
                 >
-                  {p.cta || (p.price === 'Free' ? 'Get Started Free' : p.trialDays ? `Start ${p.trialDays}-day free trial` : 'Subscribe Now')}
-                </a>
+                  Get Started Free
+                </Link>
+              ) : (
+                <MembershipCheckoutButton
+                  tier={p.tierKey}
+                  location="pricing-card"
+                  onError={(error) => setCheckoutError(error.message || 'Could not open secure checkout.')}
+                  className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
+                >
+                  {p.cta || (p.trialDays ? `Start ${p.trialDays}-day free trial` : 'Subscribe Now')}
+                </MembershipCheckoutButton>
               )}
             </div>
             )
@@ -880,66 +889,12 @@ export default function LandingPage() {
         <p className="pricing-note">
           Pro starts with a 30-day trial. Website AI usage is capped, and extra usage is prepaid at ${AI_USAGE_PACK_AMOUNT} with no automatic overage. Recon 6 Command is included with paid Pro, Elite, and Champion accounts. Champion includes two live sessions.
         </p>
-        {portalError && (
+        {(portalError || checkoutError) && (
           <p className="pricing-note" style={{ color: '#ff6b6b' }}>
-            {portalError} — you can also <Link to="/account">manage from Account</Link>.
+            {portalError || checkoutError} — you can also <Link to="/account">manage from Account</Link>.
           </p>
         )}
 
-        {/* All-Access upsell REMOVED 2026-07-06 — R6-only. Existing All-Access
-            subscribers keep their plans; new visitors see the R6-only membership ladder. */}
-        {!R6_ONLY && <div
-          style={{
-            maxWidth: 920,
-            margin: '2.5rem auto 0',
-            padding: '1.5rem 2rem',
-            background: 'linear-gradient(135deg, rgba(0,229,255,0.10), rgba(180,140,255,0.10))',
-            border: '1px solid rgba(0,229,255,0.4)',
-            borderRadius: 14,
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem' }}>
-            <div style={{ flex: '1 1 360px' }}>
-              <div style={{ color: '#00e5ff', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>
-                Recon 6 All-Access
-              </div>
-              <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.4rem' }}>
-                Play more than just Siege? One plan covers your whole rotation.
-              </h3>
-              <p style={{ color: 'rgba(230,233,239,0.85)', margin: '0 0 0.75rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                R6 is home — the deepest content plus AI VOD review. The same toolkit (strats, loadouts, match prep, meta board) is ready for CS2, Valorant, Call of Duty, Apex, Overwatch 2, Marvel Rivals, The Finals, Halo Infinite, Fortnite, and Rocket League — switch in the sidebar, no per-game upgrade.
-              </p>
-              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.85rem', color: 'rgba(230,233,239,0.7)' }}>
-                <span><strong style={{ color: '#fff' }}>Pro+</strong> $19/mo — unlock all 20 games on Pro tier</span>
-                <span><strong style={{ color: '#fff' }}>Champion+</strong> $49/mo — full Champion across all games</span>
-                <span style={{ color: '#7ee2a4' }}>Annual: save 17%</span>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 200 }}>
-              <a
-                href="https://buy.stripe.com/00w4gAfbsbnK7MXfcu7ss0i"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => track('Pricing CTA Click', { tier: 'pro-all-access', location: 'all-access-banner' })}
-                className="btn btn-primary"
-              >
-                Pro+ — $19/mo →
-              </a>
-              <a
-                href="https://buy.stripe.com/eVq7sM8N4crO9V55BU7ss0j"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => track('Pricing CTA Click', { tier: 'champion-all-access', location: 'all-access-banner' })}
-                className="btn btn-outline"
-              >
-                Champion+ — $49/mo →
-              </a>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(230,233,239,0.55)', textAlign: 'center' }}>
-                Annual options at checkout
-              </div>
-            </div>
-          </div>
-        </div>}
       </section>
 
       <section className="section" id="faq">

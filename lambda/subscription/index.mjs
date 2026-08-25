@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs'
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { validateWorkbookPurchase, workbookIntegrationIdentifier } from './workbook-purchase.mjs'
+import { membershipIdempotencyKey, membershipIntegrationIdentifier, resolveMembershipOffer } from './membership-checkout.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const s3 = new S3Client({ region: process.env.AWS_REGION || 'us-east-1' })
@@ -254,6 +255,9 @@ export async function handler(event) {
       try { billingAction = JSON.parse(event.body || '{}')?.action || null } catch { /* normal portal open */ }
       return billingAction === 'usage_pack' ? await postUsageCheckout(email, headers) : await postBillingPortal(email, headers)
     }
+    if (path.endsWith('/me/membership-checkout') && method === 'POST') {
+      return await postMembershipCheckout(email, event.body, headers, payload)
+    }
     if (path.endsWith('/me/workbook-checkout') && method === 'POST') {
       return await postWorkbookCheckout(email, headers, payload)
     }
@@ -339,6 +343,16 @@ function isActiveSub(s) {
   const end = Date.parse(s.current_period_end || '')
   if (!Number.isFinite(end) || end <= Date.now()) return false
   return true
+}
+
+async function getSubscriptionRows(email) {
+  const r = await ddb.send(new QueryCommand({
+    TableName: SUBS_TABLE,
+    IndexName: 'email-index',
+    KeyConditionExpression: 'email = :email',
+    ExpressionAttributeValues: { ':email': email },
+  }))
+  return r.Items || []
 }
 
 async function bindIdentity(email, subject) {
@@ -1082,6 +1096,132 @@ async function postBillingPortal(email, headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ url: data.url }) }
 }
 
+async function stripeCustomerById(customerId) {
+  if (!customerId) return null
+  const response = await fetch(`https://api.stripe.com/v1/customers/${encodeURIComponent(customerId)}`, {
+    headers: {
+      Authorization: `Bearer ${STRIPE_SECRET}`,
+      'Stripe-Version': STRIPE_API_VERSION,
+    },
+  })
+  if (response.status === 404) return null
+  const data = await response.json()
+  if (!response.ok) throw new Error(data?.error?.message || 'Stripe customer lookup failed')
+  return data?.deleted ? null : data
+}
+
+async function findCanonicalStripeCustomer(email, subject) {
+  const [profileResult, rows] = await Promise.all([
+    ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } })),
+    getSubscriptionRows(email),
+  ])
+  const candidates = [
+    profileResult.Item?.stripe_customer_id,
+    ...rows
+      .slice()
+      .sort((a, b) => Number(isActiveSub(b)) - Number(isActiveSub(a)) || String(b.updated_at || '').localeCompare(String(a.updated_at || '')))
+      .map((row) => row.stripe_customer_id),
+  ].filter(Boolean)
+
+  for (const customerId of [...new Set(candidates)]) {
+    const customer = await stripeCustomerById(customerId)
+    if (customer && String(customer.email || '').trim().toLowerCase() === email) return customer
+  }
+
+  const response = await fetch(`https://api.stripe.com/v1/customers?email=${encodeURIComponent(email)}&limit=100`, {
+    headers: {
+      Authorization: `Bearer ${STRIPE_SECRET}`,
+      'Stripe-Version': STRIPE_API_VERSION,
+    },
+  })
+  const data = await response.json()
+  if (!response.ok) throw new Error(data?.error?.message || 'Stripe customer search failed')
+  const customers = (data.data || []).filter((customer) => !customer.deleted)
+  return customers.sort((a, b) => {
+    const aSubjectMatch = a.metadata?.cognito_sub === subject ? 1 : 0
+    const bSubjectMatch = b.metadata?.cognito_sub === subject ? 1 : 0
+    return bSubjectMatch - aSubjectMatch || Number(b.created || 0) - Number(a.created || 0)
+  })[0] || null
+}
+
+function attachCustomer(form, customer, email) {
+  if (/^cus_[A-Za-z0-9]+$/.test(customer?.id || '')) form.set('customer', customer.id)
+  else form.set('customer_email', email)
+}
+
+async function rememberCanonicalCustomer(email, subject, customerId) {
+  if (!customerId) return
+  await ddb.send(new UpdateCommand({
+    TableName: PROFILES_TABLE,
+    Key: { email },
+    UpdateExpression: 'SET stripe_customer_id = :customer, cognito_sub = if_not_exists(cognito_sub, :subject), updated_at = :now',
+    ExpressionAttributeValues: {
+      ':customer': customerId,
+      ':subject': subject,
+      ':now': new Date().toISOString(),
+    },
+  }))
+}
+
+async function postMembershipCheckout(email, bodyJson, headers, payload) {
+  if (!STRIPE_SECRET || STRIPE_SECRET === 'None') {
+    return { statusCode: 503, headers, body: JSON.stringify({ error: 'Billing is temporarily unavailable.' }) }
+  }
+  let body = {}
+  try { body = JSON.parse(bodyJson || '{}') } catch { /* invalid tier is handled below */ }
+  const offer = resolveMembershipOffer(body.tier)
+  if (!offer?.priceId) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Choose Pro, Elite, or Champion.' }) }
+  }
+
+  const existing = await getActiveSub(email)
+  if (isActiveSub(existing) && existing.stripe_subscription_id && /^cus_[A-Za-z0-9]+$/.test(existing.stripe_customer_id || '')) {
+    // One live subscription per person. Stripe's portal performs plan changes
+    // on the existing subscription so proration and the customer identity stay intact.
+    return await postBillingPortal(email, headers)
+  }
+
+  const customer = await findCanonicalStripeCustomer(email, payload.sub)
+  const form = new URLSearchParams({
+    mode: 'subscription',
+    'line_items[0][price]': offer.priceId,
+    'line_items[0][quantity]': '1',
+    client_reference_id: payload.sub,
+    success_url: `${SITE_URL}/#/account?checkout=success`,
+    cancel_url: `${SITE_URL}/#/?checkout=cancelled`,
+    payment_method_collection: 'always',
+    integration_identifier: membershipIntegrationIdentifier(),
+    'metadata[kind]': 'recon6_membership',
+    'metadata[email]': email,
+    'metadata[cognito_sub]': payload.sub,
+    'metadata[tier]': offer.tier,
+    'subscription_data[metadata][kind]': 'recon6_membership',
+    'subscription_data[metadata][email]': email,
+    'subscription_data[metadata][cognito_sub]': payload.sub,
+    'subscription_data[metadata][tier]': offer.tier,
+  })
+  if (offer.trialDays > 0) form.set('subscription_data[trial_period_days]', String(offer.trialDays))
+  attachCustomer(form, customer, email)
+
+  const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${STRIPE_SECRET}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Stripe-Version': STRIPE_API_VERSION,
+      'Idempotency-Key': membershipIdempotencyKey(payload.sub, offer.tier),
+    },
+    body: form,
+  })
+  const data = await response.json()
+  if (!response.ok || !data.url) {
+    console.error('Membership checkout error:', data?.error?.type || response.status)
+    return { statusCode: 502, headers, body: JSON.stringify({ error: data?.error?.message || 'Could not open membership checkout.' }) }
+  }
+  if (customer?.id) await rememberCanonicalCustomer(email, payload.sub, customer.id)
+  return { statusCode: 200, headers, body: JSON.stringify({ url: data.url, destination: 'checkout' }) }
+}
+
 async function postUsageCheckout(email, headers) {
   if (!STRIPE_SECRET || !AI_USAGE_PACK_PRICE_ID) {
     return { statusCode: 503, headers, body: JSON.stringify({ error: 'Usage packs are not configured yet.' }) }
@@ -1095,18 +1235,19 @@ async function postUsageCheckout(email, headers) {
     mode: 'payment',
     'line_items[0][price]': AI_USAGE_PACK_PRICE_ID,
     'line_items[0][quantity]': '1',
-    customer_email: email,
     success_url: 'https://r6coaching.com/#/account?usage=success',
     cancel_url: 'https://r6coaching.com/#/account?usage=cancelled',
     'metadata[kind]': 'ai_usage_pack',
     'metadata[email]': email,
     'metadata[credits]': String(AI_USAGE_PACK_CREDITS),
   })
+  attachCustomer(form, { id: sub.stripe_customer_id }, email)
   const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${STRIPE_SECRET}`,
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Stripe-Version': STRIPE_API_VERSION,
     },
     body: form,
   })
@@ -1123,11 +1264,11 @@ async function postWorkbookCheckout(email, headers, payload) {
     return { statusCode: 503, headers, body: JSON.stringify({ error: 'Workbook checkout is not configured yet.' }) }
   }
 
+  const customer = await findCanonicalStripeCustomer(email, payload?.sub)
   const form = new URLSearchParams({
     mode: 'payment',
     'line_items[0][price]': WORKBOOK_PRICE_ID,
     'line_items[0][quantity]': '1',
-    customer_email: email,
     client_reference_id: payload?.sub || email,
     success_url: `${SITE_URL}/beginner-guide?workbook=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${SITE_URL}/beginner-guide?workbook=cancelled`,
@@ -1137,6 +1278,7 @@ async function postWorkbookCheckout(email, headers, payload) {
     'metadata[email]': email,
     'metadata[price_id]': WORKBOOK_PRICE_ID,
   })
+  attachCustomer(form, customer, email)
   const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
@@ -1151,6 +1293,7 @@ async function postWorkbookCheckout(email, headers, payload) {
     console.error('Workbook checkout error:', data?.error?.type || response.status)
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not open workbook checkout.' }) }
   }
+  if (customer?.id && payload?.sub) await rememberCanonicalCustomer(email, payload.sub, customer.id)
   return { statusCode: 200, headers, body: JSON.stringify({ url: data.url }) }
 }
 

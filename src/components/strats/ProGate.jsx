@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { PRO_CHECKOUT_LINK, PRO_CURRENT_AMOUNT, STRIPE_FOUNDING_ACTIVE } from '../../config/stripe'
-import { track } from '../../utils/analytics'
+import { PRO_CURRENT_AMOUNT, STRIPE_FOUNDING_ACTIVE } from '../../config/stripe'
+import MembershipCheckoutButton from '../MembershipCheckoutButton'
 
 export default function ProGate({ label, children }) {
   const { user, isPro } = useAuth()
@@ -24,15 +24,13 @@ export default function ProGate({ label, children }) {
           <p>{user ? 'Upgrade to Pro to unlock this intel' : 'Sign in and upgrade to unlock'}</p>
         </div>
         {user ? (
-          <a
-            href={PRO_CHECKOUT_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track('Pricing CTA Click', { tier: 'pro', location: 'pro-gate' })}
+          <MembershipCheckoutButton
+            tier="pro"
+            location="pro-gate"
             className="btn btn-primary btn-sm pro-gate-btn"
           >
             {ctaLabel}
-          </a>
+          </MembershipCheckoutButton>
         ) : (
           <Link to="/auth" className="btn btn-primary btn-sm pro-gate-btn">
             Sign Up Free

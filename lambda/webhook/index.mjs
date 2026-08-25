@@ -287,7 +287,10 @@ async function handleCheckout(session, eventId, eventCreated) {
   if (session.mode !== 'subscription') return
 
   const customerId = session.customer
-  const customerEmail = session.customer_email || session.customer_details?.email
+  // Authenticated Checkout writes the verified Cognito email into metadata.
+  // Keep legacy Payment Links working as a fallback until they are retired.
+  const customerEmail = String(session.metadata?.email || session.customer_email || session.customer_details?.email || '').trim().toLowerCase()
+  const checkoutSubject = String(session.metadata?.cognito_sub || session.client_reference_id || '').trim()
   const subscriptionId = session.subscription
   const evtVersion = eventVersion(eventCreated, eventId)
 
@@ -313,29 +316,33 @@ async function handleCheckout(session, eventId, eventCreated) {
   // Fails OPEN: if the check errors, fall through to normal processing — a rare
   // dupe is recoverable; a broken checkout loses a paying customer.
   try {
-    const dup = await findDuplicateActiveSub(customerEmail?.toLowerCase(), plan, subscriptionId)
+    const dup = await findDuplicateActiveSub(customerEmail, plan, subscriptionId)
     if (dup) {
       console.log(`DUPLICATE signup: ${customerEmail} already has ${plan} (${dup.stripe_subscription_id}); cancelling new sub ${subscriptionId}`)
       await stripe.subscriptions.cancel(subscriptionId)
-      await ddb.send(new PutCommand({
-        TableName: TABLE,
-        Item: {
-          stripe_customer_id: customerId,
-          email: customerEmail?.toLowerCase(),
-          stripe_subscription_id: subscriptionId,
-          plan,
-          tier_scope: tierScope,
-          price_id: item?.price?.id,
-          status: 'canceled',
-          note: `auto-cancelled duplicate signup — already had ${plan} (${dup.stripe_subscription_id})`,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          last_processed_event_id: eventId,
-          last_event_version: evtVersion,
-        },
-        ConditionExpression: '(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion)',
-        ExpressionAttributeValues: { ':evtId': eventId, ':evtVersion': evtVersion },
-      }))
+      // Two subscriptions can exist on one Stripe Customer. Never overwrite the
+      // live DynamoDB row with the canceled duplicate when they share a customer ID.
+      if (dup.stripe_customer_id !== customerId) {
+        await ddb.send(new PutCommand({
+          TableName: TABLE,
+          Item: {
+            stripe_customer_id: customerId,
+            email: customerEmail,
+            stripe_subscription_id: subscriptionId,
+            plan,
+            tier_scope: tierScope,
+            price_id: item?.price?.id,
+            status: 'canceled',
+            note: `auto-cancelled duplicate signup — already had ${plan} (${dup.stripe_subscription_id})`,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            last_processed_event_id: eventId,
+            last_event_version: evtVersion,
+          },
+          ConditionExpression: '(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion)',
+          ExpressionAttributeValues: { ':evtId': eventId, ':evtVersion': evtVersion },
+        }))
+      }
       return
     }
   } catch (err) {
@@ -354,7 +361,7 @@ async function handleCheckout(session, eventId, eventCreated) {
       TableName: TABLE,
       Item: {
         stripe_customer_id: customerId,
-        email: customerEmail?.toLowerCase(),
+        email: customerEmail,
         stripe_subscription_id: subscriptionId,
         plan,
         tier_scope: tierScope, // 'single' | 'all_access' — which games unlocked
@@ -365,6 +372,7 @@ async function handleCheckout(session, eventId, eventCreated) {
         updated_at: new Date().toISOString(),
         last_processed_event_id: eventId,
         last_event_version: evtVersion,
+        ...(checkoutSubject ? { cognito_sub: checkoutSubject, identity_bound_at: new Date().toISOString() } : {}),
       },
       ConditionExpression: '(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion)',
       ExpressionAttributeValues: { ':evtId': eventId, ':evtVersion': evtVersion },
@@ -382,7 +390,7 @@ async function handleCheckout(session, eventId, eventCreated) {
   // referrer. Status starts as 'pending' and the daily cron promotes to
   // 'active' once REFERRAL_QUALIFY_DAYS pass without churn.
   try {
-    await trackReferralIfAny(customerEmail?.toLowerCase(), plan, subscriptionId, tierScope)
+    await trackReferralIfAny(customerEmail, plan, subscriptionId, tierScope)
   } catch (err) {
     // Non-fatal — log and continue. The checkout already wrote successfully.
     console.error('trackReferralIfAny failed:', err)
@@ -393,7 +401,7 @@ async function handleCheckout(session, eventId, eventCreated) {
   // benefit at their current tier forever, even after the program
   // restricts to Champion+ only post-launch.
   try {
-    await markFoundingReferrerIfEligible(customerEmail?.toLowerCase())
+    await markFoundingReferrerIfEligible(customerEmail)
   } catch (err) {
     console.error('markFoundingReferrerIfEligible failed:', err)
   }
@@ -407,14 +415,23 @@ async function handleCheckout(session, eventId, eventCreated) {
   // Best-effort + its own try/catch: a failure here must NEVER undo the
   // subscription that was already recorded above.
   try {
-    const cognitoSubject = await ensureCognitoAccount(customerEmail?.toLowerCase())
+    const cognitoSubject = checkoutSubject || await ensureCognitoAccount(customerEmail)
     if (cognitoSubject) {
-      await ddb.send(new UpdateCommand({
-        TableName: TABLE,
-        Key: { stripe_customer_id: customerId },
-        UpdateExpression: 'SET cognito_sub = if_not_exists(cognito_sub, :subject), identity_bound_at = if_not_exists(identity_bound_at, :now)',
-        ExpressionAttributeValues: { ':subject': cognitoSubject, ':now': new Date().toISOString() },
-      }))
+      const now = new Date().toISOString()
+      await Promise.all([
+        ddb.send(new UpdateCommand({
+          TableName: TABLE,
+          Key: { stripe_customer_id: customerId },
+          UpdateExpression: 'SET cognito_sub = if_not_exists(cognito_sub, :subject), identity_bound_at = if_not_exists(identity_bound_at, :now)',
+          ExpressionAttributeValues: { ':subject': cognitoSubject, ':now': now },
+        })),
+        ddb.send(new UpdateCommand({
+          TableName: PROFILES_TABLE,
+          Key: { email: customerEmail },
+          UpdateExpression: 'SET stripe_customer_id = :customer, cognito_sub = if_not_exists(cognito_sub, :subject), updated_at = :now',
+          ExpressionAttributeValues: { ':customer': customerId, ':subject': cognitoSubject, ':now': now },
+        })),
+      ])
     }
   } catch (err) {
     console.error('ensureCognitoAccount failed (subscription still recorded):', err)
