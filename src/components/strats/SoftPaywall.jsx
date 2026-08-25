@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  PRO_CHECKOUT_LINK,
-  ELITE_CHECKOUT_LINK,
   PRO_CURRENT_AMOUNT,
   ELITE_CURRENT_AMOUNT,
   PRO_REGULAR_AMOUNT,
@@ -10,6 +8,7 @@ import {
 import { isFoundingOpen, FOUNDING_END_SHORT } from '../../config/founding'
 import FoundingCountdown from '../FoundingCountdown'
 import { track } from '../../utils/analytics'
+import MembershipCheckoutButton from '../MembershipCheckoutButton'
 
 // Soft-paywall modal for free-tier users who hit the strat-view threshold.
 // Doesn't block content — they can dismiss and keep browsing — but escalates
@@ -126,26 +125,22 @@ export default function SoftPaywall({ open, viewCount, onDismiss, isAuthed }) {
         </ul>
 
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <a
-            href={PRO_CHECKOUT_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track('Pricing CTA Click', { tier: 'pro', location: 'softpaywall' })}
+          <MembershipCheckoutButton
+            tier="pro"
+            location="softpaywall"
             className="btn btn-primary"
             style={{ flex: '1 1 auto', minWidth: 200, textAlign: 'center' }}
           >
             Lock in Pro — ${PRO_CURRENT_AMOUNT}/mo
-          </a>
-          <a
-            href={ELITE_CHECKOUT_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track('Pricing CTA Click', { tier: 'elite', location: 'softpaywall' })}
+          </MembershipCheckoutButton>
+          <MembershipCheckoutButton
+            tier="elite"
+            location="softpaywall"
             className="btn btn-outline"
             style={{ flex: '1 1 auto', minWidth: 200, textAlign: 'center', borderColor: 'rgba(0,229,255,0.5)', color: '#00e5ff' }}
           >
             Elite — ${ELITE_CURRENT_AMOUNT}/mo
-          </a>
+          </MembershipCheckoutButton>
         </div>
 
         <div

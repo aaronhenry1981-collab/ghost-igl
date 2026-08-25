@@ -54,6 +54,10 @@ Parameters:
     Type: String
     Default: price_champion_regular
     Description: Stripe Price ID for the Champion regular rate ($39 — post-May 8)
+  StripeChampionMembershipPriceId:
+    Type: String
+    Default: price_1TzrjiJNddvjgWcgw1DYSf88
+    Description: Stripe Price ID for the $70 Champion membership
   ProPlanAmountCents:
     Type: Number
     Default: 1500
@@ -310,12 +314,15 @@ Resources:
           STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
           STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
           STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
+          PROFILES_TABLE: !Ref ProfilesTable
           # Lets the webhook auto-provision a Cognito login for paying customers
           # (fixes "paid but NO ACCOUNT" orphans).
           COGNITO_USER_POOL_ID: !Ref UserPool
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SubscriptionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProfilesTable
         - Statement:
             - Effect: Allow
               Action:
@@ -342,6 +349,11 @@ Resources:
           COGNITO_CLIENT_ID: !Ref UserPoolClient
           PROFILES_TABLE: !Ref ProfilesTable
           STRIPE_SECRET_KEY: !Ref StripeSecretKey
+          STRIPE_PRO_PRICE_ID: !Ref StripePriceIdPro
+          STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
+          STRIPE_ELITE_PRICE_ID: !Ref StripePriceIdChampionRegular
+          STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID: !Ref StripeChampionMembershipPriceId
+          FOUNDING_END_ISO: '2026-08-31T23:59:59-07:00'
           PORTAL_RETURN_URL: !Sub https://${DomainName}/#/account
           DESKTOP_TOKEN_SECRET: !Ref DesktopTokenSecret
           SITE_URL: !Sub https://${DomainName}
@@ -413,6 +425,18 @@ Resources:
           Properties:
             ApiId: !Ref HttpApi
             Path: /me/billing-portal
+            Method: OPTIONS
+        MembershipCheckout:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/membership-checkout
+            Method: POST
+        MembershipCheckoutOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/membership-checkout
             Method: OPTIONS
         WorkbookCheckout:
           Type: HttpApi

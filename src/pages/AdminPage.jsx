@@ -209,7 +209,7 @@ export default function AdminPage() {
         if (statusFilter === 'payment_issue' && u.billing_state !== 'payment_issue') return false
         if (statusFilter === 'comp' && u.billing_state !== 'comp') return false
         if (statusFilter === 'stripe_only' && !(u.orphan === true || u.cognito_status === 'NO_ACCOUNT')) return false
-        if (statusFilter === 'duplicate' && Number(u.live_subscription_count || 0) <= 1) return false
+        if (statusFilter === 'duplicate' && Number(u.live_subscription_count || 0) <= 1 && Number(u.stripe_customer_count || 0) <= 1) return false
         if (statusFilter === 'canceled' && u.sub_status !== 'canceled') return false
         if (statusFilter === 'unconfirmed' && u.cognito_status !== 'UNCONFIRMED') return false
       }
@@ -225,7 +225,7 @@ export default function AdminPage() {
     const paymentIssues = users.filter((u) => u.billing_state === 'payment_issue').length
     const ending = users.filter((u) => u.billing_state === 'ending').length
     const stripeOnly = users.filter((u) => u.orphan === true || u.cognito_status === 'NO_ACCOUNT').length
-    const duplicateBilling = users.filter((u) => Number(u.live_subscription_count || 0) > 1).length
+    const duplicateBilling = users.filter((u) => Number(u.live_subscription_count || 0) > 1 || Number(u.stripe_customer_count || 0) > 1).length
     return [
       { id: 'payment_issue', label: 'Payment issues', count: paymentIssues, tone: 'danger' },
       { id: 'ending', label: 'Ending plans', count: ending, tone: 'warning' },
@@ -306,7 +306,7 @@ export default function AdminPage() {
   }
 
   function exportCsv() {
-    const cols = ['email', 'plan', 'billing_state', 'sub_status', 'price_amount_cents', 'next_billing_at', 'will_renew', 'has_collected_payment', 'live_subscription_count', 'billing_alerts', 'cognito_status', 'referral_source', 'created_at', 'stripe_customer_id']
+    const cols = ['email', 'plan', 'billing_state', 'sub_status', 'price_amount_cents', 'next_billing_at', 'will_renew', 'has_collected_payment', 'stripe_customer_count', 'live_subscription_count', 'billing_alerts', 'cognito_status', 'referral_source', 'created_at', 'stripe_customer_id']
     const rows = [cols.join(',')]
     for (const u of filtered) rows.push(cols.map((c) => csvEscape(u[c])).join(','))
     const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
@@ -496,7 +496,15 @@ export default function AdminPage() {
                         {u.is_comp && (
                           <span className="admin-badge admin-badge-comp" title="Free access; excluded from revenue">COMP</span>
                         )}
-                        {hasAlerts && <div className="admin-cell-alert">Review {u.live_subscription_count > 1 ? `${u.live_subscription_count} live subscriptions` : 'billing'}</div>}
+                        {hasAlerts && (
+                          <div className="admin-cell-alert">
+                            Review {u.live_subscription_count > 1
+                              ? `${u.live_subscription_count} live subscriptions`
+                              : u.stripe_customer_count > 1
+                                ? `${u.stripe_customer_count} Stripe customers`
+                                : 'billing'}
+                          </div>
+                        )}
                       </td>
                       <td className="admin-billing-cell">
                         <span className={`admin-badge admin-badge-${u.billing_state || 'free'}`}>{billing.title}</span>
@@ -529,9 +537,14 @@ export default function AdminPage() {
                       <td>{u.referral_source || <span style={{ opacity: 0.4 }}>—</span>}</td>
                       <td>
                         {u.stripe_customer_id ? (
-                          <a href={`https://dashboard.stripe.com/customers/${u.stripe_customer_id}`} target="_blank" rel="noreferrer" className="admin-link-inline">
-                            Open →
-                          </a>
+                          <>
+                            <a href={`https://dashboard.stripe.com/customers/${u.stripe_customer_id}`} target="_blank" rel="noreferrer" className="admin-link-inline">
+                              Open →
+                            </a>
+                            {Number(u.stripe_customer_count || 0) > 1 && (
+                              <small className="admin-cell-alert">{u.stripe_customer_count} customer records</small>
+                            )}
+                          </>
                         ) : '-'}
                       </td>
                       <td>

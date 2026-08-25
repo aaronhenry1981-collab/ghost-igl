@@ -1,4 +1,4 @@
-// Centralized Stripe checkout URLs and price IDs.
+// Centralized Stripe price IDs and display amounts.
 //
 // Why this file exists: payment links were previously hardcoded in 4+
 // component files (LandingPage, ProGate, ChampionGate, SoftPaywall). Every
@@ -45,7 +45,6 @@ export const STRIPE_FOUNDING_ACTIVE =
 // promise is unchanged. Old no-trial links kept for rollback:
 //   Pro:      https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f
 //   Champion: https://buy.stripe.com/3cIfZibZgezWd7h9Sa7ss0d
-export const PRO_FOUNDING_LINK = 'https://buy.stripe.com/4gM00kd3k0J61oz8O67ss0n'
 export const PRO_FOUNDING_PRICE_ID = 'price_1TPtOKJNddvjgWcg47I16AQp'
 export const PRO_FOUNDING_AMOUNT = 9 // dollars
 
@@ -53,18 +52,15 @@ export const PRO_FOUNDING_AMOUNT = 9 // dollars
 // remain locked at $29 and keep every digital entitlement they bought. The
 // public Elite offer uses the regular $39 price; the $29 link is retained only
 // for account reconciliation and rollback, never for new sales.
-export const ELITE_LEGACY_FOUNDING_LINK = 'https://buy.stripe.com/14AeVe8N4dvS4AL4xQ7ss0o'
 export const ELITE_LEGACY_FOUNDING_PRICE_ID = 'price_1TLEtsJNddvjgWcgYcmiNmW7'
 export const ELITE_LEGACY_FOUNDING_AMOUNT = 29
 
 // Regular rates — flip to these after the founding window for new sign-ups.
 // New public Elite uses the former $39 digital-tier price. New Champion is
 // a separate $70 high-touch membership so coaching credits and access match.
-export const PRO_REGULAR_LINK = 'https://buy.stripe.com/00w00k5ASezWaZ94xQ7ss0c'
 export const PRO_REGULAR_PRICE_ID = 'price_1TLEtrJNddvjgWcg9iTWJoLS'
 export const PRO_REGULAR_AMOUNT = 12
 
-export const ELITE_CHECKOUT_LINK = 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h'
 export const ELITE_REGULAR_PRICE_ID = 'price_1TPtOYJNddvjgWcgfEWjzGnp'
 export const ELITE_CURRENT_AMOUNT = 39
 
@@ -74,21 +70,14 @@ export const ELITE_CURRENT_AMOUNT = 39
 // build. The fallback keeps visitors on the coaching page until that link is
 // present, so nobody can reach a mismatched checkout.
 export const CHAMPION_MEMBERSHIP_PRICE_ID = import.meta.env?.VITE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88'
-export const CHAMPION_CHECKOUT_LINK = import.meta.env?.VITE_CHAMPION_CHECKOUT_LINK || ''
-export const CHAMPION_CHECKOUT_AVAILABLE = Boolean(CHAMPION_CHECKOUT_LINK)
 export const CHAMPION_CURRENT_AMOUNT = 70
 
 // Resolved at runtime based on STRIPE_FOUNDING_ACTIVE — what the site should
 // link visitors to today.
-export const PRO_CHECKOUT_LINK = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_LINK : PRO_REGULAR_LINK
 // Lock Stripe checkout to the SAME email as the signed-in account. Subscriptions
 // link to a login purely by email, so a user paying with a different address
 // than they signed up with silently orphans themselves — they get billed and
 // get nothing. Prefilling removes the chance to typo or use another inbox.
-export function withCheckoutEmail(link, email) {
-  if (!link || !email) return link
-  return link + (link.includes('?') ? '&' : '?') + 'prefilled_email=' + encodeURIComponent(email)
-}
 
 export const PRO_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_AMOUNT : PRO_REGULAR_AMOUNT
 
@@ -98,19 +87,15 @@ export const PRO_CURRENT_AMOUNT = STRIPE_FOUNDING_ACTIVE ? PRO_FOUNDING_AMOUNT :
 //
 // Created 2026-05-10 via Stripe MCP. Founding pricing locked in for life
 // of subscription (same promise as single-game tiers).
-export const PRO_ALL_ACCESS_LINK = 'https://buy.stripe.com/00w4gAfbsbnK7MXfcu7ss0i'
 export const PRO_ALL_ACCESS_PRICE_ID = 'price_1TVUcxJNddvjgWcgBImnUKZe'
 export const PRO_ALL_ACCESS_AMOUNT = 19 // dollars/mo
 
-export const PRO_ALL_ACCESS_ANNUAL_LINK = 'https://buy.stripe.com/aFa8wQe7o9fC6IT4xQ7ss0k'
 export const PRO_ALL_ACCESS_ANNUAL_PRICE_ID = 'price_1TVUd3JNddvjgWcgShz9Ndg5'
 export const PRO_ALL_ACCESS_ANNUAL_AMOUNT = 190 // saves $38 vs monthly
 
-export const CHAMPION_ALL_ACCESS_LINK = 'https://buy.stripe.com/eVq7sM8N4crO9V55BU7ss0j'
 export const CHAMPION_ALL_ACCESS_PRICE_ID = 'price_1TVUd0JNddvjgWcgIPWakA3S'
 export const CHAMPION_ALL_ACCESS_AMOUNT = 49
 
-export const CHAMPION_ALL_ACCESS_ANNUAL_LINK = 'https://buy.stripe.com/00waEY0gycrO0kv8O67ss0l'
 export const CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID = 'price_1TVUd6JNddvjgWcgc3csHICD'
 export const CHAMPION_ALL_ACCESS_ANNUAL_AMOUNT = 490 // saves $98 vs monthly
 
@@ -146,10 +131,3 @@ export const WORKBOOK_AMOUNT = 14.99
 
 // Convenience helper for components — what's the current best link to
 // upsell a non-paying user to a given tier.
-export function checkoutLinkFor(tier) {
-  if (tier === 'champion') return CHAMPION_CHECKOUT_LINK
-  if (tier === 'elite') return ELITE_CHECKOUT_LINK
-  if (tier === 'pro-all') return PRO_ALL_ACCESS_LINK
-  if (tier === 'champion-all') return CHAMPION_ALL_ACCESS_LINK
-  return PRO_CHECKOUT_LINK
-}

@@ -222,13 +222,17 @@ async function getUsers(headers) {
     nextToken = r.PaginationToken
   } while (nextToken)
 
-  const subs = (await scanAllSubs()).filter((item) => item.record_type !== 'usage_purchase')
+  const allSubs = await scanAllSubs()
+  const subs = allSubs.filter((item) => item.record_type !== 'usage_purchase')
   // Index subs by lowercased email. Prefer the highest live tier if multiple.
   const subByEmail = new Map()
+  const subRowsByEmail = new Map()
   const rank = { champion: 4, elite: 3, pro: 2, free: 1 }
   for (const s of subs) {
     const key = (s.email || '').toLowerCase()
     if (!key) continue
+    if (!subRowsByEmail.has(key)) subRowsByEmail.set(key, [])
+    subRowsByEmail.get(key).push(s)
     const prev = subByEmail.get(key)
     const sLive = s.status === 'active' || s.status === 'trialing'
     const prevLive = prev && (prev.status === 'active' || prev.status === 'trialing')
@@ -256,6 +260,9 @@ async function getUsers(headers) {
     const sub = subByEmail.get(email)
     if (sub) claimedSubEmails.add(email)
     const profile = profileByEmail.get(email)
+    const emailRows = subRowsByEmail.get(email) || []
+    const liveRows = emailRows.filter((row) => ['active', 'trialing', 'past_due'].includes(row.status) && !row.comp)
+    const stripeCustomerCount = new Set(emailRows.filter((row) => !row.comp).map((row) => row.stripe_customer_id)).size
     return {
       username: u.Username,
       email,
@@ -272,6 +279,13 @@ async function getUsers(headers) {
       active_game_id: profile?.active_game_id || null,
       last_seen_at: profile?.last_seen_at || null,
       referral_source: profile?.referral_source || null,
+      stripe_customer_count: stripeCustomerCount,
+      subscription_record_count: emailRows.length,
+      live_subscription_count: liveRows.length,
+      billing_alerts: [
+        ...(stripeCustomerCount > 1 ? [`${stripeCustomerCount} Stripe customer records share this email`] : []),
+        ...(liveRows.length > 1 ? [`${liveRows.length} live subscriptions share this email`] : []),
+      ],
     }
   })
 
@@ -280,6 +294,9 @@ async function getUsers(headers) {
   // see these to send them a signup link / chase the missing account.
   for (const [email, sub] of subByEmail.entries()) {
     if (claimedSubEmails.has(email)) continue
+    const emailRows = subRowsByEmail.get(email) || []
+    const liveRows = emailRows.filter((row) => ['active', 'trialing', 'past_due'].includes(row.status) && !row.comp)
+    const stripeCustomerCount = new Set(emailRows.filter((row) => !row.comp).map((row) => row.stripe_customer_id)).size
     users.push({
       username: null,             // no Cognito user
       email,
@@ -295,10 +312,22 @@ async function getUsers(headers) {
       active_game_id: profileByEmail.get(email)?.active_game_id || null,
       last_seen_at: profileByEmail.get(email)?.last_seen_at || null,
       referral_source: profileByEmail.get(email)?.referral_source || null,
+      stripe_customer_count: stripeCustomerCount,
+      subscription_record_count: emailRows.length,
+      live_subscription_count: liveRows.length,
+      billing_alerts: [
+        ...(stripeCustomerCount > 1 ? [`${stripeCustomerCount} Stripe customer records share this email`] : []),
+        ...(liveRows.length > 1 ? [`${liveRows.length} live subscriptions share this email`] : []),
+      ],
     })
   }
 
-  return { statusCode: 200, headers, body: JSON.stringify({ users, summary: computeSummary(subs), total_users: users.length }) }
+  const duplicateCustomerGroups = users.filter((user) => Number(user.stripe_customer_count || 0) > 1).length
+  return { statusCode: 200, headers, body: JSON.stringify({
+    users,
+    summary: { ...computeSummary(subs), duplicate_customer_groups: duplicateCustomerGroups },
+    total_users: users.length,
+  }) }
 }
 
 async function backfill(headers) {
