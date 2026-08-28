@@ -6,13 +6,12 @@
 //   1. WELCOME     confirmed signup < 14 days old, no welcome yet → email
 //   2. CONFIRM     UNCONFIRMED account > 24h → resend Cognito code (max 2, 72h apart)
 //   3. WINBACK     account > 7 days old, never/not seen in 14 days → one email, ever
-//   4. ORPHANS     active Stripe sub with no Cognito login → flagged in digest
+//   4. ORPHANS     active Stripe sub with no Cognito login → new cases alert once
 //   5. DIGEST      summary of everything it did + risks → ALERT_EMAIL
 //
 // State lives in ghost-igl-crm-log (PK email) — flags are set ONLY after a
-// successful send, so SES-sandbox failures retry daily and the whole system
-// self-activates the day production access is granted. DRY_RUN=true logs
-// instead of sending.
+// successful send, except orphan acknowledgement state which is operational
+// bookkeeping and is safe to persist without sending customer email.
 
 import { CognitoIdentityProviderClient, ListUsersCommand, ResendConfirmationCodeCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
@@ -29,52 +28,28 @@ const CLIENT_ID = process.env.COGNITO_CLIENT_ID
 const CRM_TABLE = process.env.CRM_TABLE || 'ghost-igl-crm-log'
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
-// Digest goes to BOTH addresses — Google Workspace has been silently binning
-// digests to the ironfrontdigital.com inbox (delivery test arrived, digests
-// didn't), so the personal Gmail is the reliability backstop. Comma-separated.
 const ALERT_EMAILS = (process.env.ALERT_EMAIL || 'aaron@ironfrontdigital.com,aaronhenry1981@gmail.com').split(',').map((s) => s.trim())
 const FROM = process.env.FROM_ADDRESS || 'Recon 6 <coach@r6coaching.com>'
 const SITE = 'https://r6coaching.com'
 const DRY_RUN = process.env.DRY_RUN === 'true'
 
 const DAY = 24 * 60 * 60 * 1000
+const LEGACY_ORPHAN_AGE = 7 * DAY
 
-// ---- email templates (plain text, Aaron's voice, no emojis) -----------------
 function welcomeEmail(email) {
   return {
     subject: 'Welcome to Recon 6 — start with these three things',
-    body: `Hey,
-
-You're in. Three things worth doing first:
-
-1. Live Coach — the in-match walkthrough. Pick your stack size, map, and bans, and it tells you what to pick and how to play it: ${SITE}/#/live
-2. Map strats — every ranked map, site by site: ${SITE}/#/strats
-3. Finish your profile (30 seconds) and you get a free 7-day Pro trial — no card: ${SITE}/#/account
-
-If anything's confusing or broken, just reply to this email. I read everything.
-
-Aaron — Recon 6`,
+    body: `Hey,\n\nYou're in. Three things worth doing first:\n\n1. Live Coach — the in-match walkthrough. Pick your stack size, map, and bans, and it tells you what to pick and how to play it: ${SITE}/#/live\n2. Map strats — every ranked map, site by site: ${SITE}/#/strats\n3. Finish your profile (30 seconds) and you get a free 7-day Pro trial — no card: ${SITE}/#/account\n\nIf anything's confusing or broken, just reply to this email. I read everything.\n\nAaron — Recon 6`,
   }
 }
 
 function winbackEmail(email) {
   return {
     subject: 'Your Recon 6 account is sitting idle',
-    body: `Hey,
-
-You signed up for Recon 6 but haven't been back — fair enough, so here's the one thing worth returning for:
-
-Live Coach walks you through your actual ranked match in real time — map bans, operator bans, what to pick, where to spawn, how to play the site: ${SITE}/#/live
-
-It's updated for Y11S2.2 (Dokkaebi's Jegeo Payload is now 14 seconds per target, not the old 7-second global timing). Takes one match to see if it helps.
-
-If Recon 6 wasn't what you were looking for, reply and tell me what was missing — that's genuinely useful to me.
-
-Aaron — Recon 6`,
+    body: `Hey,\n\nYou signed up for Recon 6 but haven't been back — fair enough, so here's the one thing worth returning for:\n\nLive Coach walks you through your actual ranked match in real time — map bans, operator bans, what to pick, where to spawn, how to play the site: ${SITE}/#/live\n\nIt's updated for Y11S2.2 (Dokkaebi's Jegeo Payload is now 14 seconds per target, not the old 7-second global timing). Takes one match to see if it helps.\n\nIf Recon 6 wasn't what you were looking for, reply and tell me what was missing — that's genuinely useful to me.\n\nAaron — Recon 6`,
   }
 }
 
-// ---- helpers ----------------------------------------------------------------
 async function sendEmail(to, { subject, body }) {
   if (DRY_RUN) { console.log(`DRY_RUN send → ${to}: ${subject}`); return true }
   try {
@@ -85,7 +60,6 @@ async function sendEmail(to, { subject, body }) {
     }))
     return true
   } catch (err) {
-    // Sandbox rejections land here — logged, flag NOT set, retries next run.
     console.warn(`send failed → ${to}: ${err.name}: ${err.message}`)
     return false
   }
@@ -134,10 +108,9 @@ async function scanAll(table) {
   return items
 }
 
-// ---- main -------------------------------------------------------------------
 export async function handler() {
   const now = Date.now()
-  const report = { welcome: [], confirmNudge: [], winback: [], orphans: [], pastDue: [], failures: [] }
+  const report = { welcome: [], confirmNudge: [], winback: [], orphans: [], acknowledgedOrphans: [], pastDue: [], failures: [] }
 
   const [users, subs, profiles] = await Promise.all([
     listAllUsers(), scanAll(SUBS_TABLE), scanAll(PROFILES_TABLE),
@@ -145,10 +118,31 @@ export async function handler() {
   const profileByEmail = new Map(profiles.map((p) => [(p.email || '').toLowerCase(), p]))
   const cognitoEmails = new Set(users.map((u) => u.email))
 
-  // 4. Orphans + past-due (digest only — recovery emails are personal, Aaron sends)
+  // Orphan policy:
+  // - Never email these customers automatically. Aaron has already handled legacy
+  //   no-login subscribers and some intentionally continue paying without logging in.
+  // - Existing/legacy cases are acknowledged silently so the digest stops crying wolf.
+  // - A genuinely new no-login subscription is surfaced ONCE, then remembered in
+  //   CRM_TABLE so the same address is not reported every day forever.
   for (const s of subs) {
     const email = (s.email || '').toLowerCase()
-    if (s.status === 'active' && email && !cognitoEmails.has(email)) report.orphans.push(email)
+    if (s.status === 'active' && email && !cognitoEmails.has(email)) {
+      const log = await crmGet(email)
+      const alreadyAcknowledged = Boolean(log.orphan_acknowledged_at)
+      const createdAt = Date.parse(s.created_at || s.updated_at || '')
+      const legacy = Number.isFinite(createdAt) && now - createdAt >= LEGACY_ORPHAN_AGE
+
+      if (!alreadyAcknowledged) {
+        const stamp = new Date(now).toISOString()
+        await crmSet(email, {
+          orphan_acknowledged_at: stamp,
+          orphan_first_seen_at: log.orphan_first_seen_at || stamp,
+          orphan_reason: legacy ? 'legacy_no_login_preexisting' : 'active_subscription_no_login',
+        })
+        if (legacy) report.acknowledgedOrphans.push(email)
+        else report.orphans.push(email)
+      }
+    }
     if (s.status === 'past_due') report.pastDue.push(email)
   }
 
@@ -159,7 +153,6 @@ export async function handler() {
     const marketingConsented = Boolean(profile?.marketing_consent_at)
     const ageDays = (now - u.created) / DAY
 
-    // 1. Welcome — confirmed, fresh, not yet welcomed
     if (u.status === 'CONFIRMED' && ageDays <= 14 && !log.welcome_sent_at && !marketingSuppressed) {
       if (await sendEmail(u.email, welcomeEmail(u.email))) {
         await crmSet(u.email, { welcome_sent_at: new Date(now).toISOString() })
@@ -168,7 +161,6 @@ export async function handler() {
       continue
     }
 
-    // 2. Confirmation nudge — Cognito's own mailer, works regardless of SES sandbox
     if (u.status === 'UNCONFIRMED' && ageDays * 24 >= 24) {
       const nudges = log.confirm_nudges || 0
       const last = log.confirm_nudge_at ? Date.parse(log.confirm_nudge_at) : 0
@@ -182,7 +174,6 @@ export async function handler() {
       continue
     }
 
-    // 3. Winback — signed up a while ago, never/not recently active, once ever
     const lastSeen = profile?.last_seen_at ? Date.parse(profile.last_seen_at) : 0
     const dormant = now - Math.max(lastSeen, 0) > 14 * DAY
     if (u.status === 'CONFIRMED' && ageDays > 7 && dormant && marketingConsented && !marketingSuppressed && !log.winback_sent_at && !log.welcome_sent_at) {
@@ -193,11 +184,6 @@ export async function handler() {
     }
   }
 
-  // 5. Digest to Aaron — the daily pulse, replaces manually scanning the table.
-  // FILTER-FRIENDLY: the first version dumped 20+ raw email addresses into the
-  // body and Google Workspace silently binned it as spam (the plain-sentence
-  // delivery test arrived fine; every digest vanished). Addresses are obfuscated
-  // (name [at] domain) and capped — full lists live in CloudWatch logs.
   const mask = (e) => String(e).replace('@', ' [at] ')
   const few = (arr) => arr.slice(0, 3).map(mask).join(', ') + (arr.length > 3 ? ` +${arr.length - 3} more` : '')
   const lines = [
@@ -207,7 +193,8 @@ export async function handler() {
     `Confirmation nudges: ${report.confirmNudge.length}${report.confirmNudge.length ? ' (' + few(report.confirmNudge) + ')' : ''}`,
     `Win-back emails sent: ${report.winback.length}${report.winback.length ? ' (' + few(report.winback) + ')' : ''}`,
     '',
-    `ORPHANS (paying, no login, needs your action): ${report.orphans.length ? report.orphans.map(mask).join(', ') : 'none'}`,
+    `NEW no-login paid accounts: ${report.orphans.length ? report.orphans.map(mask).join(', ') : 'none'}`,
+    `Legacy no-login accounts auto-acknowledged today: ${report.acknowledgedOrphans.length}`,
     `Past due: ${report.pastDue.length ? report.pastDue.map(mask).join(', ') : 'none'}`,
     report.failures.length ? `Send attempts held by SES sandbox (auto-retry daily): ${report.failures.length}` : '',
     '',
@@ -215,7 +202,7 @@ export async function handler() {
     'Full per-address detail: CloudWatch logs, /aws/lambda/ghost-igl-crm.',
   ].filter((l) => l !== '').join('\n')
 
-  const digestSubject = 'Recon 6 CRM daily: ' + ([report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} ORPHAN`].filter(Boolean).join(', ') || 'quiet day')
+  const digestSubject = 'Recon 6 CRM daily: ' + ([report.welcome.length && `${report.welcome.length} welcome`, report.confirmNudge.length && `${report.confirmNudge.length} nudge`, report.winback.length && `${report.winback.length} winback`, report.orphans.length && `${report.orphans.length} NEW NO-LOGIN`].filter(Boolean).join(', ') || 'quiet day')
   for (const addr of ALERT_EMAILS) {
     await sendEmail(addr, { subject: digestSubject, body: lines })
   }
