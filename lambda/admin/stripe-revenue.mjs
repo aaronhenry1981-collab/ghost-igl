@@ -4,6 +4,32 @@ function priceFor(subscription) {
   return subscription?.items?.data?.[0]?.price || null
 }
 
+function priceIdFor(subscription) {
+  return priceFor(subscription)?.id || null
+}
+
+export function reconPriceIds(env = process.env) {
+  return new Set([
+    env.STRIPE_PRO_PRICE_ID,
+    env.STRIPE_PRO_FOUNDING_PRICE_ID,
+    env.STRIPE_PRO_ALL_ACCESS_PRICE_ID,
+    env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID,
+    env.STRIPE_CHAMPION_PRICE_ID,
+    env.STRIPE_CHAMPION_FOUNDING_PRICE_ID,
+    env.STRIPE_CHAMPION_REGULAR_PRICE_ID,
+    env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID,
+    env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID,
+    env.STRIPE_COACHING_ADDON_PRICE_ID,
+  ].filter(Boolean))
+}
+
+export function isReconSubscription(subscription, env = process.env) {
+  const priceId = priceIdFor(subscription)
+  if (priceId && reconPriceIds(env).has(priceId)) return true
+  const metadata = subscription?.metadata || {}
+  return metadata.product === 'ghost-igl' || metadata.site === 'r6coaching'
+}
+
 function customerIdFor(subscription) {
   return typeof subscription?.customer === 'string'
     ? subscription.customer
@@ -114,7 +140,11 @@ export function isLiveStripeSubscription(subscription) {
 
 export function stripeSubscriptionDetails(subscription, fallbackPlan = 'free', env = process.env) {
   const price = priceFor(subscription)
-  const periodEnd = subscription?.current_period_end || subscription?.cancel_at || null
+  // Stripe's Basil-era API moved billing-period timestamps from the
+  // subscription to each subscription item. Accept the legacy field too so
+  // older webhook payloads and newer list responses both show a renewal date.
+  const item = subscription?.items?.data?.[0]
+  const periodEnd = item?.current_period_end || subscription?.current_period_end || subscription?.cancel_at || null
   const state = billingStateFor(subscription)
   return {
     plan: planFor(subscription, fallbackPlan, env),

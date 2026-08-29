@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand, DeleteC
 import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
-import { billingStateFor, isLiveStripeSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions } from './stripe-revenue.mjs'
+import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions } from './stripe-revenue.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -276,8 +276,16 @@ async function getStripeRevenueSnapshot(users, ddbSummary) {
     stripeRequest('/v1/balance'),
   ])
 
+  // IFD and Recon 6 intentionally share one Stripe account. Scope recurring
+  // revenue and member reconciliation to known Recon 6 prices so an IFD
+  // subscription can never appear as an R6 member or inflate R6 MRR.
+  const reconSubscriptions = subscriptions.filter((subscription) => isReconSubscription(subscription))
+  if (subscriptions.length > 0 && reconSubscriptions.length === 0) {
+    throw new Error('No Recon 6 Stripe subscriptions matched the configured price IDs')
+  }
+
   const fallbackPlanByCustomer = new Map(users.filter((user) => user.stripe_customer_id).map((user) => [user.stripe_customer_id, user.plan]))
-  const subscriptionSummary = summarizeStripeSubscriptions(subscriptions, fallbackPlanByCustomer)
+  const subscriptionSummary = summarizeStripeSubscriptions(reconSubscriptions, fallbackPlanByCustomer)
   const collectedCents = charges
     .filter((charge) => charge.paid === true && charge.status === 'succeeded' && charge.currency === 'usd')
     .reduce((sum, charge) => sum + Number(charge.amount || 0) - Number(charge.amount_refunded || 0), 0)
@@ -291,7 +299,7 @@ async function getStripeRevenueSnapshot(users, ddbSummary) {
   const pendingCents = (balance.pending || []).filter((entry) => entry.currency === 'usd').reduce((sum, entry) => sum + Number(entry.amount || 0), 0)
 
   return {
-    users: enrichUsersWithStripe(users, subscriptions),
+    users: enrichUsersWithStripe(users, reconSubscriptions),
     summary: {
       ...ddbSummary,
       ...subscriptionSummary,
@@ -301,6 +309,8 @@ async function getStripeRevenueSnapshot(users, ddbSummary) {
       payouts_30d_dollars: (payoutsCents / 100).toFixed(2),
       stripe_available_dollars: (availableCents / 100).toFixed(2),
       stripe_pending_dollars: (pendingCents / 100).toFixed(2),
+      stripe_account_scope: 'shared_ifd_r6',
+      recon_subscription_count: reconSubscriptions.length,
     },
   }
 }

@@ -5,7 +5,7 @@ import MAPS from '../src/data/maps.js'
 import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
 import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
 import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from '../lambda/vod/coach-contract.mjs'
-import { billingStateFor, monthlyRecurringCents, summarizeStripeSubscriptions } from '../lambda/admin/stripe-revenue.mjs'
+import { billingStateFor, isReconSubscription, monthlyRecurringCents, stripeSubscriptionDetails, summarizeStripeSubscriptions } from '../lambda/admin/stripe-revenue.mjs'
 
 const vodContext = JSON.parse(readFileSync(new URL('../lambda/vod/r6-context.json', import.meta.url), 'utf8'))
 
@@ -135,4 +135,25 @@ test('Stripe revenue summary separates paid, trials, ending plans, and payment i
 test('annual Stripe prices are normalized into monthly recurring revenue', () => {
   assert.equal(monthlyRecurringCents({ unit_amount: 12000, recurring: { interval: 'year', interval_count: 1 } }), 1000)
   assert.equal(billingStateFor({ status: 'active', cancel_at_period_end: true }), 'ending')
+})
+
+test('live R6 subscription scoping excludes other products in the shared Stripe account', () => {
+  const subscription = (priceId, metadata = {}) => ({
+    metadata,
+    items: { data: [{ price: { id: priceId, unit_amount: 1200, recurring: { interval: 'month' } } }] },
+  })
+  const env = { STRIPE_PRO_PRICE_ID: 'price_r6' }
+  assert.equal(isReconSubscription(subscription('price_r6'), env), true)
+  assert.equal(isReconSubscription(subscription('price_ifd'), env), false)
+  assert.equal(isReconSubscription(subscription('price_unknown', { site: 'r6coaching' }), env), true)
+})
+
+test('Stripe renewal dates support item-level billing periods', () => {
+  const details = stripeSubscriptionDetails({
+    id: 'sub_r6',
+    status: 'active',
+    customer: 'cus_r6',
+    items: { data: [{ current_period_end: 1_800_000_000, price: { id: 'price_r6', unit_amount: 1200, recurring: { interval: 'month' } } }] },
+  }, 'pro', { STRIPE_PRO_PRICE_ID: 'price_r6' })
+  assert.equal(details.next_billing_at, new Date(1_800_000_000 * 1000).toISOString())
 })
