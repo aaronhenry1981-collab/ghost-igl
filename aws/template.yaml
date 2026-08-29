@@ -67,6 +67,10 @@ Parameters:
     Type: String
     Default: ''
     Description: Discord application ID. Leave empty until bot is created.
+  ReferralsTableName:
+    Type: String
+    Default: ghost-igl-referrals
+    Description: Existing referrals table managed outside this SAM stack.
 
 Globals:
   Function:
@@ -292,9 +296,29 @@ Resources:
           # Lets the webhook auto-provision a Cognito login for paying customers
           # (fixes "paid but NO ACCOUNT" orphans).
           COGNITO_USER_POOL_ID: !Ref UserPool
+          PROFILES_TABLE: !Ref ProfilesTable
+          REFERRALS_TABLE: !Ref ReferralsTableName
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SubscriptionsTable
+        - Statement:
+            - Sid: ProfilesAccess
+              Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt ProfilesTable.Arn
+            - Sid: ReferralsAccess
+              Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:UpdateItem
+                - dynamodb:Query
+                - dynamodb:Scan
+              Resource:
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ReferralsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ReferralsTableName}/index/*
         - Statement:
             - Effect: Allow
               Action:
