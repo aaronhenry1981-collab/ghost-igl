@@ -103,6 +103,7 @@ test('Stripe invoice success events reach the coaching credit renewal handler', 
 
 test('unsigned probes do not trigger the signed Stripe rejection alarm', () => {
   const webhook = readFileSync(new URL('../lambda/webhook/index.mjs', import.meta.url), 'utf8')
+  assert.match(webhook, /event\?\.warmer === true[\s\S]*statusCode: 200/)
   assert.match(webhook, /if \(!sig\) \{[\s\S]*stripe_signature_missing[\s\S]*missing signature[\s\S]*\}/)
   assert.match(webhook, /constructEvent\([\s\S]*stripe_signature_rejected/)
 })
