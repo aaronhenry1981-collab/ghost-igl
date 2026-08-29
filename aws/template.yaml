@@ -71,6 +71,10 @@ Parameters:
     Type: String
     Default: ghost-igl-referrals
     Description: Existing referrals table managed outside this SAM stack.
+  BookingFunctionName:
+    Type: String
+    Default: recon6-booking
+    Description: Existing booking Lambda managed outside this SAM stack.
 
 Globals:
   Function:
@@ -633,6 +637,27 @@ Resources:
           - PUT
           - DELETE
           - OPTIONS
+      DefinitionBody:
+        openapi: 3.0.1
+        info:
+          title: !Sub ${AWS::StackName}-http-api
+          version: '1.0'
+        paths:
+          /booking/{proxy+}:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                type: aws_proxy
+                httpMethod: POST
+                payloadFormatVersion: '2.0'
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${BookingFunctionName}/invocations
+
+  BookingApiInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref BookingFunctionName
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/*/booking/*
 
   HttpApiServerErrorAlarm:
     Type: AWS::CloudWatch::Alarm
