@@ -28,20 +28,40 @@ Parameters:
     Description: HMAC secret for signing desktop activation tokens (random 48+ bytes, base64url)
   StripePriceIdPro:
     Type: String
-    Default: price_pro
+    Default: price_1TLEtrJNddvjgWcg9iTWJoLS
     Description: Stripe Price ID for the Pro plan (regular post-launch rate)
   StripePriceIdChampion:
     Type: String
-    Default: price_champion
-    Description: Stripe Price ID for the Champion plan (founding-rate $29 today, regular $39 after May 8)
+    Default: price_1TLEtsJNddvjgWcgYcmiNmW7
+    Description: Stripe Price ID for the Champion founding plan
   StripePriceIdProFounding:
     Type: String
-    Default: price_pro_founding
+    Default: price_1TPtOKJNddvjgWcg47I16AQp
     Description: Stripe Price ID for the Pro founding rate ($9 — pre-May 8)
   StripePriceIdChampionRegular:
     Type: String
-    Default: price_champion_regular
+    Default: price_1TPtOYJNddvjgWcgfEWjzGnp
     Description: Stripe Price ID for the Champion regular rate ($39 — post-May 8)
+  StripePriceIdProAllAccess:
+    Type: String
+    Default: price_1TVUcxJNddvjgWcgBImnUKZe
+    Description: Stripe Price ID for Pro All-Access monthly
+  StripePriceIdProAllAccessAnnual:
+    Type: String
+    Default: price_1TVUd3JNddvjgWcgShz9Ndg5
+    Description: Stripe Price ID for Pro All-Access annual
+  StripePriceIdChampionAllAccess:
+    Type: String
+    Default: price_1TVUd0JNddvjgWcgIPWakA3S
+    Description: Stripe Price ID for Champion All-Access monthly
+  StripePriceIdChampionAllAccessAnnual:
+    Type: String
+    Default: price_1TVUd6JNddvjgWcgc3csHICD
+    Description: Stripe Price ID for Champion All-Access annual
+  StripePriceIdCoachingAddon:
+    Type: String
+    Default: price_1TsZtQJNddvjgWcgwPKVEYQm
+    Description: Stripe Price ID for the recurring coaching add-on
   ProPlanAmountCents:
     Type: Number
     Default: 1500
@@ -297,6 +317,11 @@ Resources:
           STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
           STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
           STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
+          STRIPE_PRO_ALL_ACCESS_PRICE_ID: !Ref StripePriceIdProAllAccess
+          STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID: !Ref StripePriceIdProAllAccessAnnual
+          STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID: !Ref StripePriceIdChampionAllAccess
+          STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID: !Ref StripePriceIdChampionAllAccessAnnual
+          STRIPE_COACHING_ADDON_PRICE_ID: !Ref StripePriceIdCoachingAddon
           # Lets the webhook auto-provision a Cognito login for paying customers
           # (fixes "paid but NO ACCOUNT" orphans).
           COGNITO_USER_POOL_ID: !Ref UserPool
@@ -545,6 +570,11 @@ Resources:
           STRIPE_CHAMPION_PRICE_ID: !Ref StripePriceIdChampion
           STRIPE_PRO_FOUNDING_PRICE_ID: !Ref StripePriceIdProFounding
           STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref StripePriceIdChampionRegular
+          STRIPE_PRO_ALL_ACCESS_PRICE_ID: !Ref StripePriceIdProAllAccess
+          STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID: !Ref StripePriceIdProAllAccessAnnual
+          STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID: !Ref StripePriceIdChampionAllAccess
+          STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID: !Ref StripePriceIdChampionAllAccessAnnual
+          STRIPE_COACHING_ADDON_PRICE_ID: !Ref StripePriceIdCoachingAddon
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SubscriptionsTable
