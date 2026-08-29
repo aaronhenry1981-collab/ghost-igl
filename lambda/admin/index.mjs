@@ -3,6 +3,7 @@ import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand, DeleteC
 import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
+import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions } from './stripe-revenue.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -185,6 +186,135 @@ async function scanAllProfiles() {
   return items
 }
 
+async function stripeRequest(path, params = {}) {
+  if (!STRIPE_SECRET) throw new Error('Stripe is not configured')
+  const query = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) value.forEach((item) => query.append(key, String(item)))
+    else if (value !== undefined && value !== null) query.set(key, String(value))
+  }
+  const response = await fetch(`https://api.stripe.com${path}${query.size ? `?${query}` : ''}`, {
+    headers: { Authorization: `Bearer ${STRIPE_SECRET}` },
+  })
+  if (!response.ok) throw new Error(`Stripe ${path} returned HTTP ${response.status}`)
+  return response.json()
+}
+
+async function stripeList(path, params = {}) {
+  const rows = []
+  let startingAfter
+  do {
+    const page = await stripeRequest(path, { ...params, limit: 100, starting_after: startingAfter })
+    rows.push(...(page.data || []))
+    if (!page.has_more || !page.data?.length) break
+    startingAfter = page.data.at(-1).id
+  } while (true)
+  return rows
+}
+
+function stripeCustomerId(subscription) {
+  return typeof subscription?.customer === 'string' ? subscription.customer : subscription?.customer?.id || null
+}
+
+function stripeCustomerEmail(subscription) {
+  return typeof subscription?.customer === 'object' ? (subscription.customer?.email || '').toLowerCase() : ''
+}
+
+function choosePrimarySubscription(subscriptions) {
+  const priority = { active: 0, trialing: 1, past_due: 2, unpaid: 3, incomplete: 4, paused: 5, canceled: 6, incomplete_expired: 7 }
+  return [...subscriptions].sort((a, b) => {
+    const statusDiff = (priority[a.status] ?? 99) - (priority[b.status] ?? 99)
+    return statusDiff || Number(b.created || 0) - Number(a.created || 0)
+  })[0] || null
+}
+
+function enrichUsersWithStripe(users, subscriptions) {
+  const byCustomer = new Map()
+  const byEmail = new Map()
+  for (const subscription of subscriptions) {
+    const customerId = stripeCustomerId(subscription)
+    const email = stripeCustomerEmail(subscription)
+    if (customerId) byCustomer.set(customerId, [...(byCustomer.get(customerId) || []), subscription])
+    if (email) byEmail.set(email, [...(byEmail.get(email) || []), subscription])
+  }
+
+  return users.map((user) => {
+    if (user.is_comp) return { ...user, billing_state: 'comp', will_renew: false, live_subscription_count: 0, billing_alerts: [] }
+    const matches = new Map()
+    for (const subscription of byCustomer.get(user.stripe_customer_id) || []) matches.set(subscription.id, subscription)
+    for (const subscription of byEmail.get((user.email || '').toLowerCase()) || []) matches.set(subscription.id, subscription)
+    const all = [...matches.values()]
+    const live = all.filter(isLiveStripeSubscription)
+    const primary = choosePrimarySubscription(live.length ? live : all)
+    if (!primary) {
+      const fallbackState = user.sub_status === 'canceled' ? 'canceled' : 'free'
+      return { ...user, billing_state: fallbackState, will_renew: false, live_subscription_count: 0, billing_alerts: [] }
+    }
+    const details = stripeSubscriptionDetails(primary, user.plan)
+    const alerts = []
+    if (live.length > 1) alerts.push('multiple_live_subscriptions')
+    if (billingStateFor(primary) === 'payment_issue') alerts.push('payment_issue')
+    return {
+      ...user,
+      ...details,
+      plan: planFor(primary, user.plan),
+      current_period_end: details.next_billing_at,
+      live_subscription_count: live.length,
+      paid_without_site_account: live.length > 0 && (user.orphan === true || user.cognito_status === 'NO_ACCOUNT'),
+      billing_alerts: alerts,
+    }
+  })
+}
+
+async function getStripeRevenueSnapshot(users, ddbSummary) {
+  const since = Math.floor((Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000)
+  const [subscriptions, charges, refunds, payouts, balance] = await Promise.all([
+    stripeList('/v1/subscriptions', { status: 'all', 'expand[]': ['data.customer'] }),
+    stripeList('/v1/charges', { 'created[gte]': since }),
+    stripeList('/v1/refunds', { 'created[gte]': since }),
+    stripeList('/v1/payouts', { 'created[gte]': since }),
+    stripeRequest('/v1/balance'),
+  ])
+
+  // IFD and Recon 6 intentionally share one Stripe account. Scope recurring
+  // revenue and member reconciliation to known Recon 6 prices so an IFD
+  // subscription can never appear as an R6 member or inflate R6 MRR.
+  const reconSubscriptions = subscriptions.filter((subscription) => isReconSubscription(subscription))
+  if (subscriptions.length > 0 && reconSubscriptions.length === 0) {
+    throw new Error('No Recon 6 Stripe subscriptions matched the configured price IDs')
+  }
+
+  const fallbackPlanByCustomer = new Map(users.filter((user) => user.stripe_customer_id).map((user) => [user.stripe_customer_id, user.plan]))
+  const subscriptionSummary = summarizeStripeSubscriptions(reconSubscriptions, fallbackPlanByCustomer)
+  const collectedCents = charges
+    .filter((charge) => charge.paid === true && charge.status === 'succeeded' && charge.currency === 'usd')
+    .reduce((sum, charge) => sum + Number(charge.amount || 0) - Number(charge.amount_refunded || 0), 0)
+  const refundedCents = refunds
+    .filter((refund) => refund.status === 'succeeded' && refund.currency === 'usd')
+    .reduce((sum, refund) => sum + Number(refund.amount || 0), 0)
+  const payoutsCents = payouts
+    .filter((payout) => payout.status === 'paid' && payout.currency === 'usd')
+    .reduce((sum, payout) => sum + Number(payout.amount || 0), 0)
+  const availableCents = (balance.available || []).filter((entry) => entry.currency === 'usd').reduce((sum, entry) => sum + Number(entry.amount || 0), 0)
+  const pendingCents = (balance.pending || []).filter((entry) => entry.currency === 'usd').reduce((sum, entry) => sum + Number(entry.amount || 0), 0)
+
+  return {
+    users: enrichUsersWithStripe(users, reconSubscriptions),
+    summary: {
+      ...ddbSummary,
+      ...subscriptionSummary,
+      comp_active: ddbSummary.comp_active,
+      collected_30d_dollars: (collectedCents / 100).toFixed(2),
+      refunds_30d_dollars: (refundedCents / 100).toFixed(2),
+      payouts_30d_dollars: (payoutsCents / 100).toFixed(2),
+      stripe_available_dollars: (availableCents / 100).toFixed(2),
+      stripe_pending_dollars: (pendingCents / 100).toFixed(2),
+      stripe_account_scope: 'shared_ifd_r6',
+      recon_subscription_count: reconSubscriptions.length,
+    },
+  }
+}
+
 async function getSubscriptions(headers) {
   const items = await scanAllSubs()
   return { statusCode: 200, headers, body: JSON.stringify({ subscriptions: items, summary: computeSummary(items) }) }
@@ -277,7 +407,34 @@ async function getUsers(headers) {
     })
   }
 
-  return { statusCode: 200, headers, body: JSON.stringify({ users, summary: computeSummary(subs), total_users: users.length }) }
+  const ddbSummary = computeSummary(subs)
+  try {
+    const reconciled = await getStripeRevenueSnapshot(users, ddbSummary)
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        users: reconciled.users,
+        summary: reconciled.summary,
+        billing_source: 'stripe',
+        billing_warning: null,
+        total_users: reconciled.users.length,
+      }),
+    }
+  } catch (err) {
+    console.error('Stripe admin reconciliation failed:', err.message)
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        users,
+        summary: ddbSummary,
+        billing_source: null,
+        billing_warning: 'Live Stripe revenue data is temporarily unavailable.',
+        total_users: users.length,
+      }),
+    }
+  }
 }
 
 async function backfill(headers) {

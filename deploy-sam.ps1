@@ -5,10 +5,9 @@
 # Usage:
 #   .\deploy-sam.ps1
 #
-# Why this exists: there's no samconfig.toml on this machine, so `sam deploy` would
-# require interactive guided setup. Using `aws cloudformation deploy` directly with
-# UsePreviousValue=true preserves the NoEcho secret params (Stripe keys, webhook
-# secret) without re-prompting. Stack name is the same as the existing prod stack.
+# Why this exists: there's no samconfig.toml on this machine, so every production
+# setting is explicit and the deploy stays non-interactive. `sam deploy` packages
+# local CodeUri artifacts before CloudFormation applies the stack update.
 
 $ErrorActionPreference = 'Stop'
 
@@ -54,11 +53,13 @@ if (-not (Test-Path $BuiltTemplate)) {
     exit 1
 }
 
-aws cloudformation deploy `
+sam deploy `
     --template-file $BuiltTemplate `
     --stack-name $StackName `
     --region $Region `
     --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM `
+    --resolve-s3 `
+    --no-confirm-changeset `
     --no-fail-on-empty-changeset `
     --parameter-overrides `
         StripePriceIdProFounding=price_1TPtOKJNddvjgWcg47I16AQp `
