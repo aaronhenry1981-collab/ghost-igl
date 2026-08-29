@@ -67,6 +67,10 @@ export async function handler(event) {
       case 'invoice.payment_failed':
         await handlePaymentFailed(stripeEvent.data.object, eventId)
         break
+      // The live Stripe endpoint is configured for invoice.payment_succeeded.
+      // Keep invoice.paid as a compatibility alias for any future endpoint
+      // configuration that uses the newer lifecycle event.
+      case 'invoice.payment_succeeded':
       case 'invoice.paid':
         await handleInvoicePaid(stripeEvent.data.object, eventId)
         break
@@ -114,7 +118,7 @@ async function grantCoachingCredits(subscriptionId) {
   }
 }
 
-// invoice.paid = an add-on renewal (or first invoice) → reset the monthly
+// A successful paid invoice = an add-on renewal (or first invoice) → reset the monthly
 // credit balance to 2. Only acts on invoices whose line is the add-on price;
 // app-subscription invoices are ignored.
 async function handleInvoicePaid(invoice, eventId) {
