@@ -89,6 +89,7 @@ function R6MatchPrepPage() {
   const cardRef = useRef(null)
   const [copied, setCopied] = useState(false)
   const [showFullPlan, setShowFullPlan] = useState(() => window.location.hash.startsWith('#prep-site-'))
+  const [selectedSiteId, setSelectedSiteId] = useState(() => window.location.hash.replace('#prep-site-', '') || null)
 
   // Keep URL in sync with selected map so users can bookmark + share.
   useEffect(() => {
@@ -107,6 +108,7 @@ function R6MatchPrepPage() {
     // we'd scroll to an element that wasn't rendered).
     if (!STRATS[mapId]?.[siteId]) return
     setShowFullPlan(true)
+    setSelectedSiteId(siteId)
     const timer = window.setTimeout(() => {
       const el = document.getElementById(`prep-site-${siteId}`)
       if (!el) return
@@ -120,7 +122,7 @@ function R6MatchPrepPage() {
   const bans = BANS[mapId] || { attack: [], defense: [] }
   const picks = useMemo(() => rollUpOperators(mapId), [mapId])
   const publishedSites = mapData?.sites.filter((site) => STRATS[mapId]?.[site.id]) || []
-  const firstSite = publishedSites[0]
+  const selectedSite = publishedSites.find((site) => site.id === selectedSiteId) || null
 
   function copyAsText() {
     if (!mapData) return
@@ -203,6 +205,7 @@ function R6MatchPrepPage() {
               onClick={() => {
                 setMapId(m.id)
                 setShowFullPlan(false)
+                setSelectedSiteId(null)
               }}
             >
               {m.name}
@@ -240,14 +243,26 @@ function R6MatchPrepPage() {
             </article>
             <article>
               <small>3 · Site</small>
-              <strong>{firstSite?.name || 'Choose a published site'}</strong>
-              <span>Lock one job before the queue starts.</span>
+              <strong>{selectedSite?.name || 'Choose your bomb site'}</strong>
+              <span>{selectedSite ? 'Now open the side you are playing.' : 'Use the buttons below.'}</span>
             </article>
           </div>
-          {firstSite && (
+          <div className="match-prep-site-picker" aria-label="Choose a bomb site">
+            {publishedSites.map((site) => (
+              <button
+                type="button"
+                key={site.id}
+                className={selectedSiteId === site.id ? 'active' : ''}
+                onClick={() => setSelectedSiteId(site.id)}
+              >
+                {site.name}
+              </button>
+            ))}
+          </div>
+          {selectedSite && (
             <div className="match-prep-brief-actions">
-              <Link to={`/strats/${mapId}/${firstSite.id}/attack`} className="btn btn-primary">Open attack plan</Link>
-              <Link to={`/strats/${mapId}/${firstSite.id}/defense`} className="btn btn-outline">Open defense plan</Link>
+              <Link to={`/strats/${mapId}/${selectedSite.id}/attack`} className="btn btn-primary">Open attack plan</Link>
+              <Link to={`/strats/${mapId}/${selectedSite.id}/defense`} className="btn btn-outline">Open defense plan</Link>
             </div>
           )}
         </div>
