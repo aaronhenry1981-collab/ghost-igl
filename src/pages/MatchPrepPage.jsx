@@ -88,6 +88,7 @@ function R6MatchPrepPage() {
   })
   const cardRef = useRef(null)
   const [copied, setCopied] = useState(false)
+  const [showFullPlan, setShowFullPlan] = useState(() => window.location.hash.startsWith('#prep-site-'))
 
   // Keep URL in sync with selected map so users can bookmark + share.
   useEffect(() => {
@@ -105,6 +106,7 @@ function R6MatchPrepPage() {
     // Verify the site exists on the current map AND has strats (otherwise
     // we'd scroll to an element that wasn't rendered).
     if (!STRATS[mapId]?.[siteId]) return
+    setShowFullPlan(true)
     const timer = window.setTimeout(() => {
       const el = document.getElementById(`prep-site-${siteId}`)
       if (!el) return
@@ -117,6 +119,8 @@ function R6MatchPrepPage() {
   const mapData = useMemo(() => MAPS.find(m => m.id === mapId), [mapId])
   const bans = BANS[mapId] || { attack: [], defense: [] }
   const picks = useMemo(() => rollUpOperators(mapId), [mapId])
+  const publishedSites = mapData?.sites.filter((site) => STRATS[mapId]?.[site.id]) || []
+  const firstSite = publishedSites[0]
 
   function copyAsText() {
     if (!mapData) return
@@ -173,8 +177,8 @@ function R6MatchPrepPage() {
     <div className="match-prep-page">
       <header className="match-prep-header">
         <div className="section-label">Free tool · R6</div>
-        <h1>Match Prep <span className="accent">Cheatsheet</span></h1>
-        <p>Everything you need to know in the 90 seconds before you ready up. Pick a map — get the bans (with reasoning), the picks the meta supports, and the key callouts per site on a single screen. Bookmark it, copy it to a Discord pin, or print it. Free, no signup.</p>
+        <h1>Your next <span className="accent">ranked plan</span></h1>
+        <p>Pick the map once. Recon 6 puts the ban, first operator choice, and next site action at the top. Open the full reference only when you need it.</p>
         <div style={{ marginTop: '0.85rem', padding: '0.7rem 0.9rem', background: 'rgba(0, 229, 255, 0.06)', border: '1px solid rgba(0, 229, 255, 0.3)', borderRadius: 10, display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.88rem' }}>
           <span style={{ color: '#00e5ff', fontWeight: 700 }}>NEW</span>
           <span style={{ color: 'rgba(230,233,239,0.85)' }}>
@@ -183,25 +187,30 @@ function R6MatchPrepPage() {
         </div>
       </header>
 
-      {/* Map picker — switched from native <select> to a button grid
-          because dark-theme select dropdowns render unreadably on many
-          browser/OS combos. Grid makes every option visible at once and
-          tapping is faster than scrolling a dropdown. */}
-      <div className="match-prep-mapgrid-wrap">
-        <div className="match-prep-mapgrid-label">Map</div>
+      <details className="match-prep-map-picker">
+        <summary>
+          <span><small>Selected map</small>{mapData.name}</span>
+          <strong>Change map</strong>
+        </summary>
+        <div className="match-prep-mapgrid-wrap">
+        <div className="match-prep-mapgrid-label">Ranked maps</div>
         <div className="match-prep-mapgrid">
           {RANKED_MAPS.map((m) => (
             <button
               key={m.id}
               type="button"
               className={`match-prep-mapgrid-btn${mapId === m.id ? ' active' : ''}`}
-              onClick={() => setMapId(m.id)}
+              onClick={() => {
+                setMapId(m.id)
+                setShowFullPlan(false)
+              }}
             >
               {m.name}
             </button>
           ))}
         </div>
       </div>
+      </details>
       <div className="match-prep-controls">
         <div className="match-prep-actions">
           <button type="button" onClick={copyAsText} className="btn btn-outline btn-sm">
@@ -213,6 +222,43 @@ function R6MatchPrepPage() {
         </div>
       </div>
 
+      <section className="match-prep-brief" aria-labelledby="match-prep-brief-title">
+        <img src={`/guides/og/${mapId}.svg`} alt={`${mapData.name} strategy guide preview`} />
+        <div className="match-prep-brief-content">
+          <span className="match-prep-brief-kicker">Do this first</span>
+          <h2 id="match-prep-brief-title">{mapData.name} in three decisions</h2>
+          <div className="match-prep-brief-grid">
+            <article>
+              <small>1 · Ban</small>
+              <strong>Attack: {bans.attack[0]?.name || 'Use the team ban'}</strong>
+              <span>Defense: {bans.defense[0]?.name || 'Use the team ban'}</span>
+            </article>
+            <article>
+              <small>2 · First pick</small>
+              <strong>Attack: {picks.attack[0]?.name || 'Open the site plan'}</strong>
+              <span>Defense: {picks.defense[0]?.name || 'Open the site plan'}</span>
+            </article>
+            <article>
+              <small>3 · Site</small>
+              <strong>{firstSite?.name || 'Choose a published site'}</strong>
+              <span>Lock one job before the queue starts.</span>
+            </article>
+          </div>
+          {firstSite && (
+            <div className="match-prep-brief-actions">
+              <Link to={`/strats/${mapId}/${firstSite.id}/attack`} className="btn btn-primary">Open attack plan</Link>
+              <Link to={`/strats/${mapId}/${firstSite.id}/defense`} className="btn btn-outline">Open defense plan</Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <details
+        className="match-prep-full-plan"
+        open={showFullPlan}
+        onToggle={(event) => setShowFullPlan(event.currentTarget.open)}
+      >
+        <summary>{showFullPlan ? 'Hide full map reference' : `Show full ${mapData.name} reference`}</summary>
       <div className="match-prep-card" ref={cardRef}>
         <div className="match-prep-card-head">
           <div>
@@ -373,6 +419,7 @@ function R6MatchPrepPage() {
           <span>Recon 6 · r6coaching.com/match-prep/{mapId}</span>
         </footer>
       </div>
+      </details>
 
       {/* Embed widget pitch — surfaces to content creators / community
           mods that they can iframe this cheatsheet on their own site.

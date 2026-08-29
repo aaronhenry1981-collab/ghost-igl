@@ -1,9 +1,10 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useGameData } from '../hooks/useGameData'
 import { useActiveGame } from '../hooks/useActiveGame'
 import { useAuth } from '../hooks/useAuth'
 import SignInGate from '../components/SignInGate'
+import { findOperatorLoadout } from '../lib/loadoutFlow'
 import './LoadoutsPage.css'
 
 // Loadouts page — game-aware. Reads LOADOUTS from the active game's data
@@ -75,8 +76,27 @@ function titleCase(s) {
     .replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-function LoadoutSection({ id, section }) {
-  const { name, role, summary, ...rest } = section
+function OperatorLoadoutCard({ operator, focused = false }) {
+  if (!operator) return null
+  const { name, ...fields } = operator
+  return (
+    <article className={`operator-loadout-card${focused ? ' focused' : ''}`}>
+      {focused && <span className="operator-loadout-kicker">Your selected operator</span>}
+      <h3>{name}</h3>
+      <div className="operator-loadout-fields">
+        {Object.entries(fields).map(([key, value]) => (
+          <div className="operator-loadout-field" key={key}>
+            <span>{titleCase(key)}</span>
+            <p>{String(value)}</p>
+          </div>
+        ))}
+      </div>
+    </article>
+  )
+}
+
+function LoadoutSection({ id, section, focusOperator }) {
+  const { name, role, summary, operators = [], ...rest } = section
   return (
     <article className="loadout-section" id={id}>
       <header className="loadout-section-head">
@@ -86,14 +106,33 @@ function LoadoutSection({ id, section }) {
         </div>
       </header>
       {summary && <p className="loadout-section-summary">{summary}</p>}
-      <div className="loadout-section-body">
-        {Object.entries(rest).map(([k, v]) => (
-          <div className="loadout-block" key={k}>
-            <h4 className="loadout-block-title">{titleCase(k)}</h4>
-            <ValueRender value={v} />
-          </div>
-        ))}
-      </div>
+      {focusOperator ? (
+        <>
+          <OperatorLoadoutCard operator={focusOperator} focused />
+          <details className="loadouts-compare-role">
+            <summary>Compare every {name} loadout</summary>
+            <div className="operator-loadout-stack">
+              {operators.filter((operator) => operator.name !== focusOperator.name).map((operator) => (
+                <OperatorLoadoutCard operator={operator} key={operator.name} />
+              ))}
+            </div>
+          </details>
+        </>
+      ) : (
+        <div className="loadout-section-body">
+          {operators.length > 0 && (
+            <div className="operator-loadout-stack">
+              {operators.map((operator) => <OperatorLoadoutCard operator={operator} key={operator.name} />)}
+            </div>
+          )}
+          {Object.entries(rest).map(([k, v]) => (
+            <div className="loadout-block" key={k}>
+              <h4 className="loadout-block-title">{titleCase(k)}</h4>
+              <ValueRender value={v} />
+            </div>
+          ))}
+        </div>
+      )}
     </article>
   )
 }
@@ -103,6 +142,17 @@ export default function LoadoutsPage() {
   const { activeGameId, isR6 } = useActiveGame()
   const { data, loading, error, gameMeta } = useGameData()
   const [activeSectionId, setActiveSectionId] = useState(null)
+  const [searchParams] = useSearchParams()
+  const requestedOperator = searchParams.get('operator')
+  const loadouts = data?.LOADOUTS
+  const selectedLoadout = useMemo(
+    () => findOperatorLoadout(loadouts, requestedOperator),
+    [loadouts, requestedOperator],
+  )
+
+  useEffect(() => {
+    if (selectedLoadout?.sectionId) setActiveSectionId(selectedLoadout.sectionId)
+  }, [selectedLoadout?.sectionId])
 
   // Gate behind sign-in. Static SEO pages at /games/<id>/loadouts.html stay
   // public for Google indexing; the interactive in-app tool requires an
@@ -122,7 +172,6 @@ export default function LoadoutsPage() {
 
   const accent = gameMeta.color || '#00e5ff'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
-  const loadouts = data?.LOADOUTS
 
   if (loading) {
     return (
@@ -148,7 +197,7 @@ export default function LoadoutsPage() {
       <div className="loadouts-page">
         <div className="loadouts-empty">
           <h1>{displayName} loadouts coming soon</h1>
-          <p>Loadout data for {displayName} is being curated. R6, CS2, Valorant, OW2, Apex, MVR, Halo, The Finals, CoD, and Fortnite all have full loadouts in the catalog.</p>
+          <p>Loadout data for {displayName} is still being curated. Open a published strategy to see the operator jobs available now.</p>
           <Link to="/strats" className="btn btn-primary">Open strats</Link>
         </div>
       </div>
@@ -158,6 +207,14 @@ export default function LoadoutsPage() {
   const sectionEntries = Object.entries(loadouts)
   const currentId = activeSectionId || sectionEntries[0]?.[0]
   const currentSection = currentId ? loadouts[currentId] : null
+  const operatorParams = new URLSearchParams()
+  for (const key of ['map', 'site', 'side']) {
+    const value = searchParams.get(key)
+    if (value) operatorParams.set(key, value)
+  }
+  const operatorBackUrl = requestedOperator
+    ? `/operators/${encodeURIComponent(requestedOperator.toLowerCase())}${operatorParams.size ? `?${operatorParams}` : ''}`
+    : '/operators'
 
   return (
     <div className="loadouts-page">
@@ -165,16 +222,28 @@ export default function LoadoutsPage() {
         <div className="loadouts-eyebrow" style={{ color: accent }}>
           {displayName} · Loadouts
         </div>
-        <h1>What to <span style={{ color: accent }}>pick</span> — and why</h1>
+        <h1>
+          {selectedLoadout ? <><span style={{ color: accent }}>{selectedLoadout.operator.name}</span> loadout</> : <>What to <span style={{ color: accent }}>pick</span> — and why</>}
+        </h1>
         <p>
-          Loadouts, weapon priorities, and team-comp combos for {displayName}.
-          Use these before the round starts so you walk in with the right gun, the right ability,
-          and the right plan.
+          {selectedLoadout
+            ? `Use this setup for ${selectedLoadout.operator.name}, then return to the same round plan without searching again.`
+            : `Pick an operator role to see the weapon, gadget, counter, and reason behind the setup.`}
         </p>
+        {requestedOperator && !selectedLoadout && (
+          <div className="loadouts-context-note">A curated {requestedOperator} loadout is not published yet. Showing the closest available role groups.</div>
+        )}
       </header>
 
+      {selectedLoadout && (
+        <div className="loadouts-return-row">
+          <Link to={operatorBackUrl} className="btn btn-outline btn-sm">← Back to {selectedLoadout.operator.name}</Link>
+          <span>Your map, site, and side are preserved.</span>
+        </div>
+      )}
+
       <div className="loadouts-layout">
-        {sectionEntries.length > 1 && (
+        {sectionEntries.length > 1 && !selectedLoadout && (
           <nav className="loadouts-nav" aria-label="Loadout sections">
             {sectionEntries.map(([id, sec]) => (
               <button
@@ -192,9 +261,35 @@ export default function LoadoutsPage() {
         )}
 
         <div className="loadouts-content">
-          {currentSection && <LoadoutSection id={currentId} section={currentSection} />}
+          {currentSection && (
+            <LoadoutSection
+              id={currentId}
+              section={currentSection}
+              focusOperator={selectedLoadout?.sectionId === currentId ? selectedLoadout.operator : null}
+            />
+          )}
         </div>
       </div>
+
+      {selectedLoadout && (
+        <details className="loadouts-more-roles">
+          <summary>More operator roles</summary>
+          <nav className="loadouts-nav" aria-label="Other loadout sections">
+            {sectionEntries.map(([id, sec]) => (
+              <button
+                type="button"
+                key={id}
+                className={`loadouts-nav-btn${id === currentId ? ' active' : ''}`}
+                onClick={() => setActiveSectionId(id)}
+                style={id === currentId ? { borderColor: accent, color: accent } : undefined}
+              >
+                <span className="loadouts-nav-name">{sec.name || titleCase(id)}</span>
+                {sec.role && <span className="loadouts-nav-role">{sec.role}</span>}
+              </button>
+            ))}
+          </nav>
+        </details>
+      )}
 
       <div className="loadouts-foot">
         <p>
