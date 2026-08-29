@@ -99,6 +99,20 @@
 .match-prep-brief-grid span { display: block; line-height: 1.4; }
 .match-prep-brief-grid strong { color: var(--text-h); font-size: 0.9rem; }
 .match-prep-brief-grid span { margin-top: 5px; color: rgba(230,233,239,0.65); font-size: 0.8rem; }
+.match-prep-site-picker { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.match-prep-site-picker button {
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.18);
+  color: rgba(230,233,239,0.76);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.match-prep-site-picker button:hover,
+.match-prep-site-picker button.active { border-color: var(--accent); background: rgba(0,229,255,0.13); color: var(--accent); }
 .match-prep-brief-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 17px; }
 
 .match-prep-full-plan { margin-top: 14px; }
