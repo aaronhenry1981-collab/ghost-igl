@@ -324,13 +324,44 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 28px 20px;
-  text-align: center;
+  padding: 0;
+  text-align: left;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
 }
+.map-card-visual {
+  position: relative;
+  height: 116px;
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 20%, rgba(0,229,255,.18), transparent 48%), #080d16;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.map-card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 20%, rgba(5,8,14,.75));
+}
+.map-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: .72;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.map-card:hover:not(:disabled) .map-card-visual img { transform: scale(1.035); opacity: .9; }
+.map-card-visual > span {
+  position: absolute;
+  z-index: 1;
+  right: 12px;
+  bottom: 8px;
+  font-size: 1.05rem;
+  filter: grayscale(.25);
+}
+.map-card-copy { padding: 14px 16px 16px; }
 .map-card:hover:not(:disabled) {
   border-color: var(--accent);
   transform: translateY(-2px);
@@ -369,10 +400,7 @@
   text-transform: uppercase;
   margin-top: 8px;
 }
-.map-card-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
+.map-card-icon { display: none; }
 
 /* ─── Side Toggle ─── */
 .side-toggle {
@@ -497,6 +525,103 @@
   font-weight: 800;
   font-size: 0.75rem;
   flex-shrink: 0;
+}
+.role-glyph {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.role-glyph svg { width: 100%; height: 100%; }
+.operator-avatar .role-glyph { width: 1.3rem; height: 1.3rem; }
+
+/* ─── Visual round plan ─── */
+.tactical-plan {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(245px,.72fr) minmax(0,1.28fr);
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(0,229,255,.24);
+  border-radius: 16px;
+  background: #090f18;
+  box-shadow: 0 18px 60px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.04);
+}
+.tactical-plan-defense { border-color: rgba(255,96,96,.25); }
+.tactical-plan-art { position: relative; min-height: 430px; overflow: hidden; background: #060a11; }
+.tactical-plan-art img { width: 100%; height: 100%; object-fit: cover; opacity: .78; }
+.tactical-plan-art-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3,6,11,.18), rgba(3,6,11,.94)), linear-gradient(90deg, transparent, rgba(3,6,11,.5));
+}
+.tactical-plan-art-copy {
+  position: absolute;
+  z-index: 1;
+  inset: auto 24px 24px;
+  display: grid;
+  gap: 5px;
+}
+.tactical-plan-art-copy span,
+.tactical-plan-kicker {
+  color: var(--accent);
+  font-size: .65rem;
+  font-weight: 850;
+  letter-spacing: .16em;
+}
+.tactical-plan-defense .tactical-plan-art-copy span,
+.tactical-plan-defense .tactical-plan-kicker { color: #ff7b72; }
+.tactical-plan-art-copy strong { color: #fff; font-size: clamp(1.6rem,3vw,2.7rem); letter-spacing: -.04em; }
+.tactical-plan-art-copy small { color: rgba(255,255,255,.68); font-size: .88rem; line-height: 1.4; }
+.tactical-plan-content { padding: 24px; }
+.tactical-plan-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.tactical-plan-heading h3 { margin: 4px 0 0; color: #fff; font-size: 1.25rem; }
+.tactical-plan-time { padding: 5px 9px; border: 1px solid rgba(255,255,255,.1); border-radius: 999px; color: rgba(255,255,255,.55); font-size: .66rem; white-space: nowrap; }
+.tactical-plan-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.tactical-plan-steps li { position: relative; display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding-bottom: 18px; }
+.tactical-plan-steps li:last-child { padding-bottom: 0; }
+.tactical-plan-steps li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 34px;
+  bottom: 2px;
+  width: 2px;
+  background: linear-gradient(var(--accent), rgba(0,229,255,.08));
+}
+.tactical-plan-defense .tactical-plan-steps li:not(:last-child)::after { background: linear-gradient(#ff6b61, rgba(255,107,97,.08)); }
+.tactical-plan-number {
+  position: relative;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0,229,255,.48);
+  border-radius: 50%;
+  background: #0b1721;
+  color: var(--accent);
+  font-weight: 850;
+}
+.tactical-plan-defense .tactical-plan-number { border-color: rgba(255,107,97,.5); background: #1d1014; color: #ff8b83; }
+.tactical-plan-step-copy { padding-top: 2px; }
+.tactical-plan-step-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tactical-plan-step-top > strong { color: #fff; font-size: .75rem; letter-spacing: .1em; }
+.tactical-plan-step-top > span { padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,.055); color: rgba(255,255,255,.7); font-size: .66rem; }
+.tactical-plan-step-copy p { margin: 5px 0 8px; color: rgba(230,237,245,.82); font-size: .82rem; line-height: 1.5; }
+.tactical-plan-owner { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,.55); font-size: .69rem; }
+.tactical-plan-owner .role-glyph { width: 1rem; height: 1rem; color: var(--accent); }
+.tactical-plan-defense .tactical-plan-owner .role-glyph { color: #ff8b83; }
+.tactical-plan-owner b { color: rgba(255,255,255,.82); }
+.tactical-plan figcaption {
+  grid-column: 1 / -1;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(255,255,255,.065);
+  color: rgba(255,255,255,.45);
+  font-size: .68rem;
+  line-height: 1.45;
 }
 .operator-avatar.essential {
   background: rgba(0, 229, 255, 0.15);
@@ -1328,8 +1453,16 @@
     font-size: 1.8rem;
   }
   .map-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
+  .map-card { display: grid; grid-template-columns: 108px 1fr; min-height: 96px; }
+  .map-card-visual { height: 100%; border-bottom: 0; border-right: 1px solid rgba(255,255,255,.08); }
+  .map-card-copy { align-self: center; }
+  .tactical-plan { grid-template-columns: 1fr; }
+  .tactical-plan-art { min-height: 220px; }
+  .tactical-plan-content { padding: 18px 16px; }
+  .tactical-plan-heading { display: block; }
+  .tactical-plan-time { display: inline-block; margin-top: 8px; }
   .operator-grid {
     grid-template-columns: 1fr;
   }

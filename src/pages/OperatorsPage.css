@@ -154,6 +154,7 @@
   color: var(--accent);
   letter-spacing: 0.02em;
 }
+.operator-tile-initials .role-glyph { width: 25px; height: 25px; }
 .operator-tile.your-role .operator-tile-initials {
   border-color: #9b59ff;
   color: #c5a7ff;
@@ -215,6 +216,7 @@
   font-size: 1.4rem;
   color: var(--accent);
 }
+.operator-detail-initials .role-glyph { width: 38px; height: 38px; }
 .operator-detail-initials.your-role {
   border-color: #9b59ff;
   color: #c5a7ff;
@@ -265,6 +267,39 @@
   color: var(--text);
   opacity: 0.75;
 }
+
+.operator-current-round {
+  margin: -8px 0 22px;
+  padding: 20px;
+  border: 1px solid rgba(0, 229, 255, 0.32);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(10, 15, 25, 0.8));
+}
+.operator-current-round-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.operator-current-round h2 { margin: 0 0 8px; font-size: 1.25rem; }
+.operator-current-round p { margin: 0; color: var(--text); line-height: 1.55; }
+.operator-current-round-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+.operator-more-sites { margin-top: 8px; }
+.operator-more-sites > summary {
+  cursor: pointer;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text-h);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.025);
+}
+.operator-more-sites[open] > summary { margin-bottom: 18px; border-color: rgba(0, 229, 255, 0.3); }
+.operator-more-sites.open-default > summary { display: none; }
 
 .operator-detail-maps {
   display: flex;
@@ -358,6 +393,7 @@
     text-align: left;
     padding-top: 2px;
   }
+  .operator-current-round-actions .btn { width: 100%; justify-content: center; }
 }
 
 /* ─── Compare page ─── */

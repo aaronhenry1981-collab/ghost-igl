@@ -393,7 +393,7 @@ function R6StratsPage() {
                   <>
                     <SquadToggle size={squadSize} onToggle={setSquadSize} />
                     {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
-                    <StratDisplay strat={strat} side={side} gated={false} mapId={selectedMap} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
+                    <StratDisplay strat={strat} side={side} gated={false} mapId={selectedMap} mapName={mapData?.name} siteId={selectedSite} siteName={mapData?.sites.find((s) => s.id === selectedSite)?.name} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
                     {enemyIntel && <EnemyIntel intel={enemyIntel} />}
                   </>
                 )}
@@ -411,7 +411,7 @@ function R6StratsPage() {
                   <SquadToggle size={squadSize} onToggle={setSquadSize} />
                   {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
                 </ProGate>
-                <StratDisplay strat={strat} side={side} gated mapId={selectedMap} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
+                <StratDisplay strat={strat} side={side} gated mapId={selectedMap} mapName={mapData?.name} siteId={selectedSite} siteName={mapData?.sites.find((s) => s.id === selectedSite)?.name} verifiedCallouts={catalog?.verified_callouts?.[selectedMap]} />
                 {enemyIntel && (
                   <ProGate label="Enemy Intel & Predictions">
                     <EnemyIntel intel={enemyIntel} />

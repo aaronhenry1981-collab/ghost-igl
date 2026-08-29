@@ -6,6 +6,7 @@ import '../../pages/StratsPage.css'
 import OperatorCard from './OperatorCard'
 import ProGate from './ProGate'
 import ChampionGate from './ChampionGate'
+import TacticalRoundPlan from './TacticalRoundPlan'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
 
 function CalloutTag({ label }) {
@@ -93,7 +94,7 @@ function VerifiedCallouts({ verified: v }) {
   )
 }
 
-export default function StratDisplay({ strat, side, gated, verifiedCallouts }) {
+export default function StratDisplay({ strat, side, gated, verifiedCallouts, mapId, mapName, siteId, siteName }) {
   const { role: userRole } = useUserRole()
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
   // Flag any listed callout the footage does NOT back, so nothing here is
@@ -150,6 +151,14 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts }) {
         </div>
       )}
 
+      <TacticalRoundPlan
+        strat={strat}
+        side={side}
+        mapId={mapId}
+        mapName={mapName}
+        siteName={siteName}
+      />
+
       <div className="strat-section">
         <div className="strat-section-title">Operator Lineup</div>
         <div className="operator-grid">
@@ -158,6 +167,7 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts }) {
               key={op.name}
               operator={op}
               roleMatch={userRole ? operatorFitsRole(op, userRole) : false}
+              roundContext={{ mapId, siteId, side }}
             />
           ))}
         </div>

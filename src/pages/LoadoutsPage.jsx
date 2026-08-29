@@ -114,7 +114,7 @@ export default function LoadoutsPage() {
       gameMeta={gameMeta}
       benefits={[
         'Real weapon priorities, ability combos, and team-comp picks',
-        'Switches with your active game — all 20 supported games covered',
+        'Rainbow Six operator and role guidance in one place',
         'Free account for saved settings; paid plans show their trial terms before checkout',
       ]}
     />

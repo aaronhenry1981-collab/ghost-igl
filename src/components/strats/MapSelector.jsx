@@ -139,9 +139,18 @@ export default function MapSelector({ maps, onSelect }) {
                 {'🔒'} TRIAL
               </div>
             )}
-            <div className="map-card-icon">{MAP_ICONS[map.id] || '🗺️'}</div>
-            <div className="map-card-name">{map.name}</div>
-            <div className="map-card-sites">{tierLabel}</div>
+            <div className="map-card-visual" aria-hidden="true">
+              <img
+                src={`/guides/og/${map.id}.svg`}
+                alt=""
+                onError={(event) => { event.currentTarget.style.display = 'none' }}
+              />
+              <span>{MAP_ICONS[map.id] || '⌖'}</span>
+            </div>
+            <div className="map-card-copy">
+              <div className="map-card-name">{map.name}</div>
+              <div className="map-card-sites">{tierLabel}</div>
+            </div>
           </button>
         )
       })}

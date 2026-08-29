@@ -12,6 +12,7 @@ import FoundingCountdown from '../components/FoundingCountdown'
 import StratDisplay from '../components/strats/StratDisplay'
 import STRATS from '../data/public-strats.generated'
 import META from '../data/meta'
+import OPERATORS from '../data/operators'
 import { useAuth } from '../hooks/useAuth'
 import { useTestimonials } from '../hooks/useTestimonials'
 
@@ -223,7 +224,7 @@ const PRICING = [
     link: '/strats',
     features: [
       'Foundational attack and defense strategies',
-      'Full operator catalog and role guidance',
+      'Operator lineups and role guidance',
       'Map, site, and key-callout reference',
       'No paid AI usage required',
       'Upgrade only when you want analysis or live tools',
@@ -530,7 +531,7 @@ export default function LandingPage() {
             <div className="hero-v2-proof">
               <span><strong>25</strong> maps</span>
               <span><strong>107</strong> site setups</span>
-              <span><strong>78</strong> operators</span>
+              <span><strong>{OPERATORS.length}</strong> operators in current plans</span>
               <span><i /> No signup to preview</span>
             </div>
           </div>

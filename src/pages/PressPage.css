@@ -70,6 +70,88 @@
   margin: 0 0 1rem;
 }
 
+.press-creator {
+  padding: 1.35rem;
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 95% 0%, rgba(0, 229, 255, 0.14), transparent 32%),
+    linear-gradient(145deg, rgba(13, 23, 39, 0.96), rgba(7, 11, 19, 0.96));
+}
+.press-creator-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.press-creator-head .press-eyebrow { margin-bottom: 0.4rem; }
+.press-review-badge {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(126, 226, 164, 0.4);
+  border-radius: 999px;
+  color: #7ee2a4;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.press-creator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.press-creator-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 210px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ecedf3;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.035);
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+.press-creator-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.55);
+  background: rgba(0, 229, 255, 0.08);
+}
+.press-creator-number {
+  color: #00e5ff;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+.press-creator-card strong { font-size: 1rem; line-height: 1.25; }
+.press-creator-card p {
+  color: rgba(230, 233, 239, 0.68);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0.55rem 0 1rem;
+}
+.press-creator-action {
+  color: #00e5ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-top: auto;
+}
+.press-creator-proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+.press-creator-proof div { display: flex; flex-direction: column; gap: 0.1rem; }
+.press-creator-proof strong { font-size: 0.78rem; }
+.press-creator-proof span { color: rgba(230, 233, 239, 0.58); font-size: 0.74rem; line-height: 1.4; }
+
 /* Copy blocks — drop the content + a copy button next to a "label" pill */
 .press-copy-block {
   background: rgba(255, 255, 255, 0.02);
@@ -230,4 +312,8 @@
 @media (max-width: 720px) {
   .press-header h1 { font-size: 2rem; }
   .press-section h2 { font-size: 1.3rem; }
+  .press-creator-head { flex-direction: column; }
+  .press-creator-grid { grid-template-columns: 1fr; }
+  .press-creator-card { min-height: 0; }
+  .press-creator-proof { grid-template-columns: 1fr; }
 }
