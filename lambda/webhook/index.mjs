@@ -24,7 +24,7 @@ const REFERRAL_QUALIFY_DAYS = 30
 const REFERRAL_FOUNDING_CUTOFF_MS = Date.parse('2026-05-11T00:00:00.000Z') + 90 * 86400000
 
 export async function handler(event) {
-  const sig = event.headers?.['stripe-signature']
+  const sig = event.headers?.['stripe-signature'] ?? event.headers?.['Stripe-Signature']
   let stripeEvent
 
   // API Gateway may base64-encode the body. Stripe's signature is computed
@@ -32,6 +32,14 @@ export async function handler(event) {
   const rawBody = event.isBase64Encoded
     ? Buffer.from(event.body || '', 'base64').toString('utf8')
     : event.body
+
+  // Public API routes receive unsigned probes and bot traffic. Keep those
+  // separate from signed Stripe requests that fail verification so the
+  // StripeSignatureRejected alarm remains a trustworthy payment signal.
+  if (!sig) {
+    console.warn(JSON.stringify({ level: 'warn', event: 'stripe_signature_missing' }))
+    return { statusCode: 400, body: 'Webhook Error: missing signature' }
+  }
 
   try {
     stripeEvent = stripe.webhooks.constructEvent(

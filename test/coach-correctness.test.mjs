@@ -5,6 +5,7 @@ import MAPS from '../src/data/maps.js'
 import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
 import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
 import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from '../lambda/vod/coach-contract.mjs'
+import { billingStateFor, monthlyRecurringCents, summarizeStripeSubscriptions } from '../lambda/admin/stripe-revenue.mjs'
 
 const vodContext = JSON.parse(readFileSync(new URL('../lambda/vod/r6-context.json', import.meta.url), 'utf8'))
 
@@ -98,4 +99,39 @@ test('desktop verification requires a signed token and issued tokens identify th
 test('Stripe invoice success events reach the coaching credit renewal handler', () => {
   const webhook = readFileSync(new URL('../lambda/webhook/index.mjs', import.meta.url), 'utf8')
   assert.match(webhook, /case 'invoice\.payment_succeeded':[\s\S]*case 'invoice\.paid':[\s\S]*await handleInvoicePaid/)
+})
+
+test('unsigned probes do not trigger the signed Stripe rejection alarm', () => {
+  const webhook = readFileSync(new URL('../lambda/webhook/index.mjs', import.meta.url), 'utf8')
+  assert.match(webhook, /if \(!sig\) \{[\s\S]*stripe_signature_missing[\s\S]*missing signature[\s\S]*\}/)
+  assert.match(webhook, /constructEvent\([\s\S]*stripe_signature_rejected/)
+})
+
+test('Stripe revenue summary separates paid, trials, ending plans, and payment issues', () => {
+  const price = (amount, interval = 'month') => ({ id: 'price_pro', unit_amount: amount, recurring: { interval, interval_count: 1 } })
+  const subscription = (id, status, extra = {}) => ({
+    id,
+    status,
+    customer: `cus_${id}`,
+    items: { data: [{ price: price(1200) }] },
+    ...extra,
+  })
+  const summary = summarizeStripeSubscriptions([
+    subscription('paid', 'active'),
+    subscription('ending', 'active', { cancel_at_period_end: true }),
+    subscription('trial', 'trialing'),
+    subscription('past_due', 'past_due'),
+  ], new Map(), { STRIPE_PRO_PRICE_ID: 'price_pro' })
+  assert.equal(summary.paying_active, 2)
+  assert.equal(summary.mrr_dollars, '24.00')
+  assert.equal(summary.trialing, 1)
+  assert.equal(summary.trial_mrr_dollars, '12.00')
+  assert.equal(summary.ending, 1)
+  assert.equal(summary.past_due, 1)
+  assert.equal(summary.pro_active, 2)
+})
+
+test('annual Stripe prices are normalized into monthly recurring revenue', () => {
+  assert.equal(monthlyRecurringCents({ unit_amount: 12000, recurring: { interval: 'year', interval_count: 1 } }), 1000)
+  assert.equal(billingStateFor({ status: 'active', cancel_at_period_end: true }), 'ending')
 })
