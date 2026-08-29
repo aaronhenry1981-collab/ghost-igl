@@ -94,3 +94,8 @@ test('desktop verification requires a signed token and issued tokens identify th
   assert.match(subscription, /user_id: payload\?\.sub \|\| email/)
   assert.match(subscription, /token_id: crypto\.randomUUID\(\)/)
 })
+
+test('Stripe invoice success events reach the coaching credit renewal handler', () => {
+  const webhook = readFileSync(new URL('../lambda/webhook/index.mjs', import.meta.url), 'utf8')
+  assert.match(webhook, /case 'invoice\.payment_succeeded':[\s\S]*case 'invoice\.paid':[\s\S]*await handleInvoicePaid/)
+})
