@@ -5,6 +5,7 @@ import { useUserRole, operatorFitsRole } from '../hooks/useUserRole'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameOperatorsPage from './GameOperatorsPage'
 import RoleGlyph from '../components/strats/RoleGlyph'
+import { operatorContextUrl } from '../lib/loadoutFlow'
 import './OperatorsPage.css'
 
 function SideFilter({ value, onChange }) {
@@ -122,6 +123,11 @@ function OperatorDetail({ op }) {
   const otherSideStrat = currentMap && currentSite && currentSide
     ? `/strats/${currentMap}/${currentSite}/${otherSide}`
     : null
+  const loadoutUrl = operatorContextUrl(op.name, {
+    map: currentMap,
+    site: currentSite,
+    side: currentSide,
+  })
 
   // Group sites by map
   const byMap = {}
@@ -194,9 +200,17 @@ function OperatorDetail({ op }) {
           )}
           <div className="operator-current-round-actions">
             <Link to={currentStrat} className="btn btn-primary">Continue this {currentSide} plan</Link>
+            <Link to={loadoutUrl} className="btn btn-outline">Open {op.name}&rsquo;s loadout</Link>
             <Link to={otherSideStrat} className="btn btn-outline">Switch to {otherSide}</Link>
           </div>
         </section>
+      )}
+
+      {!currentStrat && (
+        <div className="operator-loadout-cta">
+          <Link to={loadoutUrl} className="btn btn-primary">Open {op.name}&rsquo;s loadout</Link>
+          <span>Weapon, secondary gadget, counters, and the reason behind the pick.</span>
+        </div>
       )}
 
       <details className={`operator-more-sites${currentStrat ? '' : ' open-default'}`} open={!currentStrat}>
