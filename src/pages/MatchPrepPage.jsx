@@ -70,7 +70,7 @@ export default function MatchPrepPage() {
       benefits={[
         'One-screen pre-round cheatsheet — bans, picks, callouts, utility',
         'Copy-as-text for your Discord, or print for the desk',
-        'Switches with your active game — works for all 20 supported games',
+        'Built around the current Rainbow Six map pool',
       ]}
     />
   }

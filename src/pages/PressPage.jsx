@@ -19,6 +19,7 @@ const COPY_PRESETS = {
 }
 
 const SCREENSHOTS = [
+  { src: '/recon6-tactical-hero.webp', label: 'Tactical round-plan preview', alt: 'Recon 6 tactical strategy board' },
   { src: '/og-image.png', label: 'Site preview card (1200×630)', alt: 'Recon 6 landing page social preview' },
   { src: '/guides/og/bank.svg', label: 'R6 map guide preview — Bank', alt: 'Bank strategy guide social card' },
 ]
@@ -28,50 +29,10 @@ const LOGOS = [
   { src: '/og-image.png', label: 'Social preview (1200×630 PNG)', size: '1200×630' },
 ]
 
-const OUTREACH_TEMPLATES = [
-  {
-    id: 'streamer',
-    label: 'For R6 streamers / YouTubers',
-    body: `Hey {{name}},
-
-I built a free in-match coaching tool for R6 — r6coaching.com/live — that walks you through map → bans → site → operator → loadout in one screen. It's the kind of thing I wish existed when I was grinding ranked solo.
-
-Pro begins with a card-required 30-day trial and then the founding rate of $9/month. It adds AI VOD review on screenshots — share a moment from a match and get feedback tied to that evidence. I'd value feedback from real Diamond+ players.
-
-If you want a thumbnail-friendly intro for your audience, the press kit (logos, screenshots, one-line description) is at r6coaching.com/press.
-
-— Aaron
-Recon 6`,
-  },
-  {
-    id: 'journalist',
-    label: 'For gaming / esports journalists',
-    body: `Hi {{name}},
-
-Pitching a story angle on practical coaching tools for Rainbow Six Siege — Recon 6 (r6coaching.com) combines pre-round reference material, screenshot-based VOD feedback, and optional 1:1 sessions.
-
-Bullets that might fit a piece:
-- Single founder, bootstrapped
-- AI VOD review reads player-provided screenshots rather than full video
-- Paid plans are explicit about the card-required Pro trial and current pricing
-
-Happy to provide founder quotes, screenshots, or a free Champion sub for review purposes. Press kit (logos, copy presets, screenshots) at r6coaching.com/press.
-
-— Aaron Henry, Founder
-aaronhenry1981@gmail.com`,
-  },
-  {
-    id: 'community',
-    label: 'For Discord / community mods',
-    body: `Hey {{name}},
-
-Built a free tool that R6 players in your community might find useful — r6coaching.com/live. It's an in-match walkthrough (map → bans → site → operator → loadout) optimized for the 90-second ready-up window. No signup required to try it.
-
-If it lands well with your members, I'd be happy to set up a community partnership — comp Champion subs for active mods, custom landing page with your server's branding, that kind of thing. Reply if interested or just share the link if you think it'd help.
-
-— Aaron
-Recon 6 / r6coaching.com`,
-  },
+const CREATOR_STEPS = [
+  { number: '01', title: 'Open the free strategy', text: 'See a real map, site, side, five-player lineup, and visual execution order without creating an account.', to: '/strats/bank/ceo/attack', action: 'Try the free strat' },
+  { number: '02', title: 'Run the VOD demo', text: 'See how Recon 6 turns player-provided match evidence into one correction for the next game.', to: '/vod?demo=1', action: 'Open the VOD demo' },
+  { number: '03', title: 'Request a private review build', text: 'We can prepare review access, a tracked link, and a co-branded landing page after the collaboration scope is agreed in writing.', href: 'mailto:aaronhenry1981@gmail.com?subject=Recon%206%20creator%20review', action: 'Request creator access' },
 ]
 
 function CopyBlock({ label, text }) {
@@ -103,17 +64,49 @@ export default function PressPage() {
         <div className="press-eyebrow">Press kit · Media resources</div>
         <h1>Press & <span className="press-accent">Media Kit</span></h1>
         <p className="press-lead">
-          Everything you need to write about, cover, or partner with Recon 6. Copy presets, logos, screenshots,
-          founder bio, and outreach templates — all designed to be lifted straight into your article, video, or DM.
+          A creator-ready review path, verified product description, logos, screenshots, and founder details.
+          Try the product first, then request a private review build if it fits your audience.
         </p>
         <div className="press-quick-links">
+          <a href="#creator">Creator review</a>
           <a href="#copy">Copy presets</a>
           <a href="#logos">Logos & screenshots</a>
           <a href="#founder">Founder bio</a>
-          <a href="#templates">Outreach templates</a>
           <a href="#contact">Contact</a>
         </div>
       </header>
+
+      <section id="creator" className="press-section press-creator">
+        <div className="press-creator-head">
+          <div>
+            <span className="press-eyebrow">For creators, teams, and communities</span>
+            <h2>Review the product in three steps</h2>
+          </div>
+          <span className="press-review-badge">No scripted endorsement required</span>
+        </div>
+        <p>Recon 6 should earn coverage by being useful. Start with the same free experience a player gets, then ask for a private review build only if you want to go deeper.</p>
+        <div className="press-creator-grid">
+          {CREATOR_STEPS.map((step) => {
+            const content = (
+              <>
+                <span className="press-creator-number">{step.number}</span>
+                <strong>{step.title}</strong>
+                <p>{step.text}</p>
+                <span className="press-creator-action">{step.action} →</span>
+              </>
+            )
+            return step.to
+              ? <Link key={step.number} to={step.to} className="press-creator-card">{content}</Link>
+              : <a key={step.number} href={step.href} className="press-creator-card">{content}</a>
+          })}
+        </div>
+        <div className="press-creator-proof">
+          <div><strong>Review access</strong><span>Use the actual product before discussing it.</span></div>
+          <div><strong>Tracked campaign link</strong><span>Attribution can be prepared for an agreed campaign.</span></div>
+          <div><strong>Co-branded landing page</strong><span>A focused audience page can be scoped before launch.</span></div>
+          <div><strong>Written commercial terms</strong><span>No payout or endorsement claim exists until both sides agree.</span></div>
+        </div>
+      </section>
 
       <section id="copy" className="press-section">
         <h2>Copy presets</h2>
@@ -169,14 +162,6 @@ export default function PressPage() {
             <li><strong>Tech:</strong> React + AWS + Stripe</li>
           </ul>
         </div>
-      </section>
-
-      <section id="templates" className="press-section">
-        <h2>Outreach templates</h2>
-        <p>If you're an Aaron / a partner reaching out on Recon 6's behalf — pick a template, copy, customize the <code>{'{{name}}'}</code> placeholder, send. Templates intentionally avoid pressure tactics.</p>
-        {OUTREACH_TEMPLATES.map((t) => (
-          <CopyBlock key={t.id} label={t.label} text={t.body} />
-        ))}
       </section>
 
       <section id="contact" className="press-section press-contact">

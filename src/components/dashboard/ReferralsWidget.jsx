@@ -99,7 +99,7 @@ export default function ReferralsWidget() {
   } else if (founding_window_open && isPro) {
     banner = { tone: 'accent', label: `Founding window: ${founding_days_left} day${founding_days_left === 1 ? '' : 's'} left`, text: 'Refer 3 friends before the window closes to lock in the program at your current tier forever.' }
   } else if (!eligible_to_earn) {
-    banner = { tone: 'muted', label: 'Champion+ only', text: 'The post-launch referral program is exclusive to Champion+ All-Access subscribers. Upgrade to start earning.' }
+    banner = { tone: 'muted', label: 'Champion only', text: 'The post-launch referral program is exclusive to Champion subscribers. Upgrade to start earning.' }
   }
 
   return (

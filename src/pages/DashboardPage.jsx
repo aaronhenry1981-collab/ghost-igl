@@ -188,6 +188,22 @@ export default function DashboardPage() {
 
   const tip = useMemo(() => pickTip(activeGameId), [activeGameId])
   const blogList = BLOG_BY_GAME[activeGameId] || []
+  const lastStrat = isR6 ? recents[0] : null
+  const primaryAction = lastStrat
+    ? {
+        to: `/strats/${lastStrat.mapId}/${lastStrat.siteId}/${lastStrat.side}`,
+        kicker: 'Continue your last round plan',
+        title: `${(lastStrat.mapName || lastStrat.mapId).replace(/-/g, ' ')} · ${lastStrat.siteName || lastStrat.siteId}`,
+        side: lastStrat.side === 'attack' ? 'Attack' : 'Defense',
+        cta: 'Open this round plan',
+      }
+    : {
+        to: '/strats',
+        kicker: 'Build your first round plan',
+        title: 'Pick the map, site, and side',
+        side: 'Takes about 30 seconds',
+        cta: 'Choose a site',
+      }
 
   if (authLoading) {
     return <div className="dashboard-page"><div className="dashboard-loading">Loading…</div></div>
@@ -227,7 +243,7 @@ export default function DashboardPage() {
           </h1>
           <p className="dashboard-sub">
             Active game: <strong style={{ color: accent }}>{displayName}</strong>
-            {gameStats && <> · {gameStats.mapCount} maps, {gameStats.castCount} {gameMeta.vocab?.operator?.toLowerCase() || 'characters'}, {gameStats.stratSites} sites with strats</>}
+            {gameStats && <> · {gameStats.mapCount} maps, {gameStats.stratSites} site setups, {gameStats.castCount} {gameMeta.vocab?.operator?.toLowerCase() || 'characters'} used in current plans</>}
           </p>
         </div>
         <div className="dashboard-tier" style={{ color: tierMeta.color, background: tierMeta.bg, borderColor: tierMeta.border }}>
@@ -236,28 +252,22 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <section className="dashboard-focus-grid" aria-label="Recommended next actions">
-        <Link to="/progress" className="dashboard-focus-card dashboard-focus-primary">
-          <div className="dashboard-eyebrow">Your training plan</div>
-          <h2>Open Road to Champion</h2>
-          <p>See what is proven, what is failing, what has not been observed, and the one mission to carry into your next match.</p>
-          <span>See my next-match mission →</span>
-        </Link>
-        {isAdmin ? (
-          <Link to="/admin" className="dashboard-focus-card">
-            <div className="dashboard-eyebrow">Owner workspace</div>
-            <h2>Open the Admin Console</h2>
-            <p>Review members, revenue attention items, coaching appointments, content, and growth from one place.</p>
-            <span>Open business operations →</span>
-          </Link>
-        ) : (
-          <a href="/coaching/index.html#book" className="dashboard-focus-card">
-            <div className="dashboard-eyebrow">Work with Aaron</div>
-            <h2>Book your first session — $20</h2>
-            <p>Use your Coach evidence to spend the session on the mistakes costing you the most rounds.</p>
-            <span>Choose a time →</span>
-          </a>
-        )}
+      <section className="dashboard-mission" aria-labelledby="dashboard-mission-title">
+        <div className="dashboard-mission-copy">
+          <div className="dashboard-eyebrow">Do this next</div>
+          <span className="dashboard-mission-kicker">{primaryAction.kicker}</span>
+          <h2 id="dashboard-mission-title">{primaryAction.title}</h2>
+          <p>{primaryAction.side}. Lock one job, scan the visual execute, and go into the round with one plan.</p>
+          <div className="dashboard-mission-actions">
+            <Link to={primaryAction.to} className="btn btn-primary">{primaryAction.cta} →</Link>
+            {lastStrat && <Link to="/strats" className="btn btn-ghost">Choose a different site</Link>}
+          </div>
+        </div>
+        <div className="dashboard-mission-steps" aria-label="Three-step round workflow">
+          <div><span>1</span><strong>Pick your job</strong><small>One operator and responsibility</small></div>
+          <div><span>2</span><strong>Scan the execute</strong><small>Four visual steps, in order</small></div>
+          <div><span>3</span><strong>Queue with the plan</strong><small>Review the result after the match</small></div>
+        </div>
       </section>
 
       {/* Tip of the day — fresh content each day for retention. */}
@@ -266,8 +276,18 @@ export default function DashboardPage() {
         <p>{tip}</p>
       </div>
 
-      <h2 className="dashboard-section-h">Choose what you need right now</h2>
-      <div className="dashboard-grid dashboard-grid-tools">
+      <details className="dashboard-more dashboard-tools">
+        <summary>More tools</summary>
+        <p className="dashboard-more-intro">Use these when the current task above is not what you need.</p>
+        <div className="dashboard-grid dashboard-grid-tools">
+        <Link to="/progress" className="dashboard-card" style={{ borderLeftColor: accent }}>
+          <div className="dashboard-card-head">
+            <strong>Road to Champion</strong>
+            <span className="dashboard-card-pill">Training plan</span>
+          </div>
+          <p>Carry one proven mission into your next match and track whether it worked.</p>
+        </Link>
+
         <Link to="/live" className="dashboard-card" style={{ borderLeftColor: accent }}>
           <div className="dashboard-card-head">
             <strong>Live Match Coach</strong>
@@ -307,7 +327,19 @@ export default function DashboardPage() {
           </div>
           <p>{isR6 ? 'Drop a screenshot, find out what cost you the round.' : `Preview what ${displayName} VOD review looks like — full review engine ships per game.`}</p>
         </Link>
-      </div>
+        {isAdmin ? (
+          <Link to="/admin" className="dashboard-card" style={{ borderLeftColor: '#c5a7ff' }}>
+            <div className="dashboard-card-head"><strong>Admin Console</strong><span className="dashboard-card-pill">Owner</span></div>
+            <p>Members, revenue, coaching appointments, content, and system controls.</p>
+          </Link>
+        ) : (
+          <a href="/coaching/index.html#book" className="dashboard-card" style={{ borderLeftColor: '#c5a7ff' }}>
+            <div className="dashboard-card-head"><strong>1-on-1 Coaching</strong><span className="dashboard-card-pill">First session $20</span></div>
+            <p>Use your round evidence to fix the mistake costing you the most rounds.</p>
+          </a>
+        )}
+        </div>
+      </details>
 
       {recents.length > 0 && isR6 && (
         <details className="dashboard-more">

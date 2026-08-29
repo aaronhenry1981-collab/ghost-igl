@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom'
+import RoleGlyph from './RoleGlyph'
 
-export default function OperatorCard({ operator, roleMatch = false }) {
-  const initials = operator.name.slice(0, 2).toUpperCase()
-  const to = `/operators/${encodeURIComponent(operator.name.toLowerCase())}`
+export default function OperatorCard({ operator, roleMatch = false, roundContext }) {
+  const params = roundContext
+    ? `?map=${encodeURIComponent(roundContext.mapId)}&site=${encodeURIComponent(roundContext.siteId)}&side=${encodeURIComponent(roundContext.side)}`
+    : ''
+  const to = `/operators/${encodeURIComponent(operator.name.toLowerCase())}${params}`
   return (
     <Link
       to={to}
       className={`operator-card${roleMatch ? ' role-match' : ''}`}
-      title={`See every ${operator.name} strat`}
+      title={roundContext ? `See ${operator.name}'s job in this round` : `See every ${operator.name} strat`}
     >
       {roleMatch && <div className="operator-role-flag">Your role</div>}
-      <div className={`operator-avatar ${operator.priority}`}>{initials}</div>
+      <div className={`operator-avatar ${operator.priority}`}>
+        <RoleGlyph role={operator.role} name={operator.name} />
+      </div>
       <div className="operator-info">
         <div className="operator-name">{operator.name}</div>
         <div className="operator-role">{operator.role}</div>

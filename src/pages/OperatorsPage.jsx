@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom'
 import OPERATORS, { findOperator } from '../data/operators'
 import { useUserRole, operatorFitsRole } from '../hooks/useUserRole'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameOperatorsPage from './GameOperatorsPage'
+import RoleGlyph from '../components/strats/RoleGlyph'
 import './OperatorsPage.css'
 
 function SideFilter({ value, onChange }) {
@@ -47,7 +48,7 @@ function OperatorsIndex() {
         <h1>
           <span className="accent">Operators</span>
         </h1>
-        <p>Every operator across every map. Pick one to see where they matter most.</p>
+        <p>Operators used in current Recon 6 plans. Pick one to see the maps, sites, and jobs already covered.</p>
         <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.65)', marginTop: '0.5rem' }}>
           Operator names are property of Ubisoft Entertainment. Recon 6 is fan-made and not
           affiliated with or endorsed by Ubisoft.
@@ -82,7 +83,7 @@ function OperatorsIndex() {
                 onClick={() => navigate(`/operators/${encodeURIComponent(op.name.toLowerCase())}`)}
               >
                 {isYours && <span className="operator-tile-yours">Your role</span>}
-                <div className="operator-tile-initials">{op.name.slice(0, 2).toUpperCase()}</div>
+                <div className="operator-tile-initials"><RoleGlyph role={op.roles[0]} name={op.name} /></div>
                 <div className="operator-tile-name">{op.name}</div>
                 <div className="operator-tile-role">{op.roles[0]}</div>
                 <div className="operator-tile-stats">
@@ -106,7 +107,21 @@ function OperatorsIndex() {
 
 function OperatorDetail({ op }) {
   const { role: userRole } = useUserRole()
+  const [searchParams] = useSearchParams()
   const isYours = userRole && operatorFitsRole({ role: op.roles[0] || '' }, userRole)
+  const currentMap = searchParams.get('map')
+  const currentSite = searchParams.get('site')
+  const currentSide = searchParams.get('side')
+  const currentEntry = op.sites.find((site) => (
+    site.mapId === currentMap && site.siteId === currentSite && site.side === currentSide
+  ))
+  const currentStrat = currentMap && currentSite && currentSide
+    ? `/strats/${currentMap}/${currentSite}/${currentSide}`
+    : null
+  const otherSide = currentSide === 'attack' ? 'defense' : 'attack'
+  const otherSideStrat = currentMap && currentSite && currentSide
+    ? `/strats/${currentMap}/${currentSite}/${otherSide}`
+    : null
 
   // Group sites by map
   const byMap = {}
@@ -129,11 +144,13 @@ function OperatorDetail({ op }) {
 
   return (
     <div className="operators-page">
-      <Link to="/operators" className="operators-back">← All operators</Link>
+      <Link to={currentStrat || '/operators'} className="operators-back">
+        {currentStrat ? '← Back to this strategy' : '← All operators'}
+      </Link>
 
       <div className="operator-detail-header">
         <div className={`operator-detail-initials${isYours ? ' your-role' : ''}`}>
-          {op.name.slice(0, 2).toUpperCase()}
+          <RoleGlyph role={op.roles[0]} name={op.name} />
         </div>
         <div className="operator-detail-title">
           <h1>{op.name}</h1>
@@ -164,7 +181,27 @@ function OperatorDetail({ op }) {
         </div>
       </div>
 
-      <div className="operator-detail-maps">
+      {currentStrat && (
+        <section className="operator-current-round" aria-labelledby="operator-current-round-title">
+          <span className="operator-current-round-kicker">Your selected round</span>
+          <h2 id="operator-current-round-title">
+            {currentEntry ? `${currentEntry.mapName} · ${currentEntry.siteName}` : 'Keep the strategy you selected'}
+          </h2>
+          {currentEntry ? (
+            <p><strong>{op.name}</strong> is the <strong>{currentEntry.role}</strong> for this {currentEntry.side} plan and is marked {currentEntry.priority}.</p>
+          ) : (
+            <p>{op.name} is not in this side&rsquo;s published lineup. Keep your round context and compare the opposite side.</p>
+          )}
+          <div className="operator-current-round-actions">
+            <Link to={currentStrat} className="btn btn-primary">Continue this {currentSide} plan</Link>
+            <Link to={otherSideStrat} className="btn btn-outline">Switch to {otherSide}</Link>
+          </div>
+        </section>
+      )}
+
+      <details className={`operator-more-sites${currentStrat ? '' : ' open-default'}`} open={!currentStrat}>
+        <summary>{currentStrat ? `More maps and sites for ${op.name}` : `All maps and sites for ${op.name}`}</summary>
+        <div className="operator-detail-maps">
         {mapIds.map((mapId) => {
           const { mapName, entries } = byMap[mapId]
           return (
@@ -191,7 +228,8 @@ function OperatorDetail({ op }) {
             </section>
           )
         })}
-      </div>
+        </div>
+      </details>
     </div>
   )
 }

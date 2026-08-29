@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import SessionUploadZone from '../components/vod/SessionUploadZone'
-import LinkInput from '../components/vod/LinkInput'
 import SessionResults from '../components/vod/SessionResults'
 import AnalysisLoading from '../components/vod/AnalysisLoading'
 import { useVodAnalysis } from '../hooks/useVodAnalysis'
@@ -260,14 +259,7 @@ function getDemoForGame(gameId, gameMeta, data) {
   return buildSyntheticDemo(gameMeta, data)
 }
 
-const TABS = [
-  { id: 'screenshot', label: 'Screenshot', icon: '📷', available: true },
-  { id: 'video', label: 'Video Clip', icon: '🎬', available: false },
-  { id: 'link', label: 'YouTube / Twitch', icon: '🔗', available: false },
-]
-
 export default function VodPage() {
-  const [activeTab, setActiveTab] = useState('screenshot')
   const [demoMode, setDemoMode] = useState(false)
   const { user, isPro, isAdmin, plan, vodUsage, loading: authLoading } = useAuth()
   const { activeGameId } = useActiveGame()
@@ -334,22 +326,8 @@ export default function VodPage() {
         </p>
       </div>
 
-      <div className="vod-tabs">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            className={`vod-tab${activeTab === tab.id ? ' active' : ''}${!tab.available ? ' disabled' : ''}`}
-            onClick={() => tab.available && setActiveTab(tab.id)}
-          >
-            <span className="vod-tab-icon">{tab.icon}</span>
-            {tab.label}
-            {!tab.available && <span className="vod-tab-soon">Soon</span>}
-          </button>
-        ))}
-      </div>
-
       <div className="vod-content">
-        {activeTab === 'screenshot' && (
+        {(
           <>
             {!authLoading && !user && !demoMode && (
               <div className="vod-gate">
@@ -538,34 +516,6 @@ export default function VodPage() {
           </>
         )}
 
-        {activeTab === 'video' && (
-          <div className="vod-coming-soon">
-            <div className="vod-coming-icon">🎬</div>
-            <h3>Video Clip Analysis</h3>
-            <p>
-              Upload a clip from your match — the AI extracts key frames (round start, mid-round,
-              post-plant, kill cams) and runs the same multi-image analysis across them. Up to 60s on
-              Pro, 5 minutes on Champion.
-            </p>
-            <span className="vod-coming-badge">In progress — shipping soon</span>
-            <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', marginTop: '1rem' }}>
-              For now: take 5-10 screenshots from your match and use the Screenshot tab. Same analysis depth.
-            </p>
-          </div>
-        )}
-
-        {activeTab === 'link' && (
-          <div className="vod-coming-soon">
-            <div className="vod-coming-icon">{'🔗'}</div>
-            <h3>YouTube / Twitch VOD Review</h3>
-            <p>
-              Paste a link to your stream VOD or YouTube video. Recon 6 will analyze key rounds and provide
-              timestamped feedback on your gameplay.
-            </p>
-            <LinkInput disabled />
-            <span className="vod-coming-badge">Coming Soon</span>
-          </div>
-        )}
       </div>
     </div>
   )
