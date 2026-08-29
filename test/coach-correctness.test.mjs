@@ -157,3 +157,40 @@ test('Stripe renewal dates support item-level billing periods', () => {
   }, 'pro', { STRIPE_PRO_PRICE_ID: 'price_r6' })
   assert.equal(details.next_billing_at, new Date(1_800_000_000 * 1000).toISOString())
 })
+
+test('map-side selection persists before a bomb site is chosen', () => {
+  const page = readFileSync(new URL('../src/pages/StratsPage.jsx', import.meta.url), 'utf8')
+  assert.match(page, /useSearchParams/)
+  assert.match(page, /urlSide \|\| searchParams\.get\('side'\)/)
+  assert.match(page, /navigate\(`\/strats\/\$\{selectedMap\}\?side=\$\{newSide\}`/)
+  assert.match(page, /navigate\(`\/strats\/\$\{selectedMap\}\/\$\{siteId\}\/\$\{side\}`/)
+})
+
+test('choosing an operator keeps the user inside the current round', () => {
+  const card = readFileSync(new URL('../src/components/strats/OperatorCard.jsx', import.meta.url), 'utf8')
+  assert.equal(card.includes("from 'react-router-dom'"), false)
+  assert.equal(card.includes('/operators/'), false)
+  assert.match(card, /<button/)
+  assert.match(card, /onSelect\?\.\(operator\.name\)/)
+})
+
+test('the R6 round flow defaults to a brief and puts the plan before lineup details', () => {
+  const page = readFileSync(new URL('../src/pages/StratsPage.jsx', import.meta.url), 'utf8')
+  const display = readFileSync(new URL('../src/components/strats/StratDisplay.jsx', import.meta.url), 'utf8')
+  assert.match(page, /strats-view-mode:v2/)
+  assert.match(page, /return v === 'full' \? 'full' : 'brief'/)
+  assert.ok(display.indexOf('strat-section-plan') < display.indexOf('Choose who you are playing'))
+})
+
+test('bomb sites are real keyboard-accessible buttons', () => {
+  const selector = readFileSync(new URL('../src/components/strats/SiteSelector.jsx', import.meta.url), 'utf8')
+  assert.match(selector, /<button/)
+  assert.match(selector, /aria-label={`Open \$\{site\.name\} strategy`}/)
+})
+
+test('switching brief and full views returns the current round below fixed navigation', () => {
+  const page = readFileSync(new URL('../src/pages/StratsPage.jsx', import.meta.url), 'utf8')
+  const css = readFileSync(new URL('../src/pages/StratsPage.css', import.meta.url), 'utf8')
+  assert.match(page, /querySelector\('\.round-now'\)\?\.scrollIntoView/)
+  assert.match(css, /scroll-margin-top: 82px/)
+})

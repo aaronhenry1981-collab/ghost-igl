@@ -51,37 +51,46 @@ function attackCamNotes(strat) {
 export default function StratDisplay({ strat, side, gated }) {
   const { role: userRole } = useUserRole()
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
+  const suggestedOperator = matches[0]
+    || strat.operators.find((operator) => operator.priority === 'essential')
+    || strat.operators[0]
+  const [selectedOperatorName, setSelectedOperatorName] = useState(null)
+  const selectedOperator = strat.operators.find((operator) => operator.name === selectedOperatorName)
+    || suggestedOperator
 
   return (
     <div className="strat-display">
-      {userRole && matches.length > 0 && (
-        <div className="strat-role-banner">
-          <span className="strat-role-banner-label">Playing {userRole}?</span>
-          <span className="strat-role-banner-pick">
-            Lock in{' '}
-            <strong>{matches.map((m) => m.name).join(' or ')}</strong>
-            {' '}—{' '}
-            {matches.map((m) => m.role).join(' / ')}
-          </span>
+      {selectedOperator && (
+        <div className="strat-player-focus" aria-live="polite">
+          <div>
+            <span className="strat-player-focus-label">Your operator this round</span>
+            <strong>{selectedOperator.name}</strong>
+            <span>{selectedOperator.role}</span>
+          </div>
+          <p>
+            Stay on this {side} plan. Pick a different operator below only if your lineup changes.
+          </p>
         </div>
       )}
 
+      <div className="strat-section strat-section-plan" id="round-plan">
+        <div className="strat-section-title">{side === 'attack' ? 'Attack' : 'Defense'} Plan</div>
+        <p className="strat-text">{strat.strategy}</p>
+      </div>
+
       <div className="strat-section">
-        <div className="strat-section-title">Operator Lineup</div>
+        <div className="strat-section-title">Choose who you are playing</div>
         <div className="operator-grid">
           {strat.operators.map((op) => (
             <OperatorCard
               key={op.name}
               operator={op}
               roleMatch={userRole ? operatorFitsRole(op, userRole) : false}
+              selected={selectedOperator?.name === op.name}
+              onSelect={setSelectedOperatorName}
             />
           ))}
         </div>
-      </div>
-
-      <div className="strat-section">
-        <div className="strat-section-title">{side === 'attack' ? 'Attack' : 'Defense'} Strategy</div>
-        <p className="strat-text">{strat.strategy}</p>
       </div>
 
       <div className="strat-section">

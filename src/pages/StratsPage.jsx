@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom'
 import MAPS from '../data/maps'
 import STRATS from '../data/strats'
 import BANS from '../data/bans'
@@ -25,14 +25,14 @@ import { useFreeStratLimit } from '../hooks/useFreeStratLimit'
 import SoftPaywall from '../components/strats/SoftPaywall'
 import './StratsPage.css'
 
-const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode'
+const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode:v2'
 
 function readViewMode() {
   try {
     const v = localStorage.getItem(VIEW_MODE_KEY)
-    return v === 'brief' ? 'brief' : 'full'
+    return v === 'full' ? 'full' : 'brief'
   } catch {
-    return 'full'
+    return 'brief'
   }
 }
 
@@ -79,6 +79,7 @@ export default function StratsPage() {
 
 function R6StratsPage() {
   const { mapId: urlMapId, siteId: urlSiteId, side: urlSide } = useParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const [squadSize, setSquadSize] = useState(1)
   const [copyState, setCopyState] = useState('idle')
@@ -95,6 +96,11 @@ function R6StratsPage() {
     const next = viewMode === 'full' ? 'brief' : 'full'
     setViewMode(next)
     try { localStorage.setItem(VIEW_MODE_KEY, next) } catch { /* no-op */ }
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.querySelector('.round-now')?.scrollIntoView({ block: 'start' })
+      })
+    })
   }
 
   const mapData = urlMapId ? MAPS.find((m) => m.id === urlMapId) : null
@@ -120,7 +126,7 @@ function R6StratsPage() {
     selectedMap && urlSiteId && mapData.sites.some((s) => s.id === urlSiteId)
       ? urlSiteId
       : null
-  const side = validSide(urlSide)
+  const side = validSide(urlSide || searchParams.get('side'))
 
   useEffect(() => {
     if (urlMapId && !selectedMap) {
@@ -180,12 +186,12 @@ function R6StratsPage() {
     if (selectedMap && selectedSite) {
       navigate(`/strats/${selectedMap}/${selectedSite}/${newSide}`, { replace: true })
     } else if (selectedMap) {
-      navigate(`/strats/${selectedMap}`, { replace: true })
+      navigate(`/strats/${selectedMap}?side=${newSide}`, { replace: true })
     }
   }
 
   function handleBack() {
-    if (selectedSite) navigate(`/strats/${selectedMap}`)
+    if (selectedSite) navigate(`/strats/${selectedMap}?side=${side}`)
     else if (selectedMap) navigate('/strats')
   }
 
@@ -287,12 +293,14 @@ function R6StratsPage() {
         isAuthed={!!user}
       />
 
-      <div className="strats-header">
-        <h1>
-          Map <span className="accent">Strategies</span>
-        </h1>
-        <p>Select a map, pick a site, choose your side. Get the strat your team needs to win.</p>
-      </div>
+      {!selectedMap && (
+        <div className="strats-header">
+          <h1>
+            Map <span className="accent">Strategies</span>
+          </h1>
+          <p>Pick a map. Then choose your side and site to get one clear round plan.</p>
+        </div>
+      )}
 
       {selectedMap && (
         <div className="strats-toolbar">
@@ -306,7 +314,7 @@ function R6StratsPage() {
                 onClick={toggleViewMode}
                 title="Quick brief mode (B) - compact pre-round scan"
               >
-                {viewMode === 'brief' ? '\u25A0 Full view' : '\u26A1 Quick brief'}
+                {viewMode === 'brief' ? 'Full details' : 'Quick view'}
               </button>
               <button
                 className={`strats-share${copyState === 'copied' ? ' copied' : ''}`}
@@ -333,37 +341,46 @@ function R6StratsPage() {
 
       {selectedMap && !selectedSite && (
         <>
-          <div className="strats-map-title">
-            <h2>{mapData?.name}</h2>
-          </div>
-          <div className="strats-controls">
+          <div className="round-setup">
+            <div className="round-setup-heading">
+              <span>Current map</span>
+              <h2>{mapData?.name}</h2>
+            </div>
+            <div className="round-setup-step">
+              <span className="round-step-number">1</span>
+              <div>
+                <strong>Choose your side</strong>
+                <p>Defense works immediately and stays selected when you pick a site.</p>
+              </div>
+            </div>
             <SideToggle side={side} onToggle={changeSide} />
+            <div className="round-setup-step">
+              <span className="round-step-number">2</span>
+              <div>
+                <strong>Choose the site</strong>
+                <p>Your round plan opens next.</p>
+              </div>
+            </div>
           </div>
-          {bans && (
-            <ProGate label="Ban Recommendations">
-              <BanDisplay bans={bans} side={side} />
-            </ProGate>
-          )}
           <SiteSelector sites={mapData?.sites || []} onSelect={goSite} />
         </>
       )}
 
       {selectedMap && selectedSite && (
         <>
-          <div className="strats-map-title">
-            <h2>
-              {mapData?.name} —{' '}
-              {mapData?.sites.find((s) => s.id === selectedSite)?.name}
-            </h2>
+          <div className="round-now">
+            <div className="round-now-title">
+              <span>Your current round</span>
+              <h2>
+                {mapData?.name} —{' '}
+                {mapData?.sites.find((s) => s.id === selectedSite)?.name}
+              </h2>
+            </div>
+            <div className="round-now-side">
+              <span>Switch side</span>
+              <SideToggle side={side} onToggle={changeSide} />
+            </div>
           </div>
-          <div className="strats-controls">
-            <SideToggle side={side} onToggle={changeSide} />
-          </div>
-          {bans && (
-            <ProGate label="Ban Recommendations">
-              <BanDisplay bans={bans} side={side} />
-            </ProGate>
-          )}
           {strat ? (
             // Stadium-mode strats are Pro-only end-to-end. The mode requires
             // build/economy/Power knowledge that maps poorly to a free preview —
@@ -381,9 +398,9 @@ function R6StratsPage() {
                   />
                 ) : (
                   <>
+                    <StratDisplay strat={strat} side={side} gated={false} />
                     <SquadToggle size={squadSize} onToggle={setSquadSize} />
                     {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
-                    <StratDisplay strat={strat} side={side} gated={false} />
                     {enemyIntel && <EnemyIntel intel={enemyIntel} />}
                   </>
                 )}
@@ -397,11 +414,11 @@ function R6StratsPage() {
               />
             ) : (
               <>
+                <StratDisplay strat={strat} side={side} gated />
                 <ProGate label="Squad Coaching">
                   <SquadToggle size={squadSize} onToggle={setSquadSize} />
                   {squadGuide && <SquadGuide guide={squadGuide} operators={strat.operators} />}
                 </ProGate>
-                <StratDisplay strat={strat} side={side} gated />
                 {enemyIntel && (
                   <ProGate label="Enemy Intel & Predictions">
                     <EnemyIntel intel={enemyIntel} />
@@ -438,6 +455,11 @@ function R6StratsPage() {
             </div>
           ) : (
             <div className="strats-empty">No strategy data available for this configuration.</div>
+          )}
+          {bans && (
+            <ProGate label="Ban Recommendations">
+              <BanDisplay bans={bans} side={side} />
+            </ProGate>
           )}
         </>
       )}
