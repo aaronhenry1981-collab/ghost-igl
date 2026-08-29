@@ -24,6 +24,10 @@ const REFERRAL_QUALIFY_DAYS = 30
 const REFERRAL_FOUNDING_CUTOFF_MS = Date.parse('2026-05-11T00:00:00.000Z') + 90 * 86400000
 
 export async function handler(event) {
+  // EventBridge invokes this function directly every five minutes to avoid a
+  // customer-facing cold start. It is not an HTTP or Stripe delivery.
+  if (event?.warmer === true) return { statusCode: 200, body: 'warm' }
+
   const sig = event.headers?.['stripe-signature'] ?? event.headers?.['Stripe-Signature']
   let stripeEvent
 
