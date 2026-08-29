@@ -243,7 +243,7 @@ export default function DashboardPage() {
           </h1>
           <p className="dashboard-sub">
             Active game: <strong style={{ color: accent }}>{displayName}</strong>
-            {gameStats && <> · {gameStats.mapCount} maps, {gameStats.stratSites} site setups, {gameStats.castCount} {gameMeta.vocab?.operator?.toLowerCase() || 'characters'} used in current plans</>}
+            {gameStats && <> · {gameStats.mapCount} maps, {gameStats.stratSites} site setups, {gameStats.castCount} {(gameMeta.vocab?.operator?.toLowerCase() || 'character')}s used in current plans</>}
           </p>
         </div>
         <div className="dashboard-tier" style={{ color: tierMeta.color, background: tierMeta.bg, borderColor: tierMeta.border }}>
