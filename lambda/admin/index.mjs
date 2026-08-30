@@ -327,6 +327,8 @@ async function getUsers(headers) {
     users,
     summary: { ...computeSummary(subs), duplicate_customer_groups: duplicateCustomerGroups },
     total_users: users.length,
+    billing_source: 'dynamodb',
+    billing_warning: 'Live Stripe cash and refund reconciliation is unavailable; access and subscription status are shown from the webhook ledger.',
   }) }
 }
 

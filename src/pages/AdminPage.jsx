@@ -9,6 +9,15 @@ import GameCatalog from '../components/admin/GameCatalog'
 import AvailabilityEditor from '../components/admin/AvailabilityEditor'
 import AppointmentsCalendar from '../components/admin/AppointmentsCalendar'
 import GrowthEngine from '../components/admin/GrowthEngine'
+import {
+  effectiveAccessPlan,
+  effectiveBillingState,
+  hasDuplicateLiveSubscriptions,
+  hasDuplicateStripeCustomers,
+  hasLiveStripeSubscription,
+  isPaidWithoutSiteAccount,
+  isStripeOnlyRecord,
+} from '../lib/adminBillingHealth.mjs'
 import './AdminPage.css'
 
 const EMPTY_SUMMARY = {
@@ -35,8 +44,9 @@ function formatDate(iso) {
 function billingLabel(user) {
   const date = formatDate(user.next_billing_at)
   const amount = formatMoney(user.price_amount_cents)
-  switch (user.billing_state) {
-    case 'paid': return { title: 'Paid', detail: `Renews ${date} · ${amount}` }
+  const billingState = effectiveBillingState(user)
+  switch (billingState) {
+    case 'paid': return { title: 'Paid', detail: user.price_amount_cents ? `Renews ${date} · ${amount}` : `Active through ${formatDate(user.current_period_end)}` }
     case 'trialing': return { title: 'Trial', detail: `First charge ${date} · ${amount}` }
     case 'ending': return { title: user.sub_status === 'trialing' ? 'Trial ending' : 'Ending', detail: `No charge after ${date}` }
     case 'payment_issue': return { title: 'Payment issue', detail: 'Action needed in Stripe' }
@@ -205,11 +215,12 @@ export default function AdminPage() {
         if (statusFilter === 'free' && u.plan !== 'free') return false
         if (statusFilter === 'paid' && u.billing_state !== 'paid') return false
         if (statusFilter === 'trialing' && u.billing_state !== 'trialing') return false
-        if (statusFilter === 'ending' && u.billing_state !== 'ending') return false
-        if (statusFilter === 'payment_issue' && u.billing_state !== 'payment_issue') return false
-        if (statusFilter === 'comp' && u.billing_state !== 'comp') return false
-        if (statusFilter === 'stripe_only' && !(u.orphan === true || u.cognito_status === 'NO_ACCOUNT')) return false
-        if (statusFilter === 'duplicate' && Number(u.live_subscription_count || 0) <= 1 && Number(u.stripe_customer_count || 0) <= 1) return false
+        if (statusFilter === 'ending' && effectiveBillingState(u) !== 'ending') return false
+        if (statusFilter === 'payment_issue' && effectiveBillingState(u) !== 'payment_issue') return false
+        if (statusFilter === 'comp' && effectiveBillingState(u) !== 'comp') return false
+        if (statusFilter === 'stripe_only' && !isPaidWithoutSiteAccount(u)) return false
+        if (statusFilter === 'duplicate' && !hasDuplicateLiveSubscriptions(u)) return false
+        if (statusFilter === 'duplicate_customer' && !hasDuplicateStripeCustomers(u)) return false
         if (statusFilter === 'canceled' && u.sub_status !== 'canceled') return false
         if (statusFilter === 'unconfirmed' && u.cognito_status !== 'UNCONFIRMED') return false
       }
@@ -222,10 +233,10 @@ export default function AdminPage() {
   }, [users, query, planFilter, statusFilter])
 
   const attention = useMemo(() => {
-    const paymentIssues = users.filter((u) => u.billing_state === 'payment_issue').length
-    const ending = users.filter((u) => u.billing_state === 'ending').length
-    const stripeOnly = users.filter((u) => u.orphan === true || u.cognito_status === 'NO_ACCOUNT').length
-    const duplicateBilling = users.filter((u) => Number(u.live_subscription_count || 0) > 1 || Number(u.stripe_customer_count || 0) > 1).length
+    const paymentIssues = users.filter((u) => effectiveBillingState(u) === 'payment_issue').length
+    const ending = users.filter((u) => effectiveBillingState(u) === 'ending').length
+    const stripeOnly = users.filter(isPaidWithoutSiteAccount).length
+    const duplicateBilling = users.filter(hasDuplicateLiveSubscriptions).length
     return [
       { id: 'payment_issue', label: 'Payment issues', count: paymentIssues, tone: 'danger' },
       { id: 'ending', label: 'Ending plans', count: ending, tone: 'warning' },
@@ -347,7 +358,7 @@ export default function AdminPage() {
           <StatCard label="Current MRR" value={`$${summary.mrr_dollars}`} />
           <StatCard label="Collected (30 days)" value={billingSource === 'dynamodb' ? 'Unavailable' : `$${summary.collected_30d_dollars}`} />
           <StatCard label="Trials expected to convert" value={`${summary.trials_expected_to_convert ?? 0} · $${summary.trial_mrr_dollars}`} />
-          <StatCard label="Payment issues" value={summary.past_due ?? 0} />
+          <StatCard label="Payment issues" value={attention.find((item) => item.id === 'payment_issue')?.count ?? 0} />
         </div>
         <div className="admin-summary-strip">
           <SummaryMetric label="Paying" value={summary.paying_active ?? '—'} />
@@ -427,6 +438,7 @@ export default function AdminPage() {
             <option value="comp">Complimentary</option>
             <option value="stripe_only">Paid without site account</option>
             <option value="duplicate">Duplicate live subscriptions</option>
+            <option value="duplicate_customer">Duplicate Stripe customer profiles</option>
             <option value="canceled">Canceled</option>
             <option value="unconfirmed">Email unconfirmed</option>
           </select>
@@ -467,23 +479,27 @@ export default function AdminPage() {
                   // Keeps the button visible but greyed out so it's obvious
                   // why some users can't be deleted from this UI.
                   const isYou = u.email === user.email
-                  const isLiveStripe = Number(u.live_subscription_count || 0) > 0
-                  const isOrphan = u.orphan === true || u.cognito_status === 'NO_ACCOUNT'
+                  const isLiveStripe = hasLiveStripeSubscription(u)
+                  const isOrphan = isStripeOnlyRecord(u)
+                  const isPaidOrphan = isPaidWithoutSiteAccount(u)
                   const cannotDelete = isYou || isLiveStripe || isOrphan
                   const billing = billingLabel(u)
+                  const accessPlan = effectiveAccessPlan(u)
                   const hasAlerts = Array.isArray(u.billing_alerts) && u.billing_alerts.length > 0
                   const deleteTooltip = isYou
                     ? "You can't delete your own admin account here."
-                    : isOrphan
-                      ? 'Stripe-only customer — no Cognito account to delete. Cancel via Stripe instead.'
+                    : isPaidOrphan
+                      ? 'Active Stripe billing without a site account — open Stripe and restore customer access.'
+                      : isOrphan
+                        ? 'Historical Stripe record only — there is no Cognito site account to delete.'
                       : isLiveStripe
                         ? 'Live Stripe subscription — change or cancel it in Stripe first.'
                         : 'Permanently delete this account.'
                   return (
                     <tr
                       key={u.username || u.email}
-                      className={`${isOrphan ? 'admin-row-orphan ' : ''}${hasAlerts ? 'admin-row-warning' : ''}`.trim()}
-                      title={isOrphan ? 'Stripe subscription exists, but this email has no Recon 6 website account.' : hasAlerts ? 'This email has overlapping, duplicate, or ending billing records. Open Stripe to review.' : undefined}
+                      className={`${isPaidOrphan ? 'admin-row-orphan ' : ''}${hasAlerts ? 'admin-row-warning' : ''}`.trim()}
+                      title={isPaidOrphan ? 'Active Stripe billing exists, but this email has no Recon 6 website account.' : isOrphan ? 'Historical Stripe record; no active site account or live subscription.' : hasAlerts ? 'This email has multiple Stripe customer profiles or live subscriptions. Open Stripe to review.' : undefined}
                     >
                       <td className="admin-mono">
                         {u.email || '-'}
@@ -492,7 +508,7 @@ export default function AdminPage() {
                         )}
                       </td>
                       <td>
-                        <span className={`admin-badge admin-badge-${u.plan}`}>{PLAN_LABELS[u.plan] || u.plan}</span>
+                        <span className={`admin-badge admin-badge-${accessPlan}`}>{PLAN_LABELS[accessPlan] || accessPlan}</span>
                         {u.is_comp && (
                           <span className="admin-badge admin-badge-comp" title="Free access; excluded from revenue">COMP</span>
                         )}
