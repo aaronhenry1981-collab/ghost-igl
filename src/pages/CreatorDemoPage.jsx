@@ -3,32 +3,12 @@ import { Link } from 'react-router-dom'
 import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
 import TacticalRoundPlan from '../components/strats/TacticalRoundPlan'
+import { COASTLINE_HOOKAH_GAMEPLAY as GAMEPLAY_FRAMES } from '../data/gameplay-visuals'
 import './StratsPage.css'
 import './CreatorDemoPage.css'
 
 const DEMO_MAP_ID = 'bank'
 const DEMO_SITE_ID = 'ceo'
-const GAMEPLAY_FRAMES = [
-  {
-    src: '/creator-gameplay-coastline-hookah.webp',
-    alt: 'First-person gameplay view holding the doorway between Hookah Lounge and the adjacent room on Coastline',
-    label: 'HOLD THE SWING',
-    copy: 'Keep hard cover beside you while your crosshair owns the doorway. Do not drift into the middle of the room.',
-  },
-  {
-    src: '/creator-gameplay-coastline-stairs.webp',
-    alt: 'First-person gameplay view approaching the stairs below Billiards Lounge on Coastline',
-    label: 'CLEAR THE TOP',
-    copy: 'Take the stairs one angle at a time. Clear the landing before exposing yourself to the Billiards doorway.',
-  },
-  {
-    src: '/creator-gameplay-coastline-cover.webp',
-    alt: 'First-person gameplay view using cover near the Billiards Lounge doorway on Coastline',
-    label: 'PLAY THE COVER',
-    copy: 'Use the structure to shrink the fight. Hold the doorway without giving two lanes a clean shot at you.',
-  },
-]
-
 export default function CreatorDemoPage() {
   const [side, setSide] = useState('attack')
   const [shareState, setShareState] = useState('idle')

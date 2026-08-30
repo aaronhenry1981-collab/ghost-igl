@@ -7,6 +7,7 @@ import OperatorCard from './OperatorCard'
 import ProGate from './ProGate'
 import ChampionGate from './ChampionGate'
 import TacticalRoundPlan from './TacticalRoundPlan'
+import GameplayDecisionGallery from './GameplayDecisionGallery'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
 
 function CalloutTag({ label }) {
@@ -158,6 +159,8 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
         mapName={mapName}
         siteName={siteName}
       />
+
+      <GameplayDecisionGallery mapId={mapId} siteId={siteId} />
 
       <div className="strat-section">
         <div className="strat-section-title">Operator Lineup</div>
