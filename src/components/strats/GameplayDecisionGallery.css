@@ -1,0 +1,127 @@
+.gameplay-decision-gallery {
+  margin: 1.25rem 0 2rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid rgba(0, 229, 255, .2);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, .055), rgba(12, 18, 28, .94) 42%);
+}
+
+.gameplay-decision-heading {
+  display: grid;
+  grid-template-columns: minmax(210px, .75fr) minmax(0, 1.25fr);
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.gameplay-decision-heading span {
+  color: var(--accent, #31dff6);
+  font-size: .65rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.gameplay-decision-heading h3 {
+  margin: .3rem 0 0;
+  color: var(--text-primary, #f8fafc);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  letter-spacing: -.035em;
+}
+
+.gameplay-decision-heading p {
+  margin: 0;
+  color: var(--text-secondary, #a8b1c0);
+  font-size: .86rem;
+  line-height: 1.55;
+}
+
+.gameplay-decision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gameplay-decision-grid li,
+.gameplay-decision-grid figure { margin: 0; min-width: 0; }
+
+.gameplay-decision-grid figure {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 11px;
+  background: rgba(4, 9, 15, .78);
+}
+
+.gameplay-decision-image {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #03060a;
+}
+
+.gameplay-decision-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(2, 6, 11, .92), transparent 58%);
+  pointer-events: none;
+}
+
+.gameplay-decision-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.gameplay-decision-image b {
+  position: absolute;
+  z-index: 1;
+  left: .7rem;
+  top: .7rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--accent, #31dff6);
+  border-radius: 50%;
+  background: rgba(3, 10, 16, .78);
+  color: var(--accent, #31dff6);
+  font-size: .72rem;
+}
+
+.gameplay-decision-image span {
+  position: absolute;
+  z-index: 1;
+  left: .75rem;
+  right: .75rem;
+  bottom: .65rem;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.gameplay-decision-grid figcaption {
+  min-height: 96px;
+  padding: .85rem;
+  color: var(--text-secondary, #b7c0cf);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.gameplay-decision-gallery > small {
+  display: block;
+  margin-top: .8rem;
+  color: rgba(255, 255, 255, .42);
+  font-size: .68rem;
+}
+
+@media (max-width: 700px) {
+  .gameplay-decision-heading { grid-template-columns: 1fr; gap: .65rem; }
+  .gameplay-decision-grid { grid-template-columns: 1fr; }
+  .gameplay-decision-grid figcaption { min-height: 0; }
+}
