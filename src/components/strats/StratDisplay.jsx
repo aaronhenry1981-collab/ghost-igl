@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 // Own our styles so StratDisplay is never rendered unstyled — the landing-page
 // preview embedded this without StratsPage.css and it rendered as raw stacked
 // text (Aaron, 2026-07-20). Importing here guarantees it's styled everywhere.
@@ -9,6 +10,7 @@ import ChampionGate from './ChampionGate'
 import TacticalRoundPlan from './TacticalRoundPlan'
 import GameplayDecisionGallery from './GameplayDecisionGallery'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
+import { operatorContextUrl } from '../../lib/loadoutFlow'
 
 function CalloutTag({ label }) {
   const [copied, setCopied] = useState(false)
@@ -97,7 +99,16 @@ function VerifiedCallouts({ verified: v }) {
 
 export default function StratDisplay({ strat, side, gated, verifiedCallouts, mapId, mapName, siteId, siteName }) {
   const { role: userRole } = useUserRole()
+  const [selectedOperatorName, setSelectedOperatorName] = useState(null)
   const matches = userRole ? strat.operators.filter((o) => operatorFitsRole(o, userRole)) : []
+  const defaultOperator = matches[0] || strat.operators.find((operator) => operator.priority === 'essential') || strat.operators[0]
+  const selectedOperator = strat.operators.find((operator) => operator.name === selectedOperatorName) || defaultOperator
+  const otherSide = side === 'attack' ? 'defense' : 'attack'
+  const selectedLoadoutUrl = selectedOperator ? operatorContextUrl(selectedOperator.name, {
+    map: mapId,
+    site: siteId,
+    side,
+  }) : '/loadouts'
   // Flag any listed callout the footage does NOT back, so nothing here is
   // presented with more confidence than the evidence supports.
   const hasFootage = !!verifiedCallouts
@@ -163,17 +174,34 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
       <GameplayDecisionGallery mapId={mapId} siteId={siteId} side={side} />
 
       <div className="strat-section">
-        <div className="strat-section-title">Operator Lineup</div>
+        <div className="strat-section-title">Choose your operator</div>
+        <p className="operator-grid-instruction">Tap one. Your job stays attached to this map, site, and side.</p>
         <div className="operator-grid">
           {strat.operators.map((op) => (
             <OperatorCard
               key={op.name}
               operator={op}
               roleMatch={userRole ? operatorFitsRole(op, userRole) : false}
-              roundContext={{ mapId, siteId, side }}
+              active={selectedOperator?.name === op.name}
+              onSelect={setSelectedOperatorName}
             />
           ))}
         </div>
+
+        {selectedOperator && (
+          <div className="operator-round-focus" aria-live="polite">
+            <span>Your job this round</span>
+            <h3>{selectedOperator.name} · {selectedOperator.role}</h3>
+            <p>
+              Stay on <strong>{siteName}</strong> {side}. Follow the round plan above and own the{' '}
+              <strong>{selectedOperator.role}</strong> job instead of trying to do every role.
+            </p>
+            <div className="operator-round-focus-actions">
+              <Link to={selectedLoadoutUrl} className="btn btn-primary">Open {selectedOperator.name}&rsquo;s loadout</Link>
+              <Link to={`/strats/${mapId}/${siteId}/${otherSide}`} className="btn btn-outline">Switch to {otherSide}</Link>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="strat-section">

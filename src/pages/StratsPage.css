@@ -499,6 +499,8 @@
   gap: 12px;
 }
 .operator-card {
+  position: relative;
+  width: 100%;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -508,6 +510,9 @@
   gap: 12px;
   text-decoration: none;
   color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.1s;
 }
 .operator-card:hover {
@@ -515,6 +520,62 @@
   background: rgba(0, 229, 255, 0.04);
 }
 .operator-card:active { transform: scale(0.99); }
+.operator-card.is-selected {
+  border-color: var(--accent);
+  background: rgba(0, 229, 255, 0.09);
+  box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.22);
+}
+.operator-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.operator-selected-check {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  color: var(--accent);
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.operator-grid-instruction {
+  margin: -4px 0 14px;
+  color: var(--text);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+.operator-round-focus {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid rgba(0, 229, 255, .3);
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, .09), rgba(7, 13, 22, .9) 48%);
+}
+.operator-round-focus > span {
+  color: var(--accent);
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.operator-round-focus h3 {
+  margin: 6px 0;
+  color: var(--text-h);
+  font-size: 1.15rem;
+}
+.operator-round-focus p {
+  margin: 0;
+  color: var(--text);
+  font-size: .88rem;
+  line-height: 1.55;
+}
+.operator-round-focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
 .operator-avatar {
   width: 40px;
   height: 40px;
@@ -1591,6 +1652,10 @@
   .tactical-plan-time { display: inline-block; margin-top: 8px; }
   .operator-grid {
     grid-template-columns: 1fr;
+  }
+  .operator-round-focus-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
   .site-grid {
     grid-template-columns: 1fr;
