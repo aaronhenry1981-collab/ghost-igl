@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
@@ -320,6 +320,8 @@ function R6LiveCoachReady({ catalog }) {
   const [queueSize, setQueueSize] = useState(() => Number(searchParams.get('q')) || getStored(LS_KEYS.queue, null))
   const [selectedOpName, setSelectedOpName] = useState(() => searchParams.get('op') || null)
   const [shareCopied, setShareCopied] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(() => !(mapId && queueSize && siteId && selectedOpName))
+  const hasMountedRoundState = useRef(false)
 
   // Persist long-lived state to localStorage on change
   useEffect(() => { if (mapId) setStored(LS_KEYS.map, mapId) }, [mapId])
@@ -328,9 +330,20 @@ function R6LiveCoachReady({ catalog }) {
   useEffect(() => { if (queueSize) setStored(LS_KEYS.queue, queueSize) }, [queueSize])
   useEffect(() => { setStored(LS_KEYS.half, activeHalf) }, [activeHalf])
 
-  // Reset op pick when any upstream state changes (different round = different op).
-  // Deliberate reset-on-dependency-change; null set is cheap and terminal.
-  useEffect(() => { setSelectedOpName(null) }, [side, siteId, activeHalf])
+  // Reset the operator only after a real round change. Skipping the first
+  // effect preserves an operator included in a shared Live Coach URL.
+  useEffect(() => {
+    if (!hasMountedRoundState.current) {
+      hasMountedRoundState.current = true
+      return
+    }
+    setSelectedOpName(null)
+    setToolsOpen(true)
+  }, [side, siteId, activeHalf])
+
+  useEffect(() => {
+    if (selectedOpName) setToolsOpen(false)
+  }, [selectedOpName])
 
   const map = useMemo(() => MAPS.find((m) => m.id === mapId), [mapId])
   const siteStrats = STRATS[mapId]?.[siteId]
@@ -424,6 +437,52 @@ function R6LiveCoachReady({ catalog }) {
     operator: !!selectedOpName,
   }
 
+  const currentSite = map?.sites?.find((site) => site.id === siteId)
+  const coachOperator = selectedOpData || recommendedOps[0] || null
+  const coachLoadout = coachOperator ? LOADOUT_INDEX[coachOperator.name] : null
+
+  let instructionLabel = 'MATCH SETUP'
+  let instructionTitle = 'Choose your squad size'
+  let instructionBody = 'Tell Live Coach whether you are solo or in a stack so it can remove operator picks that depend on teammates.'
+  let instructionStep = 'queue'
+
+  if (queueSize && !map) {
+    instructionTitle = 'Choose the map'
+    instructionBody = 'Pick the map on the game screen. Live Coach will immediately narrow the sites, bans, and operator plan.'
+    instructionStep = 'map'
+  } else if (queueSize && map && !siteId) {
+    instructionTitle = `Choose your ${side === 'attack' ? 'attack' : 'defense'} site`
+    instructionBody = recommendedSite
+      ? `Best starting point: ${recommendedSite.name}. It keeps the most important operators available with the current bans.`
+      : 'Pick the bomb site shown in your match to build the round plan.'
+    instructionStep = 'round'
+  } else if (queueSize && map && siteId && !selectedOpName && coachOperator) {
+    instructionLabel = 'LOCK THIS OPERATOR'
+    instructionTitle = `Play ${coachOperator.name}`
+    instructionBody = `${coachOperator.role || 'Recommended role'} for ${currentSite?.name || 'this site'}. ${stratForSide?.strategy || 'Lock the operator, then Live Coach will give you the setup.'}`
+    instructionStep = 'operator'
+  } else if (queueSize && map && siteId && selectedOpName && coachOperator) {
+    instructionLabel = 'DO THIS NOW'
+    instructionTitle = `${side === 'attack' ? 'Attack' : 'Defend'} with ${coachOperator.name}`
+    instructionBody = stratForSide?.utility?.[0] || stratForSide?.strategy || `Play the ${coachOperator.role || 'recommended'} role for this site.`
+    instructionStep = null
+  }
+
+  function openRoundTools(stepKey = instructionStep) {
+    setToolsOpen(true)
+    if (stepKey) setTimeout(() => scrollToStep(stepKey), 100)
+  }
+
+  function startNextRound() {
+    // A normal next round stays on the same side. Side changes belong to
+    // the explicit half-switch control after the third round.
+    setSiteId(null)
+    setSelectedOpName(null)
+    setToolsOpen(true)
+    track('Live Coach Next Round', { side, half: activeHalf })
+    setTimeout(() => scrollToStep('round'), 100)
+  }
+
   // Smooth-scroll to the next step when previous completes
   function scrollToStep(stepKey) {
     const el = document.getElementById(`step-${stepKey}`)
@@ -508,7 +567,7 @@ function R6LiveCoachReady({ catalog }) {
       <header className="live-coach-header">
         <div className="section-label">In-match walkthrough · R6</div>
         <h1>Live <span className="accent">Coach</span></h1>
-        <p>Mirrors the R6 ranked flow: <strong>your stack → map ban → operator ban → round prep</strong>. Tell us who you're queuing with, what the game picked, what got banned — we tell you exactly what to pick and how to play it.</p>
+        <p>One clear instruction for the current round. Open the round tools only when the match changes.</p>
         {(mapId || bans[0].size > 0 || bans[1].size > 0) && (
           <div className="live-coach-header-actions">
             <button
@@ -525,6 +584,63 @@ function R6LiveCoachReady({ catalog }) {
           </div>
         )}
       </header>
+
+      <section className="live-coach-now" aria-live="polite">
+        <div className="live-coach-now-topline">
+          <span>{instructionLabel}</span>
+          <div className="live-coach-context" aria-label="Current round">
+            {map && <span>{map.name}</span>}
+            {currentSite && <span>{currentSite.name}</span>}
+            <span>{side === 'attack' ? 'Attack' : 'Defense'}</span>
+          </div>
+        </div>
+        <h2>{instructionTitle}</h2>
+        <p>{instructionBody}</p>
+        {selectedOpName && coachLoadout && (
+          <div className="live-coach-now-loadout">
+            <strong>Bring:</strong> {coachLoadout.primary?.split(' or ')[0] || coachLoadout.primary}
+            {coachLoadout.gadget ? ` · ${coachLoadout.gadget.split(' or ')[0]}` : ''}
+          </div>
+        )}
+        <div className="live-coach-now-actions">
+          {!selectedOpName && coachOperator && siteId ? (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                setSelectedOpName(coachOperator.name)
+                track('Live Coach Quick Operator Lock', { operator: coachOperator.name, mapId, siteId, side })
+              }}
+            >
+              Use {coachOperator.name} →
+            </button>
+          ) : selectedOpName ? (
+            <button type="button" className="btn btn-primary" onClick={startNextRound}>
+              Done — next round →
+            </button>
+          ) : (
+            <button type="button" className="btn btn-primary" onClick={() => openRoundTools()}>
+              Make this choice →
+            </button>
+          )}
+          {map && siteId && (
+            <Link className="live-coach-help-link" to={`/strats/${mapId}/${siteId}/${side}`}>
+              Need help? Open full strat
+            </Link>
+          )}
+        </div>
+      </section>
+
+      <details
+        className="live-coach-more-tools"
+        open={toolsOpen}
+        onToggle={(event) => setToolsOpen(event.currentTarget.open)}
+      >
+        <summary>
+          <span>More round tools</span>
+          <small>Squad, map, bans, site, operators, loadout, and complete checklist</small>
+        </summary>
+        <div className="live-coach-more-tools-content">
 
       {/* STEP 1 — Stack size.
           Asked FIRST because the user knows it before they even queue,
@@ -990,6 +1106,9 @@ function R6LiveCoachReady({ catalog }) {
           </div>
         </Step>
       )}
+
+        </div>
+      </details>
 
       <footer className="live-coach-foot">
         <Link to="/match-prep">Need the full one-page cheatsheet? Open Match Prep →</Link>
