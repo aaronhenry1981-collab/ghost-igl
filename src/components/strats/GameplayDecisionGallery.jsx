@@ -1,8 +1,8 @@
 import { getGameplayVisuals } from '../../data/gameplay-visuals'
 import './GameplayDecisionGallery.css'
 
-export default function GameplayDecisionGallery({ mapId, siteId }) {
-  const gallery = getGameplayVisuals(mapId, siteId)
+export default function GameplayDecisionGallery({ mapId, siteId, side }) {
+  const gallery = getGameplayVisuals(mapId, siteId, side)
   if (!gallery?.frames?.length) return null
 
   return (
@@ -10,7 +10,7 @@ export default function GameplayDecisionGallery({ mapId, siteId }) {
       <div className="gameplay-decision-heading">
         <div>
           <span>LOOK AT THIS NEXT</span>
-          <h3 id="gameplay-decision-title">Recognize the three decisions</h3>
+          <h3 id="gameplay-decision-title">{gallery.title}</h3>
         </div>
         <p>{gallery.note}</p>
       </div>
