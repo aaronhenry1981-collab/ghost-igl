@@ -194,12 +194,6 @@ function R6MatchPrepPage() {
         <div className="section-label">Free tool · R6</div>
         <h1>Your next <span className="accent">ranked plan</span></h1>
         <p>Pick the map once. Recon 6 puts the ban, first operator choice, and next site action at the top. Open the full reference only when you need it.</p>
-        <div style={{ marginTop: '0.85rem', padding: '0.7rem 0.9rem', background: 'rgba(0, 229, 255, 0.06)', border: '1px solid rgba(0, 229, 255, 0.3)', borderRadius: 10, display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.88rem' }}>
-          <span style={{ color: '#00e5ff', fontWeight: 700 }}>NEW</span>
-          <span style={{ color: 'rgba(230,233,239,0.85)' }}>
-            Want a guided in-match walkthrough instead? Try <Link to="/live" style={{ color: '#00e5ff', fontWeight: 700 }}>Live Coach →</Link>
-          </span>
-        </div>
       </header>
 
       <details className="match-prep-map-picker">

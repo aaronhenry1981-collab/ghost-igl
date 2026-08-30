@@ -259,8 +259,12 @@
 }
 
 @media (max-width: 760px) {
+  .match-prep-page { padding-top: 1rem; }
+  .match-prep-header { margin-bottom: 1rem; }
+  .match-prep-header h1 { font-size: 1.9rem; }
+  .match-prep-header p { font-size: .88rem; }
   .match-prep-brief { grid-template-columns: 1fr; }
-  .match-prep-brief > img { min-height: 170px; max-height: 210px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .match-prep-brief > img { min-height: 120px; max-height: 140px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
   .match-prep-brief-grid { grid-template-columns: 1fr; }
   .match-prep-choice-row { grid-template-columns: 1fr; }
   .match-prep-brief-actions .btn { flex: 1 1 100%; justify-content: center; }
