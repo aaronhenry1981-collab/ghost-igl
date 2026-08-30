@@ -209,65 +209,75 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
         <p className="strat-text">{strat.strategy}</p>
       </div>
 
-      <div className="strat-section">
-        <div className="strat-section-title">
-          Key Callouts <span className="strat-section-hint">(click to copy)</span>
-        </div>
-        <div className="callout-tags">
-          {strat.callouts.map((c) => (
-            <CalloutTag key={c} label={c} />
-          ))}
-        </div>
-        {hasFootage && strat.callouts.some((c) => !isVerifiedName(verifiedCallouts, c)) && (
-          <p className="strat-section-hint" style={{ marginTop: '0.45rem', display: 'block' }}>
-            Not yet confirmed against footage:{' '}
-            {strat.callouts.filter((c) => !isVerifiedName(verifiedCallouts, c)).join(', ')}
-          </p>
-        )}
-      </div>
-
-      <VerifiedCallouts verified={verifiedCallouts} />
-
-      {side === 'attack' && (
-        <div className="strat-section">
-          <div className="strat-section-title">
-            Cameras to Clear <span className="strat-section-hint">(shoot on entry)</span>
-          </div>
-          <ul className="utility-list">
-            {attackCamNotes(strat).map((n) => (
-              <li key={n}>{n}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {gated ? (
-        <ProGate label="Utility Breakdown">
+      <details className="strat-more-details">
+        <summary>
+          <span className="strat-more-details-copy">
+            <strong>More strategy details</strong>
+            <small>Callouts, cameras, utility, and advanced tactics</small>
+          </span>
+        </summary>
+        <div className="strat-more-details-content">
           <div className="strat-section">
-            <div className="strat-section-title">Utility Usage</div>
-            <ul className="utility-list">
-              {strat.utility.map((u) => (
-                <li key={u}>{u}</li>
+            <div className="strat-section-title">
+              Key Callouts <span className="strat-section-hint">(click to copy)</span>
+            </div>
+            <div className="callout-tags">
+              {strat.callouts.map((c) => (
+                <CalloutTag key={c} label={c} />
               ))}
-            </ul>
+            </div>
+            {hasFootage && strat.callouts.some((c) => !isVerifiedName(verifiedCallouts, c)) && (
+              <p className="strat-section-hint" style={{ marginTop: '0.45rem', display: 'block' }}>
+                Not yet confirmed against footage:{' '}
+                {strat.callouts.filter((c) => !isVerifiedName(verifiedCallouts, c)).join(', ')}
+              </p>
+            )}
           </div>
-        </ProGate>
-      ) : (
-        <div className="strat-section">
-          <div className="strat-section-title">Utility Usage</div>
-          <ul className="utility-list">
-            {strat.utility.map((u) => (
-              <li key={u}>{u}</li>
-            ))}
-          </ul>
-        </div>
-      )}
 
-      {strat.premiumTactics && (
-        <ChampionGate label="Champion Premium Tactics">
-          <PremiumTactics tactics={strat.premiumTactics} side={side} />
-        </ChampionGate>
-      )}
+          <VerifiedCallouts verified={verifiedCallouts} />
+
+          {side === 'attack' && (
+            <div className="strat-section">
+              <div className="strat-section-title">
+                Cameras to Clear <span className="strat-section-hint">(shoot on entry)</span>
+              </div>
+              <ul className="utility-list">
+                {attackCamNotes(strat).map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {gated ? (
+            <ProGate label="Utility Breakdown">
+              <div className="strat-section">
+                <div className="strat-section-title">Utility Usage</div>
+                <ul className="utility-list">
+                  {strat.utility.map((u) => (
+                    <li key={u}>{u}</li>
+                  ))}
+                </ul>
+              </div>
+            </ProGate>
+          ) : (
+            <div className="strat-section">
+              <div className="strat-section-title">Utility Usage</div>
+              <ul className="utility-list">
+                {strat.utility.map((u) => (
+                  <li key={u}>{u}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {strat.premiumTactics && (
+            <ChampionGate label="Champion Premium Tactics">
+              <PremiumTactics tactics={strat.premiumTactics} side={side} />
+            </ChampionGate>
+          )}
+        </div>
+      </details>
     </div>
   )
 }
