@@ -27,6 +27,7 @@ const STATIC_URLS = [
   { loc: '/changelog', freq: 'weekly', pri: 0.5 },
   { loc: '/live', freq: 'weekly', pri: 0.9 },
   { loc: '/press', freq: 'monthly', pri: 0.6 },
+  { loc: '/creator-demo', freq: 'monthly', pri: 0.9 },
   { loc: '/tools/r6-tier-list', freq: 'weekly', pri: 0.85 },
   { loc: '/terms', freq: 'yearly', pri: 0.3 },
   { loc: '/privacy', freq: 'yearly', pri: 0.3 },
