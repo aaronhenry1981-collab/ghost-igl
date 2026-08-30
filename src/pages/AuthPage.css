@@ -371,6 +371,21 @@
   font-size: 0.8rem;
 }
 
+.auth-service-error {
+  margin-bottom: 16px;
+  padding: 14px;
+  color: #f5f9fa;
+  background: rgba(240, 168, 57, 0.09);
+  border: 1px solid rgba(240, 168, 57, 0.42);
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.auth-service-error strong { display: block; color: #ffd28d; font-size: 0.88rem; }
+.auth-service-error p { margin: 5px 0 11px; color: rgba(238, 248, 251, 0.72); line-height: 1.5; }
+.auth-service-error div { display: flex; flex-wrap: wrap; gap: 12px; }
+.auth-service-error a { color: #65e5f7; font-weight: 750; }
+
 .auth-switch,
 .auth-legal {
   text-align: center;

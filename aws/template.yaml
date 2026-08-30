@@ -83,6 +83,10 @@ Parameters:
     Type: String
     Default: ''
     Description: Discord application ID. Leave empty until bot is created.
+  CriticalAlertsTopicArn:
+    Type: String
+    Default: arn:aws:sns:us-east-1:183678667221:recon6-critical-alerts
+    Description: Existing SNS topic for urgent Recon 6 production alarms
 
 Globals:
   Function:
@@ -140,7 +144,7 @@ Resources:
               default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;
-              connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com
+              connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com https://buy.stripe.com
               https://plausible.io https://cognito-idp.us-east-1.amazonaws.com;
               frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buy.stripe.com
             Override: true
@@ -337,6 +341,26 @@ Resources:
             Path: /webhook
             Method: POST
 
+  AuthHealthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ghost-igl-auth-health
+      CodeUri: ../lambda/auth-health/
+      Handler: index.handler
+      Timeout: 15
+      Environment:
+        Variables:
+          SITE_URL: !Sub https://${DomainName}
+          API_URL: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/prod
+          COGNITO_USER_POOL_ID: !Ref UserPool
+          COGNITO_CLIENT_ID: !Ref UserPoolClient
+      Events:
+        FiveMinuteAuthHealth:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Enabled: true
+
   SubscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -498,9 +522,18 @@ Resources:
           COGNITO_USER_POOL_ID: !Ref UserPool
           COGNITO_CLIENT_ID: !Ref UserPoolClient
           ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
+          TESTIMONIALS_TABLE: ghost-igl-testimonials
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AnnouncementsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:DeleteItem
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:Scan
+              Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/ghost-igl-testimonials
       Events:
         GetPublic:
           Type: HttpApi
@@ -529,6 +562,48 @@ Resources:
             ApiId: !Ref HttpApi
             Path: /admin/announcements/{id}
             Method: OPTIONS
+        GetPublicTestimonials:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /testimonials, Method: GET }
+        PublicTestimonialsOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /testimonials, Method: OPTIONS }
+        GetAdminTestimonials:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/testimonials, Method: GET }
+        PostAdminTestimonials:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/testimonials, Method: POST }
+        AdminTestimonialsOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/testimonials, Method: OPTIONS }
+        DeleteAdminTestimonial:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/testimonials/{id}
+            Method: DELETE
+        DeleteAdminTestimonialOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /admin/testimonials/{id}
+            Method: OPTIONS
+        GetPublicDemoVideo:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /demo-video, Method: GET }
+        PublicDemoVideoOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /demo-video, Method: OPTIONS }
+        PostAdminDemoVideo:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/demo-video, Method: POST }
+        DeleteAdminDemoVideo:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/demo-video, Method: DELETE }
+        AdminDemoVideoOptions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /admin/demo-video, Method: OPTIONS }
 
   DiscordFunction:
     Type: AWS::Serverless::Function
@@ -722,6 +797,28 @@ Resources:
       Threshold: 1
       ComparisonOperator: GreaterThanOrEqualToThreshold
       TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref CriticalAlertsTopicArn
+
+  AuthHealthErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: Recon6-LoginHealthFailed
+      AlarmDescription: Recon 6 sign-in page, Cognito identity service, or protected account API failed its five-minute health check
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref AuthHealthFunction
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      DatapointsToAlarm: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref CriticalAlertsTopicArn
 
 Outputs:
   SiteBucketName:
