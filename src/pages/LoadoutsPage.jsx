@@ -76,12 +76,81 @@ function titleCase(s) {
     .replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
+const RECOMMENDED_FIELDS = ['primary', 'secondary', 'gadget', 'secondary_gadget']
+
+function firstRecommendedChoice(value) {
+  if (typeof value !== 'string') return String(value)
+  return value.split(/\s+or\s+/i)[0].trim()
+}
+
+function alternateChoices(value) {
+  if (typeof value !== 'string') return null
+  const choices = value.split(/\s+or\s+/i)
+  return choices.length > 1 ? choices.slice(1).join(' or ').trim() : null
+}
+
 function OperatorLoadoutCard({ operator, focused = false }) {
   if (!operator) return null
   const { name, ...fields } = operator
+
+  if (focused) {
+    const recommendedFields = RECOMMENDED_FIELDS.filter((key) => fields[key] != null)
+    const alternateFields = recommendedFields
+      .map((key) => [key, alternateChoices(fields[key])])
+      .filter(([, value]) => value)
+    const detailFields = Object.entries(fields).filter(([key]) => (
+      !RECOMMENDED_FIELDS.includes(key) && key !== 'why'
+    ))
+
+    return (
+      <article className="operator-loadout-card focused">
+        <span className="operator-loadout-kicker">Recommended setup</span>
+        <h3>{name}</h3>
+        <p className="operator-loadout-direction">Equip these four items and play the job from your round plan.</p>
+        <div className="operator-loadout-fields recommended">
+          {recommendedFields.map((key) => (
+            <div className="operator-loadout-field" key={key}>
+              <span>{titleCase(key)}</span>
+              <p>{firstRecommendedChoice(fields[key])}</p>
+            </div>
+          ))}
+        </div>
+        {fields.why && (
+          <div className="operator-loadout-why">
+            <span>Why this works</span>
+            <p>{String(fields.why)}</p>
+          </div>
+        )}
+        {(alternateFields.length > 0 || detailFields.length > 0) && (
+          <details className="operator-loadout-more">
+            <summary>
+              <span>
+                <strong>More loadouts</strong>
+                <small>Alternate weapons, counters, and matchup notes</small>
+              </span>
+            </summary>
+            <div className="operator-loadout-more-content">
+              {alternateFields.map(([key, value]) => (
+                <div className="operator-loadout-field" key={`alternate-${key}`}>
+                  <span>Alternate {titleCase(key)}</span>
+                  <p>{value}</p>
+                </div>
+              ))}
+              {detailFields.map(([key, value]) => (
+                <div className="operator-loadout-field" key={key}>
+                  <span>{titleCase(key)}</span>
+                  <p>{String(value)}</p>
+                </div>
+              ))}
+            </div>
+          </details>
+        )}
+      </article>
+    )
+  }
+
   return (
-    <article className={`operator-loadout-card${focused ? ' focused' : ''}`}>
-      {focused && <span className="operator-loadout-kicker">Your selected operator</span>}
+    <article className="operator-loadout-card">
       <h3>{name}</h3>
       <div className="operator-loadout-fields">
         {Object.entries(fields).map(([key, value]) => (
@@ -215,6 +284,10 @@ export default function LoadoutsPage() {
   const operatorBackUrl = requestedOperator
     ? `/operators/${encodeURIComponent(requestedOperator.toLowerCase())}${operatorParams.size ? `?${operatorParams}` : ''}`
     : '/operators'
+  const roundPlanUrl = searchParams.get('map') && searchParams.get('site') && searchParams.get('side')
+    ? `/strats/${encodeURIComponent(searchParams.get('map'))}/${encodeURIComponent(searchParams.get('site'))}/${encodeURIComponent(searchParams.get('side'))}`
+    : operatorBackUrl
+  const hasRoundPlanContext = roundPlanUrl !== operatorBackUrl
 
   return (
     <div className="loadouts-page">
@@ -237,8 +310,10 @@ export default function LoadoutsPage() {
 
       {selectedLoadout && (
         <div className="loadouts-return-row">
-          <Link to={operatorBackUrl} className="btn btn-outline btn-sm">← Back to {selectedLoadout.operator.name}</Link>
-          <span>Your map, site, and side are preserved.</span>
+          <Link to={roundPlanUrl} className="btn btn-outline btn-sm">
+            ← {hasRoundPlanContext ? 'Back to round plan' : `Back to ${selectedLoadout.operator.name}`}
+          </Link>
+          <span>{hasRoundPlanContext ? 'Your map, site, side, and operator are preserved.' : 'Return without losing your operator.'}</span>
         </div>
       )}
 
