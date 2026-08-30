@@ -3,18 +3,19 @@ import { Link } from 'react-router-dom'
 import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
 import TacticalRoundPlan from '../components/strats/TacticalRoundPlan'
-import { COASTLINE_HOOKAH_GAMEPLAY as GAMEPLAY_FRAMES } from '../data/gameplay-visuals'
+import { getGameplayVisuals } from '../data/gameplay-visuals'
 import './StratsPage.css'
 import './CreatorDemoPage.css'
 
-const DEMO_MAP_ID = 'bank'
-const DEMO_SITE_ID = 'ceo'
+const DEMO_MAP_ID = 'coastline'
+const DEMO_SITE_ID = 'hookah-billiards'
 export default function CreatorDemoPage() {
   const [side, setSide] = useState('attack')
   const [shareState, setShareState] = useState('idle')
   const map = useMemo(() => MAPS.find((item) => item.id === DEMO_MAP_ID), [])
   const site = map?.sites.find((item) => item.id === DEMO_SITE_ID)
   const strat = PUBLIC_STRATS[DEMO_MAP_ID]?.[DEMO_SITE_ID]?.[side]
+  const gameplay = getGameplayVisuals(DEMO_MAP_ID, DEMO_SITE_ID, side)
 
   useEffect(() => {
     document.title = '60-Second Strategy Demo | Recon 6'
@@ -35,7 +36,7 @@ export default function CreatorDemoPage() {
     }
   }
 
-  if (!map || !site || !strat) return null
+  if (!map || !site || !strat || !gameplay) return null
 
   return (
     <main className="creator-demo">
@@ -58,7 +59,7 @@ export default function CreatorDemoPage() {
         <div className="creator-demo-stage-heading">
           <div>
             <span>LIVE PRODUCT PROOF</span>
-            <h2 id="creator-demo-stage-title">Bank · CEO Office / Executive Lounge</h2>
+            <h2 id="creator-demo-stage-title">{map.name} · {site.name}</h2>
             <p>Switch sides and the entire job changes without losing the map or site.</p>
           </div>
           <div className="creator-demo-toggle" aria-label="Choose side">
@@ -82,10 +83,10 @@ export default function CreatorDemoPage() {
             <span>REAL PLAYER FOOTAGE</span>
             <h2 id="creator-gameplay-title">The screenshot should teach the decision.</h2>
           </div>
-          <p>These are frames from an actual Recon 6 gameplay session on Coastline—not staged renders. The short note tells the player what matters in the picture.</p>
+          <p>These are frames from the same Coastline site and side shown above—not staged renders. The short note tells the player what matters in the picture.</p>
         </div>
         <div className="creator-demo-gameplay-grid">
-          {GAMEPLAY_FRAMES.map((frame, index) => (
+          {gameplay.frames.map((frame, index) => (
             <figure key={frame.src}>
               <div className="creator-demo-gameplay-image">
                 <img src={frame.src} alt={frame.alt} loading="lazy" />
