@@ -9,6 +9,13 @@
   text-align: center;
   margin-bottom: 36px;
 }
+.vod-eyebrow {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin-bottom: 8px;
+}
 .vod-header h1 {
   font-size: 2.4rem;
   margin-bottom: 12px;
@@ -19,6 +26,24 @@
   max-width: 520px;
   margin: 0 auto;
 }
+
+.vod-roadmap-sync {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 184, 92, 0.38);
+  border-radius: 10px;
+  background: rgba(255, 184, 92, 0.07);
+}
+.vod-roadmap-sync.is-saved {
+  border-color: rgba(80, 200, 120, 0.42);
+  background: rgba(80, 200, 120, 0.08);
+}
+.vod-roadmap-sync strong { color: var(--text-h); }
+.vod-roadmap-sync span { color: var(--text); font-size: 0.9rem; }
 
 /* ─── Tabs ─── */
 .vod-tabs {
@@ -351,6 +376,11 @@
   }
   .upload-zone {
     padding: 40px 20px;
+  }
+  .vod-roadmap-sync {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
   }
   .link-input-wrap {
     flex-direction: column;

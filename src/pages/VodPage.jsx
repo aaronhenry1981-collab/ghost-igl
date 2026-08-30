@@ -311,18 +311,13 @@ export default function VodPage() {
   return (
     <div className="vod-page">
       <div className="vod-header">
+        <div className="vod-eyebrow">ROUND REVIEW</div>
         <h1>
-          Find Out Why You <span className="accent" style={{ color: accent }}>Lost the Round</span>
+          Upload one screenshot. <span className="accent" style={{ color: accent }}>Get one fix.</span>
         </h1>
         <p>
-          Drop a screenshot from any moment of a {displayName} match — death cam, post-plant freeze,
-          round-end scoreboard. You get a specific fix: not “use utility better,” but
-          “you held off-angle on the wrong window when the entry pushed through the courtyard.”
-          {' '}
-          <strong>
-            Pro: 5 screenshots per session. Elite and Champion: 10 screenshots per session plus pattern reports and
-            a weekly drill list built from your own clips.
-          </strong>
+          Add the moment that cost the round. Recon 6 explains what happened, gives you the next drill,
+          and saves the lesson to Road to Champion.
         </p>
       </div>
 
@@ -457,6 +452,16 @@ export default function VodPage() {
                         ? `Sample ${displayName} analysis. Sign up for Pro to review your own matches and find out exactly what cost you the round.`
                         : `Synthetic ${displayName} sample showing the format. Your real analysis references the exact map, character, and round phase the AI detects — not a stock example.`}
                     <button type="button" className="vod-demo-close" onClick={exitDemo} aria-label="Exit demo">×</button>
+                  </div>
+                )}
+                {!demoMode && analysis?.roadmap_sync && (
+                  <div className={`vod-roadmap-sync ${analysis.roadmap_sync === 'saved' ? 'is-saved' : 'is-pending'}`}>
+                    <strong>{analysis.roadmap_sync === 'saved' ? 'Saved to Road to Champion' : 'Review complete'}</strong>
+                    <span>
+                      {analysis.roadmap_sync === 'saved'
+                        ? 'This correction is now part of your coaching evidence.'
+                        : 'Your feedback is ready. Road to Champion will pick up the evidence when sync resumes.'}
+                    </span>
                   </div>
                 )}
                 <SessionResults analysis={effectiveAnalysis} />

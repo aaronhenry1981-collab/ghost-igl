@@ -139,12 +139,11 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
         {files.length === 0 ? (
           <>
             <div className="upload-zone-icon">📸</div>
-            <h3>Drop your screenshots here</h3>
-            <p>1–{maxImages} images per session ({tier === 'champion' ? 'Champion' : tier === 'elite' ? 'Elite' : 'Pro'} tier)</p>
-            <span className="upload-zone-btn">Choose Files</span>
+            <h3>Add the moment that cost the round</h3>
+            <p>Start with one death cam, scoreboard, or post-plant screenshot.</p>
+            <span className="upload-zone-btn">Choose screenshots</span>
             <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', marginTop: '1rem' }}>
-              Death cams, post-plant freezes, round-end scoreboards. Multi-round sessions get holistic
-              feedback + recurring weakness detection.
+              You can add up to {maxImages} screenshots. More images help Recon 6 spot a recurring mistake.
             </p>
           </>
         ) : (
@@ -253,7 +252,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
               className="btn btn-primary btn-lg"
               disabled={disabled || files.length === 0}
             >
-              Analyze {files.length} {files.length === 1 ? 'screenshot' : 'screenshots'}
+              Review {files.length === 1 ? 'this round' : `${files.length} moments`}
             </button>
             <button type="button" onClick={clearAll} className="btn btn-ghost">Clear all</button>
           </div>
