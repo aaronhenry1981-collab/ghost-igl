@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
 import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
 import PUBLIC_BANS from '../data/public-bans.generated'
@@ -80,7 +80,11 @@ export default function StratsPage() {
 function R6StratsPage() {
   const { mapId: urlMapId, siteId: urlSiteId, side: urlSide } = useParams()
   const navigate = useNavigate()
-  const [squadSize, setSquadSize] = useState(1)
+  const [searchParams] = useSearchParams()
+  const [squadSize, setSquadSize] = useState(() => {
+    const requestedSize = Number(searchParams.get('squad'))
+    return Number.isInteger(requestedSize) && requestedSize >= 1 && requestedSize <= 5 ? requestedSize : 1
+  })
   const [copyState, setCopyState] = useState('idle')
   const [viewMode, setViewMode] = useState(readViewMode)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)

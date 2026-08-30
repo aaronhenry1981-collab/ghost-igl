@@ -90,6 +90,8 @@ function R6MatchPrepPage() {
   const [copied, setCopied] = useState(false)
   const [showFullPlan, setShowFullPlan] = useState(() => window.location.hash.startsWith('#prep-site-'))
   const [selectedSiteId, setSelectedSiteId] = useState(() => window.location.hash.replace('#prep-site-', '') || null)
+  const [selectedSide, setSelectedSide] = useState('attack')
+  const [squadSize, setSquadSize] = useState(1)
 
   // Keep URL in sync with selected map so users can bookmark + share.
   useEffect(() => {
@@ -121,8 +123,19 @@ function R6MatchPrepPage() {
   const mapData = useMemo(() => MAPS.find(m => m.id === mapId), [mapId])
   const bans = BANS[mapId] || { attack: [], defense: [] }
   const picks = useMemo(() => rollUpOperators(mapId), [mapId])
-  const publishedSites = mapData?.sites.filter((site) => STRATS[mapId]?.[site.id]) || []
+  const publishedSites = useMemo(
+    () => mapData?.sites.filter((site) => STRATS[mapId]?.[site.id]) || [],
+    [mapData, mapId],
+  )
   const selectedSite = publishedSites.find((site) => site.id === selectedSiteId) || null
+  const selectedPlan = selectedSite ? STRATS[mapId]?.[selectedSite.id]?.[selectedSide] : null
+  const firstOperator = selectedPlan?.operators?.find((operator) => operator.priority === 'essential')
+    || selectedPlan?.operators?.[0]
+  const firstBan = bans[selectedSide]?.[0]
+
+  useEffect(() => {
+    if (!selectedSiteId && publishedSites[0]) setSelectedSiteId(publishedSites[0].id)
+  }, [publishedSites, selectedSiteId])
 
   function copyAsText() {
     if (!mapData) return
@@ -214,55 +227,81 @@ function R6MatchPrepPage() {
         </div>
       </div>
       </details>
-      <div className="match-prep-controls">
-        <div className="match-prep-actions">
-          <button type="button" onClick={copyAsText} className="btn btn-outline btn-sm">
-            {copied ? 'Copied' : 'Copy as text'}
-          </button>
-          <button type="button" onClick={printCard} className="btn btn-outline btn-sm match-prep-print-btn">
-            Print
-          </button>
-        </div>
-      </div>
-
       <section className="match-prep-brief" aria-labelledby="match-prep-brief-title">
         <img src={`/guides/og/${mapId}.svg`} alt={`${mapData.name} strategy guide preview`} />
         <div className="match-prep-brief-content">
           <span className="match-prep-brief-kicker">Do this first</span>
-          <h2 id="match-prep-brief-title">{mapData.name} in three decisions</h2>
+          <h2 id="match-prep-brief-title">Build your {mapData.name} round</h2>
+          <div className="match-prep-choice-row">
+            <div className="match-prep-choice">
+              <small>1 · Side</small>
+              <div className="match-prep-segmented" aria-label="Choose your side">
+                {['attack', 'defense'].map((side) => (
+                  <button
+                    type="button"
+                    key={side}
+                    className={selectedSide === side ? 'active' : ''}
+                    onClick={() => setSelectedSide(side)}
+                  >
+                    {side}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="match-prep-choice">
+              <small>2 · Squad</small>
+              <div className="match-prep-segmented compact" aria-label="Choose your squad size">
+                {[1, 2, 3, 4, 5].map((size) => (
+                  <button
+                    type="button"
+                    key={size}
+                    className={squadSize === size ? 'active' : ''}
+                    onClick={() => setSquadSize(size)}
+                    aria-label={size === 1 ? 'Solo' : `${size}-stack`}
+                  >
+                    {size === 1 ? 'Solo' : size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="match-prep-choice match-prep-site-choice">
+            <small>3 · Bomb site</small>
+            <div className="match-prep-site-picker" aria-label="Choose a bomb site">
+              {publishedSites.map((site) => (
+                <button
+                  type="button"
+                  key={site.id}
+                  className={selectedSiteId === site.id ? 'active' : ''}
+                  onClick={() => setSelectedSiteId(site.id)}
+                >
+                  {site.name}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="match-prep-brief-grid">
             <article>
-              <small>1 · Ban</small>
-              <strong>Attack: {bans.attack[0]?.name || 'Use the team ban'}</strong>
-              <span>Defense: {bans.defense[0]?.name || 'Use the team ban'}</span>
+              <small>Your ban</small>
+              <strong>{firstBan?.name || 'Use the team ban'}</strong>
+              <span>{selectedSide === 'attack' ? 'Remove a defender' : 'Remove an attacker'}</span>
             </article>
             <article>
-              <small>2 · First pick</small>
-              <strong>Attack: {picks.attack[0]?.name || 'Open the site plan'}</strong>
-              <span>Defense: {picks.defense[0]?.name || 'Open the site plan'}</span>
+              <small>Your first pick</small>
+              <strong>{firstOperator?.name || picks[selectedSide][0]?.name || 'Open the site plan'}</strong>
+              <span>{firstOperator?.role || picks[selectedSide][0]?.role || `${selectedSide} flex`}</span>
             </article>
             <article>
-              <small>3 · Site</small>
+              <small>Your round plan</small>
               <strong>{selectedSite?.name || 'Choose your bomb site'}</strong>
-              <span>{selectedSite ? 'Now open the side you are playing.' : 'Use the buttons below.'}</span>
+              <span>{selectedPlan?.strategy || 'Choose a site to build the plan.'}</span>
             </article>
-          </div>
-          <div className="match-prep-site-picker" aria-label="Choose a bomb site">
-            {publishedSites.map((site) => (
-              <button
-                type="button"
-                key={site.id}
-                className={selectedSiteId === site.id ? 'active' : ''}
-                onClick={() => setSelectedSiteId(site.id)}
-              >
-                {site.name}
-              </button>
-            ))}
           </div>
           {selectedSite && (
             <div className="match-prep-brief-actions">
-              <Link to={`/strats/${mapId}/${selectedSite.id}/attack`} className="btn btn-primary">Open attack plan</Link>
-              <Link to={`/strats/${mapId}/${selectedSite.id}/defense`} className="btn btn-outline">Open defense plan</Link>
+              <Link to={`/strats/${mapId}/${selectedSite.id}/${selectedSide}?squad=${squadSize}`} className="btn btn-primary">
+                Open my {selectedSide} plan
+              </Link>
             </div>
           )}
         </div>
@@ -273,7 +312,22 @@ function R6MatchPrepPage() {
         open={showFullPlan}
         onToggle={(event) => setShowFullPlan(event.currentTarget.open)}
       >
-        <summary>{showFullPlan ? 'Hide full map reference' : `Show full ${mapData.name} reference`}</summary>
+        <summary>
+          <span className="match-prep-more-copy">
+            <strong>More match details</strong>
+            <small>All bans, lineups, site callouts, copy, and print tools</small>
+          </span>
+        </summary>
+      <div className="match-prep-controls">
+        <div className="match-prep-actions">
+          <button type="button" onClick={copyAsText} className="btn btn-outline btn-sm">
+            {copied ? 'Copied' : 'Copy as text'}
+          </button>
+          <button type="button" onClick={printCard} className="btn btn-outline btn-sm match-prep-print-btn">
+            Print
+          </button>
+        </div>
+      </div>
       <div className="match-prep-card" ref={cardRef}>
         <div className="match-prep-card-head">
           <div>
