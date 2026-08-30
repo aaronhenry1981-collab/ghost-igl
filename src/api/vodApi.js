@@ -1,4 +1,5 @@
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { buildVodCoachingEvent } from './vodEvidence'
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -101,5 +102,27 @@ export async function analyzeSessionApi(files, context = {}) {
     throw err
   }
 
-  return res.json()
+  const result = await res.json()
+
+  // Round Review is part of the same coaching loop as Road to Champion.
+  // Keep analysis success independent: a temporary evidence-sync failure must
+  // never hide feedback the player already paid to generate.
+  if (context.analysis_type !== 'rank_snapshot') {
+    try {
+      const event = buildVodCoachingEvent(result, context)
+      const syncRes = await fetch(`${API_URL}/me/coaching-events`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ events: [event] }),
+      })
+      result.roadmap_sync = syncRes.ok ? 'saved' : 'pending'
+    } catch {
+      result.roadmap_sync = 'pending'
+    }
+  }
+
+  return result
 }

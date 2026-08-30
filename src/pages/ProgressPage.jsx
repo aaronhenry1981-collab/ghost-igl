@@ -366,7 +366,7 @@ export default function ProgressPage() {
         <div><strong>{automaticRank || selectedTier.name}</strong><span>{roadmap.rankMode === 'manual' ? 'Manual focus tier' : 'Auto-detected focus tier'}</span></div>
         <div><strong>{summary.proven}</strong><span>Knowledge or skills proven</span></div>
         <div className="is-warning"><strong>{summary.needsWork}</strong><span>Skills needing work</span></div>
-        <div><strong>{profile?.totals?.sessions || 0}</strong><span>Coach-synced matches</span></div>
+        <div><strong>{profile?.totals?.sessions || 0}</strong><span>Coaching evidence sessions</span></div>
       </section>
 
       <nav className="progress-tabs" aria-label="Progress views">
@@ -377,7 +377,7 @@ export default function ProgressPage() {
         ))}
       </nav>
 
-      {loading && <div className="progress-notice">Building your training plan from synced matches…</div>}
+      {loading && <div className="progress-notice">Building your training plan from coaching evidence…</div>}
       {error && <div className="progress-notice is-warning">{error}</div>}
 
       {!loading && tab === 'focus' && (
