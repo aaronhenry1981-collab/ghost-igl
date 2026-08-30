@@ -551,30 +551,135 @@
 }
 .tactical-plan-defense { border-color: rgba(255,96,96,.25); }
 .tactical-plan-art { position: relative; min-height: 430px; overflow: hidden; background: #060a11; }
-.tactical-plan-art img { width: 100%; height: 100%; object-fit: cover; opacity: .78; }
-.tactical-plan-art-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(3,6,11,.18), rgba(3,6,11,.94)), linear-gradient(90deg, transparent, rgba(3,6,11,.5));
-}
-.tactical-plan-art-copy {
-  position: absolute;
-  z-index: 1;
-  inset: auto 24px 24px;
-  display: grid;
-  gap: 5px;
-}
-.tactical-plan-art-copy span,
 .tactical-plan-kicker {
   color: var(--accent);
   font-size: .65rem;
   font-weight: 850;
   letter-spacing: .16em;
 }
-.tactical-plan-defense .tactical-plan-art-copy span,
 .tactical-plan-defense .tactical-plan-kicker { color: #ff7b72; }
-.tactical-plan-art-copy strong { color: #fff; font-size: clamp(1.6rem,3vw,2.7rem); letter-spacing: -.04em; }
-.tactical-plan-art-copy small { color: rgba(255,255,255,.68); font-size: .88rem; line-height: 1.4; }
+.site-diagram {
+  --diagram-accent: #31dff6;
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  min-height: 430px;
+  overflow: hidden;
+  background: #050a10;
+}
+.site-diagram-defense { --diagram-accent: #ff756c; }
+.site-diagram-backdrop {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .22;
+  filter: saturate(.55) contrast(1.15);
+}
+.site-diagram::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3,7,12,.32), rgba(3,7,12,.95) 80%), radial-gradient(circle at 50% 48%, color-mix(in srgb, var(--diagram-accent) 16%, transparent), transparent 55%);
+}
+.site-diagram-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .15;
+  background-image: linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 88%, transparent);
+}
+.site-diagram-header {
+  position: absolute;
+  z-index: 4;
+  inset: 20px 20px auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.site-diagram-header > div { display: grid; gap: 2px; min-width: 0; }
+.site-diagram-header span { color: var(--diagram-accent); font-size: .6rem; font-weight: 900; letter-spacing: .16em; }
+.site-diagram-header strong { color: #fff; font-size: 1.05rem; letter-spacing: -.02em; }
+.site-diagram-header small { overflow: hidden; color: rgba(255,255,255,.58); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+.site-diagram-header > em {
+  max-width: 120px;
+  color: rgba(255,255,255,.42);
+  font-size: .56rem;
+  font-style: normal;
+  line-height: 1.35;
+  text-align: right;
+}
+.site-diagram-route {
+  position: absolute;
+  z-index: 1;
+  inset: 76px 6px 34px;
+  width: calc(100% - 12px);
+  height: calc(100% - 110px);
+  overflow: visible;
+}
+.site-diagram-route path:not([d^='M0']) {
+  fill: none;
+  stroke: var(--diagram-accent);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 3;
+  opacity: .72;
+  vector-effect: non-scaling-stroke;
+}
+.site-diagram-route marker path { fill: var(--diagram-accent); }
+.site-diagram-zones { position: absolute; z-index: 2; inset: 98px 16px 46px; margin: 0; padding: 0; list-style: none; }
+.site-diagram-zone {
+  position: absolute;
+  width: 43%;
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: 28px minmax(0,1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 34%, rgba(255,255,255,.12));
+  border-radius: 10px;
+  background: rgba(5,11,18,.88);
+  box-shadow: 0 8px 24px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.04);
+}
+.site-diagram-zone-1 { left: 0; top: 0; }
+.site-diagram-zone-2 { right: 0; top: 4%; }
+.site-diagram-zone-3 { left: 3%; bottom: 1%; }
+.site-diagram-zone-4 { right: 0; bottom: 0; }
+.site-diagram-step {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--diagram-accent);
+  border-radius: 50%;
+  color: var(--diagram-accent);
+  font-size: .7rem;
+  font-weight: 900;
+}
+.site-diagram-zone > div { min-width: 0; display: grid; gap: 2px; }
+.site-diagram-zone small { color: var(--diagram-accent); font-size: .52rem; font-weight: 900; letter-spacing: .1em; }
+.site-diagram-zone strong { overflow: hidden; color: #fff; font-size: .78rem; text-overflow: ellipsis; white-space: nowrap; }
+.site-diagram-zone em { overflow: hidden; color: rgba(255,255,255,.48); font-size: .57rem; font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
+.site-diagram-legend {
+  position: absolute;
+  z-index: 4;
+  inset: auto 18px 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(255,255,255,.44);
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.site-diagram-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.site-diagram-legend i { width: 6px; height: 6px; border-radius: 50%; background: var(--diagram-accent); box-shadow: 0 0 10px var(--diagram-accent); }
 .tactical-plan-content { padding: 24px; }
 .tactical-plan-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
 .tactical-plan-heading h3 { margin: 4px 0 0; color: #fff; font-size: 1.25rem; }
@@ -1459,7 +1564,28 @@
   .map-card-visual { height: 100%; border-bottom: 0; border-right: 1px solid rgba(255,255,255,.08); }
   .map-card-copy { align-self: center; }
   .tactical-plan { grid-template-columns: 1fr; }
-  .tactical-plan-art { min-height: 220px; }
+  .tactical-plan-art { min-height: 450px; }
+  .site-diagram { min-height: 450px; }
+  .site-diagram-header { inset: 18px 16px auto; }
+  .site-diagram-header > em { max-width: 105px; }
+  .site-diagram-zones { inset: 100px 14px 46px; }
+  .site-diagram-zone {
+    width: 46%;
+    min-height: 86px;
+    grid-template-columns: 24px minmax(0,1fr);
+    gap: 6px;
+    padding: 8px 7px;
+  }
+  .site-diagram-step { width: 23px; height: 23px; font-size: .62rem; }
+  .site-diagram-zone strong,
+  .site-diagram-zone em {
+    overflow: visible;
+    line-height: 1.2;
+    text-overflow: clip;
+    white-space: normal;
+  }
+  .site-diagram-zone strong { font-size: .71rem; }
+  .site-diagram-zone em { font-size: .52rem; }
   .tactical-plan-content { padding: 18px 16px; }
   .tactical-plan-heading { display: block; }
   .tactical-plan-time { display: inline-block; margin-top: 8px; }
