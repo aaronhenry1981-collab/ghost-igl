@@ -1,4 +1,4 @@
-export const COASTLINE_HOOKAH_GAMEPLAY = [
+export const COASTLINE_HOOKAH_DEFENSE_GAMEPLAY = [
   {
     src: '/creator-gameplay-coastline-hookah.webp',
     alt: 'First-person gameplay view holding the doorway between Hookah Lounge and the adjacent room on Coastline',
@@ -19,18 +19,50 @@ export const COASTLINE_HOOKAH_GAMEPLAY = [
   },
 ]
 
+export const COASTLINE_HOOKAH_ATTACK_GAMEPLAY = [
+  {
+    src: '/creator-gameplay-coastline-attack-drone.webp',
+    alt: 'Drone view checking the interior route toward the Coastline Hookah Lounge and Billiards site',
+    label: 'DRONE THE ROUTE',
+    copy: 'Use the drone to clear the next room and identify the first threat. Do not spend your life to discover what your utility can show safely.',
+  },
+  {
+    src: '/creator-gameplay-coastline-attack-entry.webp',
+    alt: 'Attacker controlling a rooftop rappel above the Coastline Hookah Lounge and Billiards site',
+    label: 'CONTROL THE ENTRY',
+    copy: 'Use the roof and rappel to choose your fight. Move only after the drone or a teammate confirms the space you are entering.',
+  },
+  {
+    src: '/creator-gameplay-coastline-attack-cutoff.webp',
+    alt: 'Attacker holding a focused interior angle during a Coastline Hookah Lounge and Billiards take',
+    label: 'HOLD THE CUTOFF',
+    copy: 'Once your team starts the take, own one rotation instead of chasing every sound. A stable cutoff protects the plant and punishes the retake.',
+  },
+]
+
+export const COASTLINE_HOOKAH_GAMEPLAY = COASTLINE_HOOKAH_DEFENSE_GAMEPLAY
+
 const GAMEPLAY_VISUALS = {
   coastline: {
     'hookah-billiards': {
-      source: 'Real player footage · Coastline',
-      note: 'Use these views to recognize the decision points. The round plan above remains the source of truth for your assigned job.',
-      frames: COASTLINE_HOOKAH_GAMEPLAY,
+      attack: {
+        title: 'Recognize the three attack decisions',
+        source: 'Real player match replay · Coastline attack',
+        note: 'See the round as a sequence: gather information, control the entry, then hold the cutoff that protects the finish.',
+        frames: COASTLINE_HOOKAH_ATTACK_GAMEPLAY,
+      },
+      defense: {
+        title: 'Recognize the three defense decisions',
+        source: 'Real player match replay · Coastline defense',
+        note: 'Use these views to recognize the defensive decision points. The round plan above remains the source of truth for your assigned job.',
+        frames: COASTLINE_HOOKAH_DEFENSE_GAMEPLAY,
+      },
     },
   },
 }
 
-export function getGameplayVisuals(mapId, siteId) {
-  return GAMEPLAY_VISUALS[mapId]?.[siteId] || null
+export function getGameplayVisuals(mapId, siteId, side) {
+  return GAMEPLAY_VISUALS[mapId]?.[siteId]?.[side] || null
 }
 
 export default GAMEPLAY_VISUALS

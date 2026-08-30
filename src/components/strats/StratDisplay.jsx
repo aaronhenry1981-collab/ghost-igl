@@ -160,7 +160,7 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
         siteName={siteName}
       />
 
-      <GameplayDecisionGallery mapId={mapId} siteId={siteId} />
+      <GameplayDecisionGallery mapId={mapId} siteId={siteId} side={side} />
 
       <div className="strat-section">
         <div className="strat-section-title">Operator Lineup</div>
