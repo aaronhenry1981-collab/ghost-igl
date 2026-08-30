@@ -1,4 +1,5 @@
 import RoleGlyph from './RoleGlyph'
+import SiteSetupDiagram from './SiteSetupDiagram'
 
 const PHASES = {
   attack: ['DRONE', 'TAKE SPACE', 'EXECUTE', 'CLOSE'],
@@ -45,21 +46,21 @@ export default function TacticalRoundPlan({ strat, side, mapId, mapName, siteNam
 
   return (
     <figure className={`tactical-plan tactical-plan-${side}`} aria-labelledby="tactical-plan-title">
-      <div className="tactical-plan-art" aria-hidden="true">
-        <img src={`/guides/og/${mapId}.svg`} alt="" />
-        <div className="tactical-plan-art-shade" />
-        <div className="tactical-plan-art-copy">
-          <span>{side === 'attack' ? 'ATTACK' : 'DEFENSE'} BOARD</span>
-          <strong>{mapName}</strong>
-          <small>{siteName}</small>
-        </div>
+      <div className="tactical-plan-art">
+        <SiteSetupDiagram
+          strat={strat}
+          side={side}
+          mapId={mapId}
+          mapName={mapName}
+          siteName={siteName}
+        />
       </div>
 
       <div className="tactical-plan-content">
         <div className="tactical-plan-heading">
           <div>
             <span className="tactical-plan-kicker">VISUAL ROUND PLAN</span>
-            <h3 id="tactical-plan-title">Run the round in this order</h3>
+            <h3 id="tactical-plan-title">See the round, then run these steps</h3>
           </div>
           <span className="tactical-plan-time">30-second read</span>
         </div>
@@ -90,7 +91,7 @@ export default function TacticalRoundPlan({ strat, side, mapId, mapName, siteNam
       </div>
 
       <figcaption>
-        A visual execution order built from this site&rsquo;s strategy, operator jobs, utility, and named callouts.
+        Original Recon 6 schematic built from this site&rsquo;s strategy, operator jobs, utility, and named priority zones. It shows execution order, not exact room geometry.
       </figcaption>
     </figure>
   )
