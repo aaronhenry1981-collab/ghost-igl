@@ -37,7 +37,8 @@
     "check:public-content": "node scripts/audit-public-content.mjs",
     "check:auth-health": "node scripts/check-auth-health.mjs",
     "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs",
-    "test:workbook-purchase": "node --test lambda/subscription/workbook-purchase.test.mjs"
+    "test:workbook-purchase": "node --test lambda/subscription/workbook-purchase.test.mjs",
+    "infra:coaching-routes": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ensure-coaching-routes.ps1"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.21",
