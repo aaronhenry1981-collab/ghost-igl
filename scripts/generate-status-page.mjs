@@ -14,6 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const SITE_URL = 'https://r6coaching.com'
 const API_URL = 'https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod'
+const COGNITO_JWKS_URL = 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_rvLy8WLQB/.well-known/jwks.json'
 
 const CHECKS = [
   { name: 'Site (CloudFront)',          url: `${SITE_URL}/`,                            expect: 200 },
@@ -23,8 +24,9 @@ const CHECKS = [
   { name: 'API: demo-video',            url: `${API_URL}/demo-video`,                   expect: 200 },
   { name: 'API: /me (auth gate)',       url: `${API_URL}/me`,                           expect: 401 },
   { name: 'API: /admin (auth gate)',    url: `${API_URL}/admin/users`,                  expect: 401 },
-  { name: 'Stripe checkout (Pro)',      url: 'https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f', expect: 200 },
-  { name: 'Stripe checkout (Elite)', url: 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h', expect: 200 },
+  { name: 'Login identity service',     url: COGNITO_JWKS_URL,                          expect: 200 },
+  { name: 'Stripe checkout (Pro)',      url: 'https://buy.stripe.com/cNi7sM2oGdvSaZ97K27ss0f', expect: 200, opaque: true },
+  { name: 'Stripe checkout (Elite)', url: 'https://buy.stripe.com/14AcN61kCbnK3wH1lE7ss0h', expect: 200, opaque: true },
 ]
 
 const html = `<!doctype html>
@@ -34,7 +36,7 @@ const html = `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status — Recon 6</title>
   <meta name="description" content="Live operational status for Recon 6. Auto-refreshes every 60 seconds." />
-  <link rel="canonical" href="${SITE_URL}/status/" />
+  <link rel="canonical" href="${SITE_URL}/status/index.html" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="robots" content="noindex, follow" />
   <style>
@@ -104,13 +106,19 @@ const html = `<!doctype html>
   <script>
     const CHECKS = ${JSON.stringify(CHECKS)};
 
-    async function probe(url, expect) {
+    async function probe(url, expect, opaque) {
       try {
-        // no-cors fallback for cross-origin opaque responses (Stripe etc.)
         const t0 = performance.now();
-        const res = await fetch(url, { cache: 'no-store' }).catch(() => null);
+        // Stripe Checkout intentionally does not expose its response to
+        // cross-origin browser JavaScript. A successful no-cors fetch is an
+        // opaque response, which still proves the checkout host is reachable.
+        const res = await fetch(url, {
+          cache: 'no-store',
+          mode: opaque ? 'no-cors' : 'cors',
+        }).catch(() => null);
         const dt = Math.round(performance.now() - t0);
         if (!res) return { ok: false, status: 0, ms: dt };
+        if (opaque && res.type === 'opaque') return { ok: true, status: 0, ms: dt };
         return { ok: res.status === expect, status: res.status, ms: dt };
       } catch (err) {
         return { ok: false, status: 0, ms: 0, err: err.message };
@@ -123,7 +131,7 @@ const html = `<!doctype html>
       let okCount = 0, failCount = 0;
       for (let i = 0; i < CHECKS.length; i++) {
         const c = CHECKS[i];
-        const result = await probe(c.url, c.expect);
+        const result = await probe(c.url, c.expect, c.opaque);
         const el = document.querySelector(\`[data-idx="\${i}"]\`);
         if (!el) continue;
         el.classList.remove('pending');

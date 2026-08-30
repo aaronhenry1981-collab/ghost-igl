@@ -100,14 +100,25 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# 2. Sync dist/. Hashed JS/CSS chunks in dist/assets/ get the 1-year
+# Refuse to publish when the public sign-in page, Cognito pool/app client, or
+# protected account API is unhealthy. This catches the recurring login outage
+# before a new website release can reach customers.
+Write-Host ""
+Write-Host "[2/5] Verifying live login services..." -ForegroundColor Yellow
+& node scripts/check-auth-health.mjs
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Login health check failed. Deploy stopped before any customer-facing files changed."
+    exit 1
+}
+
+# 3. Sync dist/. Hashed JS/CSS chunks in dist/assets/ get the 1-year
 # immutable cache (their filenames change every build); everything else
 # (HTML, JSON, XML) gets short cache so static-page updates land within
 # minutes instead of waiting for browsers to expire stale heuristic
 # caches. Previous deploys left Cache-Control unset entirely, which
 # caused stale static pages (/tools/, /blog/) to linger for days.
 Write-Host ""
-Write-Host "[2/4] Syncing dist/ to s3://$S3Bucket ..." -ForegroundColor Yellow
+Write-Host "[3/5] Syncing dist/ to s3://$S3Bucket ..." -ForegroundColor Yellow
 & $Aws s3 sync dist/ "s3://$S3Bucket" --delete --region $Region `
     --cache-control "public, max-age=0, must-revalidate"
 if ($LASTEXITCODE -ne 0) {
@@ -127,19 +138,19 @@ if ($LASTEXITCODE -ne 0) {
 # 3. Fix content-type on SVG OG images
 if (Test-Path 'dist/guides/og') {
     Write-Host ""
-    Write-Host "[3/4] Setting image/svg+xml content-type on OG images..." -ForegroundColor Yellow
+    Write-Host "[4/5] Setting image/svg+xml content-type on OG images..." -ForegroundColor Yellow
     & $Aws s3 cp dist/guides/og/ "s3://$S3Bucket/guides/og/" --recursive --content-type "image/svg+xml" --region $Region
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "OG image content-type fix failed - crawlers may not render previews correctly."
     }
 } else {
     Write-Host ""
-    Write-Host "[3/4] No dist/guides/og folder - skipping content-type fix." -ForegroundColor DarkGray
+    Write-Host "[4/5] No dist/guides/og folder - skipping content-type fix." -ForegroundColor DarkGray
 }
 
 # 4. Invalidate CloudFront
 Write-Host ""
-Write-Host "[4/4] Invalidating CloudFront ($CloudFrontId)..." -ForegroundColor Yellow
+Write-Host "[5/5] Invalidating CloudFront ($CloudFrontId)..." -ForegroundColor Yellow
 $InvalidationResult = & $Aws cloudfront create-invalidation --distribution-id $CloudFrontId --paths "/*" --region $Region --output json 2>$null
 if ($LASTEXITCODE -ne 0) {
     Write-Error "CloudFront invalidation failed."

@@ -14,6 +14,10 @@ function safeRedirect(raw) {
   return raw
 }
 
+function isAuthServiceUnavailable(message) {
+  return /auth not configured|network error|network request failed|failed to fetch/i.test(message || '')
+}
+
 export default function AuthPage() {
   // 'signin' | 'signup' | 'confirm' | 'forgot' | 'reset' | 'new-password'
   // forgot → enter email, request reset code
@@ -309,7 +313,16 @@ export default function AuthPage() {
           </div>
         )}
 
-        {error && <div className="auth-error">{error}</div>}
+        {error && isAuthServiceUnavailable(error) ? (
+          <div className="auth-service-error" role="alert">
+            <strong>Sign-in is temporarily unavailable.</strong>
+            <p>Your account and purchases are safe. Please try again in a few minutes.</p>
+            <div>
+              <a href="/status/index.html">Check system status</a>
+              <a href="mailto:support@r6coaching.com?subject=Recon%206%20sign-in%20help">Get sign-in help</a>
+            </div>
+          </div>
+        ) : error ? <div className="auth-error">{error}</div> : null}
         {success && <div className="auth-success">{success}</div>}
 
         <form onSubmit={handleSubmit}>

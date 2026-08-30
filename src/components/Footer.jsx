@@ -58,7 +58,7 @@ export default function Footer() {
             <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('faq', navigate, isLanding)}>FAQ</button></li>
             <li><a href="/guides/">Map guides</a></li>
             <li><Link to="/beginner-guide">Beginner workbook</Link></li>
-            <li><a href="/status/">System status</a></li>
+            <li><a href="/status/index.html">System status</a></li>
             <li><Link to="/changelog">What's new</Link></li>
             <li><Link to="/terms">Terms of Service</Link></li>
             <li><Link to="/privacy">Privacy Policy</Link></li>

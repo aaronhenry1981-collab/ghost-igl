@@ -35,6 +35,7 @@
     "check:product-truth": "node scripts/check-product-truth.mjs",
     "check:coaching-terms": "node scripts/check-coaching-terms.mjs",
     "check:public-content": "node scripts/audit-public-content.mjs",
+    "check:auth-health": "node scripts/check-auth-health.mjs",
     "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs",
     "test:workbook-purchase": "node --test lambda/subscription/workbook-purchase.test.mjs"
   },
