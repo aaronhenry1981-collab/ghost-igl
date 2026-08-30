@@ -132,6 +132,17 @@ function R6MatchPrepPage() {
   const firstOperator = selectedPlan?.operators?.find((operator) => operator.priority === 'essential')
     || selectedPlan?.operators?.[0]
   const firstBan = bans[selectedSide]?.[0]
+  const prepVisual = mapId === 'coastline'
+    ? {
+        src: '/creator-gameplay-coastline-cover.webp',
+        alt: 'Real Coastline gameplay looking into Billiards from Hookah Lounge',
+        label: 'Real ranked POV',
+      }
+    : {
+        src: `/guides/og/${mapId}.svg`,
+        alt: `${mapData?.name || 'Map'} strategy guide preview`,
+        label: 'Map briefing',
+      }
 
   useEffect(() => {
     if (!selectedSiteId && publishedSites[0]) setSelectedSiteId(publishedSites[0].id)
@@ -222,7 +233,13 @@ function R6MatchPrepPage() {
       </div>
       </details>
       <section className="match-prep-brief" aria-labelledby="match-prep-brief-title">
-        <img src={`/guides/og/${mapId}.svg`} alt={`${mapData.name} strategy guide preview`} />
+        <figure className={`match-prep-brief-visual${mapId === 'coastline' ? ' gameplay' : ''}`}>
+          <img src={prepVisual.src} alt={prepVisual.alt} />
+          <figcaption>
+            <span>{prepVisual.label}</span>
+            <strong>{mapData.name}{selectedSite ? ` · ${selectedSite.name}` : ''}</strong>
+          </figcaption>
+        </figure>
         <div className="match-prep-brief-content">
           <span className="match-prep-brief-kicker">Do this first</span>
           <h2 id="match-prep-brief-title">Build your {mapData.name} round</h2>
