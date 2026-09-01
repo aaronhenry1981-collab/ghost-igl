@@ -138,6 +138,42 @@ export function isLiveStripeSubscription(subscription) {
   return LIVE_STATUSES.has(subscription?.status)
 }
 
+export function unwrapStripeReconciliationResults(results) {
+  const names = ['subscriptions', 'charges', 'refunds', 'payouts', 'balance']
+  if (!Array.isArray(results) || results.length !== names.length) {
+    throw new Error('Stripe reconciliation returned an unexpected result set')
+  }
+
+  const [subscriptionsResult, chargesResult, refundsResult, payoutsResult, balanceResult] = results
+  if (subscriptionsResult.status !== 'fulfilled') {
+    const reason = subscriptionsResult.reason instanceof Error
+      ? subscriptionsResult.reason.message
+      : String(subscriptionsResult.reason || 'unknown error')
+    throw new Error(`Stripe subscriptions unavailable: ${reason}`)
+  }
+
+  const warnings = names.flatMap((name, index) => {
+    const result = results[index]
+    if (result.status === 'fulfilled') return []
+    const reason = result.reason instanceof Error ? result.reason.message : String(result.reason || 'unknown error')
+    return [{ operation: name, reason }]
+  })
+
+  return {
+    subscriptions: subscriptionsResult.value || [],
+    charges: chargesResult.status === 'fulfilled' ? (chargesResult.value || []) : [],
+    refunds: refundsResult.status === 'fulfilled' ? (refundsResult.value || []) : [],
+    payouts: payoutsResult.status === 'fulfilled' ? (payoutsResult.value || []) : [],
+    balance: balanceResult.status === 'fulfilled' ? (balanceResult.value || {}) : {},
+    charges_verified: chargesResult.status === 'fulfilled',
+    refunds_verified: refundsResult.status === 'fulfilled',
+    payouts_verified: payoutsResult.status === 'fulfilled',
+    balance_verified: balanceResult.status === 'fulfilled',
+    cash_verified: chargesResult.status === 'fulfilled' && refundsResult.status === 'fulfilled',
+    warnings,
+  }
+}
+
 export function stripeSubscriptionDetails(subscription, fallbackPlan = 'free', env = process.env) {
   const price = priceFor(subscription)
   // Stripe's Basil-era API moved billing-period timestamps from the
