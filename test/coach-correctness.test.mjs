@@ -5,7 +5,7 @@ import MAPS from '../src/data/maps.js'
 import { RANKED_ROTATION } from '../src/data/rankedRotation.js'
 import { R6_PATCH_FACTS } from '../src/data/r6PatchFacts.js'
 import { buildConcurrentRolloverFollowupUpdate, buildMapContext, buildRefundUpdate, buildRolloverReserveUpdate, validateAnalysis } from '../lambda/vod/coach-contract.mjs'
-import { billingStateFor, isReconSubscription, monthlyRecurringCents, stripeSubscriptionDetails, summarizeStripeSubscriptions } from '../lambda/admin/stripe-revenue.mjs'
+import { billingStateFor, isReconSubscription, monthlyRecurringCents, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from '../lambda/admin/stripe-revenue.mjs'
 
 const vodContext = JSON.parse(readFileSync(new URL('../lambda/vod/r6-context.json', import.meta.url), 'utf8'))
 
@@ -193,4 +193,37 @@ test('switching brief and full views returns the current round below fixed navig
   const css = readFileSync(new URL('../src/pages/StratsPage.css', import.meta.url), 'utf8')
   assert.match(page, /querySelector\('\.round-now'\)\?\.scrollIntoView/)
   assert.match(css, /scroll-margin-top: 82px/)
+})
+
+
+test('Stripe reconciliation keeps subscription truth when optional operations fail', () => {
+  const results = [
+    { status: 'fulfilled', value: [{ id: 'sub_live', status: 'trialing' }] },
+    { status: 'rejected', reason: new Error('charges forbidden') },
+    { status: 'fulfilled', value: [] },
+    { status: 'rejected', reason: new Error('payouts forbidden') },
+    { status: 'rejected', reason: new Error('balance forbidden') },
+  ]
+  const state = unwrapStripeReconciliationResults(results)
+  assert.equal(state.subscriptions.length, 1)
+  assert.equal(state.cash_verified, false)
+  assert.equal(state.charges_verified, false)
+  assert.equal(state.refunds_verified, true)
+  assert.deepEqual(state.charges, [])
+  assert.deepEqual(state.refunds, [])
+  assert.deepEqual(state.warnings.map((item) => item.operation), ['charges', 'payouts', 'balance'])
+})
+
+test('Stripe reconciliation still fails closed when subscriptions cannot be read', () => {
+  const results = [
+    { status: 'rejected', reason: new Error('subscriptions forbidden') },
+    { status: 'fulfilled', value: [] },
+    { status: 'fulfilled', value: [] },
+    { status: 'fulfilled', value: [] },
+    { status: 'fulfilled', value: {} },
+  ]
+  assert.throws(
+    () => unwrapStripeReconciliationResults(results),
+    /Stripe subscriptions unavailable: subscriptions forbidden/,
+  )
 })
