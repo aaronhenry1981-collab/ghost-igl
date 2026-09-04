@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand, DeleteC
 import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
-import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions } from './stripe-revenue.mjs'
+import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -268,13 +268,26 @@ function enrichUsersWithStripe(users, subscriptions) {
 
 async function getStripeRevenueSnapshot(users, ddbSummary) {
   const since = Math.floor((Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000)
-  const [subscriptions, charges, refunds, payouts, balance] = await Promise.all([
+  const stripeResults = await Promise.allSettled([
     stripeList('/v1/subscriptions', { status: 'all', 'expand[]': ['data.customer'] }),
     stripeList('/v1/charges', { 'created[gte]': since }),
     stripeList('/v1/refunds', { 'created[gte]': since }),
     stripeList('/v1/payouts', { 'created[gte]': since }),
     stripeRequest('/v1/balance'),
   ])
+  const {
+    subscriptions,
+    charges,
+    refunds,
+    payouts,
+    balance,
+    charges_verified: chargesVerified,
+    refunds_verified: refundsVerified,
+    payouts_verified: payoutsVerified,
+    balance_verified: balanceVerified,
+    cash_verified: cashVerified,
+    warnings: stripeWarnings,
+  } = unwrapStripeReconciliationResults(stripeResults)
 
   // IFD and Recon 6 intentionally share one Stripe account. Scope recurring
   // revenue and member reconciliation to known Recon 6 prices so an IFD
@@ -304,14 +317,19 @@ async function getStripeRevenueSnapshot(users, ddbSummary) {
       ...ddbSummary,
       ...subscriptionSummary,
       comp_active: ddbSummary.comp_active,
-      collected_30d_dollars: (collectedCents / 100).toFixed(2),
-      refunds_30d_dollars: (refundedCents / 100).toFixed(2),
-      payouts_30d_dollars: (payoutsCents / 100).toFixed(2),
-      stripe_available_dollars: (availableCents / 100).toFixed(2),
-      stripe_pending_dollars: (pendingCents / 100).toFixed(2),
+      collected_30d_dollars: chargesVerified ? (collectedCents / 100).toFixed(2) : null,
+      refunds_30d_dollars: refundsVerified ? (refundedCents / 100).toFixed(2) : null,
+      payouts_30d_dollars: payoutsVerified ? (payoutsCents / 100).toFixed(2) : null,
+      stripe_available_dollars: balanceVerified ? (availableCents / 100).toFixed(2) : null,
+      stripe_pending_dollars: balanceVerified ? (pendingCents / 100).toFixed(2) : null,
+      stripe_cash_verified: cashVerified,
+      stripe_data_warnings: stripeWarnings,
       stripe_account_scope: 'shared_ifd_r6',
       recon_subscription_count: reconSubscriptions.length,
     },
+    billing_warning: cashVerified
+      ? null
+      : 'Live Stripe subscription data is current, but one or more cash totals are temporarily unavailable.',
   }
 }
 
@@ -417,7 +435,7 @@ async function getUsers(headers) {
         users: reconciled.users,
         summary: reconciled.summary,
         billing_source: 'stripe',
-        billing_warning: null,
+        billing_warning: reconciled.billing_warning,
         total_users: reconciled.users.length,
       }),
     }
