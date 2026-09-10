@@ -53,6 +53,11 @@
 .progress-latest.is-missed span { color: var(--progress-danger); }
 .progress-latest.is-proved span { color: var(--progress-good); }
 .progress-focus-button { margin-top: 1.35rem; min-height: 48px; }
+.progress-focus-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.35rem; }
+.progress-focus-controls > span { color: rgba(230, 233, 239, .62); font-size: .82rem; }
+.progress-focus-controls .progress-focus-button { margin-top: 0; }
+.progress-feedback-link { display: inline-block; margin-top: 1rem; color: #ffc97a; font-size: .85rem; font-weight: 750; text-decoration: none; }
+.progress-feedback-link:hover { text-decoration: underline; }
 
 .progress-status { display: inline-flex; align-items: center; justify-content: center; min-height: 30px; padding: .35rem .7rem; border-radius: 999px; white-space: nowrap; font-size: .76rem; font-weight: 800; border: 1px solid var(--progress-line); color: var(--progress-muted); background: rgba(255,255,255,.035); }
 .progress-status--needs-work { color: #ffd0d3; border-color: rgba(255,111,120,.45); background: rgba(255,111,120,.12); }
@@ -161,6 +166,7 @@
   .progress-tabs button { padding: .75rem .35rem; font-size: .85rem; }
   .progress-focus { border-radius: 16px; }
   .progress-focus-grid .progress-status { align-self: flex-start; }
+  .progress-focus-controls { align-items: stretch; flex-direction: column; }
   .progress-section-heading, .progress-skill-top, .progress-skill-actions { align-items: stretch; flex-direction: column; }
   .progress-skill-actions button { width: 100%; min-height: 44px; }
   .progress-divisions { grid-template-columns: 1fr; }

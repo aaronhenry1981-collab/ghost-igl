@@ -48,6 +48,8 @@ $requiredRoutes = @(
     @{ Key = 'GET /me/coaching-history'; IntegrationId = $coachingIntegrationId },
     @{ Key = 'GET /me/coaching-profile'; IntegrationId = $coachingIntegrationId },
     @{ Key = 'POST /me/coaching-events'; IntegrationId = $coachingIntegrationId },
+    @{ Key = 'POST /me/feedback'; IntegrationId = $coachingIntegrationId },
+    @{ Key = 'GET /admin/feedback'; IntegrationId = $coachingIntegrationId },
     @{ Key = 'GET /me/climb-progress'; IntegrationId = $progressIntegrationId },
     @{ Key = 'PUT /me/climb-progress'; IntegrationId = $progressIntegrationId }
 )

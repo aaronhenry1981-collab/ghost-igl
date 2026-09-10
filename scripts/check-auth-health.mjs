@@ -71,6 +71,17 @@ export async function checkAuthHealth(config = authConfig) {
     requireResponse('Protected account API', `${config.apiUrl}/me`, {
       headers: { authorization: 'Bearer recon6-health-check' },
     }, (response) => response.status === 401 ? null : `expected HTTP 401, got ${response.status}`),
+    requireResponse('Coaching profile API', `${config.apiUrl}/me/coaching-profile`, {
+      headers: { authorization: 'Bearer recon6-health-check' },
+    }, (response) => response.status === 401 ? null : `expected HTTP 401, got ${response.status}`),
+    requireResponse('Feedback API', `${config.apiUrl}/me/feedback`, {
+      method: 'POST',
+      headers: { authorization: 'Bearer recon6-health-check', 'content-type': 'application/json' },
+      body: JSON.stringify({ category: 'other', message: 'health check only' }),
+    }, (response) => response.status === 401 ? null : `expected HTTP 401, got ${response.status}`),
+    requireResponse('Feedback admin API', `${config.apiUrl}/admin/feedback`, {
+      headers: { authorization: 'Bearer recon6-health-check' },
+    }, (response) => response.status === 401 ? null : `expected HTTP 401, got ${response.status}`),
   ])
 }
 

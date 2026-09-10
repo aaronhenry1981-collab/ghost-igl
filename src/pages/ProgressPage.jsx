@@ -3,14 +3,19 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useAuth } from '../hooks/useAuth'
 import { RANKS } from '../data/ranks'
-import { analyzeRankSnapshotApi } from '../api/vodApi'
+import { analyzeRankSnapshotApi, flushPendingVodCoachingEvents } from '../api/vodApi'
 import MechanicsLab from '../components/MechanicsLab'
-import { emptyMechanicsState, normalizeMechanicsState } from '../data/mechanicsLab'
+import {
+  emptyRoadmap,
+  normalizeRoadmap,
+  resolveFocus,
+  statusFor,
+  tierCompletion,
+} from '../lib/progressPlan'
 import {
   ALL_PROGRESS_SKILLS,
   PROGRESS_TIERS,
   STATUS_COPY,
-  evidenceStatus,
   findProgressSkill,
 } from '../data/progressCurriculum'
 import './ProgressPage.css'
@@ -21,27 +26,6 @@ const TRN_PLATFORM = { ps5: 'psn', psn: 'psn', xbox: 'xbl', xbl: 'xbl', pc: 'ubi
 function trackerUrl(platform, ign) {
   const slug = TRN_PLATFORM[(platform || '').toLowerCase()]
   return slug && ign ? `https://r6.tracker.network/r6siege/profile/${slug}/${encodeURIComponent(ign)}/overview` : null
-}
-
-function normalizeRoadmap(value) {
-  const source = value && typeof value === 'object' ? value : {}
-  const checks = { ...(source.checks || {}) }
-  // Old /climb keys were tier-index (gold-0). Translate them to stable IDs.
-  // Action checks are retained for history but never count as gameplay proof.
-  for (const tier of PROGRESS_TIERS) {
-    tier.skills.forEach((skill, index) => {
-      if (checks[`${tier.id}-${index}`] && checks[skill.id] == null) checks[skill.id] = true
-    })
-  }
-  return {
-    checks,
-    focusId: source.focusId || null,
-    selectedTierId: source.selectedTierId || null,
-    // Older builds silently wrote Gold as a default. Treat a saved tier as an
-    // override only when the user explicitly selected manual mode.
-    rankMode: source.rankMode === 'manual' ? 'manual' : 'auto',
-    mechanics: normalizeMechanicsState(source.mechanics),
-  }
 }
 
 async function authedRequest(path, options = {}) {
@@ -56,10 +40,6 @@ async function authedRequest(path, options = {}) {
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
   return data
-}
-
-function emptyRoadmap() {
-  return { checks: {}, focusId: null, selectedTierId: null, rankMode: 'auto', mechanics: emptyMechanicsState() }
 }
 
 function localRoadmapKey(userId) {
@@ -101,32 +81,7 @@ function cap(text) {
   return String(text || '').replace(/^\w/, (char) => char.toUpperCase()).replaceAll('-', ' ')
 }
 
-function statusFor(skill, evidenceMap, roadmap) {
-  return evidenceStatus(skill, evidenceMap?.[skill.id], !!roadmap.checks?.[skill.id])
-}
-
-function taskScore(skill, evidenceMap, roadmap) {
-  const status = statusFor(skill, evidenceMap, roadmap)
-  if (status === 'mastered' || status === 'confirmed') return 1
-  if (status === 'building') return 0.5
-  return 0
-}
-
-function tierCompletion(tier, evidenceMap, roadmap) {
-  const score = tier.skills.reduce((total, skill) => total + taskScore(skill, evidenceMap, roadmap), 0)
-  return Math.round((score / tier.skills.length) * 100)
-}
-
-function pickAutomaticFocus(selectedTier, evidenceMap, roadmap) {
-  const ordered = [
-    ...selectedTier.skills.filter((skill) => statusFor(skill, evidenceMap, roadmap) === 'needs-work'),
-    ...selectedTier.skills.filter((skill) => statusFor(skill, evidenceMap, roadmap) === 'building'),
-    ...selectedTier.skills.filter((skill) => ['not-started', 'not-observed'].includes(statusFor(skill, evidenceMap, roadmap))),
-  ]
-  return ordered[0] || selectedTier.skills[0]
-}
-
-function FocusCard({ skill, evidence, status, onChoose }) {
+function FocusCard({ skill, evidence, status, focusMode, onChoose, onAutomatic }) {
   if (!skill) return null
   const latest = evidence?.recent?.at(-1)
   return (
@@ -153,9 +108,13 @@ function FocusCard({ skill, evidence, status, onChoose }) {
           <p>{latest.evidence}</p>
         </div>
       )}
-      <button type="button" className="btn btn-primary progress-focus-button" onClick={onChoose}>
-        Keep this as my focus
-      </button>
+      <div className="progress-focus-controls">
+        <span>{focusMode === 'manual' ? 'Locked by you' : 'Updates automatically from new coaching evidence'}</span>
+        <button type="button" className="btn btn-primary progress-focus-button" onClick={focusMode === 'manual' ? onAutomatic : onChoose}>
+          {focusMode === 'manual' ? 'Use automatic mission' : 'Lock this mission'}
+        </button>
+      </div>
+      <Link className="progress-feedback-link" to="/feedback?about=game-plan&from=/progress">Mission not matching your game? Tell us →</Link>
     </section>
   )
 }
@@ -176,22 +135,29 @@ export default function ProgressPage() {
   const [rankImportState, setRankImportState] = useState('idle')
   const [rankSnapshot, setRankSnapshot] = useState(null)
 
+  const userId = user?.id
+
   useEffect(() => {
-    if (authLoading || !user) return
-    const localRoadmap = loadLocalRoadmap(user.id)
+    if (authLoading || !userId) return
+    const localRoadmap = loadLocalRoadmap(userId)
     setRoadmap(localRoadmap)
-    setRoadmapOwnerId(user.id)
+    setRoadmapOwnerId(userId)
     let cancelled = false
-    ;(async () => {
-      const [profileResult, historyResult, roadmapResult] = await Promise.allSettled([
+
+    async function refreshPlan({ includeRoadmap = false } = {}) {
+      // If a VOD review completed while the sync API was unavailable, retry it
+      // before reading the plan so the next mission can update immediately.
+      await flushPendingVodCoachingEvents().catch(() => {})
+      const requests = [
         authedRequest('/me/coaching-profile'),
         authedRequest('/me/coaching-history'),
-        authedRequest('/me/climb-progress'),
-      ])
+      ]
+      if (includeRoadmap) requests.push(authedRequest('/me/climb-progress'))
+      const [profileResult, historyResult, roadmapResult] = await Promise.allSettled(requests)
       if (cancelled) return
       if (profileResult.status === 'fulfilled') setProfile(profileResult.value)
       if (historyResult.status === 'fulfilled') setSessions(historyResult.value.sessions || [])
-      if (roadmapResult.status === 'fulfilled' && roadmapResult.value.progress) {
+      if (includeRoadmap && roadmapResult?.status === 'fulfilled' && roadmapResult.value.progress) {
         const rawCloud = roadmapResult.value.progress
         const cloud = normalizeRoadmap(rawCloud)
         // Old /climb used copper-0 keys. Keep them while adding the new stable IDs.
@@ -209,11 +175,26 @@ export default function ProgressPage() {
       }
       if (profileResult.status === 'rejected' && historyResult.status === 'rejected') {
         setError('Coach history is temporarily unavailable. Your training roadmap still works and remains saved on this device.')
+      } else {
+        setError(null)
       }
       setLoading(false)
-    })()
-    return () => { cancelled = true }
-  }, [authLoading, user])
+    }
+
+    refreshPlan({ includeRoadmap: true })
+    const refreshVisiblePlan = () => {
+      if (document.visibilityState === 'visible') refreshPlan()
+    }
+    const timer = window.setInterval(refreshVisiblePlan, 60_000)
+    window.addEventListener('focus', refreshVisiblePlan)
+    document.addEventListener('visibilitychange', refreshVisiblePlan)
+    return () => {
+      cancelled = true
+      window.clearInterval(timer)
+      window.removeEventListener('focus', refreshVisiblePlan)
+      document.removeEventListener('visibilitychange', refreshVisiblePlan)
+    }
+  }, [authLoading, userId])
 
   const evidenceMap = useMemo(() => profile?.progressEvidence?.skills || {}, [profile])
   const savedR6 = account?.game_profiles?.r6 || {}
@@ -224,8 +205,7 @@ export default function ProgressPage() {
     ? (roadmap.selectedTierId || 'gold')
     : (observedTierId || roadmap.selectedTierId || 'gold')
   const selectedTier = PROGRESS_TIERS.find((tier) => tier.id === selectedTierId) || PROGRESS_TIERS[3]
-  const savedFocus = findProgressSkill(roadmap.focusId)
-  const focus = savedFocus || pickAutomaticFocus(selectedTier, evidenceMap, roadmap)
+  const focus = resolveFocus(roadmap, selectedTier, evidenceMap)
   const focusEvidence = evidenceMap[focus?.id] || {}
   const focusStatus = focus ? statusFor(focus, evidenceMap, roadmap) : 'not-observed'
 
@@ -256,13 +236,11 @@ export default function ProgressPage() {
   }
 
   function chooseTier(id) {
-    const tier = PROGRESS_TIERS.find((item) => item.id === id)
-    persistRoadmap({ ...roadmap, rankMode: 'manual', selectedTierId: id, focusId: pickAutomaticFocus(tier, evidenceMap, roadmap)?.id || null })
+    persistRoadmap({ ...roadmap, rankMode: 'manual', selectedTierId: id, focusMode: 'auto', focusId: null })
   }
 
   function useAutomaticRank() {
-    const tier = PROGRESS_TIERS.find((item) => item.id === observedTierId) || selectedTier
-    persistRoadmap({ ...roadmap, rankMode: 'auto', selectedTierId: null, focusId: pickAutomaticFocus(tier, evidenceMap, roadmap)?.id || null })
+    persistRoadmap({ ...roadmap, rankMode: 'auto', selectedTierId: null, focusMode: 'auto', focusId: null })
   }
 
   function toggleKnowledge(skill) {
@@ -271,9 +249,13 @@ export default function ProgressPage() {
   }
 
   function chooseFocus(id) {
-    persistRoadmap({ ...roadmap, focusId: id })
+    persistRoadmap({ ...roadmap, focusMode: 'manual', focusId: id })
     setTab('focus')
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function useAutomaticFocus() {
+    persistRoadmap({ ...roadmap, focusMode: 'auto', focusId: null })
   }
 
   function saveMechanics(mechanics) {
@@ -324,9 +306,7 @@ export default function ProgressPage() {
         body: JSON.stringify({ game_profiles_json: JSON.stringify(gameProfiles), active_game_id: 'r6' }),
       })
       await refreshProfile?.()
-      const nextTierId = tierForRank(rankSnapshot.rank)
-      const tier = PROGRESS_TIERS.find((item) => item.id === nextTierId) || selectedTier
-      await persistRoadmap({ ...roadmap, rankMode: 'auto', selectedTierId: null, focusId: pickAutomaticFocus(tier, evidenceMap, roadmap)?.id || null })
+      await persistRoadmap({ ...roadmap, rankMode: 'auto', selectedTierId: null, focusMode: 'auto', focusId: null })
       setRankImportState('saved')
     } catch (err) {
       setError(`Rank snapshot could not be saved: ${err.message}`)
@@ -382,7 +362,14 @@ export default function ProgressPage() {
 
       {!loading && tab === 'focus' && (
         <div className="progress-view">
-          <FocusCard skill={focus} evidence={focusEvidence} status={focusStatus} onChoose={() => chooseFocus(focus.id)} />
+          <FocusCard
+            skill={focus}
+            evidence={focusEvidence}
+            status={focusStatus}
+            focusMode={roadmap.focusMode}
+            onChoose={() => chooseFocus(focus.id)}
+            onAutomatic={useAutomaticFocus}
+          />
 
           <section className="progress-priorities">
             <div className="progress-section-heading">

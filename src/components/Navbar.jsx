@@ -138,6 +138,7 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
             <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
+          <button type="button" className="nav-more-item" onClick={() => go('/feedback')}>Send feedback</button>
           {isPro && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop setup</button>
           )}
@@ -365,6 +366,7 @@ export default function Navbar() {
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
+            <Link to="/feedback" onClick={closeMobile} className="mobile-drawer-link">Send feedback</Link>
             {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop setup</Link>}
             <button
               type="button"

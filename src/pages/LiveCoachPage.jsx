@@ -193,6 +193,9 @@ const LS_KEYS = {
   bans2: 'recon6-live-coach-bans-h2',
   queue: 'recon6-live-coach-queue',
   half: 'recon6-live-coach-half',
+  side: 'recon6-live-coach-side',
+  site: 'recon6-live-coach-site',
+  operator: 'recon6-live-coach-operator',
 }
 
 function getStored(key, fallback) {
@@ -312,13 +315,16 @@ function R6LiveCoachReady({ catalog }) {
     new Set(urlList('h2') || getStored(LS_KEYS.bans2, [])),
   ])
   const [activeHalf, setActiveHalf] = useState(() => Number(searchParams.get('half')) || getStored(LS_KEYS.half, 1))
-  const [side, setSide] = useState(() => searchParams.get('s') === 'defense' ? 'defense' : 'attack')
-  const [siteId, setSiteId] = useState(() => searchParams.get('site') || null)
+  const [side, setSide] = useState(() => {
+    const saved = searchParams.get('s') || getStored(LS_KEYS.side, 'attack')
+    return saved === 'defense' ? 'defense' : 'attack'
+  })
+  const [siteId, setSiteId] = useState(() => searchParams.get('site') || getStored(LS_KEYS.site, null))
   // Stack size starts null (no default) — it's now step 1 and we want an
   // explicit pick, not a silent 5-stack assumption. Returning users skip
   // ahead automatically via localStorage; share links via ?q=.
   const [queueSize, setQueueSize] = useState(() => Number(searchParams.get('q')) || getStored(LS_KEYS.queue, null))
-  const [selectedOpName, setSelectedOpName] = useState(() => searchParams.get('op') || null)
+  const [selectedOpName, setSelectedOpName] = useState(() => searchParams.get('op') || getStored(LS_KEYS.operator, null))
   const [shareCopied, setShareCopied] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(() => !(mapId && queueSize && siteId && selectedOpName))
   const hasMountedRoundState = useRef(false)
@@ -329,6 +335,9 @@ function R6LiveCoachReady({ catalog }) {
   useEffect(() => { setStored(LS_KEYS.bans2, [...bans[1]]) }, [bans])
   useEffect(() => { if (queueSize) setStored(LS_KEYS.queue, queueSize) }, [queueSize])
   useEffect(() => { setStored(LS_KEYS.half, activeHalf) }, [activeHalf])
+  useEffect(() => { setStored(LS_KEYS.side, side) }, [side])
+  useEffect(() => { setStored(LS_KEYS.site, siteId) }, [siteId])
+  useEffect(() => { setStored(LS_KEYS.operator, selectedOpName) }, [selectedOpName])
 
   // Reset the operator only after a real round change. Skipping the first
   // effect preserves an operator included in a shared Live Coach URL.
@@ -474,13 +483,12 @@ function R6LiveCoachReady({ catalog }) {
   }
 
   function startNextRound() {
-    // A normal next round stays on the same side. Side changes belong to
-    // the explicit half-switch control after the third round.
-    setSiteId(null)
-    setSelectedOpName(null)
-    setToolsOpen(true)
-    track('Live Coach Next Round', { side, half: activeHalf })
-    setTimeout(() => scrollToStep('round'), 100)
+    // Most rounds keep the same useful job. Keep the current plan visible so
+    // the player is not forced through site + operator setup while the timer
+    // is running. If the game changes either one, the quick edit is one tap.
+    setToolsOpen(false)
+    track('Live Coach Next Round', { side, half: activeHalf, reusedPlan: true })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Smooth-scroll to the next step when previous completes
@@ -513,6 +521,9 @@ function R6LiveCoachReady({ catalog }) {
     setStored(LS_KEYS.bans1, [])
     setStored(LS_KEYS.bans2, [])
     setStored(LS_KEYS.half, 1)
+    setStored(LS_KEYS.side, 'attack')
+    setStored(LS_KEYS.site, null)
+    setStored(LS_KEYS.operator, null)
     track('Live Coach Reset')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -615,9 +626,14 @@ function R6LiveCoachReady({ catalog }) {
               Use {coachOperator.name} →
             </button>
           ) : selectedOpName ? (
-            <button type="button" className="btn btn-primary" onClick={startNextRound}>
-              Done — next round →
-            </button>
+            <>
+              <button type="button" className="btn btn-primary" onClick={startNextRound}>
+                Next round — keep this plan →
+              </button>
+              <button type="button" className="live-coach-help-link" onClick={() => openRoundTools('round')}>
+                Site or operator changed?
+              </button>
+            </>
           ) : (
             <button type="button" className="btn btn-primary" onClick={() => openRoundTools()}>
               Make this choice →
@@ -628,6 +644,7 @@ function R6LiveCoachReady({ catalog }) {
               Need help? Open full strat
             </Link>
           )}
+          <Link className="live-coach-help-link" to="/feedback?about=live-coach&from=/live">Plan wrong? Tell us</Link>
         </div>
       </section>
 

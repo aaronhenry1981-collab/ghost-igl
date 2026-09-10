@@ -1,0 +1,28 @@
+.feedback-shell { width: min(860px, calc(100% - 2rem)); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0 5rem; }
+.feedback-hero { max-width: 720px; margin-bottom: 1.5rem; }
+.feedback-eyebrow { display: block; color: #73def4; font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.feedback-hero h1, .feedback-signin h1 { margin: .55rem 0 .8rem; font-size: clamp(2.2rem, 6vw, 4.4rem); line-height: .98; letter-spacing: -.04em; }
+.feedback-hero p, .feedback-signin p { color: rgba(230, 233, 239, .72); font-size: 1.05rem; line-height: 1.6; }
+.feedback-card { display: grid; gap: 1.35rem; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid rgba(115, 222, 244, .25); border-radius: 18px; background: linear-gradient(145deg, rgba(18, 29, 43, .96), rgba(8, 14, 22, .98)); }
+.feedback-card label, .feedback-card legend { color: #eef7fa; font-size: .86rem; font-weight: 800; letter-spacing: .04em; }
+.feedback-card select, .feedback-card textarea { width: 100%; margin-top: .55rem; border: 1px solid rgba(230, 233, 239, .2); border-radius: 10px; background: #0a111b; color: #eef7fa; font: inherit; font-weight: 500; }
+.feedback-card select { min-height: 48px; padding: 0 .85rem; }
+.feedback-card textarea { resize: vertical; padding: .85rem; line-height: 1.5; }
+.feedback-card fieldset { margin: 0; padding: 0; border: 0; }
+.feedback-rating { display: flex; gap: .55rem; margin: .65rem 0 .45rem; }
+.feedback-rating button { width: 48px; height: 48px; border: 1px solid rgba(230, 233, 239, .2); border-radius: 9px; background: rgba(255, 255, 255, .03); color: #eef7fa; cursor: pointer; font-weight: 900; }
+.feedback-rating button.active { border-color: #73def4; background: rgba(115, 222, 244, .15); color: #73def4; }
+.feedback-card small { color: rgba(230, 233, 239, .55); }
+.feedback-safety { margin-top: -.8rem; }
+.feedback-error, .feedback-success { padding: .85rem 1rem; border-radius: 9px; }
+.feedback-error { border: 1px solid rgba(255, 110, 110, .4); color: #ff9a9a; background: rgba(255, 70, 70, .08); }
+.feedback-success { border: 1px solid rgba(74, 222, 128, .35); color: #86efac; background: rgba(74, 222, 128, .08); }
+.feedback-card .btn { justify-self: start; min-width: 180px; }
+.feedback-signin { text-align: left; }
+
+@media (max-width: 560px) {
+  .feedback-shell { width: min(100% - 1rem, 860px); padding-top: 1.25rem; }
+  .feedback-rating { justify-content: space-between; }
+  .feedback-rating button { width: 18%; }
+  .feedback-card .btn { width: 100%; }
+}

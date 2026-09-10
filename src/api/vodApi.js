@@ -1,6 +1,55 @@
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { buildVodCoachingEvent } from './vodEvidence'
 
+const PENDING_COACHING_EVENTS_KEY = 'recon6-pending-coaching-events-v1'
+
+function pendingCoachingEventsKey(cognitoUser) {
+  const accountId = cognitoUser?.getUsername?.()
+  return accountId ? `${PENDING_COACHING_EVENTS_KEY}:${accountId}` : null
+}
+
+function readPendingCoachingEvents(cognitoUser) {
+  const storageKey = pendingCoachingEventsKey(cognitoUser)
+  if (!storageKey) return []
+  try {
+    const value = JSON.parse(localStorage.getItem(storageKey) || '[]')
+    return Array.isArray(value) ? value.slice(-50) : []
+  } catch {
+    return []
+  }
+}
+
+function writePendingCoachingEvents(cognitoUser, events) {
+  const storageKey = pendingCoachingEventsKey(cognitoUser)
+  if (!storageKey) return
+  try { localStorage.setItem(storageKey, JSON.stringify(events.slice(-50))) } catch { /* best effort */ }
+}
+
+function rememberPendingCoachingEvent(cognitoUser, event) {
+  const events = readPendingCoachingEvents(cognitoUser)
+  const key = `${event.sessionId}:${event.ts}`
+  if (!events.some((item) => `${item.sessionId}:${item.ts}` === key)) events.push(event)
+  writePendingCoachingEvents(cognitoUser, events)
+}
+
+export async function flushPendingVodCoachingEvents() {
+  const cognitoUser = getCurrentUser()
+  if (!cognitoUser) return { written: 0, pending: 0 }
+  const events = readPendingCoachingEvents(cognitoUser)
+  if (!events.length || !API_URL) return { written: 0, pending: events.length }
+  const session = await getSession(cognitoUser)
+  const token = getIdToken(session)
+  const res = await fetch(`${API_URL}/me/coaching-events`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ events }),
+  })
+  if (!res.ok) return { written: 0, pending: events.length }
+  writePendingCoachingEvents(cognitoUser, [])
+  const body = await res.json().catch(() => ({}))
+  return { written: Number(body.written || events.length), pending: 0 }
+}
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -108,8 +157,8 @@ export async function analyzeSessionApi(files, context = {}) {
   // Keep analysis success independent: a temporary evidence-sync failure must
   // never hide feedback the player already paid to generate.
   if (context.analysis_type !== 'rank_snapshot') {
+    const event = buildVodCoachingEvent(result, context)
     try {
-      const event = buildVodCoachingEvent(result, context)
       const syncRes = await fetch(`${API_URL}/me/coaching-events`, {
         method: 'POST',
         headers: {
@@ -118,8 +167,13 @@ export async function analyzeSessionApi(files, context = {}) {
         },
         body: JSON.stringify({ events: [event] }),
       })
-      result.roadmap_sync = syncRes.ok ? 'saved' : 'pending'
+      if (syncRes.ok) result.roadmap_sync = 'saved'
+      else {
+        rememberPendingCoachingEvent(cognitoUser, event)
+        result.roadmap_sync = 'pending'
+      }
     } catch {
+      rememberPendingCoachingEvent(cognitoUser, event)
       result.roadmap_sync = 'pending'
     }
   }
