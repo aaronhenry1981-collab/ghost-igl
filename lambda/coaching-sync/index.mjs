@@ -17,9 +17,10 @@
 //     coachAction{spokenLine}, outcome{roundResult?,died?,tradedWithin?} }
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, QueryCommand, BatchWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, QueryCommand, BatchWriteCommand, UpdateCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { aggregateProgressEvidence, sanitizeProgressEvidence } from './progress-evidence.mjs'
+import { sanitizeFeedback } from './feedback.mjs'
 
 const REGION = process.env.AWS_REGION || 'us-east-1'
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }))
@@ -156,10 +157,56 @@ export async function handler(event) {
 
   const user = await requireUser(event)
   if (!user) return resp(401, { error: 'sign in required' })
-  if (!(await requirePaidAccess(user))) return resp(403, { error: 'active paid membership required' })
   const userId = user.sub
 
   try {
+    if (method === 'POST' && path.endsWith('/me/feedback')) {
+      if (Buffer.byteLength(event.body || '', 'utf8') > 12 * 1024) return resp(413, { error: 'request too large' })
+      let body = {}
+      try { body = JSON.parse(event.body || '{}') } catch { return resp(400, { error: 'bad json' }) }
+      const clean = sanitizeFeedback(body)
+      if (clean.error) return resp(400, clean)
+      const createdAt = new Date().toISOString()
+      const feedbackId = `${createdAt}-${crypto.randomUUID()}`
+      await ddb.send(new PutCommand({
+        TableName: TABLE,
+        Item: {
+          userId,
+          sk: `feedback#${feedbackId}`,
+          recordType: 'feedback',
+          feedbackId,
+          email: String(user.email || '').trim().toLowerCase(),
+          ...clean,
+          status: 'open',
+          createdAt,
+          ttl: Math.ceil((Date.now() + 365 * 86400000) / 1000),
+        },
+        ConditionExpression: 'attribute_not_exists(sk)',
+      }))
+      console.info('customer_feedback_received', { feedbackId, userId, category: clean.category, rating: clean.rating })
+      return resp(201, { ok: true, feedbackId })
+    }
+
+    if (method === 'GET' && path.endsWith('/admin/feedback')) {
+      if (!(user?.['cognito:groups'] || []).includes('admins')) return resp(403, { error: 'admin access required' })
+      const feedback = []
+      let ExclusiveStartKey
+      do {
+        const page = await ddb.send(new ScanCommand({
+          TableName: TABLE,
+          FilterExpression: 'recordType = :type',
+          ExpressionAttributeValues: { ':type': 'feedback' },
+          ExclusiveStartKey,
+        }))
+        feedback.push(...(page.Items || []))
+        ExclusiveStartKey = page.LastEvaluatedKey
+      } while (ExclusiveStartKey && feedback.length < 500)
+      feedback.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
+      return resp(200, { feedback: feedback.slice(0, 500) })
+    }
+
+    if (!(await requirePaidAccess(user))) return resp(403, { error: 'active paid membership required' })
+
     if (method === 'POST' && path.endsWith('/me/coaching-events')) {
       if (Buffer.byteLength(event.body || '', 'utf8') > MAX_BODY_BYTES) return resp(413, { error: 'request too large' })
       let body = {}

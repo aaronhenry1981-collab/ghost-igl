@@ -57,6 +57,17 @@ export async function handler() {
     probe('account API gate', `${API_URL}/me`, {
       headers: { authorization: 'Bearer recon6-health-check' },
     }, (response) => response.status === 401 ? null : `expected 401, got ${response.status}`),
+    probe('coaching profile API gate', `${API_URL}/me/coaching-profile`, {
+      headers: { authorization: 'Bearer recon6-health-check' },
+    }, (response) => response.status === 401 ? null : `expected 401, got ${response.status}`),
+    probe('feedback API gate', `${API_URL}/me/feedback`, {
+      method: 'POST',
+      headers: { authorization: 'Bearer recon6-health-check', 'content-type': 'application/json' },
+      body: JSON.stringify({ category: 'other', message: 'health check only' }),
+    }, (response) => response.status === 401 ? null : `expected 401, got ${response.status}`),
+    probe('feedback admin API gate', `${API_URL}/admin/feedback`, {
+      headers: { authorization: 'Bearer recon6-health-check' },
+    }, (response) => response.status === 401 ? null : `expected 401, got ${response.status}`),
   ])
 
   console.log(JSON.stringify({ ok: true, checkedAt: new Date().toISOString(), results }))

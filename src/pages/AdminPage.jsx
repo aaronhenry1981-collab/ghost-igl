@@ -9,6 +9,7 @@ import GameCatalog from '../components/admin/GameCatalog'
 import AvailabilityEditor from '../components/admin/AvailabilityEditor'
 import AppointmentsCalendar from '../components/admin/AppointmentsCalendar'
 import GrowthEngine from '../components/admin/GrowthEngine'
+import FeedbackQueue from '../components/admin/FeedbackQueue'
 import {
   effectiveAccessPlan,
   effectiveBillingState,
@@ -68,6 +69,7 @@ function billingLabel(user) {
 const ADMIN_TABS = [
   { id: 'members', label: 'Members', hint: 'Access and billing' },
   { id: 'appointments', label: 'Coaching', hint: 'Appointments and contact' },
+  { id: 'feedback', label: 'Feedback', hint: 'Player complaints and ideas' },
   { id: 'growth', label: 'Growth', hint: 'Evidence publishing' },
   { id: 'content', label: 'Site content', hint: 'Proof and product content' },
   { id: 'system', label: 'System', hint: 'Reconciliation and audit' },
@@ -594,6 +596,8 @@ export default function AdminPage() {
           <AvailabilityEditor />
         </>
       )}
+
+      {adminTab === 'feedback' && <FeedbackQueue />}
 
       {adminTab === 'growth' && (
         <>
