@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import {
   assertNoCredentialFields,
   createPlayerDataProvider,
@@ -95,13 +96,13 @@ test('getLatestVerifiedRank uses the same provider-independent canonical selecto
   assert.equal(canonical.value, 'Platinum V')
 })
 
-test('provenance validation normalizes timestamps and rejects impossible confidence', () => {
+test('provenance validation normalizes timestamps and accepts trusted client observations', () => {
   const provenance = validateProvenance({
-    source: 'replay',
+    source: 'desktop',
     captured_at: '2026-09-11T20:00:00-04:00',
     season: 'Y11S3',
     confidence: 0.98765,
-    verification: 'replay_derived',
+    verification: 'client_observed',
     visibility: 'coach',
   })
   assert.equal(provenance.captured_at, '2026-09-12T00:00:00.000Z')
@@ -117,4 +118,28 @@ test('provider adapters require a health check and reject vendor-specific interf
   assert.equal(adapter.id, 'ubisoft')
   assert.throws(() => createPlayerDataProvider('trn', {}), /must implement healthCheck/)
   assert.throws(() => createPlayerDataProvider('trn', { healthCheck: async () => ({}), scrapePassword: () => {} }), /Unsupported provider method/)
+})
+
+test('TRN, coaching sync, and Road to Champion use the IAM-only player-data ingestion contract', () => {
+  const producers = [
+    '../lambda/trn/index.mjs',
+    '../lambda/coaching-sync/index.mjs',
+    '../lambda/climb-progress/index.mjs',
+  ]
+  for (const path of producers) {
+    const source = readFileSync(new URL(path, import.meta.url), 'utf8')
+    assert.match(source, /PLAYER_DATA_INGEST_FUNCTION/)
+    assert.match(source, /recon\.player-data-provider/)
+    assert.match(source, /action:\s*'ingest_bundle'/)
+    assert.match(source, /InvocationType:\s*'Event'/)
+  }
+})
+
+test('trusted ingestion has no public HTTP route and requires the provider event envelope', () => {
+  const source = readFileSync(new URL('../lambda/player-data/trusted-ingest.mjs', import.meta.url), 'utf8')
+  const template = readFileSync(new URL('../aws/player-data-template.yaml', import.meta.url), 'utf8')
+  assert.match(source, /event\?\.source !== 'recon\.player-data-provider'/)
+  assert.match(source, /event\?\.detail\?\.action !== 'ingest_bundle'/)
+  assert.match(template, /TrustedIngestFunction:/)
+  assert.doesNotMatch(template.split('TrustedIngestFunction:')[1], /Type:\s*HttpApi/)
 })
