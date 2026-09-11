@@ -12,11 +12,14 @@
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 
 const REGION = process.env.AWS_REGION || 'us-east-1'
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }))
+const lambda = new LambdaClient({ region: REGION })
 const TABLE = process.env.CLIMB_TABLE || 'recon6-climb-progress'
+const PLAYER_DATA_INGEST_FUNCTION = process.env.PLAYER_DATA_INGEST_FUNCTION || ''
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: process.env.COGNITO_USER_POOL_ID || 'us-east-1_rvLy8WLQB',
@@ -39,6 +42,48 @@ async function userFrom(event) {
   try { return await verifier.verify(token) } catch (err) { console.warn('jwt verify failed:', err.name); return null }
 }
 
+async function publishClimbProgress(user, progress, capturedAt) {
+  if (!PLAYER_DATA_INGEST_FUNCTION || !user?.sub) return
+  try {
+    await lambda.send(new InvokeCommand({
+      FunctionName: PLAYER_DATA_INGEST_FUNCTION,
+      InvocationType: 'Event',
+      Payload: Buffer.from(JSON.stringify({
+        source: 'recon.player-data-provider',
+        detail: {
+          action: 'ingest_bundle',
+          producer: 'climb-progress',
+          owner_user_id: user.sub,
+          owner_email: user.email || null,
+          snapshots: [{
+            snapshot_id: `climb-${Date.now()}`,
+            snapshot_type: 'road_to_champion_progress',
+            fields: { road_to_champion_progress: progress },
+            source: 'manual',
+            captured_at: capturedAt,
+            confidence: 0.5,
+            verification: 'player_reported',
+            visibility: 'private',
+          }],
+          events: [{
+            event_type: 'road_to_champion_progress_updated',
+            occurred_at: capturedAt,
+            source: 'manual',
+            visibility: 'private',
+            data: {
+              fields: Object.keys(progress).slice(0, 30),
+            },
+          }],
+        },
+      })),
+    }))
+  } catch (err) {
+    // The climb table stays authoritative for its current-state UI. Player
+    // history projection is best-effort so it never breaks a user's save.
+    console.error('climb player-data publish failed:', err?.name || err?.message || 'unknown')
+  }
+}
+
 export async function handler(event) {
   const method = event.requestContext?.http?.method || 'GET'
   if (method === 'OPTIONS') return resp(200, {})
@@ -56,12 +101,14 @@ export async function handler(event) {
       let body = {}
       try { body = event.body ? JSON.parse(event.body) : {} } catch { return resp(400, { error: 'bad json' }) }
       const progress = body.progress
-      if (typeof progress !== 'object' || progress === null) return resp(400, { error: 'progress object required' })
+      if (typeof progress !== 'object' || progress === null || Array.isArray(progress)) return resp(400, { error: 'progress object required' })
       if (JSON.stringify(progress).length > 20000) return resp(413, { error: 'progress too large' })
+      const updatedAt = new Date().toISOString()
       await ddb.send(new PutCommand({
         TableName: TABLE,
-        Item: { sub, progress, email: user.email || null, updatedAt: new Date().toISOString() },
+        Item: { sub, progress, email: user.email || null, updatedAt },
       }))
+      await publishClimbProgress(user, progress, updatedAt)
       return resp(200, { ok: true })
     }
     return resp(404, { error: 'unknown route' })
