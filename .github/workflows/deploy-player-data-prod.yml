@@ -1,0 +1,223 @@
+name: Deploy Recon Player Data Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-player-data-prod.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: recon-player-data-production
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+  PLAYER_DATA_STACK: recon-player-data-prod
+  PLAYER_DATA_TABLE_PREFIX: recon-player
+  COGNITO_USER_POOL_ID: us-east-1_rvLy8WLQB
+  COGNITO_CLIENT_ID: 5bpa1cteenctoue24v4e245re8
+  VITE_API_BASE_URL: https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod
+  SITE_BUCKET: r6coaching.com-site
+  CLOUDFRONT_DISTRIBUTION_ID: E2WUR8DDHCOYC9
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: aws-actions/setup-sam@v2
+
+      - name: Verify AWS production credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${AWS_ACCESS_KEY_ID:-}" || -z "${AWS_SECRET_ACCESS_KEY:-}" ]]; then
+            echo "AWS production secrets are not configured in this GitHub repository."
+            exit 2
+          fi
+          ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text --region "$AWS_REGION")"
+          if [[ "$ACCOUNT_ID" != "183678667221" ]]; then
+            echo "Refusing deployment: expected AWS account 183678667221, got $ACCOUNT_ID"
+            exit 3
+          fi
+          echo "AWS account verified: $ACCOUNT_ID"
+
+      - name: Validate application and player-data contracts
+        run: |
+          npm ci
+          npm ci --prefix lambda/ubisoft-patch-watcher
+          npm test
+          npm run test:patch-watcher
+          npm run lint
+          sam validate --lint -t aws/player-data-template.yaml
+          sam build -t aws/player-data-template.yaml
+
+      - name: Deploy persistent player-data stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          sam deploy \
+            --template-file .aws-sam/build/template.yaml \
+            --stack-name "$PLAYER_DATA_STACK" \
+            --region "$AWS_REGION" \
+            --capabilities CAPABILITY_IAM \
+            --resolve-s3 \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              StageName=prod \
+              TablePrefix="$PLAYER_DATA_TABLE_PREFIX" \
+              ExistingProfilesTableName=ghost-igl-profiles \
+              CognitoUserPoolId="$COGNITO_USER_POOL_ID" \
+              CognitoClientId="$COGNITO_CLIENT_ID"
+
+          PLAYER_DATA_API_URL="$(aws cloudformation describe-stacks \
+            --stack-name "$PLAYER_DATA_STACK" \
+            --region "$AWS_REGION" \
+            --query "Stacks[0].Outputs[?OutputKey=='PlayerDataApiUrl'].OutputValue" \
+            --output text)"
+          INGEST_ARN="$(aws cloudformation describe-stacks \
+            --stack-name "$PLAYER_DATA_STACK" \
+            --region "$AWS_REGION" \
+            --query "Stacks[0].Outputs[?OutputKey=='PlayerDataTrustedIngestFunctionArn'].OutputValue" \
+            --output text)"
+
+          test -n "$PLAYER_DATA_API_URL"
+          test -n "$INGEST_ARN"
+          echo "PLAYER_DATA_API_URL=$PLAYER_DATA_API_URL" >> "$GITHUB_ENV"
+          echo "PLAYER_DATA_INGEST_FUNCTION=$INGEST_ARN" >> "$GITHUB_ENV"
+
+      - name: Smoke-test player-data API before wiring producers
+        shell: bash
+        run: |
+          set -euo pipefail
+          CODE="$(curl -sS -o /tmp/player-data-smoke.json -w '%{http_code}' "$PLAYER_DATA_API_URL/player-data/me")"
+          if [[ "$CODE" != "401" ]]; then
+            echo "Expected authenticated endpoint to reject anonymous request with 401, got $CODE"
+            cat /tmp/player-data-smoke.json || true
+            exit 1
+          fi
+          echo "Player-data API responded correctly (401 without Cognito token)."
+
+      - name: Wire producer Lambda IAM and environment
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          wire_lambda() {
+            local fn="$1"
+            echo "Wiring $fn"
+
+            local role_arn role_name current_env updated_env policy
+            role_arn="$(aws lambda get-function-configuration --function-name "$fn" --region "$AWS_REGION" --query Role --output text)"
+            role_name="${role_arn##*/}"
+
+            current_env="$(aws lambda get-function-configuration --function-name "$fn" --region "$AWS_REGION" --query 'Environment.Variables' --output json)"
+            if [[ "$current_env" == "null" || -z "$current_env" ]]; then current_env='{}'; fi
+            updated_env="$(jq -c --arg arn "$PLAYER_DATA_INGEST_FUNCTION" '. + {PLAYER_DATA_INGEST_FUNCTION:$arn}' <<<"$current_env")"
+
+            aws lambda update-function-configuration \
+              --function-name "$fn" \
+              --region "$AWS_REGION" \
+              --environment "Variables=$updated_env" >/dev/null
+            aws lambda wait function-updated-v2 --function-name "$fn" --region "$AWS_REGION"
+
+            policy="$(jq -nc --arg arn "$PLAYER_DATA_INGEST_FUNCTION" '{Version:"2012-10-17",Statement:[{Effect:"Allow",Action:"lambda:InvokeFunction",Resource:$arn}]}')"
+            aws iam put-role-policy \
+              --role-name "$role_name" \
+              --policy-name ReconPlayerDataIngest \
+              --policy-document "$policy"
+          }
+
+          wire_lambda recon6-trn
+          wire_lambda recon6-coaching-sync
+          wire_lambda recon6-climb-progress
+          wire_lambda ghost-igl-vod-api
+
+      - name: Deploy updated producer Lambda code
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          deploy_lambda() {
+            local dir="$1"
+            local fn="$2"
+            echo "Packaging $dir -> $fn"
+            pushd "lambda/$dir" >/dev/null
+            npm ci --omit=dev
+            npm install --omit=dev --no-save @aws-sdk/client-lambda
+            rm -f "/tmp/${dir}.zip"
+            zip -qr "/tmp/${dir}.zip" . -x 'function.zip'
+            popd >/dev/null
+
+            aws lambda update-function-code \
+              --function-name "$fn" \
+              --region "$AWS_REGION" \
+              --zip-file "fileb:///tmp/${dir}.zip" >/dev/null
+            aws lambda wait function-updated-v2 --function-name "$fn" --region "$AWS_REGION"
+          }
+
+          deploy_lambda trn recon6-trn
+          deploy_lambda coaching-sync recon6-coaching-sync
+          deploy_lambda climb-progress recon6-climb-progress
+          deploy_lambda vod ghost-igl-vod-api
+
+      - name: Build production site with player-data API
+        env:
+          VITE_COGNITO_USER_POOL_ID: ${{ env.COGNITO_USER_POOL_ID }}
+          VITE_COGNITO_CLIENT_ID: ${{ env.COGNITO_CLIENT_ID }}
+          VITE_API_BASE_URL: ${{ env.VITE_API_BASE_URL }}
+          VITE_PLAYER_DATA_API_URL: ${{ env.PLAYER_DATA_API_URL }}
+        run: npm run build
+
+      - name: Deploy site to S3 and invalidate CloudFront
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 sync dist/ "s3://$SITE_BUCKET" \
+            --delete \
+            --region "$AWS_REGION" \
+            --cache-control 'public, max-age=0, must-revalidate'
+
+          if [[ -d dist/assets ]]; then
+            aws s3 cp dist/assets/ "s3://$SITE_BUCKET/assets/" \
+              --recursive \
+              --region "$AWS_REGION" \
+              --metadata-directive REPLACE \
+              --cache-control 'public, max-age=31536000, immutable'
+          fi
+
+          if [[ -d dist/guides/og ]]; then
+            aws s3 cp dist/guides/og/ "s3://$SITE_BUCKET/guides/og/" \
+              --recursive \
+              --region "$AWS_REGION" \
+              --content-type 'image/svg+xml'
+          fi
+
+          aws cloudfront create-invalidation \
+            --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
+            --paths '/*' >/dev/null
+
+      - name: Verify production site and stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws cloudformation describe-stacks --stack-name "$PLAYER_DATA_STACK" --region "$AWS_REGION" \
+            --query 'Stacks[0].StackStatus' --output text
+          curl -fsS https://r6coaching.com/ >/dev/null
+          echo "Recon player-data production release completed."
