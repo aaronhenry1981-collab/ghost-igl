@@ -27,6 +27,24 @@ function Find-AwsCli {
     return $null
 }
 
+function Invoke-AwsProbe {
+    param(
+        [Parameter(Mandatory = $true)][string[]]$Arguments
+    )
+
+    # Windows PowerShell 5 can convert an expected native stderr message into a
+    # terminating NativeCommandError when $ErrorActionPreference is Stop. Probe
+    # commands intentionally tolerate non-zero exits and return only the code.
+    $previousPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'SilentlyContinue'
+        & $Aws @Arguments *> $null
+        return $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $previousPreference
+    }
+}
+
 $Aws = Find-AwsCli
 if (-not $Aws) {
     throw 'AWS CLI v2 was not found. Install/open a PowerShell session with aws.exe available, then rerun.'
@@ -52,8 +70,8 @@ if (($Providers -split '\s+') -notcontains $OidcArn) {
 }
 Write-Host 'GitHub OIDC provider found.' -ForegroundColor Green
 
-& $Aws iam get-role --role-name $RoleName --output json *> $null
-if ($LASTEXITCODE -eq 0) {
+$RoleLookupExitCode = Invoke-AwsProbe -Arguments @('iam', 'get-role', '--role-name', $RoleName, '--output', 'json')
+if ($RoleLookupExitCode -eq 0) {
     Write-Host "Updating trust policy on existing role $RoleName..." -ForegroundColor Yellow
     & $Aws iam update-assume-role-policy `
         --role-name $RoleName `
@@ -76,8 +94,8 @@ Write-Host 'Applying scoped Recon deployment permissions...' -ForegroundColor Ye
 if ($LASTEXITCODE -ne 0) { throw 'Failed to apply the Recon deploy policy.' }
 
 Write-Host "Checking SAM artifact bucket $ArtifactBucket..." -ForegroundColor Yellow
-& $Aws s3api head-bucket --bucket $ArtifactBucket 2>$null
-if ($LASTEXITCODE -ne 0) {
+$BucketLookupExitCode = Invoke-AwsProbe -Arguments @('s3api', 'head-bucket', '--bucket', $ArtifactBucket)
+if ($BucketLookupExitCode -ne 0) {
     & $Aws s3api create-bucket --bucket $ArtifactBucket --region $Region | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Failed to create the Recon SAM artifact bucket.' }
 
