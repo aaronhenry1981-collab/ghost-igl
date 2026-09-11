@@ -106,7 +106,7 @@ if ($BucketLookupExitCode -ne 0) {
 
     & $Aws s3api put-bucket-encryption `
         --bucket $ArtifactBucket `
-        --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}' | Out-Null
+        --server-side-encryption-configuration 'Rules=[{ApplyServerSideEncryptionByDefault={SSEAlgorithm=AES256}}]' | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Failed to enable SAM artifact bucket encryption.' }
 }
 
