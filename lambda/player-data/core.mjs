@@ -90,7 +90,8 @@ const VERIFICATION_PRIORITY = Object.freeze([
   'unverified',
 ])
 
-const CREDENTIAL_KEY_PATTERN = /(?:^|_)(?:password|passwd|secret|token|cookie|session|authorization|credential|credentials|api[_-]?key|access[_-]?key|refresh[_-]?token)(?:$|_)/i
+const CREDENTIAL_KEY_PATTERN = /(?:^|_)(?:password|passwd|secret|token|cookie|authorization|credential|credentials|api[_-]?key|access[_-]?key|refresh[_-]?token)(?:$|_)/i
+const AUTH_SESSION_KEY_PATTERN = /(?:^|_)(?:auth_session|session_token|session_cookie|session_secret)(?:$|_)/i
 const SAFE_FIELD_PATTERN = /^[a-z][a-z0-9_]{0,63}$/
 
 function rankIn(order, value) {
@@ -125,7 +126,7 @@ export function assertNoCredentialFields(value, path = 'payload') {
   if (typeof value !== 'object') return
 
   for (const [key, nested] of Object.entries(value)) {
-    if (CREDENTIAL_KEY_PATTERN.test(key)) {
+    if (CREDENTIAL_KEY_PATTERN.test(key) || AUTH_SESSION_KEY_PATTERN.test(key)) {
       throw new Error(`Credential-like field is not accepted: ${path}.${key}`)
     }
     assertNoCredentialFields(nested, `${path}.${key}`)
