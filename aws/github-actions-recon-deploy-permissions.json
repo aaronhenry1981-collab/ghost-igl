@@ -27,6 +27,12 @@
       "Resource": "arn:aws:cloudformation:us-east-1:183678667221:stack/recon-player-data-prod/*"
     },
     {
+      "Sid": "ServerlessTransform",
+      "Effect": "Allow",
+      "Action": "cloudformation:CreateChangeSet",
+      "Resource": "arn:aws:cloudformation:us-east-1:aws:transform/Serverless-2016-10-31"
+    },
+    {
       "Sid": "PlayerDataTables",
       "Effect": "Allow",
       "Action": "dynamodb:*",
