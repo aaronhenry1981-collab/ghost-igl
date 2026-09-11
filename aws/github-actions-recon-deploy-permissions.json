@@ -1,0 +1,115 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "IdentityCheck",
+      "Effect": "Allow",
+      "Action": "sts:GetCallerIdentity",
+      "Resource": "*"
+    },
+    {
+      "Sid": "PlayerDataStack",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:CreateStack",
+        "cloudformation:UpdateStack",
+        "cloudformation:DescribeStacks",
+        "cloudformation:DescribeStackEvents",
+        "cloudformation:DescribeStackResources",
+        "cloudformation:GetTemplate",
+        "cloudformation:GetTemplateSummary",
+        "cloudformation:ListStackResources",
+        "cloudformation:CreateChangeSet",
+        "cloudformation:DescribeChangeSet",
+        "cloudformation:ExecuteChangeSet",
+        "cloudformation:DeleteChangeSet"
+      ],
+      "Resource": "arn:aws:cloudformation:us-east-1:183678667221:stack/recon-player-data-prod/*"
+    },
+    {
+      "Sid": "PlayerDataTables",
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:183678667221:table/recon-player-*",
+        "arn:aws:dynamodb:us-east-1:183678667221:table/recon-player-*/index/*"
+      ]
+    },
+    {
+      "Sid": "ReconLambdaManagement",
+      "Effect": "Allow",
+      "Action": "lambda:*",
+      "Resource": [
+        "arn:aws:lambda:us-east-1:183678667221:function:recon-player-data-prod-*",
+        "arn:aws:lambda:us-east-1:183678667221:function:recon6-trn",
+        "arn:aws:lambda:us-east-1:183678667221:function:recon6-coaching-sync",
+        "arn:aws:lambda:us-east-1:183678667221:function:recon6-climb-progress",
+        "arn:aws:lambda:us-east-1:183678667221:function:ghost-igl-vod-api"
+      ]
+    },
+    {
+      "Sid": "PlayerDataApiGateway",
+      "Effect": "Allow",
+      "Action": "apigateway:*",
+      "Resource": "arn:aws:apigateway:us-east-1::*"
+    },
+    {
+      "Sid": "ReconExecutionRoles",
+      "Effect": "Allow",
+      "Action": "iam:*",
+      "Resource": [
+        "arn:aws:iam::183678667221:role/recon-player-data-prod-*",
+        "arn:aws:iam::183678667221:role/recon6-*",
+        "arn:aws:iam::183678667221:role/ghost-igl-*"
+      ]
+    },
+    {
+      "Sid": "SamArtifactsBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::recon-player-data-sam-artifacts-183678667221"
+    },
+    {
+      "Sid": "SamArtifactsObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::recon-player-data-sam-artifacts-183678667221/*"
+    },
+    {
+      "Sid": "ReconSiteBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::r6coaching.com-site"
+    },
+    {
+      "Sid": "ReconSiteObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::r6coaching.com-site/*"
+    },
+    {
+      "Sid": "ReconCloudFront",
+      "Effect": "Allow",
+      "Action": [
+        "cloudfront:CreateInvalidation",
+        "cloudfront:GetInvalidation",
+        "cloudfront:GetDistribution"
+      ],
+      "Resource": "arn:aws:cloudfront::183678667221:distribution/E2WUR8DDHCOYC9"
+    }
+  ]
+}
