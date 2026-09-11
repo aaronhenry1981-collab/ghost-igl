@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from './useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { bootstrapPlayerData } from '../lib/playerData'
 
 const STORAGE_KEY = 'ghost-igl:user-role'
 
@@ -56,6 +57,12 @@ export function useUserRole() {
       const newRole = data.profile?.main_role || null
       setRole(newRole)
       write(newRole)
+
+      // Once the isolated player-data stack is configured, this call creates
+      // the permanent recon_player_id and historical onboarding baseline.
+      // It is intentionally best-effort so player-data bootstrap can never
+      // block the existing profile/role experience.
+      bootstrapPlayerData(token).catch(() => {})
     } catch {
       // Network / auth issue - keep cached value
     } finally {
