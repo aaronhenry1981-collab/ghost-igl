@@ -1,0 +1,267 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Recon 6 persistent player intelligence foundation
+
+Parameters:
+  StageName:
+    Type: String
+    Default: prod
+  TablePrefix:
+    Type: String
+    Default: recon-player
+    Description: Override for non-production validation stacks to avoid table-name collisions.
+  ExistingProfilesTableName:
+    Type: String
+    Default: ghost-igl-profiles
+    Description: Existing Recon profile table used only to bootstrap the first historical snapshot.
+  CognitoUserPoolId:
+    Type: String
+    Default: us-east-1_rvLy8WLQB
+  CognitoClientId:
+    Type: String
+    Default: 5bpa1cteenctoue24v4e245re8
+
+Globals:
+  Function:
+    Runtime: nodejs24.x
+    Timeout: 30
+    MemorySize: 256
+
+Resources:
+  PlayerStoreTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-store
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: recon_player_id
+          AttributeType: S
+        - AttributeName: owner_user_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: recon_player_id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: owner-user-index
+          KeySchema:
+            - AttributeName: owner_user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  PlayerIdentitiesTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-identities
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: recon_player_id
+          AttributeType: S
+        - AttributeName: identity_key
+          AttributeType: S
+        - AttributeName: external_key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: recon_player_id
+          KeyType: HASH
+        - AttributeName: identity_key
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: external-identity-index
+          KeySchema:
+            - AttributeName: external_key
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  PlayerSnapshotsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-snapshots
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: recon_player_id
+          AttributeType: S
+        - AttributeName: snapshot_key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: recon_player_id
+          KeyType: HASH
+        - AttributeName: snapshot_key
+          KeyType: RANGE
+
+  PlayerObservationsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-observations
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: recon_player_id
+          AttributeType: S
+        - AttributeName: observation_key
+          AttributeType: S
+        - AttributeName: field_key
+          AttributeType: S
+        - AttributeName: captured_at
+          AttributeType: S
+      KeySchema:
+        - AttributeName: recon_player_id
+          KeyType: HASH
+        - AttributeName: observation_key
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: player-field-index
+          KeySchema:
+            - AttributeName: field_key
+              KeyType: HASH
+            - AttributeName: captured_at
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+  PlayerEventsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-events
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: recon_player_id
+          AttributeType: S
+        - AttributeName: event_key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: recon_player_id
+          KeyType: HASH
+        - AttributeName: event_key
+          KeyType: RANGE
+
+  ProviderHealthTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub ${TablePrefix}-provider-health
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: provider
+          AttributeType: S
+        - AttributeName: observed_at
+          AttributeType: S
+      KeySchema:
+        - AttributeName: provider
+          KeyType: HASH
+        - AttributeName: observed_at
+          KeyType: RANGE
+
+  PlayerDataApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref StageName
+      CorsConfiguration:
+        AllowOrigins:
+          - https://r6coaching.com
+          - https://www.r6coaching.com
+          - http://localhost:5173
+        AllowHeaders:
+          - Authorization
+          - Content-Type
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        MaxAge: 600
+
+  PlayerDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: recon-player-data-api
+      CodeUri: ../lambda/player-data/
+      Handler: index.handler
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref CognitoUserPoolId
+          COGNITO_CLIENT_ID: !Ref CognitoClientId
+          PROFILES_TABLE: !Ref ExistingProfilesTableName
+          PLAYER_STORE_TABLE: !Ref PlayerStoreTable
+          PLAYER_IDENTITIES_TABLE: !Ref PlayerIdentitiesTable
+          PLAYER_SNAPSHOTS_TABLE: !Ref PlayerSnapshotsTable
+          PLAYER_OBSERVATIONS_TABLE: !Ref PlayerObservationsTable
+          PLAYER_EVENTS_TABLE: !Ref PlayerEventsTable
+          PROVIDER_HEALTH_TABLE: !Ref ProviderHealthTable
+      Policies:
+        - Statement:
+            - Sid: LegacyProfileBootstrapRead
+              Effect: Allow
+              Action:
+                - dynamodb:GetItem
+              Resource: !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ExistingProfilesTableName}
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerStoreTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerIdentitiesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerSnapshotsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerObservationsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerEventsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProviderHealthTable
+      Events:
+        GetPlayer:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/me, Method: GET }
+        LinkIdentity:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/identities, Method: POST }
+        CreateSnapshot:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/snapshots, Method: POST }
+        GetHistory:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/history, Method: GET }
+        CreateEvent:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/events, Method: POST }
+        GetTimeline:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/timeline, Method: GET }
+        ExportPlayerData:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/export, Method: GET }
+        GetProviders:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/providers, Method: GET }
+        ProviderHealth:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/provider-health, Method: POST }
+
+Outputs:
+  PlayerDataApiUrl:
+    Description: Configure this value as VITE_PLAYER_DATA_API_URL after the stack is deployed.
+    Value: !Sub https://${PlayerDataApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${StageName}
+  PlayerDataFunctionArn:
+    Description: Trusted replay/VOD/provider ingest callers can receive explicit lambda:InvokeFunction permission to this ARN.
+    Value: !GetAtt PlayerDataFunction.Arn
