@@ -18,11 +18,14 @@
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, QueryCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb'
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 
 const REGION = process.env.AWS_REGION || 'us-east-1'
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }))
+const lambda = new LambdaClient({ region: REGION })
 const TABLE = process.env.EVENTS_TABLE || 'recon6-coaching-events'
+const PLAYER_DATA_INGEST_FUNCTION = process.env.PLAYER_DATA_INGEST_FUNCTION || ''
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: process.env.COGNITO_USER_POOL_ID || 'us-east-1_rvLy8WLQB',
@@ -43,6 +46,109 @@ async function requireUser(event) {
   const token = auth.replace(/^Bearer\s+/i, '')
   if (!token) return null
   try { return await verifier.verify(token) } catch { return null }
+}
+
+function compactFields(fields) {
+  return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== null && value !== undefined && value !== ''))
+}
+
+function safeId(value) {
+  return String(value || '').replace(/[^a-zA-Z0-9._:-]/g, '-').slice(0, 80)
+}
+
+async function publishPlayerDataBundle(user, bundle) {
+  if (!PLAYER_DATA_INGEST_FUNCTION || !user?.sub) return
+  try {
+    await lambda.send(new InvokeCommand({
+      FunctionName: PLAYER_DATA_INGEST_FUNCTION,
+      InvocationType: 'Event',
+      Payload: Buffer.from(JSON.stringify({
+        source: 'recon.player-data-provider',
+        detail: {
+          action: 'ingest_bundle',
+          producer: 'coaching-sync',
+          owner_user_id: user.sub,
+          owner_email: user.email || null,
+          ...bundle,
+        },
+      })),
+    }))
+  } catch (err) {
+    // Coaching sync remains the source-of-truth for its own corpus even if the
+    // historical intelligence projection is temporarily unavailable.
+    console.error('coaching player-data publish failed:', err?.name || err?.message || 'unknown')
+  }
+}
+
+function playerDataFromReports(events) {
+  const snapshots = []
+  const timeline = []
+  const reports = (events || []).filter((e) => e?.report && e?.sessionId && e?.ts).slice(0, 10)
+
+  for (const e of reports) {
+    const capturedAt = new Date(e.ts).toString() === 'Invalid Date' ? new Date().toISOString() : new Date(e.ts).toISOString()
+    const sessionId = safeId(e.sessionId)
+    const tsId = safeId(capturedAt)
+    const report = e.report || {}
+    const mechanics = report.mechanics || {}
+    const factual = compactFields({
+      last_match_result: report.result,
+      last_match_rp_delta: report.rpDelta,
+      last_coached_map: e.gameState?.map,
+      last_coached_site: e.gameState?.siteId,
+      last_coached_side: e.gameState?.side,
+      last_coached_operator: e.gameState?.operatorId,
+    })
+
+    if (Object.keys(factual).length) {
+      snapshots.push({
+        snapshot_id: `coaching-match-${sessionId}-${tsId}`.slice(0, 100),
+        snapshot_type: 'coaching_match_observation',
+        fields: factual,
+        source: 'desktop',
+        captured_at: capturedAt,
+        confidence: 0.85,
+        verification: 'client_observed',
+        visibility: 'private',
+      })
+    }
+
+    const coachingInsight = compactFields({
+      identified_weakness: mechanics.dominant,
+      recommended_drill: mechanics.drill,
+      recurring_mistake_count: mechanics.recurring,
+    })
+    if (Object.keys(coachingInsight).length) {
+      snapshots.push({
+        snapshot_id: `coaching-insight-${sessionId}-${tsId}`.slice(0, 100),
+        snapshot_type: 'coaching_insight',
+        fields: coachingInsight,
+        source: 'coach',
+        captured_at: capturedAt,
+        confidence: 0.75,
+        verification: 'ai_derived',
+        visibility: 'coach',
+      })
+    }
+
+    timeline.push({
+      event_id: `coaching-completed-${sessionId}-${tsId}`.slice(0, 100),
+      event_type: 'coaching_session_completed',
+      occurred_at: capturedAt,
+      source: 'coach',
+      visibility: 'private',
+      data: compactFields({
+        session_id: e.sessionId,
+        result: report.result,
+        rp_delta: report.rpDelta,
+        map: e.gameState?.map,
+        operator: e.gameState?.operatorId,
+        dominant_weakness: mechanics.dominant,
+      }),
+    })
+  }
+
+  return { snapshots, events: timeline }
 }
 
 async function queryAll(userId) {
@@ -139,6 +245,15 @@ export async function handler(event) {
           chunk = un
         }
       }
+
+      // Project match-end outcomes into the durable Recon player timeline.
+      // This is intentionally best-effort and never changes the success of the
+      // existing coaching event sync path.
+      const playerData = playerDataFromReports(events)
+      if (playerData.snapshots.length || playerData.events.length) {
+        await publishPlayerDataBundle(user, playerData)
+      }
+
       return resp(200, { written, received: events.length })
     }
 
