@@ -18,6 +18,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -78,9 +79,11 @@ console.log(`VOD Lambda loaded contexts for: ${Object.keys(CONTEXTS_BY_GAME).joi
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'us-east-1' })
+const lambda = new LambdaClient({ region: process.env.AWS_REGION || 'us-east-1' })
 
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const MODEL_ID = process.env.VOD_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-20250929-v1:0'
+const PLAYER_DATA_INGEST_FUNCTION = process.env.PLAYER_DATA_INGEST_FUNCTION || ''
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5MB decoded per image
 const MAX_IMAGES_PER_SESSION = 10
 const PRO_MAX_IMAGES = 5    // Pro tier: up to 5 images per session
@@ -132,6 +135,72 @@ function buildHeaders(event) {
     'Access-Control-Allow-Headers': 'Authorization,Content-Type',
     'Access-Control-Allow-Methods': 'POST,OPTIONS',
     'Content-Type': 'application/json',
+  }
+}
+
+function compactFields(fields) {
+  return Object.fromEntries(Object.entries(fields).filter(([, value]) => {
+    if (value === null || value === undefined || value === '') return false
+    if (Array.isArray(value) && value.length === 0) return false
+    return true
+  }))
+}
+
+async function publishVodPlayerData(payload, analysis, gameId) {
+  if (!PLAYER_DATA_INGEST_FUNCTION || !payload?.sub || !analysis || analysis.error) return
+  const capturedAt = new Date().toISOString()
+  const fields = compactFields({
+    vod_score: analysis.session?.score,
+    last_vod_headline: analysis.session?.headline,
+    last_vod_map: analysis.session?.detected_map,
+    last_vod_side: analysis.session?.detected_side,
+    vod_recurring_weaknesses: analysis.patterns?.recurring_weaknesses?.slice(0, 4),
+    vod_standout_strengths: analysis.patterns?.standout_strengths?.slice(0, 4),
+    vod_practice_plan: analysis.practice_plan?.this_week?.slice(0, 5),
+    character_feedback: analysis.character_feedback,
+  })
+  if (!Object.keys(fields).length) return
+
+  try {
+    await lambda.send(new InvokeCommand({
+      FunctionName: PLAYER_DATA_INGEST_FUNCTION,
+      InvocationType: 'Event',
+      Payload: Buffer.from(JSON.stringify({
+        source: 'recon.player-data-provider',
+        detail: {
+          action: 'ingest_bundle',
+          producer: 'vod',
+          owner_user_id: payload.sub,
+          owner_email: payload.email || null,
+          snapshots: [{
+            snapshot_id: `vod-${Date.now()}`,
+            snapshot_type: 'vod_analysis',
+            fields,
+            source: 'vod',
+            captured_at: capturedAt,
+            confidence: 0.75,
+            verification: 'ai_derived',
+            visibility: 'private',
+          }],
+          events: [{
+            event_type: 'vod_reviewed',
+            occurred_at: capturedAt,
+            source: 'vod',
+            visibility: 'private',
+            data: compactFields({
+              game_id: gameId,
+              score: analysis.session?.score,
+              image_count: analysis.session?.image_count,
+              detected_map: analysis.session?.detected_map,
+            }),
+          }],
+        },
+      })),
+    }))
+  } catch (err) {
+    // Never turn a valid paid VOD result into an error merely because the
+    // historical projection is temporarily unavailable.
+    console.error('VOD player-data publish failed:', err?.name || err?.message || 'unknown')
   }
 }
 
@@ -457,6 +526,9 @@ export async function handler(event) {
 
   try {
     const analysis = await callBedrock(gameId, images, userContext, tier)
+    // A validated Recon VOD result is the trusted point to project AI-derived
+    // coaching intelligence. This never depends on trusting a browser upload.
+    await publishVodPlayerData(payload, analysis, gameId)
     // Compute the updated usage AFTER reservation so the response can show
     // the user their remaining count without an extra round-trip.
     const responseUsage = !isAdmin && activeSub
