@@ -196,7 +196,6 @@ Resources:
   PlayerDataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: recon-player-data-api
       CodeUri: ../lambda/player-data/
       Handler: index.handler
       Environment:
