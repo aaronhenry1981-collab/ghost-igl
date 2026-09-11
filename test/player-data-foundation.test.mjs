@@ -120,10 +120,11 @@ test('provider adapters require a health check and reject vendor-specific interf
   assert.throws(() => createPlayerDataProvider('trn', { healthCheck: async () => ({}), scrapePassword: () => {} }), /Unsupported provider method/)
 })
 
-test('TRN, coaching sync, and Road to Champion use the IAM-only player-data ingestion contract', () => {
+test('TRN, coaching, VOD, and Road to Champion use the IAM-only player-data ingestion contract', () => {
   const producers = [
     '../lambda/trn/index.mjs',
     '../lambda/coaching-sync/index.mjs',
+    '../lambda/vod/index.mjs',
     '../lambda/climb-progress/index.mjs',
   ]
   for (const path of producers) {
