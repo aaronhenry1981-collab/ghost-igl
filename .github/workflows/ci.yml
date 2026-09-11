@@ -20,11 +20,18 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: aws-actions/setup-sam@v2
       - run: npm ci
       - name: Install patch watcher dependencies
         run: npm ci --prefix lambda/ubisoft-patch-watcher
       - name: Patch watcher tests
         run: npm run test:patch-watcher
+      - name: Contract tests
+        run: npm test
+      - name: Validate player-data SAM stack
+        run: sam validate --lint --template-file aws/player-data-template.yaml
+      - name: Build player-data SAM stack
+        run: sam build --template-file aws/player-data-template.yaml --build-dir .aws-sam-player-data
       - run: npm run lint
       - run: npm run build
       - name: Product truth
