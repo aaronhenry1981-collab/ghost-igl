@@ -34,7 +34,7 @@ test('recon player IDs are stable and do not depend on email or username', () =>
   assert.notEqual(first, other)
 })
 
-test('credential-like fields are rejected recursively, including TRN passwords', () => {
+test('credential-like fields are rejected recursively without blocking gameplay session IDs', () => {
   assert.throws(
     () => assertNoCredentialFields({ provider: 'trn', auth: { password: 'do-not-store-this' } }),
     /Credential-like field is not accepted/,
@@ -43,7 +43,12 @@ test('credential-like fields are rejected recursively, including TRN passwords',
     () => assertNoCredentialFields({ metadata: { refresh_token: 'do-not-store-this' } }),
     /Credential-like field is not accepted/,
   )
+  assert.throws(
+    () => assertNoCredentialFields({ metadata: { session_token: 'do-not-store-this' } }),
+    /Credential-like field is not accepted/,
+  )
   assert.doesNotThrow(() => assertNoCredentialFields({ provider: 'trn', username: 'player-name' }))
+  assert.doesNotThrow(() => assertNoCredentialFields({ session_id: 'match-session-123', session: { map: 'Clubhouse' } }))
 })
 
 test('fresh official Ubisoft rank wins over fresh TRN rank', () => {
