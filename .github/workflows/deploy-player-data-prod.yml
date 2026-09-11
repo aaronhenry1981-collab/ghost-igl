@@ -160,7 +160,11 @@ jobs:
             local fn="$2"
             echo "Packaging $dir -> $fn"
             pushd "lambda/$dir" >/dev/null
-            npm ci --omit=dev
+            if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+              npm ci --omit=dev
+            else
+              npm install --omit=dev --no-audit --no-fund
+            fi
             npm install --omit=dev --no-save @aws-sdk/client-lambda
             rm -f "/tmp/${dir}.zip"
             zip -qr "/tmp/${dir}.zip" . -x 'function.zip'
