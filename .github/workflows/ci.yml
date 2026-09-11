@@ -25,6 +25,8 @@ jobs:
         run: npm ci --prefix lambda/ubisoft-patch-watcher
       - name: Patch watcher tests
         run: npm run test:patch-watcher
+      - name: Contract tests
+        run: npm test
       - run: npm run lint
       - run: npm run build
       - name: Product truth
