@@ -257,10 +257,40 @@ Resources:
           Type: HttpApi
           Properties: { ApiId: !Ref PlayerDataApi, Path: /player-data/provider-health, Method: POST }
 
+  TrustedIngestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/player-data/
+      Handler: trusted-ingest.handler
+      Environment:
+        Variables:
+          PLAYER_STORE_TABLE: !Ref PlayerStoreTable
+          PLAYER_IDENTITIES_TABLE: !Ref PlayerIdentitiesTable
+          PLAYER_SNAPSHOTS_TABLE: !Ref PlayerSnapshotsTable
+          PLAYER_OBSERVATIONS_TABLE: !Ref PlayerObservationsTable
+          PLAYER_EVENTS_TABLE: !Ref PlayerEventsTable
+          PROVIDER_HEALTH_TABLE: !Ref ProviderHealthTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerStoreTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerIdentitiesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerSnapshotsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerObservationsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PlayerEventsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProviderHealthTable
+
 Outputs:
   PlayerDataApiUrl:
     Description: Configure this value as VITE_PLAYER_DATA_API_URL after the stack is deployed.
     Value: !Sub https://${PlayerDataApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${StageName}
-  PlayerDataFunctionArn:
-    Description: Trusted replay/VOD/provider ingest callers can receive explicit lambda:InvokeFunction permission to this ARN.
+  PlayerDataApiFunctionArn:
+    Description: Authenticated player-data API function ARN.
     Value: !GetAtt PlayerDataFunction.Arn
+  PlayerDataTrustedIngestFunctionArn:
+    Description: Grant selected Recon provider Lambdas explicit lambda:InvokeFunction permission to this ARN.
+    Value: !GetAtt TrustedIngestFunction.Arn
