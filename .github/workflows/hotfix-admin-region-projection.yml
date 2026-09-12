@@ -1,0 +1,100 @@
+name: Hotfix Admin Region Projection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/hotfix-admin-region-projection.yml'
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: recon-admin-region-hotfix
+  cancel-in-progress: false
+
+jobs:
+  hotfix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Patch reserved DynamoDB projection word
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('lambda/admin/index.mjs')
+          s = p.read_text()
+          old = "      ProjectionExpression: 'email, first_name, last_name, display_name, platform, region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',\n"
+          new = "      ProjectionExpression: 'email, first_name, last_name, display_name, platform, #region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',\n      ExpressionAttributeNames: { '#region': 'region' },\n"
+          if old not in s:
+              raise SystemExit('Expected admin profile ProjectionExpression not found; refusing unsafe patch')
+          p.write_text(s.replace(old, new, 1))
+          PY
+
+      - name: Validate hotfix
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm test
+          node --test test/member-profile-admin.test.mjs
+          npm run lint
+          grep -F "#region" lambda/admin/index.mjs >/dev/null
+          grep -F "ExpressionAttributeNames: { '#region': 'region' }" lambda/admin/index.mjs >/dev/null
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::183678667221:role/github-actions-recon-deploy
+          aws-region: us-east-1
+
+      - name: Verify AWS identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(aws sts get-caller-identity --query Account --output text --region us-east-1)" = "183678667221"
+
+      - name: Package and deploy admin API
+        shell: bash
+        run: |
+          set -euo pipefail
+          pushd lambda/admin >/dev/null
+          npm ci --omit=dev
+          zip -qr /tmp/admin-api.zip . -x 'function.zip'
+          popd >/dev/null
+          aws lambda update-function-code \
+            --function-name ghost-igl-admin-api \
+            --region us-east-1 \
+            --zip-file fileb:///tmp/admin-api.zip >/dev/null
+          aws lambda wait function-updated-v2 \
+            --function-name ghost-igl-admin-api \
+            --region us-east-1
+
+      - name: Smoke test admin auth boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          CODE="$(curl -sS -o /tmp/admin.json -w '%{http_code}' https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/admin/users)"
+          test "$CODE" = "401"
+
+      - name: Commit hotfix to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Recon Release Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lambda/admin/index.mjs
+          git commit -m "fix: alias DynamoDB region projection in admin users"
+          git push origin HEAD:main
