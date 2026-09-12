@@ -178,7 +178,7 @@ async function scanAllProfiles() {
     const r = await ddb.send(new ScanCommand({
       TableName: PROFILES_TABLE,
       ExclusiveStartKey: lastKey,
-      ProjectionExpression: 'email, active_game_id, last_seen_at',
+      ProjectionExpression: 'email, first_name, last_name, display_name, platform, region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',
     }))
     items.push(...(r.Items || []))
     lastKey = r.LastEvaluatedKey
@@ -383,6 +383,9 @@ async function getUsers(headers) {
     const sub = subByEmail.get(email)
     if (sub) claimedSubEmails.add(email)
     const profile = profileByEmail.get(email)
+    let gameProfiles = {}
+    try { gameProfiles = profile?.game_profiles_json ? JSON.parse(profile.game_profiles_json) : {} } catch { gameProfiles = {} }
+    const r6 = gameProfiles?.r6 || {}
     return {
       username: u.Username,
       email,
@@ -396,9 +399,20 @@ async function getUsers(headers) {
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
       is_comp: sub ? (sub.status === 'active' && isComp(sub)) : false,
+      first_name: profile?.first_name || null,
+      last_name: profile?.last_name || null,
+      display_name: profile?.display_name || null,
+      platform: profile?.platform || null,
+      region: profile?.region || profile?.preferred_server || null,
+      discord_username: profile?.discord_username || profile?.discord_handle || null,
+      gamer_id: profile?.gamer_id || null,
       active_game_id: profile?.active_game_id || null,
       last_seen_at: profile?.last_seen_at || null,
       referral_source: profile?.referral_source || null,
+      r6_ubisoft_username: r6.ubisoft_username || null,
+      r6_rank: r6.rank || null,
+      r6_goal_rank: r6.goal_rank || null,
+      r6_main_role: r6.main_role || profile?.main_role || null,
     }
   })
 
@@ -407,6 +421,10 @@ async function getUsers(headers) {
   // see these to send them a signup link / chase the missing account.
   for (const [email, sub] of subByEmail.entries()) {
     if (claimedSubEmails.has(email)) continue
+    const profile = profileByEmail.get(email)
+    let gameProfiles = {}
+    try { gameProfiles = profile?.game_profiles_json ? JSON.parse(profile.game_profiles_json) : {} } catch { gameProfiles = {} }
+    const r6 = gameProfiles?.r6 || {}
     users.push({
       username: null,             // no Cognito user
       email,
@@ -419,11 +437,28 @@ async function getUsers(headers) {
       stripe_subscription_id: sub.stripe_subscription_id || null,
       current_period_end: sub.current_period_end || null,
       orphan: true,               // Stripe-only, no Cognito match
-      active_game_id: profileByEmail.get(email)?.active_game_id || null,
-      last_seen_at: profileByEmail.get(email)?.last_seen_at || null,
-      referral_source: profileByEmail.get(email)?.referral_source || null,
+      first_name: profile?.first_name || null,
+      last_name: profile?.last_name || null,
+      display_name: profile?.display_name || null,
+      platform: profile?.platform || null,
+      region: profile?.region || profile?.preferred_server || null,
+      discord_username: profile?.discord_username || profile?.discord_handle || null,
+      gamer_id: profile?.gamer_id || null,
+      active_game_id: profile?.active_game_id || null,
+      last_seen_at: profile?.last_seen_at || null,
+      referral_source: profile?.referral_source || null,
+      r6_ubisoft_username: r6.ubisoft_username || null,
+      r6_rank: r6.rank || null,
+      r6_goal_rank: r6.goal_rank || null,
+      r6_main_role: r6.main_role || profile?.main_role || null,
     })
   }
+
+  users.sort((a, b) => {
+    const aMs = a.created_at ? Date.parse(a.created_at) : 0
+    const bMs = b.created_at ? Date.parse(b.created_at) : 0
+    return bMs - aMs
+  })
 
   const ddbSummary = computeSummary(subs)
   try {

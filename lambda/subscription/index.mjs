@@ -65,7 +65,9 @@ const ALLOWED_ORIGINS = ['https://r6coaching.com', 'https://www.r6coaching.com',
 // with existing profile rows; new signups use the modern names.
 const ALLOWED_PROFILE_FIELDS = [
   // Modern fields — preferred
-  'display_name',          // "gamer tag" — public-facing display name
+  'first_name',            // real first name — private account identity
+  'last_name',             // real last name — private account identity
+  'display_name',          // preferred/public-facing name or gamer identity
   'discord_username',      // for cold-DM contact
   'platform',              // 'pc' | 'xbox' | 'ps5'
   'region',                // 'na' | 'eu' | 'sa' | 'apac'
@@ -633,9 +635,10 @@ function maskEmail(email) {
 
 function isProfileComplete(p) {
   if (!p) return false
-  // Minimum required fields for "complete" status. Display name + platform
-  // is enough to personalize emails and content. Everything else is bonus.
-  return !!(p.display_name && p.platform)
+  // New identity baseline: collect a real name plus the preferred/public
+  // display name and platform. Existing users missing first/last name will see
+  // the setup prompt again so Recon can progressively complete their profile.
+  return !!(p.first_name && p.last_name && p.display_name && p.platform)
 }
 
 async function putMe(email, bodyJson, headers) {

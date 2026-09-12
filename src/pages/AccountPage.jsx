@@ -15,6 +15,9 @@ export default function AccountPage() {
   const goToPricing = useSectionNavigate('pricing')
   const [me, setMe] = useState(null)
   const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    display_name: '',
     discord_handle: '',
     gamer_id: '',
     platform: '',
@@ -219,6 +222,18 @@ export default function AccountPage() {
           <p>Loading profile…</p>
         ) : (
           <form onSubmit={saveProfile} className="account-form">
+            <div className="account-form-row">
+              <Field label="First name">
+                <input type="text" maxLength={100} value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} className="account-input" autoComplete="given-name" />
+              </Field>
+              <Field label="Last name">
+                <input type="text" maxLength={100} value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} className="account-input" autoComplete="family-name" />
+              </Field>
+            </div>
+            <Field label="Preferred name / gamer name">
+              <input type="text" maxLength={100} value={form.display_name} onChange={(e) => setForm({ ...form, display_name: e.target.value })} className="account-input" autoComplete="nickname" />
+            </Field>
+
             <Field label="Discord handle" placeholder="yourname or yourname#1234">
               <input
                 type="text"
@@ -325,7 +340,7 @@ function AccessItem({ enabled, allow, note }) {
 }
 
 function pickFields(o) {
-  const keys = ['discord_handle', 'gamer_id', 'platform', 'preferred_server', 'main_role']
+  const keys = ['first_name', 'last_name', 'display_name', 'discord_handle', 'gamer_id', 'platform', 'preferred_server', 'main_role']
   const out = {}
   for (const k of keys) out[k] = o[k] ?? ''
   return out

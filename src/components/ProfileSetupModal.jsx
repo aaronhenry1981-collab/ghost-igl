@@ -5,7 +5,8 @@ import { getRefSource, clearRefSource } from '../lib/refSource'
 import { RANKS } from '../data/ranks' // single source of truth — all 40 R6 ranks w/ divisions
 
 // First-login profile setup. Collects identity fields Aaron needs to know
-// who his customers are when emailing them — display name, platform, region,
+// who his customers are when emailing them — real first/last name, preferred
+// display name, platform, region,
 // referral source — plus optional R6-specific fields (rank, role, gamer tag,
 // goal rank). Everything is saved to ghost-igl-profiles via PUT /me.
 //
@@ -59,6 +60,8 @@ export default function ProfileSetupModal() {
   })
 
   const [form, setForm] = useState({
+    first_name: profile?.first_name || '',
+    last_name: profile?.last_name || '',
     display_name: profile?.display_name || '',
     platform: profile?.platform || '',
     region: profile?.region || '',
@@ -84,8 +87,13 @@ export default function ProfileSetupModal() {
 
   async function save() {
     setError(null)
+    if (!form.first_name.trim() || !form.last_name.trim()) {
+      setError('First and last name are required for your account profile.')
+      setStep(1)
+      return
+    }
     if (!form.display_name.trim()) {
-      setError('Display name is required so we know what to call you.')
+      setError('Preferred name is required so Recon knows what to call you.')
       setStep(1)
       return
     }
@@ -109,6 +117,8 @@ export default function ProfileSetupModal() {
       if (form.r6_ubisoft_username.trim()) gameProfiles.r6.ubisoft_username = form.r6_ubisoft_username.trim()
 
       const body = {
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim(),
         display_name: form.display_name.trim(),
         platform: form.platform,
         region: form.region || null,
@@ -206,8 +216,16 @@ export default function ProfileSetupModal() {
 
         {step === 1 && (
           <div style={{ display: 'grid', gap: '0.9rem' }}>
-            <Field label="Display name" required>
-              <input type="text" value={form.display_name} onChange={(e) => setField('display_name', e.target.value)} placeholder="What should we call you?" maxLength={60} className="testi-input" autoFocus />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <Field label="First name" required>
+                <input type="text" value={form.first_name} onChange={(e) => setField('first_name', e.target.value)} placeholder="Aaron" maxLength={60} className="testi-input" autoFocus autoComplete="given-name" />
+              </Field>
+              <Field label="Last name" required>
+                <input type="text" value={form.last_name} onChange={(e) => setField('last_name', e.target.value)} placeholder="Henry" maxLength={60} className="testi-input" autoComplete="family-name" />
+              </Field>
+            </div>
+            <Field label="Preferred name / gamer name" required>
+              <input type="text" value={form.display_name} onChange={(e) => setField('display_name', e.target.value)} placeholder="What should Recon call you?" maxLength={60} className="testi-input" autoComplete="nickname" />
             </Field>
             <Field label="Platform" required>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
@@ -274,7 +292,8 @@ export default function ProfileSetupModal() {
           {step === 1 ? (
             <button
               onClick={() => {
-                if (!form.display_name.trim()) { setError('Display name is required.'); return }
+                if (!form.first_name.trim() || !form.last_name.trim()) { setError('First and last name are required.'); return }
+                if (!form.display_name.trim()) { setError('Preferred name is required.'); return }
                 if (!form.platform) { setError('Pick a platform.'); return }
                 setError(null); setStep(2)
               }}
