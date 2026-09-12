@@ -164,7 +164,7 @@ function pickTip(gameId) {
 }
 
 export default function DashboardPage() {
-  const { user, plan, isAdmin, loading: authLoading } = useAuth()
+  const { user, plan, isAdmin, profile, loading: authLoading } = useAuth()
   const { activeGameId, isR6 } = useActiveGame()
   const { data, gameMeta } = useGameData()
   const { recents } = useRecentStrats()
@@ -212,8 +212,10 @@ export default function DashboardPage() {
     return 'Good evening'
   })()
 
-  const firstName = (user.email || '').split('@')[0].split('.')[0].split('+')[0]
-  const niceName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'player'
+  const profileName = (profile?.first_name || '').trim() || (profile?.display_name || '').trim().split(/\s+/)[0]
+  const emailFallback = (user.email || '').split('@')[0].split('.')[0].split('+')[0]
+  const rawName = profileName || emailFallback
+  const niceName = rawName ? rawName.charAt(0).toUpperCase() + rawName.slice(1) : 'player'
 
   return (
     <div className="dashboard-page">

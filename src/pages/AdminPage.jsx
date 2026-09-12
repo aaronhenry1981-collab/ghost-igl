@@ -183,6 +183,16 @@ export default function AdminPage() {
       if (!q) return true
       return (
         (u.email || '').toLowerCase().includes(q) ||
+        (u.first_name || '').toLowerCase().includes(q) ||
+        (u.last_name || '').toLowerCase().includes(q) ||
+        (u.display_name || '').toLowerCase().includes(q) ||
+        (u.discord_username || '').toLowerCase().includes(q) ||
+        (u.gamer_id || '').toLowerCase().includes(q) ||
+        (u.r6_ubisoft_username || '').toLowerCase().includes(q) ||
+        (u.platform || '').toLowerCase().includes(q) ||
+        (u.region || '').toLowerCase().includes(q) ||
+        (u.r6_rank || '').toLowerCase().includes(q) ||
+        (u.r6_main_role || '').toLowerCase().includes(q) ||
         (u.stripe_customer_id || '').toLowerCase().includes(q)
       )
     })
@@ -253,7 +263,7 @@ export default function AdminPage() {
   }
 
   function exportCsv() {
-    const cols = ['email', 'plan', 'sub_status', 'cognito_status', 'referral_source', 'created_at', 'current_period_end', 'stripe_customer_id']
+    const cols = ['first_name', 'last_name', 'display_name', 'email', 'platform', 'region', 'discord_username', 'gamer_id', 'r6_ubisoft_username', 'r6_rank', 'r6_goal_rank', 'r6_main_role', 'active_game_id', 'last_seen_at', 'referral_source', 'plan', 'sub_status', 'cognito_status', 'created_at', 'current_period_end', 'stripe_customer_id']
     const rows = [cols.join(',')]
     for (const u of filtered) rows.push(cols.map((c) => csvEscape(u[c])).join(','))
     const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
@@ -335,7 +345,7 @@ export default function AdminPage() {
         <div className="admin-filters">
           <input
             type="search"
-            placeholder="Search by email or Stripe ID…"
+            placeholder="Search name, email, Discord, Ubisoft/gamertag, platform, region or Stripe ID…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="admin-input"
@@ -367,7 +377,8 @@ export default function AdminPage() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Email</th>
+                  <th>Member</th>
+                  <th>Gaming identity</th>
                   <th>Plan</th>
                   <th>Status</th>
                   <th>Verified</th>
@@ -406,8 +417,10 @@ export default function AdminPage() {
                       style={isOrphan ? { background: 'rgba(255, 180, 80, 0.06)' } : undefined}
                       title={isOrphan ? 'Paid in Stripe but never created a Recon 6 account — send them a signup link.' : undefined}
                     >
-                      <td className="admin-mono">
-                        {u.email || '-'}
+                      <td>
+                        <div style={{ fontWeight: 700 }}>{[u.first_name, u.last_name].filter(Boolean).join(' ') || u.display_name || 'Name not collected'}</div>
+                        {u.display_name && <div style={{ opacity: 0.7, fontSize: '0.78rem' }}>Preferred: {u.display_name}</div>}
+                        <div className="admin-mono" style={{ opacity: 0.75, fontSize: '0.78rem' }}>{u.email || '-'}</div>
                         {isOrphan && (
                           <span
                             className="admin-badge"
@@ -426,6 +439,13 @@ export default function AdminPage() {
                             ⚠ NO ACCOUNT
                           </span>
                         )}
+                      </td>
+                      <td>
+                        <div>{u.r6_ubisoft_username || u.gamer_id || <span style={{ opacity: 0.4 }}>—</span>}</div>
+                        <div style={{ opacity: 0.65, fontSize: '0.78rem' }}>
+                          {[u.platform, u.region, u.r6_rank, u.r6_main_role].filter(Boolean).join(' · ') || 'No gaming details'}
+                        </div>
+                        {u.discord_username && <div style={{ opacity: 0.65, fontSize: '0.78rem' }}>Discord: {u.discord_username}</div>}
                       </td>
                       <td>
                         <span className={`admin-badge admin-badge-${u.plan}`}>{u.plan}</span>
