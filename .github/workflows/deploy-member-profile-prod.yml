@@ -1,0 +1,155 @@
+name: Deploy Recon Member Profile Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-member-profile-prod.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: recon-member-profile-production
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+  API_BASE_URL: https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod
+  SITE_BUCKET: r6coaching.com-site
+  CLOUDFRONT_DISTRIBUTION_ID: E2WUR8DDHCOYC9
+  COGNITO_USER_POOL_ID: us-east-1_rvLy8WLQB
+  COGNITO_CLIENT_ID: 5bpa1cteenctoue24v4e245re8
+  PLAYER_DATA_API_URL: https://lsg71ctsxb.execute-api.us-east-1.amazonaws.com/prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::183678667221:role/github-actions-recon-deploy
+          aws-region: us-east-1
+
+      - name: Verify AWS production identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text --region "$AWS_REGION")"
+          test "$ACCOUNT_ID" = "183678667221"
+          echo "AWS account verified: $ACCOUNT_ID"
+
+      - name: Validate member/profile release
+        run: |
+          npm ci
+          npm test
+          node --test test/member-profile-admin.test.mjs
+          npm run lint
+          npm run build
+
+      - name: Package subscription API
+        shell: bash
+        run: |
+          set -euo pipefail
+          pushd lambda/subscription >/dev/null
+          npm ci --omit=dev
+          zip -qr /tmp/subscription-api.zip . -x 'function.zip'
+          popd >/dev/null
+
+      - name: Package admin API
+        shell: bash
+        run: |
+          set -euo pipefail
+          pushd lambda/admin >/dev/null
+          npm ci --omit=dev
+          zip -qr /tmp/admin-api.zip . -x 'function.zip'
+          popd >/dev/null
+
+      - name: Deploy subscription API
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws lambda update-function-code \
+            --function-name ghost-igl-subscription-api \
+            --region "$AWS_REGION" \
+            --zip-file fileb:///tmp/subscription-api.zip >/dev/null
+          aws lambda wait function-updated-v2 \
+            --function-name ghost-igl-subscription-api \
+            --region "$AWS_REGION"
+
+      - name: Deploy admin API
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws lambda update-function-code \
+            --function-name ghost-igl-admin-api \
+            --region "$AWS_REGION" \
+            --zip-file fileb:///tmp/admin-api.zip >/dev/null
+          aws lambda wait function-updated-v2 \
+            --function-name ghost-igl-admin-api \
+            --region "$AWS_REGION"
+
+      - name: Smoke-test authenticated APIs reject anonymous access
+        shell: bash
+        run: |
+          set -euo pipefail
+          ME_CODE="$(curl -sS -o /tmp/me.json -w '%{http_code}' "$API_BASE_URL/me")"
+          ADMIN_CODE="$(curl -sS -o /tmp/admin.json -w '%{http_code}' "$API_BASE_URL/admin/users")"
+          if [[ "$ME_CODE" != "401" ]]; then
+            echo "Expected /me anonymous response 401, got $ME_CODE"
+            cat /tmp/me.json || true
+            exit 1
+          fi
+          if [[ "$ADMIN_CODE" != "401" ]]; then
+            echo "Expected /admin/users anonymous response 401, got $ADMIN_CODE"
+            cat /tmp/admin.json || true
+            exit 1
+          fi
+          echo "Authenticated API boundaries are healthy."
+
+      - name: Build production site
+        shell: bash
+        run: |
+          set -euo pipefail
+          VITE_COGNITO_USER_POOL_ID="$COGNITO_USER_POOL_ID" \
+          VITE_COGNITO_CLIENT_ID="$COGNITO_CLIENT_ID" \
+          VITE_API_BASE_URL="$API_BASE_URL" \
+          VITE_PLAYER_DATA_API_URL="$PLAYER_DATA_API_URL" \
+          npm run build
+
+      - name: Deploy site and invalidate CloudFront
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 sync dist/ "s3://$SITE_BUCKET" \
+            --delete \
+            --region "$AWS_REGION" \
+            --cache-control 'public, max-age=0, must-revalidate'
+          if [[ -d dist/assets ]]; then
+            aws s3 cp dist/assets/ "s3://$SITE_BUCKET/assets/" \
+              --recursive \
+              --region "$AWS_REGION" \
+              --metadata-directive REPLACE \
+              --cache-control 'public, max-age=31536000, immutable'
+          fi
+          aws cloudfront create-invalidation \
+            --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
+            --paths '/*' >/dev/null
+
+      - name: Verify production site
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsS https://r6coaching.com/ >/dev/null
+          echo "Recon member/profile production release completed."
