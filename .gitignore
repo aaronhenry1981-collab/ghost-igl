@@ -39,3 +39,11 @@ scripts/update-discord-params.ps1
 
 # SAM build cache - machine-specific absolute paths, never commit
 .aws-sam/
+
+# HyperFrames: vendored agent skills (reinstall with `npx skills add heygen-com/hyperframes`)
+.agents/
+.claude/skills/
+
+# HyperFrames: regenerable video output
+videos/**/renders/
+videos/**/snapshots/
