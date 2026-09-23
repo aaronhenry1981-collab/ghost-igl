@@ -1563,9 +1563,11 @@ select option:hover {
 /* ─── Pricing ─── */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
   align-items: start;
+  max-width: 1000px;
+  margin-inline: auto;
 }
 
 .pricing-card {
@@ -1655,6 +1657,11 @@ select option:hover {
 .pricing-card .btn {
   width: 100%;
   margin-top: auto;
+}
+
+.pricing-advanced-toggle {
+  display: block;
+  margin: 1.25rem auto 0;
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
@@ -2457,6 +2464,18 @@ a.meta-strip-name:hover { color: #00e5ff; }
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
+
+.hero-secondary-link {
+  display: inline-flex;
+  margin-top: 0.85rem;
+  color: rgba(230, 233, 239, 0.72);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hero-secondary-link:hover { color: #00e5ff; }
 
 .hero-v2-proof span {
   display: inline-flex;

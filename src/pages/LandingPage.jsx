@@ -24,16 +24,15 @@ const R6_ONLY = true
 
 import { useDemoVideo } from '../hooks/useDemoVideo'
 import { useReveal } from '../hooks/useReveal'
-import './WorkbookLanding.css'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { openMembershipCheckout } from '../lib/membershipCheckout'
 import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
 
 const PREVIEW_STRATS = {
-  'bank-ceo-attack': { map: 'Bank', site: 'CEO Office', side: 'attack', data: STRATS.bank.ceo.attack },
-  'bank-ceo-defense': { map: 'Bank', site: 'CEO Office', side: 'defense', data: STRATS.bank.ceo.defense },
-  'clubhouse-cctv-attack': { map: 'Clubhouse', site: 'Cash / CCTV', side: 'attack', data: STRATS.clubhouse['cash-cctv'].attack },
-  'kafe-cocktail-defense': { map: 'Kafe Dostoyevsky', site: 'Bar / Cocktail Lounge', side: 'defense', data: STRATS.kafe['bar-cocktail'].defense },
+  'bank-ceo-attack': { map: 'Bank', mapId: 'bank', site: 'CEO Office', siteId: 'ceo', side: 'attack', data: STRATS.bank.ceo.attack },
+  'bank-ceo-defense': { map: 'Bank', mapId: 'bank', site: 'CEO Office', siteId: 'ceo', side: 'defense', data: STRATS.bank.ceo.defense },
+  'clubhouse-cctv-attack': { map: 'Clubhouse', mapId: 'clubhouse', site: 'Cash / CCTV', siteId: 'cash-cctv', side: 'attack', data: STRATS.clubhouse['cash-cctv'].attack },
+  'kafe-cocktail-defense': { map: 'Kafe Dostoyevsky', mapId: 'kafe', site: 'Bar / Cocktail Lounge', siteId: 'bar-cocktail', side: 'defense', data: STRATS.kafe['bar-cocktail'].defense },
 }
 
 // Opens Stripe's customer portal via a freshly-created session. Never fall back to
@@ -199,7 +198,7 @@ const FEATURE_ICONS = {
 }
 
 const STEPS = [
-  { num: '01', title: 'Choose Your Map and Site', desc: 'Open the exact Rainbow Six map, bombsite, and side you are playing. The free strategy library gives you a usable plan before the round starts.' },
+  { num: '01', title: 'Choose Your Map and Site', desc: 'Open the exact Rainbow Six map, bombsite, and side you are playing. Preview Bank and Coastline for free; a paid plan unlocks more maps and detail.' },
   { num: '02', title: 'Play With a Clear Job', desc: 'See operator roles, positioning, callouts, utility priorities, and the execute or setup your team needs.' },
   { num: '03', title: 'Review Real Match Evidence', desc: 'Drop screenshots from a round for an AI VOD breakdown, or use the PC Live Coach to detect match state while you play.' },
   { num: '04', title: 'Prove the Fix in Your Gameplay', desc: 'Road to Champion tracks repeated evidence, reopens a skill when the mistake returns, and gives you one clear mission for the next match.' },
@@ -220,10 +219,10 @@ const PRICING = [
     tierKey: 'free',
     price: 'Free',
     period: '',
-    desc: 'Foundational Rainbow Six strategies with no AI usage charge.',
-    link: '/strats',
+    desc: 'Free Bank and Coastline strategy previews, plus the operator catalog.',
+    link: '/auth?mode=signup&redirect=%2Fstrats',
     features: [
-      'Foundational attack and defense strategies',
+      'Bank and Coastline sample maps with basic attack and defense plans',
       'Operator lineups and role guidance',
       'Map, site, and key-callout reference',
       'No paid AI usage required',
@@ -238,9 +237,10 @@ const PRICING = [
     period: '/mo',
     desc: 'Advanced strategies, AI analysis, and the optional PC Live Coach.',
     founding: true,
-    trialDays: 30,
+    featured: true,
+    trialDays: 0,
     features: [
-      '30-day free trial — card up front, cancel anytime before it bills',
+      'Paid membership — billing starts at checkout',
       'Everything in Basic',
       '+ Advanced Pro strategies and utility plans',
       '+ AI VOD breakdowns tied to your screenshots',
@@ -256,7 +256,7 @@ const PRICING = [
     price: '$39',
     period: '/mo',
     desc: 'The full self-service coaching system for players who use Recon 6 every week.',
-    featured: true,
+    advanced: true,
     features: [
       'Everything in Pro',
       '+ Champion-level strategy library and premium tactics',
@@ -274,6 +274,7 @@ const PRICING = [
     period: '/mo',
     desc: 'High-touch coaching: everything in Elite plus two live sessions with Aaron every month.',
     cta: 'Start Champion membership',
+    advanced: true,
     features: [
       'Everything in Elite',
       '+ 75 VOD review sessions each month',
@@ -359,13 +360,13 @@ function MetaStrip() {
         </ol>
       </div>
       <div className="meta-strip-col">
-        <div className="meta-strip-label">Most-banned targets</div>
+        <div className="meta-strip-label">Common ban recommendations</div>
         <ol className="meta-strip-list">
           {topBans.map((b, i) => (
             <li key={b.name}>
               <span className="meta-strip-rank">{i + 1}</span>
               <span className="meta-strip-name">{b.name}</span>
-              <span className="meta-strip-count">{b.total} maps</span>
+              <span className="meta-strip-count">{b.total} recommendations</span>
             </li>
           ))}
         </ol>
@@ -396,7 +397,7 @@ function StratPreview() {
         ))}
       </div>
       <div className="strat-preview-body">
-        <StratDisplay strat={current.data} side={current.side} gated={true} />
+        <StratDisplay strat={current.data} side={current.side} mapId={current.mapId} siteId={current.siteId} gated={true} />
       </div>
     </div>
   )
@@ -415,7 +416,7 @@ function HeroBriefing() {
     <div className="hero-briefing" aria-label="Example Recon 6 squad briefing">
       <div className="hero-briefing-topline">
         <div>
-          <span className="hero-briefing-kicker">LIVE STRAT BRIEF</span>
+          <span className="hero-briefing-kicker">EXAMPLE STRAT BRIEF</span>
           <strong>Bank · 2F CEO · Attack</strong>
         </div>
         <span className="hero-briefing-status"><i /> READY</span>
@@ -458,12 +459,20 @@ export default function LandingPage() {
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState(null)
   const [checkoutError, setCheckoutError] = useState(null)
+  const [showAdvancedPlans, setShowAdvancedPlans] = useState(false)
   const checkoutResumeRef = useRef(false)
+  const landingViewTrackedRef = useRef(false)
   // R6-ONLY (2026-07-06): the billing-scope toggle and All-Access SKUs are no
   // longer offered to NEW visitors — RECON6 is a Rainbow Six product. The
   // All-Access price IDs stay live in config/stripe.js and useAuth still
   // honors tier_scope 'all_access' so existing subscribers lose nothing.
   useReveal()
+
+  useEffect(() => {
+    if (landingViewTrackedRef.current) return
+    landingViewTrackedRef.current = true
+    track('Landing Viewed')
+  }, [])
 
   const handleManageSubscription = useCallback(async () => {
     setPortalLoading(true)
@@ -504,9 +513,9 @@ export default function LandingPage() {
               Built for real R6 rounds · Season {getCurrentSeason()}
             </div>
             <h1>
-              Know the strat.<br />
+              Load your next round.<br />
               <span className="accent">Know your job.</span><br />
-              Win more rounds.
+              Play it together.
             </h1>
             <p className="hero-subtitle">
               Pick the map, site, and side. Recon 6 gives your squad five clear operator jobs,
@@ -514,20 +523,20 @@ export default function LandingPage() {
             </p>
             <div className="hero-cta hero-v2-cta">
               <Link
-                to="/strats"
+                to="/strats/bank/ceo/defense"
                 className="btn btn-primary btn-lg"
-                onClick={() => track('Hero CTA Click', { type: 'free-strat' })}
+                onClick={() => track('Hero CTA Click', { type: 'bank-defense' })}
               >
-                Open a free strat <span aria-hidden="true">→</span>
-              </Link>
-              <Link
-                to="/vod?demo=1"
-                className="btn btn-ghost btn-lg hero-cta-vod"
-                onClick={() => track('Hero CTA Click', { type: 'vod-demo' })}
-              >
-                Review a round free
+                Open the free Bank defense <span aria-hidden="true">→</span>
               </Link>
             </div>
+            <a
+              href="#pricing"
+              className="hero-secondary-link"
+              onClick={() => track('Hero Pricing Link Click')}
+            >
+              See Pro from $12/month
+            </a>
             <div className="hero-v2-proof">
               <span><strong>25</strong> maps</span>
               <span><strong>107</strong> site setups</span>
@@ -551,20 +560,6 @@ export default function LandingPage() {
         <div className="trust-item"><span className="trust-icon">{'\u2713'}</span> No Automatic AI Overages</div>
       </div>
 
-      <section className="section workbook-launch-card" aria-labelledby="workbook-launch-heading">
-        <div>
-          <span className="section-label">New player field guide</span>
-          <h2 id="workbook-launch-heading">Learn the round before you chase the rank.</h2>
-          <p>64 pages, 357 fillable fields, a print-friendly edition, and a 30-day practice path for brand-new Siege players.</p>
-          <div className="workbook-launch-facts">
-            <span>$14.99 one time</span>
-            <span>Private download</span>
-            <span>7-day guarantee</span>
-          </div>
-        </div>
-        <Link to="/beginner-guide" className="btn btn-primary">Preview the workbook</Link>
-      </section>
-
       <section className="section product-proof" id="preview">
         <div className="product-proof-heading">
           <div>
@@ -579,7 +574,7 @@ export default function LandingPage() {
         <StratPreview />
         <div className="product-proof-footer">
           <div>
-            <span className="section-label">R6 ranked meta · live</span>
+            <span className="section-label">R6 strategy library trends</span>
             <strong>Current picks and bans, connected to the strat.</strong>
           </div>
           <MetaStrip />
@@ -769,8 +764,8 @@ export default function LandingPage() {
       <section className="section section-dark" id="pricing">
         <div className="section-header">
           <div className="section-label">Pricing</div>
-          <h2>Choose the Support You Need</h2>
-          <p>Start with the free strategy foundation, add AI analysis when you use it, or include live coaching.</p>
+          <h2>Start With Pro. Upgrade Only When You Use More.</h2>
+          <p>Pro is the default paid plan: full strategies, AI review, and the desktop coach for $12/month.</p>
         </div>
         {isFoundingOpen() && (
           <div style={{ display: 'flex', justifyContent: 'center', maxWidth: 720, margin: '0 auto 2rem' }}>
@@ -804,7 +799,7 @@ export default function LandingPage() {
         {/* Billing-scope toggle REMOVED 2026-07-06 — R6-only pricing. All-Access SKUs live on for
             existing subscribers (config/stripe.js + useAuth tier_scope). */}
         <div className="pricing-grid">
-          {PRICING.map((p) => {
+          {PRICING.filter((p) => showAdvancedPlans || !p.advanced).map((p) => {
             const foundingOpen = isFoundingOpen()
             const displayPrice = p.founding && !foundingOpen && p.regularPrice ? p.regularPrice : p.price
             const showFounding = p.founding && foundingOpen
@@ -887,8 +882,18 @@ export default function LandingPage() {
             )
           })}
         </div>
+        <button
+          type="button"
+          className="btn btn-outline pricing-advanced-toggle"
+          onClick={() => {
+            setShowAdvancedPlans((current) => !current)
+            track('Advanced Plans Toggle', { state: showAdvancedPlans ? 'closed' : 'open' })
+          }}
+        >
+          {showAdvancedPlans ? 'Hide Elite and Champion' : 'Compare Elite and Champion'}
+        </button>
         <p className="pricing-note">
-          Pro starts with a 30-day trial. Website AI usage is capped, and extra usage is prepaid at ${AI_USAGE_PACK_AMOUNT} with no automatic overage. Recon 6 Command is included with paid Pro, Elite, and Champion accounts. Champion includes two live sessions.
+          Paid memberships start billing at checkout; there is no free trial. Website AI usage is capped, and extra usage is prepaid at ${AI_USAGE_PACK_AMOUNT} with no automatic overage. Recon 6 Command is included with paid Pro, Elite, and Champion accounts. Champion includes two live sessions.
         </p>
         {(portalError || checkoutError) && (
           <p className="pricing-note" style={{ color: '#ff6b6b' }}>
@@ -913,7 +918,7 @@ export default function LandingPage() {
         <div className="cta-content">
           <h2>Stop Losing Rounds You Should Win.</h2>
           <p>
-            The strats are free. Open one map, pick a side, see how much it tells you.
+            Preview Bank and Coastline for free. Pick a side and try a plan before choosing a paid subscription.
             {isFoundingOpen()
               ? ' If you want the round-by-round breakdowns next, founding pricing locks in for life if you join before the countdown ends.'
               : ' If you want the round-by-round breakdowns next, Pro unlocks the VOD engine.'}
@@ -924,7 +929,18 @@ export default function LandingPage() {
             </div>
           )}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/strats" className="btn btn-primary btn-lg">Open R6 Strats — Free</Link>
+            {isPro ? (
+              <Link to="/account" className="btn btn-primary btn-lg">Manage membership</Link>
+            ) : (
+              <MembershipCheckoutButton
+                tier="pro"
+                location="final-cta"
+                onError={(error) => setCheckoutError(error.message || 'Could not open secure checkout.')}
+                className="btn btn-primary btn-lg"
+              >
+                Start Pro — $12/month
+              </MembershipCheckoutButton>
+            )}
           </div>
         </div>
       </section>

@@ -5,7 +5,7 @@ import './index.css'
 import './App.css'
 import './styles/polish.css'
 import { AuthProvider } from './hooks/useAuth'
-import { captureRefSource } from './lib/refSource'
+import { captureRefSource, setCampaignAttribution } from './lib/refSource'
 import Layout from './components/Layout'
 // (AppShell, the old sidebar layout, was deleted 2026-07-06 — Layout is the
 // single shell for landing + in-app routes.)
@@ -146,6 +146,16 @@ function RedirectToSection({ sectionId }) {
   return null
 }
 
+function TikTokRedirect() {
+  setCampaignAttribution({
+    source: 'tiktok',
+    medium: 'social',
+    campaign: 'profile_bio',
+    content: 'bank_defense',
+  })
+  return <Navigate to="/strats/bank/ceo/defense" replace />
+}
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -161,6 +171,7 @@ const router = createBrowserRouter([
       { path: '/tools/r6-tier-list', element: <L><R6TierListPage /></L> },
       { path: '/r/:code', element: <L><ReferralLandingPage /></L> },
       { path: '/creator-demo', element: <L><CreatorDemoPage /></L> },
+      { path: '/tiktok', element: <TikTokRedirect /> },
       { path: '/setups', element: <L><SetupsPage /></L> },
       { path: '/strats', element: <L><StratsPage /></L> },
       { path: '/strats/:mapId', element: <L><StratsPage /></L> },

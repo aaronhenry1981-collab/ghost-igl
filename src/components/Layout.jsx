@@ -27,7 +27,9 @@ export default function Layout() {
     <ErrorBoundary>
       <GameProvider>
         {isLanding && <FoundingTopBanner />}
-        <AnnouncementBanner />
+        {/* Release notes help signed-in players, but stacking them above the
+            public hero buries the conversion path for first-time visitors. */}
+        {!isLanding && <AnnouncementBanner />}
         <Navbar />
         <main className="app-main">
           <Outlet />
