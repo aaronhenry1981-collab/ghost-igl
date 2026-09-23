@@ -1,11 +1,9 @@
 name: Deploy Recon Member Profile Production
 
+# Production deploy. Run it deliberately from the Actions tab — editing this
+# file must never be enough to deploy on its own.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/deploy-member-profile-prod.yml'
 
 permissions:
   id-token: write
