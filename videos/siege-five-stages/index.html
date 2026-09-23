@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Five Stages Of A Ranked Loss — RECON6</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Barlow Condensed";
+        font-style: normal;
+        font-weight: 700;
+        src: url("assets/fonts/BarlowCondensed-700.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Barlow Condensed";
+        font-style: normal;
+        font-weight: 800;
+        src: url("assets/fonts/BarlowCondensed-800.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        src: url("assets/fonts/Inter-400.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 600;
+        src: url("assets/fonts/Inter-600.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 900;
+        src: url("assets/fonts/Inter-900.woff2") format("woff2");
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #06070b;
+      }
+
+      #root {
+        --brand: #00e5ff;
+        --amber: #ffd54a;
+        --coral: #ff5a5a;
+        --ink: #06070b;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #06070b;
+        color: #ecedf3;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* ---------- persistent background stack ---------- */
+      .layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      #bg-base {
+        background:
+          radial-gradient(120% 70% at 50% 18%, #131a2a 0%, rgba(10, 15, 25, 0) 62%),
+          linear-gradient(180deg, #0a0f19 0%, #06070b 55%, #0e1320 100%);
+      }
+      #bg-grid-wrap {
+        overflow: hidden;
+        opacity: 0.5;
+      }
+      #bg-grid {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -160px;
+        height: calc(100% + 320px);
+        background-image:
+          repeating-linear-gradient(
+            90deg,
+            rgba(0, 229, 255, 0.07) 0 1px,
+            rgba(0, 229, 255, 0) 1px 90px
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(0, 229, 255, 0.07) 0 1px,
+            rgba(0, 229, 255, 0) 1px 90px
+          );
+      }
+      #bg-scan {
+        background-image: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.32) 0 1px,
+          rgba(0, 0, 0, 0) 1px 4px
+        );
+        opacity: 0.55;
+      }
+      #bg-vignette {
+        background: radial-gradient(
+          78% 52% at 50% 46%,
+          rgba(0, 0, 0, 0) 40%,
+          rgba(0, 0, 0, 0.72) 100%
+        );
+      }
+      .bracket {
+        position: absolute;
+        width: 86px;
+        height: 86px;
+        border: 3px solid rgba(0, 229, 255, 0.55);
+      }
+      .bracket.tl {
+        top: 108px;
+        left: 64px;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      .bracket.tr {
+        top: 108px;
+        right: 64px;
+        border-left: 0;
+        border-bottom: 0;
+      }
+      .bracket.bl {
+        bottom: 108px;
+        left: 64px;
+        border-right: 0;
+        border-top: 0;
+      }
+      .bracket.br {
+        bottom: 108px;
+        right: 64px;
+        border-left: 0;
+        border-top: 0;
+      }
+
+      /* ---------- scene box ---------- */
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 300px 96px 400px;
+        text-align: center;
+      }
+
+      /* ---------- hook ---------- */
+      #hook .kicker {
+        display: block;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 34px;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: rgba(0, 229, 255, 0.72);
+        margin-bottom: 54px;
+      }
+      .hook-line {
+        display: block;
+        width: 100%;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 116px;
+        line-height: 0.96;
+        letter-spacing: 0.005em;
+        color: #ecedf3;
+      }
+      #hook .glitch-slot {
+        width: 100%;
+        margin-top: 10px;
+      }
+      #hook .hf-catalog-rgb-glitch-text {
+        width: 100%;
+        height: 124px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        font-size: 118px;
+        line-height: 1.04;
+        letter-spacing: 0.005em;
+        text-transform: uppercase;
+      }
+      #hook .hf-catalog-rgb-glitch-text span,
+      #hook .hf-catalog-rgb-glitch-text strong {
+        text-align: center;
+      }
+
+      /* ---------- beats ---------- */
+      .counter {
+        display: block;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 28px;
+        letter-spacing: 0.28em;
+        color: rgba(236, 237, 243, 0.42);
+        margin-bottom: 62px;
+      }
+      .counter .c-num {
+        color: var(--brand);
+      }
+      .quote {
+        display: block;
+        width: 100%;
+      }
+      .q-line {
+        display: block;
+        width: 100%;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 138px;
+        line-height: 0.98;
+        letter-spacing: 0.004em;
+        color: var(--brand);
+        text-shadow: 0 0 58px rgba(0, 229, 255, 0.28);
+      }
+      .rule {
+        display: block;
+        width: 300px;
+        height: 5px;
+        margin: 52px 0 46px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 229, 255, 0) 0%,
+          rgba(0, 229, 255, 0.95) 22%,
+          rgba(0, 229, 255, 0.95) 78%,
+          rgba(0, 229, 255, 0) 100%
+        );
+        transform-origin: 50% 50%;
+      }
+      .punch {
+        display: block;
+        width: 100%;
+      }
+      .punch-inner {
+        display: block;
+        width: 100%;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 58px;
+        line-height: 1.22;
+        letter-spacing: -0.01em;
+        color: var(--amber);
+      }
+      .punch-inner.alert {
+        color: var(--coral);
+      }
+
+      /* ---------- close ---------- */
+      #close .setup {
+        display: block;
+        width: 100%;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        font-size: 52px;
+        line-height: 1.3;
+        color: rgba(236, 237, 243, 0.62);
+        margin-bottom: 30px;
+      }
+      #close .payoff {
+        display: block;
+        width: 100%;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 150px;
+        line-height: 0.98;
+        color: #ecedf3;
+      }
+      #close .close-rule {
+        display: block;
+        width: 420px;
+        height: 4px;
+        margin: 72px 0 58px;
+        background: rgba(0, 229, 255, 0.85);
+        transform-origin: 50% 50%;
+      }
+      #close .wordmark {
+        display: block;
+        width: 100%;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        font-size: 116px;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+        color: var(--brand);
+        text-shadow: 0 0 66px rgba(0, 229, 255, 0.35);
+      }
+      #close .url {
+        display: block;
+        width: 100%;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 40px;
+        letter-spacing: 0.2em;
+        color: rgba(236, 237, 243, 0.5);
+        margin-top: 26px;
+      }
+
+      /* ---------- registry component: rgb-glitch-text ---------- */
+      .hf-catalog-rgb-glitch-text {
+        color: var(--hf-glitch-ink, #18181b);
+        font-family: Inter, system-ui, sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+      .hf-catalog-rgb-glitch-text {
+        position: relative;
+        width: 420px;
+        height: 82px;
+        font-size: 72px;
+        line-height: 1;
+      }
+      .hf-catalog-rgb-glitch-text span,
+      .hf-catalog-rgb-glitch-text strong {
+        position: absolute;
+        inset: 0;
+      }
+      .hf-catalog-rgb-glitch-text span:first-child {
+        color: #ef4444;
+        transform: translateX(calc(var(--hf-glitch-red, 0px) * var(--hf-glitch-reach, 1)));
+      }
+      .hf-catalog-rgb-glitch-text span:nth-child(2) {
+        color: #22d3ee;
+        transform: translateX(calc(var(--hf-glitch-blue, 0px) * var(--hf-glitch-reach, 1)));
+      }
+      .hf-catalog-rgb-glitch-text strong {
+        color: var(--hf-glitch-ink, #18181b);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="22.6"
+      data-width="1080"
+      data-height="1920"
+    >
+      <!-- persistent background (untimed: visible for the whole render) -->
+      <div id="bg-base" class="layer"></div>
+      <div id="bg-grid-wrap" class="layer" data-layout-allow-overflow><div id="bg-grid"></div></div>
+      <div id="bg-scan" class="layer"></div>
+      <div id="bg-vignette" class="layer"></div>
+      <div class="layer">
+        <div class="bracket tl"></div>
+        <div class="bracket tr"></div>
+        <div class="bracket bl"></div>
+        <div class="bracket br"></div>
+      </div>
+
+      <!-- 1. hook -->
+      <section id="hook" class="clip" data-start="0" data-duration="2.6" data-track-index="0">
+        <div class="stage">
+          <span class="kicker">Down 0-4 in ranked</span>
+          <span class="hook-line" id="hook-l1">The five stages of</span>
+          <span class="hook-line" id="hook-l2">losing in ranked</span>
+          <div class="glitch-slot" id="hook-l3">
+            <div
+              class="hf-catalog-rgb-glitch-text"
+              data-layout-allow-overlap
+              data-composition-variables='[
+                { "id": "text", "type": "string", "role": "content", "label": "Text", "description": "The word shown on all three stacked copies.", "default": "every time", "maxLength": 24 },
+                { "id": "intensity", "type": "enum", "role": "motion", "label": "Intensity", "description": "Scales the red and cyan offsets the timeline drives, so the split reads as a hairline or a hard tear.", "default": "extreme", "options": [{ "value": "subtle", "label": "Subtle" }, { "value": "standard", "label": "Standard" }, { "value": "extreme", "label": "Extreme" }] },
+                { "id": "tone", "type": "enum", "role": "style", "label": "Tone", "description": "Colour of the solid copy the two ghosts split away from: ink for light frames, paper for dark ones, accent rides --brand.", "default": "accent", "options": [{ "value": "ink", "label": "Ink" }, { "value": "paper", "label": "Paper" }, { "value": "accent", "label": "Accent" }] }
+              ]'
+            >
+              <span data-layout-allow-overlap>every time</span
+              ><span data-layout-allow-overlap>every time</span
+              ><strong data-layout-allow-overlap>every time</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. stages -->
+      <section id="b1" class="clip beat" data-start="2.6" data-duration="3.2" data-track-index="0">
+        <div class="stage">
+          <span class="counter"><span class="c-num">01</span> / DENIAL</span>
+          <span class="q-line">We can still reverse sweep.</span>
+          <span class="rule"></span>
+          <span class="punch"><span class="punch-inner">down 0-4, one man short</span></span>
+        </div>
+      </section>
+
+      <section id="b2" class="clip beat" data-start="5.8" data-duration="3.2" data-track-index="0">
+        <div class="stage">
+          <span class="counter"><span class="c-num">02</span> / ANGER</span>
+          <span class="q-line">Who banned Thatcher?</span>
+          <span class="rule"></span>
+          <span class="punch"><span class="punch-inner alert">you did</span></span>
+        </div>
+      </section>
+
+      <section id="b3" class="clip beat" data-start="9" data-duration="3.2" data-track-index="0">
+        <div class="stage">
+          <span class="counter"><span class="c-num">03</span> / BARGAINING</span>
+          <span class="q-line">One more and I&rsquo;m done.</span>
+          <span class="rule"></span>
+          <span class="punch"><span class="punch-inner">four more.</span></span>
+        </div>
+      </section>
+
+      <section id="b4" class="clip beat" data-start="12.2" data-duration="3.2" data-track-index="0">
+        <div class="stage">
+          <span class="counter"><span class="c-num">04</span> / DEPRESSION</span>
+          <span class="q-line">I think I&rsquo;m hard stuck.</span>
+          <span class="rule"></span>
+          <span class="punch"><span class="punch-inner">you are not hard stuck</span></span>
+        </div>
+      </section>
+
+      <section id="b5" class="clip beat" data-start="15.4" data-duration="3.2" data-track-index="0">
+        <div class="stage">
+          <span class="counter"><span class="c-num">05</span> / ACCEPTANCE</span>
+          <span class="q-line">&hellip;it&rsquo;s me, isn&rsquo;t it.</span>
+          <span class="rule"></span>
+          <span class="punch"><span class="punch-inner alert">it is</span></span>
+        </div>
+      </section>
+
+      <!-- 3. close -->
+      <section id="close" class="clip" data-start="18.6" data-duration="4" data-track-index="0">
+        <div class="stage">
+          <span class="setup" id="close-setup">There&rsquo;s a sixth stage.</span>
+          <span class="payoff" id="close-payoff">Fixing it.</span>
+          <span class="close-rule" id="close-rule"></span>
+          <span class="wordmark" id="close-wordmark">Recon6</span>
+          <span class="url" id="close-url">r6coaching.com</span>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // registry component: rgb-glitch-text — resolve declared variables
+      (function () {
+        "use strict";
+
+        var vars =
+          window.__hyperframes && window.__hyperframes.getVariables
+            ? window.__hyperframes.getVariables()
+            : {};
+
+        var reaches = { subtle: 0.5, standard: 1, extreme: 2.25 };
+        var tones = {
+          ink: "#18181b",
+          paper: "#fafafa",
+          accent: "var(--brand, #34d399)",
+        };
+
+        function pick(table, value, fallback) {
+          return Object.prototype.hasOwnProperty.call(table, value) ? value : fallback;
+        }
+
+        var reach = reaches[pick(reaches, vars.intensity, "extreme")];
+        var tone = tones[pick(tones, vars.tone, "accent")];
+        var text =
+          typeof vars.text === "string" && vars.text.trim() !== ""
+            ? vars.text.trim()
+            : "every time";
+
+        var roots = document.querySelectorAll(".hf-catalog-rgb-glitch-text");
+        for (var i = 0; i < roots.length; i += 1) {
+          roots[i].style.setProperty("--hf-glitch-reach", String(reach));
+          roots[i].style.setProperty("--hf-glitch-ink", tone);
+          var copies = roots[i].querySelectorAll("span, strong");
+          for (var j = 0; j < copies.length; j += 1) {
+            copies[j].textContent = text;
+          }
+        }
+      })();
+    </script>
+
+    <script>
+      const BEATS = [
+        { id: "b1", start: 2.6 },
+        { id: "b2", start: 5.8 },
+        { id: "b3", start: 9 },
+        { id: "b4", start: 12.2 },
+        { id: "b5", start: 15.4 },
+      ];
+      const PUNCH_AT = 1.35; // seconds into a beat before the aside lands
+
+      const tl = gsap.timeline({ paused: true });
+
+      // slow grid drift under the whole piece
+      tl.fromTo("#bg-grid", { y: 0 }, { y: -90, duration: 22.6, ease: "none" }, 0);
+
+      // --- hook ---
+      tl.fromTo("#hook .kicker", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.08);
+      tl.fromTo("#hook-l1", { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.34, ease: "power4.out" }, 0.2);
+      tl.fromTo("#hook-l2", { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.34, ease: "power4.out" }, 0.32);
+      tl.fromTo("#hook-l3", { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.34, ease: "power4.out" }, 0.44);
+      tl.to(
+        "#hook .hf-catalog-rgb-glitch-text",
+        {
+          "--hf-glitch-red": "-8px",
+          "--hf-glitch-blue": "8px",
+          duration: 0.06,
+          repeat: 5,
+          yoyo: true,
+          ease: "steps(1)",
+        },
+        0.78
+      );
+      tl.to(
+        "#hook .hf-catalog-rgb-glitch-text",
+        {
+          "--hf-glitch-red": "-3px",
+          "--hf-glitch-blue": "3px",
+          duration: 0.05,
+          repeat: 3,
+          yoyo: true,
+          ease: "steps(1)",
+        },
+        1.85
+      );
+
+      // --- beats: quote slams in, aside lands a beat later ---
+      BEATS.forEach(function (beat) {
+        const s = beat.start;
+        const q = "#" + beat.id;
+
+        tl.fromTo(q + " .counter", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, s + 0.04);
+        tl.fromTo(
+          q + " .q-line",
+          { opacity: 0, y: 56, scale: 1.08 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power4.out" },
+          s + 0.06
+        );
+        tl.fromTo(
+          q + " .rule",
+          { scaleX: 0, opacity: 0 },
+          { scaleX: 1, opacity: 1, duration: 0.34, ease: "power3.out" },
+          s + 0.2
+        );
+        tl.fromTo(
+          q + " .punch-inner",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2.2)" },
+          s + PUNCH_AT
+        );
+        // the whole card settles back a hair on the punchline — a dry shrug
+        tl.fromTo(
+          q + " .stage",
+          { y: 0 },
+          { y: -14, duration: 0.5, ease: "power2.out" },
+          s + PUNCH_AT
+        );
+      });
+
+      // --- close ---
+      const C = 18.6;
+      tl.fromTo("#close-setup", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, C + 0.1);
+      tl.fromTo("#close-payoff", { opacity: 0, y: 48, scale: 1.06 }, { opacity: 1, y: 0, scale: 1, duration: 0.38, ease: "power4.out" }, C + 0.62);
+      tl.fromTo("#close-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, C + 1.08);
+      tl.fromTo("#close-wordmark", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, C + 1.24);
+      tl.fromTo("#close-url", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, C + 1.6);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
