@@ -15,15 +15,24 @@
 // "Pricing CTA Click" → "Signup Completed" → real subscriber events from
 // the Stripe webhook (those are server-side; surface manually if needed).
 
+import { getCampaignAttribution, getRefSource } from '../lib/refSource'
+
 export function track(event, props) {
   try {
     if (typeof window === 'undefined') return
     if (typeof window.plausible !== 'function') return
-    if (props && Object.keys(props).length > 0) {
-      window.plausible(event, { props })
-    } else {
-      window.plausible(event)
-    }
+    const campaign = getCampaignAttribution() || {}
+    const enriched = Object.fromEntries(
+      Object.entries({
+        source: campaign.source || getRefSource() || 'direct',
+        medium: campaign.medium || undefined,
+        campaign: campaign.campaign || undefined,
+        content: campaign.content || undefined,
+        path: window.location.pathname,
+        ...(props || {}),
+      }).filter(([, value]) => value !== undefined && value !== '')
+    )
+    window.plausible(event, { props: enriched })
   } catch {
     // Tracking should never break the app. Fail silently.
   }
