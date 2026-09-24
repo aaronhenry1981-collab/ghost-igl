@@ -1,3 +1,4 @@
+import { findReferralProfile } from './referral-lookup.mjs'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, QueryCommand, GetCommand, UpdateCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
@@ -658,13 +659,7 @@ async function getReferralByCode(code, headers) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid code' }) }
   }
   try {
-    const r = await ddb.send(new ScanCommand({
-      TableName: PROFILES_TABLE,
-      FilterExpression: 'referral_code = :code',
-      ExpressionAttributeValues: { ':code': code },
-      Limit: 1,
-    }))
-    const referrer = (r.Items || [])[0]
+    const referrer = await findReferralProfile(input => ddb.send(new ScanCommand(input)), PROFILES_TABLE, code)
     if (!referrer) {
       return { statusCode: 404, headers, body: JSON.stringify({ valid: false, error: 'Referral code not found' }) }
     }
@@ -703,13 +698,7 @@ async function postReferralAttribution(email, bodyJson, headers) {
 
   try {
     // Look up the referrer's email by code.
-    const r = await ddb.send(new ScanCommand({
-      TableName: PROFILES_TABLE,
-      FilterExpression: 'referral_code = :code',
-      ExpressionAttributeValues: { ':code': code },
-      Limit: 1,
-    }))
-    const referrer = (r.Items || [])[0]
+    const referrer = await findReferralProfile(input => ddb.send(new ScanCommand(input)), PROFILES_TABLE, code)
     if (!referrer) {
       return { statusCode: 404, headers, body: JSON.stringify({ error: 'Referral code not found' }) }
     }
