@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../../lib/cognito'
+import { resolveReferralsWidgetView } from '../../lib/referralsWidgetState'
 import './ReferralsWidget.css'
 
 // Dashboard widget that surfaces the referral program. Reads
@@ -31,36 +32,46 @@ export default function ReferralsWidget() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  // Bumped by the Retry button to re-run the fetch effect below.
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     if (!user) return
     let cancelled = false
+    setLoading(true)
+    setError(null)
     ;(async () => {
       try {
         const cognitoUser = getCurrentUser()
-        if (!cognitoUser) return
+        // A missing Cognito session here means the browser's local session
+        // fell out of sync with the auth context (e.g. storage cleared) —
+        // that's a real, user-visible failure, not a silent no-op.
+        if (!cognitoUser) throw new Error('Your session expired. Refresh the page and sign in again.')
         const session = await getSession(cognitoUser)
         const token = getIdToken(session)
         const res = await fetch(`${API_URL}/me/referrals`, {
           headers: { Authorization: `Bearer ${token}` },
         })
-        if (!res.ok) throw new Error('referrals fetch failed')
+        if (!res.ok) throw new Error('Could not load your referral link right now.')
         const json = await res.json()
         if (cancelled) return
         setData(json)
       } catch (err) {
         if (cancelled) return
-        setError(err.message)
+        setError(err.message || 'Could not load your referral link right now.')
       } finally {
         // No `return` in finally — it would swallow in-flight exceptions.
         if (!cancelled) setLoading(false)
       }
     })()
     return () => { cancelled = true }
-  }, [user])
+  }, [user, attempt])
 
-  if (!user) return null
-  if (loading) {
+  const view = resolveReferralsWidgetView({ user, loading, error, data })
+
+  if (view.kind === 'hidden') return null
+
+  if (view.kind === 'loading') {
     return (
       <section className="ref-widget skeleton-card">
         <div className="skeleton skeleton-line title" />
@@ -69,14 +80,30 @@ export default function ReferralsWidget() {
       </section>
     )
   }
-  if (error || !data) return null
+
+  if (view.kind === 'error') {
+    return (
+      <section className="ref-widget ref-widget-error">
+        <div className="ref-widget-eyebrow">Refer + earn</div>
+        <h2 className="ref-widget-title">Refer 3 friends. Get a free month.</h2>
+        <p className="ref-widget-error-text">We couldn’t load your referral link. {view.message}</p>
+        <button
+          type="button"
+          className="btn btn-outline btn-sm"
+          onClick={() => setAttempt((a) => a + 1)}
+        >
+          Retry
+        </button>
+      </section>
+    )
+  }
 
   const {
     code, share_url, same_tier_active = 0, same_tier_pending = 0,
     qualifies_for_comp = false, eligible_to_earn = false,
     is_founding_referrer = false, founding_window_open = false,
     founding_days_left = 0,
-  } = data
+  } = view.data
 
   const progress = Math.min(same_tier_active, 3)
   const isFree = !isPro && !isAdmin

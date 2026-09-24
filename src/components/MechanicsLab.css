@@ -131,6 +131,10 @@
 .situation-plan.is-advantage { border-color: rgba(16,185,129,.35); }
 .situation-plan.is-disadvantage, .situation-plan.is-clutch { border-color: rgba(240,181,75,.35); }
 .peek-teacher-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr); gap: 1rem; }
+.peek-gameplay { margin: 0; min-width: 0; }
+.peek-gameplay img, .peek-gameplay video { display: block; width: 100%; height: auto; border-radius: 12px; background: #091019; }
+.peek-gameplay figcaption, .peek-gameplay details p { color: #bcc9d5; font-size: .85rem; line-height: 1.6; margin: .75rem 0; }
+.peek-gameplay summary { cursor: pointer; color: #67d7ff; padding: .75rem 0; font-weight: 700; }
 .peek-stage { position: relative; min-height: 320px; overflow: hidden; border: 1px solid rgba(255,255,255,.09); border-radius: 14px; background: radial-gradient(circle at 70% 50%, rgba(255,98,98,.08), transparent 34%), #091019; }
 .peek-cover { position: absolute; z-index: 4; left: 38%; top: 0; width: 18%; height: 72%; background: #253446; border-right: 2px solid #607890; box-shadow: 15px 0 28px rgba(0,0,0,.35); }
 .peek-cover span, .peek-enemy span { position: absolute; color: #9eb1c5; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
