@@ -426,6 +426,42 @@ Resources:
             ApiId: !Ref HttpApi
             Path: /me
             Method: GET
+        GetReferrals:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/referrals
+            Method: GET
+        ReferralsOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/referrals
+            Method: OPTIONS
+        PostReferralAttribution:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/referral-attribution
+            Method: POST
+        ReferralAttributionOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /me/referral-attribution
+            Method: OPTIONS
+        GetReferralLanding:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /referral/{code}
+            Method: GET
+        ReferralLandingOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /referral/{code}
+            Method: OPTIONS
         PutMe:
           Type: HttpApi
           Properties:

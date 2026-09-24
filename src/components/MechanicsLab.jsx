@@ -493,15 +493,24 @@ export default function MechanicsLab({ value, onSave, rank, operatorEvidence, co
             </div>
           </section>
           <section className="mechanics-card peek-teacher">
-            <div className="mechanics-card-heading"><span>Step-by-step diagram</span><h3>{selectedDiagram.title}</h3></div>
+            <div className="mechanics-card-heading"><span>First-person gameplay reference</span><h3>{selectedDiagram.title}</h3></div>
             <div className="peek-teacher-grid">
-              <div className={`peek-stage peek-stage--${selectedDiagram.id} step-${peekStep}`} role="img" aria-label={`${selectedDiagram.title}, step ${peekStep + 1}: ${selectedDiagram.steps[peekStep].detail}`}>
-                <div className="peek-cover"><span>Cover</span></div>
-                <div className="peek-enemy"><span>Enemy line</span></div>
-                <div className="peek-sightline" />
-                <div className="peek-player"><span>You</span><i /></div>
-                <div className="peek-crosshair" aria-hidden="true">+</div>
-              </div>
+              <figure className="peek-gameplay">
+                <img src={`/training/peeks/clubhouse-${520 + peekStep}.png`} width="1280" height="720" loading="lazy" alt={[
+                  'Clubhouse: aiming beside the doorway edge from Secret Stash toward Logistic Office.',
+                  'The player moves along the partition, revealing the next part of Logistic Office.',
+                  'A wider office angle is visible while the sight stays close to the partition edge.',
+                ][peekStep]} />
+                <figcaption>Real match footage · Clubhouse. Watch how moving sideways reveals more of the room. These frames show angle progression; they do not demonstrate a complete reset or every drill below.</figcaption>
+                <details>
+                  <summary>Watch the movement</summary>
+                  <video controls muted playsInline preload="none" poster="/training/peeks/clubhouse-520.png" aria-label="Three-second Clubhouse angle progression, without audio">
+                    <source src="/training/peeks/clubhouse-angle-review.mp4" type="video/mp4" />
+                    Your browser cannot play this video.
+                  </video>
+                  <p>Review: the player advances around the partition. For your drill, pause after each new angle and reset behind cover when the check is complete. This match clip is a reference, not a perfect practice repetition.</p>
+                </details>
+              </figure>
               <div className="peek-step-panel">
                 <span>Step {peekStep + 1} of {selectedDiagram.steps.length}</span>
                 <h4>{selectedDiagram.steps[peekStep].label}</h4>
