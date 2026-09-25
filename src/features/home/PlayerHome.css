@@ -911,3 +911,7 @@
   flex-wrap: wrap;
   gap: 0.4rem;
 }
+
+.ph-feedback-compact .ph-card-title { font-size: 1rem; }
+.ph-feedback-compact .ph-muted { margin: 0.15rem 0 0; }
+.ph-feedback-compact .ph-card-foot { margin-top: 0.6rem; }

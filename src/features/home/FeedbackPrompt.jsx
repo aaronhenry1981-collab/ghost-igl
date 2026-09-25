@@ -89,7 +89,9 @@ function ReviewQuestion({ value, onChange }) {
 export default function FeedbackPrompt({ api, prompt, onDone }) {
   const [answers, setAnswers] = useState({})
   const [state, setState] = useState({ busy: false, error: null, done: null })
+  const [open, setOpen] = useState(false)
   const titleId = useId()
+  const formId = useId()
 
   useEffect(() => {
     if (!prompt || !api) return
@@ -127,12 +129,32 @@ export default function FeedbackPrompt({ api, prompt, onDone }) {
     }
   }
 
+  // Small by default: one line and three choices. The questions only open
+  // when the player chooses to answer.
+  if (!open) {
+    return (
+      <section className="ph-card ph-feedback ph-feedback-compact" aria-labelledby={titleId}>
+        <div className="ph-feedback-line">
+          <p className="ph-eyebrow">Quick feedback</p>
+          <h2 id={titleId} className="ph-card-title">{prompt.title}</h2>
+          <p className="ph-muted">{prompt.intro}</p>
+        </div>
+        <div className="ph-card-foot">
+          <button type="button" className="btn btn-primary btn-sm" aria-expanded="false" aria-controls={formId} onClick={() => setOpen(true)}>Answer ({prompt.questions.length} quick questions)</button>
+          {prompt.canSnooze && <button type="button" className="btn btn-ghost btn-sm" onClick={() => later('snooze')} disabled={state.busy}>Not now</button>}
+          <button type="button" className="btn btn-ghost btn-sm" onClick={() => later('dismiss')} disabled={state.busy}>Don&apos;t ask again</button>
+        </div>
+        {state.error && <p className="ph-error" role="alert">{state.error}</p>}
+      </section>
+    )
+  }
+
   return (
     <section className="ph-card ph-feedback" aria-labelledby={titleId}>
       <p className="ph-eyebrow">Quick feedback</p>
       <h2 id={titleId} className="ph-card-title">{prompt.title}</h2>
       <p className="ph-muted">{prompt.intro}</p>
-      <form onSubmit={submit} className="ph-fb-form">
+      <form id={formId} onSubmit={submit} className="ph-fb-form">
         {prompt.questions.map((q) => {
           if (q.type === 'scale') return <ScaleQuestion key={q.id} q={q} value={answers[q.id]} onChange={set(q.id)} />
           if (q.type === 'choice') return <ChoiceQuestion key={q.id} q={q} value={answers[q.id]} onChange={set(q.id)} />
