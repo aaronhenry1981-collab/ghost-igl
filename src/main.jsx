@@ -40,6 +40,7 @@ const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const PlayerHomePage = lazy(() => import('./features/home/PlayerHomePage'))
+const CrmRoute = lazy(() => import('./features/crm/CrmRoute'))
 // Dev-only fixture previews (fictional data). `import.meta.env.DEV` is false in
 // production builds, so neither the route nor its chunk ships.
 const DevPreviewPage = import.meta.env.DEV ? lazy(() => import('./features/dev/DevPreviewPage')) : null
@@ -169,7 +170,7 @@ const router = createBrowserRouter([
       { path: '/match-prep/:mapId', element: <L><MatchPrepPage /></L> },
       { path: '/loadouts', element: <L><LoadoutsPage /></L> },
       { path: '/dashboard', element: <L><PlayerHomePage /></L> },
-      ...(DevPreviewPage ? [{ path: '/__dev/:surface', element: <L><DevPreviewPage /></L> }] : []),
+      ...(DevPreviewPage ? [{ path: '/__dev/*', element: <L><DevPreviewPage /></L> }] : []),
       { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
@@ -178,6 +179,9 @@ const router = createBrowserRouter([
       { path: '/meta', element: <L><MetaPage /></L> },
       { path: '/vod', element: <L><VodPage /></L> },
       { path: '/admin', element: <L><AdminPage /></L> },
+      { path: '/admin/crm', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/players/:key', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/:tab', element: <L><CrmRoute /></L> },
       { path: '/account', element: <L><AccountPage /></L> },
       { path: '/activate', element: <L><ActivatePage /></L> },
       { path: '/download', element: DESKTOP_APP_RELEASED ? <L><DownloadPage /></L> : <Navigate to="/account" replace /> },

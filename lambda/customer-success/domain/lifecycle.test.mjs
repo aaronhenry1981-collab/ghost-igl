@@ -152,3 +152,9 @@ test('paused access still shows the plan the player pays for, never "Basic"', as
   assert.equal(failed.view.membership.planLabel, 'Elite')
   assert.equal(failed.view.membership.upgrade, null)
 })
+
+test('Champion who has not booked this month is sent to book the included session first', async () => {
+  const { mission } = await customerView('at_risk')
+  assert.equal(mission.id, 'book_included_session')
+  assert.match(mission.body, /two live 1:1 sessions/)
+})

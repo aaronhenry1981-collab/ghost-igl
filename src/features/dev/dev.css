@@ -6,3 +6,9 @@
   color: #ffcb80;
   font-size: 0.85rem;
 }
+
+.dev-index {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}

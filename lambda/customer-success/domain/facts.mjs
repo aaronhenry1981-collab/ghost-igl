@@ -142,7 +142,6 @@ function summarizeBookings(bookingData, email, now) {
       type: row.coachingType || null,
       label: row.sessionType || null,
       paid: row.payment?.status || null,
-      manageToken: row.manageToken || null,
     }
   }).filter((session) => Number.isFinite(session.startsAtMs))
   const live = sessions.filter((s) => s.status === 'confirmed' || s.status === 'comped')
