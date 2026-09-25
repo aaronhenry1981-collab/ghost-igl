@@ -915,3 +915,11 @@
 .ph-feedback-compact .ph-card-title { font-size: 1rem; }
 .ph-feedback-compact .ph-muted { margin: 0.15rem 0 0; }
 .ph-feedback-compact .ph-card-foot { margin-top: 0.6rem; }
+
+/* The site's chamfered buttons use clip-path, which clips an outer focus
+   ring. Draw a two-tone ring inside the shape so keyboard focus is always
+   visible (white reads on dark, near-black reads on the cyan fill). */
+.ph .btn:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #03141a;
+}
