@@ -3,5 +3,6 @@
 import { adminRoutes } from './admin.mjs'
 import { messageRoutes } from './messages.mjs'
 import { outreachRoutes } from './outreach.mjs'
+import { feedbackRoutes } from './feedback.mjs'
 
-export const routeModules = [adminRoutes, messageRoutes, outreachRoutes]
+export const routeModules = [adminRoutes, messageRoutes, outreachRoutes, feedbackRoutes]

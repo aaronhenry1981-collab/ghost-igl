@@ -15,6 +15,7 @@
 //   - workflows owned by the existing CRM job are shown, never re-sent
 
 import { toMs } from './facts.mjs'
+import { selectFeedbackPrompt } from './feedback.mjs'
 
 const DAY = 86400000
 
@@ -213,6 +214,27 @@ export const WORKFLOWS = Object.freeze([
     render: (f) => ({
       subject: 'Your Road to Champion checklist is where you left it',
       body: `Hey ${first(f)}, your progress is saved. When you are back in ranked, open your next habit and take one round plan in with you: https://r6coaching.com/climb/`,
+    }),
+  },
+  {
+    id: 'feedback_email_fallback',
+    name: 'Feedback by email',
+    category: 'relationship',
+    approval: 'auto',
+    channel: 'email',
+    maxSends: 3,
+    cooldownDays: 21,
+    description: 'A feedback moment is due but the player has not opened the app for 5+ days, so the in-product prompt cannot reach them.',
+    trigger: (f, l, now) => {
+      if (f.billing.status === 'cancelling' || f.billing.status === 'payment_failed') return null
+      const seen = toMs(f.account.lastSeenAt)
+      if (!Number.isFinite(seen) || now - seen < 5 * DAY) return null
+      const prompt = selectFeedbackPrompt(f, l, { now })
+      return prompt ? { instance: prompt.momentKey, reason: `${prompt.title} (not seen in-app for 5+ days)` } : null
+    },
+    render: (f) => ({
+      subject: 'Two quick questions about Recon 6',
+      body: `Hey ${first(f)}, is Recon 6 helping? Answer two quick questions the next time you open your home page: https://r6coaching.com/dashboard\n\nOr just reply to this email with one line. Aaron reads every answer.`,
     }),
   },
   {
