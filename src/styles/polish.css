@@ -21,6 +21,17 @@ textarea:focus-visible,
     0 0 0 1px var(--accent, #00e5ff);
   outline: none;
 }
+/* Buttons (.btn) get an INSET two-tone ring instead (WCAG 2.4.7). The
+   chamfered variants (.btn-primary, .btn-outline) use clip-path, which cuts
+   off anything drawn outside the element, so the outer ring above was
+   invisible on them; button variants also set their own shadows, including
+   on hover. White then dark stays visible on the cyan, transparent and dark
+   buttons alike, and `:hover:focus-visible` keeps it while hovered. */
+.btn:focus-visible,
+.btn:hover:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #03141a;
+}
 
 /* ─── Reduced motion — respect OS-level accessibility preferences ─── */
 @media (prefers-reduced-motion: reduce) {
