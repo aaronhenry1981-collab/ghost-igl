@@ -306,6 +306,6 @@ cleanly; `src/config/memberships.js` is byte-identical on both lines.
 - The CRM directory reads every table per request (20s cache); fine for
   hundreds of players, needs indexes and pagination for tens of thousands.
 - Cancellation schedules come only from the live Stripe check.
-- Referral records may be incomplete (lookup bug noted in the admin review);
-  attribution is being repaired in the Acquisition Engine change.
+- Referral records may be incomplete; referral and channel attribution are
+  being repaired in the separate Acquisition Engine change.
 - No scheduled outreach runner and no email transport, by design.
