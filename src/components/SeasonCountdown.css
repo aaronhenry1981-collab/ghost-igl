@@ -36,6 +36,24 @@
   letter-spacing: 0.04em;
 }
 
+/* Live state (no official next-season date yet): text instead of a timer.
+   On narrow phones the pill wraps onto two lines instead of pushing the
+   page sideways. */
+.season-pill-note::before { content: '·'; margin-right: 5px; }
+
 @media (max-width: 640px) {
   .season-banner .season-next { margin-left: 0; }
+}
+
+@media (max-width: 420px) {
+  .season-pill.season-live {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0;
+    white-space: normal;
+    text-align: center;
+    border-radius: 12px;
+  }
+  .season-pill.season-live .season-pill-note { flex-basis: 100%; }
+  .season-pill.season-live .season-pill-note::before { content: none; }
 }
