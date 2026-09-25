@@ -15,6 +15,9 @@ export function createLiveCrmApi() {
     async post(path, body) {
       return csRequest(path, { token: await currentIdToken(), method: 'POST', body })
     },
+    async put(path, body) {
+      return csRequest(path, { token: await currentIdToken(), method: 'PUT', body })
+    },
     async liveStripe() {
       const token = await currentIdToken()
       const res = await fetch(`${API_URL}/admin/users`, { headers: { Authorization: `Bearer ${token}` } })

@@ -11,6 +11,7 @@ import { createPlanCatalog } from './domain/plans.mjs'
 import { assembleOne } from './data/assemble.mjs'
 import { ACTIVITY_TYPES, activityItem } from './data/items.mjs'
 import { contactKeyFor } from './lib/ids.mjs'
+import { createDelivery } from './lib/delivery.mjs'
 import { DEFAULT_ALLOWED_ORIGINS, HttpError, corsHeaders, json, matchPath, parseJsonBody, requestOf } from './lib/http.mjs'
 
 const SLUG = /^[a-z0-9][a-z0-9-]{0,39}$/
@@ -23,6 +24,8 @@ export function defaultConfig(overrides = {}) {
     vodLimits: overrides.vodLimits,
     allowedOrigins: overrides.allowedOrigins || DEFAULT_ALLOWED_ORIGINS,
     directoryCacheMs: overrides.directoryCacheMs,
+    // Outbound delivery: 'disabled' unless explicitly set to 'in_app'.
+    deliveryMode: overrides.deliveryMode === 'in_app' ? 'in_app' : 'disabled',
   }
 }
 
@@ -53,8 +56,10 @@ export function createApp(deps) {
     catalog = createPlanCatalog(),
     log = console,
     extraRoutes = [],
+    legacy = null,
   } = deps
   const config = defaultConfig(rawConfig)
+  const delivery = deps.delivery || createDelivery({ mode: config.deliveryMode, store, clock })
 
   // ---- shared helpers exposed to route modules --------------------------------
   const ctx = {
@@ -63,7 +68,10 @@ export function createApp(deps) {
     config,
     catalog,
     log,
+    delivery,
+    legacy,
     decisionHooks: [],
+    decisionPrechecks: [],
     now: () => clock(),
     async factsFor(identity, { withCognito = false, signedIn = true } = {}) {
       const one = await assembleOne({ tables, store, email: identity.email, sub: identity.sub || null, signedIn, isAdmin: identity.isAdmin === true, withCognito, log })
@@ -132,6 +140,7 @@ export function createApp(deps) {
     routes.push(...(registered.routes || []))
     if (registered.homeHook) homeHooks.push(registered.homeHook)
     if (registered.decisionHook) ctx.decisionHooks.push(registered.decisionHook)
+    if (registered.decisionPrecheck) ctx.decisionPrechecks.push(registered.decisionPrecheck)
   }
 
   return async function handle(event) {

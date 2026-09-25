@@ -62,6 +62,22 @@ Parameters:
     Type: String
     Default: 'false'
     AllowedValues: ['true', 'false']
+  OutreachDeliveryMode:
+    Type: String
+    Default: disabled
+    AllowedValues: [disabled, in_app]
+    Description: >-
+      disabled = messages are recorded, nothing reaches players (default).
+      in_app = in-app messages become visible to players. Email is never sent
+      by this stack; there is no email transport in the code.
+  SyncLegacySuppression:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: Mirror opt-outs into the existing CRM job's log (sets marketing_suppressed_at only).
+
+Conditions:
+  MirrorLegacySuppression: !Equals [!Ref SyncLegacySuppression, 'true']
 
 Globals:
   Function:
@@ -153,6 +169,8 @@ Resources:
           ACTIVITY_TRACKING_SINCE: !Ref ActivityTrackingSince
           FEATURE_MESSAGING: !Ref FeatureMessaging
           FEATURE_FEEDBACK: !Ref FeatureFeedback
+          OUTREACH_DELIVERY_MODE: !Ref OutreachDeliveryMode
+          SYNC_LEGACY_SUPPRESSION: !Ref SyncLegacySuppression
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref CustomerSuccessTable
@@ -182,6 +200,21 @@ Resources:
                 - cognito-idp:ListUsers
                 - cognito-idp:ListUsersInGroup
               Resource: !Sub arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPoolId}
+        - !If
+          - MirrorLegacySuppression
+          - Statement:
+              - Sid: LegacyCrmSuppressionAttributesOnly
+                Effect: Allow
+                Action:
+                  - dynamodb:UpdateItem
+                Resource: !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${CrmLogTableName}
+                Condition:
+                  ForAllValues:StringEquals:
+                    dynamodb:Attributes:
+                      - email
+                      - marketing_suppressed_at
+                      - marketing_suppressed_reason
+          - !Ref AWS::NoValue
       Events:
         Health:
           Type: HttpApi
@@ -210,6 +243,39 @@ Resources:
         AdminQueueDecision:
           Type: HttpApi
           Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/queue/decision, Method: POST }
+        CustomerMessages:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages, Method: GET }
+        CustomerSendMessage:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages, Method: POST }
+        CustomerReadMessages:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages/read, Method: POST }
+        CustomerGetPreferences:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/contact-preferences, Method: GET }
+        CustomerPutPreferences:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/contact-preferences, Method: PUT }
+        AdminConversations:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/conversations, Method: GET }
+        AdminConversation:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/conversations/{key}', Method: GET }
+        AdminConversationReply:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/conversations/{key}/reply', Method: POST }
+        AdminPlayerContact:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}/contact', Method: PUT }
+        AdminOutreach:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/outreach, Method: GET }
+        AdminOutreachRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/outreach/run, Method: POST }
 
   CustomerSuccessErrorsAlarm:
     Type: AWS::CloudWatch::Alarm

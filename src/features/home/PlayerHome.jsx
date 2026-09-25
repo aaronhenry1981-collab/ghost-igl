@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { currentIdToken, openBillingPortal } from '../../lib/customerSuccess'
 import RankGoalEditor from './RankGoalEditor'
+import MessagesCard from './MessagesCard'
+import ContactPreferences from './ContactPreferences'
 import { greeting } from './homeFormat'
 import {
   ActivationCard,
@@ -34,10 +36,13 @@ function HomeSkeleton() {
 }
 
 // The player home. `state` comes from useHomeView (live) or a dev preview.
-export default function PlayerHome({ state, preview = false, slots = {} }) {
+// `api` is the player's own customer-success client (null in lite mode and
+// in the CRM's read-only "view as player").
+export default function PlayerHome({ state, preview = false, slots = {}, api = null }) {
   const auth = useAuth()
   const [notice, setNotice] = useState(null)
   const [rankEditorOpen, setRankEditorOpen] = useState(false)
+  const [messagesOpen, setMessagesOpen] = useState(false)
   const { status, error, view, reload, authLoading, signedIn } = state
 
   if (authLoading) return <HomeSkeleton />
@@ -68,6 +73,11 @@ export default function PlayerHome({ state, preview = false, slots = {} }) {
 
   async function onAction(action) {
     setNotice(null)
+    if (action === 'message_support' && api && view.messages?.enabled) {
+      setMessagesOpen(true)
+      document.getElementById('home-messages')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      return
+    }
     if (preview && action !== 'set_rank_goal') {
       setNotice(`Preview: "${action.replace(/_/g, ' ')}" is disabled with fictional data.`)
       return
@@ -152,8 +162,13 @@ export default function PlayerHome({ state, preview = false, slots = {} }) {
           <StuckCard stuck={view.stuck} />
           <VodCard vod={view.vod} />
           <CoachingCard coaching={view.coaching} />
-          {slots.messages}
+          {api && view.messages?.enabled && (
+            <div id="home-messages">
+              <MessagesCard api={api} summary={view.messages} open={messagesOpen} onOpenChange={setMessagesOpen} />
+            </div>
+          )}
           <HelpCard help={view.help} onAction={onAction} />
+          {api && <ContactPreferences api={api} />}
         </div>
       </div>
 

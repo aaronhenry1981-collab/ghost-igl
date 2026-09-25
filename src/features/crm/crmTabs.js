@@ -6,5 +6,6 @@ export const CRM_TABS = [
   { id: 'onboarding', label: 'Onboarding', variant: 'onboarding' },
   { id: 'activity', label: 'Product activity', variant: 'activity' },
   { id: 'coaching', label: 'Coaching & VOD', variant: 'coaching' },
+  { id: 'conversations', label: 'Conversations' },
   { id: 'billing', label: 'Billing & health' },
 ]

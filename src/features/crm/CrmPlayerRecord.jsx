@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PlayerHome from '../home/PlayerHome'
 import { useCrmResource } from './useCrmResource'
@@ -12,6 +12,61 @@ function Field({ label, value, empty = 'Not provided' }) {
       <dt>{label}</dt>
       <dd>{value === null || value === undefined || value === '' ? <span className="crm-muted">{empty}</span> : value}</dd>
     </>
+  )
+}
+
+function ContactPanel({ api, basePath, playerKey, email, cs, onChanged }) {
+  const [reason, setReason] = useState('')
+  const [state, setState] = useState({ busy: false, error: null })
+  const reasonId = useId()
+  const consent = cs.consent
+
+  async function setDnc(value) {
+    setState({ busy: true, error: null })
+    try {
+      await api.put(`/cs/admin/players/${playerKey}/contact`, { doNotContact: value, email, reason: reason || null })
+      setReason('')
+      onChanged()
+    } catch (err) {
+      setState({ busy: false, error: err.message })
+    }
+  }
+
+  return (
+    <Panel title="Messages, outreach and consent" action={<Link to={`${basePath}/conversations?thread=${playerKey}`} className="crm-link">Open conversation</Link>}>
+      <dl className="crm-dl">
+        <Field label="Coaching nudges" value={consent.relationship === 'opted_out' ? 'Opted out' : 'Subscribed'} />
+        <Field label="Marketing" value={consent.marketing === 'opted_in' ? 'Opted in' : consent.marketing === 'opted_out' ? 'Opted out' : 'No consent recorded'} />
+        <Field label="Do not contact" value={consent.doNotContact ? `Yes${consent.suppressedReason ? ` (${consent.suppressedReason})` : ''}` : 'No'} />
+      </dl>
+      <div className="crm-qitem-actions">
+        <label htmlFor={reasonId} className="crm-visually-hidden">Reason for the audit log</label>
+        <input id={reasonId} className="crm-input" placeholder="Reason (kept in the audit log)" value={reason} onChange={(e) => setReason(e.target.value)} maxLength={300} />
+        {consent.doNotContact
+          ? <button type="button" className="btn btn-ghost btn-sm" disabled={state.busy} onClick={() => setDnc(false)}>Allow contact again</button>
+          : <button type="button" className="btn btn-ghost btn-sm" disabled={state.busy || !reason.trim()} onClick={() => setDnc(true)}>Mark do not contact</button>}
+      </div>
+      {state.error && <p className="crm-error" role="alert">{state.error}</p>}
+      <h3 className="crm-subhead">Recent messages</h3>
+      {cs.messages.length === 0 ? <p className="crm-muted">No messages.</p> : (
+        <ul className="crm-list">
+          {cs.messages.slice(-5).reverse().map((m) => (
+            <li key={m.id}>
+              <strong>{m.direction === 'inbound' ? 'Player' : 'Recon'}</strong> · {m.channel === 'email' ? 'email' : 'in-app'} · {fmtAgo(m.at)}
+              {m.direction === 'outbound' && <span className="crm-muted"> · {m.status === 'delivered' ? 'delivered' : 'not delivered'}</span>}
+              {m.direction === 'inbound' && !m.answeredAt && <Badge tone="warning">needs reply</Badge>}
+              <br /><span className="crm-muted">{m.preview}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <h3 className="crm-subhead">Outreach</h3>
+      {cs.outreach.length === 0 ? <p className="crm-muted">No outreach recorded.</p> : (
+        <ul className="crm-list">
+          {cs.outreach.map((o) => <li key={o.key}>{o.workflowName} · <Badge tone={o.status === 'delivered' ? 'ok' : o.status === 'failed' ? 'danger' : 'neutral'}>{o.status.replace(/_/g, ' ')}</Badge> <span className="crm-muted">{fmtAgo(o.at)} · {o.triggerReason}</span></li>)}
+        </ul>
+      )}
+    </Panel>
   )
 }
 
@@ -190,6 +245,8 @@ export default function CrmPlayerRecord({ api, basePath, playerKey }) {
           </dl>
         </Panel>
       </div>
+
+      <ContactPanel api={api} basePath={basePath} playerKey={playerKey} email={s.email} cs={r.cs} onChanged={reload} />
 
       <Panel
         title="What the player sees"

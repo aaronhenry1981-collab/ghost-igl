@@ -28,6 +28,16 @@ export async function devFetch(path, as, { method = 'GET', body } = {}) {
   return payload
 }
 
+// Dev player client: acts as the fictional scenario's own account.
+export function createDevHomeApi(as) {
+  return {
+    preview: false,
+    get: (path) => devFetch(path, as),
+    post: (path, body) => devFetch(path, as, { method: 'POST', body }),
+    put: (path, body) => devFetch(path, as, { method: 'PUT', body }),
+  }
+}
+
 // Dev CRM client: fictional admin against the fixture server. There is no
 // live Stripe in dev, so the live check is unavailable by design.
 export function createDevCrmApi() {
@@ -36,6 +46,7 @@ export function createDevCrmApi() {
     configured: true,
     get: (path) => devFetch(path, 'admin'),
     post: (path, body) => devFetch(path, 'admin', { method: 'POST', body }),
+    put: (path, body) => devFetch(path, 'admin', { method: 'PUT', body }),
     liveStripe: null,
   }
 }
