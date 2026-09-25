@@ -1,0 +1,179 @@
+{
+  "state_after_two_visits": {
+    "v": 1,
+    "firstTouch": {
+      "v": 1,
+      "at": "2026-09-25T18:27:39.023Z",
+      "medium": null,
+      "campaign": null,
+      "content": null,
+      "term": null,
+      "contentId": null,
+      "ref": null,
+      "referralCode": null,
+      "referrerDomain": null,
+      "landingPath": "/strats",
+      "source": "chatgpt",
+      "sourceLabel": "ChatGPT",
+      "sourceRaw": "chatgpt.com",
+      "channel": "ai_search",
+      "evidence": "utm_tag"
+    },
+    "lastTouch": {
+      "v": 1,
+      "at": "2026-09-25T18:27:40.346Z",
+      "medium": "social",
+      "campaign": "site_files",
+      "content": "sf012",
+      "term": null,
+      "contentId": "sf012",
+      "ref": null,
+      "referralCode": null,
+      "referrerDomain": null,
+      "landingPath": "/",
+      "source": "tiktok",
+      "sourceLabel": "TikTok",
+      "sourceRaw": "tiktok",
+      "channel": "social_video",
+      "evidence": "utm_tag"
+    },
+    "touches": [
+      {
+        "v": 1,
+        "at": "2026-09-25T18:27:39.023Z",
+        "medium": null,
+        "campaign": null,
+        "content": null,
+        "term": null,
+        "contentId": null,
+        "ref": null,
+        "referralCode": null,
+        "referrerDomain": null,
+        "landingPath": "/strats",
+        "source": "chatgpt",
+        "sourceLabel": "ChatGPT",
+        "sourceRaw": "chatgpt.com",
+        "channel": "ai_search",
+        "evidence": "utm_tag"
+      },
+      {
+        "v": 1,
+        "at": "2026-09-25T18:27:40.346Z",
+        "medium": "social",
+        "campaign": "site_files",
+        "content": "sf012",
+        "term": null,
+        "contentId": "sf012",
+        "ref": null,
+        "referralCode": null,
+        "referrerDomain": null,
+        "landingPath": "/",
+        "source": "tiktok",
+        "sourceLabel": "TikTok",
+        "sourceRaw": "tiktok",
+        "channel": "social_video",
+        "evidence": "utm_tag"
+      }
+    ],
+    "landingPath": "/strats",
+    "visits": 2,
+    "firstSeenAt": "2026-09-25T18:27:39.023Z",
+    "lastSeenAt": "2026-09-25T18:27:40.346Z"
+  },
+  "plausible_calls": [
+    [
+      "Pricing CTA Click",
+      {
+        "props": {
+          "source": "chatgpt",
+          "channel": "ai_search",
+          "last_source": "tiktok",
+          "landing": "/strats",
+          "tier": "elite",
+          "location": "pricing-card"
+        }
+      }
+    ]
+  ],
+  "state_creator_then_friend": {
+    "v": 1,
+    "firstTouch": {
+      "v": 1,
+      "at": "2026-09-25T18:27:44.744Z",
+      "medium": null,
+      "campaign": null,
+      "content": null,
+      "term": null,
+      "contentId": null,
+      "ref": "splitaim",
+      "referralCode": null,
+      "referrerDomain": null,
+      "landingPath": "/",
+      "source": "creator:splitaim",
+      "sourceLabel": "Creator splitaim",
+      "sourceRaw": "SplitAim",
+      "channel": "creator",
+      "evidence": "ref_code"
+    },
+    "lastTouch": {
+      "v": 1,
+      "at": "2026-09-25T18:27:45.925Z",
+      "medium": null,
+      "campaign": null,
+      "content": null,
+      "term": null,
+      "contentId": null,
+      "ref": null,
+      "referralCode": "AB12CD",
+      "referrerDomain": null,
+      "landingPath": "/r/AB12CD",
+      "source": "friend_referral",
+      "sourceLabel": "Friend referral",
+      "sourceRaw": null,
+      "channel": "referral",
+      "evidence": "referral_code"
+    },
+    "touches": [
+      {
+        "v": 1,
+        "at": "2026-09-25T18:27:44.744Z",
+        "medium": null,
+        "campaign": null,
+        "content": null,
+        "term": null,
+        "contentId": null,
+        "ref": "splitaim",
+        "referralCode": null,
+        "referrerDomain": null,
+        "landingPath": "/",
+        "source": "creator:splitaim",
+        "sourceLabel": "Creator splitaim",
+        "sourceRaw": "SplitAim",
+        "channel": "creator",
+        "evidence": "ref_code"
+      },
+      {
+        "v": 1,
+        "at": "2026-09-25T18:27:45.925Z",
+        "medium": null,
+        "campaign": null,
+        "content": null,
+        "term": null,
+        "contentId": null,
+        "ref": null,
+        "referralCode": "AB12CD",
+        "referrerDomain": null,
+        "landingPath": "/r/AB12CD",
+        "source": "friend_referral",
+        "sourceLabel": "Friend referral",
+        "sourceRaw": null,
+        "channel": "referral",
+        "evidence": "referral_code"
+      }
+    ],
+    "landingPath": "/",
+    "visits": 2,
+    "firstSeenAt": "2026-09-25T18:27:44.744Z",
+    "lastSeenAt": "2026-09-25T18:27:45.925Z"
+  }
+}
