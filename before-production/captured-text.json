@@ -1,0 +1,74 @@
+[
+  {
+    "label": "desktop",
+    "name": "countdown-hero",
+    "text": "LIVE SEASON CLOCK\nRainbow Six Siege\nSeason Countdown\n\nCurrent season: Y11S2 Operation System Override. Next up: Y11S3.\n\n0\nDAYS\n0\nHOURS\n0\nMINUTES\n0\nSECONDS\n\nThe expected window has arrived — the new season should be launching any day now. Check back for the confirmed date.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "desktop",
+    "name": "countdown-content",
+    "text": "What's coming in Y11S3\n\nAnnounced on the official Year 11 roadmap (Six Invitational, February 2026):\n\nNew Defender, codename \"Fireworks\" — built to counter shield operators, with a projectile that pierces shields. If shield metas tilt your lobbies, this is the season's biggest ranked shift.\nVilla rework plus targeted map adjustments — bomb spots, rotations, and sightlines change. Re-learn your set",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "desktop",
+    "name": "strats-header",
+    "text": "Map Strategies\n\nSelect a map, pick a site, choose your side. Get the strat your team needs to win.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "desktop",
+    "name": "meta-header",
+    "text": "Ranked Meta\n\nAggregate competitive intel across 14 ranked maps, 56 sites, and 48 operators. Updated whenever the strat data changes.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "phone",
+    "name": "countdown-hero",
+    "text": "LIVE SEASON CLOCK\nRainbow Six Siege\nSeason Countdown\n\nCurrent season: Y11S2 Operation System Override. Next up: Y11S3.\n\n0\nDAYS\n0\nHOURS\n0\nMINUTES\n0\nSECONDS\n\nThe expected window has arrived — the new season should be launching any day now. Check back for the confirmed date.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "phone",
+    "name": "countdown-content",
+    "text": "What's coming in Y11S3\n\nAnnounced on the official Year 11 roadmap (Six Invitational, February 2026):\n\nNew Defender, codename \"Fireworks\" — built to counter shield operators, with a projectile that pierces shields. If shield metas tilt your lobbies, this is the season's biggest ranked shift.\nVilla rework plus targeted map adjustments — bomb spots, rotations, and sightlines change. Re-learn your set",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "phone",
+    "name": "strats-header",
+    "text": "Map Strategies\n\nSelect a map, pick a site, choose your side. Get the strat your team needs to win.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "phone",
+    "name": "meta-header",
+    "text": "Ranked Meta\n\nAggregate competitive intel across 14 ranked maps, 56 sites, and 48 operators. Updated whenever the strat data changes.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "small",
+    "name": "countdown-hero",
+    "text": "LIVE SEASON CLOCK\nRainbow Six Siege\nSeason Countdown\n\nCurrent season: Y11S2 Operation System Override. Next up: Y11S3.\n\n0\nDAYS\n0\nHOURS\n0\nMINUTES\n0\nSECONDS\n\nThe expected window has arrived — the new season should be launching any day now. Check back for the confirmed date.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "small",
+    "name": "countdown-content",
+    "text": "What's coming in Y11S3\n\nAnnounced on the official Year 11 roadmap (Six Invitational, February 2026):\n\nNew Defender, codename \"Fireworks\" — built to counter shield operators, with a projectile that pierces shields. If shield metas tilt your lobbies, this is the season's biggest ranked shift.\nVilla rework plus targeted map adjustments — bomb spots, rotations, and sightlines change. Re-learn your set",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "small",
+    "name": "strats-header",
+    "text": "Map Strategies\n\nSelect a map, pick a site, choose your side. Get the strat your team needs to win.",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "small",
+    "name": "meta-header",
+    "text": "Ranked Meta\n\nAggregate competitive intel across 14 ranked maps, 56 sites, and 48 operators. Updated whenever the strat data changes.",
+    "horizontalOverflow": false
+  }
+]
