@@ -157,14 +157,75 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
   )
 }
 
+// Everything a keyboard user can reach inside the open drawer.
+const DRAWER_FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
   const isLanding = location.pathname === '/'
   const { user, isPro, isAdmin, plan, signOut } = useAuth()
+  const toggleRef = useRef(null)
+  const drawerRef = useRef(null)
+  const drawerCloseRef = useRef(null)
+  const openerRef = useRef(null)
+  const drawerWasOpen = useRef(false)
 
+  function openMobile(e) {
+    openerRef.current = e?.currentTarget || toggleRef.current
+    setMobileMenu(true)
+  }
   function closeMobile() { setMobileMenu(false) }
+
+  // Keyboard focus follows the drawer (WCAG 2.4.3): opening moves focus to
+  // its close button; closing returns focus to the control that opened it,
+  // but only when focus was inside the drawer (or lost), never stealing it
+  // from somewhere the user has already moved on to.
+  useEffect(() => {
+    if (mobileMenu) {
+      drawerWasOpen.current = true
+      drawerCloseRef.current?.focus()
+      return
+    }
+    if (!drawerWasOpen.current) return
+    drawerWasOpen.current = false
+    const active = document.activeElement
+    if (active && active !== document.body && !drawerRef.current?.contains(active)) return
+    const opener = openerRef.current
+    const target = opener && opener.isConnected && opener.offsetParent !== null ? opener : toggleRef.current
+    target?.focus()
+  }, [mobileMenu])
+
+  // While open, the drawer behaves like a dialog: Escape closes it and Tab
+  // cycles through its own controls instead of the page behind the backdrop.
+  useEffect(() => {
+    if (!mobileMenu) return undefined
+    function onKey(e) {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setMobileMenu(false)
+        return
+      }
+      if (e.key !== 'Tab') return
+      const drawer = drawerRef.current
+      if (!drawer) return
+      const items = [...drawer.querySelectorAll(DRAWER_FOCUSABLE)].filter((el) => el.offsetParent !== null)
+      if (!items.length) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      const inside = drawer.contains(document.activeElement)
+      if (e.shiftKey && (!inside || document.activeElement === first)) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && (!inside || document.activeElement === last)) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [mobileMenu])
 
   // Lock body scroll while the mobile drawer is open so users can't
   // scroll the page behind it. Restore on close.
@@ -258,15 +319,18 @@ export default function Navbar() {
             type="button"
             className={`nav-account-avatar nav-account-avatar-${badgeClass} navbar-mobile-only`}
             aria-label="Open menu"
-            onClick={() => setMobileMenu(true)}
+            aria-controls="mobile-drawer"
+            onClick={openMobile}
           >
             {(user.email || '?')[0].toUpperCase()}
           </button>
         )}
 
         <button
+          ref={toggleRef}
+          type="button"
           className={`mobile-toggle${mobileMenu ? ' open' : ''}`}
-          onClick={() => setMobileMenu(!mobileMenu)}
+          onClick={(e) => (mobileMenu ? closeMobile() : openMobile(e))}
           aria-label={mobileMenu ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileMenu}
           aria-controls="mobile-drawer"
@@ -281,10 +345,17 @@ export default function Navbar() {
       {mobileMenu && (
         <div className="mobile-drawer-backdrop" onClick={closeMobile} aria-hidden="true" />
       )}
+      {/* Closed, the drawer is inert (and visibility: hidden in App.css for
+          browsers without `inert`), so none of its links sit invisibly in
+          the tab order on any screen size (WCAG 2.4.3). */}
       <aside
+        ref={drawerRef}
         id="mobile-drawer"
         className={`mobile-drawer${mobileMenu ? ' open' : ''}`}
+        role="dialog"
+        aria-modal={mobileMenu ? 'true' : undefined}
         aria-hidden={!mobileMenu}
+        inert={!mobileMenu}
         aria-label="Mobile navigation"
       >
         <div className="mobile-drawer-head">
@@ -296,6 +367,8 @@ export default function Navbar() {
             Recon<span>6</span>
           </Link>
           <button
+            ref={drawerCloseRef}
+            type="button"
             className="mobile-drawer-close"
             onClick={closeMobile}
             aria-label="Close menu"
