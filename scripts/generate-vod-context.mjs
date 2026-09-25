@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
 import BANS from '../src/data/bans.js'
+import { CURRENT_R6_SEASON } from '../src/data/r6-season.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -20,6 +21,19 @@ const OUT = join(ROOT, 'lambda', 'vod', 'r6-context.json')
 
 const ctx = {
   generated_at: new Date().toISOString(),
+  // Read by lambda/vod/index.mjs as "CURRENT PATCH FACTS (authoritative;
+  // prefer these over model memory)". Only officially published changes, from
+  // the one reviewed season snapshot (src/data/r6-season.js).
+  current_patch: {
+    version: CURRENT_R6_SEASON.code,
+    season: CURRENT_R6_SEASON.name,
+    released: CURRENT_R6_SEASON.patchDate,
+    verified_on: CURRENT_R6_SEASON.verifiedOn,
+    source: CURRENT_R6_SEASON.patchNotesUrl,
+    balance_changes: CURRENT_R6_SEASON.balanceChanges.map((c) => ({ operators: [...c.operators], item: c.item, change: c.summary })),
+    noor_horus_lance_fixes: [...CURRENT_R6_SEASON.noorFixes],
+    guidance: 'Use these numbers when a round depends on them. The Noor lines describe fixed bugs: never suggest one as a tactic or counterplay.',
+  },
   maps: {},
   // Operator role lookup — useful for prompting the AI to judge utility
   // usage based on what the operator's gadget is actually for.
