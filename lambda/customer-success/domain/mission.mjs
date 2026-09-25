@@ -124,6 +124,21 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
       evidence: [facts.activity.usageEvidence === 'this_device' ? 'No round plans opened on this device yet' : 'No round plans opened yet'],
     }
   }
+  const credits = coaching?.credits
+  const sessionMission = !facts.identity.isAdmin && ((b.plan === 'champion' && coaching && coaching.bookedThisMonth === 0) || (Number.isFinite(credits) && credits > 0 && !coaching?.upcoming?.length))
+    ? {
+      id: 'book_included_session',
+      kind: 'coaching',
+      title: 'Book your coaching session',
+      body: b.plan === 'champion'
+        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one while you still have them.'
+        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use.`,
+      cta: { label: 'Book a session', href: '/coaching/index.html#book' },
+      evidence: [b.plan === 'champion' ? 'No session booked in the last 30 days' : `${credits} unused credit${credits === 1 ? '' : 's'}`],
+    }
+    : null
+  // Live coaching is the core of Champion, so it comes before a first VOD.
+  if (sessionMission && b.plan === 'champion') return sessionMission
   if (hasPlan(b.plan, 'pro') && b.hasAccess && !facts.identity.isAdmin && vod && !facts.activity.vod.reviewsKnown && (vod.remaining ?? 1) > 0) {
     return {
       id: 'first_vod',
@@ -134,19 +149,7 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
       evidence: [vod.limit ? `${vod.remaining} of ${vod.limit} reviews left this period` : 'VOD review is included in your plan'],
     }
   }
-  const credits = coaching?.credits
-  if (!facts.identity.isAdmin && ((b.plan === 'champion' && coaching && coaching.bookedThisMonth === 0) || (Number.isFinite(credits) && credits > 0 && !coaching?.upcoming?.length))) {
-    return {
-      id: 'book_included_session',
-      kind: 'coaching',
-      title: 'Book your coaching session',
-      body: b.plan === 'champion'
-        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one while you still have them.'
-        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use.`,
-      cta: { label: 'Book a session', href: '/coaching/index.html#book' },
-      evidence: [b.plan === 'champion' ? 'No session booked in the last 30 days' : `${credits} unused credit${credits === 1 ? '' : 's'}`],
-    }
-  }
+  if (sessionMission) return sessionMission
 
   // 6. Ongoing improvement.
   if (climb?.currentTier?.nextTask) {

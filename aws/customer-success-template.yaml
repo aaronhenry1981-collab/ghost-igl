@@ -192,6 +192,24 @@ Resources:
         CustomerActivity:
           Type: HttpApi
           Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/activity, Method: POST }
+        AdminOverview:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/overview, Method: GET }
+        AdminPlayers:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/players, Method: GET }
+        AdminPlayer:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}', Method: GET }
+        AdminPlayerHomePreview:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}/home-preview', Method: GET }
+        AdminQueue:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/queue, Method: GET }
+        AdminQueueDecision:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/queue/decision, Method: POST }
 
   CustomerSuccessErrorsAlarm:
     Type: AWS::CloudWatch::Alarm

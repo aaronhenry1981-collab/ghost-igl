@@ -27,3 +27,15 @@ export async function devFetch(path, as, { method = 'GET', body } = {}) {
   }
   return payload
 }
+
+// Dev CRM client: fictional admin against the fixture server. There is no
+// live Stripe in dev, so the live check is unavailable by design.
+export function createDevCrmApi() {
+  return {
+    mode: 'dev',
+    configured: true,
+    get: (path) => devFetch(path, 'admin'),
+    post: (path, body) => devFetch(path, 'admin', { method: 'POST', body }),
+    liveStripe: null,
+  }
+}

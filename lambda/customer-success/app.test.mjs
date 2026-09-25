@@ -26,7 +26,8 @@ export function fixtureApp({ failures = {}, extraRoutes = [], config = {}, clock
     log: { warn() {}, error() {}, info() {} },
   })
   const call = (method, path, { token, body, origin = 'https://r6coaching.com' } = {}) => handle({
-    rawPath: path,
+    rawPath: path.split('?')[0],
+    queryStringParameters: path.includes('?') ? Object.fromEntries(new URLSearchParams(path.split('?')[1])) : undefined,
     requestContext: { http: { method }, requestId: 'req-test' },
     headers: { origin, ...(token ? { authorization: `Bearer ${token}` } : {}) },
     body: body === undefined ? undefined : typeof body === 'string' ? body : JSON.stringify(body),

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import PromoKit from '../components/admin/PromoKit'
@@ -290,6 +291,7 @@ export default function AdminPage() {
           Multi-game console — users, subscriptions, content, audit log, and per-game catalog.
         </p>
         <p>Signed in as <span className="admin-mono">{user.email}</span></p>
+        <p><Link to="/admin/crm" className="btn btn-primary btn-sm">Open customer success CRM</Link></p>
       </header>
 
       {/* MRR + paying counts exclude comp grants (admin-granted 2099 access

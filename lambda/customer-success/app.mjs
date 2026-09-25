@@ -22,6 +22,7 @@ export function defaultConfig(overrides = {}) {
     activityTrackingSince: overrides.activityTrackingSince || null,
     vodLimits: overrides.vodLimits,
     allowedOrigins: overrides.allowedOrigins || DEFAULT_ALLOWED_ORIGINS,
+    directoryCacheMs: overrides.directoryCacheMs,
   }
 }
 
@@ -62,6 +63,7 @@ export function createApp(deps) {
     config,
     catalog,
     log,
+    decisionHooks: [],
     now: () => clock(),
     async factsFor(identity, { withCognito = false, signedIn = true } = {}) {
       const one = await assembleOne({ tables, store, email: identity.email, sub: identity.sub || null, signedIn, isAdmin: identity.isAdmin === true, withCognito, log })
@@ -129,6 +131,7 @@ export function createApp(deps) {
     const registered = module({ ctx, requireUser, requireAdmin })
     routes.push(...(registered.routes || []))
     if (registered.homeHook) homeHooks.push(registered.homeHook)
+    if (registered.decisionHook) ctx.decisionHooks.push(registered.decisionHook)
   }
 
   return async function handle(event) {
