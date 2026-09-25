@@ -8,6 +8,7 @@ import ExitIntentModal from './ExitIntentModal'
 import ProfileSetupModal from './ProfileSetupModal'
 import ReferralAttributor from './ReferralAttributor'
 import ErrorBoundary from './ErrorBoundary'
+import ActivityBeacon from './ActivityBeacon'
 import { GameProvider } from '../hooks/useActiveGame'
 
 // Unified layout — single Navbar across the entire site (landing + in-app).
@@ -37,6 +38,7 @@ export default function Layout() {
         {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
             game to pick. Component kept in tree (see GameSwitcher note). */}
         <ReferralAttributor />
+        <ActivityBeacon />
         {isLanding && <ExitIntentModal />}
       </GameProvider>
     </ErrorBoundary>

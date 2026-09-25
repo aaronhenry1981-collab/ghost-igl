@@ -39,7 +39,10 @@ const RefundPage = lazy(() => import('./pages/RefundPage'))
 const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const PlayerHomePage = lazy(() => import('./features/home/PlayerHomePage'))
+// Dev-only fixture previews (fictional data). `import.meta.env.DEV` is false in
+// production builds, so neither the route nor its chunk ships.
+const DevPreviewPage = import.meta.env.DEV ? lazy(() => import('./features/dev/DevPreviewPage')) : null
 const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
@@ -165,7 +168,8 @@ const router = createBrowserRouter([
       { path: '/match-prep', element: <L><MatchPrepPage /></L> },
       { path: '/match-prep/:mapId', element: <L><MatchPrepPage /></L> },
       { path: '/loadouts', element: <L><LoadoutsPage /></L> },
-      { path: '/dashboard', element: <L><DashboardPage /></L> },
+      { path: '/dashboard', element: <L><PlayerHomePage /></L> },
+      ...(DevPreviewPage ? [{ path: '/__dev/:surface', element: <L><DevPreviewPage /></L> }] : []),
       { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },

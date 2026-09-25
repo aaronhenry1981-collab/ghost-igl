@@ -1,0 +1,8 @@
+/* DEV ONLY styles for fixture previews. */
+.dev-preview-banner {
+  max-width: 1120px;
+  margin: 0.75rem auto 0;
+  padding: 0 1rem;
+  color: #ffcb80;
+  font-size: 0.85rem;
+}

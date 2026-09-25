@@ -28,6 +28,14 @@ jobs:
         run: npm run test:patch-watcher
       - name: Contract tests
         run: npm test
+      - name: Install customer-success dependencies
+        run: npm ci --prefix lambda/customer-success
+      - name: Customer-success tests (lifecycle, entitlements, API auth, outreach safety)
+        run: npm run test:customer-success
+      - name: Validate customer-success SAM stack
+        run: sam validate --lint --template-file aws/customer-success-template.yaml
+      - name: Build customer-success SAM stack
+        run: sam build --template-file aws/customer-success-template.yaml --build-dir .aws-sam-customer-success
       - name: Validate player-data SAM stack
         run: sam validate --lint --template-file aws/player-data-template.yaml
       - name: Build player-data SAM stack
