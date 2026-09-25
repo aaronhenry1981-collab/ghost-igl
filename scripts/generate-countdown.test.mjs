@@ -17,8 +17,11 @@ test('while Split Fire is live and Y11S4 is unannounced: no timer, no stale copy
   assert.doesNotMatch(html, /id="timer"/)
   assert.doesNotMatch(html, /any day now|Y11S2|System Override|Fireworks/)
   // The page switches itself to a "check Ubisoft" notice once the season's
-  // Battle Pass window is over, even if nobody rebuilds it.
+  // Battle Pass window is over, even if nobody rebuilds it. The facts grid's
+  // own display rule must not override the hidden attribute.
   assert.match(html, new RegExp(`Date\\.now\\(\\) < ${at('2026-12-01T00:00:00Z')}`))
+  assert.match(html, /getElementById\('season-facts'\)\.hidden = true/)
+  assert.match(html, /\.facts\[hidden\] \{ display:none; \}/)
 })
 
 test('once Ubisoft announces a date, the page counts down to it', () => {
