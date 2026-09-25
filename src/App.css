@@ -441,7 +441,11 @@ select option:hover {
   border-left: 1px solid var(--border, #1e2030);
   z-index: 200;
   transform: translateX(100%);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Closed: off-screen AND hidden, so its links are not focusable even in
+     browsers without `inert` (Navbar.jsx). Visibility flips after the slide
+     out finishes, and immediately on open. */
+  visibility: hidden;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.25s;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 1rem 0.75rem 2rem;
@@ -449,7 +453,11 @@ select option:hover {
   flex-direction: column;
   gap: 1.25rem;
 }
-.mobile-drawer.open { transform: translateX(0); }
+.mobile-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+}
 .mobile-drawer-backdrop {
   position: fixed;
   inset: 0;
