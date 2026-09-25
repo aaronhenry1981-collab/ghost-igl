@@ -10,6 +10,8 @@ import Layout from './components/Layout'
 // (AppShell, the old sidebar layout, was deleted 2026-07-06 — Layout is the
 // single shell for landing + in-app routes.)
 import LandingPage from './pages/LandingPage'
+import { captureAttribution } from './lib/attribution/store'
+import AcquisitionTracker from './components/AcquisitionTracker'
 
 // Code-splitting strategy:
 // LandingPage stays eager — it's what 90% of new visitors hit first, so we
@@ -201,6 +203,11 @@ const router = createBrowserRouter([
   { path: '*', element: <Navigate to="/" replace /> },
 ])
 
+// Acquisition attribution (UTM tags, referrer, creator and friend codes,
+// landing page; first touch kept). Runs before captureRefSource so an older
+// `recon:src` value is read as history, not as this visit.
+captureAttribution()
+
 // Capture ?ref= channel attribution before the router mounts — the router
 // normalizes the URL on first navigation, which would drop the query param.
 captureRefSource()
@@ -208,6 +215,7 @@ captureRefSource()
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
+      <AcquisitionTracker />
       <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>,

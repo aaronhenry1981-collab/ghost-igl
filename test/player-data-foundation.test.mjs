@@ -141,6 +141,14 @@ test('TRN, coaching, VOD, and Road to Champion use the IAM-only player-data inge
   }
 })
 
+test('user timeline events with a caller event_id are idempotent and invalid dates are a 400', () => {
+  const source = readFileSync(new URL('../lambda/player-data/index.mjs', import.meta.url), 'utf8')
+  const createUserEvent = source.split('async function createUserEvent')[1].split('\n}\n')[0]
+  assert.match(createUserEvent, /Boolean\(body\?\.event_id\)\)/)
+  assert.match(source, /if \(!\(idempotent && isConditionalFailure\(err\)\)\) throw err/)
+  assert.match(source, /throw new HttpError\(400, 'Invalid occurred_at'\)/)
+})
+
 test('trusted ingestion has no public HTTP route and requires the provider event envelope', () => {
   const source = readFileSync(new URL('../lambda/player-data/trusted-ingest.mjs', import.meta.url), 'utf8')
   const template = readFileSync(new URL('../aws/player-data-template.yaml', import.meta.url), 'utf8')

@@ -44,9 +44,12 @@ export function ingestManualPlayerSnapshot(token, snapshot) {
   })
 }
 
-export function addPlayerTimelineEvent(token, event) {
+// `keepalive` lets the request finish when the page is navigating away (for
+// example a checkout click that opens Stripe in the same tab).
+export function addPlayerTimelineEvent(token, event, { keepalive = false } = {}) {
   return playerDataFetch(token, '/player-data/events', {
     method: 'POST',
+    keepalive,
     body: JSON.stringify(event),
   })
 }
