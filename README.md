@@ -11,6 +11,9 @@ images; it is not meant to be merged.
 - Captured with Microsoft Edge (headless) over the DevTools protocol with
   real device emulation: desktop 1366px wide, phone 390px wide (downscaled
   to 1x). Every page was checked for horizontal overflow; none had any.
+- Recaptured after the review fixes (commit f058ed5): billing KPIs now separate
+  paying from trials and comps, and the queue escalates failed payments from
+  the estimated failure date.
 - The global footer shows `main`'s older tagline; production already uses a
   different footer.
 
@@ -20,7 +23,7 @@ images; it is not meant to be merged.
 | 02 | Activated free player |
 | 03 | Paying active player (Elite) |
 | 04 | Paying player who cannot access the product (renewal not recorded) |
-| 05 | Paying player with a failed payment (legacy $29 Elite) |
+| 05 | Paying player whose payment failed yesterday (legacy $29 Elite; access paused, plan still named) |
 | 06 | At-risk Champion |
 | 10 | CRM overview |
 | 11 | CRM action queue |
