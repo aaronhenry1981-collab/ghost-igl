@@ -61,6 +61,8 @@ export default function CrmOverview({ api, basePath }) {
               <li><strong>{o.billing.paymentFailed}</strong> failed payment</li>
               <li><strong>{o.billing.renewalUnconfirmed}</strong> renewal not recorded</li>
               <li><strong>{o.billing.duplicates}</strong> duplicate live subscriptions</li>
+              {o.billing.compAndPaying > 0 && <li><strong>{o.billing.compAndPaying}</strong> paying while on complimentary access</li>}
+              {o.billing.stripeTrials > 0 && <li><strong>{o.billing.stripeTrials}</strong> Stripe trial, not yet charged</li>}
               <li><strong>{o.billing.churned30}</strong> churned in the last 30 days</li>
             </ul>
             <Link to={`${basePath}/billing`} className="btn btn-ghost btn-sm">Billing and health</Link>

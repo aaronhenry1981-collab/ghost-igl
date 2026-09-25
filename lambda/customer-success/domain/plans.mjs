@@ -56,6 +56,7 @@ export const DEFAULT_VOD_LIMITS = Object.freeze({
 })
 
 export const VOD_PERIOD_MS = 30 * 24 * 60 * 60 * 1000
+const DAY_MS = 24 * 60 * 60 * 1000
 
 // What each plan genuinely includes. Only list things that ship today.
 export const PLAN_FEATURES = Object.freeze({
@@ -168,14 +169,16 @@ export function isActiveSub(row, now = Date.now()) {
 export function pickBestSub(rows, { catalog = DEFAULT_CATALOG, now = Date.now() } = {}) {
   const list = Array.isArray(rows) ? rows.filter(Boolean) : []
   const live = list.filter((row) => isActiveSub(row, now))
-  if (live.length) {
-    return live.slice().sort((a, b) => {
-      const byPlan = (PLAN_RANK[effectivePlan(b, catalog)] || 0) - (PLAN_RANK[effectivePlan(a, catalog)] || 0)
-      if (byPlan) return byPlan
-      return String(b.current_period_end || '').localeCompare(String(a.current_period_end || ''))
-    })[0]
-  }
+  if (live.length) return rankLive(live, catalog)[0]
   return latestRow(list)
+}
+
+function rankLive(rows, catalog) {
+  return rows.slice().sort((a, b) => {
+    const byPlan = (PLAN_RANK[effectivePlan(b, catalog)] || 0) - (PLAN_RANK[effectivePlan(a, catalog)] || 0)
+    if (byPlan) return byPlan
+    return String(b.current_period_end || '').localeCompare(String(a.current_period_end || ''))
+  })
 }
 
 function rowTimestamp(row) {
@@ -220,8 +223,30 @@ export function resolveBilling(rows, { catalog = DEFAULT_CATALOG, now = Date.now
 
   const paidRows = list.filter((row) => isStripeBilled(row) || catalog.planForPrice(row.price_id))
   const everPaid = paidRows.some((row) => row.status !== 'incomplete' && row.status !== 'incomplete_expired')
-  const stale = Boolean(best && LIVE_STATUSES.has(best.status) && Number.isFinite(endMs) && endMs <= now)
+  // Paying is about Stripe-billed rows, which are not always the row that
+  // grants access: a comp (often dated 2099) outranks a paid row of the same
+  // plan, but the customer is still being charged for the paid one.
+  const paidLive = rankLive(live.filter(isStripeBilled), catalog)
+  const bestPaid = paidLive[0] || null
+  const paidInfo = bestPaid ? catalog.priceInfo(bestPaid.price_id) : null
+  // A row Stripe calls active/trialing that production does not honour: the
+  // paid-through date has passed, or none was ever recorded (the admin
+  // backfill can write null). Either way a payer may be locked out.
+  const stale = Boolean(best && !hasAccess && LIVE_STATUSES.has(best.status))
+  const staleReason = stale ? (Number.isFinite(endMs) ? 'period_end_passed' : 'missing_period_end') : null
   const paymentIssue = !hasAccess && best && PAYMENT_ISSUE_STATUSES.has(best.status) ? best.status : null
+  // When did the failing payment start? updated_at moves on every Stripe
+  // retry, so it is not a start date. Stripe advances the billing period when
+  // a renewal is attempted, so the failed renewal is about one interval before
+  // the recorded period end (or the period end itself once that has passed).
+  let paymentIssueSince = null
+  let paymentIssueSinceBasis = null
+  if (paymentIssue) {
+    const intervalMs = priceInfo?.interval === 'year' ? 365 * DAY_MS : priceInfo?.interval === 'month' ? 30 * DAY_MS : null
+    if (Number.isFinite(endMs) && endMs <= now) [paymentIssueSince, paymentIssueSinceBasis] = [iso(endMs), 'period_end']
+    else if (Number.isFinite(endMs) && intervalMs) [paymentIssueSince, paymentIssueSinceBasis] = [iso(endMs - intervalMs), 'period_estimate']
+    else [paymentIssueSince, paymentIssueSinceBasis] = [iso(toMs(best.updated_at)), 'last_ledger_update']
+  }
 
   let status
   if (isAdmin) status = 'admin'
@@ -257,14 +282,26 @@ export function resolveBilling(rows, { catalog = DEFAULT_CATALOG, now = Date.now
     hasAccess,
     isComp: best?.comp === true && best?.trial !== true,
     isTrial: Boolean(best && (best.trial === true || best.status === 'trialing')),
-    // A paid member has access through a Stripe-billed row (not a comp).
-    isPaidMember: Boolean(!isAdmin && hasAccess && best && isStripeBilled(best)),
-    isPaying: Boolean(!isAdmin && hasAccess && best && isStripeBilled(best) && best.status === 'active'),
+    // A paid member holds at least one live Stripe-billed row (a card-up-front
+    // trial counts); `isPaying` excludes trials, which have not been charged.
+    isPaidMember: Boolean(!isAdmin && bestPaid),
+    isPaying: Boolean(!isAdmin && paidLive.some((row) => row.status === 'active')),
+    paidPlan: !isAdmin && bestPaid ? effectivePlan(bestPaid, catalog) : null,
+    paidAmount: !isAdmin && bestPaid ? paidInfo?.amount ?? null : null,
+    paidInterval: !isAdmin && bestPaid ? paidInfo?.interval || null : null,
+    // Complimentary (or no-card trial) access while a paid subscription is
+    // also live on the same email: the customer is being charged anyway.
+    alsoPaying: !isAdmin && bestPaid && best && bestPaid !== best && !isStripeBilled(best)
+      ? { plan: effectivePlan(bestPaid, catalog), planLabel: PLAN_LABEL[effectivePlan(bestPaid, catalog)], amount: paidInfo?.amount ?? null, interval: paidInfo?.interval || null, stripeCustomerId: bestPaid.stripe_customer_id }
+      : null,
     paymentIssueRows,
     currentPeriodEnd: iso(endMs),
     cancelAtPeriodEnd,
     paymentIssue,
+    paymentIssueSince,
+    paymentIssueSinceBasis,
     stale,
+    staleReason,
     tierScope: best?.tier_scope === 'all_access' || catalog.scopeForPrice(best?.price_id) === 'all_access' ? 'all_access' : 'single',
     priceId: best?.price_id || null,
     priceName: priceInfo?.name || null,

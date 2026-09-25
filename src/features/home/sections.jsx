@@ -280,6 +280,13 @@ export function MembershipCard({ membership, vod, onAction }) {
           {membership.features.map((f) => <li key={f}>{f}</li>)}
         </ul>
       )}
+      {membership.alsoPaying && (
+        <p className="ph-billing-note">
+          You also have a paid {membership.alsoPaying.planLabel} subscription
+          {membership.alsoPaying.amount ? ` ($${membership.alsoPaying.amount}/${membership.alsoPaying.interval === 'year' ? 'yr' : 'mo'})` : ''} on this email.
+          {' '}Message us if you want it cancelled while your complimentary access is on.
+        </p>
+      )}
       <div className="ph-card-foot ph-stack-sm">
         {membership.canManageBilling && <Cta cta={{ label: 'Manage billing', action: 'billing_portal' }} className="btn btn-ghost btn-sm" onAction={onAction} />}
         <Link to="/account" className="btn btn-ghost btn-sm">Account</Link>

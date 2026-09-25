@@ -1,25 +1,58 @@
 // DynamoDB implementation of the customer-success store (single table, see
 // items.mjs for the key layout). Same interface as memoryStore.mjs.
+//
+// Multi-page reads fail closed: if a scan or query would need more than
+// MAX_PAGES pages, it throws instead of returning a silently truncated list.
+// A partial read would drop some players' consent and decision records, and
+// the outreach run would then treat them as having default consent.
 
 import { GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
 
 const MAX_PAGES = 40
 
-export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1' }) {
+export class StoreLimitError extends Error {
+  constructor(what) {
+    super(`${what} needs more than ${MAX_PAGES} pages; refusing to return a partial result`)
+    this.name = 'StoreLimitError'
+  }
+}
+
+async function paginate(send, what, log) {
+  const items = []
+  let ExclusiveStartKey
+  let pages = 0
+  do {
+    const page = await send(ExclusiveStartKey)
+    items.push(...(page.Items || []))
+    ExclusiveStartKey = page.LastEvaluatedKey
+    pages += 1
+  } while (ExclusiveStartKey && pages < MAX_PAGES)
+  if (ExclusiveStartKey) throw new StoreLimitError(what)
+  if (pages > MAX_PAGES / 2) log?.warn?.('cs_store_large_read', { what, pages })
+  return items
+}
+
+// Optional preconditions for update(): { field: value } requires the stored
+// field to equal value; { field: null } requires it to be absent.
+function conditionFor(expect, names, values) {
+  const parts = []
+  Object.entries(expect || {}).forEach(([field, value], i) => {
+    names[`#c${i}`] = field
+    if (value === null) parts.push(`attribute_not_exists(#c${i})`)
+    else {
+      values[`:c${i}`] = value
+      parts.push(`#c${i} = :c${i}`)
+    }
+  })
+  return parts
+}
+
+export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1', log = null }) {
   if (!tableName) throw new Error('customer-success table name is required')
 
   return {
     async listContact(pk) {
-      const items = []
-      let ExclusiveStartKey
-      let pages = 0
-      do {
-        const page = await ddb.send(new QueryCommand({ TableName: tableName, KeyConditionExpression: 'pk = :pk', ExpressionAttributeValues: { ':pk': pk }, ExclusiveStartKey }))
-        items.push(...(page.Items || []))
-        ExclusiveStartKey = page.LastEvaluatedKey
-        pages += 1
-      } while (ExclusiveStartKey && pages < MAX_PAGES)
-      return items
+      return paginate((ExclusiveStartKey) => ddb.send(new QueryCommand({ TableName: tableName, KeyConditionExpression: 'pk = :pk', ExpressionAttributeValues: { ':pk': pk }, ExclusiveStartKey })), 'contact query', log)
     },
     async get(pk, sk) {
       const r = await ddb.send(new GetCommand({ TableName: tableName, Key: { pk, sk } }))
@@ -35,7 +68,7 @@ export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1' }) {
       await ddb.send(new PutCommand(input))
       return item
     },
-    async update(pk, sk, patch, { mustExist = true } = {}) {
+    async update(pk, sk, patch, { mustExist = true, expect = null } = {}) {
       const entries = Object.entries(patch).filter(([k]) => k !== 'pk' && k !== 'sk')
       if (!entries.length) return this.get(pk, sk)
       const names = {}
@@ -45,13 +78,14 @@ export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1' }) {
         values[`:v${i}`] = v
         return `#f${i} = :v${i}`
       })
+      const conditions = [...(mustExist ? ['attribute_exists(pk)'] : []), ...conditionFor(expect, names, values)]
       const r = await ddb.send(new UpdateCommand({
         TableName: tableName,
         Key: { pk, sk },
         UpdateExpression: `SET ${sets.join(', ')}`,
         ExpressionAttributeNames: names,
         ExpressionAttributeValues: values,
-        ...(mustExist ? { ConditionExpression: 'attribute_exists(pk)' } : {}),
+        ...(conditions.length ? { ConditionExpression: conditions.join(' AND ') } : {}),
         ReturnValues: 'ALL_NEW',
       }))
       return r.Attributes || null
@@ -68,16 +102,7 @@ export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1' }) {
       return r.Items || []
     },
     async listAll() {
-      const items = []
-      let ExclusiveStartKey
-      let pages = 0
-      do {
-        const page = await ddb.send(new ScanCommand({ TableName: tableName, ExclusiveStartKey }))
-        items.push(...(page.Items || []))
-        ExclusiveStartKey = page.LastEvaluatedKey
-        pages += 1
-      } while (ExclusiveStartKey && pages < MAX_PAGES)
-      return items
+      return paginate((ExclusiveStartKey) => ddb.send(new ScanCommand({ TableName: tableName, ExclusiveStartKey })), 'table scan', log)
     },
   }
 }

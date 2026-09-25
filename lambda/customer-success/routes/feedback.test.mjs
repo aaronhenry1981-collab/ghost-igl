@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { fixtureApp } from '../app.test.mjs'
+import { fixtureApp } from '../fixtures/app.mjs'
 import { routeModules } from './index.mjs'
 import { analyzeFeedback, selectFeedbackPrompt, validateAnswers } from '../domain/feedback.mjs'
 import { buildFacts } from '../domain/facts.mjs'

@@ -17,7 +17,7 @@ export function buildOverview(entries, { now = Date.now(), queue = null, sourceS
   const payingByPlan = { pro: 0, elite: 0, champion: 0 }
   let ledgerMrr = 0
   let unknownPrice = 0
-  const billing = { paymentFailed: 0, renewalUnconfirmed: 0, duplicates: 0, comps: 0, trials: 0, churned30: 0 }
+  const billing = { paymentFailed: 0, renewalUnconfirmed: 0, duplicates: 0, comps: 0, trials: 0, stripeTrials: 0, compAndPaying: 0, churned30: 0 }
 
   let signedUp30 = 0
   let activated30 = 0
@@ -25,11 +25,16 @@ export function buildOverview(entries, { now = Date.now(), queue = null, sourceS
     byStage[lifecycle.stage] += 1
     byHealth[lifecycle.health] += 1
     const b = facts.billing
-    if (b.isPaidMember && payingByPlan[b.plan] !== undefined) {
-      payingByPlan[b.plan] += 1
+    // Paying = charged: a live Stripe-billed row that is not a trial. The
+    // plan counted is the one they pay for, which can differ from the plan
+    // they can access (a comp on top of a paid Pro).
+    if (b.isPaying && payingByPlan[b.paidPlan] !== undefined) {
+      payingByPlan[b.paidPlan] += 1
       if (summary.monthlyValue) ledgerMrr += summary.monthlyValue
       else unknownPrice += 1
     }
+    if (b.isPaidMember && !b.isPaying) billing.stripeTrials += 1
+    if (b.alsoPaying) billing.compAndPaying += 1
     if (b.status === 'payment_failed') billing.paymentFailed += 1
     if (b.status === 'renewal_unconfirmed') billing.renewalUnconfirmed += 1
     if (b.duplicateLiveRows) billing.duplicates += 1

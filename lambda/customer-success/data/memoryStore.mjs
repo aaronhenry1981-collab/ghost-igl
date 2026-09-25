@@ -33,10 +33,16 @@ export function createMemoryStore(seed = []) {
       items.set(k, clone(item))
       return clone(item)
     },
-    async update(pk, sk, patch, { mustExist = true } = {}) {
+    // expect: { field: value } requires equality; { field: null } requires
+    // the field to be absent (same as dynamoStore).
+    async update(pk, sk, patch, { mustExist = true, expect = null } = {}) {
       const k = key(pk, sk)
       const existing = items.get(k)
       if (!existing && mustExist) throw new ConditionFailedError('item missing')
+      for (const [field, value] of Object.entries(expect || {})) {
+        const current = existing?.[field]
+        if (value === null ? current !== undefined && current !== null : JSON.stringify(current) !== JSON.stringify(value)) throw new ConditionFailedError(`${field} changed`)
+      }
       const next = { ...(existing || { pk, sk }), ...clone(patch) }
       items.set(k, next)
       return clone(next)

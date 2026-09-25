@@ -1,6 +1,8 @@
 // Small HTTP helpers for API Gateway HTTP API (payload v2) events.
 
-export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(['https://r6coaching.com', 'https://www.r6coaching.com', 'http://localhost:5173'])
+// Production origins only. Local development passes its own list (see
+// scripts/cs-dev-server.mjs); a deployed stack can add one via ALLOWED_ORIGINS.
+export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(['https://r6coaching.com', 'https://www.r6coaching.com'])
 
 export function requestOf(event = {}) {
   const method = String(event.requestContext?.http?.method || event.httpMethod || 'GET').toUpperCase()

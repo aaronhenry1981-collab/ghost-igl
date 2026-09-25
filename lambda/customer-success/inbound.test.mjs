@@ -59,11 +59,11 @@ test('ingest puts the reply on the player timeline, once', async () => {
   assert.equal(msgs[0].channel, 'email')
 })
 
-test('STOP reply suppresses relationship + marketing email and mirrors to the existing CRM log', async () => {
+test('STOP reply from an authenticated sender suppresses relationship + marketing email and mirrors to the existing CRM log', async () => {
   const store = createMemoryStore()
   const mirrored = []
   const raw = CRLF('From: rookie.recruit@example.test\nSubject: Re: hi\nMessage-ID: <stop1@x.test>\n\nSTOP\n')
-  const res = await ingestInboundEmail({ raw, store, legacy: { mirrorSuppression: async (email, at, reason) => mirrored.push({ email, reason }) } })
+  const res = await ingestInboundEmail({ raw, store, verdicts: { spf: 'PASS', dkim: 'PASS', dmarc: 'PASS' }, legacy: { mirrorSuppression: async (email, at, reason) => mirrored.push({ email, reason }) } })
   assert.equal(res.suppressed, true)
   const consent = (await store.listAll()).find((i) => i.type === 'CONSENT')
   assert.equal(consent.relationship, 'opted_out')

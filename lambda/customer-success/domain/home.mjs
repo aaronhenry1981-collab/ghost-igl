@@ -154,7 +154,10 @@ export function buildHomeView(facts, { lifecycle = null, mode = 'full', feedback
   // Access follows production rules (a failed or unconfirmed renewal pauses
   // paid features), but the player still sees the plan they pay for.
   const paused = b.status === 'payment_failed' || b.status === 'renewal_unconfirmed'
-  const displayPlan = paused && b.lastPaidPlan ? b.lastPaidPlan : b.plan
+  // When paused and the paid plan is unknown (lite mode: the account API says
+  // "free"), show "Paid membership" rather than "Basic".
+  const planUnknown = paused && (!b.lastPaidPlan || b.lastPaidPlan === 'free')
+  const displayPlan = paused && !planUnknown ? b.lastPaidPlan : planUnknown ? null : b.plan
   const mission = deriveMission(facts)
   const focus = deriveFocus(facts)
   const activation = deriveActivation(facts)
@@ -176,9 +179,14 @@ export function buildHomeView(facts, { lifecycle = null, mode = 'full', feedback
     membership: {
       available: b.available,
       plan: displayPlan,
-      planLabel: b.status === 'admin' ? b.planLabel : displayPlan ? PLAN_LABEL[displayPlan] : b.planLabel,
+      planLabel: b.status === 'admin' ? b.planLabel : planUnknown ? 'Paid membership' : displayPlan ? PLAN_LABEL[displayPlan] : b.planLabel,
       accessPlan: b.plan,
       paused,
+      // Complimentary access while a paid subscription is also live: say so,
+      // so the player can stop paying if they did not mean to.
+      alsoPaying: b.alsoPaying
+        ? { planLabel: b.alsoPaying.planLabel, amount: b.alsoPaying.amount, interval: b.alsoPaying.interval }
+        : null,
       status: b.status,
       statusLabel: customerStatusLabel(b),
       tone: statusTone(b.status),

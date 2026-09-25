@@ -140,10 +140,10 @@ export function buildFixtureWorld(now = Date.now()) {
         game_profiles_json: gp({ rank: 'Gold III', goal_rank: 'Platinum' }), created_at: at(120), last_seen_at: at(2),
       },
       subscriptions: [
-        { stripe_customer_id: 'cus_FIXTURE0007A', email: 'card.declined@example.test', plan: 'champion', price_id: PRICE.eliteLegacy, status: 'past_due', tier_scope: 'single', current_period_end: ahead(2), created_at: at(120), updated_at: at(1) },
+        { stripe_customer_id: 'cus_FIXTURE0007A', email: 'card.declined@example.test', plan: 'champion', price_id: PRICE.eliteLegacy, status: 'past_due', tier_scope: 'single', current_period_end: ahead(29), created_at: at(120), updated_at: at(1) },
       ],
       activity: [{ type: 'strat_viewed', at: at(2), ref: { mapId: 'bank', siteId: 'basement', side: 'attack' } }],
-      scenario: 'Failed payment on legacy $29 Elite (label still "champion")',
+      scenario: 'Payment failed yesterday on legacy $29 Elite (label still "champion")',
     },
     {
       key: 'churned',

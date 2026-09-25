@@ -51,7 +51,7 @@ export function adminRoutes({ ctx, requireAdmin }) {
 
   async function detail(entry) {
     const now = ctx.now()
-    const one = await assembleOne({ tables: ctx.tables, store: ctx.store, email: entry.contact.email, withCognito: true, log: ctx.log })
+    const one = await assembleOne({ tables: ctx.tables, store: ctx.store, email: entry.contact.email, withCognito: true, knownCognitoUsers: entry.contact.cognitoUsers, log: ctx.log })
     const facts = buildFacts({ now, catalog: ctx.catalog, config: ctx.config, identity: one.identity, sources: one.sources })
     return { one, facts, lifecycle: deriveLifecycle(facts, now) }
   }
@@ -163,9 +163,12 @@ export function adminRoutes({ ctx, requireAdmin }) {
           const contactKey = itemKey.split(':')[1]
           const entry = await findEntry(contactKey)
           // The item must exist right now; decisions can't be written for
-          // made-up keys or for issues that already resolved themselves.
+          // made-up keys or for issues that already resolved themselves. The
+          // queue list is built from the directory and the player record from
+          // a full read; an item shown in either view can be decided.
           const { facts, lifecycle } = await detail(entry)
           const item = queueItemsFor(entry.summary, facts, lifecycle, ctx.now()).find((i) => i.key === itemKey)
+            || queueItemsFor(entry.summary, entry.facts, entry.lifecycle, ctx.now()).find((i) => i.key === itemKey)
           if (!item) throw new HttpError(404, 'queue item no longer exists (it may have resolved)')
           if (!item.controls.includes(decision)) throw new HttpError(400, `"${decision}" is not available for this item`)
           // Validate side effects BEFORE recording anything, so a rejected

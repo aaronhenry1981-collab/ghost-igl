@@ -10,15 +10,36 @@
 // visible to admins as "not delivered" and never to the player.
 
 import { contactKeyFor } from '../lib/ids.mjs'
-import { consentItem, ITEM_TYPES, messageItem, pkFor, csSourceFromItems } from '../data/items.mjs'
-import { effectiveConsent, STOP_PATTERN, validateMessage } from '../domain/outreach.mjs'
+import { consentItem, idempotencyItem, ITEM_TYPES, messageItem, pkFor, csSourceFromItems } from '../data/items.mjs'
+import { effectiveConsent, playerConsentView, STOP_PATTERN, validateMessage } from '../domain/outreach.mjs'
 import { HttpError, json, parseJsonBody } from '../lib/http.mjs'
 
 const MAX_INBOUND_PER_DAY = 10
 const KEY = /^pl_[a-f0-9]{20}$/
+const CLIENT_ID = /^[A-Za-z0-9_-]{8,64}$/
 
-function playerVisible(m) {
-  return m.direction === 'inbound' || (m.channel === 'in_app' && m.status === 'delivered')
+// Inbound email whose sender could not be authenticated (SPF/DKIM) is kept
+// for admins but never shown to the player as their own message.
+export function playerVisible(m) {
+  if (m.direction === 'inbound') return m.senderVerified !== false
+  return m.channel === 'in_app' && m.status === 'delivered'
+}
+
+// Consent writes use optimistic concurrency. Patches set absolute values, so
+// re-reading and re-applying after a conflict is safe; an opt-out must never
+// be lost to a race.
+export async function updateConsentWithRetry(ctx, { contactKey, email, patch, actor, attempts = 3 }) {
+  for (let attempt = 1; ; attempt += 1) {
+    const previous = await ctx.store.get(pkFor(contactKey), ITEM_TYPES.CONSENT)
+    const at = new Date(ctx.now()).toISOString()
+    const next = consentItem({ contactKey, email, previous, patch, at, actor })
+    try {
+      await ctx.store.put(next, { expectVersion: previous?.version ?? 0 })
+      return { next, at }
+    } catch (err) {
+      if (err?.name !== 'ConditionalCheckFailedException' || attempt >= attempts) throw err
+    }
+  }
 }
 
 function publicMessage(m) {
@@ -42,10 +63,7 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
   }
 
   async function updateConsent({ contactKey, email, patch, actor }) {
-    const previous = await ctx.store.get(pkFor(contactKey), ITEM_TYPES.CONSENT)
-    const at = new Date(ctx.now()).toISOString()
-    const next = consentItem({ contactKey, email, previous, patch, at, actor })
-    await ctx.store.put(next, { expectVersion: previous?.version ?? 0 })
+    const { next, at } = await updateConsentWithRetry(ctx, { contactKey, email, patch, actor })
     const suppressing = next.relationship === 'opted_out' || next.marketing === 'opted_out' || next.doNotContact
     if (suppressing && ctx.legacy?.mirrorSuppression) {
       try {
@@ -116,7 +134,7 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
       handler: async (req) => {
         const me = await requireUser(req)
         const item = await ctx.store.get(pkFor(contactKeyFor(me.email)), ITEM_TYPES.CONSENT)
-        return json(200, effectiveConsent(item))
+        return json(200, playerConsentView(item))
       },
     },
     {
@@ -137,7 +155,7 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
         if (!Object.keys(patch).length) throw new HttpError(400, 'nothing to update')
         try {
           const next = await updateConsent({ contactKey: contactKeyFor(me.email), email: me.email, patch, actor: 'player' })
-          return json(200, effectiveConsent(next))
+          return json(200, playerConsentView(next))
         } catch (err) {
           if (err?.name === 'ConditionalCheckFailedException') throw new HttpError(409, 'preferences changed at the same time; try again')
           throw err
@@ -182,7 +200,7 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
         return json(200, {
           key: req.params.key,
           email: cs.messages[0]?.email || null,
-          messages: cs.messages.map((m) => ({ ...publicMessage(m), author: m.direction === 'inbound' ? 'player' : m.author, status: m.status, visibleToPlayer: playerVisible(m), readByPlayerAt: m.readByPlayerAt || null, answeredAt: m.answeredAt || null })),
+          messages: cs.messages.map((m) => ({ ...publicMessage(m), author: m.direction === 'inbound' ? 'player' : m.author, status: m.status, visibleToPlayer: playerVisible(m), senderVerified: m.senderVerified !== false, readByPlayerAt: m.readByPlayerAt || null, answeredAt: m.answeredAt || null })),
           consent: effectiveConsent(cs.consent),
           deliveryMode: ctx.delivery?.mode || 'disabled',
         })
@@ -198,6 +216,7 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
         const channel = body.channel === 'email' ? 'email' : 'in_app'
         const check = validateMessage({ subject: body.subject || null, body: body.body })
         if (!check.ok) throw new HttpError(400, check.error)
+        if (body.clientId !== undefined && !CLIENT_ID.test(String(body.clientId))) throw new HttpError(400, 'invalid clientId')
         const items = await contactItems(req.params.key)
         const cs = csSourceFromItems(items)
         const email = cs.messages[0]?.email || body.email || null
@@ -205,18 +224,31 @@ export function messageRoutes({ ctx, requireUser, requireAdmin }) {
         if (contactKeyFor(email) !== req.params.key) throw new HttpError(400, 'player key mismatch')
         const consent = effectiveConsent(cs.consent)
         if (consent.doNotContact) throw new HttpError(409, 'this player is marked do-not-contact')
-        const delivery = ctx.delivery
-        const result = await delivery.deliver({ contactKey: req.params.key, email, channel, subject: check.subject, body: check.body, author: `admin:${admin.email}` })
         const at = new Date(ctx.now()).toISOString()
+        // A double-click or retry with the same client id sends nothing twice.
+        if (body.clientId) {
+          try {
+            await ctx.store.put(idempotencyItem({ contactKey: req.params.key, scope: 'reply', clientId: String(body.clientId), at, actor: admin.email }), { ifNotExists: true })
+          } catch (err) {
+            if (err?.name === 'ConditionalCheckFailedException') throw new HttpError(409, 'this reply was already submitted')
+            throw err
+          }
+        }
+        const result = await ctx.delivery.deliver({ contactKey: req.params.key, email, channel, subject: check.subject, body: check.body, author: `admin:${admin.email}` })
         if (result.status !== 'delivered') {
           // Record the reply so the thread and audit are complete even though
           // nothing reached the player.
           await ctx.store.put(messageItem({ contactKey: req.params.key, email, direction: 'outbound', channel, subject: check.subject, body: check.body, at, author: `admin:${admin.email}`, status: result.status }))
         }
-        for (const m of cs.messages.filter((x) => x.direction === 'inbound' && !x.answeredAt)) {
-          await ctx.store.update(m.pk, m.sk, { answeredAt: at, answeredBy: admin.email })
+        // Only a reply the player can actually see answers their message. A
+        // reply recorded while delivery is off leaves the thread waiting, so
+        // the queue keeps showing it.
+        if (result.status === 'delivered') {
+          for (const m of cs.messages.filter((x) => x.direction === 'inbound' && !x.answeredAt)) {
+            await ctx.store.update(m.pk, m.sk, { answeredAt: at, answeredBy: admin.email })
+          }
         }
-        return json(201, { ok: true, status: result.status, statusReason: result.statusReason })
+        return json(201, { ok: true, status: result.status, statusReason: result.statusReason, answered: result.status === 'delivered' })
       },
     },
     {

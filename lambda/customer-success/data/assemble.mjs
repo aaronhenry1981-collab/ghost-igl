@@ -23,6 +23,24 @@ async function read(name, fn, log) {
   }
 }
 
+const LIVE_PAID_STATUSES = new Set(['active', 'trialing', 'past_due', 'unpaid'])
+
+function hasLivePaidRelationship(rows) {
+  return Array.isArray(rows) && rows.some((row) => LIVE_PAID_STATUSES.has(row?.status))
+}
+
+async function eachLimit(list, limit, fn) {
+  let next = 0
+  const workers = Array.from({ length: Math.min(limit, list.length) }, async () => {
+    while (next < list.length) {
+      const item = list[next]
+      next += 1
+      await fn(item)
+    }
+  })
+  await Promise.all(workers)
+}
+
 function bookingData(rows, email) {
   const all = Array.isArray(rows) ? rows : []
   const credits = all.find((row) => row.slotId === `credits#${email}`) || null
@@ -30,13 +48,17 @@ function bookingData(rows, email) {
 }
 
 // Customer (self) or admin detail view of a single contact.
-export async function assembleOne({ tables, store, email, sub = null, signedIn = false, isAdmin = false, withCognito = false, log }) {
+// `knownCognitoUsers` (from the directory) covers legacy mixed-case logins:
+// the pool is case-sensitive, so an exact lookup of the lowercased email can
+// miss a user that does exist.
+export async function assembleOne({ tables, store, email, sub = null, signedIn = false, isAdmin = false, withCognito = false, knownCognitoUsers = [], log }) {
   const normalized = normalizeEmail(email)
   const contactKey = contactKeyFor(normalized)
   let cognitoUser = null
   const account = withCognito
     ? await read('cognito', async () => {
       cognitoUser = await tables.getCognitoUserByEmail(normalized)
+      if (!cognitoUser && Array.isArray(knownCognitoUsers) && knownCognitoUsers.length) cognitoUser = knownCognitoUsers[0]
       return cognitoUser
     }, log)
     : signedIn ? { status: 'ok', data: { status: 'CONFIRMED', enabled: true, createdAt: null } } : { status: 'not_connected', data: null }
@@ -137,6 +159,7 @@ export async function assembleDirectory({ tables, store, log }) {
     out.push({
       contactKey,
       email: c.email,
+      sub: user?.sub || null,
       cognitoUsers: c.cognito,
       identity: { email: c.email, reconPlayerId, isAdmin, signedIn: false },
       sources: {
@@ -145,8 +168,9 @@ export async function assembleDirectory({ tables, store, log }) {
         billing: subs.status === 'ok' ? { status: 'ok', data: c.subs } : statusOf(subs),
         climb: climb.status === 'ok' ? { status: 'ok', data: c.climb } : statusOf(climb),
         bookings: bookings.status === 'ok' ? { status: 'ok', data: bookingRows } : statusOf(bookings),
-        // Player events and live-coach history are per-player queries; the
-        // list view uses the canonical record only and says so.
+        // Player events and live-coach history are per-player queries. The
+        // list loads them only for players with a live paid relationship
+        // (below); everyone else uses the canonical record only.
         player: players.status === 'ok' ? { status: 'ok', data: { record: c.playerRecord, events: [] } } : statusOf(players),
         referrals: referrals.status === 'ok' ? { status: 'ok', data: c.referrals } : statusOf(referrals),
         legacyCrm: crm.status === 'ok' ? { status: 'ok', data: c.crm } : statusOf(crm),
@@ -154,6 +178,20 @@ export async function assembleDirectory({ tables, store, log }) {
       },
     })
   }
+
+  // At-risk and usage rules for paying players depend on desktop / live-coach
+  // activity. Load it for them (a small set) so the list and the player record
+  // agree; otherwise a queue item shown in the list could not be decided.
+  await eachLimit(out.filter((entry) => hasLivePaidRelationship(entry.sources.billing.data)), 6, async (entry) => {
+    const [player, coaching] = await Promise.all([
+      entry.identity.reconPlayerId && players.status === 'ok'
+        ? read('player', async () => ({ record: entry.sources.player.data?.record || null, events: await tables.playerEvents(entry.identity.reconPlayerId, 50) }), log)
+        : Promise.resolve(entry.sources.player),
+      entry.sub ? read('coaching', () => tables.coachingSummary(entry.sub), log) : Promise.resolve({ status: 'ok', data: null }),
+    ])
+    entry.sources.player = player
+    entry.sources.coaching = coaching
+  })
 
   return {
     contacts: out,

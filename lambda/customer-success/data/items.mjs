@@ -1,7 +1,7 @@
 // Item layouts for the customer-success single table.
 //
 //   pk            C#<contactKey>                       (contactKey = pl_<hash>)
-//   sk            ACT#<yyyy-mm-dd>#<type>#<ref>        activity beacon, one per day/type/ref
+//   sk            ACT#<yyyy-mm-dd>#<type>              activity beacon, one per day/type (latest ref)
 //                 MSG#<iso>#<id>                       conversation message (in or out)
 //                 FB#<iso>#<id>                        feedback response
 //                 PROMPT#<momentKey>                   feedback prompt state (dedupe)
@@ -9,8 +9,9 @@
 //                 OUT#<workflow>#<instance>            outreach record (idempotency key)
 //                 DEC#<queueItemKey>                   action-queue decision
 //                 AUDIT#<iso>#<id>                     audit trail entry
+//                 IDEM#<scope>#<clientId>              idempotency marker (admin replies)
 //   gsi1pk/gsi1sk <TYPE> / <iso>#<contactKey>          cross-contact lists without scans
-//   expires_at    epoch seconds (TTL) on ACT items only
+//   expires_at    epoch seconds (TTL) on ACT and IDEM items only
 
 export const ITEM_TYPES = Object.freeze({
   ACTIVITY: 'ACT',
@@ -21,23 +22,40 @@ export const ITEM_TYPES = Object.freeze({
   OUTREACH: 'OUT',
   DECISION: 'DEC',
   AUDIT: 'AUDIT',
+  IDEMPOTENCY: 'IDEM',
 })
+
+export const IDEMPOTENCY_TTL_DAYS = 7
+
+// Claimed with a conditional put before a side effect, so a double-click or a
+// retried request with the same client id cannot repeat it.
+export function idempotencyItem({ contactKey, scope, clientId, at, actor }) {
+  return {
+    pk: pkFor(contactKey),
+    sk: `${ITEM_TYPES.IDEMPOTENCY}#${scope}#${clientId}`,
+    type: ITEM_TYPES.IDEMPOTENCY,
+    contactKey,
+    scope,
+    clientId,
+    actor,
+    createdAt: at,
+    expires_at: Math.floor(Date.parse(at) / 1000) + IDEMPOTENCY_TTL_DAYS * 86400,
+  }
+}
 
 export const ACTIVITY_TYPES = Object.freeze(['strat_viewed', 'match_prep_opened', 'live_coach_opened'])
 export const ACTIVITY_TTL_DAYS = 180
 
 export const pkFor = (contactKey) => `C#${contactKey}`
 
-function safeSegment(value, max = 80) {
-  return String(value ?? '').replace(/[^a-z0-9_.:-]/gi, '-').slice(0, max) || '-'
-}
-
+// Bounded by design: one item per contact, type and day (the latest `ref`
+// wins). The key never contains client-supplied text, so no request can
+// create more than ACTIVITY_TYPES.length items per player per day.
 export function activityItem({ contactKey, email, type, ref = null, at }) {
   const day = at.slice(0, 10)
-  const refKey = ref ? safeSegment([ref.mapId, ref.siteId, ref.side].filter(Boolean).join('.'), 60) : '-'
   return {
     pk: pkFor(contactKey),
-    sk: `${ITEM_TYPES.ACTIVITY}#${day}#${type}#${refKey}`,
+    sk: `${ITEM_TYPES.ACTIVITY}#${day}#${type}`,
     type: ITEM_TYPES.ACTIVITY,
     contactKey,
     email,

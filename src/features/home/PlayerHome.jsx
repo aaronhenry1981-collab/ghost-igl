@@ -171,6 +171,7 @@ export default function PlayerHome({ state, preview = false, slots = {}, api = n
           )}
           <HelpCard help={view.help} onAction={onAction} />
           {api && <ContactPreferences api={api} />}
+          {slots.sidebarEnd}
         </div>
       </div>
 

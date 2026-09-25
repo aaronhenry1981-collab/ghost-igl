@@ -45,7 +45,9 @@ export const MISSION_RULES = Object.freeze([
 
 export function deriveMission(facts, now = facts.now || Date.now()) {
   const b = facts.billing
-  const planName = PLAN_LABEL[b.lastPaidPlan || b.plan] || 'membership'
+  // The plan they pay for. When access is paused the account API reports
+  // "free", so without a ledger row we do not know it and must not name one.
+  const paidPlanName = b.lastPaidPlan && b.lastPaidPlan !== 'free' ? PLAN_LABEL[b.lastPaidPlan] : null
   const vod = facts.usage.vod
   const climb = facts.activity.roadToChampion
   const coaching = facts.activity.coaching
@@ -57,19 +59,24 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
       id: 'fix_payment',
       kind: 'account',
       title: 'Update your payment method',
-      body: `Your last ${planName} payment didn't go through, so ${planName} features are paused. Update your card to turn them back on.`,
+      body: paidPlanName
+        ? `Your last ${paidPlanName} payment didn't go through, so ${paidPlanName} features are paused. Update your card to turn them back on.`
+        : "Your last payment didn't go through, so your paid features are paused. Update your card to turn them back on.",
       cta: b.canManageBilling ? { label: 'Update payment method', action: 'billing_portal' } : { label: 'Message support', action: 'message_support' },
       evidence: [`Billing record: payment ${b.paymentIssue}${b.currentPeriodEnd ? ` (period ends ${fmtDay(b.currentPeriodEnd)})` : ''}`],
     }
   }
   if (b.available && b.status === 'renewal_unconfirmed') {
+    const missingDate = b.staleReason === 'missing_period_end'
     return {
       id: 'confirm_renewal',
       kind: 'account',
       title: "We couldn't confirm your renewal",
-      body: 'Your paid-through date has passed and we have no renewal on record. If you were charged, message us and we will restore access the same day.',
+      body: missingDate
+        ? 'Your subscription shows as active, but we have no paid-through date on record, so paid features are paused. Message us and we will check it with Stripe and restore access.'
+        : 'Your paid-through date has passed and we have no renewal on record. If you were charged, message us and we will check it with Stripe and restore access.',
       cta: { label: 'Message support', action: 'message_support' },
-      evidence: [`Paid through ${fmtDay(b.currentPeriodEnd) || 'an earlier date'}; no renewal recorded since`],
+      evidence: [missingDate ? 'Subscription marked active; no paid-through date recorded' : `Paid through ${fmtDay(b.currentPeriodEnd) || 'an earlier date'}; no renewal recorded since`],
     }
   }
 

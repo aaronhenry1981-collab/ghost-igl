@@ -36,7 +36,7 @@ const tables = createDynamoTables({
   },
 })
 
-const store = createDynamoStore({ ddb, tableName: env.CS_TABLE })
+const store = createDynamoStore({ ddb, tableName: env.CS_TABLE, log: console })
 
 // Mirror opt-outs into the existing CRM job's log so its welcome/win-back
 // emails honour them too. Only ever SETS a suppression timestamp (never

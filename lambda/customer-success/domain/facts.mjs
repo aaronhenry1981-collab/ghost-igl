@@ -77,23 +77,36 @@ function asList(value) {
 
 // Map /me (production subscription Lambda) onto the ledger-derived shape so
 // lite mode and full mode feed identical rules.
+//
+// Relies on the production /me contract: `plan` is production's effectivePlan
+// (a legacy $29/$39 Elite price reports "elite", not the ledger's old
+// "champion" label) and is "free" whenever the row does not grant access, so
+// a past-due member's plan is unknown here and copy must not name one.
 export function billingFromMe(me, { isAdmin = false } = {}) {
   if (!me) return resolveBilling(null, { available: false, isAdmin })
   const plan = isAdmin ? 'champion' : normalizePlan(me.plan)
   const subStatus = String(me.sub_status || 'none')
   const hasAccess = isAdmin || plan !== 'free'
   const endMs = toMs(me.current_period_end)
+  const customerId = String(me.stripe_customer_id || '')
+  const stripeBilled = customerId.startsWith('cus_')
+  // Admin-granted rows are keyed comp_<email> / admin_<email>, never cus_.
+  const granted = /^(comp_|admin_)/.test(customerId)
   let status
   if (isAdmin) status = 'admin'
   else if (hasAccess && me.vod_usage?.is_trial) status = 'trialing'
+  else if (hasAccess && granted) status = 'comp'
   else if (hasAccess && subStatus === 'trialing') status = 'trialing'
   else if (hasAccess) status = 'active'
   else if (subStatus === 'past_due' || subStatus === 'unpaid' || subStatus === 'incomplete') status = 'payment_failed'
   else if (subStatus === 'expired') status = 'comp_expired'
-  else if ((subStatus === 'active' || subStatus === 'trialing') && Number.isFinite(endMs)) status = 'renewal_unconfirmed'
+  // Stripe says active/trialing but production does not honour the row: the
+  // paid-through date passed or was never recorded.
+  else if (subStatus === 'active' || subStatus === 'trialing') status = 'renewal_unconfirmed'
   else if (subStatus === 'canceled' || subStatus === 'cancelled') status = 'ended'
   else status = 'none'
   const labels = { free: 'Basic', pro: 'Pro', elite: 'Elite', champion: 'Champion' }
+  const isPaidMember = hasAccess && !isAdmin && stripeBilled && status !== 'comp'
   return {
     available: true,
     source: 'account_api',
@@ -103,15 +116,22 @@ export function billingFromMe(me, { isAdmin = false } = {}) {
     status,
     rowStatus: subStatus,
     hasAccess,
-    isComp: false,
+    isComp: status === 'comp',
     isTrial: status === 'trialing',
-    isPaidMember: hasAccess && !isAdmin && status === 'active' && String(me.stripe_customer_id || '').startsWith('cus_'),
-    isPaying: hasAccess && !isAdmin && status === 'active' && String(me.stripe_customer_id || '').startsWith('cus_'),
+    isPaidMember,
+    isPaying: isPaidMember && status === 'active',
+    paidPlan: isPaidMember ? plan : null,
+    paidAmount: null,
+    paidInterval: null,
+    alsoPaying: null,
     paymentIssueRows: status === 'payment_failed' ? 1 : 0,
     currentPeriodEnd: isoOrNull(me.current_period_end),
     cancelAtPeriodEnd: false,
     paymentIssue: status === 'payment_failed' ? subStatus : null,
+    paymentIssueSince: null,
+    paymentIssueSinceBasis: null,
     stale: status === 'renewal_unconfirmed',
+    staleReason: status === 'renewal_unconfirmed' ? (Number.isFinite(endMs) ? 'period_end_passed' : 'missing_period_end') : null,
     tierScope: me.tier_scope === 'single' ? 'single' : 'all_access',
     priceId: null,
     amount: null,

@@ -7,11 +7,28 @@
 
 import { buildFacts } from '../domain/facts.mjs'
 import { deriveLifecycle } from '../domain/lifecycle.mjs'
-import { checkEligibility, evaluateOutreach, validateMessage, WORKFLOW_BY_ID, WORKFLOWS, workflowForQueueType, FREQUENCY } from '../domain/outreach.mjs'
+import { checkEligibility, effectiveConsent, evaluateOutreach, validateMessage, WORKFLOW_BY_ID, WORKFLOWS, workflowForQueueType, FREQUENCY } from '../domain/outreach.mjs'
 import { buildPlayerSummary } from '../domain/playerRecord.mjs'
 import { assembleDirectory } from '../data/assemble.mjs'
-import { ITEM_TYPES, outreachItem } from '../data/items.mjs'
+import { ITEM_TYPES, outreachItem, pkFor } from '../data/items.mjs'
 import { HttpError, json, parseJsonBody } from '../lib/http.mjs'
+
+// Consent re-read at the moment of sending. Eligibility was computed from a
+// snapshot; a player may have opted out (or an admin set do-not-contact)
+// since then.
+async function blockedAtSendTime(ctx, contactKey, workflow) {
+  let item
+  try {
+    item = await ctx.store.get(pkFor(contactKey), ITEM_TYPES.CONSENT)
+  } catch {
+    return 'contact_state_unavailable'
+  }
+  const consent = effectiveConsent(item)
+  if (consent.doNotContact) return 'do_not_contact'
+  if (workflow.category === 'relationship' && consent.relationship === 'opted_out') return 'opted_out'
+  if (workflow.category === 'marketing' && consent.marketing !== 'opted_in') return 'no_marketing_consent'
+  return null
+}
 
 async function createAndDeliver(ctx, { contactKey, email, workflow, instanceKey, message, triggerReason, actor, queueItemKey = null, initialStatus = 'approved' }) {
   const at = new Date(ctx.now()).toISOString()
@@ -24,10 +41,14 @@ async function createAndDeliver(ctx, { contactKey, email, workflow, instanceKey,
   }
   if (initialStatus === 'pending_approval') return { status: 'pending_approval', outreachKey: record.outreachKey }
   let result
-  try {
-    result = await ctx.delivery.deliver({ contactKey, email, channel: workflow.channel, subject: message.subject, body: message.body, workflowId: workflow.id, outreachKey: record.outreachKey, author: actor })
-  } catch (err) {
-    result = { status: 'failed', statusReason: err?.name || 'delivery_error' }
+  const blocked = await blockedAtSendTime(ctx, contactKey, workflow)
+  if (blocked) result = { status: 'suppressed', statusReason: blocked }
+  else {
+    try {
+      result = await ctx.delivery.deliver({ contactKey, email, channel: workflow.channel, subject: message.subject, body: message.body, workflowId: workflow.id, outreachKey: record.outreachKey, author: actor })
+    } catch (err) {
+      result = { status: 'failed', statusReason: err?.name || 'delivery_error' }
+    }
   }
   const doneAt = new Date(ctx.now()).toISOString()
   await ctx.store.update(record.pk, record.sk, {
@@ -101,9 +122,23 @@ export function outreachRoutes({ ctx, requireAdmin }) {
             plan.push({ player: e.contact.contactKey, name: e.summary.name || e.summary.email, workflowId: c.workflowId, workflowName: c.workflowName, instanceKey: c.instanceKey, category: c.category, channel: c.channel, approval: c.approval, eligible: c.eligible, blockedBy: c.blockedBy, triggerReason: c.triggerReason, message: c.message })
           }
         }
-        if (dryRun) return json(200, { dryRun: true, deliveryMode: ctx.delivery.mode, plan })
+        // Eligibility was computed once, before any writes, so it cannot see
+        // what this run itself sends. Enforce the 72-hour cap inside the run:
+        // at most one non-service message per player per run (the rest wait
+        // for a later run, when the cap is re-checked from recorded sends).
+        const perRun = new Set()
+        const planned = []
+        for (const item of plan) {
+          if (item.eligible && item.category !== 'service' && perRun.has(item.player)) {
+            planned.push({ ...item, eligible: false, blockedBy: 'frequency_cap_72h' })
+            continue
+          }
+          if (item.eligible && item.category !== 'service') perRun.add(item.player)
+          planned.push(item)
+        }
+        if (dryRun) return json(200, { dryRun: true, deliveryMode: ctx.delivery.mode, plan: planned })
         const results = []
-        for (const item of plan.filter((p) => p.eligible)) {
+        for (const item of planned.filter((p) => p.eligible)) {
           const e = evaluated.find((x) => x.contact.contactKey === item.player)
           const workflow = WORKFLOW_BY_ID[item.workflowId]
           const res = await createAndDeliver(ctx, {
@@ -114,11 +149,10 @@ export function outreachRoutes({ ctx, requireAdmin }) {
             message: item.message,
             triggerReason: item.triggerReason,
             actor: `run:${admin.email}`,
-            initialStatus: workflow.approval === 'required' ? 'pending_approval' : 'approved',
           })
           results.push({ player: item.player, workflowId: item.workflowId, ...res })
         }
-        return json(200, { dryRun: false, deliveryMode: ctx.delivery.mode, results, blocked: plan.filter((p) => !p.eligible).map(({ message: _m, ...rest }) => rest) })
+        return json(200, { dryRun: false, deliveryMode: ctx.delivery.mode, results, blocked: planned.filter((p) => !p.eligible).map(({ message: _m, ...rest }) => rest) })
       },
     },
   ]

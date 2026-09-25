@@ -157,15 +157,10 @@ export const WORKFLOWS = Object.freeze([
     category: 'relationship',
     approval: 'required',
     channel: 'email',
-    maxSends: 1,
-    cooldownDays: 7,
-    description: 'Personal recap after a coaching session (Aaron approves each one).',
-    trigger: (f, _l, now) => {
-      const at = toMs(f.activity.coaching?.lastCompletedAt)
-      if (!Number.isFinite(at)) return null
-      const days = (now - at) / DAY
-      return days >= 0.5 && days <= 3 ? { instance: String(f.activity.coaching.lastCompletedAt).slice(0, 16), reason: 'Coaching session in the last 3 days' } : null
-    },
+    // One recap per session (Champion includes two a month).
+    cooldownDays: 2,
+    description: 'Personal recap after a coaching session. Appears in the action queue; Aaron fills in the focus and approves each one.',
+    fromQueue: ['coaching_followup'],
     render: (f) => ({
       subject: 'Your session recap',
       body: `Hey ${first(f)}, thanks for the session. The one thing to drill before next time: [Aaron adds the focus from the session]. Reply here with how the next few matches go.`,
@@ -273,11 +268,24 @@ export function effectiveConsent(consentItem) {
   }
 }
 
+// What the player may see about their own preferences. The admin's
+// do-not-contact reason is internal (it lives in the audit log) and is never
+// returned to the player.
+export function playerConsentView(consentItem) {
+  const c = effectiveConsent(consentItem)
+  return { marketing: c.marketing, relationship: c.relationship, doNotContact: c.doNotContact, updatedAt: c.updatedAt }
+}
+
+// Outreach that reached (or is about to reach) the player. Records made while
+// delivery was switched off reached nobody, so they do not use up caps or
+// one-shot workflows.
+export const COUNTED_SEND_STATUSES = Object.freeze(['approved', 'delivered', 'sent'])
+
 // Previous sends from BOTH systems count toward the caps.
 export function sendHistory(facts) {
   const sends = []
   for (const o of facts.cs.outreach || []) {
-    if (['sent', 'delivered', 'delivery_disabled'].includes(o.status)) sends.push({ at: o.updatedAt || o.createdAt, workflowId: o.workflowId, category: o.category })
+    if (COUNTED_SEND_STATUSES.includes(o.status)) sends.push({ at: o.updatedAt || o.createdAt, workflowId: o.workflowId, category: o.category })
   }
   const legacy = facts.legacyOutreach || {}
   if (legacy.welcome_sent_at) sends.push({ at: legacy.welcome_sent_at, workflowId: 'welcome', category: 'relationship' })
@@ -289,8 +297,18 @@ export function sendHistory(facts) {
 // when blocked so the CRM can show exactly why nothing went out.
 export function checkEligibility(workflow, facts, { now = Date.now(), instance = null } = {}) {
   if (workflow.owner === 'legacy_crm') return { ok: false, reason: 'owned_by_existing_crm_job' }
+  // Fail closed: consent, do-not-contact and send history live in the
+  // customer-success store. If it could not be read, defaults would ignore an
+  // opt-out, so nothing goes out.
+  if (facts.sources?.cs !== 'ok') return { ok: false, reason: 'contact_state_unavailable' }
+  if (workflow.category === 'marketing' && facts.sources?.legacyOutreach === 'unavailable') return { ok: false, reason: 'contact_state_unavailable' }
   const consent = effectiveConsent(facts.cs.consent)
   if (consent.doNotContact) return { ok: false, reason: 'do_not_contact' }
+  // Suppression recorded by the existing daily CRM job (bounces, complaints,
+  // unsubscribes, or a do-not-contact this service mirrored there).
+  const legacy = facts.legacyOutreach || {}
+  if (legacy.marketing_suppressed_at && legacy.marketing_suppressed_reason === 'do_not_contact' && workflow.category !== 'service') return { ok: false, reason: 'do_not_contact' }
+  if (workflow.category === 'marketing' && legacy.marketing_suppressed_at) return { ok: false, reason: 'suppressed_in_existing_crm' }
   if (workflow.category === 'relationship' && consent.relationship === 'opted_out') return { ok: false, reason: 'opted_out' }
   if (workflow.category === 'marketing' && consent.marketing !== 'opted_in') return { ok: false, reason: consent.marketing === 'opted_out' ? 'opted_out' : 'no_marketing_consent' }
   if (workflow.channel === 'email' && !facts.identity.email) return { ok: false, reason: 'no_email' }
@@ -298,7 +316,7 @@ export function checkEligibility(workflow, facts, { now = Date.now(), instance =
 
   const mine = (facts.cs.outreach || []).filter((o) => o.workflowId === workflow.id)
   if (instance && mine.some((o) => o.instanceKey === instance)) return { ok: false, reason: 'already_recorded' }
-  const sentHere = mine.filter((o) => ['sent', 'delivered', 'delivery_disabled'].includes(o.status))
+  const sentHere = mine.filter((o) => COUNTED_SEND_STATUSES.includes(o.status))
   if (workflow.maxSends && sentHere.length >= workflow.maxSends) return { ok: false, reason: 'max_sends_reached' }
   const lastHere = Math.max(0, ...sentHere.map((o) => toMs(o.updatedAt || o.createdAt)).filter(Number.isFinite))
   if (workflow.cooldownDays && lastHere && now - lastHere < workflow.cooldownDays * DAY) return { ok: false, reason: 'workflow_cooldown' }
@@ -314,11 +332,13 @@ export function checkEligibility(workflow, facts, { now = Date.now(), instance =
   return { ok: true, reason: null }
 }
 
-// Every workflow's verdict for one player, for the CRM and the scheduled run.
+// Every automatic workflow's verdict for one player, for the CRM and the
+// scheduled run. Workflows that need a person's approval never run here: they
+// come from the action queue, where the approval happens.
 export function evaluateOutreach(facts, lifecycle, { now = Date.now() } = {}) {
   const out = []
   for (const workflow of WORKFLOWS) {
-    if (!workflow.trigger) continue
+    if (!workflow.trigger || workflow.approval === 'required') continue
     const hit = workflow.trigger(facts, lifecycle, now)
     if (!hit) continue
     const eligibility = checkEligibility(workflow, facts, { now, instance: hit.instance })

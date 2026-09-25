@@ -96,9 +96,19 @@ function billingRisks(facts, now) {
     ]))
   }
   if (b.status === 'renewal_unconfirmed') {
-    out.push(risk('renewal_unconfirmed', 'critical', 'Paid-through date passed with no renewal recorded. The player may be paying but locked out.', [
-      `Ledger says ${b.rowStatus} until ${fmtDate(b.currentPeriodEnd)}`,
+    const missingDate = b.staleReason === 'missing_period_end'
+    out.push(risk('renewal_unconfirmed', 'critical', missingDate
+      ? 'Stripe status is live but no paid-through date is recorded, so production blocks paid features. The player may be paying but locked out.'
+      : 'Paid-through date passed with no renewal recorded. The player may be paying but locked out.', [
+      missingDate ? `Ledger says ${b.rowStatus} with no paid-through date` : `Ledger says ${b.rowStatus} until ${fmtDate(b.currentPeriodEnd)}`,
       'Verify the subscription in Stripe before contacting the player',
+    ]))
+  }
+  if (b.alsoPaying) {
+    const price = b.alsoPaying.amount ? ` at $${b.alsoPaying.amount}/${b.alsoPaying.interval === 'year' ? 'yr' : 'mo'}` : ''
+    out.push(risk('comp_with_paid_subscription', 'medium', 'Has complimentary access and is also paying for a subscription on the same email.', [
+      `Live paid ${b.alsoPaying.planLabel} subscription${price}`,
+      `Access currently comes from the ${b.status === 'trialing' ? 'no-card trial' : 'complimentary'} row`,
     ]))
   }
   if (b.hasAccess && b.paymentIssueRows > 0 && b.status !== 'payment_failed') {

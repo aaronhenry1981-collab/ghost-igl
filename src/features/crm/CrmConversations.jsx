@@ -17,12 +17,21 @@ function DeliveryBanner({ mode }) {
   )
 }
 
+// One id per composed reply, so a double-click or retry is not sent twice.
+function newClientId() {
+  try {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID()
+  } catch { /* fall through */ }
+  return `r-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
+}
+
 function Thread({ api, threadKey, basePath }) {
   const { status, data, error, reload } = useCrmResource(api, `/cs/admin/conversations/${threadKey}`)
   const [body, setBody] = useState('')
   const [channel, setChannel] = useState('in_app')
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState(null)
+  const [clientId, setClientId] = useState(newClientId)
   const bodyId = useId()
   const channelId = useId()
   if (status === 'loading') return <Loading label="Loading conversation…" />
@@ -33,9 +42,15 @@ function Thread({ api, threadKey, basePath }) {
     setSending(true)
     setResult(null)
     try {
-      const res = await api.post(`/cs/admin/conversations/${threadKey}/reply`, { body, channel })
-      setResult({ ok: true, text: STATUS_LABEL[res.status] || res.status })
+      const res = await api.post(`/cs/admin/conversations/${threadKey}/reply`, { body, channel, clientId })
+      setResult({
+        ok: true,
+        text: res.answered
+          ? STATUS_LABEL[res.status] || res.status
+          : `${STATUS_LABEL[res.status] || res.status}. The player has not seen this reply, so their message still counts as waiting.`,
+      })
       setBody('')
+      setClientId(newClientId())
       reload()
     } catch (err) {
       setResult({ ok: false, text: err.message })
@@ -59,6 +74,7 @@ function Thread({ api, threadKey, basePath }) {
               <span>{m.direction === 'inbound' ? 'Player' : String(m.author || 'Recon').replace('admin:', '')}</span>
               <span>· {m.channel === 'email' ? 'Email' : 'In-app'} · {fmtDateTime(m.at)}</span>
               <Badge tone={STATUS_TONE[m.status] || 'neutral'}>{STATUS_LABEL[m.status] || m.status}</Badge>
+              {m.direction === 'inbound' && m.senderVerified === false && <Badge tone="warning">Sender not verified</Badge>}
               {m.direction === 'outbound' && <span className="crm-muted">{m.visibleToPlayer ? (m.readByPlayerAt ? '· read by player' : '· unread by player') : '· not visible to player'}</span>}
             </div>
             {m.subject && <strong>{m.subject}</strong>}
