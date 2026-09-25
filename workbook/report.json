@@ -1,0 +1,304 @@
+{
+  "artifacts": {
+    "interior": {
+      "file": "recon6-siege-starter-field-workbook-interior.pdf",
+      "sha256": "52b45a87c342b3920e42ccd95ec0964eb030d5e32cfb1d0787538d4950cad6c0",
+      "bytes": 690309,
+      "build228_sha256": "194b1c0e9efc99adb15bfa7f5e0d4478cb8c2ba60adce41d50054ab0ceedde75",
+      "pages": 64,
+      "build228_pages": 64,
+      "page_sizes": [
+        [
+          612.0,
+          792.0
+        ]
+      ],
+      "pixel_changed_pages": [
+        2,
+        29,
+        39,
+        64
+      ],
+      "footer_pages_checked": 63,
+      "text_layout_on_changed_pages": {
+        "2": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "29": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "39": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "64": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        }
+      },
+      "fields": 0,
+      "build228_fields": 0,
+      "metadata": {
+        "title": "Siege Starter Field Workbook",
+        "author": "Recon 6 Coaching",
+        "subject": "An unofficial Rainbow Six Siege beginner workbook",
+        "producer": "LibreOffice 26.8.0.3 (X86_64)"
+      },
+      "build228_metadata_title": "Siege Starter Field Workbook"
+    },
+    "fillable": {
+      "file": "recon6-siege-starter-workbook-bundle/recon6-siege-starter-field-workbook-fillable.pdf",
+      "sha256": "1e049dd0d75310ba876efe3909afc1c82f9b2e8f9b120d051e2e05d0fc8a6f25",
+      "bytes": 922591,
+      "build228_sha256": "7919dbbd48e99398df9cadba9023fe914142dde61bd507766eb9bc33ab1c8b11",
+      "pages": 64,
+      "build228_pages": 64,
+      "page_sizes": [
+        [
+          612.0,
+          792.0
+        ]
+      ],
+      "pixel_changed_pages": [
+        2,
+        29,
+        39,
+        64
+      ],
+      "footer_pages_checked": 63,
+      "text_layout_on_changed_pages": {
+        "2": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "29": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "39": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "64": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        }
+      },
+      "fields": 357,
+      "build228_fields": 357,
+      "fields_moved_or_retyped": [],
+      "field_types": {
+        "Text": 259,
+        "CheckBox": 98
+      },
+      "widgets_without_appearance": 0,
+      "acroform_fields": 357,
+      "fields_per_page": {
+        "2": 4,
+        "3": 3,
+        "16": 3,
+        "25": 3,
+        "26": 11,
+        "27": 11,
+        "28": 12,
+        "30": 3,
+        "31": 5,
+        "32": 5,
+        "33": 5,
+        "34": 5,
+        "35": 5,
+        "36": 5,
+        "37": 5,
+        "38": 5,
+        "39": 3,
+        "40": 12,
+        "41": 12,
+        "42": 12,
+        "43": 12,
+        "44": 12,
+        "45": 12,
+        "46": 12,
+        "47": 12,
+        "48": 12,
+        "49": 12,
+        "50": 12,
+        "51": 12,
+        "52": 12,
+        "53": 12,
+        "54": 12,
+        "55": 9,
+        "56": 9,
+        "57": 9,
+        "58": 9,
+        "59": 13,
+        "60": 11,
+        "61": 11,
+        "62": 10,
+        "63": 3
+      },
+      "fill_roundtrip": {
+        "p02_player_1": "Test entry",
+        "p28_shared_name": "Yes"
+      },
+      "metadata": {
+        "title": "Siege Starter Field Workbook - Fillable Digital Edition",
+        "author": "Recon 6 Coaching",
+        "subject": "Unofficial Rainbow Six Siege beginner workbook - interactive fillable edition",
+        "producer": "LibreOffice 26.8.0.3 (X86_64)"
+      },
+      "build228_metadata_title": "Siege Starter Field Workbook - Fillable Digital Edition"
+    },
+    "print": {
+      "file": "recon6-siege-starter-workbook-bundle/recon6-siege-starter-field-workbook-print.pdf",
+      "sha256": "a58f297410ca454d5973f0c982ba1d3d99e11ccd2038867673d65a21574dae89",
+      "bytes": 706767,
+      "build228_sha256": "2dd1f67e38edd138d83043bacc55065c3748a0de3d5ff86f21ef9cd0c8cc8326",
+      "pages": 64,
+      "build228_pages": 64,
+      "page_sizes": [
+        [
+          612.0,
+          792.0
+        ]
+      ],
+      "pixel_changed_pages": [
+        2,
+        29,
+        39,
+        64
+      ],
+      "footer_pages_checked": 63,
+      "text_layout_on_changed_pages": {
+        "2": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "29": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "39": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        },
+        "64": {
+          "outside_page": [],
+          "overlaps_new": 0,
+          "overlaps_build228": 0
+        }
+      },
+      "fields": 0,
+      "build228_fields": 0,
+      "metadata": {
+        "title": "Siege Starter Field Workbook - Print-Friendly Edition",
+        "author": "Recon 6 Coaching",
+        "subject": "Unofficial Rainbow Six Siege beginner workbook - print-friendly edition",
+        "producer": "LibreOffice 26.8.0.3 (X86_64)"
+      },
+      "build228_metadata_title": "Siege Starter Field Workbook - Print-Friendly Edition"
+    },
+    "sample": {
+      "file": "recon6-siege-starter-sample.pdf",
+      "sha256": "c0bc8116a20479c278a57a234d14c4c3e1a703bdc1a4fec608d3642bc9bc741c",
+      "bytes": 463260,
+      "build228_sha256": "7eabe5b703eef435c6a597b159e851983653fa1cc76e269b5c6775d57c255306",
+      "pages": 10,
+      "build228_pages": 10,
+      "page_sizes": [
+        [
+          612.0,
+          792.0
+        ]
+      ],
+      "pixel_changed_pages": [
+        2,
+        6,
+        8
+      ],
+      "fields": 0,
+      "build228_fields": 0,
+      "metadata": {
+        "title": "Siege Starter Field Workbook \u2014 Free Sample",
+        "author": "Recon 6 Coaching",
+        "subject": "Ten-page preview of the unofficial beginner workbook",
+        "producer": "pypdf"
+      },
+      "build228_metadata_title": "Siege Starter Field Workbook \u2014 Free Sample"
+    },
+    "kdp_cover": {
+      "file": "recon6-siege-starter-kdp-cover.pdf",
+      "sha256": "baebb8342c6ecec69000095f98ffbfa873f5d5de19fb87c62443c80126f50f22",
+      "bytes": 46593,
+      "build228_sha256": "aac3891a6076c6354cdd73097ea5b88133d47f576f7f65fbf8d9e67b620a13f5",
+      "pages": 1,
+      "build228_pages": 1,
+      "page_sizes": [
+        [
+          1252.38,
+          810.0
+        ]
+      ],
+      "pixel_changed_pages": [],
+      "fields": 0,
+      "build228_fields": 0,
+      "metadata": {
+        "title": "Siege Starter Field Workbook \u2014 KDP Cover",
+        "author": "Recon 6 Coaching",
+        "subject": "Full-wrap 8.5 x 11 inch paperback cover for a 64-page white-paper interior",
+        "producer": "ReportLab PDF Library - (opensource)"
+      },
+      "build228_metadata_title": "Siege Starter Field Workbook \u2014 KDP Cover"
+    },
+    "readme": {
+      "file": "recon6-siege-starter-workbook-bundle/README.txt",
+      "sha256": "fc5ec9909b9aa87eb93b90f6195b1461b989661800818cb63adcf58838a9e898",
+      "bytes": 1903,
+      "changed_lines": [
+        "Digital Bundle - Operation Split Fire Edition (Y11S3.1), September 2026",
+        "This edition reflects official information reviewed September 22, 2026 for",
+        "Operation Split Fire, patch Y11S3.1. Official patch notes:",
+        "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/3WMly2DNZqv1GpUK9GNGm5/y11s31-patch-notes",
+        "Games, maps, operators, balance, and ranking systems change. Visit"
+      ]
+    },
+    "zip": {
+      "file": "recon6-siege-starter-field-workbook-bundle.zip",
+      "sha256": "01873ef8e0e21840caa54e4546e834c530a061c2203e33c981a6104e4816f4b4",
+      "bytes": 541147,
+      "entries": [
+        {
+          "name": "README.txt",
+          "bytes": 1903,
+          "sha256": "fc5ec9909b9aa87eb93b90f6195b1461b989661800818cb63adcf58838a9e898"
+        },
+        {
+          "name": "recon6-siege-starter-field-workbook-fillable.pdf",
+          "bytes": 922591,
+          "sha256": "1e049dd0d75310ba876efe3909afc1c82f9b2e8f9b120d051e2e05d0fc8a6f25"
+        },
+        {
+          "name": "recon6-siege-starter-field-workbook-print.pdf",
+          "bytes": 706767,
+          "sha256": "a58f297410ca454d5973f0c982ba1d3d99e11ccd2038867673d65a21574dae89"
+        }
+      ],
+      "build228_sha256": "f2e9cdc734efa4a24e87e1702f1185ade8b0483a28b9c91b5150b99c0639c98b"
+    }
+  },
+  "checks": [],
+  "failures": [],
+  "passed": true
+}
