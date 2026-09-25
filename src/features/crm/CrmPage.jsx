@@ -5,6 +5,8 @@ import CrmPlayers from './CrmPlayers'
 import CrmPlayerRecord from './CrmPlayerRecord'
 import CrmBilling from './CrmBilling'
 import CrmConversations from './CrmConversations'
+import CrmFeedback from './CrmFeedback'
+import CrmReviews from './CrmReviews'
 import { CRM_TABS } from './crmTabs'
 import './Crm.css'
 
@@ -49,6 +51,8 @@ export default function CrmPage({ api, basePath, tab = 'overview', playerKey = n
               : current === 'queue' ? <CrmQueue api={api} basePath={basePath} />
                 : current === 'billing' ? <CrmBilling api={api} basePath={basePath} />
                   : current === 'conversations' ? <CrmConversations api={api} basePath={basePath} />
+                    : current === 'feedback' ? <CrmFeedback api={api} basePath={basePath} />
+                      : current === 'reviews' ? <CrmReviews api={api} basePath={basePath} />
                   : <CrmPlayers key={current} api={api} basePath={basePath} variant={active.variant || 'players'} />}
         </div>
       )}

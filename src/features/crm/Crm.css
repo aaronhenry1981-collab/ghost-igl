@@ -790,3 +790,18 @@
   text-transform: uppercase;
   color: var(--crm-text-muted);
 }
+
+/* ---- Feedback & reviews ---------------------------------------------------- */
+.crm-quote {
+  margin: 0.3rem 0 0;
+  padding-left: 0.65rem;
+  border-left: 3px solid var(--crm-border-strong);
+  color: var(--crm-text);
+}
+
+.crm-complaint,
+.crm-review {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}

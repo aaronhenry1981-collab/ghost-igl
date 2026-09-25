@@ -14,13 +14,13 @@ export function storeSeedFromWorld(world, { withConversations = false } = {}) {
     const contactKey = contactKeyFor(row.email)
     items.push({
       pk: pkFor(contactKey),
-      sk: `${ITEM_TYPES.FEEDBACK}#${row.createdAt}#${row.feedbackId}`,
+      sk: `${ITEM_TYPES.FEEDBACK}#m#${row.moment}#account`,
       type: ITEM_TYPES.FEEDBACK,
       contactKey,
       email: row.email,
       feedbackId: row.feedbackId,
       moment: row.moment,
-      momentKey: `${row.moment}`,
+      momentKey: `${row.moment}#account`,
       answers: row.answers,
       status: row.status || 'open',
       createdAt: row.createdAt,

@@ -5,6 +5,7 @@ import { currentIdToken, openBillingPortal } from '../../lib/customerSuccess'
 import RankGoalEditor from './RankGoalEditor'
 import MessagesCard from './MessagesCard'
 import ContactPreferences from './ContactPreferences'
+import FeedbackPrompt from './FeedbackPrompt'
 import { greeting } from './homeFormat'
 import {
   ActivationCard,
@@ -147,6 +148,7 @@ export default function PlayerHome({ state, preview = false, slots = {}, api = n
         </section>
       )}
 
+      {api && view.feedbackPrompt && <FeedbackPrompt api={api} prompt={view.feedbackPrompt} />}
       {slots.feedback}
 
       <div className="ph-grid">

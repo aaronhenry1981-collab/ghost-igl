@@ -276,6 +276,27 @@ Resources:
         AdminOutreachRun:
           Type: HttpApi
           Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/outreach/run, Method: POST }
+        CustomerFeedbackSeen:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback/seen, Method: POST }
+        CustomerFeedback:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback, Method: POST }
+        CustomerFeedbackDismiss:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback/dismiss, Method: POST }
+        AdminFeedback:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/feedback, Method: GET }
+        AdminFeedbackResolve:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/feedback/resolve, Method: POST }
+        AdminReviews:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/reviews, Method: GET }
+        AdminReviewDecision:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/reviews/decision, Method: POST }
 
   CustomerSuccessErrorsAlarm:
     Type: AWS::CloudWatch::Alarm

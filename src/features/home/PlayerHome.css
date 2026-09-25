@@ -808,3 +808,106 @@
 }
 
 .ph-toggle input { width: 1.2rem; height: 1.2rem; margin-top: 0.15rem; accent-color: var(--ph-accent); }
+
+/* ---- Feedback prompt ------------------------------------------------------ */
+.ph-feedback {
+  margin-top: 1rem;
+  border-color: rgba(201, 179, 255, 0.45);
+}
+
+.ph-fb-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.ph-fb-q {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.ph-fb-q legend,
+.ph-fb-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: var(--ph-text-strong);
+}
+
+.ph-fb-q textarea,
+.ph-input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--ph-border-strong);
+  background: var(--ph-surface-2);
+  color: var(--ph-text-strong);
+  font: inherit;
+}
+
+.ph-scale {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.ph-scale-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.ph-scale-11 { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+
+@media (max-width: 520px) {
+  .ph-scale-11 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+
+.ph-scale-opt,
+.ph-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--ph-border-strong);
+  background: var(--ph-surface-2);
+  color: var(--ph-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ph-scale-opt input,
+.ph-chip input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.ph-scale-opt:focus-within,
+.ph-chip:focus-within {
+  outline: 2px solid var(--ph-accent);
+  outline-offset: 2px;
+}
+
+.ph-scale-opt.is-on,
+.ph-chip.is-on {
+  border-color: var(--ph-accent);
+  background: rgba(0, 229, 255, 0.14);
+  color: var(--ph-text-strong);
+}
+
+.ph-scale-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--ph-text-muted);
+}
+
+.ph-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}

@@ -7,5 +7,7 @@ export const CRM_TABS = [
   { id: 'activity', label: 'Product activity', variant: 'activity' },
   { id: 'coaching', label: 'Coaching & VOD', variant: 'coaching' },
   { id: 'conversations', label: 'Conversations' },
+  { id: 'feedback', label: 'Feedback' },
   { id: 'billing', label: 'Billing & health' },
+  { id: 'reviews', label: 'Reviews & referrals' },
 ]
