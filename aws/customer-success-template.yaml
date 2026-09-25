@@ -1,0 +1,337 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >-
+  Recon 6 customer-success layer (isolated stack): customer home projection,
+  customer-success CRM, conversations, outreach records (delivery disabled)
+  and in-product feedback. Reads existing Recon tables read-only; owns one
+  retained table. Deploying this stack does not change the main ghost-igl stack.
+
+Parameters:
+  StageName:
+    Type: String
+    Default: prod
+  TablePrefix:
+    Type: String
+    Default: recon-customer-success
+    Description: Override for non-production validation stacks to avoid table-name collisions.
+  CognitoUserPoolId:
+    Type: String
+    Default: us-east-1_rvLy8WLQB
+  CognitoClientId:
+    Type: String
+    Default: 5bpa1cteenctoue24v4e245re8
+  SubscriptionsTableName:
+    Type: String
+    Default: ghost-igl-subscriptions
+  ProfilesTableName:
+    Type: String
+    Default: ghost-igl-profiles
+  ClimbProgressTableName:
+    Type: String
+    Default: recon6-climb-progress
+  BookingsTableName:
+    Type: String
+    Default: recon6-bookings
+  CoachingEventsTableName:
+    Type: String
+    Default: recon6-coaching-events
+  PlayerStoreTableName:
+    Type: String
+    Default: recon-player-store
+  PlayerEventsTableName:
+    Type: String
+    Default: recon-player-events
+  ReferralsTableName:
+    Type: String
+    Default: ghost-igl-referrals
+  CrmLogTableName:
+    Type: String
+    Default: ghost-igl-crm-log
+  TestimonialsTableName:
+    Type: String
+    Default: ghost-igl-testimonials
+  ActivityTrackingSince:
+    Type: String
+    Default: ''
+    Description: ISO date the activity beacon went live. Before it, missing strategy/match-prep activity is reported as "not recorded".
+  FeatureMessaging:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+  FeatureFeedback:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+  OutreachDeliveryMode:
+    Type: String
+    Default: disabled
+    AllowedValues: [disabled, in_app]
+    Description: >-
+      disabled = messages are recorded, nothing reaches players (default).
+      in_app = in-app messages become visible to players. Email is never sent
+      by this stack; there is no email transport in the code.
+  SyncLegacySuppression:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: Mirror opt-outs into the existing CRM job's log (sets marketing_suppressed_at only).
+  DevOrigin:
+    Type: String
+    Default: ''
+    Description: >-
+      Optional extra browser origin for a non-production validation stack
+      (for example http://localhost:5173). Leave empty in production.
+
+Conditions:
+  MirrorLegacySuppression: !Equals [!Ref SyncLegacySuppression, 'true']
+  HasDevOrigin: !Not [!Equals [!Ref DevOrigin, '']]
+
+Globals:
+  Function:
+    Runtime: nodejs24.x
+    Timeout: 30
+    MemorySize: 512
+
+Resources:
+  CustomerSuccessTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Ref TablePrefix
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+        - AttributeName: gsi1pk
+          AttributeType: S
+        - AttributeName: gsi1sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: gsi1
+          KeySchema:
+            - AttributeName: gsi1pk
+              KeyType: HASH
+            - AttributeName: gsi1sk
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+  CustomerSuccessApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref StageName
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 40
+        ThrottlingRateLimit: 20
+      CorsConfiguration:
+        AllowOrigins: !If
+          - HasDevOrigin
+          - - https://r6coaching.com
+            - https://www.r6coaching.com
+            - !Ref DevOrigin
+          - - https://r6coaching.com
+            - https://www.r6coaching.com
+        AllowHeaders:
+          - Authorization
+          - Content-Type
+        AllowMethods:
+          - GET
+          - POST
+          - PUT
+          - OPTIONS
+        MaxAge: 600
+
+  CustomerSuccessFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/customer-success/
+      Handler: index.handler
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref CognitoUserPoolId
+          COGNITO_CLIENT_ID: !Ref CognitoClientId
+          CS_TABLE: !Ref CustomerSuccessTable
+          SUBSCRIPTIONS_TABLE: !Ref SubscriptionsTableName
+          PROFILES_TABLE: !Ref ProfilesTableName
+          CLIMB_TABLE: !Ref ClimbProgressTableName
+          BOOKINGS_TABLE: !Ref BookingsTableName
+          COACHING_EVENTS_TABLE: !Ref CoachingEventsTableName
+          PLAYER_STORE_TABLE: !Ref PlayerStoreTableName
+          PLAYER_EVENTS_TABLE: !Ref PlayerEventsTableName
+          REFERRALS_TABLE: !Ref ReferralsTableName
+          CRM_LOG_TABLE: !Ref CrmLogTableName
+          TESTIMONIALS_TABLE: !Ref TestimonialsTableName
+          ACTIVITY_TRACKING_SINCE: !Ref ActivityTrackingSince
+          FEATURE_MESSAGING: !Ref FeatureMessaging
+          FEATURE_FEEDBACK: !Ref FeatureFeedback
+          OUTREACH_DELIVERY_MODE: !Ref OutreachDeliveryMode
+          SYNC_LEGACY_SUPPRESSION: !Ref SyncLegacySuppression
+          ALLOWED_ORIGINS: !If
+            - HasDevOrigin
+            - !Sub 'https://r6coaching.com,https://www.r6coaching.com,${DevOrigin}'
+            - 'https://r6coaching.com,https://www.r6coaching.com'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CustomerSuccessTable
+        - Statement:
+            - Sid: ExistingReconTablesReadOnly
+              Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:Scan
+              Resource:
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SubscriptionsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SubscriptionsTableName}/index/*
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ProfilesTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ClimbProgressTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${BookingsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${CoachingEventsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerStoreTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerEventsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ReferralsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ReferralsTableName}/index/*
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${CrmLogTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TestimonialsTableName}
+            - Sid: CognitoDirectoryReadOnly
+              Effect: Allow
+              Action:
+                - cognito-idp:ListUsers
+                - cognito-idp:ListUsersInGroup
+              Resource: !Sub arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPoolId}
+        - !If
+          - MirrorLegacySuppression
+          - Statement:
+              - Sid: LegacyCrmSuppressionAttributesOnly
+                Effect: Allow
+                Action:
+                  - dynamodb:UpdateItem
+                Resource: !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${CrmLogTableName}
+                Condition:
+                  ForAllValues:StringEquals:
+                    dynamodb:Attributes:
+                      - email
+                      - marketing_suppressed_at
+                      - marketing_suppressed_reason
+          - !Ref AWS::NoValue
+      Events:
+        Health:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/health, Method: GET }
+        CustomerHome:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/home, Method: GET }
+        CustomerActivity:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/activity, Method: POST }
+        AdminOverview:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/overview, Method: GET }
+        AdminPlayers:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/players, Method: GET }
+        AdminPlayer:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}', Method: GET }
+        AdminPlayerHomePreview:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}/home-preview', Method: GET }
+        AdminQueue:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/queue, Method: GET }
+        AdminQueueDecision:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/queue/decision, Method: POST }
+        CustomerMessages:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages, Method: GET }
+        CustomerSendMessage:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages, Method: POST }
+        CustomerReadMessages:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/messages/read, Method: POST }
+        CustomerGetPreferences:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/contact-preferences, Method: GET }
+        CustomerPutPreferences:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/contact-preferences, Method: PUT }
+        AdminConversations:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/conversations, Method: GET }
+        AdminConversation:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/conversations/{key}', Method: GET }
+        AdminConversationReply:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/conversations/{key}/reply', Method: POST }
+        AdminPlayerContact:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/players/{key}/contact', Method: PUT }
+        AdminOutreach:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/outreach, Method: GET }
+        AdminOutreachRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/outreach/run, Method: POST }
+        CustomerFeedbackSeen:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback/seen, Method: POST }
+        CustomerFeedback:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback, Method: POST }
+        CustomerFeedbackDismiss:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/me/feedback/dismiss, Method: POST }
+        AdminFeedback:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/feedback, Method: GET }
+        AdminFeedbackResolve:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/feedback/resolve, Method: POST }
+        AdminReviews:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/reviews, Method: GET }
+        AdminReviewDecision:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/reviews/decision, Method: POST }
+
+  CustomerSuccessErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Recon customer-success API is throwing errors.
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref CustomerSuccessFunction
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+Outputs:
+  CustomerSuccessApiUrl:
+    Description: Configure this value as VITE_CUSTOMER_SUCCESS_API_URL after the stack is deployed and verified.
+    Value: !Sub https://${CustomerSuccessApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${StageName}
+  CustomerSuccessTableName:
+    Description: Customer-success single table (retained, point-in-time recovery on).
+    Value: !Ref CustomerSuccessTable

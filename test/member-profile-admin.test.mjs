@@ -6,7 +6,9 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf
 
 test('member identity fields drive dashboard and admin directory', () => {
   const subscription = read('lambda/subscription/index.mjs')
-  const dashboard = read('src/pages/DashboardPage.jsx')
+  // The player home (which replaced DashboardPage) greets members by first
+  // name via the shared facts builder.
+  const dashboard = read('lambda/customer-success/domain/facts.mjs')
   const adminApi = read('lambda/admin/index.mjs')
   const adminUi = read('src/pages/AdminPage.jsx')
   assert.match(subscription, /'first_name'/)

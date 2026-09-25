@@ -9,6 +9,7 @@ import {
   API_URL
 } from '../lib/cognito'
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import { hasPlan, normalizePlan } from '../config/memberships'
 
 const AuthContext = createContext(null)
 
@@ -34,6 +35,9 @@ export function AuthProvider({ children }) {
   // every /me fetch + bumped client-side after a successful VOD analyze so
   // the UI reflects the new count without a re-fetch.
   const [vodUsage, setVodUsage] = useState(null)
+  // Billing/account facts from /me that the player home needs to explain
+  // membership status honestly (payment failed, renewal unconfirmed, etc.).
+  const [account, setAccount] = useState(null)
 
   // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
   // /me returns { plan, sub_status, profile, profile_complete } so consumers can
@@ -49,9 +53,18 @@ export function AuthProvider({ children }) {
       })
       if (res.ok) {
         const data = await res.json()
-        const p = data?.plan === 'pro' || data?.plan === 'champion' ? data.plan : 'free'
+        // Live plans are Basic (free), Pro, Elite and Champion. Unknown labels
+        // fall back to Basic; `elite` must never be dropped to free.
+        const p = normalizePlan(data?.plan)
         setPlan(p)
-        setIsPro(p === 'pro' || p === 'champion')
+        setIsPro(hasPlan(p, 'pro'))
+        setAccount({
+          sub_status: data?.sub_status || 'none',
+          current_period_end: data?.current_period_end || null,
+          stripe_customer_id: data?.stripe_customer_id || null,
+          tier_scope: data?.tier_scope || null,
+          is_admin: data?.is_admin === true,
+        })
         setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
         setProfile(data?.profile || null)
         setProfileComplete(!!data?.profile_complete)
@@ -267,6 +280,7 @@ export function AuthProvider({ children }) {
     setIsPro(false)
     setIsAdmin(false)
     setPlan('free')
+    setAccount(null)
   }
 
   // Step 1 of password reset: emails the user a 6-digit code. Uses the casing
@@ -300,7 +314,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isPro, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, loading, signUp, signIn, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
+    <AuthContext.Provider value={{ user, isPro, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, account, loading, signUp, signIn, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   )
