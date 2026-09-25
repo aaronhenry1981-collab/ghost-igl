@@ -50,8 +50,10 @@ Findings that shape the design:
 - **Static pages are invisible to analytics**, and a visitor who lands on a
   blog post from an AI answer and then clicks into the app arrives with an
   internal referrer: attributed as direct.
-- The referral-code lookup can miss valid codes (it scans with a one-item
-  limit before filtering); tracked as a separate fix on the production line.
+- The referral-code lookup on both lines can miss valid codes (it scans with
+  a one-item limit before filtering). A paginated lookup fix already exists
+  on a separate repair branch; verify it is live before trusting referral
+  counts.
 
 ## 2. Attribution model (`src/lib/attribution/core.js`)
 
@@ -157,7 +159,7 @@ measured by Plausible (cookieless) only.
 | Trial | live Stripe `trialing` row, or a no-card trial row | subscriptions ledger | yes |
 | Paid | live, Stripe-billed, non-trial row | subscriptions ledger (+ live Stripe check) | yes |
 | Retained | paid and still paid after the first renewal | ledger (period end beyond the first interval); invoices for exact | approximate |
-| Referred | referred at least one signup / was referred | `ghost-igl-referrals`, `referred_by` | yes (lookup fix pending) |
+| Referred | referred at least one signup / was referred | `ghost-igl-referrals`, `referred_by` | yes (once the referral lookup fix is verified live) |
 
 At-risk and churned follow the customer-success lifecycle (PR #24, docs §4).
 Every metric in the command center is a count of these facts; ratios always
