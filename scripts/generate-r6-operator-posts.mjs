@@ -11,6 +11,7 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
+import { CURRENT_R6_SEASON, balanceChangesFor } from '../src/data/r6-season.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -87,7 +88,7 @@ const OP_DATA = {
   },
   Sledge: {
     side: 'attack', role: 'Vertical Play / Soft Breach', gadget: 'Tactical Breaching Hammer',
-    gadgetDesc: 'A breaching hammer that destroys soft walls and floors silently and instantly. 25 charges per round — effectively unlimited.',
+    gadgetDesc: 'A breaching hammer that breaks soft walls and floors up close. Each swing takes 0.8 seconds as of Y11S3.1 (was 1 second). 25 charges per round — effectively unlimited.',
     primary: 'L85A2 / M590A1', secondary: 'P226 MK 25', secondaryGadget: 'Frag Grenades / Stun Grenade', speed: '2-speed / 2-armor',
     intro: 'Sledge is the king of vertical play. His breaching hammer creates instant soft floor / wall holes for vertical drops, murder holes, and custom angles. Banned in 50%+ of Coastline / Skyscraper / Chalet matches because of his vertical destruction.',
     strengths: ['Unlimited soft breach charges (25 hammer hits)', 'Silent breach — defenders don\'t hear hammer like they hear breach charges', 'Frag secondary gadget for direct kills through soft walls', 'Strong AR (L85A2) for entry frag'],
@@ -433,13 +434,13 @@ const OP_DATA = {
     howToClimb: 'Place Volcán shields on common vertical drop spots — when Sledge / Buck breaks the floor, you detonate the Volcán to deny the drop. Position one shield in the bomb room for plant denial. Save 1 detonation for the post-plant.',
   },
   Castle: {
-    side: 'defense', role: 'Choke Denial', gadget: 'Universal Breaching Shield',
+    side: 'defense', role: 'Choke Denial', gadget: 'Armor Panel',
     gadgetDesc: 'Four Castle armor barricades that block doors and windows with reinforced metal. Bulletproof unless attacked by specific gadgets.',
     primary: 'UMP45 / M1014', secondary: 'MAGNUM', secondaryGadget: 'Bulletproof Camera / Proximity Alarm', speed: '2-speed / 2-armor',
     intro: 'Castle denies attacker entry routes via reinforced barricades. Strong on sites with multiple choke points where forcing attackers into one entry is round-deciding.',
     strengths: ['Four armor barricades = four entry denials', 'Forces attackers to bring soft-breach utility (Buck, Sledge, Zofia)', 'Strong primary SMG (UMP45)', 'Versatile secondary gadgets'],
     counterPicks: ['Sledge (hammer breaks barricades)', 'Buck (Skeleton Key shotgun)', 'Zofia (impact grenades)', 'Maverick (blowtorch)'],
-    counterAdvice: 'On attack: bring soft-breach (Sledge, Buck, Zofia) for any Castle-banned site. Castle barricades take 4-6 hits to break with normal weapons; with hammer/shotgun, 1-2 hits.',
+    counterAdvice: 'On attack: bring soft-breach (Sledge, Buck, Zofia) for any Castle-banned site. As of Y11S3.1 an Armor Panel takes 10 melee hits to destroy (was 9).',
     howToClimb: 'Place Castle barricades on common attacker entry routes — windows, doorways. Force attackers to bring soft breach, removing one of their meta picks. Coordinate with Mira windows on adjacent walls — Castle denies one entry; Mira reads the other.',
   },
   Doc: {
@@ -758,6 +759,17 @@ function renderOperatorPost(opName, opIndex) {
 <p>This guide covers ${opName}\'s loadout and gadget use, the maps + sites where they\'re strongest, common mistakes that hold ${opName} mains back, counter picks ${opName} is most vulnerable to, a practice drill to lock in their mechanics, and how to climb ranked with them. Last updated ${YEAR} — patch-current as of the most recent Operation.</p>
 <p>${opName} is a ${op.side === 'attack' ? 'attacker' : 'defender'} ${op.role.toLowerCase().includes('hard breach') ? 'used in coordinated executions where wall opening is round-deciding' : op.role.toLowerCase().includes('intel') ? 'whose information advantage shapes every team fight' : op.role.toLowerCase().includes('roam') ? 'whose flank plays disrupt attacker timing and force re-clears' : op.role.toLowerCase().includes('anchor') ? 'who holds site from cover and trade-frags pushers' : op.role.toLowerCase().includes('support') ? 'whose utility enables teammates direct frags' : 'with a unique kit that rewards specific situational play'}. Pick them when the team comp needs their role — running ${opName} as filler instead of fit is the fastest way to throw the round.</p>`
 
+  // Official changes to this operator's own gadget or weapons in the current
+  // patch, rendered from the one reviewed season snapshot (r6-season.js).
+  const patchChanges = balanceChangesFor(opName)
+  const patchSection = patchChanges.length ? `
+    <div class="callout patch">
+      <h3>${escape(CURRENT_R6_SEASON.code)} update (${escape(CURRENT_R6_SEASON.patchDateLabel)})</h3>
+      <ul>${patchChanges.map((c) => `<li><strong>${escape(c.item)}:</strong> ${escape(c.summary)}</li>`).join('')}</ul>
+      <p>Source: <a href="${escape(CURRENT_R6_SEASON.patchNotesUrl)}" rel="noopener">Ubisoft’s official ${escape(CURRENT_R6_SEASON.code)} patch notes</a>.</p>
+    </div>` : ''
+  const lastUpdated = patchChanges.length ? CURRENT_R6_SEASON.verifiedOn : `${YEAR}-05-10`
+
   const sitesSection = `
     <h2>Best Maps & Sites for ${opName}</h2>
     ${renderBestSites(opName, opSites)}
@@ -778,6 +790,7 @@ function renderOperatorPost(opName, opIndex) {
       </ul>
     </div>
     <p>${op.gadgetDesc}</p>
+    ${patchSection}
     <h3>Strengths</h3>
     <ul>${op.strengths.map((s) => `<li>${s}</li>`).join('')}</ul>`
 
@@ -886,7 +899,7 @@ function renderOperatorPost(opName, opIndex) {
         <span class="pill">${escape(op.role)}</span>
         <span class="pill">${escape(op.speed)}</span>
         <span>10 min read</span>
-        <span>Last updated: ${YEAR}-05</span>
+        <span>Last updated: ${lastUpdated.slice(0, 7)}</span>
       </div>
       ${intro}
       ${sitesSection}
@@ -911,7 +924,7 @@ function renderOperatorPost(opName, opIndex) {
       author: { '@type': 'Organization', name: 'Recon 6' },
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
       datePublished: `${YEAR}-05-10`,
-      dateModified: `${YEAR}-05-10`,
+      dateModified: lastUpdated,
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
       inLanguage: 'en-US',
       articleSection: 'R6 Operators',

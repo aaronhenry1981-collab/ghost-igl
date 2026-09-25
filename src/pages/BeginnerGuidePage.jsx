@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import SeasonCountdown from '../components/SeasonCountdown'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { WORKBOOK_AMOUNT } from '../config/stripe'
 import { TIERS, RANKS } from '../data/ranks'
-import { CURRENT_R6_SEASON, UPCOMING_R6_SEASON } from '../data/r6-season'
+import { CURRENT_R6_SEASON } from '../data/r6-season'
 import './BeginnerGuidePage.css'
 
 const WORKBOOK_PRICE = `$${WORKBOOK_AMOUNT.toFixed(2)}`
@@ -194,16 +193,16 @@ export default function BeginnerGuidePage() {
 
       <section className="beginner-guide-upcoming" aria-labelledby="beginner-upcoming-heading">
         <div>
-          <span className="beginner-guide-kicker">Upcoming · not live</span>
-          <h2 id="beginner-upcoming-heading">The book already accounts for {UPCOMING_R6_SEASON.code}—without teaching future stats as current facts.</h2>
+          <span className="beginner-guide-kicker">Live season · {CURRENT_R6_SEASON.code}</span>
+          <h2 id="beginner-upcoming-heading">{CURRENT_R6_SEASON.name} is live. Patch facts here follow Ubisoft’s {CURRENT_R6_SEASON.code} notes.</h2>
         </div>
         <div>
           <p>
-            Ubisoft launches {UPCOMING_R6_SEASON.name} on {UPCOMING_R6_SEASON.launchDateLabel}. Noor, Legend Division, Villa changes,
-            3v3, and the announced balance pass are tracked separately while {CURRENT_R6_SEASON.code} remains live.
+            The {CURRENT_R6_SEASON.code} update ({CURRENT_R6_SEASON.patchDateLabel}) retuned Buck, Castle, Fenrir, Maestro, Thermite and Sledge,
+            raised M1014 and SPAS-15 damage, and fixed several Noor Horus Lance interactions. The workbook teaches habits rather than
+            patch numbers, and every edition states the season and patch it was reviewed against.
           </p>
-          <SeasonCountdown variant="banner" />
-          <a href={UPCOMING_R6_SEASON.designerNotesUrl} target="_blank" rel="noopener noreferrer">Read the official Designer’s Notes →</a>
+          <a href={CURRENT_R6_SEASON.patchNotesUrl} target="_blank" rel="noopener noreferrer">Read the official {CURRENT_R6_SEASON.code} patch notes →</a>
         </div>
       </section>
 
@@ -227,7 +226,7 @@ export default function BeginnerGuidePage() {
         <div className="beginner-guide-section-head">
           <span className="beginner-guide-kicker">Current Ranked 3.0 ladder</span>
           <h2>Copper V through Champion I—every division shown.</h2>
-          <p>Current as of {CURRENT_R6_SEASON.verifiedOn}. The workbook explains what to practice at each stage without promising a rank result.</p>
+          <p>Current as of {CURRENT_R6_SEASON.rankedVerifiedOn}. The workbook explains what to practice at each stage without promising a rank result.</p>
         </div>
         <div className="beginner-rank-grid" aria-label="Rainbow Six Ranked 3.0 divisions">
           {TIERS.map((tier) => (

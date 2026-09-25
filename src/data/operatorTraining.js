@@ -7,11 +7,17 @@
 // - coverage: a provisional role-safe fallback when personal evidence is thin.
 // It never labels a professional/meta pick as personal evidence.
 
+import { CURRENT_R6_SEASON } from './r6-season.js'
+
+// Season and patch come from the one reviewed season snapshot (r6-season.js).
+// The playlist list was last checked on 2026-08-08 and is unchanged by the
+// Y11S3.1 notes.
 export const LIVE_RULESET = Object.freeze({
-  season: 'Operation System Override',
-  patch: 'Y11S2.3',
-  patchDate: '2026-08-04',
-  verifiedOn: '2026-08-08',
+  season: CURRENT_R6_SEASON.name,
+  patch: CURRENT_R6_SEASON.code,
+  patchDate: CURRENT_R6_SEASON.patchDate,
+  verifiedOn: CURRENT_R6_SEASON.verifiedOn,
+  trainingPlaylistsVerifiedOn: '2026-08-08',
   trainingPlaylists: ['Shooting Range', 'Clear House', 'Field Training', 'Quick Match', 'Custom Game'],
 })
 
