@@ -123,13 +123,9 @@ export function createApp(deps) {
         const identity = await requireUser(req)
         const { type, ref } = sanitizeActivity(parseJsonBody(req.rawBody, { maxBytes: 2048 }))
         const at = new Date(clock()).toISOString()
-        const item = activityItem({ contactKey: contactKeyFor(identity.email), email: identity.email, type, ref, at })
-        try {
-          await store.put(item, { ifNotExists: true })
-        } catch (err) {
-          // Same type + ref already recorded today: idempotent success.
-          if (err?.name !== 'ConditionalCheckFailedException') throw err
-        }
+        // One record per player, type and day (the latest place wins), so a
+        // player can never grow the table faster than 3 small records a day.
+        await store.put(activityItem({ contactKey: contactKeyFor(identity.email), email: identity.email, type, ref, at }))
         return json(202, { ok: true })
       },
     },

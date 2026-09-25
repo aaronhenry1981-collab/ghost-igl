@@ -74,7 +74,29 @@ Production access rules are mirrored exactly (`domain/plans.mjs`, tested):
 Access = `active`/`trialing` **and** a future paid-through date, best row by
 plan then date (production `pickBestSub`). A failed payment or an unrecorded
 renewal pauses access (production behaviour, unchanged) but the player still
-sees the plan they pay for, with the reason and the fix, and no upsell.
+sees the plan they pay for, with the reason and the fix, and no upsell. A row
+Stripe calls live but with **no** paid-through date (the admin backfill can
+write one) is treated the same as a passed date: production grants nothing,
+so it is flagged as "renewal not confirmed", never shown as a free account.
+
+Access and paying are separate questions:
+
+- **Access** comes from the best row, which can be a comp (often dated 2099).
+- **Paying** means a live Stripe-billed row that is not a trial. A member on
+  complimentary access who also has a live paid subscription is still counted
+  as paying, under the plan they pay for; the home tells them, and the CRM
+  flags it for review. Card-up-front Stripe trials are paid members (they have
+  access through Stripe) but are **not** counted as paying or in MRR until
+  charged; the CRM shows them separately.
+
+Lite mode (no customer-success API yet) reads `/me`. It relies on the
+production `/me` contract: `plan` is production's `effectivePlan` (legacy
+$29/$39 prices report `elite`), admin-granted rows are keyed `comp_…` /
+`admin_…`, and a paused member reports `free`, so the paused plan is unknown
+and the copy never names one ("Paid membership", "your last payment").
+
+VOD allowances follow the production subscription and VOD Lambdas (Elite
+60/75, Champion 75/90). `main`'s older VOD Lambda predates the Elite tier.
 
 `src/hooks/useAuth.jsx` now normalises plans with `src/config/memberships.js`
 (byte-identical to the production line) so `elite` is never dropped to free.
@@ -100,7 +122,7 @@ Every risk carries a reason and dated evidence:
 | Risk | Severity | Fires when |
 |---|---|---|
 | `payment_failed` | critical | ledger `past_due` / `unpaid` / `incomplete` |
-| `renewal_unconfirmed` | critical | `active` row whose paid-through date passed |
+| `renewal_unconfirmed` | critical | `active`/`trialing` row whose paid-through date passed or was never recorded |
 | `paid_no_account` | critical | paying, no Cognito user |
 | `account_setup_incomplete` | critical | paying, Cognito FORCE_CHANGE_PASSWORD / UNCONFIRMED / RESET_REQUIRED |
 | `account_disabled` | critical | paying, Cognito user disabled |
@@ -113,12 +135,13 @@ Every risk carries a reason and dated evidence:
 | `unanswered_message` | medium | player message waiting > 24h |
 | `duplicate_live_subscriptions` | medium | 2+ live Stripe rows on one email |
 | `secondary_payment_failed` | medium | another row on the email is failing |
+| `comp_with_paid_subscription` | medium | complimentary access while a paid subscription is also live |
 | `email_unconfirmed` | low | free signup unconfirmed 2+ days (existing CRM job nudges) |
 | `plan_label_mismatch` | low | ledger label disagrees with the price (access unchanged) |
 
 ## 5. Action queue
 
-Only items that need a human (8 types). Each shows what happened, why it was
+Only items that need a human (10 types). Each shows what happened, why it was
 flagged, the recommended action and item-specific controls. Items are keyed
 by an occurrence fingerprint: once decided, the same occurrence never comes
 back; a new occurrence (a later failed payment) does.
@@ -133,6 +156,12 @@ back; a new occurrence (a later failed payment) does.
 | Unhappy feedback | approve, fix, dismiss | feedback reply |
 | Player message waiting | fix, dismiss | — (reply in Conversations) |
 | Two live subscriptions | fix, dismiss | — (check invoices first) |
+| Paying while on complimentary access | fix, dismiss | — (decide in Stripe) |
+| Coaching session recap | approve, deny, dismiss | recap (Aaron replaces the placeholder first) |
+
+"Payment still failing" is measured from the estimated failed renewal (one
+billing interval before the recorded period end), not from the last ledger
+update, which moves on every Stripe retry; the item says which basis it used.
 
 Everything else is **auto-handled** and only counted (fresh failed payment,
 never-signed-in nudge, activation nudge, unused-features walkthrough,
@@ -140,6 +169,10 @@ confirmation nudges, cancellation prompt). Decisions are validated against
 the live item, idempotent (409 on repeat) and audited. An approval that could
 not produce an allowed, placeholder-free message is refused **before**
 anything is written.
+
+The list and the player record agree: the list loads desktop / live-coach
+activity for every player with a live paid relationship (the ones the at-risk
+rules apply to), and a decision is accepted for an item shown in either view.
 
 ## 6. Customer home
 
@@ -170,33 +203,61 @@ Removed: the old dashboard's generic tips and blog lists for other games.
 | Card update reminder | service | email | Aaron approves (queue) | 2, 3 days apart |
 | What you paid for | relationship | in-app | automatic | 1 |
 | VOD review follow-up | relationship | in-app | automatic | 1, 14 days apart |
-| Coaching follow-up | relationship | email | Aaron approves | 1 |
+| Coaching follow-up | relationship | email | Aaron approves (queue) | one per session, 2 days apart |
 | At-risk check-in | relationship | email | Aaron approves (queue) | 1, 21 days apart |
 | Feedback reply | service | in-app | Aaron approves (queue) | 1 |
 | Dormant player | marketing | email | automatic | 1, 60 days apart |
 | Feedback by email | relationship | email | automatic | 3, 21 days apart |
 | Cancellation feedback | relationship | in-app | automatic | 1 |
 
-Rules, in order: do-not-contact → consent class (service: only DNC blocks;
-relationship: respects opt-out; marketing: needs explicit opt-in) → per-
-workflow max and cooldown → quiet period (no automated nudge within 72h of a
-player message) → global cap (one non-service message per 72h, four per 30
-days, **including the existing CRM job's sends**) → idempotency (one record
-per workflow occurrence, conditional put).
+Rules, in order: contact state readable (if the customer-success store or,
+for marketing, the existing CRM log could not be read, **nothing** goes out;
+defaults would ignore an opt-out) → do-not-contact (including one mirrored to
+the existing CRM log) → consent class (service: only DNC blocks;
+relationship: respects opt-out; marketing: needs explicit opt-in and no
+suppression in the existing CRM log) → per-workflow max and cooldown → quiet
+period (no automated nudge within 72h of a player message) → global cap (one
+non-service message per 72h, four per 30 days, **including the existing CRM
+job's sends**) → idempotency (one record per workflow occurrence, conditional
+put).
+
+Enforced at run time as well:
+
+- Consent is re-read immediately before each delivery; an opt-out or
+  do-not-contact set since evaluation records the message as `suppressed`.
+- One run delivers at most one non-service message per player (the rest are
+  reported as blocked by the 72-hour cap and wait for a later run).
+- Only messages that reached, or are about to reach, the player (`approved`,
+  `delivered`, `sent`) count toward caps and one-shot limits. Records made
+  while delivery is off reached nobody and consume nothing.
+- Workflows that need Aaron's approval never run automatically; they appear
+  in the action queue, where the approval happens.
 
 Delivery modes (`OUTREACH_DELIVERY_MODE`): `disabled` (default: recorded as
 `delivery_disabled`, nothing reaches anyone) or `in_app` (in-app messages
-become visible). Email is never sent: `lib/delivery.mjs` has no transport.
+become visible). Email is never sent: `lib/delivery.mjs` has no transport. An
+admin reply only marks the player's message answered once it was delivered;
+a reply recorded while delivery is off leaves the thread waiting. Replies
+carry a client id, so a double-click or retry is never sent twice.
 
-Inbound: `inbound.mjs` parses a raw email (quoted history stripped),
-deduplicates by Message-ID and attaches it to the player. A reply starting
-with STOP / UNSUBSCRIBE suppresses relationship and marketing email.
+Inbound: `inbound.mjs` parses a raw email (quoted history stripped, linear
+time on hostile headers), deduplicates by Message-ID and attaches it to the
+player. A missing, malformed or future `Date` falls back to the receipt time.
+Sender authentication uses the SES receipt verdicts: only DMARC pass (or SPF
+and DKIM both passing when there is no DMARC verdict) counts as verified.
+Unverified mail is kept for admins, flagged, and never shown to the player as
+their own message. A verified STOP / UNSUBSCRIBE suppresses relationship and
+marketing email; an unverified one only turns marketing off (the harmless
+direction) and an admin confirms anything more.
 
 ## 8. Consent and suppression
 
 Players manage preferences on their home (`#contact-preferences`); account
 and billing notices always go. Admins can mark do-not-contact (reason
-required, audited). With `SyncLegacySuppression=true`, opt-outs are mirrored
+required, audited). The player sees that messages are paused but never the
+admin's reason. Consent writes use optimistic concurrency and retry on a
+conflict, so an opt-out is never lost to a race. With
+`SyncLegacySuppression=true`, opt-outs are mirrored
 to `ghost-igl-crm-log.marketing_suppressed_at` so the existing daily CRM job
 honours them; the IAM grant is limited to that table and those attributes and
 only ever sets a timestamp (`if_not_exists`).
@@ -225,8 +286,18 @@ returns a draft and never publishes.
 ## 10. Security and privacy
 
 - Identity always comes from the verified Cognito ID token; no header, body
-  or query parameter can name another player. Admin routes require the
-  `admins` group server-side (401/403 tested on every route).
+  or query parameter can name another player. Tokens whose email is not
+  verified are refused, because records are keyed by email (the same rule as
+  production's `/me` routes). Admin routes require the `admins` group
+  server-side (401/403 tested on every route).
+- Multi-page reads fail closed: a scan or query that would need more than 40
+  pages throws instead of returning a partial list (which would drop some
+  players' consent and decisions). Activity writes are bounded by key: one
+  record per player, type and day.
+- CORS allows only the production origins; a validation stack can add one
+  origin through the `DevOrigin` parameter.
+- CRM search terms (often emails) stay in the browser: never in page URLs and
+  never sent to the API.
 - "View as player" is a read-only admin projection; it performs no writes.
   Player read state (`readByPlayerAt`) only changes through the player's own
   token; admins set `readByAdminAt` only.
@@ -243,7 +314,7 @@ recovery, retained on delete/replace, TTL on `expires_at`):
 
 | sk | Item |
 |---|---|
-| `ACT#<day>#<type>#<ref>` | activity beacon (TTL 180d) |
+| `ACT#<day>#<type>` | activity beacon, latest place that day (TTL 180d) |
 | `MSG#<iso>#<id>` | message (inbound or outbound, with delivery status) |
 | `FB#m#<moment>#<instance>` | feedback response |
 | `PROMPT#<moment>#<instance>` | prompt state (shown / snoozed / dismissed / answered) |
@@ -251,6 +322,7 @@ recovery, retained on delete/replace, TTL on `expires_at`):
 | `OUT#<workflow>#<instance>` | outreach record (idempotency key) |
 | `DEC#<queue item>` | queue decision |
 | `AUDIT#<iso>#…` | audit entry |
+| `IDEM#<scope>#<clientId>` | idempotency marker for admin replies (TTL 7d) |
 
 `pk = C#<contactKey>`; GSI `gsi1` (`gsi1pk` = type, `gsi1sk` = time) serves
 cross-player lists without scans. **No existing table changes shape.** The
@@ -271,8 +343,12 @@ only write to an existing table is the optional suppression mirror (§8).
    `SyncLegacySuppression=true`, and only after review
    `OutreachDeliveryMode=in_app`. Email delivery requires a new change.
 6. Inbound email: add an SES receipt rule for the reply address that stores
-   raw mail in S3 and invokes a small handler around `ingestInboundEmail`.
+   raw mail in S3 and invokes a small handler around `ingestInboundEmail`,
+   passing the receipt's SPF / DKIM / DMARC verdicts.
 7. No scheduler is included; outreach runs are started from the CRM.
+8. Recommended hardening for the shared user pool (main stack, separate
+   change): require verification before an email change takes effect
+   (`UserAttributeUpdateSettings.AttributesRequireVerificationBeforeUpdate`).
 
 ## 13. Local development
 
@@ -293,7 +369,13 @@ the existing 39: `src/hooks/useAuth.jsx` (keep production's
 `normalizePlan`/`hasPlan`; add this branch's `account` state; the home also
 falls back to reading `/me` if `account` is absent) and
 `src/pages/DashboardPage.css` (delete; the home replaces it). New files merge
-cleanly; `src/config/memberships.js` is byte-identical on both lines.
+cleanly; `src/config/memberships.js` is byte-identical on both lines. The
+referral program widget from the old dashboard is kept on `/dashboard`.
+
+Where `main` and production differ, this layer follows production:
+`isActiveSub` requires a future paid-through date for every row, `/me`
+reports `effectivePlan`, and VOD allowances include the Elite tier. Keep
+production's subscription and VOD Lambdas when integrating.
 
 ## 15. Known limitations
 
@@ -303,8 +385,10 @@ cleanly; `src/config/memberships.js` is byte-identical on both lines.
   player-data summaries, not full reports.
 - Bookings are scanned (tens of rows today); add an email index before the
   table grows.
-- The CRM directory reads every table per request (20s cache); fine for
-  hundreds of players, needs indexes and pagination for tens of thousands.
+- The CRM directory reads every table per request (20s cache), plus one
+  timeline and one live-coach query per player with a live paid relationship;
+  fine for hundreds of players, needs indexes and pagination for tens of
+  thousands. Past 40 pages a read fails closed rather than truncating.
 - Cancellation schedules come only from the live Stripe check.
 - Referral records may be incomplete; referral and channel attribution are
   being repaired in the separate Acquisition Engine change.

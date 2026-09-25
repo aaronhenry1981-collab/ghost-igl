@@ -56,11 +56,13 @@ export default function CrmBilling({ api, basePath }) {
       {status === 'error' && <ErrorState error={error} onRetry={reload} />}
       {status === 'ready' && (
         <div className="crm-kpis">
-          <Kpi label="Ledger MRR" value={fmtMoney(data.ledgerMrr)} detail="Webhook ledger, known prices" />
-          <Kpi label="Pro / Elite / Champion" value={`${data.payingByPlan.pro} / ${data.payingByPlan.elite} / ${data.payingByPlan.champion}`} />
+          <Kpi label="Ledger MRR" value={fmtMoney(data.ledgerMrr)} detail="Charged subscriptions only; trials and comps excluded" />
+          <Kpi label="Paying: Pro / Elite / Champion" value={`${data.payingByPlan.pro} / ${data.payingByPlan.elite} / ${data.payingByPlan.champion}`} />
+          <Kpi label="Stripe trials, not yet charged" value={data.billing.stripeTrials ?? 0} />
           <Kpi label="Failed payments" value={data.billing.paymentFailed} />
           <Kpi label="Renewals not recorded" value={data.billing.renewalUnconfirmed} />
           <Kpi label="Duplicate live subscriptions" value={data.billing.duplicates} />
+          <Kpi label="Paying while comped" value={data.billing.compAndPaying ?? 0} />
           <Kpi label="Churned, 30 days" value={data.billing.churned30} />
         </div>
       )}

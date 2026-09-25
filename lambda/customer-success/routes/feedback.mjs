@@ -166,7 +166,12 @@ export function feedbackRoutes({ ctx, requireUser, requireAdmin }) {
         const body = parseJsonBody(req.rawBody, { maxBytes: 2048 })
         const item = await findFeedback(body.player, body.feedbackId)
         const at = new Date(ctx.now()).toISOString()
-        await ctx.store.update(item.pk, item.sk, { status: 'resolved', resolvedAt: at, resolvedBy: admin.email, resolutionNote: String(body.note || '').trim().slice(0, 1000) || null })
+        try {
+          await ctx.store.update(item.pk, item.sk, { status: 'resolved', resolvedAt: at, resolvedBy: admin.email, resolutionNote: String(body.note || '').trim().slice(0, 1000) || null }, { expect: { resolvedAt: null } })
+        } catch (err) {
+          if (err?.name === 'ConditionalCheckFailedException') throw new HttpError(409, 'this feedback was already resolved')
+          throw err
+        }
         await audit(item.contactKey, 'feedback.resolve', admin.email, { feedbackId: item.feedbackId })
         return json(200, { ok: true })
       },
@@ -229,7 +234,13 @@ export function feedbackRoutes({ ctx, requireUser, requireAdmin }) {
         if (decision === 'approve' && !review?.mayPublishQuote) throw new HttpError(409, 'the player did not give permission to publish a quote')
         const at = new Date(ctx.now()).toISOString()
         const reviewDecision = { decision, at, actor: admin.email, note: String(body.note || '').trim().slice(0, 500) || null }
-        await ctx.store.update(item.pk, item.sk, { reviewDecision })
+        // Conditional: two admins deciding at once cannot both succeed.
+        try {
+          await ctx.store.update(item.pk, item.sk, { reviewDecision }, { expect: { reviewDecision: null } })
+        } catch (err) {
+          if (err?.name === 'ConditionalCheckFailedException') throw new HttpError(409, 'this review was already decided')
+          throw err
+        }
         await audit(item.contactKey, `review.${decision}`, admin.email, { feedbackId: item.feedbackId })
         const names = await playerNames()
         return json(200, {

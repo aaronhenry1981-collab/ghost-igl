@@ -67,6 +67,19 @@ export const QUEUE_RULES = Object.freeze({
     recommended: 'Check invoice history in Stripe before refunding anything. A create-then-cycle pattern is a real customer, not a duplicate.',
     controls: ['fix', 'dismiss'],
   },
+  comp_with_paid_subscription: {
+    severity: 'medium',
+    title: 'Paying while on complimentary access',
+    recommended: 'Decide whether they should keep paying while the comp is on. Change it in Stripe or end the comp, then mark fixed.',
+    controls: ['fix', 'dismiss'],
+  },
+  coaching_followup: {
+    severity: 'medium',
+    title: 'Coaching session recap to send',
+    recommended: 'Replace the placeholder with the one thing to drill from the session, then approve.',
+    controls: ['approve', 'deny', 'dismiss'],
+    approveLabel: 'Approve recap',
+  },
 })
 
 // Risk codes that automation (in-product prompts, the existing daily CRM job,
@@ -132,12 +145,19 @@ export function queueItemsFor(summary, facts, lifecycle, now = facts.now || Date
     add('account_setup_incomplete', day(facts.account.createdAt), `Bought ${b.planLabel} but never completed the first sign-in.`, risks.get('account_setup_incomplete').evidence, facts.account.createdAt)
   }
   if (risks.has('renewal_unconfirmed')) {
-    add('renewal_unconfirmed', day(b.currentPeriodEnd), `Paid-through date ${day(b.currentPeriodEnd)} passed with no renewal recorded, so paid features are paused.`, risks.get('renewal_unconfirmed').evidence, b.currentPeriodEnd)
+    add('renewal_unconfirmed', b.staleReason === 'missing_period_end' ? `nodate:${b.stripeCustomerId || 'unknown'}` : day(b.currentPeriodEnd), b.staleReason === 'missing_period_end'
+      ? 'Subscription is live in the ledger but has no paid-through date, so paid features are paused.'
+      : `Paid-through date ${day(b.currentPeriodEnd)} passed with no renewal recorded, so paid features are paused.`, risks.get('renewal_unconfirmed').evidence, b.currentPeriodEnd || b.asOf)
   }
   if (risks.has('payment_failed')) {
-    const since = toMs(b.asOf)
+    // Stripe retries and emails the customer first; escalate after 3 days.
+    // The start date is estimated from the billing period (updated_at moves
+    // on every retry), and the item says which basis it used.
+    const since = toMs(b.paymentIssueSince)
     if (Number.isFinite(since) && now - since >= 3 * DAY) {
-      add('payment_failed_persistent', `${day(b.currentPeriodEnd)}:${b.rowStatus}`, `${b.lastPaidPlan ? `${b.lastPaidPlan[0].toUpperCase()}${b.lastPaidPlan.slice(1)}` : 'Membership'} payment has been failing since ${day(b.asOf)}.`, risks.get('payment_failed').evidence, b.asOf)
+      const planName = b.lastPaidPlan ? `${b.lastPaidPlan[0].toUpperCase()}${b.lastPaidPlan.slice(1)}` : 'Membership'
+      const when = b.paymentIssueSinceBasis === 'last_ledger_update' ? `(last Stripe update ${day(b.paymentIssueSince)})` : `since about ${day(b.paymentIssueSince)}`
+      add('payment_failed_persistent', `${day(b.currentPeriodEnd)}:${b.rowStatus}`, `${planName} payment has been failing ${when}.`, risks.get('payment_failed').evidence, b.paymentIssueSince)
     }
   }
   if (risks.has('inactive_14d') || (risks.has('cancel_scheduled') && lifecycle.stage === 'at_risk')) {
@@ -160,7 +180,24 @@ export function queueItemsFor(summary, facts, lifecycle, now = facts.now || Date
   if (risks.has('duplicate_live_subscriptions')) {
     add('duplicate_live_subscriptions', `${b.liveRowCount}:${day(b.currentPeriodEnd)}`, `${b.liveRowCount} live Stripe subscriptions on one email.`, risks.get('duplicate_live_subscriptions').evidence, b.asOf)
   }
+  if (risks.has('comp_with_paid_subscription')) {
+    add('comp_with_paid_subscription', b.alsoPaying?.stripeCustomerId || 'unknown', risks.get('comp_with_paid_subscription').reason, risks.get('comp_with_paid_subscription').evidence, b.asOf)
+  }
+  // Personal recap after a completed coaching session. It needs Aaron's words
+  // (the draft has a placeholder), so it is approved here rather than sent by
+  // the scheduled run.
+  const completed = coachingRecapDue(facts, now)
+  if (completed) {
+    add('coaching_followup', String(completed).slice(0, 16), `Coaching session completed ${day(completed)}.`, ['Recap window: 12 hours to 3 days after the session'], completed)
+  }
   return items
+}
+
+export function coachingRecapDue(facts, now = facts.now || Date.now()) {
+  const at = toMs(facts.activity.coaching?.lastCompletedAt)
+  if (!Number.isFinite(at)) return null
+  const days = (now - at) / DAY
+  return days >= 0.5 && days <= 3 ? facts.activity.coaching.lastCompletedAt : null
 }
 
 // Build the queue across all players, removing already-decided occurrences.

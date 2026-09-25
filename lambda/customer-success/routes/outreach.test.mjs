@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { fixtureApp } from '../app.test.mjs'
+import { fixtureApp } from '../fixtures/app.mjs'
 import { routeModules } from './index.mjs'
 import { contactKeyFor } from '../lib/ids.mjs'
 import { buildFacts } from '../domain/facts.mjs'

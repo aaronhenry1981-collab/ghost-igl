@@ -1,39 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { createApp } from './app.mjs'
-import { buildFixtureWorld } from './fixtures/world.mjs'
-import { storeSeedFromWorld } from './fixtures/seed.mjs'
-import { createMemoryTables } from './data/memoryTables.mjs'
-import { createMemoryStore } from './data/memoryStore.mjs'
-
-const NOW = Date.parse('2026-09-25T15:00:00.000Z')
-
-export function fixtureApp({ failures = {}, extraRoutes = [], config = {}, clock } = {}) {
-  const world = buildFixtureWorld(NOW)
-  const tables = createMemoryTables(world, { failures })
-  const store = createMemoryStore(storeSeedFromWorld(world))
-  const tokens = new Map()
-  for (const [key, s] of Object.entries(world.scenarios)) tokens.set(`tok-${key}`, { email: s.email, sub: s.sub, isAdmin: false })
-  tokens.set('tok-admin', { email: 'coach.admin@example.test', sub: 'sub-fixture-admin', isAdmin: true })
-  const authenticate = async (req) => tokens.get(String(req.headers.authorization || '').replace(/^Bearer\s+/i, '')) || null
-  const handle = createApp({
-    tables,
-    store,
-    authenticate,
-    clock: clock || (() => NOW),
-    config: { features: { messaging: true, feedback: true }, activityTrackingSince: '2026-09-01T00:00:00.000Z', ...config },
-    extraRoutes,
-    log: { warn() {}, error() {}, info() {} },
-  })
-  const call = (method, path, { token, body, origin = 'https://r6coaching.com' } = {}) => handle({
-    rawPath: path.split('?')[0],
-    queryStringParameters: path.includes('?') ? Object.fromEntries(new URLSearchParams(path.split('?')[1])) : undefined,
-    requestContext: { http: { method }, requestId: 'req-test' },
-    headers: { origin, ...(token ? { authorization: `Bearer ${token}` } : {}) },
-    body: body === undefined ? undefined : typeof body === 'string' ? body : JSON.stringify(body),
-  })
-  return { world, store, tables, call }
-}
+import { fixtureApp, FIXTURE_NOW as NOW } from './fixtures/app.mjs'
 
 const parse = (res) => JSON.parse(res.body)
 
@@ -98,13 +65,18 @@ test('activity beacon rejects unknown types, bad slugs, bad sides and oversized 
   assert.equal((await call('POST', '/cs/me/activity', { body: { type: 'strat_viewed' } })).statusCode, 401)
 })
 
-test('CORS: preflight echoes only allow-listed origins', async () => {
+test('CORS: preflight echoes only allow-listed origins; localhost only when configured', async () => {
   const { call } = fixtureApp()
-  const ok = await call('OPTIONS', '/cs/me/home', { origin: 'http://localhost:5173' })
+  const ok = await call('OPTIONS', '/cs/me/home', { origin: 'https://www.r6coaching.com' })
   assert.equal(ok.statusCode, 204)
-  assert.equal(ok.headers['Access-Control-Allow-Origin'], 'http://localhost:5173')
+  assert.equal(ok.headers['Access-Control-Allow-Origin'], 'https://www.r6coaching.com')
+  const local = await call('OPTIONS', '/cs/me/home', { origin: 'http://localhost:5173' })
+  assert.notEqual(local.headers['Access-Control-Allow-Origin'], 'http://localhost:5173', 'production defaults exclude localhost')
   const evil = await call('OPTIONS', '/cs/me/home', { origin: 'https://evil.example' })
   assert.notEqual(evil.headers['Access-Control-Allow-Origin'], 'https://evil.example')
+  const dev = fixtureApp({ config: { allowedOrigins: ['https://r6coaching.com', 'http://localhost:5173'] } })
+  const devOk = await dev.call('OPTIONS', '/cs/me/home', { origin: 'http://localhost:5173' })
+  assert.equal(devOk.headers['Access-Control-Allow-Origin'], 'http://localhost:5173')
 })
 
 test('unknown routes are 404 and internal errors do not leak details', async () => {

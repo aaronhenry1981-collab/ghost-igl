@@ -64,7 +64,8 @@ export function buildPlayerSummary(contact, facts, lifecycle) {
     lastActiveAt: facts.activity.lastActiveAt,
     activation: { done: activation.done, total: activation.total, complete: activation.complete },
     nextAction: deriveNextAction(facts, lifecycle),
-    monthlyValue: b.isPaidMember && b.amount ? (b.interval === 'year' ? Math.round((b.amount / 12) * 100) / 100 : b.amount) : 0,
+    // What they are charged (not trials, not comps), per month.
+    monthlyValue: b.isPaying && b.paidAmount ? (b.paidInterval === 'year' ? Math.round((b.paidAmount / 12) * 100) / 100 : b.paidAmount) : 0,
     vod: facts.usage.vod
       ? { used: facts.usage.vod.used, limit: facts.usage.vod.limit, lastAt: facts.activity.vod.lastAt }
       : { used: null, limit: null, lastAt: facts.activity.vod.lastAt },

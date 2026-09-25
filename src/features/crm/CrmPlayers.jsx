@@ -63,9 +63,19 @@ function columnsFor(variant) {
   return [...base, { id: 'last', label: 'Last active', cell: (p) => fmtAgo(p.lastActiveAt) }, next]
 }
 
+// Search terms are often emails. They stay in component state and filter the
+// loaded list in the browser: never in the page URL (browser history,
+// analytics page views) and never sent to the API.
+function matchesSearch(player, term) {
+  if (!term) return true
+  const needle = term.toLowerCase()
+  return [player.email, player.name, player.displayName].some((v) => String(v || '').toLowerCase().includes(needle))
+}
+
 export default function CrmPlayers({ api, basePath, variant = 'players' }) {
   const [params, setParams] = useSearchParams()
-  const [q, setQ] = useState(params.get('q') || '')
+  const [q, setQ] = useState('')
+  const [term, setTerm] = useState('')
   const cfg = VARIANTS[variant] || VARIANTS.players
   const stage = params.get('stage') || ''
   const health = params.get('health') || ''
@@ -77,13 +87,13 @@ export default function CrmPlayers({ api, basePath, variant = 'players' }) {
     if (stage) qs.set('stage', stage)
     if (health) qs.set('health', health)
     if (plan) qs.set('plan', plan)
-    if (params.get('q')) qs.set('q', params.get('q'))
     return `/cs/admin/players?${qs}`
-  }, [cfg.view, stage, health, plan, params])
+  }, [cfg.view, stage, health, plan])
 
   const { status, data, error, reload } = useCrmResource(api, path)
   const columns = columnsFor(variant)
-  const players = variant === 'coaching' && data ? data.players.filter((p) => p.coaching?.upcoming || p.coaching?.completed || p.coaching?.credits || p.vod.used || p.vod.lastAt) : data?.players
+  const inView = variant === 'coaching' && data ? data.players.filter((p) => p.coaching?.upcoming || p.coaching?.completed || p.coaching?.credits || p.vod.used || p.vod.lastAt) : data?.players
+  const players = inView ? inView.filter((p) => matchesSearch(p, term)) : inView
 
   function setFilter(name, value) {
     const next = new URLSearchParams(params)
@@ -95,7 +105,7 @@ export default function CrmPlayers({ api, basePath, variant = 'players' }) {
   return (
     <div className="crm-stack">
       <p className="crm-lede">{cfg.intro}</p>
-      <form className="crm-filters" role="search" onSubmit={(e) => { e.preventDefault(); setFilter('q', q.trim()) }}>
+      <form className="crm-filters" role="search" onSubmit={(e) => { e.preventDefault(); setTerm(q.trim()) }}>
         <label htmlFor={searchId} className="crm-visually-hidden">Search players</label>
         <input id={searchId} className="crm-input" type="search" placeholder="Search name, gamertag or email" value={q} onChange={(e) => setQ(e.target.value)} />
         <select className="crm-input" aria-label="Filter by stage" value={stage} onChange={(e) => setFilter('stage', e.target.value)}>

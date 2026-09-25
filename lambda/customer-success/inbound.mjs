@@ -5,13 +5,23 @@
 // mirrors the suppression into the existing CRM job's log).
 //
 // Not wired to SES in this change; see docs/RECON-CUSTOMER-SUCCESS.md.
+//
+// Sender authentication: the From header is trivially forged, so the SES
+// receipt verdicts decide how far a message is trusted. Only a DMARC pass (or
+// SPF and DKIM both passing when no DMARC verdict exists) counts as verified.
+// An unverified message is kept for admins, is never shown to the player as
+// their own words, and a STOP in it only turns marketing off (the harmless
+// direction); an admin confirms anything more.
 
 import { contactKeyFor } from './lib/ids.mjs'
-import { consentItem, ITEM_TYPES, messageItem, pkFor } from './data/items.mjs'
+import { ITEM_TYPES, messageItem, pkFor } from './data/items.mjs'
 import { STOP_PATTERN } from './domain/outreach.mjs'
+import { updateConsentWithRetry } from './routes/messages.mjs'
 
 export { STOP_PATTERN }
 const MAX_BODY = 4000
+const MAX_HEADER = 2000
+const FUTURE_SKEW_MS = 5 * 60 * 1000
 
 function unfold(headerText) {
   return headerText.replace(/\r?\n[ \t]+/g, ' ')
@@ -86,31 +96,58 @@ export function stripQuoted(text) {
   return out.join('\n').trim()
 }
 
+// Linear-time address extraction ("Name <a@b>" or a bare address). A regex
+// like /<([^>]+)>/ is quadratic on input made of many "<" characters.
+function addressFrom(header) {
+  const value = String(header || '').slice(0, MAX_HEADER)
+  const lt = value.lastIndexOf('<')
+  const gt = lt === -1 ? -1 : value.indexOf('>', lt + 1)
+  return (lt !== -1 && gt !== -1 ? value.slice(lt + 1, gt) : value).trim().toLowerCase()
+}
+
+function dateOrNull(value) {
+  const ms = Date.parse(String(value || '').slice(0, 200))
+  return Number.isFinite(ms) ? new Date(ms).toISOString() : null
+}
+
 export function parseInboundEmail(raw) {
   const { headers, body } = splitMessage(String(raw || ''))
-  const fromHeader = decodeWords(headers.from || '')
-  const from = (/<([^>]+)>/.exec(fromHeader)?.[1] || fromHeader).trim().toLowerCase()
+  const from = addressFrom(decodeWords(String(headers.from || '').slice(0, MAX_HEADER)))
   const text = stripQuoted(plainTextPart(headers, body) || '').slice(0, MAX_BODY)
   return {
     from,
-    subject: decodeWords(headers.subject || '').slice(0, 200) || null,
+    subject: decodeWords(String(headers.subject || '').slice(0, MAX_HEADER)).slice(0, 200) || null,
     messageId: String(headers['message-id'] || '').replace(/[<>]/g, '').slice(0, 200) || null,
     inReplyTo: String(headers['in-reply-to'] || '').replace(/[<>]/g, '').slice(0, 200) || null,
-    date: headers.date ? new Date(headers.date).toISOString() : null,
+    date: dateOrNull(headers.date),
     text,
   }
 }
 
+// SES receipt verdicts: { spf, dkim, dmarc } each 'PASS' | 'FAIL' | 'GRAY' | ...
+export function senderVerified(verdicts) {
+  const v = verdicts || {}
+  const status = (x) => String(x?.status || x || '').toUpperCase()
+  if (status(v.dmarc) === 'PASS') return true
+  if (!status(v.dmarc) || status(v.dmarc) === 'GRAY') return status(v.spf) === 'PASS' && status(v.dkim) === 'PASS'
+  return false
+}
+
 const EMAIL = /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i
 
-export async function ingestInboundEmail({ raw, store, now = Date.now(), legacy = null, log = console }) {
+export async function ingestInboundEmail({ raw, store, verdicts = null, now = Date.now(), legacy = null, log = console }) {
   const parsed = parseInboundEmail(raw)
   if (!EMAIL.test(parsed.from)) return { ok: false, reason: 'unparseable_sender' }
   if (!parsed.text) return { ok: false, reason: 'empty_body' }
   const contactKey = contactKeyFor(parsed.from)
+  const verified = senderVerified(verdicts)
   // Key the message by the email's own Date header so a redelivered email
-  // maps to the same item; also refuse a Message-ID we already stored.
-  const at = parsed.date && Number.isFinite(Date.parse(parsed.date)) ? parsed.date : new Date(now).toISOString()
+  // maps to the same item; also refuse a Message-ID we already stored. A
+  // missing, malformed or future Date falls back to the receipt time (a
+  // future date would otherwise hold outreach in "open conversation" for
+  // as long as it liked).
+  const headerMs = Date.parse(parsed.date || '')
+  const at = Number.isFinite(headerMs) && headerMs <= now + FUTURE_SKEW_MS ? parsed.date : new Date(now).toISOString()
   const emailId = parsed.messageId ? `em-${parsed.messageId.replace(/[^a-z0-9]/gi, '').slice(0, 60)}` : null
   if (emailId) {
     const existing = await store.listContact(pkFor(contactKey))
@@ -128,6 +165,7 @@ export async function ingestInboundEmail({ raw, store, now = Date.now(), legacy 
     messageId: emailId,
     inReplyTo: parsed.inReplyTo,
   })
+  item.senderVerified = verified
   try {
     await store.put(item, { ifNotExists: true })
   } catch (err) {
@@ -136,20 +174,17 @@ export async function ingestInboundEmail({ raw, store, now = Date.now(), legacy 
   }
 
   let suppressed = false
+  let suppressedScope = null
   if (STOP_PATTERN.test(parsed.text)) {
-    const previous = await store.get(pkFor(contactKey), ITEM_TYPES.CONSENT)
-    await store.put(consentItem({
-      contactKey,
-      email: parsed.from,
-      previous,
-      patch: { relationship: 'opted_out', marketing: 'opted_out', suppressedReason: 'player_stop_reply' },
-      at,
-      actor: 'player:email-reply',
-    }))
+    const patch = verified
+      ? { relationship: 'opted_out', marketing: 'opted_out', suppressedReason: 'player_stop_reply' }
+      : { marketing: 'opted_out', suppressedReason: 'unverified_stop_reply' }
+    await updateConsentWithRetry({ store, now: () => now }, { contactKey, email: parsed.from, patch, actor: verified ? 'player:email-reply' : 'unverified:email-reply' })
     suppressed = true
+    suppressedScope = verified ? 'all' : 'marketing'
     if (legacy?.mirrorSuppression) {
-      try { await legacy.mirrorSuppression(parsed.from, at, 'player_stop_reply') } catch (err) { log.warn?.('legacy_suppression_mirror_failed', { error: err?.name }) }
+      try { await legacy.mirrorSuppression(parsed.from, at, verified ? 'player_stop_reply' : 'unverified_stop_reply') } catch (err) { log.warn?.('legacy_suppression_mirror_failed', { error: err?.name }) }
     }
   }
-  return { ok: true, contactKey, messageId: item.messageId, suppressed }
+  return { ok: true, contactKey, messageId: item.messageId, senderVerified: verified, suppressed, suppressedScope }
 }

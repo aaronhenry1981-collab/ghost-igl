@@ -75,9 +75,16 @@ Parameters:
     Default: 'false'
     AllowedValues: ['true', 'false']
     Description: Mirror opt-outs into the existing CRM job's log (sets marketing_suppressed_at only).
+  DevOrigin:
+    Type: String
+    Default: ''
+    Description: >-
+      Optional extra browser origin for a non-production validation stack
+      (for example http://localhost:5173). Leave empty in production.
 
 Conditions:
   MirrorLegacySuppression: !Equals [!Ref SyncLegacySuppression, 'true']
+  HasDevOrigin: !Not [!Equals [!Ref DevOrigin, '']]
 
 Globals:
   Function:
@@ -132,10 +139,13 @@ Resources:
         ThrottlingBurstLimit: 40
         ThrottlingRateLimit: 20
       CorsConfiguration:
-        AllowOrigins:
-          - https://r6coaching.com
-          - https://www.r6coaching.com
-          - http://localhost:5173
+        AllowOrigins: !If
+          - HasDevOrigin
+          - - https://r6coaching.com
+            - https://www.r6coaching.com
+            - !Ref DevOrigin
+          - - https://r6coaching.com
+            - https://www.r6coaching.com
         AllowHeaders:
           - Authorization
           - Content-Type
@@ -171,6 +181,10 @@ Resources:
           FEATURE_FEEDBACK: !Ref FeatureFeedback
           OUTREACH_DELIVERY_MODE: !Ref OutreachDeliveryMode
           SYNC_LEGACY_SUPPRESSION: !Ref SyncLegacySuppression
+          ALLOWED_ORIGINS: !If
+            - HasDevOrigin
+            - !Sub 'https://r6coaching.com,https://www.r6coaching.com,${DevOrigin}'
+            - 'https://r6coaching.com,https://www.r6coaching.com'
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref CustomerSuccessTable

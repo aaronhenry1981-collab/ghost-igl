@@ -17,9 +17,11 @@ export function createMemoryTables(world, { failures = {} } = {}) {
       fail('cognito')
       return clone(world.cognitoUsers)
     },
+    // Like the real pool's `email = "..."` filter: an exact, case-sensitive
+    // match on the lowercased address (legacy mixed-case logins are missed).
     async getCognitoUserByEmail(email) {
       fail('cognito')
-      return clone(world.cognitoUsers.find((u) => normalizeEmail(u.email) === normalizeEmail(email)) || null)
+      return clone(world.cognitoUsers.find((u) => u.email === normalizeEmail(email)) || null)
     },
     async subscriptionsByEmail(email) {
       fail('subscriptions')
