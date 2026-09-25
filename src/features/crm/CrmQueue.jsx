@@ -11,13 +11,17 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
   const [note, setNote] = useState('')
   const [busy, setBusy] = useState(null)
   const [error, setError] = useState(null)
+  const [subject, setSubject] = useState(item.draft?.subject || '')
+  const [body, setBody] = useState(item.draft?.body || '')
   const noteId = useId()
+  const subjectId = useId()
+  const bodyId = useId()
 
   async function decide(decision) {
     setBusy(decision)
     setError(null)
     try {
-      const res = await api.post('/cs/admin/queue/decision', { itemKey: item.key, decision, note: note || null })
+      const res = await api.post('/cs/admin/queue/decision', { itemKey: item.key, decision, note: note || null, ...(decision === 'approve' && item.draft ? { message: { subject, body } } : {}) })
       onDecided?.(item, decision, res)
     } catch (err) {
       setError(err.message)
@@ -47,11 +51,22 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
         <dt>Recommended action</dt>
         <dd>{item.recommended}</dd>
       </dl>
+      {item.draft && !item.approveBlockedBy && (
+        <details className="crm-draft">
+          <summary>Message that "{item.approveLabel || 'Approve'}" records ({item.draft.channel === 'email' ? 'email' : 'in-app'})</summary>
+          <label htmlFor={subjectId}>Subject</label>
+          <input id={subjectId} className="crm-input" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={140} />
+          <label htmlFor={bodyId}>Message</label>
+          <textarea id={bodyId} className="crm-input" rows={6} value={body} onChange={(e) => setBody(e.target.value)} maxLength={2000} />
+          {/\[[^\]]*(Aaron|adds|TODO)[^\]]*\]/i.test(body) && <p className="crm-warn">Replace the [bracketed] text before approving.</p>}
+        </details>
+      )}
+      {item.approveBlockedBy && <p className="crm-warn">Approval blocked: {item.approveBlockedBy.replace(/_/g, ' ')}.</p>}
       <div className="crm-qitem-actions">
         <label htmlFor={noteId} className="crm-visually-hidden">Note for the audit log (optional)</label>
         <input id={noteId} className="crm-input" placeholder="Note (optional)" value={note} onChange={(e) => setNote(e.target.value)} maxLength={1000} />
         {item.controls.map((c) => (
-          <button key={c} type="button" className={c === 'approve' ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm'} onClick={() => decide(c)} disabled={Boolean(busy)}>
+          <button key={c} type="button" className={c === 'approve' ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm'} onClick={() => decide(c)} disabled={Boolean(busy) || (c === 'approve' && Boolean(item.approveBlockedBy))}>
             {busy === c ? 'Saving…' : c === 'approve' && item.approveLabel ? item.approveLabel : CONTROL_LABEL[c]}
           </button>
         ))}

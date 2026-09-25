@@ -87,3 +87,89 @@ export function csSourceFromItems(items = []) {
   out.feedback.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
   return out
 }
+
+let messageCounter = 0
+function newId(at) {
+  messageCounter = (messageCounter + 1) % 1e6
+  return `${Date.parse(at).toString(36)}${messageCounter.toString(36).padStart(4, '0')}${Math.random().toString(36).slice(2, 8)}`
+}
+
+// A conversation message. `status` on outbound messages says whether the
+// player can see it (delivered) or it was only recorded (delivery_disabled).
+export function messageItem({ contactKey, email, direction, channel, subject = null, body, at, author, workflowId = null, outreachKey = null, status = null, messageId = null, inReplyTo = null }) {
+  const id = messageId || newId(at)
+  return {
+    pk: pkFor(contactKey),
+    sk: `${ITEM_TYPES.MESSAGE}#${at}#${id}`,
+    type: ITEM_TYPES.MESSAGE,
+    contactKey,
+    email,
+    messageId: id,
+    direction,
+    channel,
+    subject,
+    body,
+    bodyPreview: String(body || '').slice(0, 140),
+    author,
+    workflowId,
+    outreachKey,
+    inReplyTo,
+    status: direction === 'outbound' ? status || 'delivery_disabled' : 'received',
+    createdAt: at,
+    gsi1pk: ITEM_TYPES.MESSAGE,
+    gsi1sk: `${at}#${contactKey}`,
+  }
+}
+
+// One outreach occurrence. The sort key IS the idempotency key: a workflow
+// can never create two records for the same occurrence.
+export function outreachItem({ contactKey, email, workflow, instanceKey, status, statusReason = null, message, triggerReason, at, actor = 'system', queueItemKey = null }) {
+  return {
+    pk: pkFor(contactKey),
+    sk: `${ITEM_TYPES.OUTREACH}#${workflow.id}#${instanceKey}`,
+    type: ITEM_TYPES.OUTREACH,
+    contactKey,
+    email,
+    outreachKey: `${workflow.id}#${instanceKey}`,
+    workflowId: workflow.id,
+    workflowName: workflow.name,
+    category: workflow.category,
+    channel: workflow.channel,
+    instanceKey,
+    status,
+    statusReason,
+    subject: message?.subject || null,
+    body: message?.body || null,
+    triggerReason,
+    actor,
+    queueItemKey,
+    createdAt: at,
+    updatedAt: at,
+    history: [{ at, status, reason: statusReason, actor }],
+    gsi1pk: ITEM_TYPES.OUTREACH,
+    gsi1sk: `${at}#${contactKey}`,
+  }
+}
+
+export function consentItem({ contactKey, email, previous = null, patch, at, actor }) {
+  const next = {
+    marketing: previous?.marketing || 'unknown',
+    relationship: previous?.relationship || 'subscribed',
+    doNotContact: previous?.doNotContact === true,
+    suppressedReason: previous?.suppressedReason || null,
+    ...patch,
+  }
+  const change = Object.fromEntries(Object.entries(patch).filter(([k, v]) => previous?.[k] !== v))
+  return {
+    pk: pkFor(contactKey),
+    sk: ITEM_TYPES.CONSENT,
+    type: ITEM_TYPES.CONSENT,
+    contactKey,
+    email,
+    ...next,
+    updatedAt: at,
+    updatedBy: actor,
+    version: (previous?.version || 0) + 1,
+    history: [{ at, actor, change }, ...(previous?.history || [])].slice(0, 25),
+  }
+}

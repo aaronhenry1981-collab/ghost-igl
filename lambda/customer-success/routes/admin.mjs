@@ -157,6 +157,7 @@ export function adminRoutes({ ctx, requireAdmin }) {
           const itemKey = String(body.itemKey || '')
           const decision = String(body.decision || '')
           const note = body.note === undefined || body.note === null ? null : String(body.note).trim().slice(0, 1000) || null
+          const message = body.message && typeof body.message === 'object' ? { subject: body.message.subject ?? null, body: body.message.body ?? '' } : null
           if (!ITEM_KEY.test(itemKey)) throw new HttpError(400, 'invalid itemKey')
           if (!DECISIONS.includes(decision)) throw new HttpError(400, `decision must be one of ${DECISIONS.join(', ')}`)
           const contactKey = itemKey.split(':')[1]
@@ -167,6 +168,9 @@ export function adminRoutes({ ctx, requireAdmin }) {
           const item = queueItemsFor(entry.summary, facts, lifecycle, ctx.now()).find((i) => i.key === itemKey)
           if (!item) throw new HttpError(404, 'queue item no longer exists (it may have resolved)')
           if (!item.controls.includes(decision)) throw new HttpError(400, `"${decision}" is not available for this item`)
+          // Validate side effects BEFORE recording anything, so a rejected
+          // approval never leaves a decision without its outreach record.
+          for (const precheck of ctx.decisionPrechecks || []) await precheck({ admin, item, decision, message, entry, facts })
           const decidedAt = new Date(ctx.now()).toISOString()
           const record = {
             pk: pkFor(contactKey),
@@ -203,7 +207,7 @@ export function adminRoutes({ ctx, requireAdmin }) {
             gsi1sk: `${decidedAt}#${contactKey}`,
           })
           const effects = []
-          for (const hook of ctx.decisionHooks || []) effects.push(...((await hook({ admin, item, decision, note, entry, facts })) || []))
+          for (const hook of ctx.decisionHooks || []) effects.push(...((await hook({ admin, item, decision, note, message, entry, facts })) || []))
           invalidate()
           return json(200, { ok: true, decision: { itemKey, decision, decidedAt, actor: admin.email }, effects })
         },

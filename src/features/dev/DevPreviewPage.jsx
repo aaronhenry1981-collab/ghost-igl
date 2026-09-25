@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom'
 import PlayerHome from '../home/PlayerHome'
 import { useHomeView } from '../home/useHomeView'
 import CrmPage from '../crm/CrmPage'
-import { createDevCrmApi, devFetch, DEV_SCENARIOS } from './devClient'
+import { createDevCrmApi, createDevHomeApi, devFetch, DEV_SCENARIOS } from './devClient'
 import './dev.css'
 
 // DEV ONLY (never in production builds; see main.jsx). Renders real product
@@ -40,10 +40,11 @@ export default function DevPreviewPage() {
 function DevHome({ as }) {
   const loader = useCallback(() => devFetch('/cs/me/home', as), [as])
   const state = useHomeView({ loader })
+  const api = useMemo(() => createDevHomeApi(as), [as])
   return (
     <>
-      <p className="dev-preview-banner">Dev preview · fictional scenario <strong>{as}</strong> · actions disabled</p>
-      <PlayerHome state={state} preview />
+      <p className="dev-preview-banner">Dev preview · fictional scenario <strong>{as}</strong> · account actions disabled</p>
+      <PlayerHome state={state} preview api={api} />
     </>
   )
 }

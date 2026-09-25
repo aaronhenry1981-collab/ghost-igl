@@ -4,6 +4,7 @@
 import { deriveActivation } from './activation.mjs'
 import { deriveMission } from './mission.mjs'
 import { PLAN_LABEL } from './plans.mjs'
+import { effectiveConsent } from './outreach.mjs'
 
 const NEXT_ACTION = Object.freeze({
   paid_no_account: { label: 'Restore their login', detail: 'Paying with no site account. Create or resend the invite, then send account help.', automated: false },
@@ -145,9 +146,9 @@ export function buildPlayerRecord(contact, facts, lifecycle, { rows = [], cognit
     referrals: facts.referrals,
     legacyOutreach: facts.legacyOutreach,
     cs: {
-      consent: facts.cs.consent,
-      messages: facts.cs.messages.slice(-50),
-      outreach: facts.cs.outreach,
+      consent: effectiveConsent(facts.cs.consent),
+      messages: facts.cs.messages.slice(-50).map((m) => ({ id: m.messageId, direction: m.direction, channel: m.channel, status: m.status, subject: m.subject || null, preview: m.bodyPreview, at: m.createdAt, answeredAt: m.answeredAt || null })),
+      outreach: facts.cs.outreach.map((o) => ({ key: o.outreachKey, workflowName: o.workflowName, channel: o.channel, status: o.status, statusReason: o.statusReason || null, triggerReason: o.triggerReason, at: o.updatedAt || o.createdAt })),
       feedback: facts.cs.feedback,
       decisions: facts.cs.decisions,
     },

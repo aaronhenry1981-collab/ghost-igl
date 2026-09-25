@@ -9,6 +9,7 @@
 // does.
 
 import { toMs } from './facts.mjs'
+import { checkEligibility, workflowForQueueType } from './outreach.mjs'
 
 const DAY = 86400000
 
@@ -104,8 +105,11 @@ export function queueItemsFor(summary, facts, lifecycle, now = facts.now || Date
   const b = facts.billing
   const add = (type, fingerprint, whatHappened, whyFlagged, detectedAt) => {
     const rule = QUEUE_RULES[type]
+    const key = `${type}:${summary.key}:${fingerprint}`
+    const workflow = rule.controls.includes('approve') ? workflowForQueueType(type) : null
+    const eligibility = workflow ? checkEligibility(workflow, facts, { now, instance: key }) : null
     items.push({
-      key: `${type}:${summary.key}:${fingerprint}`,
+      key,
       type,
       severity: rule.severity,
       title: rule.title,
@@ -116,6 +120,8 @@ export function queueItemsFor(summary, facts, lifecycle, now = facts.now || Date
       controls: rule.controls,
       approveLabel: rule.approveLabel || null,
       detectedAt: detectedAt || null,
+      draft: workflow ? { ...workflow.render(facts), channel: workflow.channel, workflow: workflow.name } : null,
+      approveBlockedBy: eligibility && !eligibility.ok ? eligibility.reason : null,
     })
   }
 

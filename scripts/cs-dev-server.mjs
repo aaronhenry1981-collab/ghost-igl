@@ -27,7 +27,7 @@ const PORT = Number(process.env.CS_DEV_PORT || 8787)
 const now = Date.now()
 const world = buildFixtureWorld(now)
 const tables = createMemoryTables(world)
-const store = createMemoryStore(storeSeedFromWorld(world))
+const store = createMemoryStore(storeSeedFromWorld(world, { withConversations: true }))
 
 const identities = new Map(Object.entries(world.scenarios).map(([key, s]) => [key, { email: s.email, sub: s.sub, isAdmin: false }]))
 identities.set('admin', { email: 'coach.admin@example.test', sub: 'sub-fixture-admin', isAdmin: true })
@@ -43,6 +43,8 @@ const handle = createApp({
     features: { messaging: true, feedback: true },
     activityTrackingSince: new Date(now - 30 * 86400000).toISOString(),
     allowedOrigins: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    // Mirrors production: delivery off unless CS_DEV_DELIVERY=in_app.
+    deliveryMode: process.env.CS_DEV_DELIVERY === 'in_app' ? 'in_app' : 'disabled',
   },
   extraRoutes: routeModules,
   log: { warn: (...a) => console.warn(...a), error: (...a) => console.error(...a), info: () => {} },
