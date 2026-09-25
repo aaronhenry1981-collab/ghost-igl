@@ -1,0 +1,824 @@
+{
+  "label": "after",
+  "desktopTabOrder": [
+    {
+      "n": 1,
+      "tag": "a",
+      "cls": "navbar-logo",
+      "text": "RECON 6",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        40,
+        17,
+        124,
+        31
+      ]
+    },
+    {
+      "n": 2,
+      "tag": "a",
+      "cls": "",
+      "text": "FREE STRATS",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        452,
+        25,
+        99,
+        15
+      ]
+    },
+    {
+      "n": 3,
+      "tag": "button",
+      "cls": "nav-marketing-link",
+      "text": "HOW IT WORKS",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        581,
+        25,
+        114,
+        15
+      ]
+    },
+    {
+      "n": 4,
+      "tag": "button",
+      "cls": "nav-marketing-link",
+      "text": "PLANS",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        725,
+        25,
+        49,
+        15
+      ]
+    },
+    {
+      "n": 5,
+      "tag": "a",
+      "cls": "btn btn-primary btn-sm",
+      "text": "OPEN A FREE STRAT",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        1062,
+        15,
+        167,
+        34
+      ]
+    },
+    {
+      "n": 6,
+      "tag": "a",
+      "cls": "btn btn-ghost btn-sm",
+      "text": "SIGN IN",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        1239,
+        14,
+        87,
+        36
+      ]
+    },
+    {
+      "n": 7,
+      "tag": "a",
+      "cls": "btn btn-primary btn-lg",
+      "text": "OPEN THE FREE BANK DEFENSE →",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        40,
+        626,
+        321,
+        55
+      ]
+    },
+    {
+      "n": 8,
+      "tag": "a",
+      "cls": "hero-secondary-link",
+      "text": "See Pro from $12/month",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        40,
+        694,
+        162,
+        22
+      ]
+    },
+    {
+      "n": 9,
+      "tag": "a",
+      "cls": "",
+      "text": "Open full strat →",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        1211,
+        676,
+        93,
+        18
+      ]
+    },
+    {
+      "n": 10,
+      "tag": "button",
+      "cls": "strat-preview-tab active",
+      "text": "Bank CEO Office · Attack",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": false,
+      "boxShadow": "rgb(0, 229, 255) 0px -2px 0px 0px inset",
+      "rect": [
+        134,
+        1261,
+        275,
+        64
+      ]
+    },
+    {
+      "n": 11,
+      "tag": "button",
+      "cls": "strat-preview-tab",
+      "text": "Bank CEO Office · Defense",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        409,
+        1258,
+        275,
+        64
+      ]
+    },
+    {
+      "n": 12,
+      "tag": "button",
+      "cls": "strat-preview-tab",
+      "text": "Clubhouse Cash / CCTV · Attack",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        683,
+        1250,
+        275,
+        64
+      ]
+    },
+    {
+      "n": 13,
+      "tag": "button",
+      "cls": "strat-preview-tab",
+      "text": "Kafe Dostoyevsky Bar / Cocktail Lounge ·",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        958,
+        1248,
+        275,
+        64
+      ]
+    },
+    {
+      "n": 14,
+      "tag": "a",
+      "cls": "",
+      "text": "Discord",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        1077,
+        1353,
+        51,
+        16
+      ]
+    },
+    {
+      "n": 15,
+      "tag": "button",
+      "cls": "operator-card is-selected",
+      "text": "SELECTED Thermite Hard Breach ESSENTIAL",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": false,
+      "boxShadow": "rgba(0, 229, 255, 0.22) 0px 0px 0px 1px",
+      "rect": [
+        187,
+        2115,
+        189,
+        99
+      ]
+    },
+    {
+      "n": 16,
+      "tag": "button",
+      "cls": "operator-card",
+      "text": "Thatcher Support ESSENTIAL",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        388,
+        2115,
+        189,
+        99
+      ]
+    },
+    {
+      "n": 17,
+      "tag": "button",
+      "cls": "operator-card",
+      "text": "Sledge Vertical Play RECOMMENDED",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        589,
+        2115,
+        189,
+        99
+      ]
+    },
+    {
+      "n": 18,
+      "tag": "button",
+      "cls": "operator-card",
+      "text": "Nomad Flank Watch RECOMMENDED",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        789,
+        2115,
+        189,
+        99
+      ]
+    },
+    {
+      "n": 19,
+      "tag": "button",
+      "cls": "operator-card",
+      "text": "Iana Intel / Entry FLEX",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        990,
+        2115,
+        189,
+        99
+      ]
+    },
+    {
+      "n": 20,
+      "tag": "a",
+      "cls": "btn btn-primary",
+      "text": "OPEN THERMITE’S LOADOUT",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        206,
+        2346,
+        263,
+        46
+      ]
+    },
+    {
+      "n": 21,
+      "tag": "a",
+      "cls": "btn btn-outline",
+      "text": "SWITCH TO DEFENSE",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(255, 255, 255, 0.875) 0px 0px 0px 1.74732px inset, rgba(3, 20, 26, 0.875) 0px 0px 0px 3.49464px inset",
+      "rect": [
+        479,
+        2346,
+        210,
+        46
+      ]
+    },
+    {
+      "n": 22,
+      "tag": "summary",
+      "cls": "",
+      "text": "More strategy details Callouts, cameras,",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "none",
+      "rect": [
+        163,
+        2595,
+        1040,
+        83
+      ]
+    },
+    {
+      "n": 23,
+      "tag": "a",
+      "cls": "meta-strip-name",
+      "text": "Thatcher",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        405,
+        2803,
+        280,
+        24
+      ]
+    },
+    {
+      "n": 24,
+      "tag": "a",
+      "cls": "meta-strip-name",
+      "text": "Kaid",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        405,
+        2825,
+        283,
+        24
+      ]
+    },
+    {
+      "n": 25,
+      "tag": "a",
+      "cls": "meta-strip-name",
+      "text": "Thermite",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        405,
+        2850,
+        283,
+        24
+      ]
+    },
+    {
+      "n": 26,
+      "tag": "a",
+      "cls": "btn btn-primary btn-sm",
+      "text": "SEE FULL META →",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        1148,
+        2801,
+        151,
+        34
+      ]
+    },
+    {
+      "n": 27,
+      "tag": "a",
+      "cls": "feature-card reveal in-view",
+      "text": "Pull the Exact Round Choose the map, bom",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        123,
+        3283,
+        268,
+        301
+      ]
+    },
+    {
+      "n": 28,
+      "tag": "a",
+      "cls": "feature-card reveal in-view",
+      "text": "Show Me My Job Every operator gets a pur",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        407,
+        3274,
+        268,
+        301
+      ]
+    },
+    {
+      "n": 29,
+      "tag": "a",
+      "cls": "feature-card reveal in-view",
+      "text": "Find What Cost the Round Submit real mat",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        691,
+        3270,
+        268,
+        301
+      ]
+    },
+    {
+      "n": 30,
+      "tag": "a",
+      "cls": "feature-card reveal in-view",
+      "text": "Carry One Fix Forward Road to Champion t",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        975,
+        3269,
+        268,
+        301
+      ]
+    }
+  ],
+  "desktopInvisibleStops": 2,
+  "desktopDrawerStops": 0,
+  "phoneTabOrderClosed": [
+    {
+      "n": 1,
+      "tag": "a",
+      "cls": "navbar-logo",
+      "text": "RECON 6",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        16,
+        12,
+        124,
+        31
+      ]
+    },
+    {
+      "n": 2,
+      "tag": "button",
+      "cls": "mobile-toggle",
+      "text": "Open menu",
+      "inDrawer": false,
+      "drawerOpen": false,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        330,
+        10,
+        44,
+        34
+      ]
+    }
+  ],
+  "afterOpen": {
+    "tag": "button",
+    "cls": "mobile-drawer-close",
+    "text": "Close menu",
+    "inDrawer": true,
+    "drawerOpen": true,
+    "onScreen": true,
+    "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+    "rect": [
+      330,
+      20,
+      36,
+      36
+    ]
+  },
+  "insideDrawer": [
+    {
+      "n": 1,
+      "tag": "a",
+      "cls": "mobile-drawer-link mobile-drawer-primary",
+      "text": "Open a free strat",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        120,
+        302,
+        50
+      ]
+    },
+    {
+      "n": 2,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "Review a round free",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        172,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 3,
+      "tag": "button",
+      "cls": "mobile-drawer-link",
+      "text": "How It Works",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        222,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 4,
+      "tag": "button",
+      "cls": "mobile-drawer-link",
+      "text": "Plans & pricing",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        272,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 5,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "1-on-1 coaching",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        322,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 6,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "Beginner workbook",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        420,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 7,
+      "tag": "button",
+      "cls": "mobile-drawer-link",
+      "text": "FAQ",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        470,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 8,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "Map guides",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        520,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 9,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "Changelog",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        570,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 10,
+      "tag": "a",
+      "cls": "btn btn-primary btn-block",
+      "text": "SIGN UP — FREE",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgb(255, 255, 255) 0px 0px 0px 2px inset, rgb(3, 20, 26) 0px 0px 0px 4px inset",
+      "rect": [
+        72,
+        646,
+        302,
+        44
+      ]
+    },
+    {
+      "n": 11,
+      "tag": "a",
+      "cls": "btn btn-ghost btn-block",
+      "text": "SIGN IN",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(255, 255, 255, 0.875) 0px 0px 0px 1.74732px inset, rgba(3, 20, 26, 0.875) 0px 0px 0px 3.49464px inset",
+      "rect": [
+        72,
+        700,
+        302,
+        46
+      ]
+    },
+    {
+      "n": 12,
+      "tag": "a",
+      "cls": "navbar-logo",
+      "text": "RECON 6",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        80,
+        23,
+        124,
+        31
+      ]
+    },
+    {
+      "n": 13,
+      "tag": "button",
+      "cls": "mobile-drawer-close",
+      "text": "Close menu",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        330,
+        20,
+        36,
+        36
+      ]
+    },
+    {
+      "n": 14,
+      "tag": "a",
+      "cls": "mobile-drawer-link mobile-drawer-primary",
+      "text": "Open a free strat",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        120,
+        302,
+        50
+      ]
+    },
+    {
+      "n": 15,
+      "tag": "a",
+      "cls": "mobile-drawer-link",
+      "text": "Review a round free",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        172,
+        302,
+        48
+      ]
+    },
+    {
+      "n": 16,
+      "tag": "button",
+      "cls": "mobile-drawer-link",
+      "text": "How It Works",
+      "inDrawer": true,
+      "drawerOpen": true,
+      "onScreen": true,
+      "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+      "rect": [
+        72,
+        222,
+        302,
+        48
+      ]
+    }
+  ],
+  "afterShiftTab": {
+    "tag": "a",
+    "cls": "mobile-drawer-link",
+    "text": "Review a round free",
+    "inDrawer": true,
+    "drawerOpen": true,
+    "onScreen": true,
+    "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+    "rect": [
+      72,
+      172,
+      302,
+      48
+    ]
+  },
+  "afterEscape": {
+    "tag": "button",
+    "cls": "mobile-toggle",
+    "text": "Open menu",
+    "inDrawer": false,
+    "drawerOpen": false,
+    "onScreen": true,
+    "boxShadow": "rgba(0, 229, 255, 0.25) 0px 0px 0px 3px, rgb(0, 229, 255) 0px 0px 0px 1px",
+    "rect": [
+      330,
+      10,
+      44,
+      34
+    ]
+  }
+}
