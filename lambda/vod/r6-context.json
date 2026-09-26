@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-10T09:45:35.883Z",
+  "generated_at": "2026-09-26T00:33:47.021Z",
   "maps": {
     "bank": {
       "name": "Bank",
@@ -26,10 +26,7 @@
             "CEO",
             "Executive Lounge",
             "Janitor",
-            "Skylight",
-            "Server",
-            "Spiral Stairs",
-            "Front Door"
+            "Server"
           ],
           "attack_strategy_summary": "Open the CEO wall with Thermite while Thatcher clears anti-breach. Sledge plays vertical from above to force defenders off the site. Nomad covers flanks from spiral and back stairs. Iana drones out remaining defenders before the execute.",
           "defense_strategy_summary": "Reinforce CEO wall and electrify with Kaid from the floor below or behind a shield. Smoke holds doorways and denies plant attempts. Mute covers drone holes and reinforced walls. Vigil roams to waste attacker time. Valkyrie places cameras in key hallw"
@@ -56,16 +53,14 @@
             "Open Area",
             "Staff Room",
             "Electrical",
-            "Admin",
-            "Lobby",
-            "Main Stairs"
+            "Lobby"
           ],
           "attack_strategy_summary": "Hibana opens the reinforced wall between open area and teller side. Capitao uses fire bolts to deny anchor positions. Zofia clears utility and opens rotations. Ash pushes from lobby. Flores drones and destroys defender gadgets.",
           "defense_strategy_summary": "Bandit tricking on the reinforced wall is critical. Maestro places Evil Eyes to deny plant and provide intel. Jager's ADS protect against flashbangs and projectiles. Alibi roams basement and lobby to slow the push. Thunderbird provides healing in hig"
         },
         {
           "id": "tellers",
-          "name": "Teller's Office / Archives",
+          "name": "Tellers' Office / Archives",
           "floor": "1F",
           "attack_operators": [
             "Ace (Hard Breach)",
@@ -82,11 +77,8 @@
             "Aruni (Utility Gate)"
           ],
           "callouts": [
-            "Teller's",
             "Archives",
             "Lobby",
-            "Main Stairs",
-            "Admin",
             "Square"
           ],
           "attack_strategy_summary": "Ace opens the reinforced wall from the lobby side. Twitch drone clears gadgets before breach. Sledge opens the floor above for vertical pressure on archives. Nomad watches lobby and main stairs. Dokkaebi calls phones to reveal anchor positions.",
@@ -112,11 +104,7 @@
           ],
           "callouts": [
             "Lockers",
-            "CCTV",
-            "Server Stairs",
-            "Tunnel",
-            "Garage",
-            "Elevator"
+            "CCTV"
           ],
           "attack_strategy_summary": "Open the server wall with Thermite. Buck plays vertical from above to open the floor over CCTV. Gridlock covers flanks with trax. Lion scans to catch rotating defenders. Control garage and tunnel for a clean execute.",
           "defense_strategy_summary": "Mira window on the wall between server and lockers for intel. Smoke denies tunnel push and plant. Mozzie captures attacker drones for counter-intel. Ela roams topside to waste time. Castle barricades slow pushes through server stairs."
@@ -169,11 +157,8 @@
           "callouts": [
             "Armory Lockers",
             "Archives",
-            "East Balcony",
             "Main Stairs",
-            "CCTV",
-            "Offices",
-            "Detention"
+            "Offices"
           ],
           "attack_strategy_summary": "Thermite opens the Armory wall from the east balcony while Thatcher clears electronics. Sledge plays vertical from above Archives through the soft ceiling to deny anchor positions. Nomad covers flank routes from main stairs and CCTV. Capitao fire bol",
           "defense_strategy_summary": "Kaid electrifies the Armory wall from behind cover inside the site. Smoke holds the Archives doorway and denies late-round plant attempts. Mute jammers support anti-breach on the wall and deny drone intel. Vigil roams offices and east balcony to wast"
@@ -202,8 +187,7 @@
             "Parking Lot",
             "Main Lobby",
             "Supply Corridor",
-            "Tellers",
-            "Central Stairs"
+            "Tellers"
           ],
           "attack_strategy_summary": "Hibana opens the Workshop reinforced wall from the parking lot side. Ash pushes through the main entrance after clearing utility. Buck plays vertical from above Ventilation to deny anchor positions below. Zofia concusses and opens rotations through s",
           "defense_strategy_summary": "Bandit tricks the Workshop wall to deny Hibana every round. Smoke holds the supply corridor and denies late-round plant attempts. Jager ADS protect anchor positions from flashbangs and projectiles. Ela roams main lobby and central stairs with Grzmot "
@@ -230,7 +214,6 @@
             "Customs Inspection",
             "Supply Room",
             "Passport Check",
-            "Central Stairs",
             "Main Lobby",
             "Waiting Room",
             "Break Room"
@@ -259,11 +242,8 @@
           "callouts": [
             "Bathroom",
             "Tellers",
-            "East Balcony",
             "Main Stairs",
             "Offices",
-            "CCTV",
-            "Detention",
             "Fountain"
           ],
           "attack_strategy_summary": "Thermite opens the Tellers reinforced wall from the east balcony side. Buck plays vertical from 2F by opening the floor above Bathroom to deny anchor positions. Iana drones out the site before the final push. Nomad covers flanks from main stairs and ",
@@ -319,7 +299,6 @@
             "Office",
             "Balcony",
             "Main Stairs",
-            "Back Stairs",
             "Library",
             "Hallway"
           ],
@@ -349,9 +328,7 @@
             "Gaming Room",
             "Campfire",
             "Main Entrance",
-            "Trophy Room",
-            "Fireplace",
-            "Connector"
+            "Fireplace"
           ],
           "attack_strategy_summary": "Thermite opens the Bar reinforced wall from the campfire side. Buck plays vertical from Master Bedroom above to pressure Gaming Room anchors. Capitao fire bolts deny the bar counter position during execute. Iana drones Gaming Room and connector befor",
           "defense_strategy_summary": "Bandit tricks the Bar wall to deny Thermite. Maestro Evil Eyes cover the Gaming Room plant spot and campfire window angle. Jager ADS protect against Capitao bolts and grenades. Ela roams trophy room and main stairs with Grzmot mines. Thunderbird Kona"
@@ -378,10 +355,7 @@
             "Kitchen",
             "Dining Room",
             "Campfire",
-            "Back Stairs",
-            "Main Entrance",
-            "Connector",
-            "Wine Cellar Stairs"
+            "Main Entrance"
           ],
           "attack_strategy_summary": "Ace opens the Kitchen reinforced wall from the campfire side. Sledge plays vertical from Office above to pressure Dining Room anchors through the soft floor. Zofia clears utility and opens soft walls for angles into Kitchen. Nomad watches back stairs",
           "defense_strategy_summary": "Mira places a Black Mirror between Kitchen and Dining Room for intel on the campfire push. Smoke holds the connector and denies plant. Jager ADS protect the Mira window and Kitchen anchors from projectiles. Vigil roams above site to deny vertical set"
@@ -406,11 +380,7 @@
           ],
           "callouts": [
             "Wine Cellar",
-            "Snowmobile Garage",
-            "Wine Cellar Stairs",
-            "Back Stairs",
-            "Basement Corridor",
-            "Garage Door"
+            "Snowmobile Garage"
           ],
           "attack_strategy_summary": "Thermite opens the Snowmobile Garage wall from the exterior. Buck plays vertical from Kitchen floor above to open the ceiling over Wine Cellar and deny anchor positions. Gridlock trax deny the wine cellar stairs rotation and back stairs flank. Lion s",
           "defense_strategy_summary": "Bandit tricks the Snowmobile Garage wall every round to deny Thermite. Smoke holds the basement corridor and wine cellar stairs, denying plant in the last 30 seconds. Mute jammers support Bandit on the wall and deny drone intel. Pulse plays on 1F for"
@@ -464,7 +434,6 @@
             "Cash Room",
             "CCTV",
             "Construction",
-            "Master Bedroom",
             "Gym",
             "Balcony",
             "Roof"
@@ -495,7 +464,6 @@
             "Stock Room",
             "Stage",
             "Garage",
-            "Blue Stairs",
             "Western Hallway"
           ],
           "attack_strategy_summary": "Hibana opens the stock room wall from outside. Buck plays vertical from above through master bedroom floor. Ash pushes bar from the front. Flores clears utility before execute. Thatcher EMPs anti-breach.",
@@ -522,8 +490,6 @@
           "callouts": [
             "Church",
             "Arsenal",
-            "Tunnel",
-            "Blue Stairs",
             "Oil Pit",
             "Garage"
           ],
@@ -553,7 +519,6 @@
             "Bedroom",
             "Construction",
             "Balcony",
-            "Master Bedroom",
             "Cash Room"
           ],
           "attack_strategy_summary": "Thermite opens the gym wall from construction. Push from balcony and construction simultaneously. Zofia clears utility and opens soft walls. Ash entries from master bedroom. Nomad watches blue stairs.",
@@ -606,12 +571,7 @@
           ],
           "callouts": [
             "Hookah",
-            "Billiards",
-            "VIP",
-            "Aqua",
-            "Cool Vibes",
-            "Main Stairs",
-            "Balcony"
+            "Billiards"
           ],
           "attack_strategy_summary": "No hard breach needed — the walls are soft. Ash and Zofia push from balcony and VIP. Sledge plays vertical from above. Nomad watches cool vibes and main stairs. Iana drones ahead of the push. Fast execute from multiple angles.",
           "defense_strategy_summary": "Jager and Wamai stack utility denial — this site gets hit with tons of projectiles. Vigil roams VIP and penthouse to deny vertical. Valkyrie cameras outside for early warning. Melusi banshees slow balcony and VIP pushes."
@@ -637,9 +597,6 @@
           "callouts": [
             "Theater",
             "Penthouse",
-            "VIP",
-            "Hall of Fame",
-            "Balcony",
             "North Stairs"
           ],
           "attack_strategy_summary": "Hibana opens the theater wall from VIP side. Ash pushes from hall of fame. Capitao denies anchor positions during plant. Gridlock covers rotations. Control VIP and balcony for multiple angles on site.",
@@ -667,9 +624,7 @@
             "Kitchen",
             "Service",
             "Pool",
-            "Sunrise",
-            "Cool Vibes",
-            "Main Lobby"
+            "Sunrise"
           ],
           "attack_strategy_summary": "All soft walls — no hard breach needed. Buck plays vertical from above. Ash and Zofia push from pool and sunrise. Nomad watches flanks from blue bar side. Fast execute with Finka boost.",
           "defense_strategy_summary": "Maestro Evil Eyes cover plant spots and pool entrance. Jager ADS deny projectiles. Lesion provides early warning. Vigil roams upstairs. Heavy utility stacking is key since walls are soft."
@@ -695,10 +650,7 @@
           "callouts": [
             "Blue Bar",
             "Sunrise Bar",
-            "Pool",
-            "Main Lobby",
-            "Cool Vibes",
-            "South Stairs"
+            "Pool"
           ],
           "attack_strategy_summary": "Push from sunrise bar and pool side simultaneously. Sledge opens the floor from above for vertical pressure. Nomad watches main lobby flanks. Dokkaebi calls phones for intel on anchors. Fast multi-directional execute.",
           "defense_strategy_summary": "Smoke denies plant. Jager protects site. Valkyrie provides outside intel. Ela roams upstairs to deny vertical play. Aruni gates slow pushes from sunrise and pool."
@@ -751,10 +703,7 @@
           "callouts": [
             "Meeting Room",
             "Consul Office",
-            "Front Lobby",
-            "Back Stairs",
-            "Garage",
-            "Antechamber"
+            "Garage"
           ],
           "attack_strategy_summary": "Map control first: Glaz and Ying clear Consul Office side while Buck sets up vertical pressure. Buck opens floors from above to deny defender anchor positions. Once site is droned and roamers are pressured, Kali clears the wall and Maverick opens. Wa",
           "defense_strategy_summary": "Bandit denies the hard-breach on Meeting Room with electrified walls. Maestro sets Evil Eyes covering Meeting Room plant spots and the main entry corridor. Wamai ADS protect anchors from grenades. Alibi roams to delay the push; Smoke provides sustain"
@@ -780,10 +729,7 @@
           "callouts": [
             "Piano Room",
             "Exposition Room",
-            "Front Lobby",
-            "Back Stairs",
-            "Garage",
-            "Antechamber"
+            "Garage"
           ],
           "attack_strategy_summary": "Maverick opens the Piano Room reinforced wall while Kali clears anti-breach electronics. Zofia plays vertical from 2F to pressure Piano Room anchors through the soft floor. Ying drones the site and entries through the breach once utility is gone. Fuz",
           "defense_strategy_summary": "Hold Exposition Room as the trade lane — Mozzie anchors there. Mute denies breach on Piano Room, Maestro sets Evil Eyes covering Piano Room plant spots and the main entry corridor. Jager catches grenades; Vigil cycles flanks to bait isolated entries."
@@ -809,10 +755,7 @@
           "callouts": [
             "Cafeteria",
             "Garage",
-            "Front Lobby",
-            "Back Stairs",
-            "Garage",
-            "Antechamber"
+            "Garage"
           ],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Cafeteria wall on call. Buck opens 1F soft floors above Cafeteria to deny basement defender setup. Ying pushes through the breach with Glaz covering rotations. Open Cafeteria hatch with Sled",
           "defense_strategy_summary": "Anchored 4, roaming 1: Doc, Wamai, Bandit, and Maestro hold site; Pulse plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Cafeteria plant spots and the main entry corridor. Reinforce hatches early — Garage and Caf"
@@ -838,10 +781,7 @@
           "callouts": [
             "Tellers",
             "Servers",
-            "Front Lobby",
-            "Back Stairs",
-            "Garage",
-            "Antechamber"
+            "Garage"
           ],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia plays vertical from 2F to pressure Tellers anchors through the soft floor. Thatcher clears anti-breach and Hibana opens Tellers on a coordinated count. Ash entries first; Fuze holds the back-side angles. Drone Garage entr",
           "defense_strategy_summary": "Setup is intel-first: Echo covers site entries with cameras and feeds rotation calls. Mute secures the Tellers wall, Jager covers projectile lanes. Caveira hunts info from 2F/1F connectors while Lesion anchors site. Anchor in Servers and let Tellers "
@@ -894,10 +834,7 @@
           "callouts": [
             "Administration",
             "CEO Office",
-            "Foyer",
-            "Main Stairs",
-            "Library",
-            "Wine Stairs"
+            "Library"
           ],
           "attack_strategy_summary": "Layered execute: Finka flashes from main, Iana pushes CEO Office for the trade, Ace and Twitch hit Administration simultaneously. Sledge opens floors from above to deny defender anchor positions. Library is the connector — Nomad airjab denies CEO fla",
           "defense_strategy_summary": "Pulse forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Administration wall, Mira places a Black Mirror between Administration and CEO Office for sightlines on incoming pushes. Aruni denies proje"
@@ -923,10 +860,7 @@
           "callouts": [
             "Private Gallery",
             "Meeting",
-            "Foyer",
-            "Main Stairs",
-            "Library",
-            "Wine Stairs"
+            "Library"
           ],
           "attack_strategy_summary": "Layered execute: Fuze flashes from main, Ash pushes Meeting for the trade, Hibana and Thatcher hit Private Gallery simultaneously. Zofia opens floors from above to deny defender anchor positions. East Entry vertical play denies the standard Gallery a",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Private Gallery wall, Echo covers site entries with cameras and feeds rotation calls. Jager denies projectile spam, Thunderbird sustains an"
@@ -952,10 +886,7 @@
           "callouts": [
             "Bar",
             "Lounge",
-            "Foyer",
-            "Main Stairs",
-            "Library",
-            "Wine Stairs"
+            "Library"
           ],
           "attack_strategy_summary": "Open with Thatcher clearing electronics, then Hibana hits the Bar wall on call. Buck plays vertical from 2F to pressure Bar anchors through the soft floor. Ash pushes through the breach with Glaz covering rotations. Main Stairs is a death trap — clea",
           "defense_strategy_summary": "Anchored 4, roaming 1: Thunderbird, Wamai, Bandit, and Echo hold site; Vigil plays off-site for pick potential and timing pressure. Echo covers site entries with cameras and feeds rotation calls. Maestro Evil Eye watching Wine Stairs catches the stan"
@@ -981,10 +912,7 @@
           "callouts": [
             "Kitchen",
             "Dining",
-            "Foyer",
-            "Main Stairs",
-            "Library",
-            "Wine Stairs"
+            "Library"
           ],
           "attack_strategy_summary": "Layered execute: Fuze flashes from main, Ying pushes Dining for the trade, Maverick and Kali hit Kitchen simultaneously. Zofia plays vertical from 2F to pressure Kitchen anchors through the soft floor. Open Foyer wall for attack-side flash setup — Di",
           "defense_strategy_summary": "Vigil forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Kitchen wall, Maestro sets Evil Eyes covering Kitchen plant spots and the main entry corridor. Jager denies projectile spam, Doc sustains a"
@@ -1018,8 +946,8 @@
       "sites": [
         {
           "id": "bedroom-autoshop",
-          "name": "Meth Lab / Packaging Room",
-          "floor": "3F",
+          "name": "Blue Bedroom / Green Apartment",
+          "floor": "1F",
           "attack_operators": [
             "Ace (Hard Breach)",
             "Twitch (Support)",
@@ -1035,12 +963,8 @@
             "Doc (Flex / Sustain)"
           ],
           "callouts": [
-            "Meth Lab",
-            "Packaging Room",
             "Street",
-            "Alley",
-            "Roof Access",
-            "Side Stairs"
+            "Alley"
           ],
           "attack_strategy_summary": "Open with Twitch clearing electronics, then Ace hits the Meth Lab wall on call. Sledge works the soft floors below Meth Lab to control rotation paths. Iana pushes through the breach with Finka covering rotations. Roof Access vertical pressure denies ",
           "defense_strategy_summary": "Anchored 4, roaming 1: Doc, Aruni, Kaid, and Mira hold site; Pulse plays off-site for pick potential and timing pressure. Mira places a Black Mirror between Meth Lab and Packaging Room for sightlines on incoming pushes. Mira on the Meth Lab wall read"
@@ -1064,19 +988,15 @@
             "Azami (Flex / Sustain)"
           ],
           "callouts": [
-            "Football Office",
-            "Football Bedroom",
             "Street",
-            "Alley",
-            "Roof Access",
-            "Side Stairs"
+            "Alley"
           ],
           "attack_strategy_summary": "Map control first: Capitao and Zero clear Football Bedroom side while Zofia sets up vertical pressure. Zofia opens floors from above to deny defender anchor positions. Once site is droned and roamers are pressured, Flores clears the wall and Thermite",
           "defense_strategy_summary": "Mute denies the hard-breach on Football Office with electrified walls. Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Jager ADS protect anchors from grenades. Vigil roams to delay the push; Azami provides sustai"
         },
         {
           "id": "market-party",
-          "name": "Biker's Apartment / Biker's Bedroom",
+          "name": "Pink Apartment / Pink Kitchen",
           "floor": "1F",
           "attack_operators": [
             "Maverick (Hard Breach)",
@@ -1093,12 +1013,8 @@
             "Doc (Flex / Sustain)"
           ],
           "callouts": [
-            "Biker's Apartment",
-            "Biker's Bedroom",
             "Street",
-            "Alley",
-            "Roof Access",
-            "Side Stairs"
+            "Alley"
           ],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Biker's Apartment wall on call. Sledge plays vertical from 2F to pressure Biker's Apartment anchors through the soft floor. Ying pushes through the breach with Lion covering rotations. Stree",
           "defense_strategy_summary": "Anchored 4, roaming 1: Doc, Aruni, Kaid, and Maestro hold site; Vigil plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Biker's Apartment plant spots and the main entry corridor. Maestro Evil Eye in Bedroom covers"
@@ -1122,12 +1038,8 @@
             "Smoke (Flex / Sustain)"
           ],
           "callouts": [
-            "Aunt's Bedroom",
-            "Aunt's Apartment",
             "Street",
-            "Alley",
-            "Roof Access",
-            "Side Stairs"
+            "Alley"
           ],
           "attack_strategy_summary": "Layered execute: Lion flashes from main, Ash pushes Aunt's Apartment for the trade, Hibana and Thatcher hit Aunt's Bedroom simultaneously. Sledge opens floors from above to deny defender anchor positions. Patio vertical pressure catches Aunt's Bedroo",
           "defense_strategy_summary": "Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Aunt's Bedroom wall, Echo covers site entries with cameras and feeds rotation calls. Aruni denies projectile spam, Smoke sustains anchors. Mi"
@@ -1161,7 +1073,7 @@
       "sites": [
         {
           "id": "commander-briefing",
-          "name": "Bedroom / Commander Office",
+          "name": "Bathroom / Commander's Office",
           "floor": "2F",
           "attack_operators": [
             "Thermite (Hard Breach)",
@@ -1179,18 +1091,14 @@
           ],
           "callouts": [
             "Bedroom",
-            "Commander Office",
-            "Courtyard",
-            "Watchtower",
-            "Main Stairs",
-            "East Wing"
+            "Courtyard"
           ],
           "attack_strategy_summary": "Buck sets the tempo — Buck opens floors from above to deny defender anchor positions. Flores clears anti-breach and Thermite opens Bedroom on a coordinated count. Zero entries first; Nomad holds the back-side angles. Watchtower vertical pressure deni",
           "defense_strategy_summary": "Setup is intel-first: Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Bandit secures the Bedroom wall, Wamai covers projectile lanes. Alibi hunts info from 2F/1F connectors while Azami anchors site. Bandit on the"
         },
         {
           "id": "kitchen-dining",
-          "name": "Dormitory / Briefing Room",
+          "name": "Dormitory / Games Room",
           "floor": "2F",
           "attack_operators": [
             "Maverick (Hard Breach)",
@@ -1208,18 +1116,14 @@
           ],
           "callouts": [
             "Dormitory",
-            "Briefing Room",
-            "Courtyard",
-            "Watchtower",
-            "Main Stairs",
-            "East Wing"
+            "Courtyard"
           ],
           "attack_strategy_summary": "Sledge sets the tempo — Sledge opens floors from above to deny defender anchor positions. Kali clears anti-breach and Maverick opens Dormitory on a coordinated count. Ying entries first; Lion holds the back-side angles. East Wing rotation pinch isola",
           "defense_strategy_summary": "Setup is intel-first: Maestro sets Evil Eyes covering Dormitory plant spots and the main entry corridor. Kaid secures the Dormitory wall, Aruni covers projectile lanes. Caveira hunts info from 2F/1F connectors while Doc anchors site. Mira between Dor"
         },
         {
           "id": "council-guard",
-          "name": "Kitchen / Cafeteria",
+          "name": "Waiting Room / Cafeteria",
           "floor": "1F",
           "attack_operators": [
             "Thermite (Hard Breach)",
@@ -1238,10 +1142,7 @@
           "callouts": [
             "Kitchen",
             "Cafeteria",
-            "Courtyard",
-            "Watchtower",
-            "Main Stairs",
-            "East Wing"
+            "Courtyard"
           ],
           "attack_strategy_summary": "Sledge sets the tempo — Sledge plays vertical from 2F to pressure Kitchen anchors through the soft floor. Flores clears anti-breach and Thermite opens Kitchen on a coordinated count. Zero entries first; Finka holds the back-side angles. Mosque connec",
           "defense_strategy_summary": "Setup is intel-first: Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Kaid secures the Kitchen wall, Aruni covers projectile lanes. Pulse hunts info from 2F/1F connectors while Goyo anchors site. Anchor Cafeteria"
@@ -1267,10 +1168,7 @@
           "callouts": [
             "Hammam",
             "Sitting Room",
-            "Courtyard",
-            "Watchtower",
-            "Main Stairs",
-            "East Wing"
+            "Courtyard"
           ],
           "attack_strategy_summary": "Open with Flores clearing electronics, then Thermite hits the Hammam wall on call. Sledge plays vertical from 2F to pressure Hammam anchors through the soft floor. Zero pushes through the breach with Finka covering rotations. Tea Room vertical is the",
           "defense_strategy_summary": "Anchored 4, roaming 1: Smoke, Aruni, Kaid, and Valkyrie hold site; Ela plays off-site for pick potential and timing pressure. Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Maestro Evil Eye in Hammam covers both"
@@ -1320,14 +1218,7 @@
             "Alibi (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Master Bedroom",
-            "Kids Room",
-            "Garden",
-            "East Stairs",
-            "Main Entry",
-            "Catwalk"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Nomad flashes from main, Zero pushes Kids Room for the trade, Thermite and Flores hit Master Bedroom simultaneously. Buck opens floors from above to deny defender anchor positions. Catwalk is the strong vertical position — Sledge ope",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Bandit on the Master Bedroom wall, Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Wamai denies projectile spam, "
         },
@@ -1349,14 +1240,7 @@
             "Caveira (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Kitchen",
-            "Dining Room",
-            "Garden",
-            "East Stairs",
-            "Main Entry",
-            "Catwalk"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Buck sets the tempo — Buck plays vertical from 2F to pressure Kitchen anchors through the soft floor. Twitch clears anti-breach and Ace opens Kitchen on a coordinated count. Iana entries first; Nomad holds the back-side angles. East Stairs vertical p",
           "defense_strategy_summary": "Setup is intel-first: Mira places a Black Mirror between Kitchen and Dining Room for sightlines on incoming pushes. Bandit secures the Kitchen wall, Wamai covers projectile lanes. Caveira hunts info from 2F/1F connectors while Azami anchors site. Ban"
         },
@@ -1378,14 +1262,7 @@
             "Ela (Roam)",
             "Goyo (Flex / Sustain)"
           ],
-          "callouts": [
-            "Ammo Storage",
-            "Tractor Storage",
-            "Garden",
-            "East Stairs",
-            "Main Entry",
-            "Catwalk"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Ammo Storage wall on call. Zofia works the soft floors below Ammo Storage to control rotation paths. Ying pushes through the breach with Fuze covering rotations. Helipad approach is exposed ",
           "defense_strategy_summary": "Anchored 4, roaming 1: Goyo, Jager, Mute, and Maestro hold site; Ela plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Ammo Storage plant spots and the main entry corridor. Roam Helipad and Catwalk — pick attacker"
         },
@@ -1407,14 +1284,7 @@
             "Pulse (Roam)",
             "Smoke (Flex / Sustain)"
           ],
-          "callouts": [
-            "Fermentation Chamber",
-            "Brewery",
-            "Garden",
-            "East Stairs",
-            "Main Entry",
-            "Catwalk"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia opens 1F soft floors above Fermentation Chamber to deny basement defender setup. Kali clears anti-breach and Maverick opens Fermentation Chamber on a coordinated count. Ying entries first; Fuze holds the back-side angles.",
           "defense_strategy_summary": "Setup is intel-first: Maestro sets Evil Eyes covering Fermentation Chamber plant spots and the main entry corridor. Mute secures the Fermentation Chamber wall, Jager covers projectile lanes. Pulse hunts info from 2F/1F connectors while Smoke anchors "
         }
@@ -1447,7 +1317,7 @@
       "sites": [
         {
           "id": "master-closet",
-          "name": "Master Bedroom / Closet",
+          "name": "Master Bedroom / Car Room",
           "floor": "2F",
           "attack_operators": [
             "Thermite (Hard Breach)",
@@ -1465,11 +1335,7 @@
           ],
           "callouts": [
             "Master Bedroom",
-            "Closet",
-            "Front Yard",
-            "Driveway",
-            "Foyer",
-            "Backyard"
+            "Front Yard"
           ],
           "attack_strategy_summary": "Buck sets the tempo — Buck opens floors from above to deny defender anchor positions. Flores clears anti-breach and Thermite opens Master Bedroom on a coordinated count. Zero entries first; Nomad holds the back-side angles. Trampoline is the strong v",
           "defense_strategy_summary": "Setup is intel-first: Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Bandit secures the Master Bedroom wall, Wamai covers projectile lanes. Vigil hunts info from 2F/1F connectors while Thunderbird anchors site. "
@@ -1493,12 +1359,7 @@
             "Lesion (Flex / Sustain)"
           ],
           "callouts": [
-            "Kitchen",
-            "Living Room",
-            "Front Yard",
-            "Driveway",
-            "Foyer",
-            "Backyard"
+            "Front Yard"
           ],
           "attack_strategy_summary": "Layered execute: Lion flashes from main, Ash pushes Living Room for the trade, Hibana and Thatcher hit Kitchen simultaneously. Sledge plays vertical from 2F to pressure Kitchen anchors through the soft floor. Foyer is the death funnel — flash and tra",
           "defense_strategy_summary": "Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Kitchen wall, Echo covers site entries with cameras and feeds rotation calls. Aruni denies projectile spam, Lesion sustains anchors. Bandit o"
@@ -1523,11 +1384,7 @@
           ],
           "callouts": [
             "Garage",
-            "Workshop",
-            "Front Yard",
-            "Driveway",
-            "Foyer",
-            "Backyard"
+            "Front Yard"
           ],
           "attack_strategy_summary": "Layered execute: Capitao flashes from main, Iana pushes Workshop for the trade, Ace and Twitch hit Garage simultaneously. Zofia plays vertical from 2F to pressure Garage anchors through the soft floor. Driveway vertical from above denies Garage ancho",
           "defense_strategy_summary": "Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Garage wall, Mira places a Black Mirror between Garage and Workshop for sightlines on incoming pushes. Jager denies projectile spam, Goyo sus"
@@ -1551,12 +1408,7 @@
             "Goyo (Flex / Sustain)"
           ],
           "callouts": [
-            "Boiler",
-            "Laundry",
-            "Front Yard",
-            "Driveway",
-            "Foyer",
-            "Backyard"
+            "Front Yard"
           ],
           "attack_strategy_summary": "Layered execute: Capitao flashes from main, Iana pushes Laundry for the trade, Ace and Twitch hit Boiler simultaneously. Zofia opens 1F soft floors above Boiler to deny basement defender setup. Open the Living Room hatch with Sledge — vertical exec i",
           "defense_strategy_summary": "Pulse forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Boiler wall, Mira places a Black Mirror between Boiler and Laundry for sightlines on incoming pushes. Jager denies projectile spam, Goyo su"
@@ -1609,11 +1461,9 @@
           "callouts": [
             "Bar",
             "Cocktail Lounge",
-            "Main Entrance",
             "Red Stairs",
             "White Stairs",
-            "Cigar Shop",
-            "Freezer"
+            "Cigar Shop"
           ],
           "attack_strategy_summary": "Thermite opens the Bar reinforced wall from the main entrance side. Sledge plays vertical from Mining Room above to open the floor over Cocktail Lounge. Capitao fire bolts deny the bar counter anchor during execute. Gridlock trax cover the red stairs",
           "defense_strategy_summary": "Kaid electrifies the Bar wall from behind cover in Cocktail Lounge. Smoke denies plant at the main entrance doorway and bar counter area. Jager ADS protect the site from flashbangs and Capitao bolts. Alibi roams freezer and cigar shop with prismas. A"
@@ -1642,8 +1492,7 @@
             "White Stairs",
             "Red Stairs",
             "Cigar Shop",
-            "Mining Room",
-            "Piano"
+            "Mining Room"
           ],
           "attack_strategy_summary": "Open the Reading Room wall with Thermite from the white stairs side. Buck plays vertical from the roof hatch above Fireplace Hall to pressure anchors off default positions. Capitao fire bolts deny the Fireplace anchor spot during the plant execute. I",
           "defense_strategy_summary": "Kaid electrifies the Reading Room wall from behind the piano. Smoke holds Fireplace doorways and denies plant in the last 30 seconds. Jager and Wamai stack utility denial to protect anchor positions from Capitao fire and grenades. Vigil roams white s"
@@ -1669,10 +1518,8 @@
           "callouts": [
             "Mining Room",
             "Fireplace Hall",
-            "Cigar Balcony",
             "White Stairs",
             "Red Stairs",
-            "Freezer",
             "Pillar"
           ],
           "attack_strategy_summary": "Hibana opens the Mining Room wall at range from cigar balcony. Sledge plays vertical from 3F Cocktail Lounge above to pressure Fireplace Hall anchors. Ash pushes from white stairs after establishing control. Nomad covers red stairs and freezer flanks",
@@ -1699,9 +1546,6 @@
           "callouts": [
             "Kitchen",
             "Bakery",
-            "Bakery Corridor",
-            "Prep Area",
-            "Freezer",
             "Red Stairs",
             "White Stairs"
           ],
@@ -1756,10 +1600,7 @@
           "callouts": [
             "Server Room",
             "Radar Room",
-            "Lighthouse",
-            "Quay",
-            "Bridge",
-            "Boat Dock"
+            "Bridge"
           ],
           "attack_strategy_summary": "Layered execute: Fuze flashes from main, Ying pushes Radar Room for the trade, Maverick and Kali hit Server Room simultaneously. Zofia opens floors from above to deny defender anchor positions. Bridge vertical pressure controls both Server and Radar ",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Server Room wall, Maestro sets Evil Eyes covering Server Room plant spots and the main entry corridor. Jager denies projectile spam, Thunde"
@@ -1785,10 +1626,7 @@
           "callouts": [
             "Security Room",
             "Map Room",
-            "Lighthouse",
-            "Quay",
-            "Bridge",
-            "Boat Dock"
+            "Bridge"
           ],
           "attack_strategy_summary": "Open with Thatcher clearing electronics, then Hibana hits the Security Room wall on call. Zofia plays vertical from 2F to pressure Security Room anchors through the soft floor. Ash pushes through the breach with Fuze covering rotations. Boat Dock is ",
           "defense_strategy_summary": "Anchored 4, roaming 1: Doc, Jager, Mute, and Echo hold site; Caveira plays off-site for pick potential and timing pressure. Echo covers site entries with cameras and feeds rotation calls. Mira between Security and Map Room reads the main-stair push."
@@ -1814,10 +1652,7 @@
           "callouts": [
             "Coast Guard Meeting",
             "Lounge",
-            "Lighthouse",
-            "Quay",
-            "Bridge",
-            "Boat Dock"
+            "Bridge"
           ],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Coast Guard Meeting wall on call. Sledge plays vertical from 2F to pressure Coast Guard Meeting anchors through the soft floor. Ying pushes through the breach with Lion covering rotations. Q",
           "defense_strategy_summary": "Anchored 4, roaming 1: Lesion, Aruni, Kaid, and Maestro hold site; Pulse plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Coast Guard Meeting plant spots and the main entry corridor. Roam East Walkway — early pic"
@@ -1843,10 +1678,7 @@
           "callouts": [
             "Kayaks",
             "Supply Room",
-            "Lighthouse",
-            "Quay",
-            "Bridge",
-            "Boat Dock"
+            "Bridge"
           ],
           "attack_strategy_summary": "Open with Flores clearing electronics, then Thermite hits the Kayaks wall on call. Zofia opens 1F soft floors above Kayaks to deny basement defender setup. Zero pushes through the breach with Capitao covering rotations. Open Lighthouse hatch with Sle",
           "defense_strategy_summary": "Anchored 4, roaming 1: Goyo, Jager, Mute, and Valkyrie hold site; Pulse plays off-site for pick potential and timing pressure. Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Reinforce Kayaks ceiling — primary ve"
@@ -1899,10 +1731,7 @@
           "callouts": [
             "Master Office",
             "R6 Room",
-            "Sniper Nest",
-            "Garage",
-            "Main Stairs",
-            "East Entry"
+            "Main Stairs"
           ],
           "attack_strategy_summary": "Layered execute: Capitao flashes from main, Iana pushes R6 Room for the trade, Ace and Twitch hit Master Office simultaneously. Zofia opens floors from above to deny defender anchor positions. Catwalk is a strong vertical play position — Buck can ope",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Master Office wall, Mira places a Black Mirror between Master Office and R6 Room for sightlines on incoming pushes. Jager denies projectile"
@@ -1928,10 +1757,7 @@
           "callouts": [
             "Bunks",
             "Briefing",
-            "Sniper Nest",
-            "Garage",
-            "Main Stairs",
-            "East Entry"
+            "Main Stairs"
           ],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Bunks wall on call. Zofia plays vertical from 2F to pressure Bunks anchors through the soft floor. Ying pushes through the breach with Fuze covering rotations. Sledge or Buck from 2F above B",
           "defense_strategy_summary": "Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Maestro hold site; Caveira plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Bunks plant spots and the main entry corridor. Mute jammer on the Bunks reinforced "
@@ -1957,10 +1783,7 @@
           "callouts": [
             "Armory",
             "Weapon Maintenance",
-            "Sniper Nest",
-            "Garage",
-            "Main Stairs",
-            "East Entry"
+            "Main Stairs"
           ],
           "attack_strategy_summary": "Layered execute: Nomad flashes from main, Iana pushes Weapon Maintenance for the trade, Ace and Twitch hit Armory simultaneously. Buck plays vertical from 2F to pressure Armory anchors through the soft floor. Lobby control is the key — defenders rota",
           "defense_strategy_summary": "Vigil forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Bandit on the Armory wall, Mira places a Black Mirror between Armory and Weapon Maintenance for sightlines on incoming pushes. Wamai denies projectile "
@@ -1986,10 +1809,7 @@
           "callouts": [
             "Lab",
             "Lab Support",
-            "Sniper Nest",
-            "Garage",
-            "Main Stairs",
-            "East Entry"
+            "Main Stairs"
           ],
           "attack_strategy_summary": "Map control first: Finka and Iana clear Lab Support side while Sledge sets up vertical pressure. Sledge opens 1F soft floors above Lab to deny basement defender setup. Once site is droned and roamers are pressured, Twitch clears the wall and Ace open",
           "defense_strategy_summary": "Kaid denies the hard-breach on Lab with electrified walls. Mira places a Black Mirror between Lab and Lab Support for sightlines on incoming pushes. Aruni ADS protect anchors from grenades. Vigil roams to delay the push; Thunderbird provides sustain "
@@ -2040,12 +1860,7 @@
             "Azami (Flex / Sustain)"
           ],
           "callouts": [
-            "Command",
-            "Server",
-            "Reception",
-            "Loading Bay",
-            "Side Stairs",
-            "Maintenance"
+            "Command"
           ],
           "attack_strategy_summary": "Thermite opens the Command reinforced wall while Flores clears anti-breach electronics. Buck opens floors from above to deny defender anchor positions. Zero drones the site and entries through the breach once utility is gone. Nomad watches flanks and",
           "defense_strategy_summary": "Hold Server as the trade lane — Azami anchors there. Bandit denies breach on Command, Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Wamai catches grenades; Caveira cycles flanks to bait isolated entries. Bandit"
@@ -2070,11 +1885,7 @@
           ],
           "callouts": [
             "Control",
-            "Storage",
-            "Reception",
-            "Loading Bay",
-            "Side Stairs",
-            "Maintenance"
+            "Storage"
           ],
           "attack_strategy_summary": "Map control first: Capitao and Iana clear Storage side while Zofia sets up vertical pressure. Zofia plays vertical from 2F to pressure Control anchors through the soft floor. Once site is droned and roamers are pressured, Twitch clears the wall and A",
           "defense_strategy_summary": "Mute denies the hard-breach on Control with electrified walls. Mira places a Black Mirror between Control and Storage for sightlines on incoming pushes. Jager ADS protect anchors from grenades. Caveira roams to delay the push; Goyo provides sustain o"
@@ -2099,11 +1910,7 @@
           ],
           "callouts": [
             "Kitchen",
-            "Cafeteria",
-            "Reception",
-            "Loading Bay",
-            "Side Stairs",
-            "Maintenance"
+            "Cafeteria"
           ],
           "attack_strategy_summary": "Map control first: Finka and Iana clear Cafeteria side while Sledge sets up vertical pressure. Sledge plays vertical from 2F to pressure Kitchen anchors through the soft floor. Once site is droned and roamers are pressured, Twitch clears the wall and",
           "defense_strategy_summary": "Kaid denies the hard-breach on Kitchen with electrified walls. Mira places a Black Mirror between Kitchen and Cafeteria for sightlines on incoming pushes. Aruni ADS protect anchors from grenades. Caveira roams to delay the push; Lesion provides susta"
@@ -2128,11 +1935,7 @@
           ],
           "callouts": [
             "Tank",
-            "Assembly",
-            "Reception",
-            "Loading Bay",
-            "Side Stairs",
-            "Maintenance"
+            "Assembly"
           ],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia opens 1F soft floors above Tank to deny basement defender setup. Flores clears anti-breach and Thermite opens Tank on a coordinated count. Zero entries first; Capitao holds the back-side angles. Side Stairs vertical drop ",
           "defense_strategy_summary": "Setup is intel-first: Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Mute secures the Tank wall, Jager covers projectile lanes. Vigil hunts info from 2F/1F connectors while Lesion anchors site. Reinforce Mainten"
@@ -2187,8 +1990,7 @@
             "Dorms Main Hall",
             "Tower",
             "Construction",
-            "Big Tower",
-            "Showers"
+            "Big Tower"
           ],
           "attack_strategy_summary": "Sledge sets the tempo — Sledge opens floors from above to deny defender anchor positions. Twitch clears anti-breach and Ace opens Kids Dorms on a coordinated count. Iana entries first; Finka holds the back-side angles. Big Tower vertical is the stand",
           "defense_strategy_summary": "Setup is intel-first: Mira places a Black Mirror between Kids Dorms and Dorms Main Hall for sightlines on incoming pushes. Kaid secures the Kids Dorms wall, Aruni covers projectile lanes. Ela hunts info from 2F/1F connectors while Goyo anchors site. "
@@ -2216,8 +2018,7 @@
             "Kitchen",
             "Tower",
             "Construction",
-            "Big Tower",
-            "Showers"
+            "Big Tower"
           ],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia plays vertical from 2F to pressure Meeting Hall anchors through the soft floor. Flores clears anti-breach and Thermite opens Meeting Hall on a coordinated count. Zero entries first; Capitao holds the back-side angles. Con",
           "defense_strategy_summary": "Setup is intel-first: Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Mute secures the Meeting Hall wall, Jager covers projectile lanes. Pulse hunts info from 2F/1F connectors while Azami anchors site. Roam Const"
@@ -2245,8 +2046,7 @@
             "Dining Hall",
             "Tower",
             "Construction",
-            "Big Tower",
-            "Showers"
+            "Big Tower"
           ],
           "attack_strategy_summary": "Open with Thatcher clearing electronics, then Hibana hits the Kitchen wall on call. Sledge plays vertical from 2F to pressure Kitchen anchors through the soft floor. Ash pushes through the breach with Lion covering rotations. Pixel Stairs is the fast",
           "defense_strategy_summary": "Anchored 4, roaming 1: Azami, Aruni, Kaid, and Echo hold site; Ela plays off-site for pick potential and timing pressure. Echo covers site entries with cameras and feeds rotation calls. Mira on the Dining/Meeting connector reads roam-clear timing."
@@ -2274,8 +2074,7 @@
             "Supply Room",
             "Tower",
             "Construction",
-            "Big Tower",
-            "Showers"
+            "Big Tower"
           ],
           "attack_strategy_summary": "Buck sets the tempo — Buck opens 1F soft floors above Laundry to deny basement defender setup. Twitch clears anti-breach and Ace opens Laundry on a coordinated count. Iana entries first; Nomad holds the back-side angles. Open the Garage hatch with Sl",
           "defense_strategy_summary": "Setup is intel-first: Mira places a Black Mirror between Laundry and Supply Room for sightlines on incoming pushes. Bandit secures the Laundry wall, Wamai covers projectile lanes. Ela hunts info from 2F/1F connectors while Lesion anchors site. Bandit"
@@ -2327,11 +2126,7 @@
           ],
           "callouts": [
             "Laundry",
-            "Piano Room",
-            "Reception",
-            "Bushranger",
-            "Convenience Store",
-            "Compressor Room"
+            "Piano Room"
           ],
           "attack_strategy_summary": "Open with Kali clearing electronics, then Maverick hits the Laundry wall on call. Buck opens floors from above to deny defender anchor positions. Ying pushes through the breach with Glaz covering rotations. Reception vertical pressure denies Piano an",
           "defense_strategy_summary": "Anchored 4, roaming 1: Mozzie, Wamai, Bandit, and Maestro hold site; Alibi plays off-site for pick potential and timing pressure. Maestro sets Evil Eyes covering Laundry plant spots and the main entry corridor. Roam Bushranger — most attacker map con"
@@ -2356,11 +2151,7 @@
           ],
           "callouts": [
             "Party Room",
-            "Office",
-            "Reception",
-            "Bushranger",
-            "Convenience Store",
-            "Compressor Room"
+            "Office"
           ],
           "attack_strategy_summary": "Maverick opens the Party Room reinforced wall while Kali clears anti-breach electronics. Zofia opens floors from above to deny defender anchor positions. Ying drones the site and entries through the breach once utility is gone. Fuze watches flanks an",
           "defense_strategy_summary": "Hold Office as the trade lane — Doc anchors there. Mute denies breach on Party Room, Maestro sets Evil Eyes covering Party Room plant spots and the main entry corridor. Jager catches grenades; Caveira cycles flanks to bait isolated entries. Mira on t"
@@ -2385,11 +2176,7 @@
           ],
           "callouts": [
             "Green Bedroom",
-            "Red Bedroom",
-            "Reception",
-            "Bushranger",
-            "Convenience Store",
-            "Compressor Room"
+            "Red Bedroom"
           ],
           "attack_strategy_summary": "Layered execute: Fuze flashes from main, Ying pushes Red Bedroom for the trade, Maverick and Kali hit Green Bedroom simultaneously. Zofia plays vertical from 2F to pressure Green Bedroom anchors through the soft floor. Convenience Store is the fast 1",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Green Bedroom wall, Maestro sets Evil Eyes covering Green Bedroom plant spots and the main entry corridor. Jager denies projectile spam, Le"
@@ -2414,11 +2201,7 @@
           ],
           "callouts": [
             "Mechanic Shop",
-            "Kitchen",
-            "Reception",
-            "Bushranger",
-            "Convenience Store",
-            "Compressor Room"
+            "Kitchen"
           ],
           "attack_strategy_summary": "Maverick opens the Mechanic Shop reinforced wall while Kali clears anti-breach electronics. Zofia plays vertical from 2F to pressure Mechanic Shop anchors through the soft floor. Ying drones the site and entries through the breach once utility is gon",
           "defense_strategy_summary": "Hold Kitchen as the trade lane — Mozzie anchors there. Mute denies breach on Mechanic Shop, Maestro sets Evil Eyes covering Mechanic Shop plant spots and the main entry corridor. Jager catches grenades; Ela cycles flanks to bait isolated entries. Ban"
@@ -2468,14 +2251,7 @@
             "Ela (Roam)",
             "Lesion (Flex / Sustain)"
           ],
-          "callouts": [
-            "Meeting Room",
-            "Office",
-            "Tarmac",
-            "Front Stairs",
-            "Aft Stairs",
-            "Galley"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Lion flashes from main, Ash pushes Office for the trade, Hibana and Thatcher hit Meeting Room simultaneously. Sledge opens floors from above to deny defender anchor positions. Front Stairs is the standard exec — clear Galley utility ",
           "defense_strategy_summary": "Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Meeting Room wall, Echo covers site entries with cameras and feeds rotation calls. Aruni denies projectile spam, Lesion sustains anchors. Mir"
         },
@@ -2497,14 +2273,7 @@
             "Vigil (Roam)",
             "Thunderbird (Flex / Sustain)"
           ],
-          "callouts": [
-            "Security Room",
-            "Cargo Hold",
-            "Tarmac",
-            "Front Stairs",
-            "Aft Stairs",
-            "Galley"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Open with Flores clearing electronics, then Thermite hits the Security Room wall on call. Zofia plays vertical from 2F to pressure Security Room anchors through the soft floor. Zero pushes through the breach with Capitao covering rotations. Tarmac is",
           "defense_strategy_summary": "Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Valkyrie hold site; Vigil plays off-site for pick potential and timing pressure. Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Anchor Security — Cargo has to"
         },
@@ -2526,14 +2295,7 @@
             "Alibi (Roam)",
             "Thunderbird (Flex / Sustain)"
           ],
-          "callouts": [
-            "Kitchen",
-            "Stateroom",
-            "Tarmac",
-            "Front Stairs",
-            "Aft Stairs",
-            "Galley"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Map control first: Nomad and Zero clear Stateroom side while Buck sets up vertical pressure. Buck plays vertical from 2F to pressure Kitchen anchors through the soft floor. Once site is droned and roamers are pressured, Flores clears the wall and The",
           "defense_strategy_summary": "Bandit denies the hard-breach on Kitchen with electrified walls. Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Wamai ADS protect anchors from grenades. Alibi roams to delay the push; Thunderbird provides sustai"
         },
@@ -2555,14 +2317,7 @@
             "Caveira (Roam)",
             "Lesion (Flex / Sustain)"
           ],
-          "callouts": [
-            "Work Room",
-            "Lobby",
-            "Tarmac",
-            "Front Stairs",
-            "Aft Stairs",
-            "Galley"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Map control first: Fuze and Ash clear Lobby side while Zofia sets up vertical pressure. Zofia plays vertical from 2F to pressure Work Room anchors through the soft floor. Once site is droned and roamers are pressured, Thatcher clears the wall and Hib",
           "defense_strategy_summary": "Mute denies the hard-breach on Work Room with electrified walls. Echo covers site entries with cameras and feeds rotation calls. Jager ADS protect anchors from grenades. Caveira roams to delay the push; Lesion provides sustain or last-second plant de"
         }
@@ -2614,10 +2369,6 @@
           "callouts": [
             "Tea Room",
             "Karaoke",
-            "Geisha",
-            "Dragon",
-            "Hallway",
-            "Exhibition",
             "Balcony"
           ],
           "attack_strategy_summary": "Buck plays vertical from the roof hatch area to destroy the Tea Room floor and force defenders off anchors. Ash enters through Geisha window or balcony doors to create early pressure. Nomad covers flanks from Dragon and hallway rotations. Zofia clear",
@@ -2642,10 +2393,6 @@
             "Castle (Delay)"
           ],
           "callouts": [
-            "Work Office",
-            "Exhibition",
-            "Hallway",
-            "Main Stairs",
             "Ventilation",
             "Pantry"
           ],
@@ -2674,10 +2421,7 @@
             "Kitchen",
             "BBQ",
             "Pantry",
-            "Dragon",
-            "Main Stairs",
-            "Ventilation",
-            "Back Alley"
+            "Ventilation"
           ],
           "attack_strategy_summary": "Thermite opens the Kitchen reinforced wall from the exterior while Thatcher clears electronics. Buck plays vertical from 2F to destroy the floor above BBQ and force defenders off anchor. Nomad covers the main stairs and Dragon rotation. Flores drones",
           "defense_strategy_summary": "Bandit tricks the Kitchen wall to deny Thermite. Smoke holds BBQ corridor and denies plant attempts. Maestro Evil Eyes provide intel on the Kitchen push and chip damage through smoke. Vigil roams 2F and Dragon to waste attacker time. Wamai magnets ca"
@@ -2702,12 +2446,8 @@
           ],
           "callouts": [
             "Bedroom",
-            "Closet",
             "Bathroom",
-            "Balcony",
-            "Geisha",
-            "Main Stairs",
-            "Work Office"
+            "Balcony"
           ],
           "attack_strategy_summary": "Hibana opens the reinforced Bedroom wall from balcony while Thatcher clears electronics. Sledge plays vertical from above to pressure Closet anchors. Gridlock deploys trax on rotation routes to deny flanks. Dokkaebi calls phones to reveal anchor posi",
           "defense_strategy_summary": "Kaid electrifies the Bedroom wall to deny hard breach. Lesion mines cover bathroom and hallway entries for early warning. Jager ADS protect site from window projectiles. Ela roams Geisha and main stairs to waste time. Aruni gates on bathroom door and"
@@ -2757,14 +2497,7 @@
             "Ela (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Office",
-            "Target Room",
-            "Field",
-            "Locker Room",
-            "Tunnel",
-            "Main Stairs"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Capitao flashes from main, Zero pushes Target Room for the trade, Thermite and Flores hit Office simultaneously. Zofia opens floors from above to deny defender anchor positions. Press Box vertical is the standard play — Buck opens Of",
           "defense_strategy_summary": "Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Mute on the Office wall, Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Jager denies projectile spam, Azami sustai"
         },
@@ -2786,14 +2519,7 @@
             "Pulse (Roam)",
             "Smoke (Flex / Sustain)"
           ],
-          "callouts": [
-            "Kids Dormitory",
-            "Dormitory",
-            "Field",
-            "Locker Room",
-            "Tunnel",
-            "Main Stairs"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Finka flashes from main, Zero pushes Dormitory for the trade, Thermite and Flores hit Kids Dormitory simultaneously. Sledge opens floors from above to deny defender anchor positions. Concourse rotation pinch isolates Kids Dorm from D",
           "defense_strategy_summary": "Pulse forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Kids Dormitory wall, Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Aruni denies projectile spam, Sm"
         },
@@ -2815,14 +2541,7 @@
             "Caveira (Roam)",
             "Doc (Flex / Sustain)"
           ],
-          "callouts": [
-            "Piano Room",
-            "Living Room",
-            "Field",
-            "Locker Room",
-            "Tunnel",
-            "Main Stairs"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Finka flashes from main, Zero pushes Living Room for the trade, Thermite and Flores hit Piano Room simultaneously. Sledge plays vertical from 2F to pressure Piano Room anchors through the soft floor. Tunnel control is mandatory — def",
           "defense_strategy_summary": "Caveira forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Piano Room wall, Valkyrie hides Black Eye cameras outside the site for early rotation and entry reads. Aruni denies projectile spam, Doc "
         },
@@ -2844,14 +2563,7 @@
             "Ela (Roam)",
             "Mozzie (Flex / Sustain)"
           ],
-          "callouts": [
-            "Piano Room",
-            "Kitchen",
-            "Field",
-            "Locker Room",
-            "Tunnel",
-            "Main Stairs"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Open with Twitch clearing electronics, then Ace hits the Piano Room wall on call. Sledge plays vertical from 2F to pressure Piano Room anchors through the soft floor. Iana pushes through the breach with Finka covering rotations. Field side flash setu",
           "defense_strategy_summary": "Anchored 4, roaming 1: Mozzie, Aruni, Kaid, and Mira hold site; Ela plays off-site for pick potential and timing pressure. Mira places a Black Mirror between Piano Room and Kitchen for sightlines on incoming pushes. Maestro Evil Eye in Piano covers b"
         }
@@ -2903,10 +2615,7 @@
           "callouts": [
             "Throne Room",
             "Armory",
-            "Connector",
-            "Back Stairs",
-            "Dragon Stairs",
-            "Haunted Balcony"
+            "Dragon Stairs"
           ],
           "attack_strategy_summary": "Thermite opens the Throne Room reinforced wall while Thatcher clears electronics. Buck plays vertical from above to destroy the floor over Armory and force defenders off anchor. Capitao fire bolts deny key positions behind Throne Room cover. Nomad wa",
           "defense_strategy_summary": "Kaid electrifies the Throne Room wall to deny hard breach. Smoke holds Armory doorways and denies plant in the last 30 seconds. Jager ADS protect key angles from projectile spam. Vigil roams connector and Dragon stairs to waste time. Maestro Evil Eye"
@@ -2933,9 +2642,7 @@
             "Lab",
             "Storage",
             "Maintenance",
-            "Connector",
-            "Yellow Corridor",
-            "Drug Lab"
+            "Yellow Corridor"
           ],
           "attack_strategy_summary": "Hibana opens the Lab reinforced wall at range while Thatcher clears electronics. Sledge plays vertical from 2F to pressure Storage anchors. Gridlock trax deny rotations through connector and maintenance. Iana drones out remaining defenders before the",
           "defense_strategy_summary": "Bandit tricks the Lab wall to deny Hibana. Lesion mines cover maintenance and connector entries for early warning. Ela roams 2F and yellow corridor to waste time. Jager ADS protect site from grenades and flashes. Thunderbird stations heal in Storage "
@@ -2961,10 +2668,7 @@
           "callouts": [
             "Office",
             "Initiation",
-            "Connector",
-            "Haunted Stairs",
-            "Cafe",
-            "Gargoyle"
+            "Cafe"
           ],
           "attack_strategy_summary": "Ace opens the Office reinforced wall from the exterior. Twitch drone clears gadgets and electronics before breach. Zofia concussions clear corners in Initiation and opens soft wall rotations. Ash pushes through connector for early pressure. Dokkaebi ",
           "defense_strategy_summary": "Mira window between Office and Initiation gives intel on pushes from connector. Smoke denies plant attempts in Office doorways. Mozzie captures attacker drones for counter-intel in connector. Alibi roams Cafe and Haunted stairs to slow the push. Wama"
@@ -2992,7 +2696,6 @@
             "Day Care",
             "Yellow Corridor",
             "Maintenance",
-            "Connector",
             "Arcade"
           ],
           "attack_strategy_summary": "Thermite opens the Bunk reinforced wall while Thatcher clears electronics. Buck opens soft floor down into 1F maintenance and connector to deny defender flanks and rotations. Flores drones clear defender utility and force repositions. Lion scans duri",
@@ -3043,14 +2746,7 @@
             "Alibi (Roam)",
             "Smoke (Flex / Sustain)"
           ],
-          "callouts": [
-            "Gift Shop",
-            "Lantern Room",
-            "Helipad",
-            "East Stairs",
-            "Lobby",
-            "Roof Access"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia opens floors from above to deny defender anchor positions. Twitch clears anti-breach and Ace opens Gift Shop on a coordinated count. Iana entries first; Capitao holds the back-side angles. Helipad vertical pressure denies",
           "defense_strategy_summary": "Setup is intel-first: Mira places a Black Mirror between Gift Shop and Lantern Room for sightlines on incoming pushes. Mute secures the Gift Shop wall, Jager covers projectile lanes. Alibi hunts info from 2F/1F connectors while Smoke anchors site. Ba"
         },
@@ -3072,14 +2768,7 @@
             "Alibi (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Tea Room",
-            "Bar",
-            "Helipad",
-            "East Stairs",
-            "Lobby",
-            "Roof Access"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Lion flashes from main, Ying pushes Bar for the trade, Maverick and Kali hit Tea Room simultaneously. Sledge plays vertical from 2F to pressure Tea Room anchors through the soft floor. East Stairs is the fast rotation flank — Nomad d",
           "defense_strategy_summary": "Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Tea Room wall, Maestro sets Evil Eyes covering Tea Room plant spots and the main entry corridor. Aruni denies projectile spam, Azami sustai"
         },
@@ -3101,14 +2790,7 @@
             "Vigil (Roam)",
             "Mozzie (Flex / Sustain)"
           ],
-          "callouts": [
-            "Restaurant",
-            "Bird Room",
-            "Helipad",
-            "East Stairs",
-            "Lobby",
-            "Roof Access"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Layered execute: Finka flashes from main, Iana pushes Bird Room for the trade, Ace and Twitch hit Restaurant simultaneously. Sledge plays vertical from 2F to pressure Restaurant anchors through the soft floor. Restaurant Stairs vertical pressure deni",
           "defense_strategy_summary": "Vigil forces attackers to play slow — early picks from off-site keep their utility on flank-watch. Kaid on the Restaurant wall, Mira places a Black Mirror between Restaurant and Bird Room for sightlines on incoming pushes. Aruni denies projectile spa"
         },
@@ -3130,14 +2812,7 @@
             "Vigil (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Exhibit Room",
-            "Media Center",
-            "Helipad",
-            "East Stairs",
-            "Lobby",
-            "Roof Access"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Open with Thatcher clearing electronics, then Hibana hits the Exhibit Room wall on call. Sledge opens floors from above to deny defender anchor positions. Ash pushes through the breach with Lion covering rotations. Lobby control is mandatory — defend",
           "defense_strategy_summary": "Anchored 4, roaming 1: Azami, Aruni, Kaid, and Echo hold site; Vigil plays off-site for pick potential and timing pressure. Echo covers site entries with cameras and feeds rotation calls. Anchor Media Center — Exhibit has too many soft walls to defen"
         }
@@ -3222,8 +2897,7 @@
             "Red Stairs",
             "Balcony",
             "Classical",
-            "Bathroom",
-            "Main Hall"
+            "Bathroom"
           ],
           "attack_strategy_summary": "Hibana opens the Trophy reinforced wall from the balcony side. Sledge plays vertical from above to pressure Statuary anchors. Capitao fires bolts deny default anchor spots behind Trophy displays. Zofia enters from red stairs with concussions. Flores ",
           "defense_strategy_summary": "Kaid electrifies Trophy wall and the hatch above from safe positions. Maestro places Evil Eyes on plant spots in Statuary. Mute denies drones through key entry points. Ela roams red stairs and bathroom to delay attackers. Melusi slows pushes through "
@@ -3251,9 +2925,7 @@
             "Dining",
             "Mudroom",
             "Pantry",
-            "Library Hallway",
-            "Red Stairs",
-            "Back Door"
+            "Red Stairs"
           ],
           "attack_strategy_summary": "Ace opens the Dining Room reinforced wall from mudroom side. Buck plays vertical from 2F Trophy to destroy the Kitchen floor and deny anchors. Gridlock covers flanks with Trax on rotations from library. Dokkaebi calls phones to reveal hiding defender",
           "defense_strategy_summary": "Mira places a Black Mirror on the wall between Kitchen and pantry for intel on mudroom pushes. Smoke denies plant in Dining Room doorways. Thunderbird heals anchors in high-traffic spots. Vigil roams 2F and red stairs to waste attacker time. Castle b"
@@ -3279,9 +2951,6 @@
           "callouts": [
             "Living Room",
             "Library",
-            "Garden",
-            "Main Hall",
-            "Fireplace",
             "Piano",
             "China Room"
           ],
@@ -3312,6 +2981,117 @@
         ]
       }
     },
+    "calypso-casino": {
+      "name": "Calypso Casino",
+      "sites": [
+        {
+          "id": "vip-cash",
+          "name": "Cigar Room / Pool",
+          "floor": "2F",
+          "attack_operators": [
+            "Thermite (Hard Breach)",
+            "Thatcher (Support)",
+            "Buck (Vertical Play)",
+            "Iana (Entry Frag)",
+            "Nomad (Flank Watch)"
+          ],
+          "defense_operators": [
+            "Kaid (Anti-Breach)",
+            "Mute (Intel Denial)",
+            "Valkyrie (Intel)",
+            "Vigil (Roam)",
+            "Goyo (Flex / Denial)"
+          ],
+          "callouts": [
+            "Cigar Room",
+            "Pool",
+            "Stairs"
+          ],
+          "attack_strategy_summary": "Hard breach the Pool wall with Thermite while Thatcher EMPs the anti-breach. Buck plays vertical from the floor above to break anchor positions. Control the stairs and balcony approaches before committing. Iana entries on the open; Nomad locks the fl",
+          "defense_strategy_summary": "Reinforce the Pool wall and the hatch above; Kaid electrifies against the hard breach. Mute jams the wall and drone lanes. Valkyrie cams cover stairs and balcony. One roamer wastes time on the approach. Anchor low and deny the plant."
+        },
+        {
+          "id": "casino-keno",
+          "name": "Blackjack / Poker",
+          "floor": "1F",
+          "attack_operators": [
+            "Ace (Hard Breach)",
+            "Thatcher (Support)",
+            "Zofia (Soft Breach)",
+            "Ash (Entry Frag)",
+            "Flores (Utility Clear)"
+          ],
+          "defense_operators": [
+            "Bandit (Anti-Breach)",
+            "Maestro (Intel / Denial)",
+            "Mute (Utility Denial)",
+            "Alibi (Roam / Intel)",
+            "Melusi (Slow / Flex)"
+          ],
+          "callouts": [
+            "Blackjack",
+            "Poker"
+          ],
+          "attack_strategy_summary": "Open the Poker wall with Ace; Thatcher clears anti-breach. Zofia opens soft walls for rotations and crossfire. Smoke the open Blackjack floor sightlines before pushing. Ash entries; Flores clears defender cams and gadgets.",
+          "defense_strategy_summary": "Bandit-trick or Kaid the Poker wall. Maestro Evil Eyes cover the open Blackjack floor and plant spots. Mute denies drones and supports the wall. Alibi roams the floor to slow pushes; Melusi Banshees slow the main entry. Hold tight angles against the "
+        },
+        {
+          "id": "lobby-mezzanine",
+          "name": "Bar / Betting",
+          "floor": "1F",
+          "attack_operators": [
+            "Thermite (Hard Breach)",
+            "Thatcher (Support)",
+            "Buck (Vertical Play)",
+            "Ash (Entry Frag)",
+            "Jackal (Flank / Intel)"
+          ],
+          "defense_operators": [
+            "Kaid (Anti-Breach)",
+            "Mira (Intel)",
+            "Mute (Utility Denial)",
+            "Ela (Roam)",
+            "Goyo (Flex / Denial)"
+          ],
+          "callouts": [
+            "Bar",
+            "Stairs"
+          ],
+          "attack_strategy_summary": "Open the Betting Lounge wall with Thermite; Thatcher clears anti-breach. Buck plays vertical from 2F. The Bar is open — use flashes and smoke to cross. Control the betting-lounge high ground; Ash entries, Jackal hunts roamers.",
+          "defense_strategy_summary": "Reinforce the Betting Lounge wall; Kaid electrifies. Mira Black Mirror for sightlines across the Bar. Mute denies drones. Ela roams reception and stairs. Goyo holds plant-deny. The open bar area favors defenders on Mira sightlines — hold and trade."
+        },
+        {
+          "id": "vault-security",
+          "name": "CCTV / Vault Checkpoint",
+          "floor": "B",
+          "attack_operators": [
+            "Hibana (Hard Breach)",
+            "Thatcher (Support)",
+            "Sledge (Vertical Play)",
+            "Iana (Entry Frag)",
+            "Nomad (Flank Watch)"
+          ],
+          "defense_operators": [
+            "Mute (Anti-Breach / Denial)",
+            "Maestro (Intel / Denial)",
+            "Pulse (Intel)",
+            "Vigil (Roam)",
+            "Doc (Sustain / Anchor)"
+          ],
+          "callouts": [
+            "CCTV",
+            "Vault Checkpoint",
+            "Stairs"
+          ],
+          "attack_strategy_summary": "Basement is a vertical and control fight. Hibana opens the Vault Checkpoint wall or a hatch from 1F; Thatcher clears denial. Use vertical from above to deny anchors. Control the stair approaches and deny rotations. Slow, utility-heavy execute — do no",
+          "defense_strategy_summary": "Basement defends on tight angles and hatches. Reinforce the Vault Checkpoint wall and hatches; Mute jams them. Pulse reads pushes through the floor. Vigil roams the basement halls. Doc anchors and sustains. Force attackers into crossfires — do not ov"
+        }
+      ],
+      "bans": {
+        "attack": [],
+        "defense": []
+      }
+    },
     "yacht": {
       "name": "Yacht",
       "sites": [
@@ -3333,14 +3113,7 @@
             "Caveira (Roam)",
             "Azami (Flex / Sustain)"
           ],
-          "callouts": [
-            "Cockpit",
-            "Maps Room",
-            "Helipad",
-            "Sun Deck",
-            "Bow",
-            "Stern"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Map control first: Lion and Ash clear Maps Room side while Sledge sets up vertical pressure. Sledge works the soft floors below Cockpit to control rotation paths. Once site is droned and roamers are pressured, Thatcher clears the wall and Hibana open",
           "defense_strategy_summary": "Kaid denies the hard-breach on Cockpit with electrified walls. Echo covers site entries with cameras and feeds rotation calls. Aruni ADS protect anchors from grenades. Caveira roams to delay the push; Azami provides sustain or last-second plant denia"
         },
@@ -3362,14 +3135,7 @@
             "Pulse (Roam)",
             "Mozzie (Flex / Sustain)"
           ],
-          "callouts": [
-            "Cafeteria",
-            "Staff Dormitory",
-            "Helipad",
-            "Sun Deck",
-            "Bow",
-            "Stern"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Sledge sets the tempo — Sledge opens floors from above to deny defender anchor positions. Thatcher clears anti-breach and Hibana opens Cafeteria on a coordinated count. Ash entries first; Lion holds the back-side angles. Crew Stairs is the back-flank",
           "defense_strategy_summary": "Setup is intel-first: Echo covers site entries with cameras and feeds rotation calls. Kaid secures the Cafeteria wall, Aruni covers projectile lanes. Pulse hunts info from 2F/1F connectors while Mozzie anchors site. Bandit-trick the Cafeteria exterio"
         },
@@ -3391,14 +3157,7 @@
             "Pulse (Roam)",
             "Lesion (Flex / Sustain)"
           ],
-          "callouts": [
-            "Engine Control",
-            "Kitchen",
-            "Helipad",
-            "Sun Deck",
-            "Bow",
-            "Stern"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Zofia sets the tempo — Zofia opens floors from above to deny defender anchor positions. Thatcher clears anti-breach and Hibana opens Engine Control on a coordinated count. Ash entries first; Fuze holds the back-side angles. Sun Deck vertical pressure",
           "defense_strategy_summary": "Setup is intel-first: Echo covers site entries with cameras and feeds rotation calls. Mute secures the Engine Control wall, Jager covers projectile lanes. Pulse hunts info from 2F/1F connectors while Lesion anchors site. Maestro Evil Eye in Engine Co"
         },
@@ -3420,14 +3179,7 @@
             "Pulse (Roam)",
             "Mozzie (Flex / Sustain)"
           ],
-          "callouts": [
-            "Server Room",
-            "Engine Storage",
-            "Helipad",
-            "Sun Deck",
-            "Bow",
-            "Stern"
-          ],
+          "callouts": [],
           "attack_strategy_summary": "Sledge sets the tempo — Sledge plays vertical from 2F to pressure Server Room anchors through the soft floor. Thatcher clears anti-breach and Hibana opens Server Room on a coordinated count. Ash entries first; Lion holds the back-side angles. Open Bo",
           "defense_strategy_summary": "Setup is intel-first: Echo covers site entries with cameras and feeds rotation calls. Kaid secures the Server Room wall, Aruni covers projectile lanes. Pulse hunts info from 2F/1F connectors while Mozzie anchors site. Reinforce Server ceiling — prima"
         }
@@ -3507,7 +3259,9 @@
     "Mute": {
       "roles": [
         "Intel Denial",
-        "Anti-Breach"
+        "Anti-Breach",
+        "Utility Denial",
+        "Anti-Breach / Denial"
       ],
       "side": "defense"
     },
@@ -3692,6 +3446,7 @@
     "Doc": {
       "roles": [
         "Anchor",
+        "Sustain / Anchor",
         "Flex / Sustain"
       ],
       "side": "defense"
@@ -3699,7 +3454,8 @@
     "Melusi": {
       "roles": [
         "Slow",
-        "Slow / Intel"
+        "Slow / Intel",
+        "Slow / Flex"
       ],
       "side": "defense"
     },
@@ -3716,6 +3472,19 @@
         "Flex / Sustain"
       ],
       "side": "defense"
+    },
+    "Goyo": {
+      "roles": [
+        "Flex / Denial",
+        "Flex / Sustain"
+      ],
+      "side": "defense"
+    },
+    "Jackal": {
+      "roles": [
+        "Flank / Intel"
+      ],
+      "side": "attack"
     },
     "Kali": {
       "roles": [
@@ -3758,12 +3527,6 @@
         "Entry Frag"
       ],
       "side": "attack"
-    },
-    "Goyo": {
-      "roles": [
-        "Flex / Sustain"
-      ],
-      "side": "defense"
     }
   }
 }
