@@ -2,6 +2,15 @@
 
 You're working on **Ghost IGL** (r6coaching.com), an AI-powered in-game leader / coaching SaaS for Rainbow Six Siege. This file auto-loads every session — use it to skip the "explain the project" tax.
 
+## Read first: growth, sales and UX work
+
+Before changing a public page, signup, checkout, onboarding, growth tooling, the CRM or the admin, read `docs/GROWTH-UX-OPERATING-STANDARD.md` and follow its review gates.
+
+- **Product facts** (plans, prices, trials, limits, refunds, capabilities, counts, season) come from the standard's truth registry (section 3) and the config it names. The pricing and launch sections of this file are historical.
+- **Current state:** the latest audit is `docs/audits/2026-09-25-growth-ux-audit.md`.
+- **Never** invent proof, urgency, popularity or outcomes.
+- **Report conflicts** between pages instead of picking one.
+
 ---
 
 ## Stack
