@@ -207,18 +207,19 @@ const OP_DATA = {
   },
   Dokkaebi: {
     side: 'attack', role: 'Intel / Targeted Disable', gadget: 'Jegeo Payload',
-    // Updated for Y11S2 Operation System Override (June 2, 2026).
-    // Old gadget Logic Bomb (mass phone reveal) replaced with single-target
-    // Jegeo Payload — Deimos-style mark that explodes the targeted defender's
-    // phone for ~40 HP + fire damage and locks them out of observation tools
-    // and any phone-controlled gadget (Maestro/Echo/Mozzie/Fenrir/Skopós).
-    gadgetDesc: 'A targeted device that marks ONE defender per call. The targeted defender\'s phone rings with an urgent warning — if they don\'t relocate, it explodes for ~40 HP direct damage plus fire damage around them. The hit defender is then locked out of observation tools and any phone-controlled gadget (Maestro Evil Eyes, Echo Yokai, Mozzie Pests, Fenrir mines, Skopós rope-cam). More charges + faster cooldown than the old Logic Bomb. Passive: hacks defender cams when she kills a defender.',
-    primary: 'BOSG.12.2 / Mk 14 EBR / XK23', secondary: 'C75 AUTO / SMG-12', secondaryGadget: 'Stun Grenade / Frag Grenade', speed: '3-speed / 1-armor',
+    // Y11S2 remaster (Operation System Override, June 2, 2026). Checked
+    // 2026-09-25 against Ubisoft's Dokkaebi operator page (loadout), the Y11S2
+    // designer's notes (40 HP, 5-second fire, Stun Grenades removed), the
+    // June 26 Community Checkpoint (Mute and Tubarao can sever the payload from
+    // mid-season) and the mid-season update (14-second cooldown per target).
+    // Nothing official backs a Vigil counter.
+    gadgetDesc: 'A targeted call on ONE defender at a time, aimed like Deimos\'s DeathMark tracker. If the target doesn\'t reset their phone in time, it explodes for 40 HP and starts a fire where they stand that burns for 5 seconds. A defender whose phone explodes can\'t use observation tools until they die or the round ends, which also shuts off phone-driven gadgets: Maestro\'s Evil Eye zaps, Echo\'s Yokai bursts, Mozzie\'s stolen drones, Fenrir\'s F-NATT Dread Mines and switching Skopós\'s shells. More charges than the old Logic Bomb; since the mid-season patch the cooldown is 14 seconds per target. Passive: she still hacks eliminated defenders\' phones, now from a distance and through walls.',
+    primary: 'BOSG.12.2 / Mk 14 EBR / XK23', secondary: 'C75 Auto / Gonne-6 / SMG-12', secondaryGadget: 'Smoke Grenade / Breach Charge', speed: '3-speed / 1-armor',
     intro: 'Dokkaebi remastered in Y11S2: single-target Jegeo Payload replaces the old mass-call Logic Bomb. She is now a hard counter against phone-gadget defenders — Maestro, Echo, Mozzie, Fenrir, and Skopós all lose their kit if she lands her mark.',
-    strengths: ['Jegeo Payload disables phone-gadget defenders (Maestro/Echo/Mozzie/Fenrir/Skopós) when it lands', 'Forced 40 HP damage on the target plus surrounding fire damage', 'Locks the target out of observation tools — kills cam-watch defense', 'New XK23 Assault Rifle option gives her real mid-range combat capability', 'Cam hack on kill remains as passive intel'],
-    counterPicks: ['Mute (jammers near defenders block phone activation)', 'Vigil (cloak nullifies the targeting)'],
-    counterAdvice: 'On defense: Mute jammers near defenders block Jegeo Payload activation. Vigil\'s cloak nullifies the targeting beep. If your phone rings urgently — RELOCATE immediately, the explosion area is small but the damage is lethal. Phone-gadget anchors (Maestro, Echo, Mozzie, Fenrir, Skopós) need to stay near a Mute jammer at all times after the Y11S2 patch.',
-    howToClimb: 'Y11S2 Jegeo Payload usage: prioritize targeting the enemy Maestro / Echo / Mozzie / Fenrir / Skopós at the start of a push — locking them out of their gadget is round-deciding. Save remaining charges for the post-plant fight to deny defuser-denial cameras. The XK23 fills her old mid-range gap — she can solo entry now, not just play intel role.',
+    strengths: ['Jegeo Payload disables phone-gadget defenders (Maestro/Echo/Mozzie/Fenrir/Skopós) when it lands', '40 HP explosion plus a 5-second fire when the target is slow to reset their phone', 'Locks the target out of observation tools — kills cam-watch defense', 'New XK23 assault rifle: a steadier primary for sustained short-to-medium range fights', 'Still hacks eliminated defenders\' phones, now from range and through walls'],
+    counterPicks: ['Mute (can sever the payload connection before it detonates)', 'Tubarao (can sever the payload connection before it detonates)'],
+    counterAdvice: 'On defense: reset your phone the moment it rings. If it goes off you take 40 HP and a fire starts under you, so move. Since the mid-season patch the payload is a signal she has to hold, and Mute or Tubarao can cut it before it detonates. Phone-gadget anchors (Maestro, Echo, Mozzie, Fenrir, Skopós) lose that gadget for the rest of the round if their phone blows, so keep them inside that cover.',
+    howToClimb: 'Y11S2 Jegeo Payload usage: prioritize targeting the enemy Maestro / Echo / Mozzie / Fenrir / Skopós at the start of a push — locking them out of their gadget is round-deciding. Save remaining charges for the post-plant fight to deny defuser-denial cameras. The XK23 gives her a steadier gun for sustained fights, but Ubisoft took away her Stun Grenades to keep her on intel, not solo entry.',
   },
   Finka: {
     side: 'attack', role: 'Support / Buff', gadget: 'Adrenal Surge',
@@ -564,23 +565,6 @@ const OP_DATA = {
   },
 }
 
-// Add fallback for any operator missing from OP_DATA
-const OP_FALLBACK = {
-  side: 'attack',
-  role: 'Operator',
-  gadget: 'Unique gadget',
-  gadgetDesc: 'See in-game description for full ability details.',
-  primary: 'See loadout',
-  secondary: 'See loadout',
-  secondaryGadget: 'Frag / Stun / Smoke',
-  speed: '2-speed / 2-armor',
-  intro: 'A Rainbow Six Siege operator with unique utility. Pick based on map and team comp synergy. <em>Detailed write-up VERIFY: confirm specifics before relying on this guide.</em>',
-  strengths: ['Versatile across attack scenarios', 'Strong primary weapon options', 'Unique gadget for tactical advantage'],
-  counterPicks: ['Universal counters (Thatcher, Mute, etc.)'],
-  counterAdvice: 'See per-operator counter strategies in the Recon 6 operator guide.',
-  howToClimb: 'Master the operator\'s gadget timing and weapon recoil. Coordinate with team for synergy plays.',
-}
-
 // ---------- BUILD OPERATOR INDEX FROM STRATS ----------
 
 function buildOperatorIndex() {
@@ -746,7 +730,7 @@ function renderBestSites(opName, opSites) {
 }
 
 function renderOperatorPost(opName, opIndex) {
-  const op = OP_DATA[opName] || OP_FALLBACK
+  const op = OP_DATA[opName]
   const opSites = (opIndex[opName]?.sites) || []
   const slug = `r6-operator-${slugify(opName)}`
   const canonical = `${SITE_URL}/blog/${slug}.html`
@@ -950,7 +934,12 @@ function renderOperatorPost(opName, opIndex) {
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
   const opIndex = buildOperatorIndex()
-  const opNames = Object.keys(opIndex).sort()
+  // Only operators with a real write-up in OP_DATA get a page. The old
+  // fallback published placeholder copy ("Unique gadget", "VERIFY: confirm
+  // specifics") for anyone strats.js mentions, and the sitemap lists only
+  // operators that have a write-up.
+  const opNames = Object.keys(opIndex).filter((name) => OP_DATA[name]).sort()
+  const skipped = Object.keys(opIndex).filter((name) => !OP_DATA[name]).sort()
 
   let written = 0
   for (const opName of opNames) {
@@ -962,6 +951,7 @@ function main() {
 
   console.log(`✓ Generated ${written} R6 operator deep-dive posts in public/blog/`)
   console.log(`  Operators: ${opNames.join(', ')}`)
+  if (skipped.length) console.log(`  Skipped (no write-up in OP_DATA): ${skipped.join(', ')}`)
 }
 
 main()
