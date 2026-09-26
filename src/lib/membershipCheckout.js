@@ -24,7 +24,9 @@ export async function openMembershipCheckout(tier) {
   window.location.assign(data.url)
 }
 
-export function membershipSignInPath(tier) {
-  const redirect = `/?checkout=${encodeURIComponent(tier)}`
+// After signup, /auth sends the player back to `returnPath` with
+// ?checkout=<tier>; that page resumes checkout once (see useCheckoutResume).
+export function membershipSignInPath(tier, returnPath = '/') {
+  const redirect = `${returnPath}?checkout=${encodeURIComponent(tier)}`
   return `/auth?mode=signup&redirect=${encodeURIComponent(redirect)}`
 }

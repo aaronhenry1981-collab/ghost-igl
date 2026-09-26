@@ -23,7 +23,7 @@ function sanitize(raw) {
     .slice(0, 32)
 }
 
-export function setCampaignAttribution({ source, medium = '', campaign = '', content = '' }) {
+export function setCampaignAttribution({ source, medium = '', campaign = '', content = '', term = '' }) {
   try {
     const cleanSource = sanitize(source)
     if (!cleanSource) return
@@ -31,11 +31,15 @@ export function setCampaignAttribution({ source, medium = '', campaign = '', con
 
     const existing = getCampaignAttribution()
     if (existing && existing.source && existing.source !== 'direct') return
+    // utm_term is stored only when present, so attribution saved before it
+    // was captured keeps exactly the same shape.
+    const cleanTerm = sanitize(term)
     localStorage.setItem(CAMPAIGN_KEY, JSON.stringify({
       source: cleanSource,
       medium: sanitize(medium),
       campaign: sanitize(campaign),
       content: sanitize(content),
+      ...(cleanTerm ? { term: cleanTerm } : {}),
     }))
   } catch { /* storage blocked — attribution never blocks navigation */ }
 }
@@ -68,6 +72,7 @@ export function captureRefSource() {
         medium: query.get('utm_medium'),
         campaign: query.get('utm_campaign'),
         content: query.get('utm_content'),
+        term: query.get('utm_term'),
       })
     }
   } catch { /* storage blocked — lose attribution, never break the app */ }

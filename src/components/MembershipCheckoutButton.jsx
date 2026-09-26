@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { membershipSignInPath, openMembershipCheckout } from '../lib/membershipCheckout'
+import { rememberCheckoutStart } from '../lib/checkoutFunnel'
 import { track } from '../utils/analytics'
 
 export default function MembershipCheckoutButton({
@@ -11,6 +12,7 @@ export default function MembershipCheckoutButton({
   className = '',
   style,
   onError,
+  returnPath = '/',
 }) {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -18,8 +20,9 @@ export default function MembershipCheckoutButton({
 
   async function handleClick() {
     track('Pricing CTA Click', { tier, location })
+    rememberCheckoutStart(tier, location)
     if (!user) {
-      navigate(membershipSignInPath(tier))
+      navigate(membershipSignInPath(tier, returnPath))
       return
     }
     setLoading(true)
