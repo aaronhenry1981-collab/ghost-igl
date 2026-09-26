@@ -15,7 +15,8 @@ test('while Split Fire is live and Y11S4 is unannounced: no timer, no stale copy
   assert.match(html, /September 1 – December 1, 2026/)
   assert.match(html, /Y11S3\.1<\/a>, September 22, 2026/)
   assert.doesNotMatch(html, /id="timer"/)
-  assert.doesNotMatch(html, /any day now|Y11S2|System Override|Fireworks/)
+  assert.doesNotMatch(html, /any day now|Y11S2|System Override|Fireworks|covers the whole pool/)
+  assert.match(html, /Bank and Coastline are free; the rest of the pool is in Pro/)
   // The page switches itself to a "check Ubisoft" notice once the season's
   // Battle Pass window is over, even if nobody rebuilds it. The facts grid's
   // own display rule must not override the hidden attribute.

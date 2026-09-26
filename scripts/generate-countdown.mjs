@@ -202,7 +202,7 @@ ${highlights(live)}
   <h2>How to spend the time left this season</h2>
   <p>Season resets compress your MMR toward the middle — the players who climb fastest after a reset are the ones who fixed their fundamentals <em>before</em> it. Two honest suggestions:</p>
   <ul>
-    <li>Learn the ranked pool properly: <a href="/strats">site-by-site strats for every ranked map</a> — free tier covers the whole pool.</li>
+    <li>Learn the ranked pool properly: <a href="/strats">site-by-site strats for every ranked map</a>. Bank and Coastline are free; the rest of the pool is in Pro.</li>
     <li>Find out what actually costs you rounds: <a href="/vod">drop a screenshot for an AI breakdown</a>, or browse the <a href="/operators">operator index</a> and <a href="/meta">live meta board</a>.</li>
   </ul>
 
