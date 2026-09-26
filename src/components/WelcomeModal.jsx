@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { onboardingDeferredHere } from '../lib/onboardingDeferral'
 import { useUserRole } from '../hooks/useUserRole'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useSectionNavigate } from '../utils/sectionLink'
@@ -20,6 +21,7 @@ const ROLES = [
 
 export default function WelcomeModal() {
   const { user, plan, isAdmin, loading } = useAuth()
+  const { pathname } = useLocation()
   const { role: existingRole, refresh: refreshRole } = useUserRole()
   const goToPricing = useSectionNavigate('pricing')
   const [step, setStep] = useState(0)
@@ -71,7 +73,7 @@ export default function WelcomeModal() {
   // Owners use the site as an operating console, not as a new coaching lead.
   // The multi-step customer tour covered the dashboard and hid the controls
   // they actually need on first load, so admin accounts skip it entirely.
-  if (!visible || isAdmin) return null
+  if (!visible || isAdmin || onboardingDeferredHere(pathname)) return null
 
   const isChampion = plan === 'champion' || isAdmin
   const isElite = plan === 'elite' || isChampion
