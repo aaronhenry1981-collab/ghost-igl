@@ -248,12 +248,13 @@ export default function AuthPage() {
   const emailDisabled = mode === 'confirm' || mode === 'reset' || mode === 'new-password'
   const showPassword = mode === 'signin' || mode === 'signup' || mode === 'reset' || mode === 'new-password'
   const passwordPlaceholder =
-    mode === 'reset' || mode === 'new-password' ? 'New password (min 8 chars)' :
+    mode === 'reset' || mode === 'new-password' ? 'New password (at least 12 characters)' :
     mode === 'signin' ? 'Your password' :
-    'Min 8 characters, mix of letters and numbers'
-  // Cognito default policy requires 8+ chars with upper/lower/number. Match
-  // it across all forms so users don't get a confusing post-submit rejection.
-  const passwordMinLength = mode === 'signin' ? 1 : 8
+    'At least 12 characters'
+  // The user pool requires 12+ characters and no character-type rules
+  // (aws/template.yaml PasswordPolicy; the live pool matched on 2026-09-25).
+  // Match it here so nobody gets a post-submit rejection from Cognito.
+  const passwordMinLength = mode === 'signin' ? 1 : 12
   const showCode = mode === 'confirm' || mode === 'reset'
 
   const storyTitle = mode === 'signup'
@@ -291,7 +292,7 @@ export default function AuthPage() {
           </div>
           <ul className="auth-story-points">
             <li><span>01</span> Free map, operator, and strategy foundation</li>
-            <li><span>02</span> Try a real round review before paying</li>
+            <li><span>02</span> See a sample round review before you pay</li>
             <li><span>03</span> No game login, injection, or account sharing</li>
           </ul>
         </aside>
@@ -352,6 +353,10 @@ export default function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 className="auth-input"
                 placeholder="your@email.com"
                 disabled={emailDisabled}
@@ -368,6 +373,7 @@ export default function AuthPage() {
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                 required
                 inputMode="numeric"
+                autoComplete="one-time-code"
                 pattern="[0-9]{6}"
                 className="auth-input"
                 placeholder="6-digit code"
@@ -385,6 +391,7 @@ export default function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={passwordMinLength}
+                autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                 className="auth-input"
                 placeholder={passwordPlaceholder}
               />
