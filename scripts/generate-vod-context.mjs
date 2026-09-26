@@ -10,6 +10,7 @@
 import { writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { verifiedFor } from '../src/data/verified-callouts.js'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
 import BANS from '../src/data/bans.js'
@@ -17,6 +18,20 @@ import BANS from '../src/data/bans.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT = join(ROOT, 'lambda', 'vod', 'r6-context.json')
+
+const words = (s) => ` ${String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `
+
+// True when every word of `name` was read off the screen on this map: an exact
+// footage name, or a shortening of one ("CEO" for "CEO Office"). Stricter than
+// isVerifiedName(), which also passes "Football Office" because "Office" was
+// seen. That is fine for flagging callouts on strat pages, but the reviewer
+// would repeat the unseen name as fact.
+function seenInFootage(mapId, name) {
+  const v = verifiedFor(mapId)
+  if (!v || !name) return false
+  const k = words(name)
+  return [...v.sites, ...v.spawns, ...v.callouts].some((e) => words(e.name).includes(k))
+}
 
 const ctx = {
   generated_at: new Date().toISOString(),
@@ -43,7 +58,11 @@ for (const map of MAPS) {
         floor: site.floor,
         attack_operators: attackOps,
         defense_operators: defenseOps,
-        callouts,
+        // Only room names read off real match footage reach the reviewer. The
+        // VOD prompt presents the selected site as authoritative, and strats.js
+        // callouts include names nobody has seen in game (map-wide stamps such
+        // as "Service Corridor"; see handoff/recon6-strat-audit.md).
+        callouts: callouts.filter((name) => seenInFootage(map.id, name)),
         attack_strategy_summary: siteStrat?.attack?.strategy?.slice(0, 250) || null,
         defense_strategy_summary: siteStrat?.defense?.strategy?.slice(0, 250) || null,
       }
