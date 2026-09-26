@@ -25,6 +25,7 @@ const LiveCoachPage = lazy(() => import('./pages/LiveCoachPage'))
 const PressPage = lazy(() => import('./pages/PressPage'))
 const R6TierListPage = lazy(() => import('./pages/R6TierListPage'))
 const EmbedMatchPrepPage = lazy(() => import('./pages/EmbedMatchPrepPage'))
+const StartPage = lazy(() => import('./pages/StartPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
 const MetaPage = lazy(() => import('./pages/MetaPage'))
@@ -199,6 +200,11 @@ const router = createBrowserRouter([
   // widget has NO navbar / footer / founding banner. Iframe-safe by
   // design (no global UI that would render weirdly in a 600px frame).
   { path: '/embed/match-prep/:mapId', element: <L><EmbedMatchPrepPage /></L> },
+
+  // Social sales page (TikTok / Shorts / Reels). Also outside the Layout: one
+  // job per page, so no site navigation, announcement banner or welcome
+  // modals over the product. Standard: docs/GROWTH-UX-OPERATING-STANDARD.md.
+  { path: '/start', element: <L><StartPage /></L> },
 
   // Friendly redirects for paths a curious user (or auditor) might type
   // directly. Pricing is a landing-page section, so we send them home and

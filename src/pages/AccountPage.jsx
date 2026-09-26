@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { checkoutReturnEvent } from '../lib/checkoutFunnel'
+import { track } from '../utils/analytics'
 import { useSectionNavigate } from '../utils/sectionLink'
 import { AI_USAGE_PACK_AMOUNT, AI_USAGE_PACK_CREDITS } from '../config/stripe'
 import './AccountPage.css'
@@ -13,6 +15,14 @@ const ROLES = ['IGL', 'Entry', 'Support', 'Anchor', 'Roamer', 'Flex']
 export default function AccountPage() {
   const { user, plan: authPlan, isPro, isAdmin, vodUsage, loading: authLoading, signOut } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  // Stripe Checkout returns here with ?checkout=success. Report it once so
+  // the paid step carries the same campaign props as the rest of the funnel.
+  useEffect(() => {
+    const event = checkoutReturnEvent(searchParams.get('checkout'))
+    if (event) track(event.name, event.props)
+  }, [searchParams])
   const goToPricing = useSectionNavigate('pricing')
   const [me, setMe] = useState(null)
   const [form, setForm] = useState({
