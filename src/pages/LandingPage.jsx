@@ -26,6 +26,7 @@ import { useDemoVideo } from '../hooks/useDemoVideo'
 import { useReveal } from '../hooks/useReveal'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { openMembershipCheckout } from '../lib/membershipCheckout'
+import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
 
 const PREVIEW_STRATS = {
@@ -473,6 +474,12 @@ export default function LandingPage() {
     landingViewTrackedRef.current = true
     track('Landing Viewed')
   }, [])
+
+  // Stripe sends an abandoned checkout back here with ?checkout=cancelled.
+  useEffect(() => {
+    const event = checkoutReturnEvent(searchParams.get('checkout'))
+    if (event) track(event.name, event.props)
+  }, [searchParams])
 
   const handleManageSubscription = useCallback(async () => {
     setPortalLoading(true)
