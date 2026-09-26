@@ -2,6 +2,15 @@
 
 You're working on **Ghost IGL** (r6coaching.com), an AI-powered in-game leader / coaching SaaS for Rainbow Six Siege. This file auto-loads every session — use it to skip the "explain the project" tax.
 
+## Growth / UX operating standard (read first) — proposed, pending Aaron's approval
+
+- **Before you change** any public page, generator, signup, checkout, onboarding, lifecycle email, growth or analytics code, CRM or admin UX, read `docs/GROWTH-UX-OPERATING-STANDARD.md` and apply its checklists (§7).
+- **In every PR description,** cite the rule numbers you applied (1–20, plus 21–30 once Aaron approves them), using the block in §11.2.
+- **Take product facts only from the single source of truth in §5.** Product facts are plans, prices, trials, limits, refunds, capabilities, counts and season. Until the catalog exists, use the code and payment config named in the audit's source map. The pricing, tier, launch and "founding-rate urgency" notes in this file are historical and are not facts.
+- **Never invent** proof, urgency, popularity, scarcity or outcomes. Report conflicts between pages; don't pick a side.
+- **Work on `/start`** must meet the acceptance criteria in §10.
+- **Current findings:** `docs/audits/GROWTH-UX-AUDIT-2026-09-25.md`. `main` and `content/strat-beta-disclaimer` have diverged, so confirm which line you're building on first (audit PT-01).
+
 ---
 
 ## Stack
