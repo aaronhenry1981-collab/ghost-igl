@@ -565,23 +565,6 @@ const OP_DATA = {
   },
 }
 
-// Add fallback for any operator missing from OP_DATA
-const OP_FALLBACK = {
-  side: 'attack',
-  role: 'Operator',
-  gadget: 'Unique gadget',
-  gadgetDesc: 'See in-game description for full ability details.',
-  primary: 'See loadout',
-  secondary: 'See loadout',
-  secondaryGadget: 'Frag / Stun / Smoke',
-  speed: '2-speed / 2-armor',
-  intro: 'A Rainbow Six Siege operator with unique utility. Pick based on map and team comp synergy. <em>Detailed write-up VERIFY: confirm specifics before relying on this guide.</em>',
-  strengths: ['Versatile across attack scenarios', 'Strong primary weapon options', 'Unique gadget for tactical advantage'],
-  counterPicks: ['Universal counters (Thatcher, Mute, etc.)'],
-  counterAdvice: 'See per-operator counter strategies in the Recon 6 operator guide.',
-  howToClimb: 'Master the operator\'s gadget timing and weapon recoil. Coordinate with team for synergy plays.',
-}
-
 // ---------- BUILD OPERATOR INDEX FROM STRATS ----------
 
 function buildOperatorIndex() {
@@ -747,7 +730,7 @@ function renderBestSites(opName, opSites) {
 }
 
 function renderOperatorPost(opName, opIndex) {
-  const op = OP_DATA[opName] || OP_FALLBACK
+  const op = OP_DATA[opName]
   const opSites = (opIndex[opName]?.sites) || []
   const slug = `r6-operator-${slugify(opName)}`
   const canonical = `${SITE_URL}/blog/${slug}.html`
@@ -951,7 +934,12 @@ function renderOperatorPost(opName, opIndex) {
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
   const opIndex = buildOperatorIndex()
-  const opNames = Object.keys(opIndex).sort()
+  // Only operators with a real write-up in OP_DATA get a page. The old
+  // fallback published placeholder copy ("Unique gadget", "VERIFY: confirm
+  // specifics") for anyone strats.js mentions, and the sitemap lists only
+  // operators that have a write-up.
+  const opNames = Object.keys(opIndex).filter((name) => OP_DATA[name]).sort()
+  const skipped = Object.keys(opIndex).filter((name) => !OP_DATA[name]).sort()
 
   let written = 0
   for (const opName of opNames) {
@@ -963,6 +951,7 @@ function main() {
 
   console.log(`✓ Generated ${written} R6 operator deep-dive posts in public/blog/`)
   console.log(`  Operators: ${opNames.join(', ')}`)
+  if (skipped.length) console.log(`  Skipped (no write-up in OP_DATA): ${skipped.join(', ')}`)
 }
 
 main()
