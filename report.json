@@ -1,0 +1,139 @@
+{
+  "entry": "/start?utm_source=tiktok&utm_medium=social&utm_campaign=site_files&utm_content=ep001_oregon",
+  "devices": {
+    "phone-390": {
+      "docHeight": 7642,
+      "horizontalOverflow": false,
+      "heroCta": {
+        "top": 276,
+        "bottom": 334
+      },
+      "demo": {
+        "top": 426,
+        "bottom": 1364
+      },
+      "firstViewport": 844,
+      "heroText": "RAINBOW SIX SIEGE · ROUND PLANS\n\nKnow your job before prep ends.\n\nPick your map, site and side. Recon 6 shows the five operators to run, the job each one does and the plan for the round.\n\nOPEN MY FREE ROUND PLAN\n→\n\nBank and Coastline are free · free account, no card. Pro is $12/month for all 25 maps and AI round reviews. See plans\n\nROUND PLAN\nBeta\nBank\nCoastline\nBomb site\n2F CEO Office / Executive",
+      "smallTargets": []
+    },
+    "phone-430": {
+      "docHeight": 7372,
+      "horizontalOverflow": false,
+      "heroCta": {
+        "top": 284,
+        "bottom": 341
+      },
+      "demo": {
+        "top": 413,
+        "bottom": 1351
+      },
+      "firstViewport": 932,
+      "heroText": "RAINBOW SIX SIEGE · ROUND PLANS\n\nKnow your job before prep ends.\n\nPick your map, site and side. Recon 6 shows the five operators to run, the job each one does and the plan for the round.\n\nOPEN MY FREE ROUND PLAN\n→\n\nBank and Coastline are free · free account, no card. Pro is $12/month for all 25 maps and AI round reviews. See plans\n\nROUND PLAN\nBeta\nBank\nCoastline\nBomb site\n2F CEO Office / Executive",
+      "smallTargets": []
+    },
+    "desktop": {
+      "docHeight": 4715,
+      "horizontalOverflow": false,
+      "heroCta": {
+        "top": 605,
+        "bottom": 662
+      },
+      "demo": {
+        "top": 100,
+        "bottom": 983
+      },
+      "firstViewport": 900,
+      "heroText": "RAINBOW SIX SIEGE · ROUND PLANS\n\nKnow your job before prep ends.\n\nPick your map, site and side. Recon 6 shows the five operators to run, the job each one does and the plan for the round.\n\nOPEN MY FREE ROUND PLAN\n→\n\nBank and Coastline are free · free account, no card. Pro is $12/month for all 25 maps and AI round reviews. See plans\n\nROUND PLAN\nBeta\nBank\nCoastline\nBomb site\n2F CEO Office / Executive",
+      "smallTargets": []
+    }
+  },
+  "api": [
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements",
+      "served": "blocked"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements",
+      "served": "blocked"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/testimonials",
+      "served": "live testimonials"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements",
+      "served": "blocked"
+    },
+    {
+      "url": "https://u0k402df6j.execute-api.us-east-1.amazonaws.com/prod/announcements",
+      "served": "blocked"
+    }
+  ],
+  "interaction": {
+    "initial": {
+      "hero": "/auth?mode=signup&redirect=%2Fstrats%2Fbank%2Fceo%2Fattack",
+      "noAccount": "/strats/bank/ceo/attack",
+      "final": "/auth?mode=signup&redirect=%2Fstrats%2Fbank%2Fceo%2Fattack",
+      "signIn": "/auth?redirect=%2Fstart",
+      "demoTitle": "Bank · 2F CEO Office / Executive Lounge · Attack",
+      "lineup": "Thermite, Thatcher, Sledge, Nomad, Iana"
+    },
+    "afterCoastlineKitchenDefense": {
+      "hero": "/auth?mode=signup&redirect=%2Fstrats%2Fcoastline%2Fkitchen-service%2Fdefense",
+      "noAccount": "/strats/coastline/kitchen-service/defense",
+      "final": "/auth?mode=signup&redirect=%2Fstrats%2Fcoastline%2Fkitchen-service%2Fdefense",
+      "signIn": "/auth?redirect=%2Fstart",
+      "demoTitle": "Coastline · 1F Kitchen / Service Entrance · Defense",
+      "lineup": "Maestro, Jager, Lesion, Vigil, Wamai"
+    },
+    "sticky": {
+      "top": false,
+      "midPage": true,
+      "atPricing": false
+    },
+    "firstObjectionOpen": true,
+    "proCtaSignedOutLandsOn": "/auth?mode=signup&redirect=%2Fstart%3Fcheckout%3Dpro",
+    "checkoutPending": "{\"tier\":\"pro\",\"location\":\"start-pricing\",\"at\":1790381348294}",
+    "planFirstMarker": "1",
+    "freeCtaLandsOn": "/auth?mode=signup&redirect=%2Fstrats%2Fbank%2Fceo%2Fattack",
+    "signupPasswordHint": "At least 12 characters",
+    "signupPasswordMin": "12"
+  },
+  "attributionStored": "{\"source\":\"tiktok\",\"medium\":\"social\",\"campaign\":\"site_files\",\"content\":\"ep001_oregon\"}"
+}
