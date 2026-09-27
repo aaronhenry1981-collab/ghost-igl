@@ -159,6 +159,9 @@ function invoice(subId, { customer = CUS, price = PRO, shape = 'legacy', id = `i
         lines: { data: [{ pricing: { price_details: { price } }, parent: { type: 'subscription_item_details', subscription_item_details: { subscription: subId } } }] } }
 }
 const row = (customer = CUS) => db.get(SUBS, { stripe_customer_id: customer })
+// Entitlement writes only: a ticket (ADD fetch_seq) is taken on every delivery,
+// including replays, and changes no entitlement field.
+const stateWrites = () => db.writes(SUBS).filter((w) => !/^\s*ADD fetch_seq/.test(w.input.UpdateExpression || ''))
 
 beforeEach(() => {
   db.reset(); stripeSubs.clear(); cognitoUsers.clear()
@@ -231,7 +234,7 @@ test('a replayed checkout does not repeat the row write, referral, account creat
   db.put('ghost-igl-profiles', { email: EMAIL, referred_by: 'referrer-b@example.com' })
   stripeSub('sub_TESTa')
   await checkout('evt_TEST_c1', T0, 'sub_TESTa')
-  const counts = () => [db.writes(SUBS).length, db.writes('ghost-igl-referrals').length, cognitoCreates, db.writes('ghost-igl-profiles').length]
+  const counts = () => [stateWrites().length, db.writes('ghost-igl-referrals').length, cognitoCreates, db.writes('ghost-igl-profiles').length]
   const after1 = counts()
   await checkout('evt_TEST_c1', T0, 'sub_TESTa') // Stripe redelivery
   await checkout('evt_TEST_c1', T0, 'sub_TESTa')
@@ -244,9 +247,9 @@ test('a replayed cancellation does not repeat the row write or the referral chur
   stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
   setStatus('sub_TESTa', 'canceled')
   await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + 9 * DAY, 'sub_TESTa')
-  const before = [db.writes(SUBS).length, db.writes('ghost-igl-referrals').length, customerRetrieves]
+  const before = [stateWrites().length, db.writes('ghost-igl-referrals').length, customerRetrieves]
   await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + 9 * DAY, 'sub_TESTa')
-  assert.deepEqual([db.writes(SUBS).length, db.writes('ghost-igl-referrals').length, customerRetrieves], before)
+  assert.deepEqual([stateWrites().length, db.writes('ghost-igl-referrals').length, customerRetrieves], before)
   assert.equal(row().status, 'canceled')
 })
 
@@ -319,9 +322,9 @@ test('concurrent events for two subscriptions converge on the owner, in either o
 test('the same event processed twice concurrently applies once', async () => {
   stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
   setStatus('sub_TESTa', 'canceled')
-  const before = db.writes(SUBS).length
+  const before = stateWrites().length
   await Promise.all([1, 2].map(() => subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + DAY, 'sub_TESTa')))
-  assert.equal(db.writes(SUBS).length - before, 1)
+  assert.equal(stateWrites().length - before, 1)
 })
 
 // ---- 6. genuine lifecycle for the owning subscription still works -----------------
@@ -393,15 +396,16 @@ test('a late checkout replay for an OLDER still-live subscription cannot take th
   assert.equal(row().stripe_subscription_id, 'sub_TESTnewer')
 })
 
-test('rows carry the fetch stamp and the processed event ids; the stamp only moves forward', async () => {
+test('rows carry the applied ticket and the processed event ids; tickets only move forward', async () => {
   stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
   const first = row()
-  assert.ok(Number.isFinite(first.state_fetched_at))
-  assert.ok(first.processed_event_ids instanceof Set && first.processed_event_ids.has('evt_TEST_c1'))
+  assert.deepEqual([first.fetch_seq, first.applied_seq], [1, 1], 'the first row starts at ticket 1')
+  assert.deepEqual(first.processed_event_ids, ['evt_TEST_c1'])
   await subEvent('evt_TEST_u1', 'customer.subscription.updated', T0 + 10, 'sub_TESTa')
   const second = row()
-  assert.ok(second.state_fetched_at > first.state_fetched_at)
-  assert.deepEqual([...second.processed_event_ids].sort(), ['evt_TEST_c1', 'evt_TEST_u1'])
+  assert.equal(second.fetch_seq, 2)
+  assert.equal(second.applied_seq, 2)
+  assert.deepEqual(second.processed_event_ids, ['evt_TEST_c1', 'evt_TEST_u1'])
 })
 
 // ---- signature verification is unchanged -----------------------------------------
@@ -487,10 +491,10 @@ test('an older duplicate of an already-applied event is still ignored after late
   stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
   setStatus('sub_TESTa', 'canceled')
   await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + 9 * DAY, 'sub_TESTa')
-  const writes = db.writes(SUBS).length
+  const writes = stateWrites().length
   const churns = db.writes('ghost-igl-referrals').length
   await checkout('evt_TEST_c1', T0, 'sub_TESTa') // redelivery of the original checkout, days later
-  assert.equal(db.writes(SUBS).length, writes, 'no second write for a processed event')
+  assert.equal(stateWrites().length, writes, 'no second write for a processed event')
   assert.equal(db.writes('ghost-igl-referrals').length, churns)
   assert.equal(row().status, 'canceled')
 })
@@ -525,3 +529,31 @@ for (const order of ['older-writes-first', 'newer-writes-first']) {
     assert.equal(row().status, 'active', 'the entitlement must equal the newer Stripe state')
   })
 }
+
+// ---- 9. bounded duplicate-delivery memory and first-row races ------------------------------
+test('processed_event_ids stays bounded (FIFO); recent replays are refused, a trimmed old replay is harmless', async () => {
+  stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+  for (let i = 1; i <= 130; i++) await subEvent(`evt_TEST_n${String(i).padStart(3, '0')}`, 'customer.subscription.updated', T0 + i, 'sub_TESTa')
+  const ids = row().processed_event_ids
+  assert.ok(ids.length >= 100 && ids.length <= 120, `kept ${ids.length} ids`)
+  assert.equal(ids.at(-1), 'evt_TEST_n130')
+  assert.ok(!ids.includes('evt_TEST_c1'), 'the oldest ids are trimmed')
+  // A replay of a recent event is refused outright.
+  const before = stateWrites().length
+  await subEvent('evt_TEST_n130', 'customer.subscription.updated', T0 + 130, 'sub_TESTa')
+  assert.equal(stateWrites().length, before)
+  // A replay older than the window re-applies Stripe's CURRENT state: entitlement unchanged.
+  const snap = row()
+  await subEvent('evt_TEST_n001', 'customer.subscription.updated', T0 + 1, 'sub_TESTa', { status: 'past_due' })
+  assert.deepEqual([row().status, row().plan, row().stripe_subscription_id, row().current_period_end], [snap.status, snap.plan, snap.stripe_subscription_id, snap.current_period_end])
+})
+
+test('two concurrent deliveries of a first checkout create one row and apply its side effects once', async () => {
+  db.put('ghost-igl-profiles', { email: EMAIL, referred_by: 'referrer-b@example.com' })
+  stripeSub('sub_TESTa')
+  await Promise.all([checkout('evt_TEST_c1', T0, 'sub_TESTa'), checkout('evt_TEST_c1', T0, 'sub_TESTa')])
+  assert.equal(db.all(SUBS).length, 1)
+  assert.equal(row().status, 'active')
+  assert.equal(db.writes('ghost-igl-referrals').length, 1)
+  assert.equal(cognitoCreates, 1)
+})

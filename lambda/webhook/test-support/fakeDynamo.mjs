@@ -45,6 +45,12 @@ export function evaluateCondition(expr, item, names = {}, values = {}) {
   const expect = (x) => { if (next() !== x) throw new Error(`fakeDynamo: expected ${x} in ${expr}`) }
   const operand = () => {
     const tok = next()
+    if (tok === 'size') {
+      expect('(')
+      const cur = item?.[resolveName(next(), names)]
+      expect(')')
+      return cur instanceof Set ? cur.size : cur == null ? undefined : cur.length
+    }
     if (tok.startsWith(':')) {
       if (!(tok in values)) throw new Error(`fakeDynamo: missing value ${tok} in ${expr}`)
       return values[tok]
@@ -101,48 +107,64 @@ export function evaluateCondition(expr, item, names = {}, values = {}) {
   return result
 }
 
-// UpdateExpression with SET and/or ADD clauses (the forms the webhook uses).
+// UpdateExpression with SET / ADD / REMOVE clauses in any order (the forms the
+// webhook uses: plain values, if_not_exists, list_append, a + b, ADD numbers
+// and sets, REMOVE attributes and list elements path[i]).
+function splitTopLevel(str, sep = ',') {
+  const parts = []; let depth = 0, cur = ''
+  for (const ch of str) {
+    if (ch === '(') depth++
+    if (ch === ')') depth--
+    if (ch === sep && depth === 0) { parts.push(cur); cur = ''; continue }
+    cur += ch
+  }
+  if (cur.trim()) parts.push(cur)
+  return parts.map((p) => p.trim())
+}
 function applyUpdate(expr, item, names = {}, values = {}) {
-  const m = expr.match(/^\s*(?:SET\s+([\s\S]*?))?\s*(?:ADD\s+([\s\S]*))?$/i)
-  if (!m) throw new Error(`fakeDynamo: unsupported update expression ${expr}`)
-  let out = m[1] ? applySet(m[1], item, names, values) : { ...item }
-  if (m[2]) {
-    for (const part of m[2].split(',')) {
-      const [path, ph] = part.trim().split(/\s+/)
+  const clauses = {}
+  const re = /\b(SET|ADD|REMOVE)\b/g
+  const marks = [...expr.matchAll(re)]
+  marks.forEach((m, k) => { clauses[m[1]] = expr.slice(m.index + m[1].length, k + 1 < marks.length ? marks[k + 1].index : expr.length).trim() })
+  let out = { ...item }
+  const val = (term) => {
+    term = term.trim()
+    let m = term.match(/^if_not_exists\(\s*([#\w.]+)\s*,\s*(:\w+)\s*\)$/)
+    if (m) { const p = resolveName(m[1], names); return out[p] !== undefined ? out[p] : values[m[2]] }
+    m = term.match(/^list_append\(([\s\S]*)\)$/)
+    if (m) { const [a, b] = splitTopLevel(m[1]); return [...val(a), ...val(b)] }
+    if (term.startsWith(':')) return values[term]
+    return out[resolveName(term, names)]
+  }
+  if (clauses.SET) {
+    const assigns = splitTopLevel(clauses.SET).map((part) => {
+      const [lhs, rhs] = part.split(/=(.*)/s)
+      const terms = splitTopLevel(rhs, '+')
+      return [resolveName(lhs.trim(), names), terms.length === 1 ? val(terms[0]) : terms.map(val).reduce((x, y) => x + y)]
+    })
+    for (const [k, v] of assigns) out[k] = structuredClone(v)
+  }
+  if (clauses.ADD) {
+    for (const part of splitTopLevel(clauses.ADD)) {
+      const [path, ph] = part.split(/\s+/)
       const key = resolveName(path, names), v = values[ph]
       if (v instanceof Set) out[key] = new Set([...(out[key] instanceof Set ? out[key] : []), ...v])
       else if (typeof v === 'number') out[key] = (out[key] || 0) + v
       else throw new Error(`fakeDynamo: ADD needs a number or a set (${ph})`)
     }
   }
-  return out
-}
-
-function applySet(expr, item, names = {}, values = {}) {
-  const body = expr.replace(/^\s*SET\s+/i, '')
-  // split on top-level commas
-  const parts = []
-  let depth = 0, cur = ''
-  for (const ch of body) {
-    if (ch === '(') depth++
-    if (ch === ')') depth--
-    if (ch === ',' && depth === 0) { parts.push(cur); cur = ''; continue }
-    cur += ch
-  }
-  if (cur.trim()) parts.push(cur)
-  const out = { ...item }
-  const val = (term) => {
-    term = term.trim()
-    const ine = term.match(/^if_not_exists\(\s*([#\w.]+)\s*,\s*(:\w+)\s*\)$/)
-    if (ine) { const p = resolveName(ine[1], names); return item[p] !== undefined ? item[p] : values[ine[2]] }
-    if (term.startsWith(':')) return values[term]
-    return item[resolveName(term, names)]
-  }
-  for (const part of parts) {
-    const [lhs, rhs] = part.split(/=(.*)/s)
-    const path = resolveName(lhs.trim(), names)
-    const terms = rhs.split('+')
-    out[path] = terms.length === 1 ? val(terms[0]) : terms.map(val).reduce((a, b) => a + b)
+  if (clauses.REMOVE) {
+    const idx = {}
+    for (const path of splitTopLevel(clauses.REMOVE)) {
+      const m = path.match(/^([#\w]+)\[(\d+)\]$/)
+      if (m) (idx[resolveName(m[1], names)] ||= []).push(Number(m[2]))
+      else delete out[resolveName(path, names)]
+    }
+    for (const [key, list] of Object.entries(idx)) {
+      if (!Array.isArray(out[key])) continue
+      const drop = new Set(list)
+      out[key] = out[key].filter((_, i) => !drop.has(i))
+    }
   }
   return out
 }
@@ -176,8 +198,9 @@ export function createFakeDynamo() {
         const t = table(input.TableName), k = keyOf(input.TableName, input.Key)
         const existing = t.get(k)
         if (!evaluateCondition(input.ConditionExpression, existing, input.ExpressionAttributeNames, input.ExpressionAttributeValues)) throw conditionFailed()
-        t.set(k, applyUpdate(input.UpdateExpression, { ...(existing || {}), ...input.Key }, input.ExpressionAttributeNames, input.ExpressionAttributeValues))
-        return {}
+        const next = applyUpdate(input.UpdateExpression, { ...(existing || {}), ...input.Key }, input.ExpressionAttributeNames, input.ExpressionAttributeValues)
+        t.set(k, next)
+        return input.ReturnValues && input.ReturnValues !== 'NONE' ? { Attributes: structuredClone(next) } : {}
       }
       case 'QueryCommand': {
         const t = table(input.TableName)
