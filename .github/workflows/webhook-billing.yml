@@ -1,0 +1,43 @@
+name: webhook-billing
+
+# Runs the Stripe webhook billing regressions (subscription ownership,
+# same-second ordering, replays, stale writes, add-on isolation) on every PR.
+# Isolation: dummy AWS credentials, a dead AWS endpoint, and a network guard
+# that blocks and logs any non-loopback connection; the job fails if the
+# guard saw even one attempt. No secrets are available to this job.
+
+on:
+  pull_request:
+  push:
+    branches: [main, content/strat-beta-disclaimer]
+
+permissions:
+  contents: read
+
+jobs:
+  webhook-billing-tests:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: AKIATESTONLY
+      AWS_SECRET_ACCESS_KEY: test-only
+      AWS_REGION: us-east-1
+      AWS_ENDPOINT_URL: http://127.0.0.1:9
+      NETGUARD_LOG: ${{ github.workspace }}/netguard.log
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install webhook Lambda deps (lockfile)
+        run: npm ci --omit=dev --prefix lambda/webhook
+      - name: The network guard is active (a real request must be blocked and logged)
+        run: |
+          NETGUARD_LOG=guard-selftest.log node --import "$GITHUB_WORKSPACE/scripts/test-netguard.mjs" -e "require('https').get('https://api.stripe.com/v1/charges', () => process.exit(1)).on('error', () => {})"
+          grep -q 'api.stripe.com:443' guard-selftest.log
+          echo "guard blocked a real request"
+      - name: Webhook billing regressions (network blocked)
+        run: NODE_OPTIONS="--import=$GITHUB_WORKSPACE/scripts/test-netguard.mjs" npm run test:webhook-billing
+      - name: No test attempted a network connection
+        run: |
+          if [ -s netguard.log ]; then echo "Outbound attempts:"; cut -f2,3 netguard.log | sort | uniq -c; exit 1; fi
+          echo "0 outbound connection attempts"

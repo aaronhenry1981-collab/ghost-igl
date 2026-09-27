@@ -124,9 +124,13 @@ globalThis.fetch = async (url, opts) => {
 // ---- builders ----------------------------------------------------------------
 // shape 'legacy' = pre-2025-03-31 payloads; 'basil' = 2025-03-31.basil and later
 // (current_period_end on the item, invoice subscription under parent).
-function stripeSub(id, { customer = CUS, price = PRO, status = 'active', end = T0 + 30 * DAY, shape = 'legacy' } = {}) {
+// `created` is Stripe's immutable subscription creation time; later-built
+// fixture subscriptions are created later, as in real life.
+let createdSeq = T0 - DAY
+function stripeSub(id, { customer = CUS, price = PRO, status = 'active', end = T0 + 30 * DAY, shape = 'legacy', created = (createdSeq += 60) } = {}) {
+  const prev = stripeSubs.get(id)
   const item = { id: `si_${id}`, price: { id: price }, ...(shape === 'basil' ? { current_period_end: end } : {}) }
-  const s = { id, object: 'subscription', customer, status, items: { data: [item] }, ...(shape === 'legacy' ? { current_period_end: end } : {}) }
+  const s = { id, object: 'subscription', customer, status, created: prev?.created ?? created, items: { data: [item] }, ...(shape === 'legacy' ? { current_period_end: end } : {}) }
   stripeSubs.set(id, s)
   return s
 }
@@ -265,14 +269,14 @@ test('the duplicate\'s own created/deleted events cannot take over or cancel the
 })
 
 // ---- 5. late / out-of-order events -----------------------------------------------
-test('an older event delivered late cannot overwrite a newer state', async () => {
+test('an older event delivered late cannot overwrite the current state (its stale payload is ignored)', async () => {
   stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
-  setStatus('sub_TESTa', 'active')
+  setStatus('sub_TESTa', 'active', { current_period_end: T0 + 60 * DAY })
   await subEvent('evt_TEST_u2', 'customer.subscription.updated', T0 + 20 * DAY, 'sub_TESTa')
   const snap = row()
-  setStatus('sub_TESTa', 'past_due') // what an older snapshot said
-  await subEvent('evt_TEST_u1', 'customer.subscription.updated', T0 + 10 * DAY, 'sub_TESTa')
-  assert.deepEqual(row(), snap)
+  // Stripe redelivers an event from ten days earlier whose body said past_due.
+  await subEvent('evt_TEST_u1', 'customer.subscription.updated', T0 + 10 * DAY, 'sub_TESTa', { status: 'past_due', current_period_end: T0 + 30 * DAY })
+  assert.deepEqual([row().status, row().current_period_end, row().stripe_subscription_id], [snap.status, snap.current_period_end, snap.stripe_subscription_id])
 })
 
 test('a stale payload is not trusted: the row takes the subscription state Stripe holds now', async () => {
@@ -365,11 +369,37 @@ test('after a genuine cancellation, a new live subscription takes the row over',
   assert.deepEqual([row().status, row().plan, row().stripe_subscription_id], ['active', 'elite', 'sub_TESTb'])
 })
 
-test('a legacy row without stripe_subscription_id still accepts its cancellation', async () => {
+test('a row without stripe_subscription_id is owned by no subscription: an unrelated subscription cannot cancel or downgrade it', async () => {
+  // Production has 0 such rows today (read-only count, 2026-09-27). The old
+  // fallback let ANY membership subscription on the customer change them.
   db.put(SUBS, { stripe_customer_id: CUS, email: EMAIL, plan: 'pro', status: 'active' })
-  stripeSub('sub_TESTlegacy', { status: 'canceled' })
-  await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0, 'sub_TESTlegacy')
-  assert.equal(row().status, 'canceled')
+  stripeSub('sub_TESTunrelated', { status: 'canceled' })
+  await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0, 'sub_TESTunrelated')
+  setStatus('sub_TESTunrelated', 'past_due')
+  await deliver('evt_TEST_f1', 'invoice.payment_failed', T0 + 60, invoice('sub_TESTunrelated'))
+  assert.equal(row().status, 'active')
+  // Only a completed checkout claims it.
+  stripeSub('sub_TESTclaim', { price: ELITE })
+  await checkout('evt_TEST_c1', T0 + 120, 'sub_TESTclaim')
+  assert.deepEqual([row().status, row().stripe_subscription_id], ['active', 'sub_TESTclaim'])
+})
+
+test('a late checkout replay for an OLDER still-live subscription cannot take the row from a newer live one', async () => {
+  stripeSub('sub_TESTolder', { price: PRO }); stripeSub('sub_TESTnewer', { price: ELITE })
+  await checkout('evt_TEST_cNew', T0 + 100, 'sub_TESTnewer')
+  await checkout('evt_TEST_cOld', T0 + 50, 'sub_TESTolder') // delivered late; both subscriptions live in Stripe
+  assert.equal(row().stripe_subscription_id, 'sub_TESTnewer')
+})
+
+test('rows carry the fetch stamp and the processed event ids; the stamp only moves forward', async () => {
+  stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+  const first = row()
+  assert.ok(Number.isFinite(first.state_fetched_at))
+  assert.ok(first.processed_event_ids instanceof Set && first.processed_event_ids.has('evt_TEST_c1'))
+  await subEvent('evt_TEST_u1', 'customer.subscription.updated', T0 + 10, 'sub_TESTa')
+  const second = row()
+  assert.ok(second.state_fetched_at > first.state_fetched_at)
+  assert.deepEqual([...second.processed_event_ids].sort(), ['evt_TEST_c1', 'evt_TEST_u1'])
 })
 
 // ---- signature verification is unchanged -----------------------------------------

@@ -1,7 +1,8 @@
 // In-memory stand-in for the DynamoDB Document client, used by the webhook
 // tests. It enforces ConditionExpressions (attribute_exists/_not_exists,
 // = <> < > <= >=, IN, AND, OR, NOT, parentheses) and the SET forms the webhook
-// uses (plain values, if_not_exists(path, :v), a + b), so a test fails when a
+// uses (plain values, if_not_exists(path, :v), a + b; ADD for number and
+// string-set attributes; contains(path, :v) in conditions), so a test fails when a
 // write that production would reject is accepted, or the reverse. Test-only:
 // the Lambda deploy zips index.mjs, package.json and node_modules only.
 
@@ -54,6 +55,17 @@ export function evaluateCondition(expr, item, names = {}, values = {}) {
     const tok = peek()
     if (tok === 'NOT') { next(); return !primary() }
     if (tok === '(') { next(); const v = orExpr(); expect(')'); return v }
+    if (tok === 'contains') {
+      next(); expect('(')
+      const path = resolveName(next(), names)
+      expect(',')
+      const v = operand()
+      expect(')')
+      const cur = item?.[path]
+      if (cur instanceof Set || Array.isArray(cur)) return [...cur].includes(v)
+      if (typeof cur === 'string') return cur.includes(v)
+      return false
+    }
     if (tok === 'attribute_exists' || tok === 'attribute_not_exists') {
       next(); expect('(')
       const path = resolveName(next(), names)
@@ -87,6 +99,23 @@ export function evaluateCondition(expr, item, names = {}, values = {}) {
   const result = orExpr()
   if (i !== t.length) throw new Error(`fakeDynamo: trailing tokens in ${expr}`)
   return result
+}
+
+// UpdateExpression with SET and/or ADD clauses (the forms the webhook uses).
+function applyUpdate(expr, item, names = {}, values = {}) {
+  const m = expr.match(/^\s*(?:SET\s+([\s\S]*?))?\s*(?:ADD\s+([\s\S]*))?$/i)
+  if (!m) throw new Error(`fakeDynamo: unsupported update expression ${expr}`)
+  let out = m[1] ? applySet(m[1], item, names, values) : { ...item }
+  if (m[2]) {
+    for (const part of m[2].split(',')) {
+      const [path, ph] = part.trim().split(/\s+/)
+      const key = resolveName(path, names), v = values[ph]
+      if (v instanceof Set) out[key] = new Set([...(out[key] instanceof Set ? out[key] : []), ...v])
+      else if (typeof v === 'number') out[key] = (out[key] || 0) + v
+      else throw new Error(`fakeDynamo: ADD needs a number or a set (${ph})`)
+    }
+  }
+  return out
 }
 
 function applySet(expr, item, names = {}, values = {}) {
@@ -147,7 +176,7 @@ export function createFakeDynamo() {
         const t = table(input.TableName), k = keyOf(input.TableName, input.Key)
         const existing = t.get(k)
         if (!evaluateCondition(input.ConditionExpression, existing, input.ExpressionAttributeNames, input.ExpressionAttributeValues)) throw conditionFailed()
-        t.set(k, applySet(input.UpdateExpression, { ...(existing || {}), ...input.Key }, input.ExpressionAttributeNames, input.ExpressionAttributeValues))
+        t.set(k, applyUpdate(input.UpdateExpression, { ...(existing || {}), ...input.Key }, input.ExpressionAttributeNames, input.ExpressionAttributeValues))
         return {}
       }
       case 'QueryCommand': {
@@ -170,7 +199,7 @@ export function createFakeDynamo() {
         for (const [op, p] of plan) {
           const t = table(p.TableName)
           if (op === 'Put') t.set(keyOf(p.TableName, p.Item), structuredClone(p.Item))
-          else { const k = keyOf(p.TableName, p.Key); t.set(k, applySet(p.UpdateExpression, { ...(t.get(k) || {}), ...p.Key }, p.ExpressionAttributeNames, p.ExpressionAttributeValues)) }
+          else { const k = keyOf(p.TableName, p.Key); t.set(k, applyUpdate(p.UpdateExpression, { ...(t.get(k) || {}), ...p.Key }, p.ExpressionAttributeNames, p.ExpressionAttributeValues)) }
         }
         return {}
       }

@@ -160,9 +160,9 @@ async function handleInvoicePaid(invoice, eventId, eventCreated) {
   const grantsCredits = (invoice.lines?.data || []).some((l) => COACHING_CREDIT_PRICE_IDS.has(linePriceId(l)))
   if (grantsCredits && subscriptionId) await syncCoachingCredits(subscriptionId, eventId)
   if (subscriptionId) {
-    const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+    const { sub: subscription, fetchedAt } = await fetchSubscription(subscriptionId)
     const priceId = subscription.items?.data?.[0]?.price?.id
-    if (getPlanFromPrice(priceId)) await applySubscriptionState(subscription, eventId, eventCreated)
+    if (getPlanFromPrice(priceId)) await applySubscriptionState(subscription, eventId, eventCreated, fetchedAt)
   }
 }
 
@@ -302,9 +302,25 @@ export function invoiceSubscriptionId(invoice) {
   return null
 }
 
-// Condition fragment: this event's subscription owns the row (legacy rows that
-// predate stripe_subscription_id are treated as owned so they still update).
-const OWNED_BY_EVENT_SUB = '(attribute_not_exists(stripe_subscription_id) OR stripe_subscription_id = :subId)'
+// ORDERING — Stripe does not guarantee delivery order and event.created has
+// one-second resolution, so events are never ordered by timestamp or id.
+// Every write carries the subscription as Stripe holds it NOW (re-fetched),
+// stamped with the moment that fetch started (state_fetched_at, ms). A write
+// lands only if no fresher fetch has been written already, so a slow handler
+// holding an older snapshot can't overwrite a newer one. Duplicate delivery is
+// a separate check: the event id must not be in processed_event_ids.
+async function fetchSubscription(id) {
+  const fetchedAt = Date.now()
+  const sub = await stripe.subscriptions.retrieve(id)
+  return { sub, fetchedAt }
+}
+const NOT_DUPLICATE = '(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(processed_event_ids) OR NOT contains(processed_event_ids, :evtId))'
+const FRESHER = '(attribute_not_exists(state_fetched_at) OR state_fetched_at < :fetchedAt)'
+
+// Condition fragment: this event's subscription owns the row. A row without
+// stripe_subscription_id (none exist today) is owned by no subscription, so
+// only checkout completion can claim it.
+const OWNED_BY_EVENT_SUB = 'stripe_subscription_id = :subId'
 // A live subscription may take a row over only from an entitlement that is no
 // longer live; while the owner is live, only checkout completion re-points it.
 const OWNER_NOT_LIVE = 'NOT (#s IN (:liveA, :liveT, :liveP))'
@@ -330,9 +346,9 @@ async function handleCheckout(session, eventId, eventCreated) {
   const customerEmail = String(session.metadata?.email || session.customer_email || session.customer_details?.email || '').trim().toLowerCase()
   const checkoutSubject = String(session.metadata?.cognito_sub || session.client_reference_id || '').trim()
   const subscriptionId = session.subscription
-  const evtVersion = eventVersion(eventCreated, eventId)
+  const evtVersion = eventVersion(eventCreated, eventId) // diagnostic only; never used for ordering
 
-  const sub = await stripe.subscriptions.retrieve(subscriptionId)
+  const { sub, fetchedAt } = await fetchSubscription(subscriptionId)
   const item = sub.items.data[0]
   // Coaching add-on subscription → grant booking credits, not an app plan.
   if (COACHING_CREDIT_PRICE_IDS.has(item?.price?.id)) {
@@ -393,10 +409,12 @@ async function handleCheckout(session, eventId, eventCreated) {
             updated_at: new Date().toISOString(),
             last_processed_event_id: eventId,
             last_event_version: evtVersion,
+            processed_event_ids: new Set([eventId]),
+            state_fetched_at: fetchedAt,
           },
-          ConditionExpression: `(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion) AND (${OWNED_BY_EVENT_SUB} OR ${OWNER_NOT_LIVE})`,
+          ConditionExpression: `attribute_not_exists(stripe_customer_id) OR (${NOT_DUPLICATE} AND ${FRESHER} AND (${OWNED_BY_EVENT_SUB} OR ${OWNER_NOT_LIVE}))`,
           ExpressionAttributeNames: { '#s': 'status' },
-          ExpressionAttributeValues: { ':evtId': eventId, ':evtVersion': evtVersion, ':subId': subscriptionId, ...LIVE_VALUES },
+          ExpressionAttributeValues: { ':evtId': eventId, ':fetchedAt': fetchedAt, ':subId': subscriptionId, ...LIVE_VALUES },
         }))
       } catch (err) {
         if (err.name !== 'ConditionalCheckFailedException') throw err
@@ -410,6 +428,7 @@ async function handleCheckout(session, eventId, eventCreated) {
   // subscription to each item. Fall back to the legacy field for safety.
   const periodEnd = item?.current_period_end ?? sub.current_period_end
   const periodEndIso = Number.isFinite(Number(periodEnd)) ? new Date(Number(periodEnd) * 1000).toISOString() : null
+  const subCreated = Number.isFinite(Number(sub.created)) ? Number(sub.created) : null
 
   // Idempotency: skip if this exact event already wrote this row. Lets Stripe
   // safely redeliver checkout.session.completed without duplicate work.
@@ -429,18 +448,26 @@ async function handleCheckout(session, eventId, eventCreated) {
         updated_at: new Date().toISOString(),
         last_processed_event_id: eventId,
         last_event_version: evtVersion,
+        processed_event_ids: new Set([eventId]),
+        state_fetched_at: fetchedAt,
+        ...(subCreated !== null ? { subscription_created: subCreated } : {}),
         ...(checkoutSubject ? { cognito_sub: checkoutSubject, identity_bound_at: new Date().toISOString() } : {}),
       },
-      // A completed checkout for a LIVE subscription is a new paid entitlement
-      // and may re-point the row (a past-due member buying again). A checkout
-      // whose subscription is no longer live must never displace a live owner.
-      ConditionExpression: '(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion)' +
-        (isLiveStatus(sub.status) ? '' : ` AND (${OWNED_BY_EVENT_SUB} OR ${OWNER_NOT_LIVE})`),
-      ...(isLiveStatus(sub.status) ? {} : { ExpressionAttributeNames: { '#s': 'status' } }),
+      // New row: always. Existing row: not a duplicate delivery, holding a
+      // fresher Stripe snapshot than the row, and allowed to own it. A completed
+      // checkout for a LIVE subscription may re-point the row (a past-due member
+      // buying again) unless the row already belongs to a live subscription
+      // created later (a late or replayed older checkout). A checkout whose
+      // subscription is no longer live never displaces a live owner.
+      ConditionExpression: `attribute_not_exists(stripe_customer_id) OR (${NOT_DUPLICATE} AND ${FRESHER} AND (${OWNED_BY_EVENT_SUB} OR ${OWNER_NOT_LIVE}` +
+        (isLiveStatus(sub.status) && subCreated !== null ? ' OR attribute_not_exists(subscription_created) OR subscription_created <= :subCreated' : '') + '))',
+      ExpressionAttributeNames: { '#s': 'status' },
       ExpressionAttributeValues: {
         ':evtId': eventId,
-        ':evtVersion': evtVersion,
-        ...(isLiveStatus(sub.status) ? {} : { ':subId': subscriptionId, ...LIVE_VALUES }),
+        ':fetchedAt': fetchedAt,
+        ':subId': subscriptionId,
+        ...LIVE_VALUES,
+        ...(isLiveStatus(sub.status) && subCreated !== null ? { ':subCreated': subCreated } : {}),
       },
     }))
   } catch (err) {
@@ -592,11 +619,11 @@ async function trackReferralIfAny(email, plan, subId, tierScope) {
 // does not guarantee delivery order), so the row is written from the
 // subscription as Stripe holds it NOW, not from the event body.
 async function handleSubUpdate(eventSub, eventId, eventCreated) {
-  const sub = await stripe.subscriptions.retrieve(eventSub.id)
-  await applySubscriptionState(sub, eventId, eventCreated)
+  const { sub, fetchedAt } = await fetchSubscription(eventSub.id)
+  await applySubscriptionState(sub, eventId, eventCreated, fetchedAt)
 }
 
-async function applySubscriptionState(sub, eventId, eventCreated) {
+async function applySubscriptionState(sub, eventId, eventCreated, fetchedAt) {
   const item = sub.items.data[0]
   if (COACHING_CREDIT_PRICE_IDS.has(item?.price?.id)) {
     await syncCoachingCredits(sub.id, eventId)
@@ -611,7 +638,8 @@ async function applySubscriptionState(sub, eventId, eventCreated) {
 
   const periodEnd = item?.current_period_end ?? sub.current_period_end
   const periodEndIso = Number.isFinite(Number(periodEnd)) ? new Date(Number(periodEnd) * 1000).toISOString() : null
-  const evtVersion = eventVersion(eventCreated, eventId)
+  const evtVersion = eventVersion(eventCreated, eventId) // diagnostic only
+  const subCreated = Number.isFinite(Number(sub.created)) ? Number(sub.created) : null
 
   // Ownership: update the row only for the subscription that owns it. A live
   // subscription may take over a row whose entitlement is no longer live;
@@ -624,8 +652,9 @@ async function applySubscriptionState(sub, eventId, eventCreated) {
     await ddb.send(new UpdateCommand({
       TableName: TABLE,
       Key: { stripe_customer_id: idOf(sub.customer) },
-      ConditionExpression: `attribute_exists(stripe_customer_id) AND (attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion) AND ${ownership}`,
-      UpdateExpression: 'SET #s = :status, #p = :plan, tier_scope = :scope, price_id = :priceId, current_period_end = :end, updated_at = :now, stripe_subscription_id = :subId, last_processed_event_id = :evtId, last_event_version = :evtVersion',
+      ConditionExpression: `attribute_exists(stripe_customer_id) AND ${NOT_DUPLICATE} AND ${FRESHER} AND ${ownership}`,
+      UpdateExpression: 'SET #s = :status, #p = :plan, tier_scope = :scope, price_id = :priceId, current_period_end = :end, updated_at = :now, stripe_subscription_id = :subId, last_processed_event_id = :evtId, last_event_version = :evtVersion, state_fetched_at = :fetchedAt' +
+        (subCreated !== null ? ', subscription_created = :subCreated' : '') + ' ADD processed_event_ids :evtIds',
       ExpressionAttributeNames: { '#s': 'status', '#p': 'plan' },
       ExpressionAttributeValues: {
         ':status': sub.status === 'active' ? 'active' : sub.status,
@@ -637,6 +666,9 @@ async function applySubscriptionState(sub, eventId, eventCreated) {
         ':subId': sub.id,
         ':evtId': eventId,
         ':evtVersion': evtVersion,
+        ':fetchedAt': fetchedAt,
+        ':evtIds': new Set([eventId]),
+        ...(subCreated !== null ? { ':subCreated': subCreated } : {}),
         ...(isLiveStatus(sub.status) ? LIVE_VALUES : {}),
       },
     }))
@@ -644,7 +676,7 @@ async function applySubscriptionState(sub, eventId, eventCreated) {
     if (err.name === 'ConditionalCheckFailedException') {
       // Reasons this fires, all safe to skip:
       //   (1) row doesn't exist yet — awaiting checkout.session.completed
-      //   (2) duplicate or older event for this row
+      //   (2) a duplicate delivery, or a fresher Stripe snapshot is already written
       //   (3) the event is about a subscription that does not own the row
       console.log(`Sub update ${sub.id} for ${idOf(sub.customer)} skipped (row missing, duplicate/late event ${eventId}, or not the owning subscription)`)
       return
@@ -668,27 +700,32 @@ async function handleSubDeleted(sub, eventId, eventCreated) {
   // Only update if we already have a row for this customer (Ghost IGL customer)
   if (!(await subHasGhostIglCustomer(customerId))) return
 
+  // The subscription as Stripe holds it now (a deleted subscription reads back
+  // as canceled); its fetch stamp orders this write against concurrent ones.
+  const { sub: current, fetchedAt } = await fetchSubscription(sub.id)
   try {
-    const evtVersion = eventVersion(eventCreated, eventId)
+    const evtVersion = eventVersion(eventCreated, eventId) // diagnostic only
     await ddb.send(new UpdateCommand({
       TableName: TABLE,
       Key: { stripe_customer_id: customerId },
       // Only the owning subscription can cancel the row: an old or duplicate
       // subscription on the same customer must not end a newer paid membership.
-      ConditionExpression: `(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion) AND ${OWNED_BY_EVENT_SUB}`,
-      UpdateExpression: 'SET #s = :status, updated_at = :now, last_processed_event_id = :evtId, last_event_version = :evtVersion',
+      ConditionExpression: `${NOT_DUPLICATE} AND ${FRESHER} AND ${OWNED_BY_EVENT_SUB}`,
+      UpdateExpression: 'SET #s = :status, updated_at = :now, last_processed_event_id = :evtId, last_event_version = :evtVersion, state_fetched_at = :fetchedAt ADD processed_event_ids :evtIds',
       ExpressionAttributeNames: { '#s': 'status' },
       ExpressionAttributeValues: {
-        ':status': 'canceled',
+        ':status': current.status || 'canceled',
         ':now': new Date().toISOString(),
         ':evtId': eventId,
         ':evtVersion': evtVersion,
+        ':fetchedAt': fetchedAt,
+        ':evtIds': new Set([eventId]),
         ':subId': sub.id,
       },
     }))
   } catch (err) {
     if (err.name === 'ConditionalCheckFailedException') {
-      console.log(`Sub deleted ${sub.id} for ${customerId} skipped (duplicate/late event ${eventId}, or not the owning subscription)`)
+      console.log(`Sub deleted ${sub.id} for ${customerId} skipped (duplicate delivery, a fresher snapshot already written, or not the owning subscription)`)
       return
     }
     throw err
@@ -740,7 +777,7 @@ async function handlePaymentFailed(invoice, eventId, eventCreated) {
     console.log(`Payment failed ${invoice.id}: not a subscription invoice; membership row untouched`)
     return
   }
-  const sub = await stripe.subscriptions.retrieve(subscriptionId)
+  const { sub, fetchedAt } = await fetchSubscription(subscriptionId)
   const priceId = sub.items?.data?.[0]?.price?.id
   if (COACHING_CREDIT_PRICE_IDS.has(priceId)) {
     await syncCoachingCredits(sub.id, eventId)
@@ -759,25 +796,28 @@ async function handlePaymentFailed(invoice, eventId, eventCreated) {
   if (!(await subHasGhostIglCustomer(customerId))) return
 
   try {
-    const evtVersion = eventVersion(eventCreated, eventId)
+    const evtVersion = eventVersion(eventCreated, eventId) // diagnostic only
     await ddb.send(new UpdateCommand({
       TableName: TABLE,
       Key: { stripe_customer_id: customerId },
-      // Only the owning subscription's failure changes the row.
-      ConditionExpression: `(attribute_not_exists(last_processed_event_id) OR last_processed_event_id <> :evtId) AND (attribute_not_exists(last_event_version) OR last_event_version < :evtVersion) AND ${OWNED_BY_EVENT_SUB}`,
-      UpdateExpression: 'SET #s = :status, updated_at = :now, last_processed_event_id = :evtId, last_event_version = :evtVersion',
+      // Only the owning subscription's failure changes the row, and only if no
+      // fresher Stripe snapshot (e.g. a recovery) has been written meanwhile.
+      ConditionExpression: `${NOT_DUPLICATE} AND ${FRESHER} AND ${OWNED_BY_EVENT_SUB}`,
+      UpdateExpression: 'SET #s = :status, updated_at = :now, last_processed_event_id = :evtId, last_event_version = :evtVersion, state_fetched_at = :fetchedAt ADD processed_event_ids :evtIds',
       ExpressionAttributeNames: { '#s': 'status' },
       ExpressionAttributeValues: {
         ':status': sub.status,
         ':now': new Date().toISOString(),
         ':evtId': eventId,
         ':evtVersion': evtVersion,
+        ':fetchedAt': fetchedAt,
+        ':evtIds': new Set([eventId]),
         ':subId': sub.id,
       },
     }))
   } catch (err) {
     if (err.name === 'ConditionalCheckFailedException') {
-      console.log(`Payment failed update ${sub.id} for ${customerId} skipped (duplicate/late event ${eventId}, or not the owning subscription)`)
+      console.log(`Payment failed update ${sub.id} for ${customerId} skipped (duplicate delivery, a fresher snapshot already written, or not the owning subscription)`)
       return
     }
     throw err
