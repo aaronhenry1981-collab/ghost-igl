@@ -86,11 +86,26 @@ const stripeSubs = new Map()
 let cancelCalls = []
 let customerRetrieves = 0
 const subsProto = Object.getPrototypeOf(signer.subscriptions)
+// A gate holds a retrieve AFTER it has read Stripe's state, to model a slow
+// request that returns an old snapshot and writes after a newer one.
+const retrieveGates = new Map()
 mock.method(subsProto, 'retrieve', async (id) => {
   const s = stripeSubs.get(id)
   if (!s) { const e = new Error(`No such subscription: '${id}'`); e.type = 'StripeInvalidRequestError'; throw e }
-  return structuredClone(s)
+  const snapshot = structuredClone(s)
+  const gate = retrieveGates.get(id)
+  if (gate) { retrieveGates.delete(id); gate.reached(); await gate.release }
+  return snapshot
 })
+function holdNextRetrieve(id) {
+  let release, reached
+  const g = { release: new Promise((r) => { release = r }), reachedP: new Promise((r) => { reached = r }) }
+  retrieveGates.set(id, { release: g.release, reached })
+  return { release, reached: g.reachedP }
+}
+// Monotonic wall clock (ms): every Date.now() call is later than the previous one.
+let clockMs = Date.now()
+mock.method(Date, 'now', () => ++clockMs)
 mock.method(subsProto, 'cancel', async (id) => {
   cancelCalls.push(id)
   const s = stripeSubs.get(id)
@@ -373,4 +388,77 @@ test('invoiceSubscriptionId resolves every payload shape', () => {
   assert.equal(invoiceSubscriptionId({ lines: { data: [{ parent: { subscription_item_details: { subscription: 'sub_TEST4' } } }] } }), 'sub_TEST4')
   assert.equal(invoiceSubscriptionId({ lines: { data: [{ subscription: 'sub_TEST5' }] } }), 'sub_TEST5')
   assert.equal(invoiceSubscriptionId({ lines: { data: [{ price: { id: 'x' } }] } }), null)
+})
+
+// ---- 7. same-second events: order comes from Stripe's current state, never from event ids ----
+// Stripe doesn't guarantee delivery order, and event.created has one-second
+// resolution. Distinct events in the same second must not be ordered by their
+// alphabetical ids (review finding on c7baa12).
+const SAME = T0 + 30 * DAY
+for (const [failId, recId] of [['evt_TEST_z_fail', 'evt_TEST_a_recover'], ['evt_TEST_a_fail', 'evt_TEST_z_recover']]) {
+  test(`same-second failure then recovery restores access (${failId} / ${recId})`, async () => {
+    stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+    setStatus('sub_TESTa', 'past_due')
+    await deliver(failId, 'invoice.payment_failed', SAME, invoice('sub_TESTa'))
+    assert.equal(row().status, 'past_due')
+    setStatus('sub_TESTa', 'active', { current_period_end: T0 + 61 * DAY })
+    await subEvent(recId, 'customer.subscription.updated', SAME, 'sub_TESTa')
+    assert.equal(row().status, 'active')
+  })
+  test(`same-second recovery delivered BEFORE the failure keeps access (${failId} / ${recId})`, async () => {
+    stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+    setStatus('sub_TESTa', 'active', { current_period_end: T0 + 61 * DAY }) // the retry already succeeded
+    await subEvent(recId, 'customer.subscription.updated', SAME, 'sub_TESTa')
+    await deliver(failId, 'invoice.payment_failed', SAME, invoice('sub_TESTa'))
+    assert.equal(row().status, 'active')
+  })
+}
+
+for (const [updId, delId] of [['evt_TEST_z_upd', 'evt_TEST_a_del'], ['evt_TEST_a_upd', 'evt_TEST_z_del']]) {
+  for (const order of ['update-first', 'delete-first']) {
+    test(`same-second cancellation ends access whatever the ids and delivery order (${updId}/${delId}, ${order})`, async () => {
+      stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+      const upd = () => subEvent(updId, 'customer.subscription.updated', SAME, 'sub_TESTa')
+      const del = () => subEvent(delId, 'customer.subscription.deleted', SAME, 'sub_TESTa')
+      if (order === 'update-first') {
+        setStatus('sub_TESTa', 'active', { cancel_at_period_end: true }) // Stripe when the update is processed
+        await upd()
+        assert.equal(row().status, 'active')
+        setStatus('sub_TESTa', 'canceled') // then the period ends, in the same second
+        await del()
+      } else {
+        setStatus('sub_TESTa', 'canceled')
+        await del(); await upd()
+      }
+      assert.equal(row().status, 'canceled')
+    })
+  }
+}
+
+for (const [slowId, fastId] of [['evt_TEST_z_slow', 'evt_TEST_a_fast'], ['evt_TEST_a_slow', 'evt_TEST_z_fast']]) {
+  test(`a slow handler holding an older Stripe snapshot cannot overwrite a newer write (${slowId} / ${fastId})`, async () => {
+    stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+    setStatus('sub_TESTa', 'past_due')
+    const hold = holdNextRetrieve('sub_TESTa')
+    const slowFailure = deliver(slowId, 'invoice.payment_failed', SAME, invoice('sub_TESTa')) // reads past_due, then stalls
+    await hold.reached
+    setStatus('sub_TESTa', 'active', { current_period_end: T0 + 61 * DAY })
+    await subEvent(fastId, 'customer.subscription.updated', SAME, 'sub_TESTa') // reads active, writes first
+    assert.equal(row().status, 'active')
+    hold.release()
+    await slowFailure
+    assert.equal(row().status, 'active', 'the stale past_due snapshot must not land after the newer active one')
+  })
+}
+
+test('an older duplicate of an already-applied event is still ignored after later events', async () => {
+  stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+  setStatus('sub_TESTa', 'canceled')
+  await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + 9 * DAY, 'sub_TESTa')
+  const writes = db.writes(SUBS).length
+  const churns = db.writes('ghost-igl-referrals').length
+  await checkout('evt_TEST_c1', T0, 'sub_TESTa') // redelivery of the original checkout, days later
+  assert.equal(db.writes(SUBS).length, writes, 'no second write for a processed event')
+  assert.equal(db.writes('ghost-igl-referrals').length, churns)
+  assert.equal(row().status, 'canceled')
 })
