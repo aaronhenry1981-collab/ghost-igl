@@ -1,27 +1,28 @@
-// Stripe SANDBOX verification for the membership-row ownership fix.
+// Stripe SANDBOX verification for the membership-row fix (PR #33).
 //
-// Unlike the mocked tests, this uses REAL Stripe test-mode objects and REAL
-// events (with the account's actual API version and payload shapes). DynamoDB
-// and Cognito stay in-memory: nothing here can touch production data.
-// It refuses any live key. Nothing runs in CI.
+// Unlike the mocked tests, this uses REAL Stripe test-mode objects and the REAL
+// events Stripe emits for them (the account's actual API version and payload
+// shapes), fed to the real handler step by step. DynamoDB and Cognito stay
+// in-memory, so nothing here can touch production data. Live keys are
+// refused, and every event must report livemode=false. Nothing runs in CI.
 //
 // Secure local setup (never paste a key into chat or a file):
-//   1. Stripe Dashboard → switch to a Sandbox (or Test mode) → Developers → API keys
-//      → reveal the TEST secret key (sk_test_…). A live key is refused below.
-//   2. Windows PowerShell, from lambda/webhook (deps: npm ci --omit=dev):
-//        $k = Read-Host -AsSecureString "Stripe TEST secret key"
-//        $env:STRIPE_SANDBOX_KEY = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($k))
-//        node sandbox/run-sandbox.mjs
-//        Remove-Item Env:STRIPE_SANDBOX_KEY
-//   3. It creates a test clock (and a product/prices tagged recon6-sandbox) and
-//      deletes the clock at the end, which removes its customer and subscriptions.
+//   powershell -ExecutionPolicy Bypass -File <recovery>\entitlement-check-2026-09-27\run-sandbox.ps1
+// (prompts for an sk_test_/rk_test_ key with masked input and clears it after).
+// It creates a test clock (plus a product/prices tagged recon6-sandbox) and
+// deletes the clock at the end, which removes its customer and subscriptions.
 //
-// Scenario (the production defect): member on sub A fails a renewal (past_due),
-// buys sub B, then A is cancelled. Every real event Stripe emitted is fed to
-// the real handler in delivery order, then again SHUFFLED and REPLAYED. The
-// row must end owned by B, active, plan elite. Also reports the event
-// api_version and which invoice shape (invoice.subscription vs
-// parent.subscription_details) the account actually sends.
+// Steps (each checked against the membership row):
+//   1 checkout of sub A (Pro)                 -> row owner A, active
+//   2 renewal fails                           -> row past_due
+//   3 recovery: the open invoice is paid      -> row active again
+//   4 renewal fails again                     -> row past_due
+//   5 replacement: sub B (Elite) + checkout    -> row owner B, active
+//   6 duplicate: sub C (Elite) + checkout      -> C cancelled in Stripe, row stays B
+//   7 old sub A is cancelled                  -> row stays B, active
+//   8 owner B is cancelled                    -> row canceled
+//   9 every event again, shuffled, on a fresh table, then all redelivered in
+//     reverse on top                          -> row canceled, no further cancels
 
 import { randomBytes } from 'node:crypto'
 import { createFakeDynamo } from '../test-support/fakeDynamo.mjs'
@@ -31,8 +32,7 @@ if (!/^(sk|rk)_test_/.test(key)) {
   console.error('STRIPE_SANDBOX_KEY must be a TEST-mode key (sk_test_… or rk_test_…). Live keys are refused.')
   process.exit(2)
 }
-// The handler reads these at import. Local signing secret: events are signed here.
-const WHSEC = `whsec_${randomBytes(24).toString('hex')}`
+const WHSEC = `whsec_${randomBytes(24).toString('hex')}` // events are signed locally
 Object.assign(process.env, {
   STRIPE_SECRET_KEY: key, STRIPE_WEBHOOK_SECRET: WHSEC, COGNITO_USER_POOL_ID: 'us-east-1_SANDBOX',
   AWS_ACCESS_KEY_ID: 'AKIATESTONLY', AWS_SECRET_ACCESS_KEY: 'test-only', AWS_REGION: 'us-east-1', AWS_ENDPOINT_URL: 'http://127.0.0.1:9',
@@ -57,63 +57,57 @@ for (const proto of new Set([ownerOf(DynamoDBDocumentClient.prototype, 'send'), 
     return orig.call(this, cmd)
   }
 }
+// Record every subscription cancel. The resource prototype is shared by all
+// Stripe instances (including the handler's own), so this sees the handler's
+// cancels; the harness cancels only in steps 7 and 8, outside the windows that
+// steps 6 and 9 measure.
+const setupStripe = new Stripe(key)
+let handlerCancels = []
+const subsProto = Object.getPrototypeOf(stripe.subscriptions)
+const origCancel = subsProto.cancel
+subsProto.cancel = function (id, ...rest) { handlerCancels.push(id); return origCancel.call(this, id, ...rest) }
 
 const log = (...a) => console.log(...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const EMAIL = `sandbox-${Date.now()}@example.com`
-const start = Math.floor(Date.now() / 1000) - 5
+const results = []
+const check = (label, ok, detail) => { results.push([label, ok, detail]); log(`${ok ? 'PASS' : 'FAIL'}  ${label}${detail ? ` — ${detail}` : ''}`) }
 
 async function advance(clock, seconds) {
-  const target = (await stripe.testHelpers.testClocks.retrieve(clock.id)).frozen_time + seconds
-  await stripe.testHelpers.testClocks.advance(clock.id, { frozen_time: target })
-  for (let i = 0; i < 60; i++) { if ((await stripe.testHelpers.testClocks.retrieve(clock.id)).status === 'ready') return; await sleep(2000) }
+  const target = (await setupStripe.testHelpers.testClocks.retrieve(clock.id)).frozen_time + seconds
+  await setupStripe.testHelpers.testClocks.advance(clock.id, { frozen_time: target })
+  for (let i = 0; i < 90; i++) { if ((await setupStripe.testHelpers.testClocks.retrieve(clock.id)).status === 'ready') return; await sleep(2000) }
   throw new Error('test clock did not become ready')
 }
 
 let clock
-try {
-  const product = await stripe.products.create({ name: 'recon6-sandbox membership', metadata: { recon6: 'sandbox' } })
-  const pro = await stripe.prices.create({ product: product.id, unit_amount: 1200, currency: 'usd', recurring: { interval: 'month' } })
-  const elite = await stripe.prices.create({ product: product.id, unit_amount: 3900, currency: 'usd', recurring: { interval: 'month' } })
-  process.env.STRIPE_PRO_PRICE_ID = pro.id       // getPlanFromPrice -> 'pro'
-  process.env.STRIPE_CHAMPION_PRICE_ID = elite.id // getPlanFromPrice -> 'elite'
-  const { handler } = await import('../index.mjs')
-
-  clock = await stripe.testHelpers.testClocks.create({ frozen_time: Math.floor(Date.now() / 1000), name: 'recon6-sandbox' })
-  const customer = await stripe.customers.create({ email: EMAIL, test_clock: clock.id })
-  const good = await stripe.paymentMethods.attach('pm_card_visa', { customer: customer.id })
-  await stripe.customers.update(customer.id, { invoice_settings: { default_payment_method: good.id } })
-  const subA = await stripe.subscriptions.create({ customer: customer.id, items: [{ price: pro.id }] })
-  log('sub A', subA.id, subA.status)
-
-  // Checkout can't be completed headlessly: a checkout.session.completed with the
-  // REAL subscription id stands in for it (the handler re-reads the subscription).
-  const syntheticCheckout = (sub, t) => ({ id: `evt_sandbox_checkout_${sub}`, object: 'event', type: 'checkout.session.completed', created: t,
-    data: { object: { id: `cs_sandbox_${sub}`, object: 'checkout.session', mode: 'subscription', customer: customer.id, subscription: sub, customer_email: EMAIL, metadata: { email: EMAIL }, payment_status: 'paid' } } })
-
-  const bad = await stripe.paymentMethods.attach('pm_card_chargeCustomerFail', { customer: customer.id })
-  await stripe.customers.update(customer.id, { invoice_settings: { default_payment_method: bad.id } })
-  await stripe.subscriptions.update(subA.id, { default_payment_method: bad.id })
-  await advance(clock, 32 * 86400) // renewal fails -> past_due
-  log('sub A after renewal:', (await stripe.subscriptions.retrieve(subA.id)).status)
-
-  const subB = await stripe.subscriptions.create({ customer: customer.id, items: [{ price: elite.id }], default_payment_method: good.id })
-  log('sub B', subB.id, subB.status)
-  await stripe.subscriptions.cancel(subA.id)
-  await sleep(5000)
-
-  const events = []
-  for await (const e of stripe.events.list({ created: { gte: start }, limit: 100 })) {
-    const o = e.data.object
-    if (o.customer === customer.id || o.id === customer.id) events.push(e)
+const allEvents = []
+const seen = new Set()
+async function collect(customerId, ownIds, { wantTypes = [], timeoutMs = 60000 } = {}) {
+  const deadline = Date.now() + timeoutMs
+  const fresh = []
+  for (;;) {
+    for await (const e of setupStripe.events.list({ created: { gte: startTs }, limit: 100 })) {
+      const o = e.data.object
+      const related = o.customer === customerId || ownIds.has(o.id) || ownIds.has(o.subscription) || ownIds.has(o.parent?.subscription_details?.subscription)
+      if (!related || seen.has(e.id)) continue
+      seen.add(e.id); fresh.push(e); allEvents.push(e)
+    }
+    const have = new Set(allEvents.map((e) => e.type))
+    if (wantTypes.every((t) => have.has(t)) || Date.now() > deadline) break
+    await sleep(3000)
   }
-  events.sort((a, b) => a.created - b.created)
-  const shapes = { apiVersions: [...new Set(events.map((e) => e.api_version))], types: {} }
-  for (const e of events) shapes.types[e.type] = (shapes.types[e.type] || 0) + 1
-  const inv = events.find((e) => e.type.startsWith('invoice.'))?.data.object
-  shapes.invoiceShape = inv ? (inv.subscription ? 'invoice.subscription (pre-basil)' : inv.parent?.subscription_details ? 'parent.subscription_details (basil+)' : 'none') : 'no invoice event'
-  log('real events:', JSON.stringify(shapes))
+  return fresh.sort((a, b) => a.created - b.created)
+}
 
+const startTs = Math.floor(Date.now() / 1000) - 5
+try {
+  const product = await setupStripe.products.create({ name: 'recon6-sandbox membership', metadata: { recon6: 'sandbox' } })
+  const pro = await setupStripe.prices.create({ product: product.id, unit_amount: 1200, currency: 'usd', recurring: { interval: 'month' } })
+  const elite = await setupStripe.prices.create({ product: product.id, unit_amount: 3900, currency: 'usd', recurring: { interval: 'month' } })
+  process.env.STRIPE_PRO_PRICE_ID = pro.id       // handler maps -> 'pro'
+  process.env.STRIPE_CHAMPION_PRICE_ID = elite.id // handler maps -> 'elite'
+  const { handler } = await import('../index.mjs')
   const signer = new Stripe('sk_test_signer_only')
   const deliver = async (evt) => {
     const payload = JSON.stringify(evt)
@@ -121,20 +115,95 @@ try {
     const res = await handler({ headers: { 'stripe-signature': sig }, body: payload, isBase64Encoded: false })
     if (res.statusCode !== 200) throw new Error(`${evt.type} ${evt.id} -> HTTP ${res.statusCode}`)
   }
-  const tA = events.find((e) => e.data.object.id === subA.id)?.created ?? start
-  const tB = events.find((e) => e.data.object.id === subB.id)?.created ?? start
-  const stream = [syntheticCheckout(subA.id, tA), ...events, syntheticCheckout(subB.id, tB)].sort((a, b) => a.created - b.created)
+  // Checkout can't be completed headlessly: a checkout.session.completed carrying
+  // the REAL subscription id stands in (the handler re-reads the subscription).
+  const synthCheckout = (sub, t) => ({ id: `evt_sandbox_checkout_${sub}`, object: 'event', livemode: false, type: 'checkout.session.completed', created: t,
+    data: { object: { id: `cs_sandbox_${sub}`, object: 'checkout.session', mode: 'subscription', customer: customerId, subscription: sub, customer_email: EMAIL, metadata: { email: EMAIL }, payment_status: 'paid' } } })
 
+  clock = await setupStripe.testHelpers.testClocks.create({ frozen_time: Math.floor(Date.now() / 1000), name: 'recon6-sandbox' })
+  const customer = await setupStripe.customers.create({ email: EMAIL, test_clock: clock.id })
+  var customerId = customer.id
+  const good = await setupStripe.paymentMethods.attach('pm_card_visa', { customer: customer.id })
+  const bad = await setupStripe.paymentMethods.attach('pm_card_chargeCustomerFail', { customer: customer.id })
+  const useCard = async (pm, sub) => {
+    await setupStripe.customers.update(customer.id, { invoice_settings: { default_payment_method: pm.id } })
+    if (sub) await setupStripe.subscriptions.update(sub, { default_payment_method: pm.id })
+  }
+  const own = new Set()
   const row = () => db.get('ghost-igl-subscriptions', { stripe_customer_id: customer.id })
-  const results = []
-  const check = (label) => { const r = row(); const ok = r?.stripe_subscription_id === subB.id && r?.status === 'active' && r?.plan === 'elite'; results.push([label, ok, r ? `${r.stripe_subscription_id === subB.id ? 'B' : r.stripe_subscription_id === subA.id ? 'A' : '?'}/${r.status}/${r.plan}` : 'no row']) }
-  for (const e of stream) await deliver(e)
-  check('delivery order')
-  const shuffled = [...stream].sort(() => (randomBytes(1)[0] & 1 ? 1 : -1))
-  db.reset(); for (const e of shuffled) await deliver(e); check('shuffled order')
-  for (const e of [...stream].reverse()) await deliver(e); check('replayed in reverse on top')
-  for (const [label, ok, state] of results) log(`${ok ? 'PASS' : 'FAIL'}  ${label}: row ${state}`)
-  process.exitCode = results.every((r) => r[1]) ? 0 : 1
+  const deliverFresh = async (opts) => { for (const e of await collect(customer.id, own, opts)) await deliver(e) }
+
+  // 1 checkout A
+  await useCard(good)
+  const subA = await setupStripe.subscriptions.create({ customer: customer.id, items: [{ price: pro.id }], default_payment_method: good.id }); own.add(subA.id)
+  await deliverFresh({ wantTypes: ['customer.subscription.created'] })
+  await deliver(synthCheckout(subA.id, Math.floor(Date.now() / 1000)))
+  check('1 checkout -> correct subscription', row()?.stripe_subscription_id === subA.id && row()?.status === 'active' && row()?.plan === 'pro', `${row()?.status}/${row()?.plan}`)
+
+  // 2 renewal fails
+  await useCard(bad, subA.id)
+  await advance(clock, 32 * 86400)
+  await deliverFresh({ wantTypes: ['invoice.payment_failed'] })
+  check('2 payment failure -> past_due (no access)', row()?.status === 'past_due', `row ${row()?.status}, Stripe ${(await setupStripe.subscriptions.retrieve(subA.id)).status}`)
+
+  // 3 recovery: pay the open invoice with the good card
+  await useCard(good, subA.id)
+  const open = (await setupStripe.invoices.list({ subscription: subA.id, status: 'open', limit: 1 })).data[0]
+  if (open) await setupStripe.invoices.pay(open.id, { payment_method: good.id })
+  await deliverFresh({ wantTypes: ['invoice.paid'] })
+  check('3 recovery -> access restored', row()?.status === 'active' && row()?.stripe_subscription_id === subA.id, `row ${row()?.status}, Stripe ${(await setupStripe.subscriptions.retrieve(subA.id)).status}`)
+
+  // 4 renewal fails again
+  await useCard(bad, subA.id)
+  await advance(clock, 31 * 86400)
+  await deliverFresh({ wantTypes: ['invoice.payment_failed'] })
+  check('4 second failure -> past_due', row()?.status === 'past_due', `row ${row()?.status}`)
+
+  // 5 replacement: Elite subscription B
+  await useCard(good)
+  const subB = await setupStripe.subscriptions.create({ customer: customer.id, items: [{ price: elite.id }], default_payment_method: good.id }); own.add(subB.id)
+  await deliverFresh({})
+  await deliver(synthCheckout(subB.id, Math.floor(Date.now() / 1000)))
+  check('5 replacement subscription -> row owner B, active', row()?.stripe_subscription_id === subB.id && row()?.status === 'active' && row()?.plan === 'elite', `${row()?.status}/${row()?.plan}`)
+
+  // 6 duplicate: another Elite subscription C on the same customer
+  const subC = await setupStripe.subscriptions.create({ customer: customer.id, items: [{ price: elite.id }], default_payment_method: good.id }); own.add(subC.id)
+  handlerCancels = []
+  await deliverFresh({})
+  await deliver(synthCheckout(subC.id, Math.floor(Date.now() / 1000)))
+  const cStatus = (await setupStripe.subscriptions.retrieve(subC.id)).status
+  check('6 duplicate checkout -> duplicate cancelled once, owner kept', cStatus === 'canceled' && handlerCancels.filter((x) => x === subC.id).length === 1 && row()?.stripe_subscription_id === subB.id && row()?.status === 'active', `C ${cStatus}, handler cancels ${handlerCancels.length}, row owner ${row()?.stripe_subscription_id === subB.id ? 'B' : '?'}`)
+  await deliverFresh({})
+
+  // 7 old subscription A is cancelled
+  await setupStripe.subscriptions.cancel(subA.id)
+  await deliverFresh({ wantTypes: ['customer.subscription.deleted'] })
+  check('7 old subscription cancelled -> owner B unaffected', row()?.stripe_subscription_id === subB.id && row()?.status === 'active', `${row()?.status}`)
+
+  // 8 owner B is cancelled
+  await setupStripe.subscriptions.cancel(subB.id)
+  await deliverFresh({})
+  check('8 owner cancelled -> no access', row()?.stripe_subscription_id === subB.id && row()?.status === 'canceled', `${row()?.status}`)
+
+  // 9 replay and out-of-order delivery on a fresh table
+  const stream = [...allEvents, synthCheckout(subA.id, 0), synthCheckout(subB.id, 0), synthCheckout(subC.id, 0)]
+  handlerCancels = []
+  db.reset()
+  for (const e of [...stream].sort(() => (randomBytes(1)[0] & 1 ? 1 : -1))) await deliver(e)
+  for (const e of [...stream].reverse()) await deliver(e)
+  check('9 shuffled replay + reverse redelivery -> no access, no further cancels', row()?.status === 'canceled' && handlerCancels.length === 0, `${row()?.status}, cancels ${handlerCancels.length}`)
+
+  // Evidence about the account itself
+  const apiVersions = [...new Set(allEvents.map((e) => e.api_version))]
+  const inv = allEvents.find((e) => e.type.startsWith('invoice.'))?.data.object
+  const invoiceShape = !inv ? 'no invoice event' : inv.subscription ? 'invoice.subscription (pre-basil)' : inv.parent?.subscription_details ? 'invoice.parent.subscription_details (basil+)' : 'other'
+  const periodShape = allEvents.find((e) => e.type.startsWith('customer.subscription.'))?.data.object
+  const liveTouched = allEvents.some((e) => e.livemode !== false)
+  log(`EVIDENCE ${JSON.stringify({ events: allEvents.length, apiVersions, invoiceShape, subscriptionPeriodEndOn: periodShape?.current_period_end ? 'subscription' : periodShape?.items?.data?.[0]?.current_period_end ? 'item' : 'unknown', eventTypes: [...new Set(allEvents.map((e) => e.type))].sort(), liveTouched })}`)
+  check('no live-mode object or event touched', !liveTouched)
+  const failed = results.filter((r) => !r[1]).length
+  log(`RESULT ${results.length - failed}/${results.length} steps passed`)
+  process.exitCode = failed ? 1 : 0
 } finally {
-  if (clock) await stripe.testHelpers.testClocks.del(clock.id).catch((e) => console.error('clock cleanup failed:', e.message))
+  if (clock) await setupStripe.testHelpers.testClocks.del(clock.id).catch((e) => console.error('clock cleanup failed:', e.message))
 }
