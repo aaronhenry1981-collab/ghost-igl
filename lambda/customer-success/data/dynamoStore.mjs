@@ -90,16 +90,33 @@ export function createDynamoStore({ ddb, tableName, typeIndexName = 'gsi1', log 
       }))
       return r.Attributes || null
     },
-    async listByType(type, { limit = 200, since = null } = {}) {
-      const r = await ddb.send(new QueryCommand({
-        TableName: tableName,
-        IndexName: typeIndexName,
-        KeyConditionExpression: since ? 'gsi1pk = :t AND gsi1sk >= :s' : 'gsi1pk = :t',
-        ExpressionAttributeValues: since ? { ':t': type, ':s': since } : { ':t': type },
-        ScanIndexForward: false,
-        Limit: Math.min(Math.max(Number(limit) || 200, 1), 1000),
-      }))
-      return r.Items || []
+    // Newest first on the type index. Reads page after page until `limit`
+    // items are collected or the index is exhausted; `all: true` (or
+    // limit: Infinity) reads every page. Fails closed: a page error rejects
+    // the whole call, and more than MAX_PAGES pages throws StoreLimitError
+    // instead of returning a silently truncated list.
+    async listByType(type, { limit = 200, since = null, all = false } = {}) {
+      const want = all || limit === Infinity ? Infinity : Math.max(Number(limit) || 200, 1)
+      const items = []
+      let ExclusiveStartKey
+      let pages = 0
+      do {
+        const page = await ddb.send(new QueryCommand({
+          TableName: tableName,
+          IndexName: typeIndexName,
+          KeyConditionExpression: since ? 'gsi1pk = :t AND gsi1sk >= :s' : 'gsi1pk = :t',
+          ExpressionAttributeValues: since ? { ':t': type, ':s': since } : { ':t': type },
+          ScanIndexForward: false,
+          Limit: Number.isFinite(want) ? Math.min(want - items.length, 1000) : 1000,
+          ExclusiveStartKey,
+        }))
+        items.push(...(page.Items || []))
+        ExclusiveStartKey = page.LastEvaluatedKey
+        pages += 1
+      } while (ExclusiveStartKey && items.length < want && pages < MAX_PAGES)
+      if (ExclusiveStartKey && items.length < want) throw new StoreLimitError(`type index read (${type})`)
+      if (pages > MAX_PAGES / 2) log?.warn?.('cs_store_large_read', { what: `type:${type}`, pages })
+      return Number.isFinite(want) ? items.slice(0, want) : items
     },
     async listAll() {
       return paginate((ExclusiveStartKey) => ddb.send(new ScanCommand({ TableName: tableName, ExclusiveStartKey })), 'table scan', log)

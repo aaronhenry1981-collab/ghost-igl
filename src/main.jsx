@@ -41,6 +41,8 @@ const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const PlayerHomePage = lazy(() => import('./features/home/PlayerHomePage'))
 const CrmRoute = lazy(() => import('./features/crm/CrmRoute'))
+const SupportRoute = lazy(() => import('./features/support/SupportRoute'))
+const HelpRoute = lazy(() => import('./features/support/HelpRoute'))
 // Dev-only fixture previews (fictional data). `import.meta.env.DEV` is false in
 // production builds, so neither the route nor its chunk ships.
 const DevPreviewPage = import.meta.env.DEV ? lazy(() => import('./features/dev/DevPreviewPage')) : null
@@ -181,8 +183,15 @@ const router = createBrowserRouter([
       { path: '/admin', element: <L><AdminPage /></L> },
       { path: '/admin/crm', element: <L><CrmRoute /></L> },
       { path: '/admin/crm/players/:key', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/support/*', element: <L><CrmRoute /></L> },
       { path: '/admin/crm/:tab', element: <L><CrmRoute /></L> },
       { path: '/account', element: <L><AccountPage /></L> },
+      // Player Command (support) + Help Center. Registered explicitly: unknown
+      // paths redirect home via the catch-all below.
+      { path: '/support', element: <L><SupportRoute /></L> },
+      { path: '/support/cases/:caseNumber', element: <L><SupportRoute /></L> },
+      { path: '/help', element: <L><HelpRoute /></L> },
+      { path: '/help/:slug', element: <L><HelpRoute /></L> },
       { path: '/activate', element: <L><ActivatePage /></L> },
       { path: '/download', element: DESKTOP_APP_RELEASED ? <L><DownloadPage /></L> : <Navigate to="/account" replace /> },
     ],

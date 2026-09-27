@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 
 const DESKTOP_APP_RELEASED = import.meta.env.VITE_DESKTOP_APP_RELEASED === 'true'
 
@@ -141,6 +142,12 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/dashboard')}>Dashboard</button>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
+          {SUPPORT_UI_ENABLED && (
+            <>
+              <button type="button" className="nav-more-item" onClick={() => go('/support')}>Support</button>
+              <button type="button" className="nav-more-item" onClick={() => go('/help')}>Help Center</button>
+            </>
+          )}
           {isPro && DESKTOP_APP_RELEASED && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop app</button>
           )}
@@ -354,12 +361,14 @@ export default function Navbar() {
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('pricing')}>Pricing</button>
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('faq')}>FAQ</button>
           <Link to="/changelog" onClick={closeMobile} className="mobile-drawer-link">Changelog</Link>
+          {SUPPORT_UI_ENABLED && <NavLink to="/help" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Help Center</NavLink>}
         </div>
 
         {user ? (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
+            {SUPPORT_UI_ENABLED && <NavLink to="/support" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Support</NavLink>}
             {isPro && DESKTOP_APP_RELEASED && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop app</Link>}
             {isPro && <Link to="/activate" onClick={closeMobile} className="mobile-drawer-link">Activation</Link>}
             {isAdmin && <Link to="/admin" onClick={closeMobile} className="mobile-drawer-link">Admin dashboard</Link>}

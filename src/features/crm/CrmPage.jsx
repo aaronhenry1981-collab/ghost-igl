@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { NavLink } from 'react-router-dom'
 import CrmOverview from './CrmOverview'
 import CrmQueue from './CrmQueue'
@@ -8,11 +9,15 @@ import CrmConversations from './CrmConversations'
 import CrmFeedback from './CrmFeedback'
 import CrmReviews from './CrmReviews'
 import { CRM_TABS } from './crmTabs'
+import { Loading } from './crmUi'
 import './Crm.css'
+
+// Support Command Center: its own chunk, loaded only on the Support tab.
+const SupportCommand = lazy(() => import('../support/staff/SupportCommand'))
 
 // Recon customer-success CRM shell. `api` is injected (live Cognito-backed
 // client, or the dev fixture client) so the same screens render either way.
-export default function CrmPage({ api, basePath, tab = 'overview', playerKey = null, preview = false }) {
+export default function CrmPage({ api, basePath, tab = 'overview', playerKey = null, preview = false, support = null }) {
   const tabs = CRM_TABS
   const current = playerKey ? 'players' : tab
   const active = tabs.find((t) => t.id === current) || tabs[0]
@@ -47,6 +52,7 @@ export default function CrmPage({ api, basePath, tab = 'overview', playerKey = n
       ) : (
         <div className="crm-body">
           {playerKey ? <CrmPlayerRecord key={playerKey} api={api} basePath={basePath} playerKey={playerKey} />
+            : current === 'support' ? <Suspense fallback={<Loading />}><SupportCommand api={api} basePath={basePath} path={support?.path || ''} keep={support?.keep || null} /></Suspense>
             : current === 'overview' ? <CrmOverview api={api} basePath={basePath} />
               : current === 'queue' ? <CrmQueue api={api} basePath={basePath} />
                 : current === 'billing' ? <CrmBilling api={api} basePath={basePath} />

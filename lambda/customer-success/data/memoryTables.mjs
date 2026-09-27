@@ -96,5 +96,37 @@ export function createMemoryTables(world, { failures = {} } = {}) {
       fail('testimonials')
       return clone(world.testimonials)
     },
+    // ---- player-data history (read-only; Player Success diagnostics) ---------
+    // Mirrors recon-player-snapshots: newest first for ONE player, never a
+    // cross-player read. `notes` is not projected (free text).
+    async playerSnapshots(reconPlayerId, limit = 200) {
+      fail('playerSnapshots')
+      if (!reconPlayerId) return []
+      return clone((world.playerSnapshots || [])
+        .filter((row) => row.recon_player_id === reconPlayerId)
+        .sort((a, b) => String(b.snapshot_key).localeCompare(String(a.snapshot_key)))
+        .slice(0, limit)
+        .map(({ notes, ...rest }) => rest))
+    },
+    // Mirrors recon-player-identities for ONE player: which providers are
+    // linked and how verified. External ids and usernames are not projected.
+    async playerIdentities(reconPlayerId) {
+      fail('playerIdentities')
+      if (!reconPlayerId) return []
+      return clone((world.playerIdentities || [])
+        .filter((row) => row.recon_player_id === reconPlayerId)
+        .map((row) => ({ provider: row.provider, verification: row.verification || null, verified: row.verified === true, linked_at: row.linked_at || null, updated_at: row.updated_at || null })))
+    },
+    // Mirrors recon-player-provider-health: the newest observation per
+    // provider (global, not per player).
+    async providerHealth() {
+      fail('providerHealth')
+      const latest = new Map()
+      for (const row of world.providerHealth || []) {
+        const current = latest.get(row.provider)
+        if (!current || String(row.observed_at) > String(current.observed_at)) latest.set(row.provider, row)
+      }
+      return clone([...latest.values()].map(({ checked_by, ...rest }) => rest))
+    },
   }
 }

@@ -50,6 +50,17 @@ Parameters:
   TestimonialsTableName:
     Type: String
     Default: ghost-igl-testimonials
+  # Player-data history read by Player Success diagnostics (Query only; see
+  # the PlayerDataHistoryQueryOnly statement below).
+  PlayerSnapshotsTableName:
+    Type: String
+    Default: recon-player-snapshots
+  PlayerIdentitiesTableName:
+    Type: String
+    Default: recon-player-identities
+  ProviderHealthTableName:
+    Type: String
+    Default: recon-player-provider-health
   ActivityTrackingSince:
     Type: String
     Default: ''
@@ -75,6 +86,41 @@ Parameters:
     Default: 'false'
     AllowedValues: ['true', 'false']
     Description: Mirror opt-outs into the existing CRM job's log (sets marketing_suppressed_at only).
+  # ---- Player Success & Support (routes/support.mjs). Everything OFF. ------
+  FeatureSupport:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      false = every /cs/.../support and /cs/help route is a 404 (default).
+      Turning it on is an Aaron-approved step (docs/player-success/ARCHITECTURE.md §16).
+  SupportAttachments:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      Attachment manifests. Keep false: the private attachments bucket and the
+      presign route are NOT provisioned (see the commented block under Resources).
+  SupportProactive:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: Proactive runs may create flagged cases (dry runs work either way). Never contacts a player.
+  SupportCopilotModel:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['false']
+    Description: >-
+      Model-assisted copilot. Only 'false' is allowed until a cost / risk /
+      measurement / rollback case is approved; the copilot is deterministic.
+  SupportEmailTokenSecretArn:
+    Type: String
+    Default: ''
+    Description: >-
+      Secrets Manager ARN of the HMAC secret for support+<token>@ reply
+      threading. Empty (default) = token lookups return nothing and plus-
+      addressed mail goes to the unmatched review queue. No secret is created
+      by this stack.
   DevOrigin:
     Type: String
     Default: ''
@@ -84,6 +130,7 @@ Parameters:
 
 Conditions:
   MirrorLegacySuppression: !Equals [!Ref SyncLegacySuppression, 'true']
+  HasSupportEmailTokenSecret: !Not [!Equals [!Ref SupportEmailTokenSecretArn, '']]
   HasDevOrigin: !Not [!Equals [!Ref DevOrigin, '']]
 
 Globals:
@@ -153,6 +200,7 @@ Resources:
           - GET
           - POST
           - PUT
+          - PATCH
           - OPTIONS
         MaxAge: 600
 
@@ -181,6 +229,14 @@ Resources:
           FEATURE_FEEDBACK: !Ref FeatureFeedback
           OUTREACH_DELIVERY_MODE: !Ref OutreachDeliveryMode
           SYNC_LEGACY_SUPPRESSION: !Ref SyncLegacySuppression
+          PLAYER_SNAPSHOTS_TABLE: !Ref PlayerSnapshotsTableName
+          PLAYER_IDENTITIES_TABLE: !Ref PlayerIdentitiesTableName
+          PROVIDER_HEALTH_TABLE: !Ref ProviderHealthTableName
+          FEATURE_SUPPORT: !Ref FeatureSupport
+          SUPPORT_ATTACHMENTS: !Ref SupportAttachments
+          SUPPORT_PROACTIVE: !Ref SupportProactive
+          SUPPORT_COPILOT_MODEL: !Ref SupportCopilotModel
+          SUPPORT_EMAIL_TOKEN_SECRET_ARN: !Ref SupportEmailTokenSecretArn
           ALLOWED_ORIGINS: !If
             - HasDevOrigin
             - !Sub 'https://r6coaching.com,https://www.r6coaching.com,${DevOrigin}'
@@ -208,6 +264,16 @@ Resources:
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ReferralsTableName}/index/*
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${CrmLogTableName}
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TestimonialsTableName}
+            # Player Success diagnostics: per-player history is read with
+            # Query only (never Scan, never a write) on exactly these tables.
+            - Sid: PlayerDataHistoryQueryOnly
+              Effect: Allow
+              Action:
+                - dynamodb:Query
+              Resource:
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerSnapshotsTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerIdentitiesTableName}
+                - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ProviderHealthTableName}
             - Sid: CognitoDirectoryReadOnly
               Effect: Allow
               Action:
@@ -229,6 +295,19 @@ Resources:
                       - marketing_suppressed_at
                       - marketing_suppressed_reason
           - !Ref AWS::NoValue
+        - !If
+          - HasSupportEmailTokenSecret
+          - Statement:
+              - Sid: SupportEmailTokenSecretReadOnly
+                Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref SupportEmailTokenSecretArn
+          - !Ref AWS::NoValue
+      # Player Success & Support routes (routes/support.mjs) are intentionally
+      # NOT registered below: with FeatureSupport false they would 404 anyway,
+      # and registering them is part of the approved enablement step
+      # (docs/player-success/ARCHITECTURE.md §16, API-CONTRACT.md route list).
       Events:
         Health:
           Type: HttpApi
@@ -311,6 +390,28 @@ Resources:
         AdminReviewDecision:
           Type: HttpApi
           Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/admin/reviews/decision, Method: POST }
+
+  # ---- NOT PROVISIONED (Player Success & Support) -------------------------------
+  # Kept as comments so nothing is created by a deploy of this template.
+  #
+  # Support attachments bucket (needed before SupportAttachments=true):
+  #   SupportAttachmentsBucket:
+  #     Type: AWS::S3::Bucket
+  #     DeletionPolicy: Retain
+  #     Properties:
+  #       PublicAccessBlockConfiguration: { BlockPublicAcls: true, BlockPublicPolicy: true, IgnorePublicAcls: true, RestrictPublicBuckets: true }
+  #       BucketEncryption: { ServerSideEncryptionConfiguration: [{ ServerSideEncryptionByDefault: { SSEAlgorithm: aws:kms } }] }
+  #       LifecycleConfiguration: { Rules: [{ Id: expire-support-attachments, Status: Enabled, ExpirationInDays: 180 }] }
+  #   plus: s3:PutObject/GetObject scoped to support/* for this function, a
+  #   presign route, and a malware-scan step before scanState leaves 'not_uploaded'.
+  #
+  # Inbound support email: the existing ghost-igl-mail-forward SES receipt
+  # rule would invoke support ingestion (service.ingestInboundEmail). No
+  # receipt rule, SNS topic or Lambda permission for that exists in this stack.
+  #
+  # Outbound support email (replies by email): SES identity/DKIM for
+  # support@ and the transactional send gate. Not wired; replies are shown in
+  # the player's case timeline only.
 
   CustomerSuccessErrorsAlarm:
     Type: AWS::CloudWatch::Alarm

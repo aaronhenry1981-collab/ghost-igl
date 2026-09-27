@@ -1,0 +1,2876 @@
+{
+  "viewer": "scn-paying_active",
+  "scenarioCases": {
+    "open": "R6-000005",
+    "waitingOnMe": "R6-000003",
+    "waitingOnRecon": "R6-000004",
+    "resolved": "R6-000002",
+    "closed": "R6-000001"
+  },
+  "triage": {
+    "samples": [
+      {
+        "text": "Paid for Pro yesterday but Match Prep still says upgrade and the strats are locked",
+        "response": {
+          "suggestedCategory": "access_entitlement",
+          "confidence": 0.6,
+          "intent": "broken",
+          "questions": [
+            {
+              "id": "locked_feature",
+              "prompt": "Which page or feature is locked?",
+              "why": "Tells us which plan check is failing."
+            },
+            {
+              "id": "purchase_email",
+              "prompt": "Which email did you pay with?",
+              "why": "A payment on a different email is the most common cause."
+            }
+          ],
+          "diagnosticsPreview": {
+            "status": "ok",
+            "observedAt": "2026-09-25T15:00:00.000Z",
+            "panels": [
+              {
+                "id": "account",
+                "title": "Account and login",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Login",
+                    "value": "Signed in and confirmed",
+                    "source": "Your account",
+                    "at": null
+                  },
+                  {
+                    "label": "Player profile",
+                    "value": "complete",
+                    "source": "Your account",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "entitlement",
+                "title": "Membership and access",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Plan",
+                    "value": "Elite",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Access",
+                    "value": "Active",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Current period ends",
+                    "value": "2026-10-11",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "connections",
+                "title": "Connected accounts and data",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Ubisoft",
+                    "value": "linked, updated in the last hour",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-25T14:31:00.000Z"
+                  },
+                  {
+                    "label": "Tracker Network",
+                    "value": "linked, older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-22T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Replays",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "VOD reviews",
+                    "value": "older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Desktop client",
+                    "value": "activation and version are not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "vod",
+                "title": "AI VOD review",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Reviews used this period",
+                    "value": "7 of 60",
+                    "source": "Your membership",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Allowance resets",
+                    "value": "2026-10-16",
+                    "source": "Your membership",
+                    "at": null
+                  },
+                  {
+                    "label": "Last completed review",
+                    "value": "2026-09-23",
+                    "source": "Your review history",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+                  ]
+                }
+              },
+              {
+                "id": "replay",
+                "title": "Match replays",
+                "status": "not_available",
+                "facts": [
+                  {
+                    "label": "Replay upload",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "For an AI review, upload screenshots from the round on the VOD review page instead."
+                  ]
+                }
+              },
+              {
+                "id": "coaching",
+                "title": "Coaching",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Coaching credits",
+                    "value": "none on record",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  },
+                  {
+                    "label": "Upcoming sessions",
+                    "value": "0",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "desktop",
+                "title": "Desktop client",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Desktop client activation",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "Installed version",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "Tell us the app version you installed and whether you use PC capture or a console capture card."
+                  ]
+                }
+              }
+            ]
+          },
+          "helpArticles": [
+            {
+              "slug": "subscription-and-access",
+              "title": "Your plan and what it unlocks",
+              "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
+              "category": "subscription",
+              "status": "draft",
+              "score": 26.151
+            },
+            {
+              "slug": "match-replays",
+              "title": "Can I upload match replays?",
+              "summary": "Replay (.rec) upload is not available in Recon today. Screenshot-based VOD review is.",
+              "category": "replay_upload",
+              "status": "draft",
+              "score": 5.892
+            },
+            {
+              "slug": "sign-in-and-password-help",
+              "title": "Sign-in, confirmation code and password help",
+              "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
+              "category": "account_login",
+              "status": "draft",
+              "score": 5.55
+            }
+          ],
+          "redacted": false
+        }
+      },
+      {
+        "text": "VOD review spun forever and never finished",
+        "response": {
+          "suggestedCategory": "vod_analysis",
+          "confidence": 0.43,
+          "intent": "broken",
+          "questions": [
+            {
+              "id": "review_when",
+              "prompt": "Roughly when did you run the review?",
+              "why": "Review attempts are not stored, so the time narrows it down."
+            },
+            {
+              "id": "review_error",
+              "prompt": "What did the review page say?",
+              "why": "The message tells us whether it was the image, the limit or our side."
+            }
+          ],
+          "diagnosticsPreview": {
+            "status": "ok",
+            "observedAt": "2026-09-25T15:00:00.000Z",
+            "panels": [
+              {
+                "id": "account",
+                "title": "Account and login",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Login",
+                    "value": "Signed in and confirmed",
+                    "source": "Your account",
+                    "at": null
+                  },
+                  {
+                    "label": "Player profile",
+                    "value": "complete",
+                    "source": "Your account",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "entitlement",
+                "title": "Membership and access",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Plan",
+                    "value": "Elite",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Access",
+                    "value": "Active",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Current period ends",
+                    "value": "2026-10-11",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "connections",
+                "title": "Connected accounts and data",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Ubisoft",
+                    "value": "linked, updated in the last hour",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-25T14:31:00.000Z"
+                  },
+                  {
+                    "label": "Tracker Network",
+                    "value": "linked, older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-22T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Replays",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "VOD reviews",
+                    "value": "older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Desktop client",
+                    "value": "activation and version are not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "vod",
+                "title": "AI VOD review",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Reviews used this period",
+                    "value": "7 of 60",
+                    "source": "Your membership",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Allowance resets",
+                    "value": "2026-10-16",
+                    "source": "Your membership",
+                    "at": null
+                  },
+                  {
+                    "label": "Last completed review",
+                    "value": "2026-09-23",
+                    "source": "Your review history",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+                  ]
+                }
+              },
+              {
+                "id": "replay",
+                "title": "Match replays",
+                "status": "not_available",
+                "facts": [
+                  {
+                    "label": "Replay upload",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "For an AI review, upload screenshots from the round on the VOD review page instead."
+                  ]
+                }
+              },
+              {
+                "id": "coaching",
+                "title": "Coaching",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Coaching credits",
+                    "value": "none on record",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  },
+                  {
+                    "label": "Upcoming sessions",
+                    "value": "0",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "desktop",
+                "title": "Desktop client",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Desktop client activation",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "Installed version",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "Tell us the app version you installed and whether you use PC capture or a console capture card."
+                  ]
+                }
+              }
+            ]
+          },
+          "helpArticles": [
+            {
+              "slug": "upload-a-vod-for-ai-review",
+              "title": "Upload a VOD for AI review",
+              "summary": "AI VOD review works from screenshots of one round. Here is what it accepts and what the limits are.",
+              "category": "vod_upload",
+              "status": "draft",
+              "score": 20.766
+            },
+            {
+              "slug": "get-better-vod-results",
+              "title": "Get better results from AI VOD review",
+              "summary": "Small changes to what you upload make the review much sharper.",
+              "category": "ai_result",
+              "status": "draft",
+              "score": 12.008
+            },
+            {
+              "slug": "match-replays",
+              "title": "Can I upload match replays?",
+              "summary": "Replay (.rec) upload is not available in Recon today. Screenshot-based VOD review is.",
+              "category": "replay_upload",
+              "status": "draft",
+              "score": 7.421
+            }
+          ],
+          "redacted": false
+        }
+      },
+      {
+        "text": "Rank on Road to Champion looks wrong",
+        "response": {
+          "suggestedCategory": "other",
+          "confidence": 0.2,
+          "intent": "broken",
+          "questions": [
+            {
+              "id": "details",
+              "prompt": "Tell us a bit more about what you need.",
+              "why": "We could not tell the topic yet."
+            }
+          ],
+          "diagnosticsPreview": {
+            "status": "ok",
+            "observedAt": "2026-09-25T15:00:00.000Z",
+            "panels": [
+              {
+                "id": "account",
+                "title": "Account and login",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Login",
+                    "value": "Signed in and confirmed",
+                    "source": "Your account",
+                    "at": null
+                  },
+                  {
+                    "label": "Player profile",
+                    "value": "complete",
+                    "source": "Your account",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "entitlement",
+                "title": "Membership and access",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Plan",
+                    "value": "Elite",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Access",
+                    "value": "Active",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Current period ends",
+                    "value": "2026-10-11",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "connections",
+                "title": "Connected accounts and data",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Ubisoft",
+                    "value": "linked, updated in the last hour",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-25T14:31:00.000Z"
+                  },
+                  {
+                    "label": "Tracker Network",
+                    "value": "linked, older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-22T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Replays",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "VOD reviews",
+                    "value": "older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Desktop client",
+                    "value": "activation and version are not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "vod",
+                "title": "AI VOD review",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Reviews used this period",
+                    "value": "7 of 60",
+                    "source": "Your membership",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Allowance resets",
+                    "value": "2026-10-16",
+                    "source": "Your membership",
+                    "at": null
+                  },
+                  {
+                    "label": "Last completed review",
+                    "value": "2026-09-23",
+                    "source": "Your review history",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+                  ]
+                }
+              },
+              {
+                "id": "replay",
+                "title": "Match replays",
+                "status": "not_available",
+                "facts": [
+                  {
+                    "label": "Replay upload",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "For an AI review, upload screenshots from the round on the VOD review page instead."
+                  ]
+                }
+              },
+              {
+                "id": "coaching",
+                "title": "Coaching",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Coaching credits",
+                    "value": "none on record",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  },
+                  {
+                    "label": "Upcoming sessions",
+                    "value": "0",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "desktop",
+                "title": "Desktop client",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Desktop client activation",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "Installed version",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "Tell us the app version you installed and whether you use PC capture or a console capture card."
+                  ]
+                }
+              }
+            ]
+          },
+          "helpArticles": [
+            {
+              "slug": "why-rank-or-stats-look-different",
+              "title": "Why your rank or stats look different in Recon",
+              "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
+              "category": "rank_stat_discrepancy",
+              "status": "draft",
+              "score": 16.777
+            },
+            {
+              "slug": "subscription-and-access",
+              "title": "Your plan and what it unlocks",
+              "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
+              "category": "subscription",
+              "status": "draft",
+              "score": 12.088
+            },
+            {
+              "slug": "coaching-credits",
+              "title": "Coaching credits and booking sessions",
+              "summary": "How coaching credits are added, used and booked.",
+              "category": "coaching_credits",
+              "status": "draft",
+              "score": 4.15
+            }
+          ],
+          "redacted": false
+        }
+      },
+      {
+        "text": "The desktop client does not list my capture card, OBS sees it fine.",
+        "response": {
+          "suggestedCategory": "desktop_client",
+          "confidence": 0.75,
+          "intent": "broken",
+          "questions": [
+            {
+              "id": "desktop_version",
+              "prompt": "Which app version did you install, and on which Windows version?",
+              "why": "We cannot see the installed version from our side."
+            },
+            {
+              "id": "capture_setup",
+              "prompt": "Are you using PC capture or a console capture card?",
+              "why": "The two setups fail in different ways."
+            }
+          ],
+          "diagnosticsPreview": {
+            "status": "ok",
+            "observedAt": "2026-09-25T14:35:00.000Z",
+            "panels": [
+              {
+                "id": "account",
+                "title": "Account and login",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Login",
+                    "value": "Signed in and confirmed",
+                    "source": "Your account",
+                    "at": null
+                  },
+                  {
+                    "label": "Player profile",
+                    "value": "complete",
+                    "source": "Your account",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "entitlement",
+                "title": "Membership and access",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Plan",
+                    "value": "Elite",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Access",
+                    "value": "Active",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Current period ends",
+                    "value": "2026-10-11",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "connections",
+                "title": "Connected accounts and data",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Ubisoft",
+                    "value": "linked, updated in the last hour",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-25T14:31:00.000Z"
+                  },
+                  {
+                    "label": "Tracker Network",
+                    "value": "linked, older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-22T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Replays",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "VOD reviews",
+                    "value": "older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Desktop client",
+                    "value": "activation and version are not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "vod",
+                "title": "AI VOD review",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Reviews used this period",
+                    "value": "7 of 60",
+                    "source": "Your membership",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Allowance resets",
+                    "value": "2026-10-16",
+                    "source": "Your membership",
+                    "at": null
+                  },
+                  {
+                    "label": "Last completed review",
+                    "value": "2026-09-23",
+                    "source": "Your review history",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+                  ]
+                }
+              },
+              {
+                "id": "replay",
+                "title": "Match replays",
+                "status": "not_available",
+                "facts": [
+                  {
+                    "label": "Replay upload",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "For an AI review, upload screenshots from the round on the VOD review page instead."
+                  ]
+                }
+              },
+              {
+                "id": "coaching",
+                "title": "Coaching",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Coaching credits",
+                    "value": "none on record",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  },
+                  {
+                    "label": "Upcoming sessions",
+                    "value": "0",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "desktop",
+                "title": "Desktop client",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Desktop client activation",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "Installed version",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "Tell us the app version you installed and whether you use PC capture or a console capture card."
+                  ]
+                }
+              }
+            ]
+          },
+          "helpArticles": [
+            {
+              "slug": "desktop-client",
+              "title": "The desktop app",
+              "summary": "What we can and cannot see about the desktop app, and what to send us if it is not working.",
+              "category": "desktop_client",
+              "status": "draft",
+              "score": 59.605
+            },
+            {
+              "slug": "billing-and-payments",
+              "title": "Billing, payments and cancelling",
+              "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+              "category": "billing_question",
+              "status": "draft",
+              "score": 38.798
+            },
+            {
+              "slug": "subscription-and-access",
+              "title": "Your plan and what it unlocks",
+              "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
+              "category": "subscription",
+              "status": "draft",
+              "score": 4.945
+            }
+          ],
+          "redacted": false
+        }
+      },
+      {
+        "text": "How do I change the email I sign in with?",
+        "response": {
+          "suggestedCategory": "account_login",
+          "confidence": 0.33,
+          "intent": "how_to",
+          "questions": [
+            {
+              "id": "login_error",
+              "prompt": "What does the sign-in screen say when it fails?",
+              "why": "The exact message tells us whether it is the password, the confirmation code or the account."
+            }
+          ],
+          "diagnosticsPreview": {
+            "status": "ok",
+            "observedAt": "2026-09-25T15:00:00.000Z",
+            "panels": [
+              {
+                "id": "account",
+                "title": "Account and login",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Login",
+                    "value": "Signed in and confirmed",
+                    "source": "Your account",
+                    "at": null
+                  },
+                  {
+                    "label": "Player profile",
+                    "value": "complete",
+                    "source": "Your account",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "entitlement",
+                "title": "Membership and access",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Plan",
+                    "value": "Elite",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Access",
+                    "value": "Active",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Current period ends",
+                    "value": "2026-10-11",
+                    "source": "Your membership",
+                    "at": "2026-09-11T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "connections",
+                "title": "Connected accounts and data",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Ubisoft",
+                    "value": "linked, updated in the last hour",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-25T14:31:00.000Z"
+                  },
+                  {
+                    "label": "Tracker Network",
+                    "value": "linked, older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-22T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Replays",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "VOD reviews",
+                    "value": "older than a day",
+                    "source": "Your connected accounts",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Desktop client",
+                    "value": "activation and version are not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "vod",
+                "title": "AI VOD review",
+                "status": "ok",
+                "facts": [
+                  {
+                    "label": "Reviews used this period",
+                    "value": "7 of 60",
+                    "source": "Your membership",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  },
+                  {
+                    "label": "Allowance resets",
+                    "value": "2026-10-16",
+                    "source": "Your membership",
+                    "at": null
+                  },
+                  {
+                    "label": "Last completed review",
+                    "value": "2026-09-23",
+                    "source": "Your review history",
+                    "at": "2026-09-23T15:00:00.000Z"
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+                  ]
+                }
+              },
+              {
+                "id": "replay",
+                "title": "Match replays",
+                "status": "not_available",
+                "facts": [
+                  {
+                    "label": "Replay upload",
+                    "value": "not available in Recon today",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "For an AI review, upload screenshots from the round on the VOD review page instead."
+                  ]
+                }
+              },
+              {
+                "id": "coaching",
+                "title": "Coaching",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Coaching credits",
+                    "value": "none on record",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  },
+                  {
+                    "label": "Upcoming sessions",
+                    "value": "0",
+                    "source": "Your coaching bookings",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": []
+                }
+              },
+              {
+                "id": "desktop",
+                "title": "Desktop client",
+                "status": "not_recorded",
+                "facts": [
+                  {
+                    "label": "Desktop client activation",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  },
+                  {
+                    "label": "Installed version",
+                    "value": "not recorded",
+                    "source": "Recon",
+                    "at": null
+                  }
+                ],
+                "inferences": [],
+                "actions": {
+                  "user": [
+                    "Tell us the app version you installed and whether you use PC capture or a console capture card."
+                  ]
+                }
+              }
+            ]
+          },
+          "helpArticles": [
+            {
+              "slug": "sign-in-and-password-help",
+              "title": "Sign-in, confirmation code and password help",
+              "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
+              "category": "account_login",
+              "status": "draft",
+              "score": 20.915
+            },
+            {
+              "slug": "connect-your-gaming-account",
+              "title": "Connect your gaming account",
+              "summary": "Tell Recon which platform and in-game name you play on so plans and stats fit your account.",
+              "category": "ubisoft_connection",
+              "status": "draft",
+              "score": 2.154
+            },
+            {
+              "slug": "how-recon-history-works",
+              "title": "How Recon keeps your history",
+              "summary": "Recon stores dated snapshots with their source, so your progress has a timeline you can trust.",
+              "category": "historical_data",
+              "status": "draft",
+              "score": 1.769
+            }
+          ],
+          "redacted": false
+        }
+      }
+    ]
+  },
+  "created": {
+    "desktop_client": {
+      "replayed": false,
+      "case": {
+        "caseNumber": "R6-000005",
+        "subject": "The desktop client does not list my capture card, OBS sees it fine.",
+        "category": "desktop_client",
+        "status": "new",
+        "bucket": "open",
+        "bucketLabel": "Open",
+        "waitingOn": "recon",
+        "csat": null,
+        "createdAt": "2026-09-25T14:40:00.000Z",
+        "updatedAt": "2026-09-25T14:40:00.000Z",
+        "subcategory": null,
+        "description": "The desktop client does not list my capture card, OBS sees it fine.",
+        "source": "portal",
+        "resolvedAt": null,
+        "closedAt": null,
+        "reopenCount": 0,
+        "resolution": null,
+        "linkedFromCaseNumber": null,
+        "linkedCaseNumbers": [],
+        "actions": {
+          "canMessage": true,
+          "canConfirmResolved": false,
+          "canReopen": false,
+          "canRate": false
+        },
+        "timeline": [
+          {
+            "id": "ev_00000000000001",
+            "kind": "message_player",
+            "visibility": "public",
+            "at": "2026-09-25T14:40:00.000Z",
+            "author": "you",
+            "body": "The desktop client does not list my capture card, OBS sees it fine."
+          }
+        ],
+        "attachments": [],
+        "uploads": {
+          "enabled": false,
+          "reason": "Attachment storage is not switched on yet."
+        },
+        "diagnostics": null
+      }
+    },
+    "vod_analysis": {
+      "replayed": false,
+      "case": {
+        "caseNumber": "R6-000004",
+        "subject": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still …",
+        "category": "vod_analysis",
+        "status": "new",
+        "bucket": "open",
+        "bucketLabel": "Open",
+        "waitingOn": "recon",
+        "csat": null,
+        "createdAt": "2026-09-24T19:00:00.000Z",
+        "updatedAt": "2026-09-24T19:00:00.000Z",
+        "subcategory": null,
+        "description": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still went up.",
+        "source": "portal",
+        "resolvedAt": null,
+        "closedAt": null,
+        "reopenCount": 0,
+        "resolution": null,
+        "linkedFromCaseNumber": null,
+        "linkedCaseNumbers": [],
+        "actions": {
+          "canMessage": true,
+          "canConfirmResolved": false,
+          "canReopen": false,
+          "canRate": false
+        },
+        "timeline": [
+          {
+            "id": "ev_00000000000002",
+            "kind": "message_player",
+            "visibility": "public",
+            "at": "2026-09-24T19:00:00.000Z",
+            "author": "you",
+            "body": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still went up."
+          }
+        ],
+        "attachments": [],
+        "uploads": {
+          "enabled": false,
+          "reason": "Attachment storage is not switched on yet."
+        },
+        "diagnostics": null
+      }
+    }
+  },
+  "list": {
+    "buckets": {
+      "open": [
+        {
+          "caseNumber": "R6-000005",
+          "subject": "The desktop client does not list my capture card, OBS sees it fine.",
+          "category": "desktop_client",
+          "status": "new",
+          "bucket": "open",
+          "bucketLabel": "Open",
+          "waitingOn": "recon",
+          "csat": null,
+          "createdAt": "2026-09-25T14:40:00.000Z",
+          "updatedAt": "2026-09-25T14:40:00.000Z"
+        }
+      ],
+      "waiting_on_recon": [
+        {
+          "caseNumber": "R6-000004",
+          "subject": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still …",
+          "category": "vod_analysis",
+          "status": "escalated",
+          "bucket": "waiting_on_recon",
+          "bucketLabel": "Waiting on Recon",
+          "waitingOn": "recon",
+          "csat": null,
+          "createdAt": "2026-09-24T19:00:00.000Z",
+          "updatedAt": "2026-09-25T11:00:00.000Z"
+        }
+      ],
+      "waiting_on_me": [
+        {
+          "caseNumber": "R6-000003",
+          "subject": "Road to Champion shows Silver I but in game I have been Gold I since Saturday.",
+          "category": "rank_stat_discrepancy",
+          "status": "waiting_on_player",
+          "bucket": "waiting_on_me",
+          "bucketLabel": "Waiting on me",
+          "waitingOn": "you",
+          "csat": null,
+          "createdAt": "2026-09-24T13:00:00.000Z",
+          "updatedAt": "2026-09-25T12:00:00.000Z"
+        }
+      ],
+      "resolved": [
+        {
+          "caseNumber": "R6-000002",
+          "subject": "Match Prep page was blank on my phone after the update.",
+          "category": "bug",
+          "status": "resolved",
+          "bucket": "resolved",
+          "bucketLabel": "Resolved",
+          "waitingOn": null,
+          "csat": null,
+          "createdAt": "2026-09-22T15:00:00.000Z",
+          "updatedAt": "2026-09-24T17:00:00.000Z"
+        }
+      ],
+      "closed": [
+        {
+          "caseNumber": "R6-000001",
+          "subject": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?",
+          "category": "ubisoft_connection",
+          "status": "closed",
+          "bucket": "closed",
+          "bucketLabel": "Closed",
+          "waitingOn": null,
+          "csat": {
+            "rating": "up"
+          },
+          "createdAt": "2026-09-06T15:00:00.000Z",
+          "updatedAt": "2026-09-13T15:00:00.000Z"
+        }
+      ]
+    },
+    "labels": {
+      "open": "Open",
+      "waiting_on_recon": "Waiting on Recon",
+      "waiting_on_me": "Waiting on me",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "total": 5
+  },
+  "cases": {
+    "R6-000005": {
+      "caseNumber": "R6-000005",
+      "subject": "The desktop client does not list my capture card, OBS sees it fine.",
+      "category": "desktop_client",
+      "status": "new",
+      "bucket": "open",
+      "bucketLabel": "Open",
+      "waitingOn": "recon",
+      "csat": null,
+      "createdAt": "2026-09-25T14:40:00.000Z",
+      "updatedAt": "2026-09-25T14:40:00.000Z",
+      "subcategory": null,
+      "description": "The desktop client does not list my capture card, OBS sees it fine.",
+      "source": "portal",
+      "resolvedAt": null,
+      "closedAt": null,
+      "reopenCount": 0,
+      "resolution": null,
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": false,
+        "canReopen": false,
+        "canRate": false
+      },
+      "timeline": [
+        {
+          "id": "ev_00000000000001",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-25T14:40:00.000Z",
+          "author": "you",
+          "body": "The desktop client does not list my capture card, OBS sees it fine."
+        }
+      ],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": {
+        "status": "ok",
+        "observedAt": "2026-09-25T15:00:00.000Z",
+        "panels": [
+          {
+            "id": "account",
+            "title": "Account and login",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Login",
+                "value": "Signed in and confirmed",
+                "source": "Your account",
+                "at": null
+              },
+              {
+                "label": "Player profile",
+                "value": "complete",
+                "source": "Your account",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "entitlement",
+            "title": "Membership and access",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Plan",
+                "value": "Elite",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Access",
+                "value": "Active",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Current period ends",
+                "value": "2026-10-11",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "connections",
+            "title": "Connected accounts and data",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Ubisoft",
+                "value": "linked, updated in the last hour",
+                "source": "Your connected accounts",
+                "at": "2026-09-25T14:31:00.000Z"
+              },
+              {
+                "label": "Tracker Network",
+                "value": "linked, older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-22T15:00:00.000Z"
+              },
+              {
+                "label": "Replays",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "VOD reviews",
+                "value": "older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Desktop client",
+                "value": "activation and version are not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "vod",
+            "title": "AI VOD review",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Reviews used this period",
+                "value": "7 of 60",
+                "source": "Your membership",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Allowance resets",
+                "value": "2026-10-16",
+                "source": "Your membership",
+                "at": null
+              },
+              {
+                "label": "Last completed review",
+                "value": "2026-09-23",
+                "source": "Your review history",
+                "at": "2026-09-23T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+              ]
+            }
+          },
+          {
+            "id": "replay",
+            "title": "Match replays",
+            "status": "not_available",
+            "facts": [
+              {
+                "label": "Replay upload",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "For an AI review, upload screenshots from the round on the VOD review page instead."
+              ]
+            }
+          },
+          {
+            "id": "coaching",
+            "title": "Coaching",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Coaching credits",
+                "value": "none on record",
+                "source": "Your coaching bookings",
+                "at": null
+              },
+              {
+                "label": "Upcoming sessions",
+                "value": "0",
+                "source": "Your coaching bookings",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "desktop",
+            "title": "Desktop client",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Desktop client activation",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "Installed version",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "Tell us the app version you installed and whether you use PC capture or a console capture card."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "R6-000003": {
+      "caseNumber": "R6-000003",
+      "subject": "Road to Champion shows Silver I but in game I have been Gold I since Saturday.",
+      "category": "rank_stat_discrepancy",
+      "status": "waiting_on_player",
+      "bucket": "waiting_on_me",
+      "bucketLabel": "Waiting on me",
+      "waitingOn": "you",
+      "csat": null,
+      "createdAt": "2026-09-24T13:00:00.000Z",
+      "updatedAt": "2026-09-25T12:00:00.000Z",
+      "subcategory": "rank_wrong",
+      "description": "Road to Champion shows Silver I but in game I have been Gold I since Saturday.",
+      "source": "portal",
+      "resolvedAt": null,
+      "closedAt": null,
+      "reopenCount": 0,
+      "resolution": null,
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": false,
+        "canReopen": false,
+        "canRate": false
+      },
+      "timeline": [
+        {
+          "id": "ev_00000000000003",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-24T13:00:00.000Z",
+          "author": "you",
+          "body": "Road to Champion shows Silver I but in game I have been Gold I since Saturday."
+        },
+        {
+          "id": "ev_00000000000004",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-25T12:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "in_progress"
+        },
+        {
+          "id": "ev_00000000000005",
+          "kind": "message_staff",
+          "visibility": "public",
+          "at": "2026-09-25T12:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "Our newest Ubisoft snapshot for you says Gold I, so the Road to Champion card may be reading an older value. Which page shows Silver I: the Road to Champion card, or the Progress page?"
+        },
+        {
+          "id": "ev_00000000000006",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-25T12:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "waiting_on_player"
+        }
+      ],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": {
+        "status": "ok",
+        "observedAt": "2026-09-25T15:00:00.000Z",
+        "panels": [
+          {
+            "id": "account",
+            "title": "Account and login",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Login",
+                "value": "Signed in and confirmed",
+                "source": "Your account",
+                "at": null
+              },
+              {
+                "label": "Player profile",
+                "value": "complete",
+                "source": "Your account",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "entitlement",
+            "title": "Membership and access",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Plan",
+                "value": "Elite",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Access",
+                "value": "Active",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Current period ends",
+                "value": "2026-10-11",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "connections",
+            "title": "Connected accounts and data",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Ubisoft",
+                "value": "linked, updated in the last hour",
+                "source": "Your connected accounts",
+                "at": "2026-09-25T14:31:00.000Z"
+              },
+              {
+                "label": "Tracker Network",
+                "value": "linked, older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-22T15:00:00.000Z"
+              },
+              {
+                "label": "Replays",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "VOD reviews",
+                "value": "older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Desktop client",
+                "value": "activation and version are not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "vod",
+            "title": "AI VOD review",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Reviews used this period",
+                "value": "7 of 60",
+                "source": "Your membership",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Allowance resets",
+                "value": "2026-10-16",
+                "source": "Your membership",
+                "at": null
+              },
+              {
+                "label": "Last completed review",
+                "value": "2026-09-23",
+                "source": "Your review history",
+                "at": "2026-09-23T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+              ]
+            }
+          },
+          {
+            "id": "replay",
+            "title": "Match replays",
+            "status": "not_available",
+            "facts": [
+              {
+                "label": "Replay upload",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "For an AI review, upload screenshots from the round on the VOD review page instead."
+              ]
+            }
+          },
+          {
+            "id": "coaching",
+            "title": "Coaching",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Coaching credits",
+                "value": "none on record",
+                "source": "Your coaching bookings",
+                "at": null
+              },
+              {
+                "label": "Upcoming sessions",
+                "value": "0",
+                "source": "Your coaching bookings",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "desktop",
+            "title": "Desktop client",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Desktop client activation",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "Installed version",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "Tell us the app version you installed and whether you use PC capture or a console capture card."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "R6-000004": {
+      "caseNumber": "R6-000004",
+      "subject": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still …",
+      "category": "vod_analysis",
+      "status": "escalated",
+      "bucket": "waiting_on_recon",
+      "bucketLabel": "Waiting on Recon",
+      "waitingOn": "recon",
+      "csat": null,
+      "createdAt": "2026-09-24T19:00:00.000Z",
+      "updatedAt": "2026-09-25T11:00:00.000Z",
+      "subcategory": null,
+      "description": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still went up.",
+      "source": "portal",
+      "resolvedAt": null,
+      "closedAt": null,
+      "reopenCount": 0,
+      "resolution": null,
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": false,
+        "canReopen": false,
+        "canRate": false
+      },
+      "timeline": [
+        {
+          "id": "ev_00000000000002",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-24T19:00:00.000Z",
+          "author": "you",
+          "body": "Uploaded 5 screenshots for a VOD review. It loaded for ages, went back to the upload screen, and my review count still went up."
+        },
+        {
+          "id": "ev_00000000000007",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-24T20:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "triaged"
+        },
+        {
+          "id": "ev_00000000000008",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-25T09:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "escalated"
+        },
+        {
+          "id": "ev_00000000000009",
+          "kind": "message_staff",
+          "visibility": "public",
+          "at": "2026-09-25T10:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "We can see your review count moved but no finished review was saved. That points to our side, not yours. The VOD team is checking the logs for that upload, and we will update this case."
+        },
+        {
+          "id": "ev_0000000000000a",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-25T11:00:00.000Z",
+          "author": "you",
+          "body": "It was the Clubhouse round from about 22:00. Same thing happened once before last week.",
+          "channel": "email"
+        }
+      ],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": {
+        "status": "ok",
+        "observedAt": "2026-09-25T15:00:00.000Z",
+        "panels": [
+          {
+            "id": "account",
+            "title": "Account and login",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Login",
+                "value": "Signed in and confirmed",
+                "source": "Your account",
+                "at": null
+              },
+              {
+                "label": "Player profile",
+                "value": "complete",
+                "source": "Your account",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "entitlement",
+            "title": "Membership and access",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Plan",
+                "value": "Elite",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Access",
+                "value": "Active",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Current period ends",
+                "value": "2026-10-11",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "connections",
+            "title": "Connected accounts and data",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Ubisoft",
+                "value": "linked, updated in the last hour",
+                "source": "Your connected accounts",
+                "at": "2026-09-25T14:31:00.000Z"
+              },
+              {
+                "label": "Tracker Network",
+                "value": "linked, older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-22T15:00:00.000Z"
+              },
+              {
+                "label": "Replays",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "VOD reviews",
+                "value": "older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Desktop client",
+                "value": "activation and version are not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "vod",
+            "title": "AI VOD review",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Reviews used this period",
+                "value": "7 of 60",
+                "source": "Your membership",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Allowance resets",
+                "value": "2026-10-16",
+                "source": "Your membership",
+                "at": null
+              },
+              {
+                "label": "Last completed review",
+                "value": "2026-09-23",
+                "source": "Your review history",
+                "at": "2026-09-23T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+              ]
+            }
+          },
+          {
+            "id": "replay",
+            "title": "Match replays",
+            "status": "not_available",
+            "facts": [
+              {
+                "label": "Replay upload",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "For an AI review, upload screenshots from the round on the VOD review page instead."
+              ]
+            }
+          },
+          {
+            "id": "coaching",
+            "title": "Coaching",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Coaching credits",
+                "value": "none on record",
+                "source": "Your coaching bookings",
+                "at": null
+              },
+              {
+                "label": "Upcoming sessions",
+                "value": "0",
+                "source": "Your coaching bookings",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "desktop",
+            "title": "Desktop client",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Desktop client activation",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "Installed version",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "Tell us the app version you installed and whether you use PC capture or a console capture card."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "R6-000002": {
+      "caseNumber": "R6-000002",
+      "subject": "Match Prep page was blank on my phone after the update.",
+      "category": "bug",
+      "status": "resolved",
+      "bucket": "resolved",
+      "bucketLabel": "Resolved",
+      "waitingOn": null,
+      "csat": null,
+      "createdAt": "2026-09-22T15:00:00.000Z",
+      "updatedAt": "2026-09-24T17:00:00.000Z",
+      "subcategory": null,
+      "description": "Match Prep page was blank on my phone after the update.",
+      "source": "portal",
+      "resolvedAt": "2026-09-24T17:00:00.000Z",
+      "closedAt": null,
+      "reopenCount": 0,
+      "resolution": {
+        "summary": "Stale cached bundle on mobile Safari; reload fixed it.",
+        "at": "2026-09-24T17:00:00.000Z"
+      },
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": true,
+        "canReopen": true,
+        "canRate": true
+      },
+      "timeline": [
+        {
+          "id": "ev_0000000000000b",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-22T15:00:00.000Z",
+          "author": "you",
+          "body": "Match Prep page was blank on my phone after the update."
+        },
+        {
+          "id": "ev_0000000000000c",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-23T15:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "in_progress"
+        },
+        {
+          "id": "ev_0000000000000d",
+          "kind": "message_staff",
+          "visibility": "public",
+          "at": "2026-09-24T17:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "Thanks for the report. A page update was stuck in your browser cache. Reloading the page loads the current version."
+        },
+        {
+          "id": "ev_0000000000000e",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-24T17:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "Stale cached bundle on mobile Safari; reload fixed it.",
+          "status": "resolved"
+        }
+      ],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": {
+        "status": "ok",
+        "observedAt": "2026-09-25T15:00:00.000Z",
+        "panels": [
+          {
+            "id": "account",
+            "title": "Account and login",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Login",
+                "value": "Signed in and confirmed",
+                "source": "Your account",
+                "at": null
+              },
+              {
+                "label": "Player profile",
+                "value": "complete",
+                "source": "Your account",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "entitlement",
+            "title": "Membership and access",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Plan",
+                "value": "Elite",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Access",
+                "value": "Active",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Current period ends",
+                "value": "2026-10-11",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "connections",
+            "title": "Connected accounts and data",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Ubisoft",
+                "value": "linked, updated in the last hour",
+                "source": "Your connected accounts",
+                "at": "2026-09-25T14:31:00.000Z"
+              },
+              {
+                "label": "Tracker Network",
+                "value": "linked, older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-22T15:00:00.000Z"
+              },
+              {
+                "label": "Replays",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "VOD reviews",
+                "value": "older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Desktop client",
+                "value": "activation and version are not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "vod",
+            "title": "AI VOD review",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Reviews used this period",
+                "value": "7 of 60",
+                "source": "Your membership",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Allowance resets",
+                "value": "2026-10-16",
+                "source": "Your membership",
+                "at": null
+              },
+              {
+                "label": "Last completed review",
+                "value": "2026-09-23",
+                "source": "Your review history",
+                "at": "2026-09-23T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+              ]
+            }
+          },
+          {
+            "id": "replay",
+            "title": "Match replays",
+            "status": "not_available",
+            "facts": [
+              {
+                "label": "Replay upload",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "For an AI review, upload screenshots from the round on the VOD review page instead."
+              ]
+            }
+          },
+          {
+            "id": "coaching",
+            "title": "Coaching",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Coaching credits",
+                "value": "none on record",
+                "source": "Your coaching bookings",
+                "at": null
+              },
+              {
+                "label": "Upcoming sessions",
+                "value": "0",
+                "source": "Your coaching bookings",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "desktop",
+            "title": "Desktop client",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Desktop client activation",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "Installed version",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "Tell us the app version you installed and whether you use PC capture or a console capture card."
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "R6-000001": {
+      "caseNumber": "R6-000001",
+      "subject": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?",
+      "category": "ubisoft_connection",
+      "status": "closed",
+      "bucket": "closed",
+      "bucketLabel": "Closed",
+      "waitingOn": null,
+      "csat": {
+        "rating": "up",
+        "at": "2026-09-08T15:00:00.000Z"
+      },
+      "createdAt": "2026-09-06T15:00:00.000Z",
+      "updatedAt": "2026-09-13T15:00:00.000Z",
+      "subcategory": null,
+      "description": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?",
+      "source": "portal",
+      "resolvedAt": "2026-09-07T15:00:00.000Z",
+      "closedAt": "2026-09-13T15:00:00.000Z",
+      "reopenCount": 0,
+      "resolution": {
+        "summary": "Explained where the platform and in-game name fields live.",
+        "at": "2026-09-07T15:00:00.000Z"
+      },
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": false,
+        "canReopen": false,
+        "canRate": false
+      },
+      "timeline": [
+        {
+          "id": "ev_0000000000000f",
+          "kind": "message_player",
+          "visibility": "public",
+          "at": "2026-09-06T15:00:00.000Z",
+          "author": "you",
+          "body": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?"
+        },
+        {
+          "id": "ev_0000000000000g",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-07T15:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": null,
+          "status": "in_progress"
+        },
+        {
+          "id": "ev_0000000000000h",
+          "kind": "message_staff",
+          "visibility": "public",
+          "at": "2026-09-07T15:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "Open your Account page and change the platform and in-game name fields. New stats follow your next data sync."
+        },
+        {
+          "id": "ev_0000000000000i",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-07T15:00:00.000Z",
+          "author": "Recon 6 support",
+          "body": "Explained where the platform and in-game name fields live.",
+          "status": "resolved"
+        },
+        {
+          "id": "ev_0000000000000j",
+          "kind": "csat",
+          "visibility": "public",
+          "at": "2026-09-08T15:00:00.000Z",
+          "author": "you",
+          "body": null,
+          "rating": "up"
+        },
+        {
+          "id": "ev_0000000000000k",
+          "kind": "status_change",
+          "visibility": "public",
+          "at": "2026-09-13T15:00:00.000Z",
+          "author": "you",
+          "body": null,
+          "status": "closed"
+        }
+      ],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": {
+        "status": "ok",
+        "observedAt": "2026-09-25T15:00:00.000Z",
+        "panels": [
+          {
+            "id": "account",
+            "title": "Account and login",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Login",
+                "value": "Signed in and confirmed",
+                "source": "Your account",
+                "at": null
+              },
+              {
+                "label": "Player profile",
+                "value": "complete",
+                "source": "Your account",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "entitlement",
+            "title": "Membership and access",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Plan",
+                "value": "Elite",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Access",
+                "value": "Active",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              },
+              {
+                "label": "Current period ends",
+                "value": "2026-10-11",
+                "source": "Your membership",
+                "at": "2026-09-11T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "connections",
+            "title": "Connected accounts and data",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Ubisoft",
+                "value": "linked, updated in the last hour",
+                "source": "Your connected accounts",
+                "at": "2026-09-25T14:31:00.000Z"
+              },
+              {
+                "label": "Tracker Network",
+                "value": "linked, older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-22T15:00:00.000Z"
+              },
+              {
+                "label": "Replays",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "VOD reviews",
+                "value": "older than a day",
+                "source": "Your connected accounts",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Desktop client",
+                "value": "activation and version are not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "vod",
+            "title": "AI VOD review",
+            "status": "ok",
+            "facts": [
+              {
+                "label": "Reviews used this period",
+                "value": "7 of 60",
+                "source": "Your membership",
+                "at": "2026-09-23T15:00:00.000Z"
+              },
+              {
+                "label": "Allowance resets",
+                "value": "2026-10-16",
+                "source": "Your membership",
+                "at": null
+              },
+              {
+                "label": "Last completed review",
+                "value": "2026-09-23",
+                "source": "Your review history",
+                "at": "2026-09-23T15:00:00.000Z"
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "If a review failed, try again with clear PNG or JPG screenshots from the same round."
+              ]
+            }
+          },
+          {
+            "id": "replay",
+            "title": "Match replays",
+            "status": "not_available",
+            "facts": [
+              {
+                "label": "Replay upload",
+                "value": "not available in Recon today",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "For an AI review, upload screenshots from the round on the VOD review page instead."
+              ]
+            }
+          },
+          {
+            "id": "coaching",
+            "title": "Coaching",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Coaching credits",
+                "value": "none on record",
+                "source": "Your coaching bookings",
+                "at": null
+              },
+              {
+                "label": "Upcoming sessions",
+                "value": "0",
+                "source": "Your coaching bookings",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": []
+            }
+          },
+          {
+            "id": "desktop",
+            "title": "Desktop client",
+            "status": "not_recorded",
+            "facts": [
+              {
+                "label": "Desktop client activation",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              },
+              {
+                "label": "Installed version",
+                "value": "not recorded",
+                "source": "Recon",
+                "at": null
+              }
+            ],
+            "inferences": [],
+            "actions": {
+              "user": [
+                "Tell us the app version you installed and whether you use PC capture or a console capture card."
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "mutations": {
+    "csat": {
+      "ok": true,
+      "rating": "up"
+    },
+    "confirmResolved": {
+      "caseNumber": "R6-000001",
+      "subject": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?",
+      "category": "ubisoft_connection",
+      "status": "closed",
+      "bucket": "closed",
+      "bucketLabel": "Closed",
+      "waitingOn": null,
+      "csat": {
+        "rating": "up",
+        "at": "2026-09-08T15:00:00.000Z"
+      },
+      "createdAt": "2026-09-06T15:00:00.000Z",
+      "updatedAt": "2026-09-13T15:00:00.000Z",
+      "subcategory": null,
+      "description": "Moved from PC to PlayStation. Where do I change my platform so my stats follow?",
+      "source": "portal",
+      "resolvedAt": "2026-09-07T15:00:00.000Z",
+      "closedAt": "2026-09-13T15:00:00.000Z",
+      "reopenCount": 0,
+      "resolution": {
+        "summary": "Explained where the platform and in-game name fields live.",
+        "at": "2026-09-07T15:00:00.000Z"
+      },
+      "linkedFromCaseNumber": null,
+      "linkedCaseNumbers": [],
+      "actions": {
+        "canMessage": true,
+        "canConfirmResolved": false,
+        "canReopen": false,
+        "canRate": false
+      },
+      "timeline": [],
+      "attachments": [],
+      "uploads": {
+        "enabled": false,
+        "reason": "Attachment storage is not switched on yet."
+      },
+      "diagnostics": null
+    },
+    "message": {
+      "replayed": false,
+      "caseNumber": "R6-000003",
+      "eventId": "ev_0000000000000l",
+      "status": "in_progress",
+      "linkedCaseNumber": null
+    },
+    "messageOnClosed": {
+      "replayed": false,
+      "caseNumber": "R6-000001",
+      "linkedCaseNumber": "R6-000012",
+      "status": "closed",
+      "linkedCase": {
+        "caseNumber": "R6-000012",
+        "subject": "Stats stopped following after another platform switch.",
+        "category": "ubisoft_connection",
+        "status": "new",
+        "bucket": "open",
+        "bucketLabel": "Open",
+        "waitingOn": "recon",
+        "csat": null,
+        "createdAt": "2026-09-25T15:00:00.000Z",
+        "updatedAt": "2026-09-25T15:00:00.000Z",
+        "subcategory": null,
+        "description": "Stats stopped following after another platform switch.",
+        "source": "portal",
+        "resolvedAt": null,
+        "closedAt": null,
+        "reopenCount": 0,
+        "resolution": null,
+        "linkedFromCaseNumber": "R6-000001",
+        "linkedCaseNumbers": [],
+        "actions": {
+          "canMessage": true,
+          "canConfirmResolved": false,
+          "canReopen": false,
+          "canRate": false
+        },
+        "timeline": [],
+        "attachments": [],
+        "uploads": {
+          "enabled": false,
+          "reason": "Attachment storage is not switched on yet."
+        },
+        "diagnostics": null
+      }
+    },
+    "attachment": {
+      "status": "upload_disabled"
+    },
+    "reopen": {
+      "reopened": true,
+      "linkedCaseNumber": null,
+      "case": {
+        "caseNumber": "R6-000002",
+        "subject": "Match Prep page was blank on my phone after the update.",
+        "category": "bug",
+        "status": "reopened",
+        "bucket": "open",
+        "bucketLabel": "Open",
+        "waitingOn": "recon",
+        "csat": null,
+        "createdAt": "2026-09-22T15:00:00.000Z",
+        "updatedAt": "2026-09-25T15:00:00.000Z",
+        "subcategory": null,
+        "description": "Match Prep page was blank on my phone after the update.",
+        "source": "portal",
+        "resolvedAt": null,
+        "closedAt": null,
+        "reopenCount": 1,
+        "resolution": {
+          "summary": "Stale cached bundle on mobile Safari; reload fixed it.",
+          "at": "2026-09-24T17:00:00.000Z"
+        },
+        "linkedFromCaseNumber": null,
+        "linkedCaseNumbers": [],
+        "actions": {
+          "canMessage": true,
+          "canConfirmResolved": false,
+          "canReopen": false,
+          "canRate": false
+        },
+        "timeline": [],
+        "attachments": [],
+        "uploads": {
+          "enabled": false,
+          "reason": "Attachment storage is not switched on yet."
+        },
+        "diagnostics": null
+      }
+    }
+  }
+}

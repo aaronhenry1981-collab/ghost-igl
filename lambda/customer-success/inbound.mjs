@@ -7,8 +7,13 @@
 // Not wired to SES in this change; see docs/RECON-CUSTOMER-SUCCESS.md.
 //
 // Sender authentication: the From header is trivially forged, so the SES
-// receipt verdicts decide how far a message is trusted. Only a DMARC pass (or
-// SPF and DKIM both passing when no DMARC verdict exists) counts as verified.
+// receipt verdicts decide how far a message is trusted. Only a DMARC pass
+// counts as verified (SPF and DKIM alone are not aligned to the From domain),
+// and only for a From header that is exactly one clean mailbox. The address
+// is taken from the RAW header with an RFC 5322 mailbox parser; RFC 2047
+// encoded words are decoded for the display name only, never for the
+// address. When the verdicts name the domain DMARC was evaluated for
+// (`dmarcDomain`), the From domain must equal it.
 // An unverified message is kept for admins, is never shown to the player as
 // their own words, and a STOP in it only turns marketing off (the harmless
 // direction); an admin confirms anything more.
@@ -63,8 +68,9 @@ function decodeBody(text, encoding) {
 
 function splitMessage(raw) {
   const match = /\r?\n\r?\n/.exec(raw)
-  if (!match) return { headers: headerMap(raw), body: '' }
-  return { headers: headerMap(raw.slice(0, match.index)), body: raw.slice(match.index + match[0].length) }
+  if (!match) return { headers: headerMap(raw), body: '', headerText: raw }
+  const headerText = raw.slice(0, match.index)
+  return { headers: headerMap(headerText), body: raw.slice(match.index + match[0].length), headerText }
 }
 
 function plainTextPart(headers, body, depth = 0) {
@@ -96,13 +102,103 @@ export function stripQuoted(text) {
   return out.join('\n').trim()
 }
 
-// Linear-time address extraction ("Name <a@b>" or a bare address). A regex
-// like /<([^>]+)>/ is quadratic on input made of many "<" characters.
-function addressFrom(header) {
-  const value = String(header || '').slice(0, MAX_HEADER)
-  const lt = value.lastIndexOf('<')
-  const gt = lt === -1 ? -1 : value.indexOf('>', lt + 1)
-  return (lt !== -1 && gt !== -1 ? value.slice(lt + 1, gt) : value).trim().toLowerCase()
+// ---- From: an RFC 5322 mailbox parser on the RAW header -------------------------------
+// One linear pass over the unfolded, UNDECODED header value. It tracks
+// quoted strings (with backslash escapes), nested comments and the angle
+// address, and splits mailboxes on top-level commas. Returns
+//   { address, name, status }
+// where `status` is 'ok' only for exactly one mailbox with nothing after its
+// addr-spec. Anything else (several mailboxes, group syntax, text after the
+// address, unbalanced quotes / comments / brackets, an invalid addr-spec)
+// names the problem; `address` is then a best-effort hint for staff review
+// and must never be trusted. Encoded words are decoded for `name` only.
+const ADDR_SPEC = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/
+
+export function parseFromHeader(value) {
+  const s = String(value || '').slice(0, MAX_HEADER)
+  const segments = []
+  let seg = { display: '', angle: null, after: '' }
+  let status = 'ok'
+  let inQuote = false
+  let inAngle = false
+  let comment = 0
+  const push = (ch) => {
+    if (inAngle) seg.angle += ch
+    else if (seg.angle === null) seg.display += ch
+    else seg.after += ch
+  }
+  const fail = (why) => {
+    if (status === 'ok') status = why
+  }
+  for (let i = 0; i < s.length; i += 1) {
+    const ch = s[i]
+    if (comment > 0) {
+      if (ch === '\\') i += 1
+      else if (ch === '(') comment += 1
+      else if (ch === ')') comment -= 1
+      continue
+    }
+    if (inQuote) {
+      if (ch === '\\' && i + 1 < s.length) {
+        i += 1
+        push(s[i])
+      } else if (ch === '"') {
+        inQuote = false
+        push(' ')
+      } else push(ch)
+      continue
+    }
+    if (ch === '"') {
+      if (inAngle) fail('unparseable')
+      inQuote = true
+      if (seg.angle !== null && !inAngle) seg.after += '"'
+    } else if (ch === '(') {
+      comment = 1
+      push(' ')
+    } else if (ch === '<') {
+      if (inAngle) fail('unparseable')
+      else if (seg.angle !== null) {
+        fail('trailing_text')
+        seg.after += '<'
+      } else {
+        inAngle = true
+        seg.angle = ''
+      }
+    } else if (ch === '>') {
+      if (!inAngle) fail('unparseable')
+      inAngle = false
+    } else if (ch === ',') {
+      if (inAngle) fail('unparseable')
+      segments.push(seg)
+      seg = { display: '', angle: null, after: '' }
+    } else if (ch === ':' || ch === ';') {
+      fail(inAngle ? 'unparseable' : 'group')
+    } else push(ch)
+  }
+  segments.push(seg)
+  if (inQuote || inAngle || comment > 0) fail('unparseable')
+  const used = segments.filter((x) => x.display.trim() || x.angle !== null || x.after.trim())
+  if (used.length > 1) fail('multiple_mailboxes')
+  const first = used[0] || { display: '', angle: null, after: '' }
+  let address
+  let name = null
+  if (first.angle !== null) {
+    address = first.angle.trim()
+    if (first.after.trim()) fail('trailing_text')
+    name = first.display.trim() ? decodeWords(first.display.replace(/\s+/g, ' ').trim()).slice(0, 200) : null
+  } else {
+    const bare = first.display.trim()
+    const words = bare.split(/\s+/).filter(Boolean)
+    if (words.length > 1) fail('trailing_text')
+    address = words.find((w) => w.includes('@')) || words[0] || ''
+  }
+  address = address.toLowerCase()
+  if (!ADDR_SPEC.test(address)) {
+    fail('unparseable')
+    if (!address.includes('@')) address = ''
+  }
+  if (!used.length) fail('unparseable')
+  return { address, name, status }
 }
 
 function dateOrNull(value) {
@@ -110,12 +206,18 @@ function dateOrNull(value) {
   return Number.isFinite(ms) ? new Date(ms).toISOString() : null
 }
 
+// `from` is the addr-spec from the raw header (lowercase); `fromStatus` is
+// 'ok' only for one clean mailbox in exactly one From header. `fromName` is
+// the decoded display name (display only).
 export function parseInboundEmail(raw) {
-  const { headers, body } = splitMessage(String(raw || ''))
-  const from = addressFrom(decodeWords(String(headers.from || '').slice(0, MAX_HEADER)))
+  const { headers, body, headerText } = splitMessage(String(raw || ''))
+  const parsedFrom = parseFromHeader(headers.from)
+  const fromHeaders = (unfold(String(headerText || '')).match(/^from[ \t]*:/gim) || []).length
   const text = stripQuoted(plainTextPart(headers, body) || '').slice(0, MAX_BODY)
   return {
-    from,
+    from: parsedFrom.address,
+    fromName: parsedFrom.name,
+    fromStatus: fromHeaders > 1 ? 'multiple_from_headers' : parsedFrom.status,
     subject: decodeWords(String(headers.subject || '').slice(0, MAX_HEADER)).slice(0, 200) || null,
     messageId: String(headers['message-id'] || '').replace(/[<>]/g, '').slice(0, 200) || null,
     inReplyTo: String(headers['in-reply-to'] || '').replace(/[<>]/g, '').slice(0, 200) || null,
@@ -124,13 +226,23 @@ export function parseInboundEmail(raw) {
   }
 }
 
-// SES receipt verdicts: { spf, dkim, dmarc } each 'PASS' | 'FAIL' | 'GRAY' | ...
-export function senderVerified(verdicts) {
+// SES receipt verdicts: { spf, dkim, dmarc } each 'PASS' | 'FAIL' | 'GRAY' |
+// ..., plus an optional `dmarcDomain` (the domain DMARC was evaluated for).
+// Only a DMARC pass verifies: SPF and DKIM can pass for a domain unrelated
+// to the From header, so without DMARC they prove nothing about the sender.
+// With `parsed` (parseInboundEmail output) the From header must also be one
+// clean mailbox, and its domain must equal `dmarcDomain` when that is given.
+export function senderVerified(verdicts, parsed = null) {
   const v = verdicts || {}
   const status = (x) => String(x?.status || x || '').toUpperCase()
-  if (status(v.dmarc) === 'PASS') return true
-  if (!status(v.dmarc) || status(v.dmarc) === 'GRAY') return status(v.spf) === 'PASS' && status(v.dkim) === 'PASS'
-  return false
+  if (status(v.dmarc) !== 'PASS') return false
+  if (parsed) {
+    if (parsed.fromStatus !== 'ok') return false
+    const domain = String(v.dmarcDomain || '').trim().toLowerCase()
+    const fromDomain = String(parsed.from || '').split('@')[1] || ''
+    if (!fromDomain || (domain && domain !== fromDomain)) return false
+  }
+  return true
 }
 
 const EMAIL = /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i
@@ -140,7 +252,7 @@ export async function ingestInboundEmail({ raw, store, verdicts = null, now = Da
   if (!EMAIL.test(parsed.from)) return { ok: false, reason: 'unparseable_sender' }
   if (!parsed.text) return { ok: false, reason: 'empty_body' }
   const contactKey = contactKeyFor(parsed.from)
-  const verified = senderVerified(verdicts)
+  const verified = senderVerified(verdicts, parsed)
   // Key the message by the email's own Date header so a redelivered email
   // maps to the same item; also refuse a Message-ID we already stored. A
   // missing, malformed or future Date falls back to the receipt time (a

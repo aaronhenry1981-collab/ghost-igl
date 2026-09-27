@@ -33,6 +33,11 @@ const tables = createDynamoTables({
     referrals: env.REFERRALS_TABLE,
     crmLog: env.CRM_LOG_TABLE,
     testimonials: env.TESTIMONIALS_TABLE,
+    // Player-data history for Player Success diagnostics (Query only).
+    // Unset -> that source reports "not connected".
+    playerSnapshots: env.PLAYER_SNAPSHOTS_TABLE,
+    playerIdentities: env.PLAYER_IDENTITIES_TABLE,
+    providerHealth: env.PROVIDER_HEALTH_TABLE,
   },
 })
 
@@ -54,6 +59,29 @@ const legacy = flag('SYNC_LEGACY_SUPPRESSION') && env.CRM_LOG_TABLE
   }
   : null
 
+// Support email plus-address HMAC secret. Only when
+// SUPPORT_EMAIL_TOKEN_SECRET_ARN is set: read once per container from Secrets
+// Manager with the SDK that ships in the Lambda Node.js runtime (it is not a
+// dependency of this package, so nothing is bundled). Unset, or any failure
+// -> null, and token lookups return nothing (mail goes to review).
+const supportEmailTokenSecret = env.SUPPORT_EMAIL_TOKEN_SECRET_ARN
+  ? (() => {
+    let cached
+    return async () => {
+      if (cached !== undefined) return cached
+      try {
+        const { SecretsManagerClient, GetSecretValueCommand } = await import('@aws-sdk/client-secrets-manager')
+        const out = await new SecretsManagerClient({ region }).send(new GetSecretValueCommand({ SecretId: env.SUPPORT_EMAIL_TOKEN_SECRET_ARN }))
+        cached = typeof out.SecretString === 'string' ? out.SecretString : null
+      } catch (err) {
+        console.warn('support_email_secret_unavailable', { error: err?.name || 'Error' })
+        cached = null
+      }
+      return cached
+    }
+  })()
+  : null
+
 export const handler = createApp({
   tables,
   store,
@@ -64,6 +92,15 @@ export const handler = createApp({
       messaging: flag('FEATURE_MESSAGING'),
       feedback: flag('FEATURE_FEEDBACK'),
       liveCoachApp: false,
+      // Player Success & Support: every route 404s unless this is 'true'.
+      support: flag('FEATURE_SUPPORT'),
+    },
+    // Every support switch defaults OFF (see aws/customer-success-template.yaml).
+    support: {
+      attachments: flag('SUPPORT_ATTACHMENTS'),
+      proactive: flag('SUPPORT_PROACTIVE'),
+      copilotModel: flag('SUPPORT_COPILOT_MODEL'),
+      emailTokenSecret: supportEmailTokenSecret,
     },
     activityTrackingSince: env.ACTIVITY_TRACKING_SINCE || null,
     vodLimits: vodLimitsFromEnv(env),

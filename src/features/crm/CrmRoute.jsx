@@ -5,11 +5,14 @@ import CrmPage from './CrmPage'
 import { createLiveCrmApi } from './crmApi'
 import './Crm.css'
 
-// /admin/crm, /admin/crm/:tab, /admin/crm/players/:key
+// /admin/crm, /admin/crm/:tab, /admin/crm/players/:key, /admin/crm/support/*
 // Client-side gate for UX only; the API enforces the admins group itself.
 export default function CrmRoute() {
   const { user, isAdmin, loading } = useAuth()
-  const { tab = 'overview', key = null } = useParams()
+  const params = useParams()
+  const supportPath = params['*']
+  const tab = supportPath !== undefined ? 'support' : params.tab || 'overview'
+  const key = params.key || null
   const api = useMemo(() => createLiveCrmApi(), [])
 
   if (loading) return <div className="crm"><p className="crm-state" role="status">Loading…</p></div>
@@ -23,5 +26,5 @@ export default function CrmRoute() {
       </div>
     )
   }
-  return <CrmPage api={api} basePath="/admin/crm" tab={tab} playerKey={key} />
+  return <CrmPage api={api} basePath="/admin/crm" tab={tab} playerKey={key} support={{ path: supportPath || '' }} />
 }

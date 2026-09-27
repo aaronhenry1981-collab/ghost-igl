@@ -47,12 +47,13 @@ export function createMemoryStore(seed = []) {
       items.set(k, next)
       return clone(next)
     },
-    async listByType(type, { limit = 200, since = null } = {}) {
-      return [...items.values()]
+    // `all: true` (or limit: Infinity) returns every item (dynamoStore reads
+    // every page for it).
+    async listByType(type, { limit = 200, since = null, all = false } = {}) {
+      const list = [...items.values()]
         .filter((item) => item.gsi1pk === type && (!since || String(item.gsi1sk) >= since))
         .sort((a, b) => String(b.gsi1sk).localeCompare(String(a.gsi1sk)))
-        .slice(0, limit)
-        .map(clone)
+      return (all || limit === Infinity ? list : list.slice(0, limit)).map(clone)
     },
     async listAll() {
       return [...items.values()].map(clone)

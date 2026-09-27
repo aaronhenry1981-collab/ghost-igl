@@ -19,7 +19,12 @@ const SIDES = new Set(['attack', 'defense'])
 
 export function defaultConfig(overrides = {}) {
   return {
-    features: { messaging: false, feedback: false, liveCoachApp: false, ...(overrides.features || {}) },
+    features: { messaging: false, feedback: false, liveCoachApp: false, support: false, ...(overrides.features || {}) },
+    // Player Success & Support (routes/support.mjs). Every switch is off by
+    // default; features.support gates the whole module.
+    // emailTokenSecret: string (>= 32 bytes) or async () => string; null = no
+    // plus-address threading (replies go to the unmatched review queue).
+    support: { attachments: false, proactive: false, copilotModel: false, emailTokenSecret: null, ...(overrides.support || {}) },
     activityTrackingSince: overrides.activityTrackingSince || null,
     vodLimits: overrides.vodLimits,
     allowedOrigins: overrides.allowedOrigins || DEFAULT_ALLOWED_ORIGINS,

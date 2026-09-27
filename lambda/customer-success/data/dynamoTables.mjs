@@ -190,5 +190,60 @@ export function createDynamoTables({ ddb, cognito, userPoolId, names = {}, admin
       const rows = await scanAll(ddb, { TableName: need('testimonials') })
       return rows.filter((row) => row.id !== '__demo_video__')
     },
+
+    // ---- player-data history (read-only; Player Success diagnostics) ---------
+    // Query only; these per-player tables are never scanned.
+    //
+    //   names.playerSnapshots  -> recon-player-snapshots
+    //       HASH recon_player_id, RANGE snapshot_key (`<captured_at>#<id>`)
+    //       Query newest first, at most 2 pages x 100. `notes` is not projected.
+    //   names.playerIdentities -> recon-player-identities
+    //       HASH recon_player_id, RANGE identity_key. External ids and
+    //       usernames are not projected.
+    //   names.providerHealth   -> recon-player-provider-health
+    //       HASH provider, RANGE observed_at. One Query (Limit 1, newest) per
+    //       known provider; global health, not per player.
+    //
+    // IAM: dynamodb:Query on those three table ARNs only.
+    async playerSnapshots(reconPlayerId, limit = 200) {
+      if (!reconPlayerId) return []
+      const rows = await queryAll(ddb, {
+        TableName: need('playerSnapshots'),
+        KeyConditionExpression: '#pid = :id',
+        ExpressionAttributeNames: {
+          '#pid': 'recon_player_id', '#sk': 'snapshot_key', '#sid': 'snapshot_id', '#st': 'snapshot_type', '#src': 'source',
+          '#cap': 'captured_at', '#sea': 'season', '#ver': 'verification', '#fu': 'fresh_until', '#cr': 'created_at', '#f': 'fields',
+        },
+        ProjectionExpression: '#pid, #sk, #sid, #st, #src, #cap, #sea, #ver, #fu, #cr, #f',
+        ExpressionAttributeValues: { ':id': reconPlayerId },
+        ScanIndexForward: false,
+        Limit: 100,
+      }, 2)
+      return rows.slice(0, Math.max(1, Number(limit) || 200))
+    },
+    async playerIdentities(reconPlayerId) {
+      if (!reconPlayerId) return []
+      return queryAll(ddb, {
+        TableName: need('playerIdentities'),
+        KeyConditionExpression: '#pid = :id',
+        ExpressionAttributeNames: { '#pid': 'recon_player_id', '#p': 'provider', '#v': 'verification', '#vd': 'verified', '#l': 'linked_at', '#u': 'updated_at' },
+        ProjectionExpression: '#p, #v, #vd, #l, #u',
+        ExpressionAttributeValues: { ':id': reconPlayerId },
+      }, 2)
+    },
+    async providerHealth() {
+      const table = need('providerHealth')
+      const providers = ['ubisoft', 'psn', 'xbox', 'trn', 'replay', 'vod', 'desktop']
+      const pages = await Promise.all(providers.map((provider) => ddb.send(new QueryCommand({
+        TableName: table,
+        KeyConditionExpression: '#p = :p',
+        ExpressionAttributeNames: { '#p': 'provider', '#o': 'observed_at', '#s': 'status', '#e': 'error_code', '#l': 'latency_ms' },
+        ProjectionExpression: '#p, #o, #s, #e, #l',
+        ExpressionAttributeValues: { ':p': provider },
+        ScanIndexForward: false,
+        Limit: 1,
+      }))))
+      return pages.flatMap((page) => page.Items || [])
+    },
   }
 }

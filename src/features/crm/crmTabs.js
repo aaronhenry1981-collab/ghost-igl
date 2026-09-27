@@ -2,6 +2,7 @@
 export const CRM_TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'queue', label: 'Action queue' },
+  { id: 'support', label: 'Support' },
   { id: 'players', label: 'Players', variant: 'players' },
   { id: 'onboarding', label: 'Onboarding', variant: 'onboarding' },
   { id: 'activity', label: 'Product activity', variant: 'activity' },

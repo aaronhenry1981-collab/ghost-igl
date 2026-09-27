@@ -4,6 +4,7 @@ import PlayerHome from '../home/PlayerHome'
 import { useHomeView } from '../home/useHomeView'
 import CrmPage from '../crm/CrmPage'
 import { createDevCrmApi, createDevHomeApi, devFetch, DEV_SCENARIOS } from './devClient'
+import { DevHelp, DevSupportPlayer, DevSupportStaff, SupportDevIndex } from '../support/dev/SupportDevPreview'
 import './dev.css'
 
 // DEV ONLY (never in production builds; see main.jsx). Renders real product
@@ -11,11 +12,17 @@ import './dev.css'
 // production Lambda code over fictional fixture data.
 //   /__dev/home?as=paying_active
 //   /__dev/crm, /__dev/crm/queue, /__dev/crm/players/<key>
+//   /__dev/support[/cases/<n>], /__dev/help[/<slug>], /__dev/crm/support/*
+//   (support screens use the in-memory fixture transport; ?as=<scenario>)
 export default function DevPreviewPage() {
   const splat = useParams()['*'] || ''
   const [params] = useSearchParams()
   const parts = splat.split('/').filter(Boolean)
 
+  const scenario = params.get('as') || 'default'
+  if (parts[0] === 'support') return <DevSupportPlayer rest={parts.slice(1)} as={scenario} />
+  if (parts[0] === 'help') return <DevHelp slug={parts[1]} as={scenario} />
+  if (parts[0] === 'crm' && parts[1] === 'support') return <DevSupportStaff rest={parts.slice(2).join('/')} as={scenario} />
   if (parts[0] === 'home') {
     const as = params.get('as') || 'paying_active'
     return <DevHome key={as} as={as} />
@@ -33,6 +40,7 @@ export default function DevPreviewPage() {
       </ul>
       <h2>Customer success CRM</h2>
       <ul><li><Link to="/__dev/crm">CRM overview (fictional admin)</Link></li></ul>
+      <SupportDevIndex />
     </div>
   )
 }
