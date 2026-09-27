@@ -51,7 +51,7 @@ Companion docs: [ARCHITECTURE.md](ARCHITECTURE.md) (design and data model) · [A
 
 | Suite | Result |
 |---|---|
-| customer-success (PR #24's original 102 + Support) | **290 / 290** |
+| customer-success (PR #24's original 102 + PR #35's 6 + Support) | **296 / 296** |
 | `src/features/support/` + `scripts/support/` (UI logic, contract, client second lock) | **32 / 32** |
 | lint / build / fixture-snapshot parity | clean / OK / match |
 
@@ -70,7 +70,7 @@ The suite covers:
 **Independent adversarial review:**
 - Result: 1 blocker, 2 major and 12 minor findings, **all fixed**. Each has a regression test (`support/security.test.mjs` SEC-01…SEC-15, `src/features/support/security.test.mjs`) that failed before its fix.
 - The blocker was encoded-word From-header smuggling in PR #24's shared parser. The majors were SPF+DKIM without DMARC being trusted, and proactive evidence visible to players.
-- The two PR #24 files touched for this (`inbound.mjs`, `lib/http.mjs`) keep their original tests green.
+- The fixes to PR #24's shared parser and router (SEC-01a–c, SEC-02, SEC-11) are extracted into **PR #35**, which targets PR #24's branch. This PR builds on #35. **PR #24 must not merge to `main` until #35 is merged into it.** SEC-01d (the Support email engine) stays here.
 
 ## 15. Screenshots
 
@@ -95,7 +95,7 @@ The suite covers:
 
 ## 18. Remaining provider / secret / DNS / access steps (each needs Aaron's approval)
 
-1. Land and deploy PR #24 (the customer-success stack). This work is stacked on it.
+1. Merge security PR #35 into PR #24, then land and deploy PR #24 (the customer-success stack). This work is stacked on both.
 2. Settle the contact-key decision D-C1 (HMAC, secret in Secrets Manager) before any data is stored.
 3. Set `FEATURE_SUPPORT=true` only after review, in a controlled rollout.
 4. Grant IAM `dynamodb:Query` on the three player-data tables (already in the template, not deployed).
@@ -116,12 +116,11 @@ The suite covers:
 
 - **No schema migration.** Support only adds item types to PR #24's retained table, and writes nothing else. Items stay if the flag is turned off.
 - **Rollback:** set `FEATURE_SUPPORT=false`. The routes return 404 and the UI shows "support not enabled". Hide the links by unsetting `VITE_SUPPORT_UI`.
-- **Changes to PR #24 files**, all additive or security fixes:
+- **Changes to PR #24 files in this PR**, all additive:
   - store pagination (fail-closed);
   - CORS allows PATCH;
-  - tables gain Query-only player-data readers;
-  - inbound From parsing and DMARC-only trust;
-  - `matchPath` returns 400 on malformed encoding.
+  - tables gain Query-only player-data readers.
+- The inbound From parsing, DMARC-only trust and the `matchPath` 400 fix are in **PR #35** (merge order: #35 → #24, then #34).
 
 ## 20. Found along the way (outside this PR; for the ledger)
 
