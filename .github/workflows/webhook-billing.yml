@@ -41,3 +41,32 @@ jobs:
         run: |
           if [ -s netguard.log ]; then echo "Outbound attempts:"; cut -f2,3 netguard.log | sort | uniq -c; exit 1; fi
           echo "0 outbound connection attempts"
+
+  # The whole repository test suite (every tracked *.test.mjs), under the same
+  # isolation, so the full-suite count is CI evidence rather than a local claim.
+  full-test-suite:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: AKIATESTONLY
+      AWS_SECRET_ACCESS_KEY: test-only
+      AWS_REGION: us-east-1
+      AWS_ENDPOINT_URL: http://127.0.0.1:9
+      NETGUARD_LOG: ${{ github.workspace }}/netguard-full.log
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Lambda deps (documented setup)
+        run: |
+          npm ci --omit=dev --prefix lambda/webhook
+          npm ci --omit=dev --prefix lambda/booking
+          npm install --no-save --prefix lambda/booking @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb @aws-sdk/client-sesv2
+      - name: Every tracked test file (network blocked)
+        run: |
+          echo "test files: $(git ls-files '*.test.mjs' | wc -l)"
+          NODE_OPTIONS="--import=$GITHUB_WORKSPACE/scripts/test-netguard.mjs" node --test $(git ls-files '*.test.mjs')
+      - name: No test attempted a network connection
+        run: |
+          if [ -s netguard-full.log ]; then echo "Outbound attempts:"; cut -f2,3 netguard-full.log | sort | uniq -c; exit 1; fi
+          echo "0 outbound connection attempts"

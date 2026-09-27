@@ -426,6 +426,54 @@ const OWNED_BY_EVENT_SUB = 'stripe_subscription_id = :subId'
 const OWNER_NOT_LIVE = 'NOT (#s IN (:liveA, :liveT, :liveP))'
 const LIVE_VALUES = { ':liveA': 'active', ':liveT': 'trialing', ':liveP': 'past_due' }
 
+// Cancel a duplicate membership subscription exactly once. Idempotent: an
+// already-cancelled subscription is left alone, and a cancel that errors is
+// re-read; anything but "canceled" is thrown so Stripe redelivers.
+async function cancelDuplicateSubscription(subscriptionId, reason) {
+  const current = await stripe.subscriptions.retrieve(subscriptionId)
+  if (current.status === 'canceled' || current.status === 'incomplete_expired') return false
+  console.log(`DUPLICATE membership subscription ${subscriptionId}: cancelling (${reason})`)
+  try {
+    await stripe.subscriptions.cancel(subscriptionId)
+  } catch (err) {
+    const now = await stripe.subscriptions.retrieve(subscriptionId)
+    if (now.status !== 'canceled') throw err
+  }
+  return true
+}
+
+// A checkout's ticketed write was refused. Decide from the row as it is now
+// (strongly consistent read) and from Stripe, never from a cached guess:
+//   'done'  — nothing more to do for this delivery (a duplicate delivery, a
+//             duplicate subscription that has now been cancelled, a checkout
+//             whose subscription is not live, or an older checkout that may
+//             not displace the owner);
+//   'retry' — take a new ticket and try again (a newer ticket landed first,
+//             the row still names this subscription, or the owner turned out
+//             not to be live in Stripe).
+async function resolveCheckoutConflict({ customerId, subscriptionId, fields, eventId, ticket }) {
+  const { Item: row } = await ddb.send(new GetCommand({ TableName: TABLE, Key: { stripe_customer_id: customerId }, ConsistentRead: true }))
+  if (!row) return 'retry'
+  const seen = row.last_processed_event_id === eventId || (Array.isArray(row.processed_event_ids) && row.processed_event_ids.includes(eventId))
+  if (seen) return 'done'
+  const owner = row.stripe_subscription_id
+  if (owner === subscriptionId) return 'retry'
+  if (!isLiveStatus(fields.status)) return 'done' // a non-live subscription never displaces anyone
+  // Same plan, live owner: this checkout is a duplicate subscription. Confirm
+  // the owner is live in Stripe (not just on the row) before cancelling ours.
+  if (owner && isLiveStatus(row.status) && effectiveStoredPlan(row) === fields.plan) {
+    const ownerSub = await stripe.subscriptions.retrieve(owner)
+    if (isLiveStatus(ownerSub.status)) {
+      await cancelDuplicateSubscription(subscriptionId, `customer ${customerId} already has ${fields.plan} (${owner})`)
+      return 'done'
+    }
+    return 'retry' // the row is stale; the next ticketed write may take it over
+  }
+  // A newer ticket landed first: re-read Stripe under a new ticket.
+  if (Number(row.applied_seq) >= Number(ticket)) return 'retry'
+  return 'done' // an older checkout that may not displace the current owner
+}
+
 async function handleCheckout(session, eventId, eventCreated) {
   // RECON6 coaching = one-time payment with a booking slot in metadata. Confirm
   // the held slot via the booking API and stop — this is NOT an app sub. The
@@ -528,50 +576,51 @@ async function handleCheckout(session, eventId, eventCreated) {
       ...(checkoutSubject ? { cognito_sub: checkoutSubject, identity_bound_at: new Date().toISOString() } : {}),
     }
   }
-  let applied = false
-  for (let attempt = 0; attempt < 3; attempt++) {
+  let applied = null // the fields that won the membership write
+  for (let attempt = 0; attempt < 4 && !applied; attempt++) {
     ({ sub, ticket, fetchedAt } = await fetchWithTicket(customerId, subscriptionId))
     const fields = fieldsFor(sub)
     if (!fields.plan) return
     if (ticket === null) {
-      if (await createRow(customerId, { ...fields, updated_at: new Date().toISOString() }, { eventId, eventCreated, fetchedAt })) { applied = true; break }
-      continue // the row appeared concurrently
+      if (await createRow(customerId, { ...fields, updated_at: new Date().toISOString() }, { eventId, eventCreated, fetchedAt })) { applied = fields; break }
+      continue // the row appeared concurrently: take a ticket and re-evaluate against it
     }
     // Existing row: not a duplicate delivery, no higher ticket applied, and
-    // allowed to own it. A completed checkout for a LIVE subscription may
-    // re-point the row (a past-due member buying again) unless the row already
-    // belongs to a live subscription created later (a late or replayed older
-    // checkout). A checkout whose subscription is no longer live never
-    // displaces a live owner. Fields a full replace used to drop are removed.
+    // allowed to own it. A checkout never displaces a LIVE owner on the SAME
+    // plan: that is a duplicate subscription, resolved below. A live checkout
+    // may re-point the row when the owner is no longer live, when the row has
+    // no owner, or for a DIFFERENT plan (a past-due member buying another
+    // plan) unless the row belongs to a live subscription created later (a
+    // late or replayed older checkout). Fields a full replace used to drop are
+    // removed.
     const live = isLiveStatus(fields.status)
     const precedence = live && fields.subscription_created !== undefined
     const names = { '#s': 'status', '#p': 'plan' }
     const setKeys = Object.keys(fields).map((k) => (k === 'status' ? '#s = :f_status' : k === 'plan' ? '#p = :f_plan' : `${k} = :f_${k}`))
     const values = { ':subId': subscriptionId, ...LIVE_VALUES, ...Object.fromEntries(Object.entries(fields).map(([k, v]) => [`:f_${k}`, v])) }
     if (precedence) values[':subCreated'] = fields.subscription_created
-    applied = await writeEventState({
+    const ok = await writeEventState({
       customerId, ticket, eventId, eventCreated, fetchedAt,
       set: setKeys.join(', '),
       remove: ['subscription_id', 'cancel_at_period_end', 'comp', 'comp_note', 'note', 'deleted_at'],
       condition: `(${OWNED_BY_EVENT_SUB} OR ${OWNER_NOT_LIVE}` +
         (live ? ' OR attribute_not_exists(stripe_subscription_id)' : '') +
-        (precedence ? ' OR attribute_not_exists(subscription_created) OR subscription_created <= :subCreated' : '') + ')',
+        (precedence ? ' OR (#p <> :f_plan AND (attribute_not_exists(subscription_created) OR subscription_created <= :subCreated))' : '') + ')',
       names, values,
     })
-    if (!applied) {
-      console.log(`Skipping checkout event ${eventId} for customer ${customerId} (duplicate delivery, a newer ticket already applied, or a subscription that may not own the row)`)
-      return
-    }
-    break
+    if (ok) { applied = fields; break }
+    const outcome = await resolveCheckoutConflict({ customerId, subscriptionId, fields, eventId, ticket })
+    if (outcome === 'done') return
   }
   if (!applied) throw new Error(`checkout ${eventId}: row write did not settle; letting Stripe redeliver`)
 
   // Track referrals — if this user's profile has a referred_by field, write
   // a row to the referrals table tying this new subscription to the
   // referrer. Status starts as 'pending' and the daily cron promotes to
-  // 'active' once REFERRAL_QUALIFY_DAYS pass without churn.
+  // 'active' once REFERRAL_QUALIFY_DAYS pass without churn. Uses the state
+  // that actually won the membership write (the ticketed Stripe read).
   try {
-    await trackReferralIfAny(customerEmail, plan, subscriptionId, tierScope)
+    await trackReferralIfAny(customerEmail, applied.plan, subscriptionId, applied.tier_scope)
   } catch (err) {
     // Non-fatal — log and continue. The checkout already wrote successfully.
     console.error('trackReferralIfAny failed:', err)
