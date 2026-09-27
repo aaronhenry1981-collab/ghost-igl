@@ -9,8 +9,12 @@ export default defineConfig([
   // Node globals — the real desktop app lives in its own repo). aws/ holds
   // CloudFront Functions (their runtime REQUIRES a top-level `handler` that
   // is "never used" from the file's point of view). Linting those with
-  // browser-ESM rules produces only false positives.
-  globalIgnores(['dist', 'desktop', 'aws']),
+  // browser-ESM rules produces only false positives. videos/**/assets/vendor
+  // holds third-party runtime bundles (GSAP) vendored so HyperFrames renders
+  // don't depend on a CDN — minified upstream code we don't edit or own.
+  // .agents/ is the locally-installed HyperFrames agent skills (gitignored, so
+  // CI never sees it); it ships its own vendored GSAP copies.
+  globalIgnores(['dist', 'desktop', 'aws', 'videos/**/assets/vendor', '.agents']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
