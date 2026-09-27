@@ -557,3 +557,78 @@ test('two concurrent deliveries of a first checkout create one row and apply its
   assert.equal(db.writes('ghost-igl-referrals').length, 1)
   assert.equal(cognitoCreates, 1)
 })
+
+// ---- 10. two DIFFERENT first checkouts for the same customer and plan ---------------------
+// Both Stripe subscriptions are live and neither handler can see a membership
+// row yet, so the table-based duplicate guard finds nothing. Exactly one must
+// own the row and stay live; the other must be cancelled exactly once.
+const live = (id) => ['active', 'trialing', 'past_due'].includes(stripeSubs.get(id)?.status)
+async function concurrentFirstCheckouts(first, second) {
+  // Hold both classification reads until both handlers have started, so both
+  // run the duplicate guard before either row exists.
+  const h1 = holdNextRetrieve(first.sub), h2 = holdNextRetrieve(second.sub)
+  const p = Promise.all([checkout(first.evt, T0 + 100, first.sub), checkout(second.evt, T0 + 100, second.sub)])
+  await Promise.all([h1.reached, h2.reached])
+  h1.release(); h2.release()
+  await p
+}
+for (const deliveryOrder of ['A-first', 'B-first']) {
+  for (const createdOrder of ['A-older', 'B-older']) {
+    test(`two different first checkouts, same customer and plan: one owner, one cancelled (${deliveryOrder}, ${createdOrder})`, async () => {
+      const [ca, cb] = createdOrder === 'A-older' ? [T0 - 500, T0 - 400] : [T0 - 400, T0 - 500]
+      stripeSub('sub_TESTA', { price: PRO, created: ca }); stripeSub('sub_TESTB', { price: PRO, created: cb })
+      const A = { evt: 'evt_TEST_cA', sub: 'sub_TESTA' }, B = { evt: 'evt_TEST_cB', sub: 'sub_TESTB' }
+      await concurrentFirstCheckouts(...(deliveryOrder === 'A-first' ? [A, B] : [B, A]))
+      assert.equal(db.all(SUBS).length, 1)
+      const owner = row().stripe_subscription_id
+      const loser = owner === 'sub_TESTA' ? 'sub_TESTB' : 'sub_TESTA'
+      assert.deepEqual([live(owner), live(loser)], [true, false], 'exactly one membership subscription stays live')
+      assert.deepEqual(cancelCalls, [loser], 'the duplicate is cancelled exactly once')
+      assert.equal(row().status, 'active')
+      // Replays of both checkouts: nothing else is cancelled, the owner survives.
+      await checkout('evt_TEST_cA', T0 + 100, 'sub_TESTA'); await checkout('evt_TEST_cB', T0 + 100, 'sub_TESTB')
+      assert.deepEqual(cancelCalls, [loser])
+      assert.deepEqual([row().stripe_subscription_id, live(owner)], [owner, true])
+    })
+  }
+}
+
+test('two different same-plan checkouts racing on a row whose owner is no longer live: one owner, one cancelled', async () => {
+  stripeSub('sub_TESTold', { price: PRO }); await checkout('evt_TEST_c0', T0, 'sub_TESTold')
+  setStatus('sub_TESTold', 'canceled')
+  await subEvent('evt_TEST_d0', 'customer.subscription.deleted', T0 + 10, 'sub_TESTold')
+  stripeSub('sub_TESTA', { price: PRO }); stripeSub('sub_TESTB', { price: PRO })
+  await concurrentFirstCheckouts({ evt: 'evt_TEST_cA', sub: 'sub_TESTA' }, { evt: 'evt_TEST_cB', sub: 'sub_TESTB' })
+  const owner = row().stripe_subscription_id
+  assert.ok(['sub_TESTA', 'sub_TESTB'].includes(owner))
+  assert.equal(cancelCalls.length, 1)
+  assert.equal([live('sub_TESTA'), live('sub_TESTB')].filter(Boolean).length, 1)
+  assert.equal(live(owner), true)
+})
+
+test('legitimate replacements are never cancelled: a new plan while past due, or the same plan after a real cancellation', async () => {
+  await pastDueMemberWhoBoughtAgain() // Pro past due, then Elite bought
+  assert.deepEqual(cancelCalls, [])
+  assert.equal(row().stripe_subscription_id, 'sub_TESTnew')
+  db.reset(); stripeSubs.clear()
+  stripeSub('sub_TESTa', { price: PRO }); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+  setStatus('sub_TESTa', 'canceled')
+  await subEvent('evt_TEST_d1', 'customer.subscription.deleted', T0 + 10, 'sub_TESTa')
+  stripeSub('sub_TESTb', { price: PRO })
+  await checkout('evt_TEST_c2', T0 + 20, 'sub_TESTb')
+  assert.deepEqual(cancelCalls, [])
+  assert.deepEqual([row().stripe_subscription_id, row().status], ['sub_TESTb', 'active'])
+})
+
+test('checkout side effects use the Stripe state that won the membership write, not the classification read', async () => {
+  db.put('ghost-igl-profiles', { email: EMAIL, referred_by: 'referrer-b@example.com' })
+  stripeSub('sub_TESTa', { price: PRO })
+  const hold = holdNextRetrieve('sub_TESTa') // the classification read sees Pro...
+  const p = checkout('evt_TEST_c1', T0, 'sub_TESTa')
+  await hold.reached
+  stripeSub('sub_TESTa', { price: ELITE }) // ...the plan changes before the ticketed read
+  hold.release()
+  await p
+  assert.equal(row().plan, 'elite')
+  assert.equal(db.all('ghost-igl-referrals')[0].tier, 'elite', 'the referral records the plan that was written')
+})
