@@ -103,9 +103,11 @@ function holdNextRetrieve(id) {
   retrieveGates.set(id, { release: g.release, reached })
   return { release, reached: g.reachedP }
 }
-// Monotonic wall clock (ms): every Date.now() call is later than the previous one.
+// Wall clock (ms): monotonic by default; `frozenMs` pins it so two handlers
+// can get the SAME millisecond, as concurrent Lambda executions can.
 let clockMs = Date.now()
-mock.method(Date, 'now', () => ++clockMs)
+let frozenMs = null
+mock.method(Date, 'now', () => (frozenMs ?? ++clockMs))
 mock.method(subsProto, 'cancel', async (id) => {
   cancelCalls.push(id)
   const s = stripeSubs.get(id)
@@ -492,3 +494,34 @@ test('an older duplicate of an already-applied event is still ignored after late
   assert.equal(db.writes('ghost-igl-referrals').length, churns)
   assert.equal(row().status, 'canceled')
 })
+
+// ---- 8. equal freshness stamps: two handlers fetch in the same millisecond -------------
+// Real Lambda executions can start their Stripe fetches in the same ms. The
+// final entitlement must equal the NEWER Stripe state whatever order the two
+// writes land in; wall-clock uniqueness must not be assumed.
+for (const order of ['older-writes-first', 'newer-writes-first']) {
+  test(`same-millisecond fetches: the newer Stripe state wins (${order})`, async () => {
+    stripeSub('sub_TESTa'); await checkout('evt_TEST_c1', T0, 'sub_TESTa')
+    setStatus('sub_TESTa', 'past_due')
+    frozenMs = Date.parse('2026-10-01T12:00:00.000Z')
+    try {
+      if (order === 'older-writes-first') {
+        // Handler A reads past_due and writes; Stripe recovers; handler B (the
+        // recovery event) reads active in the same millisecond and writes second.
+        await deliver('evt_TEST_old', 'invoice.payment_failed', SAME, invoice('sub_TESTa'))
+        setStatus('sub_TESTa', 'active', { current_period_end: T0 + 61 * DAY })
+        await subEvent('evt_TEST_new', 'customer.subscription.updated', SAME, 'sub_TESTa')
+      } else {
+        // A reads past_due and stalls; B reads active and writes first; A's write lands last.
+        const hold = holdNextRetrieve('sub_TESTa')
+        const slow = deliver('evt_TEST_old', 'invoice.payment_failed', SAME, invoice('sub_TESTa'))
+        await hold.reached
+        setStatus('sub_TESTa', 'active', { current_period_end: T0 + 61 * DAY })
+        await subEvent('evt_TEST_new', 'customer.subscription.updated', SAME, 'sub_TESTa')
+        hold.release()
+        await slow
+      }
+    } finally { frozenMs = null }
+    assert.equal(row().status, 'active', 'the entitlement must equal the newer Stripe state')
+  })
+}
