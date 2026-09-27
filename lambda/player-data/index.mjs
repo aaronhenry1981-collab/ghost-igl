@@ -384,7 +384,9 @@ async function putEventInternal(reconPlayerId, input, idempotent = false) {
   assertNoCredentialFields(input, 'event')
   const eventType = String(input.event_type || '').trim().toLowerCase()
   if (!EVENT_TYPE_PATTERN.test(eventType)) throw new HttpError(400, 'Invalid event_type')
-  const occurredAt = new Date(input.occurred_at || Date.now()).toISOString()
+  const occurred = new Date(input.occurred_at || Date.now())
+  if (Number.isNaN(occurred.getTime())) throw new HttpError(400, 'Invalid occurred_at')
+  const occurredAt = occurred.toISOString()
   const eventId = String(input.event_id || crypto.randomUUID()).slice(0, 100)
   const data = input.data && typeof input.data === 'object' && !Array.isArray(input.data) ? input.data : {}
   if (stableJsonSize(data) > 20_000) throw new HttpError(400, 'Event data is too large')
@@ -658,11 +660,14 @@ async function writeProviderHealth(auth, body) {
 
 async function createUserEvent(auth, body) {
   const player = await ensurePlayer(auth)
+  // A caller-supplied event_id makes the write idempotent: repeating the same
+  // event (same occurred_at + event_id) returns it instead of failing, so
+  // clients can safely retry (see src/lib/attribution/events.js).
   return putEventInternal(player.recon_player_id, {
     ...body,
     source: auth.isAdmin ? (body.source || 'coach') : 'manual',
     visibility: body.visibility || 'private',
-  })
+  }, Boolean(body?.event_id))
 }
 
 export async function handler(event) {

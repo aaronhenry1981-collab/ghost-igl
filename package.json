@@ -26,7 +26,7 @@
     "indexnow": "node scripts/indexnow-ping.mjs",
     "postdeploy": "npm run indexnow",
     "lint": "eslint .",
-    "test": "node --test test/coach-correctness.test.mjs test/player-data-foundation.test.mjs src/lib/cognitoConfigContract.test.mjs",
+    "test": "node --test test/coach-correctness.test.mjs test/player-data-foundation.test.mjs src/lib/cognitoConfigContract.test.mjs src/lib/attribution/core.test.mjs src/lib/attribution/store.test.mjs src/lib/attribution/events.test.mjs",
     "check:truth": "node scripts/check-product-truth.mjs",
     "check:metadata": "node scripts/check-metadata-dates.mjs",
     "test:rss": "node scripts/test-rss-dates.mjs",
