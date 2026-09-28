@@ -33,7 +33,7 @@ jobs:
       - run: npm ci
       - name: Install Lambda dependencies used by tests
         run: |
-          for d in booking coaching-sync subscription vod webhook player-data ubisoft-patch-watcher customer-success; do
+          for d in admin booking coaching-sync subscription vod webhook player-data ubisoft-patch-watcher customer-success; do
             if [ -f "lambda/$d/package-lock.json" ]; then npm ci --no-audit --no-fund --prefix "lambda/$d"; elif [ -f "lambda/$d/package.json" ]; then npm install --no-audit --no-fund --prefix "lambda/$d"; fi
           done
       - run: npm run lint
