@@ -9,6 +9,7 @@ import { useActiveGame } from '../hooks/useActiveGame'
 import { useGameData } from '../hooks/useGameData'
 import { useSectionNavigate } from '../utils/sectionLink'
 import { isFoundingOpen, FOUNDING_END_SHORT, foundingTimeRemaining } from '../config/founding'
+import { FREE_MAP_NAMES } from '../config/planFacts'
 import { track } from '../utils/analytics'
 import './VodPage.css'
 
@@ -344,8 +345,8 @@ export default function VodPage() {
               <div className="vod-gate">
                 <h3>Upgrade to Pro to review your gameplay</h3>
                 <p>
-                  Free accounts can browse every strat. Pro unlocks the round-by-round breakdowns
-                  — upload a screenshot, get a specific fix.
+                  Free accounts get the {FREE_MAP_NAMES} round plans. Pro unlocks every map and
+                  the round-by-round breakdowns — upload a screenshot, get a specific fix.
                 </p>
                 <div className="vod-gate-actions">
                   <button type="button" onClick={goToPricing} className="btn btn-primary">See plans</button>

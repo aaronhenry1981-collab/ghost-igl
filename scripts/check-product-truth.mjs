@@ -64,6 +64,8 @@ for (const path of walkHtml(join(ROOT, 'dist'))) {
   const visitorCopy = content.replace(/<link\b[^>]*>/gi, '')
   if (retiredTrialClaim.test(visitorCopy)) errors.push(`${relative}: advertises the discontinued trial`)
   if (otherGames.test(visitorCopy)) errors.push(`${relative}: promotes another game`)
+  // P0-7: the founding window closed on 2026-08-31.
+  if (/Founding rate \$9|locked in for life|\$9\/mo until/i.test(visitorCopy)) errors.push(`${relative}: advertises the expired founding rate`)
 }
 
 mustNotMatch('dist/blog/r6-bronze-to-silver.html', /T-Hunt|Terrorist Hunt|65%|bomb-pair walls reinforced|CEO\/Open Area|Cocktail\/Reading|out-position any Bronze|position better than any Bronze|uncatchable on cam/i, 'reintroduces inaccurate Bronze coaching')

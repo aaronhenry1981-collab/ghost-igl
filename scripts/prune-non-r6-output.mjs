@@ -46,6 +46,10 @@ for (const path of walkHtml(DIST)) {
   const next = current
     .replace(/Ghost IGL/gi, 'Recon 6')
     .replace(/Founding rate \$9\/mo before May (?:8|31)\.?/gi, 'See current pricing for available plans.')
+    // The founding window closed on 2026-08-31; legacy pages still carry the
+    // offer in other phrasings (P0-7). check-product-truth fails the build if
+    // any survive.
+    .replace(/Founding rate \$9\/mo(?: until May (?:8|31))?(?: — locked in for life)?\.?/gi, 'See current pricing for available plans.')
   if (next !== current) {
     writeFileSync(path, next)
     rebranded += 1

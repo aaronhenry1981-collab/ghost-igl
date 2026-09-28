@@ -234,7 +234,7 @@ export default function LoadoutsPage() {
       benefits={[
         'Real weapon priorities, ability combos, and team-comp picks',
         'Rainbow Six operator and role guidance in one place',
-        'Free account for saved settings; paid plans show their trial terms before checkout',
+        'Free account for saved settings; paid plans show their price before checkout (no free trial)',
       ]}
     />
   }

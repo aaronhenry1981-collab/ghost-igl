@@ -6,6 +6,7 @@ import { useUserRole } from '../hooks/useUserRole'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useSectionNavigate } from '../utils/sectionLink'
 import { foundingPromisePhrase } from '../config/founding'
+import { FREE_MAP_NAMES } from '../config/planFacts'
 import './WelcomeModal.css'
 
 const SEEN_KEY = 'ghost-igl-welcome-seen'
@@ -102,7 +103,7 @@ export default function WelcomeModal() {
         ? `You have the full self-service stack — 10-image VOD sessions, Champion-level strategies, recurring-mistake reports, and the PC Live Coach beta.`
         : isPro
         ? `You've unlocked the round-by-round VOD breakdowns, ban targets, and the read on what the enemy is most likely to do. Most of the site is now open to you.`
-        : `You're on the free tier — every strat, every callout, every operator. Upgrade anytime to start reviewing your own matches.`,
+        : `You're on the free tier — the ${FREE_MAP_NAMES} round plans are fully open, plus the public map guides. Upgrade anytime to unlock every map and start reviewing your own matches.`,
     },
   ]
 

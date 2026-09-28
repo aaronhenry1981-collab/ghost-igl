@@ -839,7 +839,7 @@ function renderOperatorPost(opName, opIndex) {
     <p>Queue 5 ranked games with ${opName} locked in. After each game, write down (1) where you used your gadget and whether it landed, (2) which map and site you played, (3) one mistake you saw in the kill cam. By game 5 you\'ll have specific patterns to fix, and the next 10 games convert that knowledge into rank. The deliberate-practice loop beats grinding 50 random games where you don\'t track what you\'re fixing.</p>`
 
   const aiVod = `
-    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning + utility-timing mistakes per round. Particularly useful for finding the rounds where you wasted a gadget charge or held a predictable angle. <strong>7-day money back if it doesn\'t help.</strong></p>`
+    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reviews the match screenshots you submit and suggests positioning and utility-timing corrections to check against your round. Useful for finding the rounds where you wasted a gadget charge or held a predictable angle. Your first paid charge is refundable within 7 days; see the <a href="${SITE_URL}/refund">refund policy</a>.</p>`
 
   // Related links: 4-5 links to operator-relevant content
   const topMaps = opSites.length > 0
@@ -863,7 +863,7 @@ function renderOperatorPost(opName, opIndex) {
   const ctaHtml = `
     <div class="intro-cta">
       <h3>Want AI-powered VOD review on your ${opName} play?</h3>
-      <p>Recon 6 Pro reads your replays and flags positioning, utility, and decision mistakes per round. Founding rate $9/mo until May 31 — locked in for life. 7-day money back guarantee.</p>
+      <p>Recon 6 Pro reviews the match screenshots you submit and suggests corrections to check against your round context. See current membership prices and included tools on the Plans page. Paid memberships do not include a free trial.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
