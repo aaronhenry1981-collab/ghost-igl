@@ -90,8 +90,8 @@ export default function ExitIntentModal() {
           No signup, no email.
         </h2>
         <p>
-          Full strat breakdowns for every R6 ranked site — operator picks, callouts,
-          utility, and ban recs. Pick one to open now:
+          Free map guides for every R6 ranked site — operator picks, callouts
+          and ban recs. Pick one to open now:
         </p>
         <div className="exit-intent-guides">
           <a href="/guides/bank.html" className="exit-intent-guide">

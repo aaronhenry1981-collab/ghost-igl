@@ -1,7 +1,7 @@
 {
   "name": "RECON6 — AI-Augmented Rainbow Six Siege Coaching",
   "short_name": "RECON6",
-  "description": "Every map, every site, every callout — pre-loaded. Round-by-round AI VOD breakdowns from your screenshots, and a human coach backed by an AI staff.",
+  "description": "Rainbow Six Siege round plans: operator jobs, callouts and executes. Bank and Coastline are free; paid plans unlock every map, AI reviews of your match screenshots and 1:1 coaching.",
   "start_url": "/strats",
   "display": "standalone",
   "background_color": "#07090B",

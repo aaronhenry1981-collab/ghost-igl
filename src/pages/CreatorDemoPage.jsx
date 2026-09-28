@@ -4,6 +4,7 @@ import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
 import TacticalRoundPlan from '../components/strats/TacticalRoundPlan'
 import { getGameplayVisuals } from '../data/gameplay-visuals'
+import { FREE_MAP_NAMES } from '../config/planFacts'
 import './StratsPage.css'
 import './CreatorDemoPage.css'
 
@@ -116,7 +117,7 @@ export default function CreatorDemoPage() {
       <section className="creator-demo-close">
         <span>READY FOR A REAL MATCH?</span>
         <h2>Start with the strategy. Improve with your own rounds.</h2>
-        <p>Use the full strategy library, upload screenshots for a VOD breakdown, or book a human coaching session backed by the same system.</p>
+        <p>Start with the free {FREE_MAP_NAMES} round plans, upgrade for every map and screenshot VOD breakdowns, or book a human coaching session backed by the same system.</p>
         <div className="creator-demo-actions creator-demo-close-actions">
           <Link to="/auth?mode=signup" className="creator-demo-primary">Start free</Link>
           <a href="/coaching/index.html#book">Book first session · $20</a>

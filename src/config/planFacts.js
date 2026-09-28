@@ -13,6 +13,10 @@ import { CHAMPION_CURRENT_AMOUNT, ELITE_CURRENT_AMOUNT, PRO_CURRENT_AMOUNT } fro
 
 export const FREE_MAPS = Object.freeze(MAPS.filter((map) => map.freeSample && !map.comingSoon))
 export const MAP_COUNT = MAPS.filter((map) => !map.comingSoon).length
+// Counted from the data, never typed into copy (P0-11).
+export const SITE_COUNT = MAPS.filter((map) => !map.comingSoon).reduce((n, map) => n + (map.sites || []).length, 0)
+// "Bank and Coastline" — for copy that describes the free tier (P0-8).
+export const FREE_MAP_NAMES = FREE_MAPS.map((map) => map.name).join(' and ')
 
 export const PLAN_FACTS = Object.freeze({
   free: Object.freeze({

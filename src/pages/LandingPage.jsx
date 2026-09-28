@@ -13,6 +13,7 @@ import StratDisplay from '../components/strats/StratDisplay'
 import STRATS from '../data/public-strats.generated'
 import META from '../data/meta'
 import OPERATORS from '../data/operators'
+import { MAP_COUNT, SITE_COUNT } from '../config/planFacts'
 import { useAuth } from '../hooks/useAuth'
 import { useTestimonials } from '../hooks/useTestimonials'
 
@@ -201,7 +202,7 @@ const FEATURE_ICONS = {
 const STEPS = [
   { num: '01', title: 'Choose Your Map and Site', desc: 'Open the exact Rainbow Six map, bombsite, and side you are playing. Preview Bank and Coastline for free; a paid plan unlocks more maps and detail.' },
   { num: '02', title: 'Play With a Clear Job', desc: 'See operator roles, positioning, callouts, utility priorities, and the execute or setup your team needs.' },
-  { num: '03', title: 'Review Real Match Evidence', desc: 'Drop screenshots from a round for an AI VOD breakdown, or use the PC Live Coach to detect match state while you play.' },
+  { num: '03', title: 'Review Real Match Evidence', desc: 'Drop screenshots from a round for an AI VOD breakdown, or follow the Live Coach walkthrough (stack, bans, side, site, operator) while you play.' },
   { num: '04', title: 'Prove the Fix in Your Gameplay', desc: 'Road to Champion tracks repeated evidence, reopens a skill when the mistake returns, and gives you one clear mission for the next match.' },
 ]
 
@@ -497,8 +498,8 @@ export default function LandingPage() {
               See Pro from $12/month
             </a>
             <div className="hero-v2-proof">
-              <span><strong>25</strong> maps</span>
-              <span><strong>107</strong> site setups</span>
+              <span><strong>{MAP_COUNT}</strong> maps</span>
+              <span><strong>{SITE_COUNT}</strong> site setups</span>
               <span><strong>{OPERATORS.length}</strong> operators in current plans</span>
               <span><i /> No signup to preview</span>
             </div>
@@ -552,7 +553,6 @@ export default function LandingPage() {
         <div className="testimonials-grid">
           {testimonials.map((t) => (
             <div className="testimonial-card" key={t.id || t.name}>
-              <div className="testimonial-stars">{'\u2605\u2605\u2605\u2605\u2605'}</div>
               <p className="testimonial-text">\u201c{t.text}\u201d</p>
               <div className="testimonial-author">
                 <div className="testimonial-avatar">{t.initials}</div>
@@ -765,7 +765,7 @@ export default function LandingPage() {
             const showRegular = showFounding && p.regularPrice
             return (
             <div className={`pricing-card${p.featured ? ' featured' : ''}`} key={p.tier}>
-              {p.featured && <div className="pricing-popular">MOST POPULAR</div>}
+              {p.featured && <div className="pricing-popular">Recommended start</div>}
               <div className="pricing-tier">{p.tier}</div>
               <div className="pricing-price">
                 {showRegular && (

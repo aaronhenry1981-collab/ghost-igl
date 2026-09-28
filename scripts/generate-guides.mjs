@@ -292,7 +292,7 @@ function renderSiteGuide(map, site) {
 
     <div class="intro-cta">
       <h3>Want full utility placement + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility breakdown, enemy predictions, and AI-powered gameplay analysis. Review current pricing and trial terms before checkout.</p>
+      <p>Recon 6 Pro unlocks per-operator utility breakdown, enemy predictions, and AI-powered gameplay analysis. Current prices are shown before checkout; paid memberships do not include a free trial.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
