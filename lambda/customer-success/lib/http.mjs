@@ -6,7 +6,12 @@ export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(['https://r6coaching.com', 
 
 export function requestOf(event = {}) {
   const method = String(event.requestContext?.http?.method || event.httpMethod || 'GET').toUpperCase()
-  const path = String(event.rawPath || event.requestContext?.http?.path || event.path || '/').replace(/\/+$/, '') || '/'
+  let path = String(event.rawPath || event.requestContext?.http?.path || event.path || '/')
+  // A named HTTP API stage (the stack deploys "prod") prefixes rawPath with
+  // "/<stage>"; routes are declared without it.
+  const stage = event.requestContext?.stage
+  if (stage && stage !== '$default' && (path === `/${stage}` || path.startsWith(`/${stage}/`))) path = path.slice(stage.length + 1)
+  path = path.replace(/\/+$/, '') || '/'
   const headers = Object.fromEntries(Object.entries(event.headers || {}).map(([k, v]) => [k.toLowerCase(), v]))
   let rawBody = event.body || ''
   if (event.isBase64Encoded && rawBody) rawBody = Buffer.from(rawBody, 'base64').toString('utf8')

@@ -99,3 +99,14 @@ test('malformed percent-encoding in a path parameter is a 400, not a 500', async
     assert.equal(res.statusCode, 400, `${path} -> ${res.statusCode}`)
   }
 })
+
+test('a named API stage prefix is stripped before routing (deployed as /prod)', async () => {
+  const { requestOf } = await import('./lib/http.mjs')
+  const at = (rawPath, stage) => requestOf({ rawPath, requestContext: { stage, http: { method: 'GET' } } }).path
+  assert.equal(at('/prod/cs/health', 'prod'), '/cs/health')
+  assert.equal(at('/prod', 'prod'), '/')
+  assert.equal(at('/cs/health', '$default'), '/cs/health')
+  assert.equal(at('/production/cs/health', 'prod'), '/production/cs/health', 'only a whole-segment stage prefix is stripped')
+  const { call } = fixtureApp({ extraRoutes: routeModules })
+  assert.equal((await call('GET', '/cs/health')).statusCode, 200)
+})
