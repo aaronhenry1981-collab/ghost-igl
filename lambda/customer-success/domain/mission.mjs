@@ -290,6 +290,9 @@ export function deriveStuck(facts, now = facts.now || Date.now()) {
 export function deriveHelp(facts) {
   const plan = facts.billing.plan
   const options = []
+  if (facts.config.features.support) {
+    options.push({ id: 'support', label: 'Get help', detail: 'Open a case. Recon checks your plan and recent data, and replies land in one place.', cta: { label: 'Open Player Command', href: '/support' } })
+  }
   if (facts.config.features.messaging) {
     options.push({ id: 'message', label: 'Message Recon 6', detail: 'Questions, bugs or billing. Aaron reads every message.', cta: { label: 'Send a message', action: 'message_support' } })
   }

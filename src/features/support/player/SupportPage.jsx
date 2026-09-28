@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { bucketCounts, normalizeBuckets } from '../supportLogic.mjs'
 import { HELP_SECTIONS } from '../helpText.mjs'
 import { isNotEnabled } from '../supportApi'
+import { HELP_CENTER_UI_ENABLED } from '../supportFlags'
 import { useSupportResource } from '../useSupportResource'
 import { SectionLabel, Skeleton } from '../ui/bits'
 import GetHelp from './GetHelp'
@@ -64,12 +65,14 @@ function Command({ api, paths, initialText, initialTab, initialCategory, source 
         </section>
       </div>
 
-      <nav className="sp-quickhelp" aria-label="Help Center shortcuts">
-        <span className="sp-hud-label">Fix it yourself</span>
-        <ul>
-          {HELP_SECTIONS.map((s) => <li key={s.id}><Link to={paths.help({ section: s.id })}>{s.title}</Link></li>)}
-        </ul>
-      </nav>
+      {HELP_CENTER_UI_ENABLED && (
+        <nav className="sp-quickhelp" aria-label="Help Center shortcuts">
+          <span className="sp-hud-label">Fix it yourself</span>
+          <ul>
+            {HELP_SECTIONS.map((s) => <li key={s.id}><Link to={paths.help({ section: s.id })}>{s.title}</Link></li>)}
+          </ul>
+        </nav>
+      )}
     </>
   )
 }
@@ -83,20 +86,26 @@ function SignedOutGate({ paths, caseNumber }) {
       <p className="sp-sub">Signed in, Recon checks your plan, linked accounts and recent data for you, and every reply lands in one place.</p>
       <div className="sp-row">
         <Link to={paths.signIn(redirect)} className="btn btn-primary">Sign in</Link>
-        <Link to={paths.help()} className="btn btn-ghost">Browse the Help Center</Link>
+        {HELP_CENTER_UI_ENABLED
+          ? <Link to={paths.help()} className="btn btn-ghost">Browse the Help Center</Link>
+          : <a href={`mailto:${SUPPORT_EMAIL}`} className="btn btn-ghost">Email support</a>}
       </div>
       <div className="sp-gate-help">
-        <p className="sp-hud-label">Common fixes, no sign-in needed</p>
-        <ul className="sp-gate-links">
-          {HELP_SECTIONS.map((s) => (
-            <li key={s.id}>
-              <Link to={paths.help({ section: s.id })}>
-                <strong>{s.title}</strong>
-                <span>{s.blurb}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {HELP_CENTER_UI_ENABLED && (
+          <>
+            <p className="sp-hud-label">Common fixes, no sign-in needed</p>
+            <ul className="sp-gate-links">
+              {HELP_SECTIONS.map((s) => (
+                <li key={s.id}>
+                  <Link to={paths.help({ section: s.id })}>
+                    <strong>{s.title}</strong>
+                    <span>{s.blurb}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         <p className="sp-muted sp-small">Can&apos;t sign in at all? Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p>
       </div>
     </section>
@@ -111,7 +120,7 @@ function NotLive({ paths }) {
       <p className="sp-sub">Until it is, email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> from the address on your account and a person reads it.</p>
       <div className="sp-row">
         <a href={`mailto:${SUPPORT_EMAIL}`} className="btn btn-primary">Email support</a>
-        <Link to={paths.help()} className="btn btn-ghost">Help Center</Link>
+        {HELP_CENTER_UI_ENABLED && <Link to={paths.help()} className="btn btn-ghost">Help Center</Link>}
       </div>
     </section>
   )

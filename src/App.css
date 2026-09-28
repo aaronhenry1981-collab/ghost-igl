@@ -2913,6 +2913,11 @@ a.meta-strip-name:hover { color: #00e5ff; }
 .recon-landing-v2 .hero-v2 .hero-v2-shade {
   background: linear-gradient(180deg,rgba(3,6,10,.72),rgba(3,6,10,.82) 65%,#05070b);
 }
+/* Below 900px the step rail is in normal flow; stack it under the copy
+   instead of beside it (the hero is a flex row by default). */
+@media (max-width: 900px) {
+  .recon-landing-v2 .hero-v2 { flex-direction: column; align-items: stretch; }
+}
 @media (max-width: 680px) {
   .recon-landing-v2 .hero-v2 h1 { font-size: clamp(2.1rem, 9.5vw, 3.5rem); line-height: 1.06; }
   .recon-landing-v2 .hero-v2 .hero-v2-proof { gap: 10px 16px; }
