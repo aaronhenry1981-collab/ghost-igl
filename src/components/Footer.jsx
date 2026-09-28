@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
+import { HELP_CENTER_UI_ENABLED, SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 
 function scrollToSection(id, navigate, isLanding) {
   const navHeight = 60
@@ -60,7 +60,7 @@ export default function Footer() {
             <li><a href="/guides/">Map guides</a></li>
             <li><Link to="/beginner-guide">Beginner workbook</Link></li>
             <li><a href="/status/index.html">System status</a></li>
-            {SUPPORT_UI_ENABLED && <li><Link to="/help">Help Center</Link></li>}
+            {HELP_CENTER_UI_ENABLED && <li><Link to="/help">Help Center</Link></li>}
             {SUPPORT_UI_ENABLED && <li><Link to="/support">Support</Link></li>}
             <li><Link to="/changelog">What's new</Link></li>
             <li><Link to="/terms">Terms of Service</Link></li>

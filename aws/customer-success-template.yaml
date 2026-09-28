@@ -121,6 +121,15 @@ Parameters:
       threading. Empty (default) = token lookups return nothing and plus-
       addressed mail goes to the unmatched review queue. No secret is created
       by this stack.
+  ContactKeySecretParam:
+    Type: String
+    Default: /recon/customer-success/contact-key-secret
+    AllowedPattern: '^/[A-Za-z0-9/_.-]+$'
+    Description: >-
+      Decision D-C1. SSM SecureString (AWS-managed key) holding the HMAC
+      secret for contact keys (at least 32 characters). Created outside this
+      stack before the first deploy; the function refuses to start without it.
+      Never rotate it without migrating stored keys.
   DevOrigin:
     Type: String
     Default: ''
@@ -237,6 +246,7 @@ Resources:
           SUPPORT_PROACTIVE: !Ref SupportProactive
           SUPPORT_COPILOT_MODEL: !Ref SupportCopilotModel
           SUPPORT_EMAIL_TOKEN_SECRET_ARN: !Ref SupportEmailTokenSecretArn
+          CONTACT_KEY_SECRET_PARAM: !Ref ContactKeySecretParam
           ALLOWED_ORIGINS: !If
             - HasDevOrigin
             - !Sub 'https://r6coaching.com,https://www.r6coaching.com,${DevOrigin}'
@@ -274,6 +284,13 @@ Resources:
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerSnapshotsTableName}
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${PlayerIdentitiesTableName}
                 - !Sub arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ProviderHealthTableName}
+            # Decision D-C1: the contact-key HMAC secret (SSM SecureString,
+            # AWS-managed key). Read-only, this one parameter.
+            - Sid: ContactKeySecretReadOnly
+              Effect: Allow
+              Action:
+                - ssm:GetParameter
+              Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${ContactKeySecretParam}
             - Sid: CognitoDirectoryReadOnly
               Effect: Allow
               Action:
@@ -304,11 +321,22 @@ Resources:
                   - secretsmanager:GetSecretValue
                 Resource: !Ref SupportEmailTokenSecretArn
           - !Ref AWS::NoValue
-      # Player Success & Support routes (routes/support.mjs) are intentionally
-      # NOT registered below: with FeatureSupport false they would 404 anyway,
-      # and registering them is part of the approved enablement step
-      # (docs/player-success/ARCHITECTURE.md §16, API-CONTRACT.md route list).
+      # Player Success & Support (routes/support.mjs, 35 routes) is registered
+      # as three prefix routes rather than one event per route: SAM adds a
+      # Lambda permission per event and 60+ statements approach the 20 KB
+      # resource-policy limit. The app matches method + path exactly, checks
+      # auth and roles per route, and 404s everything when FEATURE_SUPPORT is
+      # not 'true', so the prefixes widen nothing.
       Events:
+        SupportPlayer:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/me/support/{proxy+}', Method: ANY }
+        SupportStaff:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/admin/support/{proxy+}', Method: ANY }
+        SupportHelp:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CustomerSuccessApi, Path: '/cs/help/{proxy+}', Method: GET }
         Health:
           Type: HttpApi
           Properties: { ApiId: !Ref CustomerSuccessApi, Path: /cs/health, Method: GET }

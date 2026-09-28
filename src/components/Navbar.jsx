@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
+import { HELP_CENTER_UI_ENABLED, SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 
 // Unified top navigation — single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
@@ -142,7 +142,7 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
           {SUPPORT_UI_ENABLED && (
             <>
               <button type="button" className="nav-more-item" onClick={() => go('/support')}>Support</button>
-              <button type="button" className="nav-more-item" onClick={() => go('/help')}>Help Center</button>
+              {HELP_CENTER_UI_ENABLED && <button type="button" className="nav-more-item" onClick={() => go('/help')}>Help Center</button>}
             </>
           )}
           {isPro && (
@@ -439,7 +439,7 @@ export default function Navbar() {
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('faq')}>FAQ</button>
           <a href="/guides/" onClick={closeMobile} className="mobile-drawer-link">Map guides</a>
           <Link to="/changelog" onClick={closeMobile} className="mobile-drawer-link">Changelog</Link>
-          {SUPPORT_UI_ENABLED && <NavLink to="/help" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Help Center</NavLink>}
+          {HELP_CENTER_UI_ENABLED && <NavLink to="/help" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Help Center</NavLink>}
         </div>
 
         {user ? (

@@ -11,9 +11,21 @@ import { createCognitoAuthenticator } from './lib/auth.mjs'
 import { DEFAULT_ALLOWED_ORIGINS } from './lib/http.mjs'
 import { catalogFromEnv, vodLimitsFromEnv } from './domain/plans.mjs'
 import { routeModules } from './routes/index.mjs'
+import { configureContactKeySecret } from './lib/ids.mjs'
 
 const env = process.env
 const region = env.AWS_REGION || 'us-east-1'
+
+// Decision D-C1: contact keys are HMACs keyed by an SSM SecureString, read
+// once per container with the SDK that ships in the Lambda Node.js runtime.
+// Fail closed: without the secret the function refuses to start, so it can
+// never store records under unkeyed (email-derivable) keys.
+if (!env.CONTACT_KEY_SECRET_PARAM) throw new Error('CONTACT_KEY_SECRET_PARAM is not set')
+{
+  const { SSMClient, GetParameterCommand } = await import('@aws-sdk/client-ssm')
+  const out = await new SSMClient({ region }).send(new GetParameterCommand({ Name: env.CONTACT_KEY_SECRET_PARAM, WithDecryption: true }))
+  configureContactKeySecret(out?.Parameter?.Value)
+}
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region }), { marshallOptions: { removeUndefinedValues: true } })
 const cognito = new CognitoIdentityProviderClient({ region })
 const flag = (name) => String(env[name] || '').toLowerCase() === 'true'
