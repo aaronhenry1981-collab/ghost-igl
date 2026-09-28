@@ -2889,3 +2889,24 @@ a.meta-strip-name:hover { color: #00e5ff; }
 @media (prefers-reduced-motion: reduce) {
   .hero-v2-image { transform: none; }
 }
+/* Recon homepage: centered content, no decorative briefing panel. */
+.recon-landing-v2 .hero-v2 .hero-briefing { display: none !important; }
+.recon-landing-v2 .hero-v2 .hero-v2-inner {
+  display: block; width: min(1120px, 100%); margin-inline: auto; text-align: center;
+}
+.recon-landing-v2 .hero-v2 .hero-v2-copy { max-width: 1040px; margin-inline: auto; }
+.recon-landing-v2 .hero-v2 h1 {
+  max-width: 1040px; margin-inline: auto; font-size: clamp(2.7rem, 6vw, 6rem); line-height: 1.02;
+}
+.recon-landing-v2 .hero-v2 .hero-subtitle { max-width: 760px; margin-inline: auto; }
+.recon-landing-v2 .hero-v2 .hero-v2-cta,
+.recon-landing-v2 .hero-v2 .hero-v2-proof { justify-content: center; }
+.recon-landing-v2 .hero-v2 .hero-v2-cta { margin-inline: auto; max-width: 760px; }
+.recon-landing-v2 .hero-v2 .hero-v2-shade {
+  background: linear-gradient(180deg,rgba(3,6,10,.72),rgba(3,6,10,.82) 65%,#05070b);
+}
+@media (max-width: 680px) {
+  .recon-landing-v2 .hero-v2 h1 { font-size: clamp(2.1rem, 9.5vw, 3.5rem); line-height: 1.06; }
+  .recon-landing-v2 .hero-v2 .hero-v2-proof { gap: 10px 16px; }
+  .recon-landing-v2 .hero-v2 .hero-v2-cta .btn { white-space: normal; }
+}

@@ -403,54 +403,6 @@ function StratPreview() {
   )
 }
 
-const HERO_JOBS = [
-  { slot: '01', operator: 'Thermite', role: 'Hard breach', job: 'Open the CEO double wall' },
-  { slot: '02', operator: 'Thatcher', role: 'Support', job: 'Clear denial before the breach' },
-  { slot: '03', operator: 'Nomad', role: 'Flank watch', job: 'Lock Spiral and back stairs' },
-  { slot: '04', operator: 'Sledge', role: 'Vertical', job: 'Force anchors off default' },
-  { slot: '05', operator: 'Iana', role: 'Entry intel', job: 'Drone the final execute' },
-]
-
-function HeroBriefing() {
-  return (
-    <div className="hero-briefing" aria-label="Example Recon 6 squad briefing">
-      <div className="hero-briefing-topline">
-        <div>
-          <span className="hero-briefing-kicker">EXAMPLE STRAT BRIEF</span>
-          <strong>Bank · 2F CEO · Attack</strong>
-        </div>
-        <span className="hero-briefing-status"><i /> READY</span>
-      </div>
-      <div className="hero-briefing-plan">
-        <div className="hero-briefing-phase">
-          <span>THE CALL</span>
-          <strong>Open CEO. Pin Spiral. Execute on the drone.</strong>
-        </div>
-        <div className="hero-briefing-clock">
-          <span>PREP</span>
-          <strong>0:42</strong>
-        </div>
-      </div>
-      <div className="hero-job-list">
-        {HERO_JOBS.map((job) => (
-          <div className="hero-job" key={job.slot}>
-            <span className="hero-job-slot">{job.slot}</span>
-            <div className="hero-job-operator">
-              <strong>{job.operator}</strong>
-              <span>{job.role}</span>
-            </div>
-            <p>{job.job}</p>
-          </div>
-        ))}
-      </div>
-      <div className="hero-briefing-footer">
-        <span><i /> 5 jobs synced</span>
-        <Link to="/strats">Open full strat <span aria-hidden="true">→</span></Link>
-      </div>
-    </div>
-  )
-}
-
 export default function LandingPage() {
   const { user, isPro, plan } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -544,7 +496,7 @@ export default function LandingPage() {
               <span><i /> No signup to preview</span>
             </div>
           </div>
-          <HeroBriefing />
+
         </div>
         <div className="hero-v2-rail" aria-label="How Recon 6 improves a round">
           <div><span>01</span><strong>PREP</strong><p>Pick the site and get the five jobs.</p></div>
