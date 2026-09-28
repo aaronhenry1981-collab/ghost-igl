@@ -217,3 +217,10 @@ try {
     Write-Host "IndexNow ping errored: $_" -ForegroundColor Yellow
 }
 Write-Host ""
+
+# Reset build output. The release guard proved the tree was clean before the
+# build, so every tracked change now is regenerated output (sitemap, feed,
+# blog index, protected content). Resetting keeps the canonical checkout
+# clean, so the next guarded deploy is not refused.
+& git checkout -- .
+if ($LASTEXITCODE -eq 0) { Write-Host "-> Build output reset; working tree clean for the next deploy." -ForegroundColor DarkGray }
