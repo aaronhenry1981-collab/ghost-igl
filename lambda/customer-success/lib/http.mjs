@@ -58,14 +58,25 @@ export function parseJsonBody(rawBody, { maxBytes = 8 * 1024 } = {}) {
 }
 
 // Match "/cs/admin/players/{key}" style patterns; returns params or null.
+// A parameter with malformed percent-encoding ("%E0%A4%A", a lone "%") is a
+// 400, not an unhandled URIError (500).
 export function matchPath(pattern, path) {
   const p = pattern.split('/').filter(Boolean)
   const a = path.split('/').filter(Boolean)
   if (p.length !== a.length) return null
+  const isParam = (seg) => seg.startsWith('{') && seg.endsWith('}')
+  // Literals first: only a route that otherwise matches decodes (and can
+  // reject) its parameters.
+  for (let i = 0; i < p.length; i += 1) if (!isParam(p[i]) && p[i] !== a[i]) return null
   const params = {}
   for (let i = 0; i < p.length; i += 1) {
-    if (p[i].startsWith('{') && p[i].endsWith('}')) params[p[i].slice(1, -1)] = decodeURIComponent(a[i])
-    else if (p[i] !== a[i]) return null
+    if (!isParam(p[i])) continue
+    try {
+      params[p[i].slice(1, -1)] = decodeURIComponent(a[i])
+    } catch (err) {
+      if (err instanceof URIError) throw new HttpError(400, 'malformed path encoding')
+      throw err
+    }
   }
   return params
 }
