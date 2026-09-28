@@ -24,6 +24,35 @@ Write-Host ""
 Set-Location $ProjectRoot
 Write-Host "-> Working dir: $ProjectRoot"
 
+# ---- Release guards (2026-09-28) -------------------------------------------
+# Production was once deployed from an uncommitted checkout, so no branch
+# matched it. Only deploy a clean tree that equals the production line, with
+# the build-time API URLs the release needs. Refuse otherwise.
+$ReleaseBranch = 'origin/content/strat-beta-disclaimer'
+& git fetch --quiet origin
+$dirty = & git status --porcelain --untracked-files=no
+if ($dirty) {
+    Write-Error "Refusing to deploy: tracked files have uncommitted changes. Commit them to the production line first."
+    exit 1
+}
+$head = (& git rev-parse HEAD).Trim()
+$prod = (& git rev-parse $ReleaseBranch).Trim()
+if ($head -ne $prod) {
+    Write-Error "Refusing to deploy: HEAD $head is not $ReleaseBranch ($prod). Check out the production line."
+    exit 1
+}
+$envFile = Join-Path $ProjectRoot '.env.production'
+$envText = if (Test-Path $envFile) { Get-Content $envFile -Raw } else { '' }
+foreach ($name in @('VITE_CUSTOMER_SUCCESS_API_URL', 'VITE_PLAYER_DATA_API_URL', 'VITE_SUPPORT_UI')) {
+    $inEnv = [bool][Environment]::GetEnvironmentVariable($name)
+    $inFile = $envText -match "(?m)^\s*$name\s*=\s*\S"
+    if (-not ($inEnv -or $inFile)) {
+        Write-Error "Refusing to deploy: $name is not set (environment or .env.production). See docs/RELEASE-2026-09-28.md."
+        exit 1
+    }
+}
+Write-Host "-> Deploying production line $head" -ForegroundColor Green
+
 # Locate aws.exe / aws.cmd / aws (pip-installed) - PowerShell sessions
 # frequently don't inherit PATH after CLI install
 function Test-AwsWorks {
@@ -117,22 +146,25 @@ if ($LASTEXITCODE -ne 0) {
 # minutes instead of waiting for browsers to expire stale heuristic
 # caches. Previous deploys left Cache-Control unset entirely, which
 # caused stale static pages (/tools/, /blog/) to linger for days.
+#
+# Order matters: hashed assets go up FIRST, so a new index.html never points
+# at a chunk that isn't there yet. There is no --delete: older chunks stay
+# for tabs that are already open and for a fast rollback to a previous
+# index.html.
 Write-Host ""
-Write-Host "[3/5] Syncing dist/ to s3://$S3Bucket ..." -ForegroundColor Yellow
-& $Aws s3 sync dist/ "s3://$S3Bucket" --delete --region $Region `
+Write-Host "[3/5] Uploading dist/assets/ (immutable) ..." -ForegroundColor Yellow
+& $Aws s3 cp dist/assets/ "s3://$S3Bucket/assets/" --recursive --region $Region `
+    --cache-control "public, max-age=31536000, immutable"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Asset upload failed; nothing else was changed."
+    exit 1
+}
+Write-Host "  -> Syncing pages (short cache) ..."
+& $Aws s3 sync dist/ "s3://$S3Bucket" --exclude "assets/*" --region $Region `
     --cache-control "public, max-age=0, must-revalidate"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "S3 sync failed."
     exit 1
-}
-
-# Override cache for hashed asset files — they're immutable forever.
-Write-Host "  -> Setting long cache on dist/assets/*"
-& $Aws s3 cp dist/assets/ "s3://$S3Bucket/assets/" --recursive --region $Region `
-    --metadata-directive REPLACE `
-    --cache-control "public, max-age=31536000, immutable"
-if ($LASTEXITCODE -ne 0) {
-    Write-Warning "Asset cache-control update failed - assets will still load but with short cache."
 }
 
 # 3. Fix content-type on SVG OG images
