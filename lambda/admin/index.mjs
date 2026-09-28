@@ -4,6 +4,7 @@ import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
 import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
+import { BILLING_FIELDS, confirmationPhrase, planReconciliation } from './reconcile.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -63,7 +64,7 @@ export async function handler(event) {
   try {
     if (path.endsWith('/admin/subscriptions') && method === 'GET') return await getSubscriptions(headers)
     if (path.endsWith('/admin/users') && method === 'GET') return await getUsers(headers)
-    if (path.endsWith('/admin/backfill') && method === 'POST') return await backfill(headers)
+    if (path.endsWith('/admin/backfill') && method === 'POST') return await reconcileMemberships(event.body, headers, payload?.email)
     if (path.endsWith('/admin/comp') && method === 'POST') return await compUser(event.body, headers, payload?.email)
     if (path.endsWith('/admin/comps') && method === 'GET') return await listComps(headers)
     if (path.endsWith('/admin/uncomp') && method === 'POST') return await uncompUser(event.body, headers, payload?.email)
@@ -491,74 +492,118 @@ async function getUsers(headers) {
   }
 }
 
-async function backfill(headers) {
-  if (!STRIPE_SECRET) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured' }) }
-  // Map every known Pro/Champion price ID (founding + regular + All-Access
-  // monthly + All-Access annual) to a plan label. Must stay in sync with the
-  // webhook's getPlanFromPrice() — when those diverge, backfill silently
-  // drops subs the webhook would have accepted (e.g. All-Access SKUs were
-  // dropped by backfill but accepted by webhook until this fix).
-  const PRICES = {}
-  // Pro tier
-  if (process.env.STRIPE_PRO_PRICE_ID) PRICES[process.env.STRIPE_PRO_PRICE_ID] = 'pro'
-  if (process.env.STRIPE_PRO_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_PRO_FOUNDING_PRICE_ID] = 'pro'
-  if (process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID] = 'pro'
-  if (process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID] = 'pro'
-  // Champion tier
-  if (process.env.STRIPE_CHAMPION_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID] = 'champion'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID] = 'champion'
-
-  let upserted = 0
-  let scanned = 0
+// "Reconcile memberships from Stripe" — preview first, apply only a
+// confirmed preview (growth audit P0-4; planning rules in reconcile.mjs).
+//
+// POST /admin/backfill  { mode: 'preview' }                  (default)
+//   Read-only: lists Stripe subscriptions and the membership rows, returns
+//   the planned changes, what was skipped and why, and a previewId.
+// POST /admin/backfill  { mode: 'apply', previewId, confirm }
+//   Recomputes the plan; refuses unless previewId matches (nothing moved)
+//   and confirm is the exact phrase from the preview. Writes ONLY the billing
+//   fields, each conditional on the row still matching the preview, and
+//   audits every row.
+async function listAllStripeSubscriptions() {
+  const out = []
   let startingAfter = null
-
-  while (true) {
+  for (;;) {
     const qs = new URLSearchParams({ limit: '100', status: 'all' })
     if (startingAfter) qs.set('starting_after', startingAfter)
-    const r = await fetch(`https://api.stripe.com/v1/subscriptions?${qs}`, {
-      headers: { Authorization: `Bearer ${STRIPE_SECRET}` },
-    })
+    const r = await fetch(`https://api.stripe.com/v1/subscriptions?${qs}`, { headers: { Authorization: `Bearer ${STRIPE_SECRET}` } })
     if (!r.ok) throw new Error(`Stripe error: ${r.status}`)
     const data = await r.json()
-    scanned += data.data.length
-
-    for (const sub of data.data) {
-      const item = sub.items.data[0]
-      const priceId = item?.price?.id
-      const plan = PRICES[priceId]
-      if (!plan) continue
-
-      // Fetch customer for email
-      const cr = await fetch(`https://api.stripe.com/v1/customers/${sub.customer}`, {
-        headers: { Authorization: `Bearer ${STRIPE_SECRET}` },
-      })
-      const cust = cr.ok ? await cr.json() : {}
-      const email = (cust.email || '').toLowerCase()
-
-      await ddb.send(new PutCommand({
-        TableName: TABLE,
-        Item: {
-          stripe_customer_id: sub.customer,
-          email,
-          stripe_subscription_id: sub.id,
-          plan,
-          status: sub.status,
-          current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
-          created_at: sub.created ? new Date(sub.created * 1000).toISOString() : null,
-          updated_at: new Date().toISOString(),
-        },
-      }))
-      upserted += 1
-    }
-
-    if (!data.has_more) break
+    out.push(...data.data)
+    if (!data.has_more) return out
     startingAfter = data.data[data.data.length - 1].id
   }
+}
 
-  return { statusCode: 200, headers, body: JSON.stringify({ scanned, upserted }) }
+async function scanMembershipRows() {
+  const rows = []
+  let ExclusiveStartKey
+  do {
+    const r = await ddb.send(new ScanCommand({ TableName: TABLE, ExclusiveStartKey }))
+    rows.push(...(r.Items || []))
+    ExclusiveStartKey = r.LastEvaluatedKey
+  } while (ExclusiveStartKey)
+  return rows
+}
+
+async function applyReconcileChange(change, actorEmail, previewId) {
+  const now = new Date().toISOString()
+  if (change.action === 'create') {
+    const cr = await fetch(`https://api.stripe.com/v1/customers/${encodeURIComponent(change.stripe_customer_id)}`, { headers: { Authorization: `Bearer ${STRIPE_SECRET}` } })
+    const cust = cr.ok ? await cr.json() : {}
+    await ddb.send(new PutCommand({
+      TableName: TABLE,
+      Item: { stripe_customer_id: change.stripe_customer_id, email: String(cust.email || '').toLowerCase(), ...change.after, created_at: now, updated_at: now, reconciled_at: now },
+      ConditionExpression: 'attribute_not_exists(stripe_customer_id)',
+    }))
+  } else {
+    const names = { '#u': 'updated_at', '#r': 'reconciled_at' }
+    const values = { ':u': now, ':r': now }
+    const sets = ['#u = :u', '#r = :r']
+    const conds = []
+    BILLING_FIELDS.forEach((field, i) => {
+      names[`#f${i}`] = field
+      values[`:a${i}`] = change.after[field] ?? null
+      sets.push(`#f${i} = :a${i}`)
+      if (change.before[field] === null || change.before[field] === undefined) {
+        conds.push(`(attribute_not_exists(#f${i}) OR #f${i} = :null)`)
+        values[':null'] = null
+      } else {
+        values[`:b${i}`] = change.before[field]
+        conds.push(`#f${i} = :b${i}`)
+      }
+    })
+    await ddb.send(new UpdateCommand({
+      TableName: TABLE,
+      Key: { stripe_customer_id: change.stripe_customer_id },
+      UpdateExpression: `SET ${sets.join(', ')}`,
+      ConditionExpression: `attribute_exists(stripe_customer_id) AND ${conds.join(' AND ')}`,
+      ExpressionAttributeNames: names,
+      ExpressionAttributeValues: values,
+    }))
+  }
+  await audit(actorEmail, 'reconcile.row', change.stripe_customer_id, { previewId, action: change.action, before: change.before, after: change.after, revokesAccess: Boolean(change.revokesAccess) })
+}
+
+async function reconcileMemberships(rawBody, headers, actorEmail) {
+  if (!STRIPE_SECRET) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured' }) }
+  let body = {}
+  try { body = rawBody ? JSON.parse(rawBody) : {} } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON body' }) } }
+  const mode = body.mode || 'preview'
+  if (mode !== 'preview' && mode !== 'apply') return { statusCode: 400, headers, body: JSON.stringify({ error: 'mode must be preview or apply' }) }
+
+  const plan = planReconciliation({ subscriptions: await listAllStripeSubscriptions(), rows: await scanMembershipRows(), env: process.env })
+  const phrase = confirmationPhrase(plan)
+
+  if (mode === 'preview') {
+    await audit(actorEmail, 'reconcile.preview', null, { previewId: plan.previewId, counts: plan.counts })
+    return { statusCode: 200, headers, body: JSON.stringify({ mode: 'preview', previewId: plan.previewId, confirmPhrase: phrase, counts: plan.counts, changes: plan.changes, skipped: plan.skipped }) }
+  }
+  if (body.previewId !== plan.previewId) {
+    return { statusCode: 409, headers, body: JSON.stringify({ error: 'Stripe or the membership table changed since that preview. Run a new preview.', previewId: plan.previewId }) }
+  }
+  if (body.confirm !== phrase) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: `Type "${phrase}" to apply this preview.` }) }
+  }
+  if (!plan.changes.length) return { statusCode: 200, headers, body: JSON.stringify({ mode: 'apply', applied: 0, conflicts: 0, failed: 0 }) }
+
+  let applied = 0
+  let conflicts = 0
+  let failed = 0
+  for (const change of plan.changes) {
+    try {
+      await applyReconcileChange(change, actorEmail, plan.previewId)
+      applied += 1
+    } catch (err) {
+      if (err?.name === 'ConditionalCheckFailedException') conflicts += 1
+      else { failed += 1; console.error('reconcile row failed:', err?.name || err) }
+    }
+  }
+  await audit(actorEmail, 'reconcile.apply', null, { previewId: plan.previewId, counts: plan.counts, applied, conflicts, failed })
+  return { statusCode: 200, headers, body: JSON.stringify({ mode: 'apply', previewId: plan.previewId, applied, conflicts, failed }) }
 }
 
 // A COMP grant is an active sub row with no Stripe subscription behind it
@@ -825,3 +870,6 @@ async function listAuditLog(headers) {
   const items = (r.Items || []).sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
   return { statusCode: 200, headers, body: JSON.stringify({ events: items.slice(0, 100) }) }
 }
+
+// Exported for tests (reconcile-route.test.mjs); the handler is the only caller in production.
+export { reconcileMemberships }

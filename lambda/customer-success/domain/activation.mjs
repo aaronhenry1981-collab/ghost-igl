@@ -2,7 +2,7 @@
 // current plan. Steps that depend on a source we could not read are returned
 // with `done: null` so the UI can say "we couldn't check" instead of lying.
 
-import { hasPlan } from './plans.mjs'
+import { INCLUDED_SESSION_CTA, hasPlan } from './plans.mjs'
 
 export const ACTIVATION_STEP_IDS = Object.freeze(['profile', 'rank_goal', 'round_plan', 'road_to_champion', 'vod', 'coaching'])
 
@@ -56,10 +56,10 @@ export function deriveActivation(facts) {
   if ((plan === 'champion' || (Number.isFinite(credits) && credits > 0)) && !facts.identity.isAdmin) {
     steps.push({
       id: 'coaching',
-      label: 'Book your coaching session',
-      detail: plan === 'champion' ? 'Two live 1:1 sessions with Aaron are included every month.' : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use.`,
+      label: 'Use your coaching session',
+      detail: plan === 'champion' ? 'Two live 1:1 sessions with Aaron are included every month. Book them through Support, not card checkout.' : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Book through Support, not card checkout.`,
       done: facts.sources.bookings === 'ok' ? (facts.activity.coaching?.total || 0) > 0 : null,
-      cta: { label: 'Book a session', href: '/coaching/index.html#book' },
+      cta: INCLUDED_SESSION_CTA,
     })
   }
 

@@ -3,6 +3,15 @@
 
 const CHANGELOG = [
   {
+    date: '2026-09-28',
+    tag: 'fix',
+    title: 'Ranked map pool matches Operation Split Fire',
+    items: [
+      'Match Prep, the tier list and setups now use the current Ranked pool from Ubisoft\'s official map index: Kanal, Theme Park and Villa are in; Coastline, Emerald Plains and Outback are out.',
+      'Every map stays available to paid members, and Bank and Coastline stay free.',
+    ],
+  },
+  {
     date: '2026-09-17',
     tag: 'fix',
     title: 'Tools pricing and beginner coaching corrections',

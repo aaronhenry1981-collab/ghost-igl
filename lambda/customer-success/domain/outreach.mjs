@@ -127,7 +127,7 @@ export const WORKFLOWS = Object.freeze([
     render: (f) => ({
       subject: `Getting the most out of ${f.billing.planLabel}`,
       body: f.billing.plan === 'champion'
-        ? `Hey ${first(f)}, Champion includes two live 1:1 sessions with Aaron each month and you have not booked one yet. Bring one round you keep losing and we will fix it together: https://r6coaching.com/coaching/index.html#book`
+        ? `Hey ${first(f)}, Champion includes two live 1:1 sessions with Aaron each month and you have not booked one yet. Bring one round you keep losing and we will fix it together. Book it through Support (not card checkout): https://r6coaching.com/support?category=coaching_credits`
         : `Hey ${first(f)}, your plan includes VOD reviews and you have not used one yet. Upload screenshots from one lost round and you get the mistake that cost it plus one drill: https://r6coaching.com/vod`,
     }),
   },

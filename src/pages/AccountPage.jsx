@@ -165,7 +165,7 @@ export default function AccountPage() {
             </div>
             {me?.current_period_end && !comp && (
               <div className="account-muted">
-                {subStatus === 'active' ? 'Renews' : 'Ended'} {new Date(me.current_period_end).toLocaleDateString()}
+                {subStatus === 'active' || subStatus === 'trialing' ? 'Renews' : subStatus === 'past_due' ? 'Paid through' : 'Ended'} {new Date(me.current_period_end).toLocaleDateString()}
               </div>
             )}
             {comp && (
@@ -175,6 +175,13 @@ export default function AccountPage() {
           <div className="account-plan-actions">
             {isAdmin ? (
               <Link to="/admin" className="btn btn-primary btn-sm">Open admin</Link>
+            ) : subStatus === 'past_due' ? (
+              // A failed payment drops the effective plan to free, which used
+              // to show "See plans" and could start a second, duplicate
+              // checkout. Fixing the card in the billing portal restores access.
+              <button onClick={openBillingPortal} className="btn btn-primary btn-sm" disabled={portalLoading}>
+                {portalLoading ? 'Opening…' : 'Update payment method'}
+              </button>
             ) : isPaid ? (
               <button onClick={openBillingPortal} className="btn btn-primary btn-sm" disabled={portalLoading}>
                 {portalLoading ? 'Opening…' : 'Manage billing'}
@@ -190,7 +197,7 @@ export default function AccountPage() {
         <section className="account-section">
           <h2>VOD review usage</h2>
           <p className="account-muted">
-            VOD review sessions are capped to keep the AI compute fair across all subscribers. Caps reset {vodUsage.is_trial ? 'never (trial is a lifetime allowance)' : 'every 30 days from your billing period start'}.
+            VOD review sessions are capped to keep the AI compute fair across all subscribers. Caps reset {vodUsage.is_trial ? 'never (trial is a lifetime allowance)' : 'every 30 days, counted from your first review in each period'}.
           </p>
           <div style={{
             padding: '1.1rem 1.25rem',

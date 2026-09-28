@@ -7,77 +7,77 @@
         "title": "Sign-in, confirmation code and password help",
         "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
         "category": "account_login",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "get-better-vod-results",
         "title": "Get better results from AI VOD review",
         "summary": "Small changes to what you upload make the review much sharper.",
         "category": "ai_result",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "billing-and-payments",
         "title": "Billing, payments and cancelling",
-        "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+        "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
         "category": "billing_question",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "coaching-credits",
         "title": "Coaching credits and booking sessions",
-        "summary": "How coaching credits are added, used and booked.",
+        "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
         "category": "coaching_credits",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "desktop-client",
         "title": "The desktop app",
-        "summary": "What we can and cannot see about the desktop app, and what to send us if it is not working.",
+        "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
         "category": "desktop_client",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "how-recon-history-works",
         "title": "How Recon keeps your history",
-        "summary": "Recon stores dated snapshots with their source, so your progress has a timeline you can trust.",
+        "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
         "category": "historical_data",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "why-rank-or-stats-look-different",
         "title": "Why your rank or stats look different in Recon",
         "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
         "category": "rank_stat_discrepancy",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "match-replays",
         "title": "Can I upload match replays?",
-        "summary": "Replay (.rec) upload is not available in Recon today. Screenshot-based VOD review is.",
+        "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
         "category": "replay_upload",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "subscription-and-access",
         "title": "Your plan and what it unlocks",
         "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
         "category": "subscription",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "connect-your-gaming-account",
         "title": "Connect your gaming account",
-        "summary": "Tell Recon which platform and in-game name you play on so plans and stats fit your account.",
+        "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
         "category": "ubisoft_connection",
-        "status": "draft"
+        "status": "reviewed"
       },
       {
         "slug": "upload-a-vod-for-ai-review",
         "title": "Upload a VOD for AI review",
-        "summary": "AI VOD review works from screenshots of one round. Here is what it accepts and what the limits are.",
+        "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
         "category": "vod_upload",
-        "status": "draft"
+        "status": "reviewed"
       }
     ],
     "status": "ok",
@@ -92,56 +92,48 @@
           "title": "Why your rank or stats look different in Recon",
           "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
           "category": "rank_stat_discrepancy",
-          "status": "draft",
-          "score": 16.871
+          "status": "reviewed",
+          "score": 20.462
+        },
+        {
+          "slug": "connect-your-gaming-account",
+          "title": "Connect your gaming account",
+          "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
+          "category": "ubisoft_connection",
+          "status": "reviewed",
+          "score": 4.214
         },
         {
           "slug": "get-better-vod-results",
           "title": "Get better results from AI VOD review",
           "summary": "Small changes to what you upload make the review much sharper.",
           "category": "ai_result",
-          "status": "draft",
-          "score": 2.319
-        },
-        {
-          "slug": "connect-your-gaming-account",
-          "title": "Connect your gaming account",
-          "summary": "Tell Recon which platform and in-game name you play on so plans and stats fit your account.",
-          "category": "ubisoft_connection",
-          "status": "draft",
-          "score": 1.649
-        },
-        {
-          "slug": "coaching-credits",
-          "title": "Coaching credits and booking sessions",
-          "summary": "How coaching credits are added, used and booked.",
-          "category": "coaching_credits",
-          "status": "draft",
-          "score": 1.084
+          "status": "reviewed",
+          "score": 2.262
         },
         {
           "slug": "how-recon-history-works",
           "title": "How Recon keeps your history",
-          "summary": "Recon stores dated snapshots with their source, so your progress has a timeline you can trust.",
+          "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
           "category": "historical_data",
-          "status": "draft",
-          "score": 1.013
-        },
-        {
-          "slug": "subscription-and-access",
-          "title": "Your plan and what it unlocks",
-          "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
-          "category": "subscription",
-          "status": "draft",
-          "score": 0.956
+          "status": "reviewed",
+          "score": 1.277
         },
         {
           "slug": "upload-a-vod-for-ai-review",
           "title": "Upload a VOD for AI review",
-          "summary": "AI VOD review works from screenshots of one round. Here is what it accepts and what the limits are.",
+          "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
-          "status": "draft",
-          "score": 0.841
+          "status": "reviewed",
+          "score": 1.158
+        },
+        {
+          "slug": "coaching-credits",
+          "title": "Coaching credits and booking sessions",
+          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "category": "coaching_credits",
+          "status": "reviewed",
+          "score": 1.075
         }
       ],
       "status": "ok",
@@ -153,50 +145,58 @@
         {
           "slug": "upload-a-vod-for-ai-review",
           "title": "Upload a VOD for AI review",
-          "summary": "AI VOD review works from screenshots of one round. Here is what it accepts and what the limits are.",
+          "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
-          "status": "draft",
-          "score": 19.453
+          "status": "reviewed",
+          "score": 19.893
         },
         {
           "slug": "get-better-vod-results",
           "title": "Get better results from AI VOD review",
           "summary": "Small changes to what you upload make the review much sharper.",
           "category": "ai_result",
-          "status": "draft",
-          "score": 12.02
+          "status": "reviewed",
+          "score": 12.616
         },
         {
           "slug": "match-replays",
           "title": "Can I upload match replays?",
-          "summary": "Replay (.rec) upload is not available in Recon today. Screenshot-based VOD review is.",
+          "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
           "category": "replay_upload",
-          "status": "draft",
-          "score": 7.435
+          "status": "reviewed",
+          "score": 7.821
         },
         {
           "slug": "subscription-and-access",
           "title": "Your plan and what it unlocks",
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
-          "status": "draft",
-          "score": 1.937
+          "status": "reviewed",
+          "score": 2.514
         },
         {
-          "slug": "how-recon-history-works",
-          "title": "How Recon keeps your history",
-          "summary": "Recon stores dated snapshots with their source, so your progress has a timeline you can trust.",
-          "category": "historical_data",
-          "status": "draft",
-          "score": 1.438
+          "slug": "why-rank-or-stats-look-different",
+          "title": "Why your rank or stats look different in Recon",
+          "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
+          "category": "rank_stat_discrepancy",
+          "status": "reviewed",
+          "score": 1.509
+        },
+        {
+          "slug": "connect-your-gaming-account",
+          "title": "Connect your gaming account",
+          "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
+          "category": "ubisoft_connection",
+          "status": "reviewed",
+          "score": 1.095
         },
         {
           "slug": "billing-and-payments",
           "title": "Billing, payments and cancelling",
-          "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+          "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
-          "status": "draft",
-          "score": 0.754
+          "status": "reviewed",
+          "score": 0.987
         }
       ],
       "status": "ok",
@@ -208,10 +208,10 @@
         {
           "slug": "billing-and-payments",
           "title": "Billing, payments and cancelling",
-          "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+          "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
-          "status": "draft",
-          "score": 52.15
+          "status": "reviewed",
+          "score": 53.103
         }
       ],
       "status": "ok",
@@ -223,34 +223,34 @@
         {
           "slug": "billing-and-payments",
           "title": "Billing, payments and cancelling",
-          "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+          "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
-          "status": "draft",
-          "score": 36.568
+          "status": "reviewed",
+          "score": 38.402
         },
         {
           "slug": "desktop-client",
           "title": "The desktop app",
-          "summary": "What we can and cannot see about the desktop app, and what to send us if it is not working.",
+          "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
           "category": "desktop_client",
-          "status": "draft",
-          "score": 19.414
+          "status": "reviewed",
+          "score": 18.97
+        },
+        {
+          "slug": "coaching-credits",
+          "title": "Coaching credits and booking sessions",
+          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "category": "coaching_credits",
+          "status": "reviewed",
+          "score": 3.209
         },
         {
           "slug": "subscription-and-access",
           "title": "Your plan and what it unlocks",
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
-          "status": "draft",
-          "score": 2.914
-        },
-        {
-          "slug": "coaching-credits",
-          "title": "Coaching credits and booking sessions",
-          "summary": "How coaching credits are added, used and booked.",
-          "category": "coaching_credits",
-          "status": "draft",
-          "score": 1.362
+          "status": "reviewed",
+          "score": 2.037
         }
       ],
       "status": "ok",
@@ -280,12 +280,14 @@
         "email",
         "locked out"
       ],
-      "body": "## Confirmation code\nAfter sign-up, Recon emails a confirmation code. If it is not in your inbox, check spam and promotions. If you try to sign in before confirming, the sign-in page takes you back to the confirm step.\n## Forgot your password\nChoose \"Forgot password\" on the sign-in page. Recon emails a 6-digit code, and you enter it with your new password.\n## Email typed differently\nRecon signs you in with your email in lowercase. If your account was created with capital letters in the email, type it exactly as you signed up. If sign-in still fails, open a Get Help case from the email you signed up with.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Confirmation code\nAfter sign-up, Recon emails a confirmation code. If it is not in your inbox, check spam and promotions. If you try to sign in before confirming, the sign-in page takes you back to the confirm step.\n## Forgot your password\nChoose \"Forgot password?\" on the sign-in page. Recon emails a 6-digit code, and you enter it with your new password. Passwords need at least 12 characters.\n## Email typed differently\nRecon tries your email in lowercase first, then exactly as you typed it. If your account was created with capital letters in the email, type it exactly as you signed up. If you still can't sign in, email support@r6coaching.com from the address you signed up with.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "src/pages/AuthPage.jsx",
-        "src/hooks/useAuth.jsx"
+        "src/hooks/useAuth.jsx",
+        "src/features/support/player/SupportPage.jsx"
       ],
       "preview": true
     },
@@ -300,6 +302,8 @@
       "summary": "Small changes to what you upload make the review much sharper.",
       "keywords": [
         "better results",
+        "better",
+        "feedback",
         "vod tips",
         "screenshots",
         "context",
@@ -311,12 +315,14 @@
         "accuracy",
         "improve"
       ],
-      "body": "## Pick the context\nBefore uploading, open \"Add context hints\" and pick the map, site, side and operator. The review then uses that map and site's callouts and that operator's kit instead of guessing from the image.\n## Choose the right screenshots\n- Use screenshots from one round, in order: prep, the fight, and what happened after.\n- Full-screen, clear PNG or JPG images read best. Avoid phone photos of a monitor.\n- Make sure they are Rainbow Six Siege gameplay; other games are rejected.\n## Read it as a plan\nWhere the review cannot tell something from the image, it says it is unsure. Take the practice plan into your next session and review again after a few matches.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Pick the context\nAfter you add your screenshots, open \"Add context hints (optional)\" and pick the map, site, side and operator. The review then uses that site's callouts and setup notes and that operator's role instead of guessing from the image.\n## Choose the right screenshots\n- Use screenshots from one round, in order: prep, the fight, and what happened after.\n- Full-screen, clear PNG or JPG images read best. Avoid phone photos of a monitor.\n- Use Siege gameplay only. If none of the screenshots look like Siege, the review stops and says so, and that attempt still counts toward your allowance.\n## Read it as a plan\nThe review is set up to say when it is unsure instead of guessing. Take the practice plan into your next session and review again after a few matches.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "lambda/vod/index.mjs",
         "lambda/vod/coach-contract.mjs",
+        "lambda/vod/r6-context.json",
         "src/components/vod/SessionUploadZone.jsx"
       ],
       "preview": true
@@ -329,11 +335,12 @@
         "how_to",
         "broken"
       ],
-      "summary": "Update your card, see invoices or cancel through the billing portal, and what to do about a charge you do not recognise.",
+      "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
       "keywords": [
         "billing",
         "payment",
         "card",
+        "update my card",
         "invoice",
         "receipt",
         "charged",
@@ -345,13 +352,15 @@
         "past due",
         "stripe"
       ],
-      "body": "## The billing portal\nPaid members open the billing portal from \"Manage billing\" on the Account page. Payments are handled by Stripe. In the portal you can update your card, see invoices and cancel.\n## If a payment fails\nPaid features pause until the card is updated. Update it in the billing portal. If you cannot find the way in, open a Get Help case.\n## A charge you do not recognise\nOpen a Get Help case with the date and amount on your statement. We can see your membership record and will check it against the charge. Billing changes are reviewed and made by a person.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Managing billing\nWhile your membership is active, \"Manage billing\" on your Account page opens Stripe's secure billing portal, where your subscription and payment details are managed. Payments are handled by Stripe.\n## If a payment fails\nPaid features pause until a payment goes through. Use \"Update payment method\" on your Recon home to change your card. If you cannot find the way in, open a case from Support.\n## A charge you do not recognise\nOpen a case from Support with the date and amount on your statement. We can see your membership record and will check it against the charge. Billing corrections are reviewed and made by a person.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "lambda/subscription/index.mjs",
         "src/pages/AccountPage.jsx",
-        "lambda/customer-success/domain/plans.mjs"
+        "lambda/customer-success/domain/mission.mjs",
+        "src/features/home/sections.jsx"
       ],
       "preview": true
     },
@@ -363,7 +372,7 @@
         "how_to",
         "broken"
       ],
-      "summary": "How coaching credits are added, used and booked.",
+      "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
       "keywords": [
         "coaching",
         "credits",
@@ -375,13 +384,16 @@
         "reschedule",
         "coach"
       ],
-      "body": "## How credits are added\nA Champion membership sets your coaching credits to two each time the monthly payment goes through. Unused credits do not roll over to the next month.\n## Booking\nBook from the coaching page. Sessions are 60 minutes, need at least 12 hours' notice and can be booked up to 21 days ahead. A slot is held for a few minutes while you finish booking, and if you have a credit, the booking uses it.\n## Changing a session\nCancelling a booked session does not put the credit back automatically. If you need to move a session, open a Get Help case first.\n## Credits look wrong?\nOpen a Get Help case with roughly when you paid. We can see your bookings and the credits on record.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## How credits are added\nA Champion membership sets your coaching credits to two each time the monthly payment goes through. Unused credits do not roll over to the next month.\n## Champion members: before you book\nThe coaching page does not apply your included credits yet: it sends every booking to card checkout. Don't pay by card for a session your plan includes. Open a case from Support to use an included session.\n## Booking a paid session\nBook from the coaching page. It shows the session length and the times you can pick. A slot is held for a few minutes while you finish booking.\n## Changing a session\nTo move a session, use the reschedule link in your confirmation email. Don't cancel and rebook: cancelling does not return a credit.\n## Credits look wrong?\nOpen a case from Support with roughly when you paid. We can see your bookings and the credits on record.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "lambda/booking/index.mjs",
+        "lambda/webhook/index.mjs",
+        "public/coaching/index.html",
         "lambda/customer-success/domain/plans.mjs",
-        "public/coaching/index.html"
+        "lambda/customer-success/support/diagnostics/coaching.mjs"
       ],
       "preview": true
     },
@@ -393,7 +405,7 @@
         "how_to",
         "broken"
       ],
-      "summary": "What we can and cannot see about the desktop app, and what to send us if it is not working.",
+      "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
       "keywords": [
         "desktop",
         "app",
@@ -404,13 +416,17 @@
         "download",
         "capture card",
         "live coach",
-        "windows"
+        "windows",
+        "activation",
+        "token"
       ],
-      "body": "## Availability\nPaid members can download the Windows desktop app (beta) from Desktop setup in the account menu, then activate it with the token on the Activation page.\nThe installer is not code-signed yet, so Windows SmartScreen may warn you. Choose More info, then Run anyway.\n## If you have the app and it is not working\nRecon cannot see which version you installed or whether it activated. Open a Get Help case with the app version, your Windows version, and whether you use PC capture or a console capture card.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Availability\nPaid members can download the Windows desktop app (beta) from Desktop setup in the account menu, then activate it with the token on the Activation page. A token stops working after 30 days or at the end of your paid period, whichever comes first; get a fresh one from the Activation page.\nThe installer is not code-signed yet, so Windows SmartScreen may warn you. Choose More info, then Run anyway.\n## If you have the app and it is not working\nRecon cannot see which version you installed or whether it activated. Open a case from Support with the app version, your Windows version, and whether you use PC capture or a console capture card.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "src/main.jsx",
+        "src/components/Navbar.jsx",
         "src/pages/DownloadPage.jsx",
         "src/pages/ActivatePage.jsx",
         "lambda/subscription/index.mjs"
@@ -424,7 +440,7 @@
       "intents": [
         "how_to"
       ],
-      "summary": "Recon stores dated snapshots with their source, so your progress has a timeline you can trust.",
+      "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
       "keywords": [
         "history",
         "historical",
@@ -437,14 +453,15 @@
         "data",
         "privacy"
       ],
-      "body": "## Dated snapshots\nEach time Recon records a value about you (for example a rank you entered, or a summary from a VOD review), it keeps it as a dated snapshot with its source and how it was verified. Older snapshots are kept, so history is not overwritten.\n## Which value Recon shows\nWhen several sources have the same value, Recon prefers the more authoritative, more recent one. Anything older than a day is treated as stale, and self-reported values stay labelled as self-reported.\n## Your data\nYour history is private to you by default. To get a copy of your data or to have it deleted, open a Get Help case. A person verifies the request from your account email before anything is exported or deleted.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Dated snapshots\nRecon's player record stores dated snapshots with their source and how they were verified. New snapshots are added instead of overwriting older ones. Profile values such as your saved rank and goal are different: saving a new one replaces the old one.\n## Which value Recon shows\nRecon prefers a value from the last 24 hours, then the more trusted source (official data over your own input), then the most recent. Anything older than a day is treated as stale, and values you reported yourself stay labelled as self-reported.\n## Your data\nYour history isn't shared with other players. Recon staff can see it when helping you. For a copy of your data or to ask for it to be deleted, follow the Privacy page: email privacy@r6coaching.com from your account email.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "docs/RECON-PLAYER-DATA-FOUNDATION.md",
         "lambda/player-data/core.mjs",
         "lambda/player-data/index.mjs",
-        "docs/player-success/ARCHITECTURE.md"
+        "src/pages/PrivacyPage.jsx"
       ],
       "preview": true
     },
@@ -470,15 +487,17 @@
         "tracker",
         "mismatch"
       ],
-      "body": "## Where the numbers come from\n- The rank on your Recon home is the rank you entered in your profile. Update it there when you rank up or down.\n- Tracker stats on the Progress page come from Tracker Network when that lookup is available. Results are cached for a few minutes, so a match you just finished may not show yet.\n- Recon does not read your rank live from Ubisoft.\n## Common reasons for a difference\n- A new season reset or re-placed your rank in game.\n- The profile rank was set a while ago and not updated.\n- The tracker is looking up a different name or platform. Check the in-game name on your Account page.\n## Still wrong?\nOpen a Get Help case with the rank or stat you see in game and where Recon shows something different. Recon keeps dated records of each value and where it came from, so we can check whether the gap is on the source side or ours.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Where the numbers come from\n- The rank on your Recon home is the last rank you saved: from profile setup, from your home, or a rank you confirmed from a screenshot on the Progress page. Update it from your home.\n- Recon does not pull stats from Tracker Network or read your rank live from Ubisoft. On the Progress page you can upload a screenshot of your Ubisoft or TRN overview; Recon reads the visible rank and stats and asks you to confirm them. After 24 hours it asks for a new screenshot.\n## Common reasons for a difference\n- A new season reset or re-placed your rank in game.\n- The rank you saved was set a while ago and not updated.\n- The in-game name or platform on your Account page doesn't match the account you play ranked on.\n## Still wrong?\nOpen a case from Support with the rank or stat you see in game and where Recon shows something different. Recon keeps the latest rank you saved and, for a screenshot, when you confirmed it. Add a screenshot of your in-game rank to the case.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
-        "src/features/home/PlayerHome.jsx",
+        "lambda/customer-success/domain/facts.mjs",
         "src/features/home/RankGoalEditor.jsx",
         "src/pages/ProgressPage.jsx",
+        "src/lib/r6Identity.js",
         "lambda/trn/index.mjs",
-        "lambda/player-data/core.mjs"
+        "lambda/player-data/providers.mjs"
       ],
       "preview": true
     },
@@ -489,7 +508,7 @@
       "intents": [
         "how_to"
       ],
-      "summary": "Replay (.rec) upload is not available in Recon today. Screenshot-based VOD review is.",
+      "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
       "keywords": [
         "replay",
         "rec",
@@ -498,11 +517,13 @@
         "replay file",
         "upload replay"
       ],
-      "body": "## Short answer\nRecon does not accept replay (.rec) files today, and nothing reads replays from your game.\n## What works now\nFor an AI review of a round, take screenshots of the key moments and upload them on the VOD review page. See \"Upload a VOD for AI review\".\n## Want replay support?\nTell us on Get Help what you would use it for. Requests are logged as feature requests.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Short answer\nRecon does not accept replay (.rec) files, and nothing on the website reads replays from your game.\n## What works now\nFor an AI review of a round (Pro and above), take screenshots of the key moments and upload them on the VOD review page. See \"Upload a VOD for AI review\".\n## Want replay support?\nTell us in Support what you would use it for. We log it as a replay request.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "lambda/player-data/providers.mjs",
+        "lambda/customer-success/support/diagnostics/replay.mjs",
         "src/pages/VodPage.jsx",
         "lambda/vod/index.mjs"
       ],
@@ -529,14 +550,20 @@
         "access",
         "locked",
         "upgrade",
-        "features"
+        "features",
+        "include",
+        "includes"
       ],
-      "body": "## Plans\n- Basic (free account): sample maps and round plans, the operator catalog and the Road to Champion checklist.\n- Pro: every ranked map and site plan, match prep and ban recommendations, and AI VOD review.\n- Elite: everything in Pro, plus premium tactics and verified setups and a larger VOD review allowance.\n- Champion: everything in Elite, plus two live 1:1 coaching sessions with a Recon coach each month.\nCurrent prices are on the pricing page.\n## Where to see your plan\nYour Account page shows your plan and what you have access to. Your Recon home shows your membership status.\n## Why paid features can pause\nPaid features stay on while your membership is active. If a payment does not go through, paid features pause until the card is updated. If you paid and a feature is still locked, open a Get Help case: we can see your membership record, so you will not need to resend payment details.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## Plans\n- Basic (free account): the Bank and Coastline round plans, the operator catalog, match prep from public data and the Road to Champion checklist.\n- Pro: plans for every map and site, ban recommendations and enemy intel, AI VOD review and the Windows desktop app (beta).\n- Elite: everything in Pro, plus premium tactics and verified setups and a larger VOD review allowance.\n- Champion: everything in Elite, plus two live 1:1 coaching sessions a month. See \"Coaching credits and booking sessions\" before you book.\nCurrent prices are on the pricing page.\n## Where to see your plan\nYour Account page shows your plan and what you have access to. Your Recon home shows your membership status.\n## Why paid features can pause\nPaid features stay on while your membership is active. If a payment fails, paid features pause; they come back once a payment goes through. If you paid and a feature is still locked, open a case from Support: we can see your membership record, so you will not need to resend payment details.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "lambda/customer-success/domain/plans.mjs",
+        "src/config/planFacts.js",
+        "src/components/strats/ChampionGate.jsx",
         "lambda/subscription/index.mjs",
+        "lambda/webhook/index.mjs",
         "src/pages/AccountPage.jsx",
         "lambda/customer-success/domain/home.mjs"
       ],
@@ -550,7 +577,7 @@
         "how_to",
         "broken"
       ],
-      "summary": "Tell Recon which platform and in-game name you play on so plans and stats fit your account.",
+      "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
       "keywords": [
         "ubisoft",
         "ubi connect",
@@ -564,13 +591,15 @@
         "tracker",
         "in-game name"
       ],
-      "body": "## What Recon asks for\nWhen you finish your player profile, Recon asks for your platform (PC, Xbox or PlayStation). Your Ubisoft username, current rank, goal rank and main role are optional and can be added later.\n## Where to change it\n- Account page: the in-game name field (Ubisoft, Xbox or PSN ID).\n- Your Recon home: rank and goal.\n- Progress page: \"Connect tracker\" saves the name and platform the tracker should look up.\n## What \"connected\" means\nRecon uses the name you enter to look up public data. It does not verify that you own the account, so type it exactly as it appears in game.\n## Your passwords stay yours\nRecon never asks for your Ubisoft, PlayStation or Xbox password, and it refuses password or token fields if anything tries to send them. If someone asks for your password in Recon's name, report it from Get Help.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## What Recon asks for\nWhen you set up your player profile, Recon asks for a display name and your platform (PC, Xbox or PlayStation). Everything else is optional: region, Discord, current rank, goal rank, main role and Ubisoft username. You can skip setup and finish it later.\n## Where to change it\n- Account page: \"In-game name (Ubisoft / Xbox / PSN ID)\" and your platform.\n- Your Recon home: rank and goal.\n- Progress page: upload a screenshot of your Ubisoft or TRN overview. Recon reads the visible rank and stats and asks you to confirm them.\n## What \"connected\" means\nRecon uses the name and platform on your Account page to link to your public tracker profile and to tie a confirmed rank screenshot to that account. It does not pull stats automatically, and it does not verify that you own the account, so type the name exactly as it appears in game.\n## Your passwords stay yours\nRecon never asks for your Ubisoft, PlayStation or Xbox password. Recon's player-data service rejects any password or token field sent to it. If someone asks for your password in Recon's name, report it from Support. If you can't sign in, email support@r6coaching.com.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "src/components/ProfileSetupModal.jsx",
         "src/pages/AccountPage.jsx",
         "src/pages/ProgressPage.jsx",
+        "src/lib/r6Identity.js",
         "src/features/home/RankGoalEditor.jsx",
         "lambda/player-data/core.mjs",
         "lambda/player-data/providers.mjs"
@@ -585,7 +614,7 @@
         "how_to",
         "broken"
       ],
-      "summary": "AI VOD review works from screenshots of one round. Here is what it accepts and what the limits are.",
+      "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
       "keywords": [
         "vod",
         "upload",
@@ -599,16 +628,20 @@
         "allowance",
         "limit",
         "video",
-        "clip"
+        "clip",
+        "large",
+        "too large"
       ],
-      "body": "## What to upload\nVOD review reads screenshots, not video files. Upload screenshots from one round: PNG, JPG, WEBP or GIF, up to 5 MB each. The upload box shows how many screenshots your plan allows per review (Pro: up to 5; never more than 10).\nVideo clips and stream links are not supported today.\n## Add context (optional)\nOpen \"Add context hints\" to pick the map, site, side and operator. The review uses the map and site you pick, which makes the feedback sharper.\n## Your allowance\nPaid plans include a monthly number of reviews. Your usage shows above the upload box and on your Account page, with the date it resets. When the allowance is used up, the page tells you and shows the reset date.\n## Keep what you need\nRecon keeps your review count and a summary, not the full report. Save anything you want to keep.\n## If something goes wrong\nIf the page says the images could not be analysed, try clearer PNG or JPG screenshots. If it says the service is busy, try again a little later. If a review fails and you think it counted against your allowance, open a Get Help case with roughly when it happened.",
-      "status": "draft",
-      "reviewedBy": null,
+      "body": "## What to upload\nVOD review reads screenshots, not video files. Upload screenshots from one round: PNG, JPG, WEBP or GIF, up to 5 MB each. The upload box shows how many screenshots your plan allows per review: Pro up to 5, Elite and Champion up to 10.\nVideo clips and stream links are not supported. AI VOD review is included with Pro and above.\n## Add context (optional)\nAfter you add your screenshots, open \"Add context hints (optional)\" to pick the map, site, side and operator. The review uses the map and site you pick, which makes the feedback sharper.\n## Your allowance\nPaid plans include a set number of reviews per 30-day period. The period starts with your first review after the previous one ended. Your usage shows above the upload box and on your Account page; after your first review in a period, both show when it resets. When the allowance is used up, the page tells you and shows the reset date.\n## What counts\nA review that fails after the AI has started still counts toward your allowance. Problems caught before that do not count: a wrong file type, a file that is too large, or too many screenshots.\n## Keep what you need\nYour account keeps a short summary of each review: the main mistake, a drill and the score. You can't reopen the full report later, so save anything you want to keep.\n## If something goes wrong\nIf the page says the images could not be analysed, try clearer PNG or JPG screenshots. If it says reviews are rate-limited, paused or could not be reserved, try again later. If you think a review was counted by mistake, open a case from Support with roughly when it happened.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
       "sources": [
         "src/pages/VodPage.jsx",
         "src/components/vod/SessionUploadZone.jsx",
         "lambda/vod/index.mjs",
-        "lambda/customer-success/domain/home.mjs",
+        "lambda/vod/coach-contract.mjs",
+        "src/api/vodApi.js",
         "src/pages/AccountPage.jsx"
       ],
       "preview": true
@@ -617,8 +650,118 @@
   "production": {
     "list": {
       "q": "",
-      "articles": [],
+      "articles": [
+        {
+          "slug": "sign-in-and-password-help",
+          "title": "Sign-in, confirmation code and password help",
+          "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
+          "category": "account_login",
+          "status": "reviewed"
+        },
+        {
+          "slug": "get-better-vod-results",
+          "title": "Get better results from AI VOD review",
+          "summary": "Small changes to what you upload make the review much sharper.",
+          "category": "ai_result",
+          "status": "reviewed"
+        },
+        {
+          "slug": "billing-and-payments",
+          "title": "Billing, payments and cancelling",
+          "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
+          "category": "billing_question",
+          "status": "reviewed"
+        },
+        {
+          "slug": "coaching-credits",
+          "title": "Coaching credits and booking sessions",
+          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "category": "coaching_credits",
+          "status": "reviewed"
+        },
+        {
+          "slug": "desktop-client",
+          "title": "The desktop app",
+          "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
+          "category": "desktop_client",
+          "status": "reviewed"
+        },
+        {
+          "slug": "how-recon-history-works",
+          "title": "How Recon keeps your history",
+          "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
+          "category": "historical_data",
+          "status": "reviewed"
+        },
+        {
+          "slug": "why-rank-or-stats-look-different",
+          "title": "Why your rank or stats look different in Recon",
+          "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
+          "category": "rank_stat_discrepancy",
+          "status": "reviewed"
+        },
+        {
+          "slug": "match-replays",
+          "title": "Can I upload match replays?",
+          "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
+          "category": "replay_upload",
+          "status": "reviewed"
+        },
+        {
+          "slug": "subscription-and-access",
+          "title": "Your plan and what it unlocks",
+          "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
+          "category": "subscription",
+          "status": "reviewed"
+        },
+        {
+          "slug": "connect-your-gaming-account",
+          "title": "Connect your gaming account",
+          "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
+          "category": "ubisoft_connection",
+          "status": "reviewed"
+        },
+        {
+          "slug": "upload-a-vod-for-ai-review",
+          "title": "Upload a VOD for AI review",
+          "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
+          "category": "vod_upload",
+          "status": "reviewed"
+        }
+      ],
       "status": "ok"
+    },
+    "article": {
+      "slug": "sign-in-and-password-help",
+      "title": "Sign-in, confirmation code and password help",
+      "category": "account_login",
+      "intents": [
+        "how_to",
+        "broken"
+      ],
+      "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
+      "keywords": [
+        "login",
+        "log in",
+        "sign in",
+        "password",
+        "forgot password",
+        "reset",
+        "confirmation code",
+        "verification",
+        "code",
+        "email",
+        "locked out"
+      ],
+      "body": "## Confirmation code\nAfter sign-up, Recon emails a confirmation code. If it is not in your inbox, check spam and promotions. If you try to sign in before confirming, the sign-in page takes you back to the confirm step.\n## Forgot your password\nChoose \"Forgot password?\" on the sign-in page. Recon emails a 6-digit code, and you enter it with your new password. Passwords need at least 12 characters.\n## Email typed differently\nRecon tries your email in lowercase first, then exactly as you typed it. If your account was created with capital letters in the email, type it exactly as you signed up. If you still can't sign in, email support@r6coaching.com from the address you signed up with.",
+      "status": "reviewed",
+      "reviewedBy": "Release review 2026-09-28 (checked against production code)",
+      "reviewedOn": "2026-09-28",
+      "sources": [
+        "src/pages/AuthPage.jsx",
+        "src/hooks/useAuth.jsx",
+        "src/features/support/player/SupportPage.jsx"
+      ]
     },
     "articleNotFound": {
       "error": "article not found"

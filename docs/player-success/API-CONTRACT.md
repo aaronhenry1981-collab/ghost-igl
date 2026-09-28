@@ -1301,7 +1301,13 @@ _Generated from the snapshots of the real backend. Do not edit by hand; run `nod
       }
       basis: string
     }
-    helpArticles: []
+    helpArticles: Array<{
+      kind: string
+      slug: string
+      title: string
+      status: string
+      basis: string
+    }>
     suggestedEscalation: {
       kind: string
       team: string
@@ -1808,7 +1814,13 @@ _Generated from the snapshots of the real backend. Do not edit by hand; run `nod
       }
       basis: string
     }
-    helpArticles: []
+    helpArticles: Array<{
+      kind: string
+      slug: string
+      title: string
+      status: string
+      basis: string
+    }>
     suggestedEscalation: {
       kind: string
       team: string
@@ -2411,7 +2423,13 @@ _Generated from the snapshots of the real backend. Do not edit by hand; run `nod
       }
       basis: string
     }
-    helpArticles: []
+    helpArticles: Array<{
+      kind: string
+      slug: string
+      title: string
+      status: string
+      basis: string
+    }>
     suggestedEscalation: {
       kind: string
       team: string
@@ -3216,7 +3234,8 @@ _Generated from the snapshots of the real backend. Do not edit by hand; run `nod
   keywords: Array<string>
   body: string
   status: string
-  reviewedBy: null
+  reviewedBy: string
+  reviewedOn: string
   sources: Array<string>
   preview: boolean
 }

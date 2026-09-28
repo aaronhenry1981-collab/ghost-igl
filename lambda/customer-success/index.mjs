@@ -94,6 +94,31 @@ const supportEmailTokenSecret = env.SUPPORT_EMAIL_TOKEN_SECRET_ARN
   })()
   : null
 
+// Staff-only new-case email through the existing SES setup (the booking
+// Lambda's provider and verified r6coaching.com domain). OFF unless
+// SUPPORT_STAFF_NOTIFY=true AND a recipient and sender are configured. The
+// message holds the case number, category, priority and a Command Center
+// link: never the player's email or words.
+const supportStaffNotify = flag('SUPPORT_STAFF_NOTIFY') && env.SUPPORT_STAFF_NOTIFY_TO && env.SUPPORT_STAFF_NOTIFY_FROM
+  ? async ({ caseNumber, category, priority, source, linked }) => {
+    const { SESv2Client, SendEmailCommand } = await import('@aws-sdk/client-sesv2')
+    const link = `https://r6coaching.com/admin/crm/support/cases/${encodeURIComponent(caseNumber)}`
+    const text = [
+      `New support case ${caseNumber}${linked ? ' (reopened from a closed case)' : ''}.`,
+      `Category: ${category || 'unclassified'} · Priority: ${priority || 'normal'} · Source: ${source}`,
+      '',
+      `Open it in the Command Center: ${link}`,
+      '',
+      'Staff-only notification. It never includes the player\'s email or message.',
+    ].join('\n')
+    await new SESv2Client({ region }).send(new SendEmailCommand({
+      FromEmailAddress: env.SUPPORT_STAFF_NOTIFY_FROM,
+      Destination: { ToAddresses: env.SUPPORT_STAFF_NOTIFY_TO.split(',').map((s) => s.trim()).filter(Boolean) },
+      Content: { Simple: { Subject: { Data: `[Recon support] New case ${caseNumber} · ${category || 'unclassified'}` }, Body: { Text: { Data: text } } } },
+    }))
+  }
+  : null
+
 export const handler = createApp({
   tables,
   store,
@@ -113,6 +138,7 @@ export const handler = createApp({
       proactive: flag('SUPPORT_PROACTIVE'),
       copilotModel: flag('SUPPORT_COPILOT_MODEL'),
       emailTokenSecret: supportEmailTokenSecret,
+      notifyStaff: supportStaffNotify,
     },
     activityTrackingSince: env.ACTIVITY_TRACKING_SINCE || null,
     vodLimits: vodLimitsFromEnv(env),

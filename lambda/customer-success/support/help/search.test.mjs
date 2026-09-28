@@ -9,12 +9,12 @@ import { CATEGORIES } from '../classify.mjs'
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..')
 
-test('every article is a draft awaiting review, with verified sources', () => {
+test('every article is reviewed (who and when recorded), with verified sources', () => {
   assert.ok(ARTICLES.length >= 10)
   const slugs = new Set()
   for (const a of ARTICLES) {
-    assert.equal(a.status, 'draft', a.slug)
-    assert.equal(a.reviewedBy, null, a.slug)
+    assert.equal(a.status, 'reviewed', a.slug)
+    assert.ok(a.reviewedBy && /^\d{4}-\d{2}-\d{2}$/.test(a.reviewedOn), a.slug)
     assert.ok(!slugs.has(a.slug), `duplicate ${a.slug}`)
     slugs.add(a.slug)
     assert.match(a.slug, /^[a-z0-9-]+$/)
@@ -41,21 +41,22 @@ test('article copy follows the product-truth rules', () => {
   }
 })
 
-test('drafts are hidden by default: public search and getArticle return nothing today', () => {
-  assert.deepEqual(searchHelp('rank wrong'), [])
-  assert.deepEqual(searchHelp('how do i cancel'), [])
-  assert.equal(getArticle('billing-and-payments'), null)
-  const draft = getArticle('billing-and-payments', { includeDrafts: true })
-  assert.equal(draft.slug, 'billing-and-payments')
-  draft.title = 'mutated'
-  assert.notEqual(getArticle('billing-and-payments', { includeDrafts: true }).title, 'mutated', 'returns a copy')
+test('drafts stay hidden by default; reviewed articles are served; copies are returned', () => {
+  const withDraft = ARTICLES.map((a) => (a.slug === 'billing-and-payments' ? { ...a, status: 'draft', reviewedBy: null } : a))
+  assert.equal(getArticle('billing-and-payments', { articles: withDraft }), null)
+  assert.ok(!searchHelp('update my card', { articles: withDraft }).some((h) => h.slug === 'billing-and-payments'))
+  assert.equal(getArticle('billing-and-payments', { articles: withDraft, includeDrafts: true }).slug, 'billing-and-payments')
+  assert.ok(searchHelp('rank wrong').length > 0, 'reviewed articles are public')
+  const served = getArticle('billing-and-payments')
+  served.title = 'mutated'
+  assert.notEqual(getArticle('billing-and-payments').title, 'mutated', 'returns a copy')
   assert.equal(getArticle('does-not-exist', { includeDrafts: true }), null)
 })
 
 test('a reviewed article is served without includeDrafts', () => {
   const reviewed = ARTICLES.map((a) => (a.slug === 'match-replays' ? { ...a, status: 'reviewed', reviewedBy: 'reviewer' } : a))
   const hits = searchHelp('can i upload a replay file', { articles: reviewed })
-  assert.deepEqual(hits.map((h) => h.slug), ['match-replays'])
+  assert.equal(hits[0].slug, 'match-replays', 'the replay article ranks first')
   assert.equal(getArticle('match-replays', { articles: reviewed }).status, 'reviewed')
 })
 
@@ -121,9 +122,9 @@ test('case trends produce proposals only (never published)', () => {
 })
 
 test('object-form calls used by the support service', () => {
-  assert.deepEqual(searchHelp({ q: 'rank wrong', limit: 3 }), [], 'still reviewed-only')
+  assert.equal(searchHelp({ q: 'rank wrong', limit: 3 })[0].slug, 'why-rank-or-stats-look-different', 'reviewed articles are public')
   const hits = searchHelp({ q: 'rank wrong', limit: 3, includeDrafts: true, intent: 'broken' })
   assert.equal(hits[0].slug, 'why-rank-or-stats-look-different')
-  assert.equal(getArticle({ slug: 'match-replays' }), null)
+  assert.equal(getArticle({ slug: 'match-replays' }).slug, 'match-replays')
   assert.equal(getArticle({ slug: 'match-replays', includeDrafts: true }).slug, 'match-replays')
 })

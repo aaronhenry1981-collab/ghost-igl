@@ -9,7 +9,7 @@
 // facts that triggered it so the player (and Aaron) can see why it was chosen.
 
 import { toMs } from './facts.mjs'
-import { hasPlan, PLAN_LABEL } from './plans.mjs'
+import { hasPlan, INCLUDED_SESSION_CTA, PLAN_LABEL } from './plans.mjs'
 
 const DAY = 86400000
 
@@ -138,9 +138,9 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
       kind: 'coaching',
       title: 'Book your coaching session',
       body: b.plan === 'champion'
-        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one while you still have them.'
-        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use.`,
-      cta: { label: 'Book a session', href: '/coaching/index.html#book' },
+        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one through Support while you still have them; don\'t pay by card.'
+        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Book through Support; don\'t pay by card.`,
+      cta: INCLUDED_SESSION_CTA,
       evidence: [b.plan === 'champion' ? 'No session booked in the last 30 days' : `${credits} unused credit${credits === 1 ? '' : 's'}`],
     }
     : null
@@ -297,7 +297,7 @@ export function deriveHelp(facts) {
     options.push({ id: 'message', label: 'Message Recon 6', detail: 'Questions, bugs or billing. Aaron reads every message.', cta: { label: 'Send a message', action: 'message_support' } })
   }
   options.push(plan === 'champion'
-    ? { id: 'coaching', label: 'Book a live session', detail: 'Two 1:1 sessions with Aaron are included each month.', cta: { label: 'Book a session', href: '/coaching/index.html#book' } }
+    ? { id: 'coaching', label: 'Book a live session', detail: 'Two 1:1 sessions with Aaron are included each month. Book them through Support, not card checkout.', cta: INCLUDED_SESSION_CTA }
     : { id: 'coaching', label: 'Book a 1:1 session', detail: 'First session $20. Aaron reviews your rounds with you.', cta: { label: 'See coaching', href: '/coaching/index.html' } })
   options.push({ id: 'email', label: 'Email support', detail: 'support@r6coaching.com', cta: { label: 'Email us', href: 'mailto:support@r6coaching.com' } })
   return options
