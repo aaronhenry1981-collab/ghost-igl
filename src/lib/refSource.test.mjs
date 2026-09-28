@@ -34,6 +34,22 @@ test('captures complete UTM attribution and keeps the source available for profi
   })
 })
 
+test('keeps utm_term when a campaign link carries it', () => {
+  setBrowser({
+    search: '?utm_source=tiktok&utm_medium=social&utm_campaign=site_files&utm_content=ep001&utm_term=oregon',
+  })
+
+  captureRefSource()
+
+  assert.deepEqual(getCampaignAttribution(), {
+    source: 'tiktok',
+    medium: 'social',
+    campaign: 'site_files',
+    content: 'ep001',
+    term: 'oregon',
+  })
+})
+
 test('infers TikTok from the referrer when the app receives no UTM query', () => {
   setBrowser({ referrer: 'https://www.tiktok.com/@recon6coach/video/123' })
 

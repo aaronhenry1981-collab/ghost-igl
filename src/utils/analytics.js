@@ -28,6 +28,7 @@ export function track(event, props) {
         medium: campaign.medium || undefined,
         campaign: campaign.campaign || undefined,
         content: campaign.content || undefined,
+        term: campaign.term || undefined,
         path: window.location.pathname,
         ...(props || {}),
       }).filter(([, value]) => value !== undefined && value !== '')
