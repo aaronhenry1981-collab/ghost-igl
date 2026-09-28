@@ -194,14 +194,15 @@ Resources:
       DefaultRouteSettings:
         ThrottlingBurstLimit: 40
         ThrottlingRateLimit: 20
+      # Literal on purpose: SAM silently drops an HttpApi CorsConfiguration
+      # whose AllowOrigins is an intrinsic (!If), which left the first deploy
+      # with no CORS and every browser preflight 404ing. A non-production
+      # stack that needs DevOrigin adds it here by hand; the function's
+      # ALLOWED_ORIGINS below still honours DevOrigin.
       CorsConfiguration:
-        AllowOrigins: !If
-          - HasDevOrigin
-          - - https://r6coaching.com
-            - https://www.r6coaching.com
-            - !Ref DevOrigin
-          - - https://r6coaching.com
-            - https://www.r6coaching.com
+        AllowOrigins:
+          - https://r6coaching.com
+          - https://www.r6coaching.com
         AllowHeaders:
           - Authorization
           - Content-Type
