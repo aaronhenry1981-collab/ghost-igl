@@ -25,6 +25,7 @@
 //     reverse on top                          -> row canceled, no further cancels
 
 import { randomBytes } from 'node:crypto'
+import { assertTestEvent, hasExpectedEvents } from './sandbox-support.mjs'
 import { createFakeDynamo } from '../test-support/fakeDynamo.mjs'
 
 const key = process.env.STRIPE_SANDBOX_KEY || ''
@@ -81,9 +82,11 @@ async function advance(clock, seconds) {
 }
 
 let clock
+let product
+const createdPrices = []
 const allEvents = []
 const seen = new Set()
-async function collect(customerId, ownIds, { wantTypes = [], timeoutMs = 60000 } = {}) {
+async function collect(customerId, ownIds, { wantTypes = [], subscriptionId, timeoutMs = 60000 } = {}) {
   const deadline = Date.now() + timeoutMs
   const fresh = []
   for (;;) {
@@ -91,10 +94,12 @@ async function collect(customerId, ownIds, { wantTypes = [], timeoutMs = 60000 }
       const o = e.data.object
       const related = o.customer === customerId || ownIds.has(o.id) || ownIds.has(o.subscription) || ownIds.has(o.parent?.subscription_details?.subscription)
       if (!related || seen.has(e.id)) continue
+      assertTestEvent(e)
       seen.add(e.id); fresh.push(e); allEvents.push(e)
     }
-    const have = new Set(allEvents.map((e) => e.type))
-    if (wantTypes.every((t) => have.has(t)) || Date.now() > deadline) break
+    const complete = hasExpectedEvents(fresh, wantTypes, subscriptionId)
+    if (complete) break
+    if (Date.now() > deadline) throw new Error('Timed out waiting for fresh subscription events: ' + wantTypes.join(', '))
     await sleep(3000)
   }
   return fresh.sort((a, b) => a.created - b.created)
@@ -102,14 +107,17 @@ async function collect(customerId, ownIds, { wantTypes = [], timeoutMs = 60000 }
 
 const startTs = Math.floor(Date.now() / 1000) - 5
 try {
-  const product = await setupStripe.products.create({ name: 'recon6-sandbox membership', metadata: { recon6: 'sandbox' } })
+  product = await setupStripe.products.create({ name: 'recon6-sandbox membership', metadata: { recon6: 'sandbox' } })
   const pro = await setupStripe.prices.create({ product: product.id, unit_amount: 1200, currency: 'usd', recurring: { interval: 'month' } })
+  createdPrices.push(pro.id)
   const elite = await setupStripe.prices.create({ product: product.id, unit_amount: 3900, currency: 'usd', recurring: { interval: 'month' } })
+  createdPrices.push(elite.id)
   process.env.STRIPE_PRO_PRICE_ID = pro.id       // handler maps -> 'pro'
   process.env.STRIPE_CHAMPION_PRICE_ID = elite.id // handler maps -> 'elite'
   const { handler } = await import('../index.mjs')
   const signer = new Stripe('sk_test_signer_only')
   const deliver = async (evt) => {
+    assertTestEvent(evt)
     const payload = JSON.stringify(evt)
     const sig = signer.webhooks.generateTestHeaderString({ payload, secret: WHSEC })
     const res = await handler({ headers: { 'stripe-signature': sig }, body: payload, isBase64Encoded: false })
@@ -143,20 +151,20 @@ try {
   // 2 renewal fails
   await useCard(bad, subA.id)
   await advance(clock, 32 * 86400)
-  await deliverFresh({ wantTypes: ['invoice.payment_failed'] })
+  await deliverFresh({ wantTypes: ['invoice.payment_failed'], subscriptionId: subA.id })
   check('2 payment failure -> past_due (no access)', row()?.status === 'past_due', `row ${row()?.status}, Stripe ${(await setupStripe.subscriptions.retrieve(subA.id)).status}`)
 
   // 3 recovery: pay the open invoice with the good card
   await useCard(good, subA.id)
   const open = (await setupStripe.invoices.list({ subscription: subA.id, status: 'open', limit: 1 })).data[0]
   if (open) await setupStripe.invoices.pay(open.id, { payment_method: good.id })
-  await deliverFresh({ wantTypes: ['invoice.paid'] })
+  await deliverFresh({ wantTypes: ['invoice.paid'], subscriptionId: subA.id })
   check('3 recovery -> access restored', row()?.status === 'active' && row()?.stripe_subscription_id === subA.id, `row ${row()?.status}, Stripe ${(await setupStripe.subscriptions.retrieve(subA.id)).status}`)
 
   // 4 renewal fails again
   await useCard(bad, subA.id)
   await advance(clock, 31 * 86400)
-  await deliverFresh({ wantTypes: ['invoice.payment_failed'] })
+  await deliverFresh({ wantTypes: ['invoice.payment_failed'], subscriptionId: subA.id })
   check('4 second failure -> past_due', row()?.status === 'past_due', `row ${row()?.status}`)
 
   // 5 replacement: Elite subscription B
@@ -177,12 +185,12 @@ try {
 
   // 7 old subscription A is cancelled
   await setupStripe.subscriptions.cancel(subA.id)
-  await deliverFresh({ wantTypes: ['customer.subscription.deleted'] })
+  await deliverFresh({ wantTypes: ['customer.subscription.deleted'], subscriptionId: subA.id })
   check('7 old subscription cancelled -> owner B unaffected', row()?.stripe_subscription_id === subB.id && row()?.status === 'active', `${row()?.status}`)
 
   // 8 owner B is cancelled
   await setupStripe.subscriptions.cancel(subB.id)
-  await deliverFresh({})
+  await deliverFresh({ wantTypes: ['customer.subscription.deleted'], subscriptionId: subB.id })
   check('8 owner cancelled -> no access', row()?.stripe_subscription_id === subB.id && row()?.status === 'canceled', `${row()?.status}`)
 
   // 9 replay and out-of-order delivery on a fresh table
@@ -205,5 +213,8 @@ try {
   log(`RESULT ${results.length - failed}/${results.length} steps passed`)
   process.exitCode = failed ? 1 : 0
 } finally {
-  if (clock) await setupStripe.testHelpers.testClocks.del(clock.id).catch((e) => console.error('clock cleanup failed:', e.message))
+  const cleanup = async (label, task) => { try { await task() } catch { console.error(label + ' cleanup failed'); process.exitCode = 1 } }
+  if (clock) await cleanup('clock', () => setupStripe.testHelpers.testClocks.del(clock.id))
+  for (const id of createdPrices) await cleanup('price', () => setupStripe.prices.update(id, { active: false }))
+  if (product) await cleanup('product', () => setupStripe.products.update(product.id, { active: false }))
 }
