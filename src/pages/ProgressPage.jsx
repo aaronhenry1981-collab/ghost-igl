@@ -6,6 +6,7 @@ import { RANKS } from '../data/ranks'
 import { analyzeRankSnapshotApi } from '../api/vodApi'
 import MechanicsLab from '../components/MechanicsLab'
 import { emptyMechanicsState, normalizeMechanicsState } from '../data/mechanicsLab'
+import { describeRankEvidence, resolveR6TrackerIdentity, r6TrackerProfileUrl } from '../lib/r6Identity'
 import {
   ALL_PROGRESS_SKILLS,
   PROGRESS_TIERS,
@@ -16,13 +17,6 @@ import {
 import './ProgressPage.css'
 
 const LOCAL_KEY = 'recon6-road-to-champion-v2'
-const TRN_PLATFORM = { ps5: 'psn', psn: 'psn', xbox: 'xbl', xbl: 'xbl', pc: 'ubi', ubi: 'ubi' }
-
-function trackerUrl(platform, ign) {
-  const slug = TRN_PLATFORM[(platform || '').toLowerCase()]
-  return slug && ign ? `https://r6.tracker.network/r6siege/profile/${slug}/${encodeURIComponent(ign)}/overview` : null
-}
-
 function normalizeRoadmap(value) {
   const source = value && typeof value === 'object' ? value : {}
   const checks = { ...(source.checks || {}) }
@@ -217,7 +211,10 @@ export default function ProgressPage() {
 
   const evidenceMap = useMemo(() => profile?.progressEvidence?.skills || {}, [profile])
   const savedR6 = account?.game_profiles?.r6 || {}
+  const trackerIdentity = resolveR6TrackerIdentity(account)
+  const trackerProfileUrl = r6TrackerProfileUrl(trackerIdentity)
   const confirmedRank = savedR6?.rank_snapshot?.rank || savedR6?.rank || null
+  const rankEvidence = describeRankEvidence(savedR6?.rank_snapshot, trackerIdentity)
   const automaticRank = profile?.observedRank || confirmedRank
   const observedTierId = tierForRank(automaticRank)
   const selectedTierId = roadmap.rankMode === 'manual'
@@ -317,7 +314,13 @@ export default function ProgressPage() {
       gameProfiles.r6 = {
         ...(gameProfiles.r6 || {}),
         rank: rankSnapshot.rank,
-        rank_snapshot: { ...rankSnapshot, confirmed_at: new Date().toISOString(), source: 'user-confirmed-screenshot' },
+        rank_snapshot: {
+          ...rankSnapshot,
+          confirmed_at: new Date().toISOString(),
+          source: 'user-confirmed-screenshot',
+          player_handle: trackerIdentity?.handle || null,
+          platform: trackerIdentity?.platform || null,
+        },
       }
       await authedRequest('/me', {
         method: 'PUT', headers: { 'Content-Type': 'application/json' },
@@ -545,8 +548,21 @@ export default function ProgressPage() {
             <div className="progress-tracker-copy">
               <span>Verified rank context</span><h2>Import what the screen proves</h2>
               <p>Upload a screenshot of your Ubisoft or TRN overview. Recon 6 reads only visible fields, shows them for confirmation, then aligns your training tier. It does not scrape or claim a live TRN connection.</p>
-              {trackerUrl(account?.platform, account?.display_name) && (
-                <a target="_blank" rel="noopener noreferrer" href={trackerUrl(account.platform, account.display_name)}>Open {account.display_name}'s TRN page →</a>
+              {trackerProfileUrl ? (
+                <div className="progress-tracker-identity">
+                  <strong>{trackerIdentity.handle} · {trackerIdentity.platform.toUpperCase()}</strong>
+                  <a target="_blank" rel="noopener noreferrer" href={trackerProfileUrl}>Open this exact TRN profile →</a>
+                  <small>Public profile link only. Recon 6 never stores a TRN or Ubisoft password.</small>
+                </div>
+              ) : (
+                <Link to="/account">Save your exact in-game ID and platform before matching stats →</Link>
+              )}
+              {rankEvidence.verified && (
+                <div className={`progress-rank-source${rankEvidence.stale ? ' is-stale' : ''}`}>
+                  <strong>{confirmedRank}</strong>
+                  <span>{rankEvidence.stale ? 'Needs a new screenshot' : 'Confirmed within the last 24 hours'}</span>
+                  <small>{rankEvidence.verifiedAt ? `Last confirmed ${new Date(rankEvidence.verifiedAt).toLocaleString()}` : 'Confirmation time unavailable'} · Source: customer-confirmed screenshot</small>
+                </div>
               )}
             </div>
             <div className="progress-rank-import">

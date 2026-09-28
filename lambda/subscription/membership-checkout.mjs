@@ -20,7 +20,7 @@ export function resolveMembershipOffer(tier, nowMs = Date.now(), env = process.e
       priceId: foundingOpen
         ? (env.STRIPE_PRO_FOUNDING_PRICE_ID || DEFAULT_PRICES.pro_founding)
         : (env.STRIPE_PRO_PRICE_ID || DEFAULT_PRICES.pro_regular),
-      trialDays: 30,
+      trialDays: 0,
       founding: foundingOpen,
     }
   }
@@ -50,5 +50,5 @@ export function membershipIntegrationIdentifier(randomBytes = crypto.randomBytes
 
 export function membershipIdempotencyKey(subject, tier, nowMs = Date.now()) {
   const fiveMinuteBucket = Math.floor(nowMs / 300000)
-  return crypto.createHash('sha256').update(`recon6-membership:${subject}:${tier}:${fiveMinuteBucket}`).digest('hex')
+  return crypto.createHash('sha256').update(`recon6-membership-no-trial:${subject}:${tier}:${fiveMinuteBucket}`).digest('hex')
 }

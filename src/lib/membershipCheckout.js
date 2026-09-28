@@ -1,3 +1,5 @@
+import { track } from '../utils/analytics'
+import { getRefSource } from './refSource'
 import { API_URL, getCurrentUser, getIdToken, getSession } from './cognito'
 
 export async function openMembershipCheckout(tier) {
@@ -19,8 +21,10 @@ export async function openMembershipCheckout(tier) {
   })
   const data = await response.json().catch(() => ({}))
   if (!response.ok || !data.url) {
+    track('Membership Checkout Failed', { tier, status: response.status })
     throw new Error(data.error || `Could not open checkout (HTTP ${response.status})`)
   }
+  track('Membership Checkout Opened', { tier, source: getRefSource() || 'direct' })
   window.location.assign(data.url)
 }
 

@@ -162,7 +162,7 @@ export function AuthProvider({ children }) {
 
       userPool.signUp(normEmail, password, attributes, null, (err, result) => {
         if (err) {
-          resolve({ data: null, error: { message: err.message } })
+          resolve({ data: null, error: { name: err.name, message: err.message } })
         } else {
           resolve({ data: result, error: null })
         }
@@ -304,7 +304,7 @@ export function AuthProvider({ children }) {
       const cognitoUser = getCognitoUser(normEmail)
       cognitoUser.confirmRegistration(code, true, (err, result) => {
         if (err) {
-          resolve({ data: null, error: { message: err.message } })
+          resolve({ data: null, error: { name: err.name, message: err.message } })
         } else {
           resolve({ data: result, error: null })
         }
@@ -320,7 +320,7 @@ export function AuthProvider({ children }) {
       const cognitoUser = getCognitoUser(normEmail)
       cognitoUser.resendConfirmationCode((err, result) => {
         if (err) {
-          resolve({ data: null, error: { message: err.message } })
+          resolve({ data: null, error: { name: err.name, message: err.message } })
         } else {
           resolve({ data: result, error: null })
         }

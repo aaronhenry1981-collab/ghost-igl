@@ -79,8 +79,10 @@ export default function AuthPage() {
     setLoading(true)
 
     if (mode === 'signup') {
+      track('Signup Submitted')
       const { error: err } = await signUp(email, password, fullName)
       if (err) {
+        track('Signup Failed', { reason: err.name || 'unknown' })
         // The Stripe webhook auto-provisions a Cognito login the instant payment
         // lands, so someone arriving straight from checkout usually ALREADY has
         // an account they never knowingly created. Cognito's raw "already
@@ -118,6 +120,7 @@ export default function AuthPage() {
       if (err) {
         setError(err.message)
       } else {
+        track('Account Verified')
         // Auto sign-in after confirmation if we still have the password
         if (password) {
           const { error: signInErr } = await signIn(email, password)
@@ -263,7 +266,7 @@ export default function AuthPage() {
       : 'Get your account secure and get back in.'
 
   const storyBody = mode === 'signup'
-    ? 'Create a free player account to keep your R6 preparation, round reviews, and next-match focus in one place.'
+    ? 'Create a free account for Bank and Coastline strategy previews and the operator catalog. Paid memberships are optional and begin billing at checkout; there is no free trial.'
     : mode === 'signin'
       ? 'Your saved plan, Road to Champion progress, and coaching tools are waiting.'
       : 'We will walk you through the account step without losing your place or your plan.'

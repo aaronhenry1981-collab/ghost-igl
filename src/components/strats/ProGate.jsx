@@ -32,7 +32,7 @@ export default function ProGate({ label, children }) {
             {ctaLabel}
           </MembershipCheckoutButton>
         ) : (
-          <Link to="/auth" className="btn btn-primary btn-sm pro-gate-btn">
+          <Link to="/auth?mode=signup&redirect=%2Fstrats" className="btn btn-primary btn-sm pro-gate-btn">
             Sign Up Free
           </Link>
         )}

@@ -78,9 +78,9 @@ const ADMIN_TABS = [
 const ACTIVE_WINDOW_MS = 15 * 60 * 1000
 
 function formatLastSeen(iso) {
-  if (!iso) return { label: 'Never', isActive: false }
+  if (!iso) return { label: 'No recorded activity', isActive: false }
   const ms = Date.parse(iso)
-  if (Number.isNaN(ms)) return { label: 'Never', isActive: false }
+  if (Number.isNaN(ms)) return { label: 'No recorded activity', isActive: false }
   const diffMs = Date.now() - ms
   const isActive = diffMs >= 0 && diffMs < ACTIVE_WINDOW_MS
   if (diffMs < 60_000) return { label: 'Just now', isActive }
@@ -538,7 +538,7 @@ export default function AdminPage() {
                           ? <span className="admin-account-ok">Ready</span>
                           : u.cognito_status === 'NO_ACCOUNT'
                             ? <span style={{ color: '#ffc97a', fontSize: '0.85rem' }}>Stripe-only</span>
-                            : <span className="admin-badge admin-badge-past_due">{u.cognito_status}</span>}
+                            : <span className="admin-badge admin-badge-past_due" title={u.cognito_status === 'FORCE_CHANGE_PASSWORD' ? 'Account exists; the customer must finish first-login password setup. Billing status is separate.' : undefined}>{u.cognito_status === 'FORCE_CHANGE_PASSWORD' ? 'Finish account setup' : u.cognito_status}</span>}
                       </td>
                       <td>
                         {(() => {

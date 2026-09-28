@@ -239,7 +239,7 @@ export default function AccountPage() {
       <section className="account-section">
         <h2>Your gamer profile</h2>
         <p className="account-muted">
-          Used by coaching features to tailor callouts and team-mate matching. You can change it anytime.
+          Used by coaching features to tailor callouts and match the correct public player profile. Enter the exact in-game ID for your selected platform. Recon 6 never stores your TRN or Ubisoft password.
         </p>
 
         {loading ? (

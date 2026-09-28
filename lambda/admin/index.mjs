@@ -3,6 +3,7 @@ import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand, DeleteC
 import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
+import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -11,30 +12,12 @@ const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const AUDIT_TABLE = process.env.AUDIT_TABLE || 'ghost-igl-audit-log'
 const POOL_ID = process.env.COGNITO_USER_POOL_ID
 const PRO_CENTS = parseInt(process.env.PRO_PLAN_AMOUNT_CENTS || '1200', 10)
-const ELITE_CENTS = parseInt(process.env.ELITE_PLAN_AMOUNT_CENTS || '3900', 10)
-const CHAMPION_CENTS = parseInt(process.env.CHAMPION_PLAN_AMOUNT_CENTS || '7000', 10)
+const CHAMPION_CENTS = parseInt(process.env.CHAMPION_PLAN_AMOUNT_CENTS || '2900', 10)
 const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY
 const STRIPE_PRO_PRICE_ID = process.env.STRIPE_PRO_PRICE_ID
 const STRIPE_CHAMPION_PRICE_ID = process.env.STRIPE_CHAMPION_PRICE_ID
 const STRIPE_PRO_FOUNDING_PRICE_ID = process.env.STRIPE_PRO_FOUNDING_PRICE_ID
 const STRIPE_CHAMPION_REGULAR_PRICE_ID = process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID
-const STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID = process.env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88'
-const LEGACY_ELITE_PRICE_IDS = new Set([
-  process.env.STRIPE_CHAMPION_PRICE_ID,
-  process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID,
-  process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID,
-  process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID,
-  process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID,
-  'price_1TLEtsJNddvjgWcgYcmiNmW7',
-  'price_1TPtOYJNddvjgWcgfEWjzGnp',
-  'price_1TVUd0JNddvjgWcgIPWakA3S',
-  'price_1TVUd6JNddvjgWcgc3csHICD',
-].filter(Boolean))
-
-function effectivePlan(sub) {
-  if (!sub) return 'free'
-  return LEGACY_ELITE_PRICE_IDS.has(sub.price_id) ? 'elite' : sub.plan || 'free'
-}
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: POOL_ID,
@@ -195,7 +178,8 @@ async function scanAllProfiles() {
     const r = await ddb.send(new ScanCommand({
       TableName: PROFILES_TABLE,
       ExclusiveStartKey: lastKey,
-      ProjectionExpression: 'email, active_game_id, last_seen_at',
+      ProjectionExpression: 'email, first_name, last_name, display_name, platform, #region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',
+      ExpressionAttributeNames: { '#region': 'region' },
     }))
     items.push(...(r.Items || []))
     lastKey = r.LastEvaluatedKey
@@ -203,8 +187,155 @@ async function scanAllProfiles() {
   return items
 }
 
+async function stripeRequest(path, params = {}) {
+  if (!STRIPE_SECRET) throw new Error('Stripe is not configured')
+  const query = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) value.forEach((item) => query.append(key, String(item)))
+    else if (value !== undefined && value !== null) query.set(key, String(value))
+  }
+  const response = await fetch(`https://api.stripe.com${path}${query.size ? `?${query}` : ''}`, {
+    headers: { Authorization: `Bearer ${STRIPE_SECRET}` },
+  })
+  if (!response.ok) throw new Error(`Stripe ${path} returned HTTP ${response.status}`)
+  return response.json()
+}
+
+async function stripeList(path, params = {}) {
+  const rows = []
+  let startingAfter
+  do {
+    const page = await stripeRequest(path, { ...params, limit: 100, starting_after: startingAfter })
+    rows.push(...(page.data || []))
+    if (!page.has_more || !page.data?.length) break
+    startingAfter = page.data.at(-1).id
+  } while (true)
+  return rows
+}
+
+function stripeCustomerId(subscription) {
+  return typeof subscription?.customer === 'string' ? subscription.customer : subscription?.customer?.id || null
+}
+
+function stripeCustomerEmail(subscription) {
+  return typeof subscription?.customer === 'object' ? (subscription.customer?.email || '').toLowerCase() : ''
+}
+
+function choosePrimarySubscription(subscriptions) {
+  const priority = { active: 0, trialing: 1, past_due: 2, unpaid: 3, incomplete: 4, paused: 5, canceled: 6, incomplete_expired: 7 }
+  return [...subscriptions].sort((a, b) => {
+    const statusDiff = (priority[a.status] ?? 99) - (priority[b.status] ?? 99)
+    return statusDiff || Number(b.created || 0) - Number(a.created || 0)
+  })[0] || null
+}
+
+function enrichUsersWithStripe(users, subscriptions) {
+  const byCustomer = new Map()
+  const byEmail = new Map()
+  for (const subscription of subscriptions) {
+    const customerId = stripeCustomerId(subscription)
+    const email = stripeCustomerEmail(subscription)
+    if (customerId) byCustomer.set(customerId, [...(byCustomer.get(customerId) || []), subscription])
+    if (email) byEmail.set(email, [...(byEmail.get(email) || []), subscription])
+  }
+
+  return users.map((user) => {
+    if (user.is_comp) return { ...user, billing_state: 'comp', will_renew: false, live_subscription_count: 0, billing_alerts: [] }
+    const matches = new Map()
+    for (const subscription of byCustomer.get(user.stripe_customer_id) || []) matches.set(subscription.id, subscription)
+    for (const subscription of byEmail.get((user.email || '').toLowerCase()) || []) matches.set(subscription.id, subscription)
+    const all = [...matches.values()]
+    const live = all.filter(isLiveStripeSubscription)
+    const primary = choosePrimarySubscription(live.length ? live : all)
+    if (!primary) {
+      const fallbackState = user.sub_status === 'canceled' ? 'canceled' : 'free'
+      return { ...user, billing_state: fallbackState, will_renew: false, live_subscription_count: 0, billing_alerts: [] }
+    }
+    const details = stripeSubscriptionDetails(primary, user.plan)
+    const alerts = []
+    if (live.length > 1) alerts.push('multiple_live_subscriptions')
+    if (billingStateFor(primary) === 'payment_issue') alerts.push('payment_issue')
+    return {
+      ...user,
+      ...details,
+      plan: planFor(primary, user.plan),
+      current_period_end: details.next_billing_at,
+      live_subscription_count: live.length,
+      paid_without_site_account: live.length > 0 && (user.orphan === true || user.cognito_status === 'NO_ACCOUNT'),
+      billing_alerts: alerts,
+    }
+  })
+}
+
+async function getStripeRevenueSnapshot(users, ddbSummary) {
+  const since = Math.floor((Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000)
+  const stripeResults = await Promise.allSettled([
+    stripeList('/v1/subscriptions', { status: 'all', 'expand[]': ['data.customer'] }),
+    stripeList('/v1/charges', { 'created[gte]': since }),
+    stripeList('/v1/refunds', { 'created[gte]': since }),
+    stripeList('/v1/payouts', { 'created[gte]': since }),
+    stripeRequest('/v1/balance'),
+  ])
+  const {
+    subscriptions,
+    charges,
+    refunds,
+    payouts,
+    balance,
+    charges_verified: chargesVerified,
+    refunds_verified: refundsVerified,
+    payouts_verified: payoutsVerified,
+    balance_verified: balanceVerified,
+    cash_verified: cashVerified,
+    warnings: stripeWarnings,
+  } = unwrapStripeReconciliationResults(stripeResults)
+
+  // IFD and Recon 6 intentionally share one Stripe account. Scope recurring
+  // revenue and member reconciliation to known Recon 6 prices so an IFD
+  // subscription can never appear as an R6 member or inflate R6 MRR.
+  const reconSubscriptions = subscriptions.filter((subscription) => isReconSubscription(subscription))
+  if (subscriptions.length > 0 && reconSubscriptions.length === 0) {
+    throw new Error('No Recon 6 Stripe subscriptions matched the configured price IDs')
+  }
+
+  const fallbackPlanByCustomer = new Map(users.filter((user) => user.stripe_customer_id).map((user) => [user.stripe_customer_id, user.plan]))
+  const subscriptionSummary = summarizeStripeSubscriptions(reconSubscriptions, fallbackPlanByCustomer)
+  const collectedCents = charges
+    .filter((charge) => charge.paid === true && charge.status === 'succeeded' && charge.currency === 'usd')
+    .reduce((sum, charge) => sum + Number(charge.amount || 0) - Number(charge.amount_refunded || 0), 0)
+  const refundedCents = refunds
+    .filter((refund) => refund.status === 'succeeded' && refund.currency === 'usd')
+    .reduce((sum, refund) => sum + Number(refund.amount || 0), 0)
+  const payoutsCents = payouts
+    .filter((payout) => payout.status === 'paid' && payout.currency === 'usd')
+    .reduce((sum, payout) => sum + Number(payout.amount || 0), 0)
+  const availableCents = (balance.available || []).filter((entry) => entry.currency === 'usd').reduce((sum, entry) => sum + Number(entry.amount || 0), 0)
+  const pendingCents = (balance.pending || []).filter((entry) => entry.currency === 'usd').reduce((sum, entry) => sum + Number(entry.amount || 0), 0)
+
+  return {
+    users: enrichUsersWithStripe(users, reconSubscriptions),
+    summary: {
+      ...ddbSummary,
+      ...subscriptionSummary,
+      comp_active: ddbSummary.comp_active,
+      collected_30d_dollars: chargesVerified ? (collectedCents / 100).toFixed(2) : null,
+      refunds_30d_dollars: refundsVerified ? (refundedCents / 100).toFixed(2) : null,
+      payouts_30d_dollars: payoutsVerified ? (payoutsCents / 100).toFixed(2) : null,
+      stripe_available_dollars: balanceVerified ? (availableCents / 100).toFixed(2) : null,
+      stripe_pending_dollars: balanceVerified ? (pendingCents / 100).toFixed(2) : null,
+      stripe_cash_verified: cashVerified,
+      stripe_data_warnings: stripeWarnings,
+      stripe_account_scope: 'shared_ifd_r6',
+      recon_subscription_count: reconSubscriptions.length,
+    },
+    billing_warning: cashVerified
+      ? null
+      : 'Live Stripe subscription data is current, but one or more cash totals are temporarily unavailable.',
+  }
+}
+
 async function getSubscriptions(headers) {
-  const items = (await scanAllSubs()).filter((item) => item.record_type !== 'usage_purchase')
+  const items = await scanAllSubs()
   return { statusCode: 200, headers, body: JSON.stringify({ subscriptions: items, summary: computeSummary(items) }) }
 }
 
@@ -222,21 +353,14 @@ async function getUsers(headers) {
     nextToken = r.PaginationToken
   } while (nextToken)
 
-  const allSubs = await scanAllSubs()
-  const subs = allSubs.filter((item) => item.record_type !== 'usage_purchase')
-  // Index subs by lowercased email. Prefer the highest live tier if multiple.
+  const subs = await scanAllSubs()
+  // Index subs by lowercased email. Prefer active sub if multiple.
   const subByEmail = new Map()
-  const subRowsByEmail = new Map()
-  const rank = { champion: 4, elite: 3, pro: 2, free: 1 }
   for (const s of subs) {
     const key = (s.email || '').toLowerCase()
     if (!key) continue
-    if (!subRowsByEmail.has(key)) subRowsByEmail.set(key, [])
-    subRowsByEmail.get(key).push(s)
     const prev = subByEmail.get(key)
-    const sLive = s.status === 'active' || s.status === 'trialing'
-    const prevLive = prev && (prev.status === 'active' || prev.status === 'trialing')
-    if (!prev || (sLive && !prevLive) || (sLive === prevLive && (rank[effectivePlan(s)] || 0) > (rank[effectivePlan(prev)] || 0))) subByEmail.set(key, s)
+    if (!prev || (s.status === 'active' && prev.status !== 'active')) subByEmail.set(key, s)
   }
 
   // Index profiles (active_game_id + last_seen_at) by email — powers the
@@ -260,32 +384,36 @@ async function getUsers(headers) {
     const sub = subByEmail.get(email)
     if (sub) claimedSubEmails.add(email)
     const profile = profileByEmail.get(email)
-    const emailRows = subRowsByEmail.get(email) || []
-    const liveRows = emailRows.filter((row) => ['active', 'trialing', 'past_due'].includes(row.status) && !row.comp)
-    const stripeCustomerCount = new Set(emailRows.filter((row) => !row.comp).map((row) => row.stripe_customer_id)).size
+    let gameProfiles = {}
+    try { gameProfiles = profile?.game_profiles_json ? JSON.parse(profile.game_profiles_json) : {} } catch { gameProfiles = {} }
+    const r6 = gameProfiles?.r6 || {}
     return {
       username: u.Username,
       email,
       cognito_status: u.UserStatus,
       enabled: u.Enabled,
       created_at: u.UserCreateDate,
-      plan: effectivePlan(sub),
+      plan: sub?.plan || 'free',
       sub_status: sub?.status || 'none',
       stripe_customer_id: sub?.stripe_customer_id || null,
       stripe_subscription_id: sub?.stripe_subscription_id || null,
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
       is_comp: sub ? (sub.status === 'active' && isComp(sub)) : false,
+      first_name: profile?.first_name || null,
+      last_name: profile?.last_name || null,
+      display_name: profile?.display_name || null,
+      platform: profile?.platform || null,
+      region: profile?.region || profile?.preferred_server || null,
+      discord_username: profile?.discord_username || profile?.discord_handle || null,
+      gamer_id: profile?.gamer_id || null,
       active_game_id: profile?.active_game_id || null,
       last_seen_at: profile?.last_seen_at || null,
       referral_source: profile?.referral_source || null,
-      stripe_customer_count: stripeCustomerCount,
-      subscription_record_count: emailRows.length,
-      live_subscription_count: liveRows.length,
-      billing_alerts: [
-        ...(stripeCustomerCount > 1 ? [`${stripeCustomerCount} Stripe customer records share this email`] : []),
-        ...(liveRows.length > 1 ? [`${liveRows.length} live subscriptions share this email`] : []),
-      ],
+      r6_ubisoft_username: r6.ubisoft_username || null,
+      r6_rank: r6.rank || null,
+      r6_goal_rank: r6.goal_rank || null,
+      r6_main_role: r6.main_role || profile?.main_role || null,
     }
   })
 
@@ -294,47 +422,78 @@ async function getUsers(headers) {
   // see these to send them a signup link / chase the missing account.
   for (const [email, sub] of subByEmail.entries()) {
     if (claimedSubEmails.has(email)) continue
-    const emailRows = subRowsByEmail.get(email) || []
-    const liveRows = emailRows.filter((row) => ['active', 'trialing', 'past_due'].includes(row.status) && !row.comp)
-    const stripeCustomerCount = new Set(emailRows.filter((row) => !row.comp).map((row) => row.stripe_customer_id)).size
+    const profile = profileByEmail.get(email)
+    let gameProfiles = {}
+    try { gameProfiles = profile?.game_profiles_json ? JSON.parse(profile.game_profiles_json) : {} } catch { gameProfiles = {} }
+    const r6 = gameProfiles?.r6 || {}
     users.push({
       username: null,             // no Cognito user
       email,
       cognito_status: 'NO_ACCOUNT',
       enabled: false,
       created_at: sub.created_at || null,
-      plan: effectivePlan(sub),
+      plan: sub.plan || 'unknown',
       sub_status: sub.status || 'unknown',
       stripe_customer_id: sub.stripe_customer_id || null,
       stripe_subscription_id: sub.stripe_subscription_id || null,
       current_period_end: sub.current_period_end || null,
       orphan: true,               // Stripe-only, no Cognito match
-      active_game_id: profileByEmail.get(email)?.active_game_id || null,
-      last_seen_at: profileByEmail.get(email)?.last_seen_at || null,
-      referral_source: profileByEmail.get(email)?.referral_source || null,
-      stripe_customer_count: stripeCustomerCount,
-      subscription_record_count: emailRows.length,
-      live_subscription_count: liveRows.length,
-      billing_alerts: [
-        ...(stripeCustomerCount > 1 ? [`${stripeCustomerCount} Stripe customer records share this email`] : []),
-        ...(liveRows.length > 1 ? [`${liveRows.length} live subscriptions share this email`] : []),
-      ],
+      first_name: profile?.first_name || null,
+      last_name: profile?.last_name || null,
+      display_name: profile?.display_name || null,
+      platform: profile?.platform || null,
+      region: profile?.region || profile?.preferred_server || null,
+      discord_username: profile?.discord_username || profile?.discord_handle || null,
+      gamer_id: profile?.gamer_id || null,
+      active_game_id: profile?.active_game_id || null,
+      last_seen_at: profile?.last_seen_at || null,
+      referral_source: profile?.referral_source || null,
+      r6_ubisoft_username: r6.ubisoft_username || null,
+      r6_rank: r6.rank || null,
+      r6_goal_rank: r6.goal_rank || null,
+      r6_main_role: r6.main_role || profile?.main_role || null,
     })
   }
 
-  const duplicateCustomerGroups = users.filter((user) => Number(user.stripe_customer_count || 0) > 1).length
-  return { statusCode: 200, headers, body: JSON.stringify({
-    users,
-    summary: { ...computeSummary(subs), duplicate_customer_groups: duplicateCustomerGroups },
-    total_users: users.length,
-    billing_source: 'dynamodb',
-    billing_warning: 'Live Stripe cash and refund reconciliation is unavailable; access and subscription status are shown from the webhook ledger.',
-  }) }
+  users.sort((a, b) => {
+    const aMs = a.created_at ? Date.parse(a.created_at) : 0
+    const bMs = b.created_at ? Date.parse(b.created_at) : 0
+    return bMs - aMs
+  })
+
+  const ddbSummary = computeSummary(subs)
+  try {
+    const reconciled = await getStripeRevenueSnapshot(users, ddbSummary)
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        users: reconciled.users,
+        summary: reconciled.summary,
+        billing_source: 'stripe',
+        billing_warning: reconciled.billing_warning,
+        total_users: reconciled.users.length,
+      }),
+    }
+  } catch (err) {
+    console.error('Stripe admin reconciliation failed:', err.message)
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        users,
+        summary: ddbSummary,
+        billing_source: null,
+        billing_warning: 'Live Stripe revenue data is temporarily unavailable.',
+        total_users: users.length,
+      }),
+    }
+  }
 }
 
 async function backfill(headers) {
   if (!STRIPE_SECRET) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured' }) }
-  // Map every known Pro/Elite/Champion price ID (founding + regular + All-Access
+  // Map every known Pro/Champion price ID (founding + regular + All-Access
   // monthly + All-Access annual) to a plan label. Must stay in sync with the
   // webhook's getPlanFromPrice() — when those diverge, backfill silently
   // drops subs the webhook would have accepted (e.g. All-Access SKUs were
@@ -345,15 +504,12 @@ async function backfill(headers) {
   if (process.env.STRIPE_PRO_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_PRO_FOUNDING_PRICE_ID] = 'pro'
   if (process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_PRICE_ID] = 'pro'
   if (process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID] = 'pro'
-  for (const id of ['price_1TPtOKJNddvjgWcg47I16AQp', 'price_1TLEtrJNddvjgWcg9iTWJoLS', 'price_1TVUcxJNddvjgWcgBImnUKZe', 'price_1TVUd3JNddvjgWcgShz9Ndg5']) PRICES[id] = 'pro'
-  // Legacy Champion digital prices are Elite now; price and access are preserved.
-  if (process.env.STRIPE_CHAMPION_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_PRICE_ID] = 'elite'
-  if (process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID] = 'elite'
-  if (process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID] = 'elite'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID] = 'elite'
-  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID] = 'elite'
-  for (const id of ['price_1TLEtsJNddvjgWcgYcmiNmW7', 'price_1TPtOYJNddvjgWcgfEWjzGnp', 'price_1TVUd0JNddvjgWcgIPWakA3S', 'price_1TVUd6JNddvjgWcgc3csHICD']) PRICES[id] = 'elite'
-  PRICES[STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID] = 'champion'
+  // Champion tier
+  if (process.env.STRIPE_CHAMPION_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_PRICE_ID] = 'champion'
+  if (process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_FOUNDING_PRICE_ID] = 'champion'
+  if (process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_REGULAR_PRICE_ID] = 'champion'
+  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID] = 'champion'
+  if (process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID) PRICES[process.env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID] = 'champion'
 
   let upserted = 0
   let scanned = 0
@@ -389,8 +545,6 @@ async function backfill(headers) {
           email,
           stripe_subscription_id: sub.id,
           plan,
-          price_id: priceId,
-          tier_scope: 'single',
           status: sub.status,
           current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
           created_at: sub.created ? new Date(sub.created * 1000).toISOString() : null,
@@ -415,17 +569,10 @@ function isComp(it) {
   return !it.stripe_subscription_id || (it.current_period_end || '').startsWith('2099')
 }
 
-const KNOWN_PRICE_CENTS = {
-  price_1TPtOKJNddvjgWcg47I16AQp: 900,
-  price_1TLEtrJNddvjgWcg9iTWJoLS: 1200,
-  price_1TLEtsJNddvjgWcgYcmiNmW7: 2900,
-  price_1TPtOYJNddvjgWcgfEWjzGnp: 3900,
-}
-
 function computeSummary(items) {
   const now = Date.now()
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000
-  let active = 0, canceled = 0, pastDue = 0, pro = 0, elite = 0, champion = 0, mrrCents = 0, newLast30 = 0
+  let active = 0, canceled = 0, pastDue = 0, pro = 0, champion = 0, mrrCents = 0, newLast30 = 0
   let paying = 0, comps = 0
 
   for (const it of items) {
@@ -438,12 +585,8 @@ function computeSummary(items) {
         comps += 1
       } else {
         paying += 1
-        const plan = effectivePlan(it)
-        const fallback = plan === 'champion' ? CHAMPION_CENTS : plan === 'elite' ? ELITE_CENTS : PRO_CENTS
-        mrrCents += KNOWN_PRICE_CENTS[it.price_id] || fallback
-        if (plan === 'pro') pro += 1
-        else if (plan === 'elite') elite += 1
-        else if (plan === 'champion') champion += 1
+        if (it.plan === 'pro') { pro += 1; mrrCents += PRO_CENTS }
+        else if (it.plan === 'champion') { champion += 1; mrrCents += CHAMPION_CENTS }
       }
     }
 
@@ -457,7 +600,7 @@ function computeSummary(items) {
     total: items.length,
     active, canceled, past_due: pastDue,
     paying_active: paying, comp_active: comps,
-    pro_active: pro, elite_active: elite, champion_active: champion,
+    pro_active: pro, champion_active: champion,
     mrr_cents: mrrCents,
     mrr_dollars: (mrrCents / 100).toFixed(2),
     arr_dollars: ((mrrCents * 12) / 100).toFixed(2),

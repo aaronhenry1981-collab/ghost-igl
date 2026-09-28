@@ -1,4 +1,7 @@
-// recon6-trn — server-side proxy to the Tracker Network (tracker.gg) R6 API.
+// recon6-trn — dormant server-side adapter for a future supported Tracker
+// Network R6 API. Tracker Network confirmed again in February 2026 that it
+// does not offer an R6 developer API. This adapter therefore fails closed
+// unless Recon6 receives explicit provider approval and enables it server-side.
 //
 // Why a proxy: the TRN API key must stay secret, so it can never live in the
 // browser. This Lambda holds the key in an env var, is Cognito-authed (only
@@ -15,6 +18,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb'
 
 const TRN_KEY = process.env.TRN_API_KEY || ''
+const TRN_R6_API_APPROVED = process.env.TRN_R6_API_APPROVED === 'true'
 const TRN_GAME = process.env.TRN_GAME || 'r6siege' // 'r6siege' or legacy 'r6'
 const TRN_BASE = 'https://public-api.tracker.gg/v2'
 const SUBSCRIPTIONS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
@@ -97,6 +101,13 @@ export async function handler(event) {
   if (claims.email_verified !== true) return resp(403, { error: 'verified email required' })
   if (!(await hasPaidAccess(claims))) return resp(403, { error: 'active paid membership required' })
 
+  if (!TRN_R6_API_APPROVED) return resp(503, {
+    error: 'live Tracker Network R6 data is not available through a supported developer API',
+    code: 'provider_not_supported',
+    provider: 'tracker-network',
+    live: false,
+    checked_at: '2026-09-11',
+  })
   if (!TRN_KEY) return resp(503, { error: 'tracker not configured yet' })
 
   const q = event.queryStringParameters || {}
@@ -165,6 +176,9 @@ export async function handler(event) {
     winPct: pickStat([overview], ['wlPercentage', 'winPct'])?.display || null,
     level: pickStat([overview], ['level'])?.value ?? null,
     profileUrl: `https://r6.tracker.network/r6siege/profile/${platform}/${encodeURIComponent(ign)}/overview`,
+    source: 'tracker-network-api',
+    fetchedAt: new Date().toISOString(),
+    cacheTtlSeconds: Math.floor(TTL_MS / 1000),
   }
   cache.set(cacheKey, { at: Date.now(), status: 200, data: out })
   return resp(200, out)
