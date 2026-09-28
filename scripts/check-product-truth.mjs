@@ -4,6 +4,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { resolveMembershipOffer } from '../lambda/subscription/membership-checkout.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const read = (relative) => readFileSync(join(ROOT, relative), 'utf8')
@@ -26,6 +27,21 @@ mustNotMatch('dist/sitemap.xml', /<loc>[^<]*\/blog\/(?!r6-)[^<]+<\/loc>/i, 'site
 mustNotMatch('dist/feed.xml', otherGames, 'RSS feed promotes another game')
 mustNotMatch('dist/tools/index.html', otherGames, 'tools page promotes another game')
 mustNotMatch('dist/index.html', /Ghost IGL|ghost-igl/i, 'homepage retains the old brand')
+mustMatch('src/pages/ProgressPage.jsx', /does not scrape or claim a live TRN connection/i, 'progress page overstates Tracker Network integration')
+
+// The discontinued trial must not return through an old generator or offer branch.
+for (const tier of ['pro', 'elite', 'champion']) {
+  for (const date of ['2026-07-01T00:00:00Z', '2026-09-17T00:00:00Z']) {
+    if (resolveMembershipOffer(tier, Date.parse(date), {}).trialDays !== 0) {
+      errors.push(`checkout: ${tier} must not grant a free trial (${date})`)
+    }
+  }
+}
+const retiredTrialClaim = /(?:includes?|offers?|start|try)[^<.]{0,70}30[-– ]day[^<.]{0,35}trial|30[-– ]day[^<.]{0,35}trial[^<.]{0,35}(?:included|available)/i
+for (const source of ['scripts/generate-tools-page.mjs', 'src/pages/LandingPage.jsx', 'src/pages/AuthPage.jsx']) {
+  mustNotMatch(source, retiredTrialClaim, 'advertises the discontinued trial')
+}
+mustNotMatch('dist/blog/r6-copper-to-bronze.html', /Founding rate|reads your replays|across 20 competitive games|ult charges|buy the second drone|buying 1 drone|never exteriors|inside two weeks|recoil cooldown|T-Hunt/i, 'reintroduces retired or inaccurate beginner advice')
 
 if (existsSync(join(ROOT, 'dist', 'games'))) errors.push('dist/games: dormant multi-game pages were not pruned')
 
@@ -46,11 +62,16 @@ for (const path of walkHtml(join(ROOT, 'dist'))) {
   // Vite modulepreload tags can legitimately retain a dormant source chunk's
   // filename. They are not visitor-facing marketing copy.
   const visitorCopy = content.replace(/<link\b[^>]*>/gi, '')
+  if (retiredTrialClaim.test(visitorCopy)) errors.push(`${relative}: advertises the discontinued trial`)
   if (otherGames.test(visitorCopy)) errors.push(`${relative}: promotes another game`)
 }
+
+mustNotMatch('dist/blog/r6-bronze-to-silver.html', /T-Hunt|Terrorist Hunt|65%|bomb-pair walls reinforced|CEO\/Open Area|Cocktail\/Reading|out-position any Bronze|position better than any Bronze|uncatchable on cam/i, 'reintroduces inaccurate Bronze coaching')
 
 if (errors.length) {
   console.error(`Product-truth check failed:\n- ${errors.join('\n- ')}`)
   process.exit(1)
 }
 console.log('✓ Product truth check passed (R6-only public marketing surfaces)')
+
+// Bronze guide regression: these removed claims must not return.

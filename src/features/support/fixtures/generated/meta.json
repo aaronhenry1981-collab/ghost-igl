@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-09-25T15:00:00.000Z",
+  "source": "scripts/support/generate-fixtures.mjs",
+  "backend": "lambda/customer-success createApp + routes/support.mjs + support/engines.mjs (real modules), in memory",
+  "helpPreview": "Draft articles are served only through the dev-only previewEngines override (helpPreview: true).",
+  "playerViewer": "vertical.vex@example.test (fictional PR #24 scenario paying_active)",
+  "staffViewer": "support.admin@example.test",
+  "note": "Fictional data only. Regenerate with: node scripts/support/generate-fixtures.mjs"
+}

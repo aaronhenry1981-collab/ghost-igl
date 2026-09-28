@@ -31,6 +31,8 @@ $requiredRoutes = @(
     'POST /booking/credits',
     'GET /booking/manage',
     'POST /booking/manage',
+    'GET /admin/availability',
+    'PUT /admin/availability',
     'GET /admin/bookings',
     'POST /admin/booking'
 )

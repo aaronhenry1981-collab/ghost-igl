@@ -123,7 +123,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     ${bodyInner}
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon 6 — coaching across 20 competitive games. <a href="${SITE_URL}/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 — Rainbow Six Siege coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
   </div>
 </body>
 </html>`
@@ -1770,419 +1770,277 @@ const R6_POSTS = [
     fromRank: 'Copper',
     toRank: 'Bronze',
     slug: 'r6-copper-to-bronze',
+    dateModified: '2026-09-17',
     metaTitle: 'How to Climb Out of Copper in Rainbow Six Siege (2026)',
-    metaDescription: 'Specific tactics that win Copper rounds in R6 Siege — the 5 operators to main, drone discipline, reinforcement priority, and the round-losing habits to drop first.',
-    intro: `<p>Copper is where most R6 players land after placement matches. You're not bad — you don't have a foundation yet. The Copper-to-Bronze gap closes when you commit to fundamentals: a small operator pool, drone discipline, smart reinforcements, and trade fragging. Here's exactly what to do.</p>`,
+    metaDescription: 'Practice useful Siege habits: learn operator jobs, preserve drones, follow a site setup, clear angles, and support trades. No guaranteed rank timeline.',
+    intro: `<p>If you are struggling in Copper, focus on one repeatable decision at a time. Start with a small operator pool, useful drones, a site-specific setup, and fights you can support. Your next goal is to make fewer avoidable mistakes; no routine guarantees a particular rank or deadline.</p>`,
     sections: [
       {
-        heading: 'Pick 5 operators total — not the whole roster',
-        html: `<p>The single biggest Copper mistake is trying to play every operator. R6 has 70+ operators with unique kits, ult charges, and timing windows. You'll never get good at all of them. Pick five and main them for the next month:</p>
-<ul>
-  <li><strong>Sledge</strong> — entry attacker, simple kit (hammer + frags). His sledgehammer breaks soft walls and floors. No timing required, no charges to count.</li>
-  <li><strong>Ash</strong> — entry attacker, fastest gun in the game, breaching rounds for soft walls from range.</li>
-  <li><strong>Doc</strong> — defender, anchor, heals teammates. Kit is just "press button, gain HP". Built for Copper.</li>
-  <li><strong>Rook</strong> — defender, drops armor for the team. Free 20 HP for everyone — round-changing utility, zero skill ceiling.</li>
-  <li><strong>Mute</strong> — defender, anti-breach + anti-drone. Drop a jammer on a wall, attackers can't breach it.</li>
-</ul>
-<p>That's your pool. Master these five, then expand. Bandit and Thermite go on the list at Bronze when you're ready for hard breach mechanics.</p>`,
+        heading: 'Learn a small operator pool and each operator’s job',
+        html: `<p>Choose a few attackers and defenders you own, and learn what their gadgets contribute. Include a way to help your team open a reinforced wall on attack and a useful site-support option on defense. Match the pick to the site, your teammates, and the confirmed bans.</p><p>Read the current in-game loadout before choosing secondary gadgets. Operator equipment can change with patches. Add another operator when you can explain what your current picks are meant to accomplish.</p>`,
       },
       {
-        heading: 'Drone for 3 seconds before every push',
-        html: `<p>Copper rounds are lost on dry pushes — running into a room with no info. Before any door, hold your drone for 3 full seconds and scan. If you see a defender, you have free intel. If the room is empty, you've earned the right to push.</p>
-<p>Specific habit: when you spawn as attacker, immediately drone the entry hallway you're going to use. Don't run forward — drone first. Every Copper player who fixes this single habit climbs to Bronze inside two weeks.</p>
-<p>Also: <strong>buy the second drone</strong>. The second drone slot is one of the cheapest gadgets and most attackers don't bring it. Two drones = two pieces of intel per round = a clean push.</p>`,
+        heading: 'Preserve your drones and act on fresh information',
+        html: `<p>Attackers do not buy drones between rounds. Preserve the observation tools your operator brings instead of sacrificing them just to identify every defender during prep.</p><p>Before entering, drone the room and the angle you intend to clear. Move while that information is still useful, or ask a teammate to watch the drone while you move. An empty room a moment ago is not a guarantee that it is safe now. Avoid spending so long droning that you leave no time to act.</p>`,
       },
       {
-        heading: 'Reinforce 4 walls per round, never exteriors',
-        html: `<p>Every defense round, your team has 8 reinforcements. Use 4 of them on the right walls:</p>
-<ol>
-  <li>The two reinforced walls between your bomb pair (the wall connecting the A and B sites).</li>
-  <li>Two more on hatch denial above your site — open the soft hatch yourself, then reinforce the hatch on the rotation room (forces attackers to play around your setup).</li>
-</ol>
-<p><strong>Common Copper mistake: reinforcing exterior walls.</strong> Don't. Exterior walls only matter against Sledge or Buck, and Copper attackers don't run those operators consistently. You're wasting reinforcements that should go inside the site. Save your two unused reinforcements for round-mid rotation calls — sometimes a teammate calls a wall during prep that you didn't see.</p>`,
+        heading: 'Reinforce for the actual bombsite plan',
+        html: `<p>Defenders share a reinforcement pool. Coordinate the setup rather than assigning yourself an arbitrary wall quota. Important exterior walls and hatches may need reinforcement; their value depends on the site and the plan.</p><p>Check which walls should stay open for rotations or lines of sight before reinforcing, especially between the bombsites. Do not seal a planned rotation or open a hatch simply because a generic guide says so. Reinforcement alone also does not make a wall immune to hard breach.</p><p>Ubisoft explains the shared system in its <a href="https://www.ubisoft.com/en-au/game/rainbow-six/siege/news-updates/seasons/shadowlegacy" target="_blank" rel="noopener">Reinforcement Pool update</a>. Use the current in-game HUD and a site-specific setup when deciding where to spend it.</p>`,
       },
       {
-        heading: 'Pre-fire angles you have already cleared',
-        html: `<p>When you push through a door you've droned, your crosshair should already be on head height (about 1.7m off the ground in-game) at the spot where defenders typically peek. When the defender peeks, your bullet's already on their face — they don't get to react.</p>
-<p>Bank CEO main door: pre-aim at the corner by the desk. Clubhouse Cash entry: pre-aim at the back-left corner by the safe. Kafe Bar: pre-aim at the doorway to White Stairs. These are the spots Copper-Bronze defenders sit.</p>
-<p>Aim training matters less than crosshair placement. Most Copper deaths happen because crosshair was at chest height when the defender's head was at 1.7m. Fix the placement first.</p>`,
+        heading: 'Clear one likely angle at a time',
+        html: `<p>Place your crosshair near the height and position where you expect a defender, adjusting for stairs, elevation, and observed stance. Use cover to reduce how many angles can see you as you move.</p><p>Fresh intel can justify a pre-fire at a known position. Blindly firing into every cleared doorway wastes ammunition and reveals you. A brief aim warm-up is useful, but also review whether your route exposed you to more than one threat.</p>`,
       },
       {
-        heading: 'Trade frags — never push first',
-        html: `<p>The first player through a doorway in Copper dies because they have no info advantage. Let your teammate commit first, then you peek behind them on the trade. Two-on-one fights win rounds.</p>
-<p>This is the hardest habit to build because Copper feels like a frag race. It's not. It's a positioning game. The team that trades frags wins the round 70%+ of the time even if their individual aim is worse.</p>
-<p>If your teammate dies in the doorway, you peek the SAME doorway from a slightly different angle within 3 seconds. The defender just used 1 second's recoil cooldown — their first shot will miss. Your trade kill is free.</p>`,
+        heading: 'Support trades without feeding the same angle',
+        html: `<p>If a teammate is taking space, stay close enough to help while keeping room to move. Share the defender’s position and coordinate the next action rather than waiting for your teammate to die.</p><p>A trade is an opportunity, not a free kill. If the defender still controls the doorway, use information, utility, or a different angle instead of blindly repeating the peek. Consider the time, numbers alive, and objective before committing.</p>`,
       },
     ],
     mistakes: [
-      'Spawn-peeking with no info — dying first 30 seconds.',
-      'Reinforcing exterior walls — wasted utility.',
-      'Buying 1 drone instead of 2.',
-      'Pushing first into rooms — no trade.',
-      'No Mute jammer — free Twitch / Hibana breaches every round.',
+      'Losing drones during prep without getting useful information.',
+      'Reinforcing a planned rotation or ignoring a key exterior wall.',
+      'Entering on old information without checking the next angle.',
+      'Watching a teammate fight from too far away to help.',
+      'Repeating a failed peek without changing the situation.',
     ],
     drill: {
-      heading: 'Practice routine for week 1',
-      html: `<ul>
-  <li><strong>30 min aim training</strong> — Aim Lab or in-game T-Hunt with a single weapon. Don't switch guns; build muscle memory on one.</li>
-  <li><strong>15 min map walk on Bank</strong> — load Bank in T-Hunt, just walk around. Learn rooms, don't fight bots. By the end of a week you'll know every callout on the map.</li>
-  <li><strong>5 ranked games per day</strong> — 4 with your 5-op pool, 1 to experiment with a new operator.</li>
-</ul>
-<p>If you commit to fundamentals — small op pool, drone before push, smart reinforcements, trade fragging — you'll exit Copper inside two weeks.</p>`,
+      heading: 'A short practice routine you can repeat',
+      html: `<ul><li><strong>Five minutes of aim practice:</strong> use the in-game Shooting Range with one weapon. Practice controlled bursts and crosshair placement before adding speed.</li><li><strong>Ten minutes on one site:</strong> use a custom match to learn the entry route, important walls, and your fallback. Confirm the room names in-game.</li><li><strong>One match focus:</strong> choose a behavior such as keeping a useful drone alive. After playing, review three deaths and note whether that behavior changed the decision.</li></ul><p>Stop when tired and keep the practice manageable. Measure the habit you can control rather than promising yourself a rank after a fixed number of games.</p>`,
     },
-    aiVodMention: `<p>If you can't tell why specific rounds feel off, the <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reads your replays and flags positioning mistakes per round — useful when you know you're losing but can't see why.</p>`,
+    aiVodMention: `<p>Recon 6’s <a href="${SITE_URL}/vod">AI round review</a> can help review the screenshots you submit. Include the map, site, side, and your question. A screenshot cannot establish everything that happened before or after it; check advice against the full round context.</p>`,
     relatedLinks: [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
-      { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
       { name: 'All R6 Operators (kit reference)', url: '/guides/operators/' },
     ],
     readMinutes: 6,
   },
   {
-    game: 'r6',
-    gameLabel: 'Rainbow Six Siege',
-    fromRank: 'Bronze',
-    toRank: 'Silver',
-    slug: 'r6-bronze-to-silver',
-    metaTitle: 'How to Climb from Bronze to Silver in Rainbow Six Siege (2026)',
-    metaDescription: 'The Bronze-to-Silver leap in R6 Siege is map awareness — specific callouts, two-main operator focus, bomb-pair reinforcement discipline, and how to stop dry pushing.',
-    intro: `<p>Bronze players know operator kits but don't have map awareness yet. The rank that separates Bronze from Silver is "did you survive 30 seconds without a callout from a teammate?" — Silver players know maps deeply enough to position alone. Here's the leap.</p>`,
-    sections: [
-      {
-        heading: 'Master 3 maps. Stop playing the whole rotation',
-        html: `<p>Pick three ranked maps. Bank, Clubhouse, and Kafe is a strong starter set. Or Border, Chalet, Consulate — any three. Play these maps ranked-only for two weeks. By the end of week 2, you'll know:</p>
-<ul>
-  <li>Every site's name (CEO, Cash Room, Cocktail Bar, etc.)</li>
-  <li>Where common roamers play</li>
-  <li>Where to set up Mira and Maestro on defense</li>
-  <li>Standard reinforcement patterns per site</li>
-  <li>Which exterior walls to watch for Sledge / Buck</li>
-</ul>
-<p>If you switch maps every game, you never get the depth needed for Silver+. Bronze players play 18 maps shallowly. Silver players play 5 maps deeply.</p>`,
-      },
-      {
-        heading: 'Pick 2 attackers + 2 defenders to main',
-        html: `<p>Your operator pool needs to grow from "5 simple operators" (Copper) to "specialized roles you understand deeply" (Silver). Pick:</p>
-<ul>
-  <li><strong>One attacking entry</strong> — Ash, Iana, or Zofia. These three frag well and have utility for clearing.</li>
-  <li><strong>One attacking utility/support</strong> — Thatcher (clears defender gadgets), Twitch (drones into site), or Capitao (denies anchor positions with fire).</li>
-  <li><strong>One defending anchor</strong> — Mute (anti-breach + anti-drone), Bandit (anti-breach), or Smoke (area denial).</li>
-  <li><strong>One defending roamer</strong> — Vigil (uncatchable on cam), Pulse (heartbeat sensor for vertical info), or Caveira (stealth + interrogate).</li>
-</ul>
-<p>At Bronze, learning how Iana's hologram drones around corners is more valuable than knowing 10 operators superficially. Specialization is the climb.</p>`,
-      },
-      {
-        heading: 'Learn 5 callouts per map',
-        html: `<p>Callouts are how teams coordinate. If a teammate calls "Spiral push!" and you don't know where Spiral is, you can't rotate. Memorize five callouts per map.</p>
-<p><strong>Bank:</strong> CEO, Spiral, Open Area, Garage, Truck. (Plus: Front Door, Back Alley.)</p>
-<p><strong>Clubhouse:</strong> Cash Room, CCTV, Construction, Master Bedroom, Gym. (Plus: Roof, Garage.)</p>
-<p><strong>Kafe:</strong> Cocktail Bar, Reading Room, Mining Room, Kitchen, Bakery. (Plus: White Stairs, Red Stairs.)</p>
-<p>Drill: load each map in T-Hunt, walk around for 15 minutes, and say each callout out loud as you enter the room. After 9 sessions you'll out-position any Bronze player.</p>`,
-      },
-      {
-        heading: 'Site setup discipline — bomb-pair walls every round',
-        html: `<p>On every defense round, ask one question: <strong>"Are the two walls between my site and the other bomb reinforced?"</strong></p>
-<p>If yes, you have a defensible site. If no, fix it before the action phase. This single rule — bomb-pair walls reinforced — wins Bronze rounds because most Bronze defenders reinforce randomly.</p>
-<p>Specifics:</p>
-<ul>
-  <li><strong>Bank CEO/Open Area site:</strong> reinforce the wall between CEO and Janitor + the wall between Open Area and Admin.</li>
-  <li><strong>Clubhouse Cash/CCTV:</strong> reinforce the wall between Cash and Construction + the wall between CCTV and Master.</li>
-  <li><strong>Kafe Cocktail/Reading:</strong> reinforce the wall between Cocktail and Mining + the wall above the bar.</li>
-</ul>`,
-      },
-      {
-        heading: 'Stop dry pushing — utility before commit',
-        html: `<p>Bronze attackers commit first, lose the trade, and the round folds. The fix: <strong>no utility, no push.</strong></p>
-<p>Before any push, you should have used at least one of: a flash, a smoke, a drone clear, or a breach. If you don't have utility ready, you don't push. Drone first, then commit.</p>
-<p>Specific check: if you're 20 seconds from round end and you haven't thrown utility, you're either winning the round (good) or losing it (most likely). The team that uses utility wins the round 65%+ of the time at Bronze.</p>`,
-      },
-    ],
-    mistakes: [
-      'Reinforcing the wrong walls (exterior, not bomb-pair).',
-      'Switching operators every match — no specialization.',
-      'No callouts learned — can\'t rotate when teammates call.',
-      'Ash-only attackers with no utility coordination.',
-      'Pulse-only defenders — no anchor on site.',
-      'Wide swinging on every angle (peek-and-pray).',
-    ],
-    drill: {
-      heading: 'Drill: T-Hunt site prep on your 3 chosen maps',
-      html: `<p>Load each of your 3 chosen maps (Bank, Clubhouse, Kafe) in Terrorist Hunt. Run each map 3 times solo over the next week — 9 sessions total. For each map:</p>
-<ul>
-  <li><strong>Run 1:</strong> walk every floor and say callouts out loud.</li>
-  <li><strong>Run 2:</strong> practice your two attacker mains' utility on every site.</li>
-  <li><strong>Run 3:</strong> practice your two defender mains' anchor positions per site.</li>
-</ul>
-<p>By session 9, you'll position better than any Bronze player. Map knowledge is the Silver gap.</p>`,
+  "game": "r6",
+  "gameLabel": "Rainbow Six Siege",
+  "fromRank": "Bronze",
+  "toRank": "Silver",
+  "slug": "r6-bronze-to-silver",
+  "dateModified": "2026-09-18",
+  "metaTitle": "Bronze to Silver in Rainbow Six Siege: Map Knowledge and Better Decisions",
+  "metaDescription": "Practice useful callouts, site-specific setup decisions, fresh drone information and safer teamwork. A manageable routine without rank guarantees.",
+  "intro": "<p>Rank alone does not explain why a round went wrong. Start with one repeatable problem: getting lost, entering without useful information, or setting up a site without understanding the team plan. Use this routine to improve the decisions you can control; no drill guarantees a rank or a deadline.</p>",
+  "sections": [
+    {
+      "heading": "Focus your practice, then adapt to the match map",
+      "html": "<p>Choose one map you struggle with for practice outside ranked. You cannot guarantee which map a ranked lobby will select. Learn one route to a bomb site, the adjacent rooms and a fallback route before adding another site.</p><p>Check the current in-game map and site names. Layouts and the ranked pool can change; an old diagram is a starting point to verify, not proof of the current geometry.</p>"
     },
-    aiVodMention: `<p>Once you're confident on map basics, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> can tell you which positions you held that pros don't — useful for spotting predictable habits before your opponents do.</p>`,
-    relatedLinks: [
-      { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
-      { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
-      { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
-      { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
-      { name: 'Interactive R6 Strats (deep linked)', url: '/strats' },
-    ],
-    readMinutes: 7,
+    {
+      "heading": "Choose operators by the job your team needs",
+      "html": "<p>Build a small pool you can explain: how you gather information, help open a route, deny entry or support a teammate. Keep alternatives for bans and existing teammate picks. Familiarity matters, but do not leave a necessary job uncovered just to lock your favorite operator.</p><p>Before the round, state one simple job and who you will support. On defense, agree on where you will play and how you can return to help the site.</p>"
+    },
+    {
+      "heading": "Learn useful callouts with evidence attached",
+      "html": "<p>Practice the room names along your route using the in-game location label and agree on any informal names with your stack. A useful call describes the location, what you saw and what your teammate can do with it.</p><p>For example: \"One at the doorway I am watching, crouched, last seen two seconds ago. Wait while I drone again.\" This is a fictional example, not a map-specific callout. If you only heard something, say that; do not turn a sound into a confirmed enemy location.</p>"
+    },
+    {
+      "heading": "Set up the specific site, including rotations",
+      "html": "<p>Do not automatically reinforce every wall between the two bomb rooms. Your team may need openings for movement, support or sightlines. Agree on the setup before reinforcing and leave planned rotations available.</p><p>Exterior breach walls can be important reinforcement priorities. Which walls and hatches to reinforce depends on the site and strategy. If you are unsure about a wall, ask the designated IGL or check a current, verified setup instead of guessing.</p>"
+    },
+    {
+      "heading": "Use fresh information before committing",
+      "html": "<p>Drone the room and angle you intend to enter, then act while the information is still useful. A teammate watching a drone can update you as you move. Recheck when time passes or an opponent could have repositioned.</p><p>Use utility for a purpose: clear a known obstacle, move a defender or help a teammate cross. Do not throw it simply to satisfy a rule. Time, remaining resources and the objective may require a different decision.</p><p>Stay close enough to support a teammate without stacking in the same line of fire. A trade is an opportunity, not a guaranteed kill; check the angle and avoid repeating an unsupported swing.</p>"
+    }
+  ],
+  "mistakes": [
+    "Reinforcing before checking the planned rotations.",
+    "Treating an old callout as current enemy information.",
+    "Trying to learn every route in one session.",
+    "Picking an operator without a job or fallback.",
+    "Judging a practice session only by kills or rank points."
+  ],
+  "drill": {
+    "heading": "A short map-learning routine",
+    "html": "<p>Spend about ten minutes on one route in an available Map Training mode or a custom game. Mode and map availability can vary, so use the options currently shown in your client.</p><ol><li>Walk from your starting point to a site, saying the room names.</li><li>Repeat the route with your crosshair prepared for the next likely angle. Clear one angle at a time.</li><li>Identify a safe fallback and explain what information you need before moving.</li><li>In your next match, focus on one of those habits. Afterwards, note one decision to repeat or change.</li></ol><p>Measure whether your calls became clearer and your movement more deliberate across several sessions. Adjust the routine if it is overwhelming.</p><p>Ubisoft describes Landmark Drill and other training tools in its <a href=\"https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/seasons/tenfoldpursuit\">training update</a>. Check your current client for the available modes.</p>"
   },
+  "aiVodMention": "<p>When using Recon6 review, provide screenshots with round context and a specific question. A still image cannot establish every movement, sound or decision that happened before it. Use feedback as something to check against your footage.</p>",
+  "relatedLinks": [
+    {
+      "name": "Copper fundamentals",
+      "url": "/blog/r6-copper-to-bronze.html"
+    },
+    {
+      "name": "Strategy library",
+      "url": "/strats"
+    }
+  ],
+  "readMinutes": 5
+},
   {
-    game: 'r6',
-    gameLabel: 'Rainbow Six Siege',
-    fromRank: 'Silver',
-    toRank: 'Gold',
-    slug: 'r6-silver-to-gold',
-    metaTitle: 'How to Climb from Silver to Gold in Rainbow Six Siege (2026)',
-    metaDescription: 'The Silver-to-Gold leap is utility coordination — Thatcher EMP timing, hard breach combos, vertical play, Bandit tricking, and drone discipline.',
-    intro: `<p>Silver to Gold is the utility coordination jump. At Silver you might run Thatcher with Thermite but their EMPs and charges aren't synced. At Gold the EMP lands on the wall one second before Thermite places his charge — perfect timing. Here's how to build that coordination.</p>`,
-    sections: [
-      {
-        heading: 'Hard breach combo timing — sequence matters',
-        html: `<p>The most-tested Silver mistake: Thermite places his charge, then Thatcher EMPs after. Wrong order. The pellet's already exposed when the EMP lands — you've gained nothing.</p>
-<p>Correct sequence:</p>
-<ol>
-  <li><strong>Thatcher EMP at 1:50 round timer</strong> (or the 2-minute mark, whichever you can reach safely).</li>
-  <li><strong>Wait 2 seconds</strong> for the EMP to fully detonate and clear electronics on the wall.</li>
-  <li><strong>Thermite places his charge</strong> while Bandits are off the wall.</li>
-  <li><strong>Detonate.</strong></li>
-</ol>
-<p>The whole sequence takes 8-10 seconds. Practice it in Custom Game with a buddy. If you're soloing without a Thatcher, run Twitch instead — her drone disables the Bandit battery without needing the global EMP.</p>`,
-      },
-      {
-        heading: 'Drone discipline — 3 drones up before site',
-        html: `<p>Before any site execute, your team should have 3 drones on the site for full coverage. Two from teammates, one from you. Pre-stage drones in safe spots so Mute jammers don't kill them.</p>
-<p>Iana's hologram counts as a drone for clearing — if you main Iana, you can scout site without committing your real drone. Lion's scan flushes hidden defenders for free intel.</p>
-<p>Silver mistake: blowing all drones in the first 30 seconds. By the time you're ready to push, you have zero info. Save at least 1 drone for the actual exec — drone the bomb spot 5 seconds before you breach.</p>`,
-      },
-      {
-        heading: 'Vertical play — Sledge and Buck above sites',
-        html: `<p>Top-tier vertical attackers turn 1 round into 2. Sledge can break the soft floor over a site from above and shoot the anchor through his own ceiling. This is round-losing for defenders.</p>
-<p>Specific lineups:</p>
-<ul>
-  <li><strong>Bank:</strong> Sledge above CEO from the white stairs side. Drop a frag through the hole onto the bomb default plant.</li>
-  <li><strong>Clubhouse:</strong> Buck above Cash Room from the bedroom. Target the corner anchor by the safe.</li>
-  <li><strong>Kafe:</strong> Sledge above Cocktail Bar from 3F. Vertical opens to the bar counter where defenders sit.</li>
-</ul>
-<p>Vertical play needs a hard breach below to commit the team. Sledge alone is just a distraction. Sledge + Thermite + Thatcher is a round.</p>`,
-      },
-      {
-        heading: 'Bandit tricking — one battery, one wall',
-        html: `<p>Bandit's batteries last 3 seconds when applied. The trick: place the battery on the wall right before Hibana places her pellet. The pellet starts its 4-second activation; your battery activates simultaneously and detonates the pellet harmlessly. The wall stays up.</p>
-<p>Timing window: when you hear the Hibana pellet sound effect, count 1 second, then place the battery. Practice this in Custom Game until it's muscle memory.</p>
-<p>This is one of the most-tested skills at Gold+ defense. Silvers don't trick. Golds trick consistently. Plats trick AND have a fallback (Mute jammer or Kaid Electroclaw on the same wall).</p>`,
-      },
-      {
-        heading: 'Anchor discipline — at least 2 anchors on every site',
-        html: `<p>At Silver, players over-roam and lose site control. By the time the attackers breach, no defender's on site to contest the plant.</p>
-<p>Gold defenders have at least 2 anchors on every defense round. One Maestro on a corner Evil Eye providing intel; one Mute or Smoke holding the choke. Roamer is 1 player max — and the roamer's job is to delay, not solo-frag the entire attacking team.</p>
-<p>Specific test: when you load into a defense round, count how many teammates are on site at 1:30 timer. If it's fewer than 3, your team's roaming too hard. Call for an anchor to fall back.</p>`,
-      },
-    ],
-    mistakes: [
-      'Thermite without Thatcher — pellet just gets denied.',
-      'Roaming as a 4-stack — no one anchors site.',
-      'Ash with no flash or breach — just runs in.',
-      'Not pre-firing common angles after droning.',
-      'Buying primary gadgets instead of secondaries (smokes and nitro beat impacts in most matchups).',
-      'Vertical Sledge with no hard breach below — pure distraction, wins nothing.',
-    ],
-    drill: {
-      heading: 'Drill: spawn-peek timing on Bank',
-      html: `<p>Load Bank in Custom Game with a friend. Practice peeking from CEO window at the 0:08 and 0:30 round-timer marks. There's a window where attackers always cross the truck spawn — you can read it and pick the entry fragger before they have utility ready.</p>
-<p>After 20 reps, this becomes muscle memory. You'll get free round-opener picks in ranked.</p>`,
+  "game": "r6",
+  "gameLabel": "Rainbow Six Siege",
+  "fromRank": "Silver",
+  "toRank": "Gold",
+  "slug": "r6-silver-to-gold",
+  "dateModified": "2026-09-23",
+  "metaTitle": "Silver to Gold in Rainbow Six Siege: Coordinate Your Utility",
+  "metaDescription": "Practice breach coordination, fresh drone calls, verified vertical angles and defensive fallback plans. Build better decisions without rank guarantees.",
+  "readMinutes": 4,
+  "intro": "<p>Make your utility useful to the next teammate. Pick one coordination problem to practice, then review what actually happened. Rank is an outcome across many matches, not a promise attached to a drill.</p>",
+  "sections": [
+    {
+      "heading": "Agree on the breach before using utility",
+      "html": "<p>Name the wall, the breacher and the teammate covering them. Identify the denial you can actually confirm, and agree on how to address it before exposing a charge. Do not follow a fixed round-clock script: pressure, bans, remaining utility and defender actions change the opening.</p><p>Thatcher uses the E.G.S. Disruptor to detect and deactivate electronic devices. A disabled gadget is not necessarily destroyed. Check whether denial returns and be ready to pause or change routes. See <a href=\"https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/thatcher\">Ubisoft’s current Thatcher description</a>.</p><p>Use short calls: \"Ready to breach?\" \"Denial disabled; check the wall.\" \"Covering your placement.\" These are practice examples, not a guarantee that the wall is safe.</p>"
     },
-    aiVodMention: `<p>Utility timing mismatches are hard to spot in the moment. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks your Thatcher / Thermite sync and flags rounds where your timing was off — actionable feedback you can apply the next match.</p>`,
-    relatedLinks: [
-      { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
-      { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
-      { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
-      { name: 'Thermite operator guide', url: '/guides/operators/thermite.html' },
-      { name: 'Thatcher operator guide', url: '/guides/operators/thatcher.html' },
-    ],
-    readMinutes: 8,
+    {
+      "heading": "Drone the next move, not an arbitrary quota",
+      "html": "<p>Preserve information tools when possible. Check the room or angle your team is about to use, and ask a teammate to keep watching while you move. No fixed number of drones guarantees full coverage.</p><p>Say what you saw and when. If the defender could have moved, say \"last seen\" and refresh the information when practical. An unchecked corner is unknown, not clear. Do not delay indefinitely for perfect information when the objective or clock demands a decision.</p>"
+    },
+    {
+      "heading": "Verify vertical angles before recommending them",
+      "html": "<p>In practice, check the floor, room relationship and destructible surface in the current map. Confirm that the opening gives a useful view of the intended position. Never assume that a room has playable space above it because an old guide says so.</p><p>During the match, coordinate pressure with teammates and protect your flank. Explain what the opening accomplishes: moving a defender, removing exposed utility, or covering an objective route. If it offers no useful angle, spend your time elsewhere.</p>"
+    },
+    {
+      "heading": "Practice denial using visible and audible cues",
+      "html": "<p>Bandit can electrify surfaces with Shock Wire. Practice against a teammate using the breach gadget you want to understand; observe the placement, activation and denial result rather than memorizing an invented universal countdown. Ubisoft describes the gadget on its <a href=\"https://www.ubisoft.com/en-ca/game/rainbow-six/siege/game-info/operators/bandit\">Bandit page</a>.</p><p>Agree on cover and a fallback. Staying on a wall is not worth an automatic death when attackers gain another angle. If you cannot safely contest the breach, preserve your life and help defend the next position.</p>"
+    },
+    {
+      "heading": "Assign defensive jobs and a return route",
+      "html": "<p>Agree who watches the objective, who supports nearby and who delays farther away. The right distribution depends on the site, strategy and current pressure; there is no universal one-roamer limit.</p><p>Tell your IGL when your position becomes unsafe or your route back is threatened. Reassess after a teammate dies or a breach opens. Cover the objective and support each other instead of chasing a kill without a plan.</p>"
+    }
+  ],
+  "mistakes": [
+    "Spending utility before a teammate is ready to use the opening.",
+    "Calling a room clear from stale information.",
+    "Following a vertical lineup without checking the current map.",
+    "Staying at a threatened wall without cover or a fallback.",
+    "Treating one good result as proof a tactic always works."
+  ],
+  "drill": {
+    "heading": "A short coordination drill",
+    "html": "<p>In a custom game with a partner, choose one reinforced wall and a confirmed denial setup. Alternate attack and defense. Before each attempt, state the plan; afterwards, identify what you saw or heard and why the attempt worked or failed.</p><p>Change one condition at a time, such as the denial placement or the breach approach. Repeat a few attempts, then take one clear communication habit into your next match. Review whether you acted on fresh information and supported the next player, not just whether you got a kill.</p>"
   },
+  "aiVodMention": "<p>For Recon6 screenshot review, include the round context and a specific question. A still image cannot establish exact gadget timing or an entire sequence of actions. Check suggestions against your footage and tell your coach when the evidence is incomplete.</p>",
+  "relatedLinks": [
+    {
+      "name": "Map knowledge and decision practice",
+      "url": "/blog/r6-bronze-to-silver.html"
+    },
+    {
+      "name": "Strategy library",
+      "url": "/strats"
+    }
+  ]
+},
   {
-    game: 'r6',
-    gameLabel: 'Rainbow Six Siege',
-    fromRank: 'Gold',
-    toRank: 'Platinum',
-    slug: 'r6-gold-to-platinum',
-    metaTitle: 'How to Climb from Gold to Platinum in Rainbow Six Siege (2026)',
-    metaDescription: 'Gold-to-Plat is where the metagame matters — meta operator bans, Mira anchor angles, spawn-peek timing, post-plant cycling, and vertical destruction targeting.',
-    intro: `<p>At Gold-to-Plat the meta starts mattering. You're playing against people who watch pro VODs, have fixed setups for every site, and know how to counter your default plays. The climb here is meta-awareness plus refined utility usage.</p>`,
-    sections: [
-      {
-        heading: 'Ranked pool ops are mandatory bans',
-        html: `<p>Most Gold players don't ban Thatcher or Maverick on attack because they think those are "just Thermite alternatives." Wrong. Thatcher's EMP clears 4-6 enemy gadgets at once — Mute jammers, Mira windows, Bandit batteries, Maestro Evil Eyes. Maverick silently opens reinforced walls without any counter; he fully bypasses Bandit and Kaid.</p>
-<p>At Plat, Thatcher and Maverick are banned almost every match on attack. On defense, Mira and Valkyrie are the priority bans. If you don't ban these operators, you're effectively playing 2.5 vs 5.</p>
-<p>Ban priorities by side:</p>
-<ul>
-  <li><strong>Attack-side bans</strong> (you're on defense): Thatcher first, Maverick second, Iana third on certain maps.</li>
-  <li><strong>Defense-side bans</strong> (you're on attack): Mira first, Valkyrie second, Maestro third on intel-heavy maps.</li>
-</ul>`,
-      },
-      {
-        heading: 'Mira anchor angles — site denial through walls',
-        html: `<p>At Gold you might place Mira on the obvious wall (between bomb sites). At Plat, Miras go on angles that read 3-4 attacker positions per round:</p>
-<ul>
-  <li><strong>Bank:</strong> Mira between CEO and white stairs sees attackers approaching from front lobby.</li>
-  <li><strong>Coastline:</strong> Mira between Hookah and VIP stairs denies the standard exec.</li>
-  <li><strong>Clubhouse:</strong> Mira between Cash Room and Construction sees the Thermite breach attempt.</li>
-  <li><strong>Border:</strong> Mira on Workshop connector wall reads the standard split push.</li>
-</ul>
-<p>These angles aren't intuitive — they're learned from pro VODs and Top 100 Mira players. Gold Miras play obvious; Plat Miras play surprising.</p>`,
-      },
-      {
-        heading: 'Spawn-peek timing — free round-opener picks',
-        html: `<p>Some maps have spawn windows where defenders peek for free picks if attackers don't pre-aim. At Plat, defenders practice these and contest them. Specific timings:</p>
-<ul>
-  <li><strong>Bank:</strong> CEO window peeks Truck spawn at 0:05 timer.</li>
-  <li><strong>Border:</strong> Tellers window peeks East spawn at 0:08.</li>
-  <li><strong>Clubhouse:</strong> Bedroom peeks Construction at 0:10.</li>
-  <li><strong>Kafe:</strong> Cocktail balcony peeks the standard spawn approach at 0:08.</li>
-</ul>
-<p>If you're playing attack against a Plat team, pre-aim these windows on round start. You'll catch the spawn-peeker mid-action 30%+ of the time, flipping the early-round economy.</p>`,
-      },
-      {
-        heading: 'Post-plant utility cycling — the round-deciding 30 seconds',
-        html: `<p>When the bomb is down, defenders need to break the plant. Pro defenders cycle utility every 5 seconds:</p>
-<ol>
-  <li>Smoke canister at 0:30 (denies defuse for 5 seconds).</li>
-  <li>Maestro Evil Eye laser at 0:25 (chip damage on the planter).</li>
-  <li>Goyo canister at 0:20 (forces defuser to swap or die).</li>
-  <li>Final frag at 0:15 (kills the defuser if they haven't repositioned).</li>
-</ol>
-<p>This forces attackers to re-utility (Twitch drone, Thatcher EMP, fresh frags) just to defuse — and most attackers don't have the spare utility for it post-plant.</p>
-<p>Practice this sequence on Custom Game with all 5 defenders coordinated. It's the round-deciding 30 seconds in any 1.5 timer.</p>`,
-      },
-      {
-        heading: 'Vertical destruction targeting — open ABOVE the anchor',
-        html: `<p>Don't just open the floor — open it directly above the anchor's typical position. On Bank CEO, the Smoke anchor sits behind the desk. Open the floor exactly there with Sledge, drop a frag through. The defender has nowhere to rotate — the desk blocks their movement.</p>
-<p>This is round-winning mechanically and psychologically. Defenders feel impossible to defend; attackers feel uncatchable.</p>
-<p>Specific Sledge / Buck targets:</p>
-<ul>
-  <li><strong>Bank CEO:</strong> floor above the bomb default plant (just inside the door).</li>
-  <li><strong>Clubhouse Cash:</strong> floor above the back-corner anchor (by the safe).</li>
-  <li><strong>Kafe Cocktail:</strong> floor above the bar anchor (the corner where defenders sit for trade).</li>
-</ul>`,
-      },
-    ],
-    mistakes: [
-      'Not banning meta operators — playing 2.5v5 every round.',
-      'Maverick "as a backup Thermite" — wrong tool, wrong timing.',
-      'Mira on the obvious wall (front lobby) — easily countered.',
-      'No post-plant utility cycle — attackers defuse uncontested.',
-      'Vertical destruction without a target — random floor breaks.',
-      'Same spawn every round — defenders read your attack site.',
-    ],
-    drill: {
-      heading: 'Drill: post-plant utility timing on Bank CEO',
-      html: `<p>Set up a 5-on-5 Custom Game on Bank CEO. As defenders, plant the bomb and intentionally let it stand for the full timer. Practice cycling utility every 5 seconds to stop defuse for the entire 45-second post-plant window.</p>
-<p>After 5 reps, your team will have a synced cycle. Apply it in ranked. You'll win 2-3 extra post-plant rounds per match.</p>`,
+  "game": "r6",
+  "gameLabel": "Rainbow Six Siege",
+  "fromRank": "Gold",
+  "toRank": "Platinum",
+  "slug": "r6-gold-to-platinum",
+  "dateModified": "2026-09-24",
+  "metaTitle": "Gold to Platinum in Rainbow Six Siege: Turn a Plan into a Round",
+  "metaDescription": "Practice useful bans, coordinated entry, verified map angles and correct post-plant roles. A practical Siege guide without invented timers or rank guarantees.",
+  "readMinutes": 4,
+  "intro": "<p>Turn information into a shared next move. Choose one decision to improve, practice it, and review the result. These habits can improve your play; no operator pick or drill guarantees a rank.</p>",
+  "sections": [
+    {
+      "heading": "Choose bans around your plan",
+      "html": "<p>Discuss the map, likely sites and the tools your own team needs. A ban should solve a specific problem without quietly removing your planned solution. There is no universal mandatory ban list, and this guide does not claim live ranked ban rates.</p><p>After bans are confirmed, agree on available alternatives. Use actual operator selections when revising the plan. If someone chooses a different operator, reassign the missing job rather than pretending the original lineup still exists.</p>"
     },
-    aiVodMention: `<p><a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tracks utility cycles per round and flags gaps in your post-plant timing — useful for finding the rounds where your team's coordination broke down without a teammate being obviously at fault.</p>`,
-    relatedLinks: [
-      { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
-      { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
-      { name: 'Clubhouse — Complete Strategy Guide', url: '/guides/clubhouse.html' },
-      { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
-      { name: 'Mira operator guide', url: '/guides/operators/mira.html' },
-    ],
-    readMinutes: 9,
+    {
+      "heading": "Make the entry useful to the next player",
+      "html": "<p>Before moving, name the next room or angle, who checks it and who can trade. Keep your crosshair near the likely threat as you approach cover. Aim down sights before contesting a known angle; move between safe positions according to the current threat instead of remaining scoped out of habit.</p><p>Change one thing when a peek fails: information, exposure, timing or teammate support. Avoid repeating the same swing into an opponent who is already waiting. In solo queue, offer one short actionable call and adapt to the support you actually receive.</p>"
+    },
+    {
+      "heading": "Verify your setup on the current map",
+      "html": "<p>Check a defensive sightline from both sides in practice. Confirm what it can see, what exposes the player using it and where they can fall back. An operator gadget does not make an exposed position safe.</p><p>For vertical play, confirm the room relationship and destructible surface before recommending an opening. Protect the player making it and identify the purpose: moving a defender, removing exposed utility or supporting an objective route. Do not assume a top-floor room has another playable floor above it.</p>"
+    },
+    {
+      "heading": "After the plant: attack protects, defense disables",
+      "html": "<p>In Bomb, attackers plant the defuser and protect it. Defenders must stop the plant or disable the active defuser. Ubisoft explains the defender interaction in its <a href=\"https://www.ubisoft.com/en-gb/game/rainbow-six/siege/news-updates/1hKE4gGAMFG3Q8zj3PduO5/dev-blog%3A-new-counter-defuser\">counter-defuser explanation</a>.</p><p><strong>Attack:</strong> agree who watches the defuser and who covers the approach or flank. Use cover and available information; do not abandon the objective to hunt an unnecessary kill. Recheck your angle if visibility changes.</p><p><strong>Defense:</strong> identify the threat covering the defuser, coordinate pressure and decide who will attempt the disable while a teammate covers. Utility should help create a safe interaction, not blindly obstruct your own teammate. Use the visible objective timer and current cues instead of an invented five-second gadget cycle.</p>"
+    },
+    {
+      "heading": "Review the decision, not just the scoreboard",
+      "html": "<p>Pick one lost round. What information was available, what did the team decide, and what happened next? Separate an avoidable decision from a reasonable play that lost a gunfight.</p><p>Track one habit for your next session: fresh entry information, a supported trade, or a clear post-plant assignment. Review several attempts before drawing conclusions. K/D alone cannot tell you whether an objective decision helped the team.</p>"
+    }
+  ],
+  "mistakes": [
+    "Banning an operator your own plan needs without an alternative.",
+    "Treating old information as a current enemy position.",
+    "Repeating a failed peek without changing the conditions.",
+    "Using unverified map angles as guaranteed setups.",
+    "Confusing who protects and who disables the planted defuser.",
+    "Promising extra wins from a fixed utility countdown."
+  ],
+  "drill": {
+    "heading": "Drill: explain your post-plant job",
+    "html": "<p>In a Bomb custom game with enough players for opposing sides, practice one site. Attackers plant, then state who covers the defuser and the approach. Defenders state who pressures the cover and who attempts the disable. Use the timer and rules shown in that practice session.</p><p>Swap sides and repeat with one changed position. Review which angle was actually covered, whether calls were current and why the interaction succeeded or failed. If you cannot arrange a custom game, pause your own recorded round after the plant and explain each visible player’s next job to your coach.</p>"
   },
+  "aiVodMention": "<p>Bring your coach a round and one question, such as \"Could I still cover the defuser from here?\" For Recon6 screenshot review, include the side, objective state and relevant context. A still image cannot verify a full utility sequence, exact reaction timing or an unseen enemy position.</p>",
+  "relatedLinks": [
+    {
+      "name": "Utility coordination practice",
+      "url": "/blog/r6-silver-to-gold.html"
+    },
+    {
+      "name": "Strategy library",
+      "url": "/strats"
+    }
+  ]
+},
   {
-    game: 'r6',
-    gameLabel: 'Rainbow Six Siege',
-    fromRank: 'Platinum',
-    toRank: 'Emerald',
-    slug: 'r6-platinum-to-emerald',
-    metaTitle: 'How to Climb from Platinum to Emerald in Rainbow Six Siege (2026)',
-    metaDescription: 'Plat-to-Emerald is refined positioning — off-angle holds, run-out timing, vertical micro-destruction, anti-meta picks, and drone bait + re-engage tactics.',
-    intro: `<p>Plat players have the fundamentals. Emerald players have refinements: off-angle holds, vertical micro-destruction, run-out timing, and anti-meta picks per match-up. Here's the upgrade.</p>`,
-    sections: [
-      {
-        heading: 'Off-angle anchoring — break the predictable corner',
-        html: `<p>At Plat, defenders sit on the obvious anchor spots: corner near doorway, default plant corner, etc. Emerald defenders pre-aim from spots opponents don't expect:</p>
-<ul>
-  <li><strong>Bank CEO:</strong> anchor in the corner BY the safe, not the obvious bomb corner.</li>
-  <li><strong>Coastline Hookah:</strong> hold from VIP stairs corner, not the bar.</li>
-  <li><strong>Kafe Bar:</strong> anchor on the chair corner facing main entrance, not behind the bar.</li>
-  <li><strong>Border Workshop:</strong> hold from Vending side, not behind the workbench.</li>
-</ul>
-<p>Off-angles force attackers to re-clear after entry — buys the rotator 2-3 seconds and often a free trade kill.</p>`,
-      },
-      {
-        heading: 'Run-out timing on exposed sites',
-        html: `<p>Some sites have exterior windows that attackers cross for spawn-peeks. Defenders can run out, peek the exterior window for a free pick, then return to site BEFORE the attacker spawn timer goes negative.</p>
-<ul>
-  <li><strong>Border:</strong> run out from Workshop window at 0:10, peek attacker spawn, return by 0:25.</li>
-  <li><strong>Coastline:</strong> run out from Hookah balcony at 0:08, peek the standard exec approach.</li>
-  <li><strong>Bank:</strong> do NOT run out from CEO. It's a trap — attackers always pre-aim it.</li>
-</ul>
-<p>Run-outs win 2-3 rounds per match if timed right. They're high-risk for solo plays — coordinate with a teammate watching the flank to cover your re-entry.</p>`,
-      },
-      {
-        heading: 'Vertical micro-destruction — single tiles, not whole floors',
-        html: `<p>Sledge can break a single floor tile, not the whole floor. Drop a frag through that 1-tile hole onto a known anchor position. The defender doesn't know where the hole is — they think the floor's still intact.</p>
-<ul>
-  <li><strong>Bank CEO:</strong> micro-tile above the bomb default plant.</li>
-  <li><strong>Clubhouse Cash:</strong> micro-tile above the back-corner anchor.</li>
-  <li><strong>Kafe Mining:</strong> micro-tile above the bar stool position.</li>
-</ul>
-<p>Micro-destruction is invisible from below — defenders won't reposition because they can't see the threat. Frag through, kill the anchor, win the round.</p>`,
-      },
-      {
-        heading: 'Anti-meta picks per map',
-        html: `<p>Plat plays the meta straight. Emerald varies it based on map. Specifics:</p>
-<ul>
-  <li><strong>Coastline:</strong> Goyo canisters on the floor below the standard vertical drop — frag the Goyo when attackers vertical you, denies their floor break.</li>
-  <li><strong>Bank:</strong> Frost mats in basement on the standard rotation paths — catches attackers post-execute.</li>
-  <li><strong>Clubhouse:</strong> Castle barricades on the stairs forces attackers into one entry, your Mira reads it.</li>
-  <li><strong>Kafe:</strong> Aruni gates on the connector window forces attackers to bring soft-breach utility (Buck or Sledge), which removes one of their meta picks.</li>
-</ul>
-<p>Anti-meta picks shock Plats who expect default setups. They lose round 1 to your unfamiliar setup, then over-correct round 2 — you re-adapt.</p>`,
-      },
-      {
-        heading: 'Drone bait + re-engage from opposite entry',
-        html: `<p>Send your drone obviously through one entry. Attackers commit utility on that drone — Mute jammers go up, Maestro Evil Eyes activate, Castle barricades stay closed. They've used utility on a fake.</p>
-<p>You then exec from the OPPOSITE entry. Their utility is in the wrong place. Specific bait setups:</p>
-<ul>
-  <li>Bank CEO: drone obvious through Front Lobby, exec through White Stairs.</li>
-  <li>Clubhouse Church: drone obvious through Construction, exec through Garage.</li>
-  <li>Coastline Theater: drone obvious through Pool, exec through VIP Stairs.</li>
-</ul>
-<p>This works at Plat because Plat defenders react to drones. Drone bait + opposite exec wins 1-2 rounds per match consistently. The key is committing fully to the bait — your drone needs to take a risky angle the defenders will visibly destroy. A drone that quietly disappears doesn't trigger the defender utility commit.</p>`,
-      },
-    ],
-    mistakes: [
-      'Same anchor spot every round — predictable to Emerald reads.',
-      'No run-outs on Border / Coastline — free picks lost.',
-      'Vertical floor-breaking without a target — open and pray.',
-      'Default ranked ops every match — predictable comp.',
-      'No drone bait or fake exec — opponents read your real exec every round.',
-    ],
-    drill: {
-      heading: 'Drill: 5-round Custom Game on Bank with role variation',
-      html: `<p>Set up a 5-round Custom Game on Bank with a buddy. Each round, vary your strat:</p>
-<ol>
-  <li>Round 1: run-out from CEO Lobby (defender side practice).</li>
-  <li>Round 2: vertical Sledge drop from white stairs.</li>
-  <li>Round 3: off-angle hold by the safe (instead of standard corner).</li>
-  <li>Round 4: Frost mats in basement on the rotation path.</li>
-  <li>Round 5: standard meta exec.</li>
-</ol>
-<p>Each round forces a different muscle memory. Mix this into your scrim routine and you'll start auto-adapting per-round in ranked.</p>`,
+  "game": "r6",
+  "gameLabel": "Rainbow Six Siege",
+  "fromRank": "Platinum",
+  "toRank": "Emerald",
+  "slug": "r6-platinum-to-emerald",
+  "dateModified": "2026-09-25",
+  "metaTitle": "Platinum to Emerald in Rainbow Six Siege: Adapt with Evidence",
+  "metaDescription": "Practice purposeful angles, safer repositioning, useful destruction and clear team adjustments. Review decisions without invented timers or guaranteed wins.",
+  "readMinutes": 4,
+  "intro": "<p>Adapt because something changed: a drone found you, a wall opened, a teammate died or the objective moved the fight. A surprising play is only useful if it still serves the round. These practice habits are recommendations, not a promise of Emerald.</p>",
+  "sections": [
+    {
+      "heading": "Give every angle a job and an exit",
+      "html": "<p>Before holding a position, name the route it controls, the directions that expose you and the cover you can return to. An unusual angle can still be a bad angle if you cannot escape or receive support.</p><p>Once a drone or engagement reveals your position, reassess. Staying can be reasonable with cover and support; repositioning can be useful when the enemy can isolate you. Tell your teammate which route becomes uncovered when you move.</p>"
     },
-    aiVodMention: `<p>At this elo, finding the predictable habits in your own play is the climb. <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> tags rounds where you held the same anchor twice in a row or used identical exec timing — the patterns Emerald opponents will exploit.</p>`,
-    relatedLinks: [
-      { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
-      { name: 'Border — Complete Strategy Guide', url: '/guides/border.html' },
-      { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
-      { name: 'Goyo operator guide', url: '/guides/operators/goyo.html' },
-      { name: 'Sledge operator guide', url: '/guides/operators/sledge.html' },
-    ],
-    readMinutes: 9,
+    {
+      "heading": "Match your peek to the information you have",
+      "html": "<p>Separate checking for information from committing to a gunfight. Approach cover with your crosshair near the likely threat. When contesting a known angle, be ready to aim down sights before exposing yourself. Avoid staying scoped through every safe movement just from habit.</p><p>With a practice partner, compare a brief information peek and a committed swing. Review how much you exposed, whether your crosshair was ready and whether a teammate could trade. No peek makes you invulnerable, and repeating one into a waiting opponent is not a plan.</p>"
+    },
+    {
+      "heading": "Treat run-outs as a risk, not a requirement",
+      "html": "<p>Do not leave a useful defensive position because a guide promises a free kill. Consider confirmed attacker pressure, your exposure, the objective and a viable return route. If the information is stale or you cannot return safely, an inside angle may serve the team better.</p><p>There is no universal round-clock script for a run-out. Use the actual game cues and current mode rules. Agree on support and an abort condition before attempting a practiced play; never assume the attacker cannot see you.</p>"
+    },
+    {
+      "heading": "Make destruction solve a visible problem",
+      "html": "<p>Ubisoft describes <a href=\"https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/sledge\">Sledge</a> as a soft breacher who opens non-reinforced surfaces to create new lines of fire and entry points. An opening changes the fight for both teams; do not assume it is invisible to a defender.</p><p>Verify the current map, room relationship and destructible surface in practice. Check the result from both sides and identify what it exposes. During a round, protect your flank and coordinate pressure. If there is no confirmed target or useful objective angle, reconsider spending time on that opening.</p>"
+    },
+    {
+      "heading": "Change the plan from confirmed evidence",
+      "html": "<p>Pick operators for jobs the team needs and check the confirmed bans and actual selections. A different pick is not automatically a counter. Explain which problem it solves and who covers the job you are giving up.</p><p>A drone being destroyed does not prove that defenders relocated or spent important utility. Use fresh information before committing to the other entry. Call an uncertainty plainly: \"Last seen here; the other room is unchecked.\" Let the designated IGL choose the adjustment, and report when the plan is no longer workable.</p>"
+    }
+  ],
+  "mistakes": [
+    "Changing position without covering the route you leave.",
+    "Repeating a peek without new information or support.",
+    "Treating an exterior challenge as a guaranteed opening kill.",
+    "Assuming a floor opening is invisible from below.",
+    "Calling a fake successful without seeing a defender response.",
+    "Changing operators without reassigning the missing job."
+  ],
+  "drill": {
+    "heading": "Drill: test one position from both sides",
+    "html": "<p>In a custom game with a partner on the opposing side, choose one doorway and a nearby position. First test what each player can see without shooting. Then compare a short information peek with a committed challenge. Swap roles and review the exposure, crosshair preparation and fallback.</p><p>Change one condition at a time, such as the holder’s position or whether the attacker has fresh drone information. Keep a short note of what worked and why. Bring one habit into your next session and review several attempts instead of judging it by one kill.</p>"
   },
+  "aiVodMention": "<p>Bring your coach two comparable rounds and ask what changed between them. For Recon6 screenshot review, include the side, site, objective state and your question. A still image cannot establish repeated round habits, exact execution timing or an unseen opponent’s reaction; those require additional evidence.</p>",
+  "relatedLinks": [
+    {
+      "name": "Plan and post-plant practice",
+      "url": "/blog/r6-gold-to-platinum.html"
+    },
+    {
+      "name": "Strategy library",
+      "url": "/strats"
+    }
+  ]
+},
   {
     game: 'r6',
     gameLabel: 'Rainbow Six Siege',
@@ -2441,7 +2299,7 @@ function renderPost(post) {
     : `
     <div class="intro-cta">
       <h3>Want AI-powered VOD review on your own gameplay?</h3>
-      <p>Recon 6 Pro reads your replays and flags positioning, utility, and decision mistakes round-by-round. Founding rate $9/mo.</p>
+      <p>Recon 6 Pro reviews the match screenshots you submit and suggests corrections to check against your round context. See current membership prices and included tools on the Plans page. Paid memberships do not include a free trial.</p>
       <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
     </div>`
 
@@ -2453,7 +2311,7 @@ function renderPost(post) {
         <span class="pill">${escape(post.gameLabel)}</span>
         <span class="pill">${escape(post.fromRank)} → ${escape(post.toRank)}</span>
         <span>${post.readMinutes} min read</span>
-        <span>Last updated: 2026-05</span>
+        <span>Last updated: ${post.dateModified || post.datePublished || '2026-05'}</span>
       </div>
       ${post.intro}
       ${sectionsHtml}

@@ -14,7 +14,7 @@ export default function TermsPage() {
       <p>Some features require a paid subscription. You agree to provide accurate information when subscribing and to keep your account credentials secure. You are responsible for all activity under your account.</p>
 
       <h2>4. Subscription & Billing</h2>
-      <p>Paid plans are billed through Stripe and renew automatically unless cancelled. Pro begins with a card-required 30-day trial; the price and billing terms are shown at checkout before you subscribe. You may cancel at any time from your account settings or by contacting support. Cancellation takes effect at the end of the current billing period.</p>
+      <p>Paid plans are billed through Stripe and renew automatically unless cancelled. Paid memberships begin billing at checkout and do not include a free trial; the price and billing terms are shown before you subscribe. You may cancel at any time from your account settings or by contacting support. Cancellation takes effect at the end of the current billing period.</p>
 
       <h2>5. Digital Products</h2>
       <p>Digital workbook purchases are one-time charges, not subscriptions. After payment is verified, the purchaser receives a private download tied to the Recon 6 account email used at checkout. Purchase grants one person a non-exclusive, non-transferable license to use and print the files for personal educational use. You may not share the private download, upload the files publicly, resell them, or distribute copies. Digital-product refunds follow our <a href="/refund">Refund Policy</a> and applicable law.</p>

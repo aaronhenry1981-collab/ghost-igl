@@ -3,6 +3,16 @@
 
 const CHANGELOG = [
   {
+    date: '2026-09-17',
+    tag: 'fix',
+    title: 'Tools pricing and beginner coaching corrections',
+    items: [
+      'The Tools page now matches checkout: paid memberships have no free trial; free Bank and Coastline previews remain available.',
+      'Rewrote the Copper guide with site-specific reinforcement advice, drone preservation, safer trading, and a manageable practice routine.',
+      'Removed incorrect mechanics, retired training-mode references, and unsupported rank guarantees from that guide.',
+    ],
+  },
+  {
     date: '2026-07-25',
     tag: 'content',
     title: 'R6 Y11S2.2 mid-season patch coverage + season countdown',
@@ -40,7 +50,7 @@ const CHANGELOG = [
     items: [
       'Recon 6 is focused on Rainbow Six Siege: map strategies, operator guidance, VOD review, and training progress.',
       'The free account and paid membership terms were clarified so checkout promises match the product.',
-      'The 30-day Pro trial requires a card and shows its billing terms before checkout.',
+      'Paid memberships start billing at checkout without a free trial; free Basic accounts remain available.',
       'Coaching and Road to Champion were updated around R6 match evidence and practice goals.',
       'Current prices and eligibility are shown on the pricing page.',
     ],

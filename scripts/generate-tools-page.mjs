@@ -36,7 +36,7 @@ const html = `<!doctype html>
 <body><main class="container"><nav class="nav"><a href="/">Recon 6</a><a href="/guides/">Map guides</a><a href="/blog/">Blog</a><a href="/#pricing">Pricing</a></nav>
 <section class="hero"><div class="badge">Recon 6 Tools</div><h1>Every <span>R6 Tool</span> in One Place</h1><p class="lead">Use the Rainbow Six reference tool that matches the job: prepare the round, review your match, and keep one clear practice focus.</p></section>
 <h2>The R6 Coaching Toolkit</h2><section class="grid">${cards}</section>
-<section class="pricing"><h3>Start with the free R6 reference tools. Pro adds AI VOD review.</h3><p>Pro includes a 30-day card-required trial, then bills at the price shown at checkout. Review each plan’s included tools before you subscribe.</p><a href="/#pricing" class="cta">See pricing &rarr;</a></section>
+<section class="pricing"><h3>Start with the free R6 reference tools. Pro adds AI VOD review.</h3><p>Paid memberships start billing at checkout; there is no free trial. Free Bank and Coastline strategy previews remain available. Review each plan’s included tools before you subscribe.</p><a href="/#pricing" class="cta">See pricing &rarr;</a></section>
 <footer>Recon 6 — Rainbow Six Siege coaching. Fan-made, not affiliated with Ubisoft.</footer></main></body></html>`
 
 const out = join(ROOT, 'public', 'tools')

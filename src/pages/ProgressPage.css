@@ -131,6 +131,14 @@
 .progress-tracker-copy { max-width: 570px; }
 .progress-tracker-copy p { color: var(--progress-muted); line-height: 1.55; margin: .65rem 0; }
 .progress-tracker-copy a { color: var(--progress-cyan); font-weight: 750; }
+.progress-tracker-identity { display: grid; justify-items: start; gap: .25rem; margin-top: .8rem; }
+.progress-tracker-identity strong { color: #fff; }
+.progress-tracker-identity small { color: var(--progress-muted); }
+.progress-rank-source { display: grid; gap: .2rem; margin-top: .9rem; padding: .75rem .85rem; border: 1px solid rgba(85,214,139,.32); border-radius: 10px; background: rgba(85,214,139,.07); }
+.progress-rank-source strong { color: var(--progress-good); }
+.progress-rank-source span, .progress-rank-source small { color: var(--progress-muted); font-size: .8rem; }
+.progress-rank-source.is-stale { border-color: rgba(242,167,27,.4); background: rgba(242,167,27,.07); }
+.progress-rank-source.is-stale strong { color: var(--progress-amber); }
 .progress-tracker-form { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; }
 .progress-tracker-form label { color: var(--progress-muted); font-size: .82rem; display: grid; gap: .3rem; }
 .progress-tracker-form input, .progress-tracker-form select { min-height: 42px; background: #09111b; color: #fff; border: 1px solid var(--progress-line); border-radius: 8px; padding: .55rem .7rem; }

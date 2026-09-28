@@ -1,0 +1,53 @@
+name: release-ci
+
+# Validation for the production release line. It never deploys: no AWS
+# credentials are configured, and dummy values plus a dead endpoint make any
+# accidental AWS call fail fast instead of reaching a real account.
+
+on:
+  pull_request:
+  push:
+    branches: ['release/**', content/strat-beta-disclaimer, production]
+
+permissions:
+  contents: read
+
+env:
+  AWS_ACCESS_KEY_ID: ci-dummy
+  AWS_SECRET_ACCESS_KEY: ci-dummy
+  AWS_REGION: us-east-1
+  AWS_ENDPOINT_URL: http://127.0.0.1:9
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+      - run: npm ci
+      - name: Install Lambda dependencies used by tests
+        run: |
+          for d in booking coaching-sync subscription vod webhook player-data ubisoft-patch-watcher customer-success; do
+            if [ -f "lambda/$d/package-lock.json" ]; then npm ci --no-audit --no-fund --prefix "lambda/$d"; elif [ -f "lambda/$d/package.json" ]; then npm install --no-audit --no-fund --prefix "lambda/$d"; fi
+          done
+      - run: npm run lint
+      - name: Production-line unit tests
+        run: node scripts/run-release-tests.mjs
+      - name: Customer success + Support tests
+        run: npm run test:customer-success
+      - name: Support fixtures match the backend
+        run: node scripts/support/generate-fixtures.mjs --check
+      - name: Validate customer-success SAM stack
+        run: sam validate --lint --template-file aws/customer-success-template.yaml
+      - name: Build customer-success SAM stack
+        run: sam build --template-file aws/customer-success-template.yaml --build-dir .aws-sam-customer-success
+      - name: Validate player-data SAM stack
+        run: sam validate --lint --template-file aws/player-data-template.yaml
+      - name: Production build (generators, product truth, content and personal-data audits)
+        run: npm run build

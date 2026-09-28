@@ -261,7 +261,8 @@ ${faqHtml}
   var SRC_KEY = 'recon:src';
   function captureRef() {
     try {
-      var raw = new URLSearchParams(window.location.search).get('ref');
+      var query = new URLSearchParams(window.location.search);
+      var raw = query.get('ref') || query.get('utm_source');
       var clean = (raw || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 32);
       if (clean && !localStorage.getItem(SRC_KEY)) localStorage.setItem(SRC_KEY, clean);
     } catch (e) { /* storage blocked — lose attribution, never break booking */ }

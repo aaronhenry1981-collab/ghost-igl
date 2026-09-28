@@ -25,6 +25,7 @@ const LiveCoachPage = lazy(() => import('./pages/LiveCoachPage'))
 const PressPage = lazy(() => import('./pages/PressPage'))
 const R6TierListPage = lazy(() => import('./pages/R6TierListPage'))
 const EmbedMatchPrepPage = lazy(() => import('./pages/EmbedMatchPrepPage'))
+const StartPage = lazy(() => import('./pages/StartPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
 const MetaPage = lazy(() => import('./pages/MetaPage'))
@@ -41,7 +42,13 @@ const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
 const BeginnerGuidePage = lazy(() => import('./pages/BeginnerGuidePage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const PlayerHomePage = lazy(() => import('./features/home/PlayerHomePage'))
+const CrmRoute = lazy(() => import('./features/crm/CrmRoute'))
+const SupportRoute = lazy(() => import('./features/support/SupportRoute'))
+const HelpRoute = lazy(() => import('./features/support/HelpRoute'))
+// Dev-only fixture previews (fictional data). `import.meta.env.DEV` is false in
+// production builds, so neither the route nor its chunk ships.
+const DevPreviewPage = import.meta.env.DEV ? lazy(() => import('./features/dev/DevPreviewPage')) : null
 const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
@@ -181,7 +188,8 @@ const router = createBrowserRouter([
       { path: '/match-prep', element: <L><MatchPrepPage /></L> },
       { path: '/match-prep/:mapId', element: <L><MatchPrepPage /></L> },
       { path: '/loadouts', element: <L><LoadoutsPage /></L> },
-      { path: '/dashboard', element: <L><DashboardPage /></L> },
+      { path: '/dashboard', element: <L><PlayerHomePage /></L> },
+      ...(DevPreviewPage ? [{ path: '/__dev/*', element: <L><DevPreviewPage /></L> }] : []),
       { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
@@ -190,7 +198,17 @@ const router = createBrowserRouter([
       { path: '/meta', element: <L><MetaPage /></L> },
       { path: '/vod', element: <L><VodPage /></L> },
       { path: '/admin', element: <L><AdminPage /></L> },
+      { path: '/admin/crm', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/players/:key', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/support/*', element: <L><CrmRoute /></L> },
+      { path: '/admin/crm/:tab', element: <L><CrmRoute /></L> },
       { path: '/account', element: <L><AccountPage /></L> },
+      // Player Command (support) + Help Center. Registered explicitly: unknown
+      // paths redirect home via the catch-all below.
+      { path: '/support', element: <L><SupportRoute /></L> },
+      { path: '/support/cases/:caseNumber', element: <L><SupportRoute /></L> },
+      { path: '/help', element: <L><HelpRoute /></L> },
+      { path: '/help/:slug', element: <L><HelpRoute /></L> },
       { path: '/activate', element: <L><ActivatePage /></L> },
       { path: '/download', element: <L><DownloadPage /></L> },
     ],
@@ -199,6 +217,11 @@ const router = createBrowserRouter([
   // widget has NO navbar / footer / founding banner. Iframe-safe by
   // design (no global UI that would render weirdly in a 600px frame).
   { path: '/embed/match-prep/:mapId', element: <L><EmbedMatchPrepPage /></L> },
+
+  // Social sales page (TikTok / Shorts / Reels). Also outside the Layout: one
+  // job per page, so no site navigation, announcement banner or welcome
+  // modals over the product. Standard: docs/GROWTH-UX-OPERATING-STANDARD.md.
+  { path: '/start', element: <L><StartPage /></L> },
 
   // Friendly redirects for paths a curious user (or auditor) might type
   // directly. Pricing is a landing-page section, so we send them home and

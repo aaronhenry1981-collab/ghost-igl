@@ -11,6 +11,7 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
+import { CURRENT_R6_SEASON, balanceChangesFor } from '../src/data/r6-season.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -87,7 +88,7 @@ const OP_DATA = {
   },
   Sledge: {
     side: 'attack', role: 'Vertical Play / Soft Breach', gadget: 'Tactical Breaching Hammer',
-    gadgetDesc: 'A breaching hammer that destroys soft walls and floors silently and instantly. 25 charges per round — effectively unlimited.',
+    gadgetDesc: 'A breaching hammer that breaks soft walls and floors up close. Each swing takes 0.8 seconds as of Y11S3.1 (was 1 second). 25 charges per round — effectively unlimited.',
     primary: 'L85A2 / M590A1', secondary: 'P226 MK 25', secondaryGadget: 'Frag Grenades / Stun Grenade', speed: '2-speed / 2-armor',
     intro: 'Sledge is the king of vertical play. His breaching hammer creates instant soft floor / wall holes for vertical drops, murder holes, and custom angles. Banned in 50%+ of Coastline / Skyscraper / Chalet matches because of his vertical destruction.',
     strengths: ['Unlimited soft breach charges (25 hammer hits)', 'Silent breach — defenders don\'t hear hammer like they hear breach charges', 'Frag secondary gadget for direct kills through soft walls', 'Strong AR (L85A2) for entry frag'],
@@ -207,18 +208,19 @@ const OP_DATA = {
   },
   Dokkaebi: {
     side: 'attack', role: 'Intel / Targeted Disable', gadget: 'Jegeo Payload',
-    // Updated for Y11S2 Operation System Override (June 2, 2026).
-    // Old gadget Logic Bomb (mass phone reveal) replaced with single-target
-    // Jegeo Payload — Deimos-style mark that explodes the targeted defender's
-    // phone for ~40 HP + fire damage and locks them out of observation tools
-    // and any phone-controlled gadget (Maestro/Echo/Mozzie/Fenrir/Skopós).
-    gadgetDesc: 'A targeted device that marks ONE defender per call. The targeted defender\'s phone rings with an urgent warning — if they don\'t relocate, it explodes for ~40 HP direct damage plus fire damage around them. The hit defender is then locked out of observation tools and any phone-controlled gadget (Maestro Evil Eyes, Echo Yokai, Mozzie Pests, Fenrir mines, Skopós rope-cam). More charges + faster cooldown than the old Logic Bomb. Passive: hacks defender cams when she kills a defender.',
-    primary: 'BOSG.12.2 / Mk 14 EBR / XK23', secondary: 'C75 AUTO / SMG-12', secondaryGadget: 'Stun Grenade / Frag Grenade', speed: '3-speed / 1-armor',
+    // Y11S2 remaster (Operation System Override, June 2, 2026). Checked
+    // 2026-09-25 against Ubisoft's Dokkaebi operator page (loadout), the Y11S2
+    // designer's notes (40 HP, 5-second fire, Stun Grenades removed), the
+    // June 26 Community Checkpoint (Mute and Tubarao can sever the payload from
+    // mid-season) and the mid-season update (14-second cooldown per target).
+    // Nothing official backs a Vigil counter.
+    gadgetDesc: 'A targeted call on ONE defender at a time, aimed like Deimos\'s DeathMark tracker. If the target doesn\'t reset their phone in time, it explodes for 40 HP and starts a fire where they stand that burns for 5 seconds. A defender whose phone explodes can\'t use observation tools until they die or the round ends, which also shuts off phone-driven gadgets: Maestro\'s Evil Eye zaps, Echo\'s Yokai bursts, Mozzie\'s stolen drones, Fenrir\'s F-NATT Dread Mines and switching Skopós\'s shells. More charges than the old Logic Bomb; since the mid-season patch the cooldown is 14 seconds per target. Passive: she still hacks eliminated defenders\' phones, now from a distance and through walls.',
+    primary: 'BOSG.12.2 / Mk 14 EBR / XK23', secondary: 'C75 Auto / Gonne-6 / SMG-12', secondaryGadget: 'Smoke Grenade / Breach Charge', speed: '3-speed / 1-armor',
     intro: 'Dokkaebi remastered in Y11S2: single-target Jegeo Payload replaces the old mass-call Logic Bomb. She is now a hard counter against phone-gadget defenders — Maestro, Echo, Mozzie, Fenrir, and Skopós all lose their kit if she lands her mark.',
-    strengths: ['Jegeo Payload disables phone-gadget defenders (Maestro/Echo/Mozzie/Fenrir/Skopós) when it lands', 'Forced 40 HP damage on the target plus surrounding fire damage', 'Locks the target out of observation tools — kills cam-watch defense', 'New XK23 Assault Rifle option gives her real mid-range combat capability', 'Cam hack on kill remains as passive intel'],
-    counterPicks: ['Mute (jammers near defenders block phone activation)', 'Vigil (cloak nullifies the targeting)'],
-    counterAdvice: 'On defense: Mute jammers near defenders block Jegeo Payload activation. Vigil\'s cloak nullifies the targeting beep. If your phone rings urgently — RELOCATE immediately, the explosion area is small but the damage is lethal. Phone-gadget anchors (Maestro, Echo, Mozzie, Fenrir, Skopós) need to stay near a Mute jammer at all times after the Y11S2 patch.',
-    howToClimb: 'Y11S2 Jegeo Payload usage: prioritize targeting the enemy Maestro / Echo / Mozzie / Fenrir / Skopós at the start of a push — locking them out of their gadget is round-deciding. Save remaining charges for the post-plant fight to deny defuser-denial cameras. The XK23 fills her old mid-range gap — she can solo entry now, not just play intel role.',
+    strengths: ['Jegeo Payload disables phone-gadget defenders (Maestro/Echo/Mozzie/Fenrir/Skopós) when it lands', '40 HP explosion plus a 5-second fire when the target is slow to reset their phone', 'Locks the target out of observation tools — kills cam-watch defense', 'New XK23 assault rifle: a steadier primary for sustained short-to-medium range fights', 'Still hacks eliminated defenders\' phones, now from range and through walls'],
+    counterPicks: ['Mute (can sever the payload connection before it detonates)', 'Tubarao (can sever the payload connection before it detonates)'],
+    counterAdvice: 'On defense: reset your phone the moment it rings. If it goes off you take 40 HP and a fire starts under you, so move. Since the mid-season patch the payload is a signal she has to hold, and Mute or Tubarao can cut it before it detonates. Phone-gadget anchors (Maestro, Echo, Mozzie, Fenrir, Skopós) lose that gadget for the rest of the round if their phone blows, so keep them inside that cover.',
+    howToClimb: 'Y11S2 Jegeo Payload usage: prioritize targeting the enemy Maestro / Echo / Mozzie / Fenrir / Skopós at the start of a push — locking them out of their gadget is round-deciding. Save remaining charges for the post-plant fight to deny defuser-denial cameras. The XK23 gives her a steadier gun for sustained fights, but Ubisoft took away her Stun Grenades to keep her on intel, not solo entry.',
   },
   Finka: {
     side: 'attack', role: 'Support / Buff', gadget: 'Adrenal Surge',
@@ -433,13 +435,13 @@ const OP_DATA = {
     howToClimb: 'Place Volcán shields on common vertical drop spots — when Sledge / Buck breaks the floor, you detonate the Volcán to deny the drop. Position one shield in the bomb room for plant denial. Save 1 detonation for the post-plant.',
   },
   Castle: {
-    side: 'defense', role: 'Choke Denial', gadget: 'Universal Breaching Shield',
+    side: 'defense', role: 'Choke Denial', gadget: 'Armor Panel',
     gadgetDesc: 'Four Castle armor barricades that block doors and windows with reinforced metal. Bulletproof unless attacked by specific gadgets.',
     primary: 'UMP45 / M1014', secondary: 'MAGNUM', secondaryGadget: 'Bulletproof Camera / Proximity Alarm', speed: '2-speed / 2-armor',
     intro: 'Castle denies attacker entry routes via reinforced barricades. Strong on sites with multiple choke points where forcing attackers into one entry is round-deciding.',
     strengths: ['Four armor barricades = four entry denials', 'Forces attackers to bring soft-breach utility (Buck, Sledge, Zofia)', 'Strong primary SMG (UMP45)', 'Versatile secondary gadgets'],
     counterPicks: ['Sledge (hammer breaks barricades)', 'Buck (Skeleton Key shotgun)', 'Zofia (impact grenades)', 'Maverick (blowtorch)'],
-    counterAdvice: 'On attack: bring soft-breach (Sledge, Buck, Zofia) for any Castle-banned site. Castle barricades take 4-6 hits to break with normal weapons; with hammer/shotgun, 1-2 hits.',
+    counterAdvice: 'On attack: bring soft-breach (Sledge, Buck, Zofia) for any Castle-banned site. As of Y11S3.1 an Armor Panel takes 10 melee hits to destroy (was 9).',
     howToClimb: 'Place Castle barricades on common attacker entry routes — windows, doorways. Force attackers to bring soft breach, removing one of their meta picks. Coordinate with Mira windows on adjacent walls — Castle denies one entry; Mira reads the other.',
   },
   Doc: {
@@ -562,23 +564,6 @@ const OP_DATA = {
     counterAdvice: 'On attack: Zoto Canisters are visible — destroy on sight with primary fire. The slow effect lasts ~5 seconds; take cover to wait it out.',
     howToClimb: 'Place Zoto Canisters near choke points where attackers will push. Save 1 for late-round plant denial — slow the planter for safe trade kill. Coordinate with Maestro for combined slow + laser damage.',
   },
-}
-
-// Add fallback for any operator missing from OP_DATA
-const OP_FALLBACK = {
-  side: 'attack',
-  role: 'Operator',
-  gadget: 'Unique gadget',
-  gadgetDesc: 'See in-game description for full ability details.',
-  primary: 'See loadout',
-  secondary: 'See loadout',
-  secondaryGadget: 'Frag / Stun / Smoke',
-  speed: '2-speed / 2-armor',
-  intro: 'A Rainbow Six Siege operator with unique utility. Pick based on map and team comp synergy. <em>Detailed write-up VERIFY: confirm specifics before relying on this guide.</em>',
-  strengths: ['Versatile across attack scenarios', 'Strong primary weapon options', 'Unique gadget for tactical advantage'],
-  counterPicks: ['Universal counters (Thatcher, Mute, etc.)'],
-  counterAdvice: 'See per-operator counter strategies in the Recon 6 operator guide.',
-  howToClimb: 'Master the operator\'s gadget timing and weapon recoil. Coordinate with team for synergy plays.',
 }
 
 // ---------- BUILD OPERATOR INDEX FROM STRATS ----------
@@ -746,7 +731,7 @@ function renderBestSites(opName, opSites) {
 }
 
 function renderOperatorPost(opName, opIndex) {
-  const op = OP_DATA[opName] || OP_FALLBACK
+  const op = OP_DATA[opName]
   const opSites = (opIndex[opName]?.sites) || []
   const slug = `r6-operator-${slugify(opName)}`
   const canonical = `${SITE_URL}/blog/${slug}.html`
@@ -757,6 +742,17 @@ function renderOperatorPost(opName, opIndex) {
   const intro = `<p>${op.intro}</p>
 <p>This guide covers ${opName}\'s loadout and gadget use, the maps + sites where they\'re strongest, common mistakes that hold ${opName} mains back, counter picks ${opName} is most vulnerable to, a practice drill to lock in their mechanics, and how to climb ranked with them. Last updated ${YEAR} — patch-current as of the most recent Operation.</p>
 <p>${opName} is a ${op.side === 'attack' ? 'attacker' : 'defender'} ${op.role.toLowerCase().includes('hard breach') ? 'used in coordinated executions where wall opening is round-deciding' : op.role.toLowerCase().includes('intel') ? 'whose information advantage shapes every team fight' : op.role.toLowerCase().includes('roam') ? 'whose flank plays disrupt attacker timing and force re-clears' : op.role.toLowerCase().includes('anchor') ? 'who holds site from cover and trade-frags pushers' : op.role.toLowerCase().includes('support') ? 'whose utility enables teammates direct frags' : 'with a unique kit that rewards specific situational play'}. Pick them when the team comp needs their role — running ${opName} as filler instead of fit is the fastest way to throw the round.</p>`
+
+  // Official changes to this operator's own gadget or weapons in the current
+  // patch, rendered from the one reviewed season snapshot (r6-season.js).
+  const patchChanges = balanceChangesFor(opName)
+  const patchSection = patchChanges.length ? `
+    <div class="callout patch">
+      <h3>${escape(CURRENT_R6_SEASON.code)} update (${escape(CURRENT_R6_SEASON.patchDateLabel)})</h3>
+      <ul>${patchChanges.map((c) => `<li><strong>${escape(c.item)}:</strong> ${escape(c.summary)}</li>`).join('')}</ul>
+      <p>Source: <a href="${escape(CURRENT_R6_SEASON.patchNotesUrl)}" rel="noopener">Ubisoft’s official ${escape(CURRENT_R6_SEASON.code)} patch notes</a>.</p>
+    </div>` : ''
+  const lastUpdated = patchChanges.length ? CURRENT_R6_SEASON.verifiedOn : `${YEAR}-05-10`
 
   const sitesSection = `
     <h2>Best Maps & Sites for ${opName}</h2>
@@ -778,6 +774,7 @@ function renderOperatorPost(opName, opIndex) {
       </ul>
     </div>
     <p>${op.gadgetDesc}</p>
+    ${patchSection}
     <h3>Strengths</h3>
     <ul>${op.strengths.map((s) => `<li>${s}</li>`).join('')}</ul>`
 
@@ -886,7 +883,7 @@ function renderOperatorPost(opName, opIndex) {
         <span class="pill">${escape(op.role)}</span>
         <span class="pill">${escape(op.speed)}</span>
         <span>10 min read</span>
-        <span>Last updated: ${YEAR}-05</span>
+        <span>Last updated: ${lastUpdated.slice(0, 7)}</span>
       </div>
       ${intro}
       ${sitesSection}
@@ -911,7 +908,7 @@ function renderOperatorPost(opName, opIndex) {
       author: { '@type': 'Organization', name: 'Recon 6' },
       publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
       datePublished: `${YEAR}-05-10`,
-      dateModified: `${YEAR}-05-10`,
+      dateModified: lastUpdated,
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
       inLanguage: 'en-US',
       articleSection: 'R6 Operators',
@@ -950,7 +947,12 @@ function renderOperatorPost(opName, opIndex) {
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
   const opIndex = buildOperatorIndex()
-  const opNames = Object.keys(opIndex).sort()
+  // Only operators with a real write-up in OP_DATA get a page. The old
+  // fallback published placeholder copy ("Unique gadget", "VERIFY: confirm
+  // specifics") for anyone strats.js mentions, and the sitemap lists only
+  // operators that have a write-up.
+  const opNames = Object.keys(opIndex).filter((name) => OP_DATA[name]).sort()
+  const skipped = Object.keys(opIndex).filter((name) => !OP_DATA[name]).sort()
 
   let written = 0
   for (const opName of opNames) {
@@ -962,6 +964,7 @@ function main() {
 
   console.log(`✓ Generated ${written} R6 operator deep-dive posts in public/blog/`)
   console.log(`  Operators: ${opNames.join(', ')}`)
+  if (skipped.length) console.log(`  Skipped (no write-up in OP_DATA): ${skipped.join(', ')}`)
 }
 
 main()

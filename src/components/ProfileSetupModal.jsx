@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { onboardingDeferredHere } from '../lib/onboardingDeferral'
 import { useAuth } from '../hooks/useAuth'
 import { getRefSource, clearRefSource } from '../lib/refSource'
 import { RANKS } from '../data/ranks' // single source of truth — all 40 R6 ranks w/ divisions
@@ -52,12 +54,25 @@ const SKIP_KEY = 'ghost-igl:profile-skip'
 
 export default function ProfileSetupModal() {
   const { user, isAdmin, profile, profileComplete, loading, refreshProfile } = useAuth()
+  const { pathname } = useLocation()
   const [step, setStep] = useState(1)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [skipped, setSkipped] = useState(() => {
     try { return sessionStorage.getItem(SKIP_KEY) === '1' } catch { return false }
   })
+
+  // The player home's "Finish profile" action re-opens this modal even if it
+  // was skipped earlier in the session.
+  useEffect(() => {
+    function reopen() {
+      try { sessionStorage.removeItem(SKIP_KEY) } catch { /* ignore */ }
+      setSkipped(false)
+      setStep(1)
+    }
+    window.addEventListener('recon:open-profile-setup', reopen)
+    return () => window.removeEventListener('recon:open-profile-setup', reopen)
+  }, [])
 
   const [form, setForm] = useState({
     display_name: profile?.display_name || '',
@@ -77,7 +92,7 @@ export default function ProfileSetupModal() {
   // Admins are owners/operators, not onboarding leads. Bypass this customer
   // profile + trial flow using the verified Cognito group claim so the modal
   // stays suppressed across browser origins, storage resets, and previews.
-  if (loading || !user || isAdmin || profileComplete || skipped) return null
+  if (loading || !user || isAdmin || profileComplete || skipped || onboardingDeferredHere(pathname)) return null
 
   function setField(name, value) {
     setForm(f => ({ ...f, [name]: value }))

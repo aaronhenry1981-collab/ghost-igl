@@ -98,7 +98,7 @@ function BanBoard({ side }) {
     return (
       <div className="meta-card">
         <div className="meta-card-header">
-          <h2>Most-banned operators</h2>
+          <h2>Common ban recommendations</h2>
           <p>No ban recommendations for this filter.</p>
         </div>
       </div>
@@ -108,8 +108,8 @@ function BanBoard({ side }) {
   return (
     <div className="meta-card">
       <div className="meta-card-header">
-        <h2>Most-banned operators</h2>
-        <p>The highest-impact ban targets across the ranked pool — who to remove from the enemy roster first.</p>
+        <h2>Common ban recommendations</h2>
+        <p>Counts show how often our guides recommend each ban across maps and sides. They are not live ranked ban rates.</p>
       </div>
       <div className="meta-ban-grid">
         {rows.map((b) => (
@@ -117,7 +117,7 @@ function BanBoard({ side }) {
             <div className="meta-ban-header">
               <span className="meta-ban-name">{b.name}</span>
               <span className="meta-ban-count">
-                <strong>{b.filteredCount}</strong> map{b.filteredCount === 1 ? '' : 's'}
+                <strong>{b.filteredCount}</strong> recommendation{b.filteredCount === 1 ? '' : 's'}
               </span>
             </div>
             {b.sampleReasons[0] && (
@@ -135,8 +135,8 @@ function MapWeightBoard() {
   return (
     <div className="meta-card">
       <div className="meta-card-header">
-        <h2>Map complexity</h2>
-        <p>Ranked maps sorted by essential-pick pressure — higher = less room to improvise lineups.</p>
+        <h2>Essential picks in our guides</h2>
+        <p>Counts of essential operator assignments in our strategy library, grouped by map. These counts do not measure map difficulty.</p>
       </div>
       <ul className="meta-map-list">
         {META.mapStats.map((m) => {

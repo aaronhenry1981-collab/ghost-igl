@@ -1,3 +1,4 @@
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 // VOD Analysis Lambda — Recon+ headline AI feature.
 //
 // Accepts 1-10 gameplay screenshots from a single session and returns
@@ -87,6 +88,9 @@ const MODEL_ID = process.env.VOD_MODEL_ID || 'us.anthropic.claude-sonnet-4-5-202
 const BUDGET_MODEL_ID = process.env.VOD_READER_MODEL_ID || 'us.anthropic.claude-haiku-4-5-20251001-v1:0'
 const VOD_AI_ENABLED = !['0', 'false', 'off', 'no'].includes(String(process.env.VOD_AI_ENABLED || '1').toLowerCase())
 const VOD_ADMIN_DAILY_LIMIT = Math.max(1, parseInt(process.env.VOD_ADMIN_DAILY_LIMIT || '3', 10))
+const lambda = new LambdaClient({ region: process.env.AWS_REGION || 'us-east-1' })
+const PLAYER_DATA_INGEST_FUNCTION = process.env.PLAYER_DATA_INGEST_FUNCTION || ''
+
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5MB decoded per image
 const MAX_IMAGES_PER_SESSION = 10
 const PRO_MAX_IMAGES = 5    // Pro tier: up to 5 images per session
@@ -330,6 +334,72 @@ If none of the images appear to be ${meta.name} gameplay, return:
 {"error":"wrong_game","message":"None of these images look like ${meta.name} gameplay screenshots."}
 
 ${slice}`
+}
+
+function compactFields(fields) {
+  return Object.fromEntries(Object.entries(fields).filter(([, value]) => {
+    if (value === null || value === undefined || value === '') return false
+    if (Array.isArray(value) && value.length === 0) return false
+    return true
+  }))
+}
+
+async function publishVodPlayerData(payload, analysis, gameId) {
+  if (!PLAYER_DATA_INGEST_FUNCTION || !payload?.sub || !analysis || analysis.error) return
+  const capturedAt = new Date().toISOString()
+  const fields = compactFields({
+    vod_score: analysis.session?.score,
+    last_vod_headline: analysis.session?.headline,
+    last_vod_map: analysis.session?.detected_map,
+    last_vod_side: analysis.session?.detected_side,
+    vod_recurring_weaknesses: analysis.patterns?.recurring_weaknesses?.slice(0, 4),
+    vod_standout_strengths: analysis.patterns?.standout_strengths?.slice(0, 4),
+    vod_practice_plan: analysis.practice_plan?.this_week?.slice(0, 5),
+    character_feedback: analysis.character_feedback,
+  })
+  if (!Object.keys(fields).length) return
+
+  try {
+    await lambda.send(new InvokeCommand({
+      FunctionName: PLAYER_DATA_INGEST_FUNCTION,
+      InvocationType: 'Event',
+      Payload: Buffer.from(JSON.stringify({
+        source: 'recon.player-data-provider',
+        detail: {
+          action: 'ingest_bundle',
+          producer: 'vod',
+          owner_user_id: payload.sub,
+          owner_email: payload.email || null,
+          snapshots: [{
+            snapshot_id: `vod-${Date.now()}`,
+            snapshot_type: 'vod_analysis',
+            fields,
+            source: 'vod',
+            captured_at: capturedAt,
+            confidence: 0.75,
+            verification: 'ai_derived',
+            visibility: 'private',
+          }],
+          events: [{
+            event_type: 'vod_reviewed',
+            occurred_at: capturedAt,
+            source: 'vod',
+            visibility: 'private',
+            data: compactFields({
+              game_id: gameId,
+              score: analysis.session?.score,
+              image_count: analysis.session?.image_count,
+              detected_map: analysis.session?.detected_map,
+            }),
+          }],
+        },
+      })),
+    }))
+  } catch (err) {
+    // Never turn a valid paid VOD result into an error merely because the
+    // historical projection is temporarily unavailable.
+    console.error('VOD player-data publish failed:', err?.name || err?.message || 'unknown')
+  }
 }
 
 export async function handler(event) {
@@ -592,6 +662,7 @@ export async function handler(event) {
           period_end: usageMeta?.periodEnd || null,
         }
       : null
+    if (analysisType === 'vod_review') await publishVodPlayerData(payload, analysis, gameId)
     return { statusCode: 200, headers, body: JSON.stringify({ ...analysis, tier, game_id: gameId, usage: responseUsage }) }
   } catch (err) {
     console.error('Bedrock error:', err)

@@ -99,6 +99,8 @@ const ALLOWED_ORIGINS = ['https://r6coaching.com', 'https://www.r6coaching.com',
 // Legacy fields (discord_handle, gamer_id, etc.) are kept for backward compat
 // with existing profile rows; new signups use the modern names.
 const ALLOWED_PROFILE_FIELDS = [
+  'first_name',
+  'last_name',
   // Modern fields — preferred
   'display_name',          // "gamer tag" — public-facing display name
   'discord_username',      // for cold-DM contact

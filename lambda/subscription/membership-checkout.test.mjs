@@ -7,17 +7,17 @@ import {
   resolveMembershipOffer,
 } from './membership-checkout.mjs'
 
-test('Pro preserves the founding price and 30-day card-up-front trial before the deadline', () => {
+test('Pro preserves the founding price without a trial before the deadline', () => {
   const offer = resolveMembershipOffer('pro', Date.parse(DEFAULT_FOUNDING_END_ISO) - 1)
   assert.equal(offer.priceId, 'price_1TPtOKJNddvjgWcg47I16AQp')
-  assert.equal(offer.trialDays, 30)
+  assert.equal(offer.trialDays, 0)
   assert.equal(offer.founding, true)
 })
 
 test('Pro switches new buyers to the regular price after the deadline', () => {
   const offer = resolveMembershipOffer('pro', Date.parse(DEFAULT_FOUNDING_END_ISO) + 1)
   assert.equal(offer.priceId, 'price_1TLEtrJNddvjgWcg9iTWJoLS')
-  assert.equal(offer.trialDays, 30)
+  assert.equal(offer.trialDays, 0)
   assert.equal(offer.founding, false)
 })
 

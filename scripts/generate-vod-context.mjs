@@ -10,16 +10,45 @@
 import { writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { verifiedFor } from '../src/data/verified-callouts.js'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
 import BANS from '../src/data/bans.js'
+import { CURRENT_R6_SEASON } from '../src/data/r6-season.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT = join(ROOT, 'lambda', 'vod', 'r6-context.json')
 
+const words = (s) => ` ${String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `
+
+// True when every word of `name` was read off the screen on this map: an exact
+// footage name, or a shortening of one ("CEO" for "CEO Office"). Stricter than
+// isVerifiedName(), which also passes "Football Office" because "Office" was
+// seen. That is fine for flagging callouts on strat pages, but the reviewer
+// would repeat the unseen name as fact.
+function seenInFootage(mapId, name) {
+  const v = verifiedFor(mapId)
+  if (!v || !name) return false
+  const k = words(name)
+  return [...v.sites, ...v.spawns, ...v.callouts].some((e) => words(e.name).includes(k))
+}
+
 const ctx = {
   generated_at: new Date().toISOString(),
+  // Read by lambda/vod/index.mjs as "CURRENT PATCH FACTS (authoritative;
+  // prefer these over model memory)". Only officially published changes, from
+  // the one reviewed season snapshot (src/data/r6-season.js).
+  current_patch: {
+    version: CURRENT_R6_SEASON.code,
+    season: CURRENT_R6_SEASON.name,
+    released: CURRENT_R6_SEASON.patchDate,
+    verified_on: CURRENT_R6_SEASON.verifiedOn,
+    source: CURRENT_R6_SEASON.patchNotesUrl,
+    balance_changes: CURRENT_R6_SEASON.balanceChanges.map((c) => ({ operators: [...c.operators], item: c.item, change: c.summary })),
+    noor_horus_lance_fixes: [...CURRENT_R6_SEASON.noorFixes],
+    guidance: 'Use these numbers when a round depends on them. The Noor lines describe fixed bugs: never suggest one as a tactic or counterplay.',
+  },
   maps: {},
   // Operator role lookup — useful for prompting the AI to judge utility
   // usage based on what the operator's gadget is actually for.
@@ -43,7 +72,11 @@ for (const map of MAPS) {
         floor: site.floor,
         attack_operators: attackOps,
         defense_operators: defenseOps,
-        callouts,
+        // Only room names read off real match footage reach the reviewer. The
+        // VOD prompt presents the selected site as authoritative, and strats.js
+        // callouts include names nobody has seen in game (map-wide stamps such
+        // as "Service Corridor"; see handoff/recon6-strat-audit.md).
+        callouts: callouts.filter((name) => seenInFootage(map.id, name)),
         attack_strategy_summary: siteStrat?.attack?.strategy?.slice(0, 250) || null,
         defense_strategy_summary: siteStrat?.defense?.strategy?.slice(0, 250) || null,
       }

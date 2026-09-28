@@ -1,3 +1,5 @@
+import { track } from '../utils/analytics'
+import { getRefSource } from './refSource'
 import { API_URL, getCurrentUser, getIdToken, getSession } from './cognito'
 
 export async function openMembershipCheckout(tier) {
@@ -19,12 +21,16 @@ export async function openMembershipCheckout(tier) {
   })
   const data = await response.json().catch(() => ({}))
   if (!response.ok || !data.url) {
+    track('Membership Checkout Failed', { tier, status: response.status })
     throw new Error(data.error || `Could not open checkout (HTTP ${response.status})`)
   }
+  track('Membership Checkout Opened', { tier, source: getRefSource() || 'direct' })
   window.location.assign(data.url)
 }
 
-export function membershipSignInPath(tier) {
-  const redirect = `/?checkout=${encodeURIComponent(tier)}`
+// After signup, /auth sends the player back to `returnPath` with
+// ?checkout=<tier>; that page resumes checkout once (see useCheckoutResume).
+export function membershipSignInPath(tier, returnPath = '/') {
+  const redirect = `${returnPath}?checkout=${encodeURIComponent(tier)}`
   return `/auth?mode=signup&redirect=${encodeURIComponent(redirect)}`
 }

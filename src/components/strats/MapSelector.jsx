@@ -37,7 +37,7 @@ export default function MapSelector({ maps, onSelect }) {
         const isStadium = map.type === 'Stadium'
         const championLocked = map.championOnly && !isChampion
         // Thin free tier: free / signed-out users can only open the free SAMPLE
-        // maps; every other map is locked behind the trial.
+        // maps; every other map is available with a paid plan.
         const sampleLocked = !subscriber && !map.freeSample
         // Stadium maps are Pro-only — non-Pro users can still click in (the
         // StratsPage shows them a ProGate teaser) but the card shows a PRO
@@ -136,7 +136,7 @@ export default function MapSelector({ maps, onSelect }) {
                   letterSpacing: '0.05em',
                 }}
               >
-                {'🔒'} TRIAL
+                {'🔒'} PAID
               </div>
             )}
             <div className="map-card-visual" aria-hidden="true">
