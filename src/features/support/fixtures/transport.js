@@ -239,7 +239,8 @@ export function createFixtureTransport({ scenario = 'default', latency = 180, no
 
     // ---- Help Center (public) -------------------------------------------------------------
     if (method === 'GET' && p === '/cs/help/articles') {
-      if (empty) return clone(H.production.list)
+      // The empty state (a deployment with nothing reviewed yet) stays previewable.
+      if (empty) return { ...clone(H.production.list), articles: [] }
       const q = String(url.searchParams.get('q') || '').trim()
       if (!q) return clone(H.list)
       const known = Object.entries(H.search).find(([k]) => k.toLowerCase() === q.toLowerCase())

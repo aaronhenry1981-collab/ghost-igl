@@ -327,7 +327,8 @@ export async function buildSnapshots() {
   for (const a of help.list.articles) help.articles[a.slug] = await call('GET', `/cs/help/articles/${a.slug}`)
   const prod = createHarness({ engines: realEngines })
   help.production.list = await prod.call('GET', '/cs/help/articles')
-  help.production.articleNotFound = await prod.call('GET', `/cs/help/articles/${help.list.articles[0].slug}`, { expect: 404 })
+  help.production.article = await prod.call('GET', `/cs/help/articles/${help.list.articles[0].slug}`)
+  help.production.articleNotFound = await prod.call('GET', '/cs/help/articles/does-not-exist', { expect: 404 })
 
   // ---- example mutations after the reads (their effects are not in the reads) -----------
   mutations.message = await call('POST', `/cs/me/support/cases/${waitingCase}/messages`, { who: VEX, body: { text: 'It is the Road to Champion card on my home page.', clientRequestId: clientId() } })

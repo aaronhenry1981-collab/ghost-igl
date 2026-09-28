@@ -7,7 +7,7 @@
 import { deriveActivation } from './activation.mjs'
 import { deriveEvidence, deriveFocus, deriveHelp, deriveMission, deriveStuck } from './mission.mjs'
 import { toMs } from './facts.mjs'
-import { COACHING_SESSIONS_PER_MONTH, PLAN_FEATURES, PLAN_LABEL, hasPlan } from './plans.mjs'
+import { COACHING_SESSIONS_PER_MONTH, INCLUDED_SESSION_CTA, PLAN_FEATURES, PLAN_LABEL, hasPlan } from './plans.mjs'
 
 export const HOME_VIEW_VERSION = 1
 
@@ -91,7 +91,7 @@ function coachingSection(facts) {
     completedCount: c?.completedCount ?? null,
     lastCompletedAt: c?.lastCompletedAt ?? null,
     cta: plan === 'champion' || (c?.credits || 0) > 0
-      ? { label: 'Book a session', href: '/coaching/index.html#book' }
+      ? INCLUDED_SESSION_CTA
       : { label: 'See coaching', href: '/coaching/index.html' },
   }
 }

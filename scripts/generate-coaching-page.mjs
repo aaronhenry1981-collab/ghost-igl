@@ -167,6 +167,7 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
 ${tierCards}
   </div>
   <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose Champion at $70/month for two sessions. Pay securely at checkout; booked slots are confirmed with a calendar invite.</p>
+  <p style="color:var(--dim);font-size:.9rem;margin-top:8px"><strong>Already a Champion member?</strong> This page charges a card and does not apply your included sessions yet. Don't book here: <a href="/support?category=coaching_credits">use an included session through Support</a>.</p>
 
   <h2>How a session works</h2>
   <p class="sub">Bring screenshots or notes from the rounds you keep losing: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>

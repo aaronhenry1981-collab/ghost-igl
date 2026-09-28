@@ -3428,14 +3428,36 @@
         ],
         "draftReply": {
           "kind": "inference",
-          "text": "Good question. Here is the short version for your account, and reply if anything is unclear.",
+          "text": "Good question. This guide covers the basics: Connect your gaming account. Here is the short version for your account, and reply if anything is unclear.",
           "guard": {
             "ok": true,
             "violations": []
           },
           "basis": "template for ubisoft_connection"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "connect-your-gaming-account",
+            "title": "Connect your gaming account",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "why-rank-or-stats-look-different",
+            "title": "Why your rank or stats look different in Recon",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "how-recon-history-works",
+            "title": "How Recon keeps your history",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": {
           "kind": "inference",
           "team": "player_data",
@@ -5496,14 +5518,36 @@
         ],
         "draftReply": {
           "kind": "inference",
-          "text": "Good question. Here is the short version for your account, and reply if anything is unclear.",
+          "text": "Good question. This guide covers the basics: Can I upload match replays?. Here is the short version for your account, and reply if anything is unclear.",
           "guard": {
             "ok": true,
             "violations": []
           },
           "basis": "template for bug"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "match-replays",
+            "title": "Can I upload match replays?",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "get-better-vod-results",
+            "title": "Get better results from AI VOD review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "why-rank-or-stats-look-different",
+            "title": "Why your rank or stats look different in Recon",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -7571,7 +7615,29 @@
           },
           "basis": "template for rank_stat_discrepancy"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "why-rank-or-stats-look-different",
+            "title": "Why your rank or stats look different in Recon",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "connect-your-gaming-account",
+            "title": "Connect your gaming account",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": {
           "kind": "inference",
           "team": "player_data",
@@ -9863,7 +9929,29 @@
           },
           "basis": "template for vod_analysis"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "upload-a-vod-for-ai-review",
+            "title": "Upload a VOD for AI review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "get-better-vod-results",
+            "title": "Get better results from AI VOD review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "match-replays",
+            "title": "Can I upload match replays?",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": {
           "kind": "inference",
           "team": "vod_ai",
@@ -11813,7 +11901,29 @@
           },
           "basis": "template for desktop_client"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "desktop-client",
+            "title": "The desktop app",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "billing-and-payments",
+            "title": "Billing, payments and cancelling",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -13642,7 +13752,29 @@
           },
           "basis": "template for access_entitlement"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "sign-in-and-password-help",
+            "title": "Sign-in, confirmation code and password help",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "upload-a-vod-for-ai-review",
+            "title": "Upload a VOD for AI review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": {
           "kind": "inference",
           "team": "billing",
@@ -15429,7 +15561,29 @@
           },
           "basis": "template for rank_stat_discrepancy"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "connect-your-gaming-account",
+            "title": "Connect your gaming account",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "why-rank-or-stats-look-different",
+            "title": "Why your rank or stats look different in Recon",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "how-recon-history-works",
+            "title": "How Recon keeps your history",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -17136,7 +17290,29 @@
           },
           "basis": "template for billing_question"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "billing-and-payments",
+            "title": "Billing, payments and cancelling",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "coaching-credits",
+            "title": "Coaching credits and booking sessions",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": {
           "kind": "inference",
           "team": "billing",
@@ -18625,7 +18801,29 @@
           },
           "basis": "template for access_entitlement"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "get-better-vod-results",
+            "title": "Get better results from AI VOD review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "why-rank-or-stats-look-different",
+            "title": "Why your rank or stats look different in Recon",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -20105,14 +20303,36 @@
         ],
         "draftReply": {
           "kind": "inference",
-          "text": "Good question. Here is the short version for your account, and reply if anything is unclear.",
+          "text": "Good question. This guide covers the basics: Your plan and what it unlocks. Here is the short version for your account, and reply if anything is unclear.",
           "guard": {
             "ok": true,
             "violations": []
           },
           "basis": "template for bug"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "coaching-credits",
+            "title": "Coaching credits and booking sessions",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "upload-a-vod-for-ai-review",
+            "title": "Upload a VOD for AI review",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -21776,7 +21996,29 @@
           },
           "basis": "template for coaching_credits"
         },
-        "helpArticles": [],
+        "helpArticles": [
+          {
+            "kind": "inference",
+            "slug": "coaching-credits",
+            "title": "Coaching credits and booking sessions",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "subscription-and-access",
+            "title": "Your plan and what it unlocks",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          },
+          {
+            "kind": "inference",
+            "slug": "desktop-client",
+            "title": "The desktop app",
+            "status": "reviewed",
+            "basis": "help search ranking"
+          }
+        ],
         "suggestedEscalation": null,
         "disclaimers": [
           "Deterministic rules and templates; no model was used.",
@@ -24269,7 +24511,29 @@
         },
         "basis": "template for billing_question"
       },
-      "helpArticles": [],
+      "helpArticles": [
+        {
+          "kind": "inference",
+          "slug": "billing-and-payments",
+          "title": "Billing, payments and cancelling",
+          "status": "reviewed",
+          "basis": "help search ranking"
+        },
+        {
+          "kind": "inference",
+          "slug": "subscription-and-access",
+          "title": "Your plan and what it unlocks",
+          "status": "reviewed",
+          "basis": "help search ranking"
+        },
+        {
+          "kind": "inference",
+          "slug": "coaching-credits",
+          "title": "Coaching credits and booking sessions",
+          "status": "reviewed",
+          "basis": "help search ranking"
+        }
+      ],
       "suggestedEscalation": {
         "kind": "inference",
         "team": "billing",

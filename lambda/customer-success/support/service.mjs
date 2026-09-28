@@ -833,7 +833,21 @@ export function createSupportService({ ctx, now = () => ctx.now(), keyFor, engin
       : { kind: openingKind, visibility: 'public', actor: openingActor, body: redacted.text, data: extraEventData }
     await writeEvent({ caseRecord: record, ...opening })
     await audit({ contactKey, action: 'support.case.create', actor: createdBy, detail: { caseNumber, source, category: record.category, redactions: record.redactions.length, linkedFromCaseNumber } })
+    await notifyStaffOfNewCase(record)
     return record
+  }
+
+  // Staff-only "new case" notification. Off unless index.mjs injects a sender
+  // (SUPPORT_STAFF_NOTIFY). It never carries the player's email or message,
+  // only what a person needs to open the case; it can never fail the request.
+  async function notifyStaffOfNewCase(record) {
+    const send = supportConfig().notifyStaff
+    if (typeof send !== 'function') return
+    try {
+      await send({ caseNumber: record.caseNumber, category: record.category, priority: record.priority, source: record.source, linked: Boolean(record.linkedFromCaseNumber) })
+    } catch (err) {
+      log.warn?.('support_staff_notify_failed', { error: err?.name || 'Error' })
+    }
   }
 
   function assertCaseRate(items) {

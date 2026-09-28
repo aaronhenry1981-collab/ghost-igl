@@ -1,10 +1,11 @@
 // Rainbow Six Siege maps with bomb sites.
 // `rankedPool: true` flags maps currently in the competitive rotation.
-// Verified 2026-07-25 against the Y11S2 (System Override) pool of 14: Bank,
-// Border, Calypso Casino, Chalet, Club House, Coastline, Consulate, Emerald
-// Plains, Fortress, Kafe, Lair, Nighthaven Labs, Oregon, Outback. Villa,
-// Skyscraper, Theme Park and Kanal rotated OUT at season start (multiple
-// sources + no rotation in the Y11S2.2 mid-season notes). Re-check at Y11S3.
+// Single source: CURRENT_R6_SEASON.rankedMapIds in r6-season.js (a test fails
+// if these flags disagree). Verified 2026-09-28 against Ubisoft's official map
+// index "Operation Split Fire - Playlists" data (game-info/maps), 14 maps: Bank,
+// Border, Calypso Casino, Chalet, Clubhouse, Consulate, Fortress, Kafe, Kanal,
+// Lair, Nighthaven Labs, Oregon, Theme Park, Villa. Re-check at each season
+// launch and midseason (Ubisoft rotates the Ranked pool twice a season).
 // `comingSoon: true` marks maps that are listed but don't yet have strat data —
 // MapSelector disables those cards. Remove the flag once strats.js has entries.
 // `championOnly: true` restricts a map to Champion subscribers (legacy/non-ranked
@@ -60,7 +61,7 @@ const MAPS = [
   {
     id: 'coastline',
     name: 'Coastline',
-    rankedPool: true,
+    rankedPool: false,
     freeSample: true, // free/anon taste map — see full free-tier content here
     sites: [
       { id: 'hookah-billiards', name: 'Hookah Lounge / Billiards Room', floor: '2F' },
@@ -91,7 +92,7 @@ const MAPS = [
     // Marked comingSoon until strats are rewritten.
     id: 'emerald-plains',
     name: 'Emerald Plains',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'admin-ceo', name: 'Administration / CEO Office', floor: '2F' },
       { id: 'gallery-meeting', name: 'Private Gallery / Meeting', floor: '2F' },
@@ -169,7 +170,7 @@ const MAPS = [
     // in-game before strats are written.
     id: 'kanal',
     name: 'Kanal',
-    rankedPool: false,
+    rankedPool: true,
     sites: [
       { id: 'server-radio', name: 'Server Room / Radar Room', floor: '2F' },
       { id: 'kitchen-coast', name: 'Security Room / Map Room', floor: '1F' },
@@ -230,7 +231,7 @@ const MAPS = [
     // Bedrooms, Mechanic Shop/Kitchen.
     id: 'outback',
     name: 'Outback',
-    rankedPool: true,
+    rankedPool: false,
     sites: [
       { id: 'laundry-piano', name: 'Laundry / Piano', floor: '2F' },
       { id: 'party-office', name: 'Party / Office', floor: '2F' },
@@ -278,7 +279,7 @@ const MAPS = [
   {
     id: 'theme-park',
     name: 'Theme Park',
-    rankedPool: false,
+    rankedPool: true,
     sites: [
       { id: 'throne-room', name: 'Throne Room / Armory', floor: '1F' },
       { id: 'lab', name: 'Lab / Storage', floor: '1F' },
@@ -300,7 +301,7 @@ const MAPS = [
   {
     id: 'villa',
     name: 'Villa',
-    rankedPool: false,
+    rankedPool: true,
     sites: [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },

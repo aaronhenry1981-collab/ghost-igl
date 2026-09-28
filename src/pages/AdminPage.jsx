@@ -104,6 +104,8 @@ export default function AdminPage() {
   const [error, setError] = useState(null)
   const [notice, setNotice] = useState(null)
   const [backfilling, setBackfilling] = useState(false)
+  const [reconcilePreview, setReconcilePreview] = useState(null)
+  const [reconcileConfirm, setReconcileConfirm] = useState('')
   const [query, setQuery] = useState('')
   const [planFilter, setPlanFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -257,16 +259,40 @@ export default function AdminPage() {
   if (!user) return <div className="admin-page admin-locked"><h1>Sign in required</h1><p>You must sign in to view admin.</p></div>
   if (!isAdmin) return <div className="admin-page admin-locked"><h1>Admin access required</h1><p>Your account is not in the admins group.</p></div>
 
-  async function runBackfill() {
+  // Reconcile is preview-first (audit P0-4): the preview is read-only; an
+  // apply sends that preview's id plus the typed phrase and writes only the
+  // billing fields of the previewed rows.
+  async function previewReconcile() {
+    setBackfilling(true)
+    setNotice(null)
+    setError(null)
+    setReconcileConfirm('')
+    try {
+      const res = await authedFetch('/admin/backfill', { method: 'POST', body: JSON.stringify({ mode: 'preview' }) })
+      setReconcilePreview(res)
+    } catch (err) {
+      setError(`Preview failed: ${err.message}`)
+    } finally {
+      setBackfilling(false)
+    }
+  }
+
+  async function applyReconcile() {
+    if (!reconcilePreview) return
     setBackfilling(true)
     setNotice(null)
     setError(null)
     try {
-      const res = await authedFetch('/admin/backfill', { method: 'POST' })
-      setNotice(`Backfill complete — scanned ${res.scanned} Stripe subs, upserted ${res.upserted} Recon 6 rows.`)
+      const res = await authedFetch('/admin/backfill', {
+        method: 'POST',
+        body: JSON.stringify({ mode: 'apply', previewId: reconcilePreview.previewId, confirm: reconcileConfirm }),
+      })
+      setNotice(`Reconciled: ${res.applied} applied, ${res.conflicts} skipped because the row changed, ${res.failed} failed. Every row is in the audit log.`)
+      setReconcilePreview(null)
+      setReconcileConfirm('')
       await loadData()
     } catch (err) {
-      setError(`Backfill failed: ${err.message}`)
+      setError(`Apply refused: ${err.message}`)
     } finally {
       setBackfilling(false)
     }
@@ -616,13 +642,53 @@ export default function AdminPage() {
       <>
       <section className="admin-section admin-system-actions">
         <div className="admin-section-header"><div><span className="admin-eyebrow">Billing source of truth</span><h2>Stripe reconciliation</h2></div></div>
-        <p className="admin-footnote">Use this only when the website membership table is missing or mislabeling Stripe subscriptions. It does not reprice, charge, or cancel customers.</p>
+        <p className="admin-footnote">Use this only when the website membership table is missing or mislabeling Stripe subscriptions. It never charges, reprices or cancels anyone in Stripe. The preview is read-only; applying changes only plan, status, period end and subscription id, keeps usage and identity fields, never touches comp rows, and logs every row.</p>
         <div className="admin-actions">
-          <button onClick={runBackfill} className="btn btn-sm btn-outline" disabled={backfilling}>
-            {backfilling ? 'Reconciling…' : 'Reconcile memberships from Stripe'}
+          <button onClick={previewReconcile} className="btn btn-sm btn-outline" disabled={backfilling}>
+            {backfilling ? 'Working…' : 'Preview reconciliation from Stripe'}
           </button>
           <a className="btn btn-sm btn-outline" href="https://dashboard.stripe.com/" target="_blank" rel="noreferrer">Open Stripe dashboard</a>
         </div>
+        {reconcilePreview && (
+          <div className="admin-reconcile-preview">
+            <p>
+              <strong>Preview {reconcilePreview.previewId}:</strong>{' '}
+              {reconcilePreview.counts.updates} update(s), {reconcilePreview.counts.creates} new row(s),{' '}
+              <strong>{reconcilePreview.counts.revocations} that remove access</strong>, {reconcilePreview.counts.unchanged} unchanged,{' '}
+              {reconcilePreview.counts.skipped} skipped for safety.
+            </p>
+            {reconcilePreview.changes.length > 0 && (
+              <div className="admin-table-wrap">
+                <table className="admin-table">
+                  <thead><tr><th>Customer</th><th>Change</th><th>Before</th><th>After</th></tr></thead>
+                  <tbody>
+                    {reconcilePreview.changes.map((c) => (
+                      <tr key={c.stripe_customer_id} className={c.revokesAccess ? 'admin-row-warn' : ''}>
+                        <td className="admin-mono">{c.stripe_customer_id}</td>
+                        <td>{c.action === 'create' ? 'new row' : (c.fields || []).join(', ')}{c.revokesAccess ? ' · removes access' : ''}</td>
+                        <td>{c.before ? `${c.before.plan || '—'} · ${c.before.status || '—'}` : '—'}</td>
+                        <td>{`${c.after.plan} · ${c.after.status}`}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {reconcilePreview.skipped.length > 0 && (
+              <p className="admin-footnote">Skipped: {reconcilePreview.skipped.map((s) => `${s.stripe_customer_id} (${s.reason.replace(/_/g, ' ')})`).join('; ')}</p>
+            )}
+            {reconcilePreview.changes.length > 0 ? (
+              <div className="admin-actions">
+                <label>
+                  Type <code>{reconcilePreview.confirmPhrase}</code> to apply exactly this preview{' '}
+                  <input value={reconcileConfirm} onChange={(e) => setReconcileConfirm(e.target.value)} aria-label="Confirmation phrase" />
+                </label>
+                <button onClick={applyReconcile} className="btn btn-sm btn-primary" disabled={backfilling || reconcileConfirm !== reconcilePreview.confirmPhrase}>Apply</button>
+                <button onClick={() => setReconcilePreview(null)} className="btn btn-sm btn-ghost" disabled={backfilling}>Discard preview</button>
+              </div>
+            ) : <p className="admin-footnote">Nothing to change.</p>}
+          </div>
+        )}
       </section>
       <AuditLog />
 

@@ -113,12 +113,17 @@ All `premiumTactics` sub-fields are optional — partial content renders cleanly
 - **Honest about what we ship.** Don't over-promise; don't say "coming soon" on something that has a real date — use the date.
 - **Use R6 vocabulary correctly.** Operator, site, callout, utility, drone, intel, frag, anchor, roam, spawn-peek, runout, hard breach, soft breach, ADS (jager gadget, not aim-down-sights).
 - **No emojis in subscription/billing messages.** Casual emojis OK in marketing/Discord copy.
-- **Founding-rate urgency.** When relevant, mention "founding rate ends May 8" and "locked in for life."
+- **No founding-rate copy.** The founding window closed on 2026-08-31. Never advertise a founding rate or "locked in for life" (the product-truth check fails the build on it). Existing founding subscribers keep their price.
 
 ## Common commands
 
 ```powershell
-# Build + deploy site to prod (S3 + CloudFront invalidate)
+# Build + deploy site to prod (S3 + CloudFront invalidate). ONLY from the
+# canonical release directory, a clean checkout of content/strat-beta-disclaimer
+# with .env.production set (deploy.ps1 refuses anything else). The old
+# C:\IronFront_Master\ghost-igl checkout is retired for deploys; its scripts refuse.
+cd C:\IronFront_Master\ghost-igl-production
+git pull --ff-only
 .\deploy.ps1
 
 # Production build only

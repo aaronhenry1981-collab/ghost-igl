@@ -1018,3 +1018,8 @@ select.testi-input option {
   .testi-row { grid-template-columns: 44px 1fr; }
   .testi-row-actions { grid-column: 1 / -1; }
 }
+
+/* Reconcile preview (audit P0-4): rows that remove access stand out. */
+.admin-reconcile-preview { margin-top: 1rem; }
+.admin-reconcile-preview .admin-row-warn td { color: #ffb4a8; }
+.admin-reconcile-preview input { margin-left: 0.4rem; min-width: 12rem; }

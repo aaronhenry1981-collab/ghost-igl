@@ -50,10 +50,15 @@ export const CURRENT_R6_SEASON = Object.freeze({
   patchDate: '2026-09-22',
   patchDateLabel: 'September 22, 2026',
   verifiedOn: '2026-09-25',
-  // The rank ladder, Ranked map pool and map index below were last verified
-  // on 2026-08-23 and are carried over unchanged (no official change in the
-  // Y11S3.1 notes). Keep that date wherever those facts are displayed.
+  // The rank ladder and map index were last verified on 2026-08-23 and are
+  // carried over unchanged (no official change in the Y11S3.1 notes). Keep
+  // that date wherever the ladder is displayed.
   rankedVerifiedOn: '2026-08-23',
+  // The Ranked map pool was re-verified on 2026-09-28 against the official
+  // map index's "Operation Split Fire - Playlists" data (mapIndexUrl: each
+  // map's `playlists` list, 14 tagged "ranked"). maps.js `rankedPool` must
+  // match it (src/data/ranked-pool.test.mjs).
+  rankedPoolVerifiedOn: '2026-09-28',
   reviewDue: '2026-10-20',
   sourceUrl: Y11S31_PATCH_NOTES_URL,
   patchNotesUrl: Y11S31_PATCH_NOTES_URL,

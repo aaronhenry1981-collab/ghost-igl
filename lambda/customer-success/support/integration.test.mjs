@@ -350,20 +350,24 @@ test('queue rows carry player display name, plan label and a summary SLA state; 
 
 // ---- Help Center: drafts only through the dev preview override -------------------------------
 
-test('help: production engines never serve drafts; only a dev override with helpPreview does, and says so', async () => {
+test('help: production serves reviewed articles only; drafts need the dev helpPreview override, which says so', async () => {
   assert.equal('helpPreview' in realEngines, false, 'the production engines module never enables drafts')
   const prod = supportApp({ engines: realEngines, seedCases: false })
   const list = await prod.call('GET', '/cs/help/articles')
   assert.equal(list.statusCode, 200)
-  assert.deepEqual(list.json.articles, [], 'every article is still a draft')
+  assert.ok(list.json.articles.length >= 10, 'the reviewed articles are public')
+  assert.ok(list.json.articles.every((a) => a.status === 'reviewed'))
   assert.equal(list.json.preview, undefined)
-  assert.equal((await prod.call('GET', '/cs/help/articles/connect-your-gaming-account')).statusCode, 404)
+  assert.equal((await prod.call('GET', '/cs/help/articles/connect-your-gaming-account')).statusCode, 200)
 
+  // Engines that hand back DRAFTS (as a future unreviewed article would be):
+  // the service must still refuse them without the dev preview flag.
+  const asDraft = (a) => (a ? { ...a, status: 'draft', reviewedBy: null } : a)
   const drafts = {
     ...realEngines,
-    listArticles: (o) => realEngines.listArticles({ ...o, includeDrafts: true }),
-    searchHelp: (q, o) => realEngines.searchHelp(q, { ...o, includeDrafts: true }),
-    getArticle: (s, o) => realEngines.getArticle(s, { ...o, includeDrafts: true }),
+    listArticles: (o) => realEngines.listArticles({ ...o, includeDrafts: true }).map(asDraft),
+    searchHelp: (q, o) => realEngines.searchHelp(q, { ...o, includeDrafts: true }).map(asDraft),
+    getArticle: (s, o) => asDraft(realEngines.getArticle(s, { ...o, includeDrafts: true })),
   }
   const noFlag = supportApp({ engines: drafts, seedCases: false })
   assert.deepEqual((await noFlag.call('GET', '/cs/help/articles')).json.articles, [], 'an engine returning drafts is not enough')
