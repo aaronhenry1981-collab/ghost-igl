@@ -39,6 +39,9 @@ export function AuthProvider({ children }) {
   // Keep it in memory only; refreshing the page intentionally requires the
   // customer to sign in with the temporary password again.
   const pendingNewPasswordRef = useRef(null)
+  // Billing/account facts from /me that the player home needs to explain
+  // membership status honestly (payment failed, renewal unconfirmed, etc.).
+  const [account, setAccount] = useState(null)
 
   // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
   // /me returns { plan, sub_status, profile, profile_complete } so consumers can
@@ -57,6 +60,15 @@ export function AuthProvider({ children }) {
         const p = normalizePlan(data?.plan)
         setPlan(p)
         setIsPro(hasPlan(p, 'pro'))
+        // Billing/account facts the player home uses to explain membership
+        // status honestly (payment failed, renewal unconfirmed, etc.).
+        setAccount({
+          sub_status: data?.sub_status || 'none',
+          current_period_end: data?.current_period_end || null,
+          stripe_customer_id: data?.stripe_customer_id || null,
+          tier_scope: data?.tier_scope || null,
+          is_admin: data?.is_admin === true,
+        })
         setTierScope(data?.tier_scope === 'single' ? 'single' : 'all_access')
         setProfile(data?.profile || null)
         setProfileComplete(!!data?.profile_complete)
@@ -338,6 +350,7 @@ export function AuthProvider({ children }) {
     setIsPro(false)
     setIsAdmin(false)
     setPlan('free')
+    setAccount(null)
   }
 
   // Step 1 of password reset: emails the user a 6-digit code. Uses the casing
@@ -374,7 +387,7 @@ export function AuthProvider({ children }) {
   const isChampion = hasPlan(plan, 'champion', isAdmin)
 
   return (
-    <AuthContext.Provider value={{ user, isPro, isElite, isChampion, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, loading, signUp, signIn, completeNewPassword, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
+    <AuthContext.Provider value={{ user, isPro, isElite, isChampion, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, account, loading, signUp, signIn, completeNewPassword, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   )

@@ -1,0 +1,24 @@
+{
+  "versionConflict": {
+    "error": "this case changed since you opened it; reload it and try again",
+    "code": "version_conflict"
+  },
+  "otherPlayersCase": {
+    "error": "case not found"
+  },
+  "staffRoleRequired": {
+    "error": "support role required"
+  },
+  "leadRoleRequired": {
+    "error": "support role required"
+  },
+  "signedOut": {
+    "error": "sign in required"
+  },
+  "validation": {
+    "error": "text is required"
+  },
+  "notEnabled": {
+    "error": "not found"
+  }
+}

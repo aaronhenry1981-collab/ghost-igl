@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 
 // Unified top navigation — single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
@@ -138,6 +139,12 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
             <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
+          {SUPPORT_UI_ENABLED && (
+            <>
+              <button type="button" className="nav-more-item" onClick={() => go('/support')}>Support</button>
+              <button type="button" className="nav-more-item" onClick={() => go('/help')}>Help Center</button>
+            </>
+          )}
           {isPro && (
             <button type="button" className="nav-more-item" onClick={() => go('/download')}>Desktop setup</button>
           )}
@@ -432,12 +439,14 @@ export default function Navbar() {
           <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('faq')}>FAQ</button>
           <a href="/guides/" onClick={closeMobile} className="mobile-drawer-link">Map guides</a>
           <Link to="/changelog" onClick={closeMobile} className="mobile-drawer-link">Changelog</Link>
+          {SUPPORT_UI_ENABLED && <NavLink to="/help" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Help Center</NavLink>}
         </div>
 
         {user ? (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Account</div>
             <Link to="/account" onClick={closeMobile} className="mobile-drawer-link">Account & billing</Link>
+            {SUPPORT_UI_ENABLED && <NavLink to="/support" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Support</NavLink>}
             {isPro && <Link to="/download" onClick={closeMobile} className="mobile-drawer-link">Desktop setup</Link>}
             <button
               type="button"

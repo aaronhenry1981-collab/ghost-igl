@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import TestimonialBuilder from '../components/admin/TestimonialBuilder'
@@ -343,6 +344,7 @@ export default function AdminPage() {
           <div className="admin-eyebrow">Business operations</div>
           <h1>Recon 6 Command Center</h1>
           <p>Members, coaching appointments, growth, content, and system controls in one place.</p>
+          <p><Link to="/admin/crm" className="btn btn-primary btn-sm">Open customer success CRM</Link></p>
         </div>
         <div className="admin-account-chip">
           <span>Signed in</span>

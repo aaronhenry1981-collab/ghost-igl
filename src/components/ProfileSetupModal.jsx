@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { onboardingDeferredHere } from '../lib/onboardingDeferral'
@@ -61,6 +61,18 @@ export default function ProfileSetupModal() {
   const [skipped, setSkipped] = useState(() => {
     try { return sessionStorage.getItem(SKIP_KEY) === '1' } catch { return false }
   })
+
+  // The player home's "Finish profile" action re-opens this modal even if it
+  // was skipped earlier in the session.
+  useEffect(() => {
+    function reopen() {
+      try { sessionStorage.removeItem(SKIP_KEY) } catch { /* ignore */ }
+      setSkipped(false)
+      setStep(1)
+    }
+    window.addEventListener('recon:open-profile-setup', reopen)
+    return () => window.removeEventListener('recon:open-profile-setup', reopen)
+  }, [])
 
   const [form, setForm] = useState({
     display_name: profile?.display_name || '',
