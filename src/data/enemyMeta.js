@@ -1811,44 +1811,6 @@ const ENEMY_META = {
         ],
       },
     },
-    'living-library': {
-      attack: {
-        likelyOps: [
-          { name: 'Thermite', pickRate: 80, reason: 'Library wall is the primary breach target — Thermite is the reliable pick' },
-          { name: 'Twitch', pickRate: 55, reason: 'Drone clears Mira windows and electronics before the breach' },
-          { name: 'Sledge', pickRate: 50, reason: 'Opens soft walls between Library and Piano room for new angles' },
-          { name: 'Nomad', pickRate: 46, reason: 'Airjabs watch kitchen rotation and main stairs during execute' },
-        ],
-        commonStrats: [
-          'Hard breach Library wall from garden + soft breach angles (55% of rounds)',
-          'Main hall push into Living Room with entry fraggers (25% of rounds)',
-          'Piano room control into Library side push (20% of rounds)',
-        ],
-        tendencies: [
-          'Garden-side breach on Library wall is the default strategy — expect it every round',
-          'If they take Piano room early, they are setting up side angles into Library',
-          'Watch for Nomad airjabs on your rotation routes from kitchen',
-        ],
-      },
-      defense: {
-        likelyOps: [
-          { name: 'Mira', pickRate: 75, reason: 'Black Mirror on Living Room wall dominates main hall sightlines' },
-          { name: 'Kaid', pickRate: 68, reason: 'Electroclaw on Library wall and hatch is the standard anti-breach' },
-          { name: 'Jager', pickRate: 62, reason: 'ADS protect Mira window and main doorways from projectile spam' },
-          { name: 'Alibi', pickRate: 44, reason: 'Roams kitchen and 2F to delay attacker pushes' },
-        ],
-        commonStrats: [
-          'Mira Living Room + Kaid Library wall, one roamer in kitchen (50% of rounds)',
-          'Extended garden-side hold to deny breach setup (25% of rounds)',
-          'Aggressive 2F roam to waste attacker time (25% of rounds)',
-        ],
-        tendencies: [
-          'Mira window on Living Room wall is guaranteed — expect it and bring counter-utility',
-          'Kaid will electrify Library wall — always assume it is electrified',
-          'At least one roamer plays kitchen or 2F — clear before pushing site',
-        ],
-      },
-    },
   },
   nighthaven: {
     'server-control': {

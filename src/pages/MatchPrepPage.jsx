@@ -12,6 +12,7 @@ import FoundingCountdown from '../components/FoundingCountdown'
 import { track } from '../utils/analytics'
 import './MatchPrepPage.css'
 import SiteNotice from '../components/strats/SiteNotice'
+import { siteNoticeFor } from '../data/siteNotices'
 
 // Match Prep — a one-screen pre-round prep card. The buyer's question
 // is "what do I need to know in the 90 seconds before I ready up?". This
@@ -306,7 +307,7 @@ function R6MatchPrepPage() {
             <article>
               <small>Your round plan</small>
               <strong>{selectedSite?.name || 'Choose your bomb site'}</strong>
-              <span>{selectedPlan?.strategy || 'Choose a site to build the plan.'}</span>
+              <span>{selectedPlan?.strategy || (siteNoticeFor(mapId, selectedSite?.id)?.kind === 'unavailable' ? 'Plan withdrawn: Ubisoft changed this site and the new plan is not verified yet.' : 'Choose a site to build the plan.')}</span>
             </article>
           </div>
           {selectedSite && (
@@ -457,6 +458,17 @@ function R6MatchPrepPage() {
           <div className="match-prep-sites">
             {mapData.sites.map(site => {
               const s = STRATS[mapId]?.[site.id]
+              if (!s && siteNoticeFor(mapId, site.id)?.kind === 'unavailable') {
+                return (
+                  <article className="match-prep-site" id={`prep-site-${site.id}`} key={site.id}>
+                    <header>
+                      <h4>{site.name}</h4>
+                      {site.floor && <span className="match-prep-site-floor">{site.floor}</span>}
+                    </header>
+                    <SiteNotice mapId={mapId} siteId={site.id} compact />
+                  </article>
+                )
+              }
               if (!s) return null
               const callouts = (s.attack?.callouts || s.defense?.callouts || []).slice(0, 6)
               const keyAtk = pickKeyUtility(s.attack, 2)

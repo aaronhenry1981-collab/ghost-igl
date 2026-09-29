@@ -30,7 +30,35 @@ function escape(s) {
 function siteNoticeHtml(site) {
   if (!site?.notice) return ''
   const since = site.notice.since ? ` in ${escape(site.notice.since)}` : ''
-  return `<p class="site-notice" role="note" style="border:1px solid rgba(255,196,92,.55);background:rgba(255,196,92,.1);border-radius:8px;padding:.7rem .9rem;color:#ffe2a8"><strong style="color:#ffc45c">Layout changed${since}.</strong> ${escape(site.notice.text)}</p>`
+  const heading = site.notice.kind === 'unavailable' ? 'Plan withdrawn' : 'Layout changed'
+  return `<p class="site-notice" role="note" style="border:1px solid rgba(255,196,92,.55);background:rgba(255,196,92,.1);border-radius:8px;padding:.7rem .9rem;color:#ffe2a8"><strong style="color:#ffc45c">${heading}${since}.</strong> ${escape(site.notice.text)}</p>`
+}
+
+// A site whose plan was withdrawn (maps.js notice.kind 'unavailable'). Its
+// page is still written, so the copy already on S3 (deploys never delete) is
+// replaced by the notice instead of the old plan.
+const isWithdrawn = (site) => site?.notice?.kind === 'unavailable'
+
+function renderWithdrawnSite(map, site) {
+  const others = map.sites
+    .filter((s) => s.id !== site.id && STRATS[map.id]?.[s.id])
+    .map((s) => `<li><a href="/guides/${map.id}/${escape(s.id)}.html">${escape(s.name)}</a> <span style="color:rgba(235,228,215,0.5);font-size:0.8rem">(${escape(s.floor)})</span></li>`)
+    .join('')
+  const bodyInner = `
+    <nav class="breadcrumb" style="font-size:0.85rem;color:rgba(235,228,215,0.6);margin-bottom:8px">
+      <a href="/guides/">Map Guides</a> ›
+      <a href="/guides/${map.id}.html">${escape(map.name)}</a> ›
+      <span>${escape(site.name)}</span>
+    </nav>
+    <h1>${escape(map.name)} — ${escape(site.name)}</h1>${siteNoticeHtml(site)}
+    ${others ? `<h3>Current ${escape(map.name)} site plans</h3><ul>${others}</ul>` : ''}`
+  return htmlShell({
+    title: `${map.name} ${site.name} — plan withdrawn | Recon 6`,
+    description: `The ${map.name} ${site.name} plan was withdrawn after Ubisoft changed the site. The other ${map.name} sites are current.`,
+    canonical: `${SITE_URL}/guides/${map.id}/${site.id}.html`,
+    bodyInner,
+    extraHead: '<meta name="robots" content="noindex" />',
+  })
 }
 
 function htmlShell({ title, description, canonical, bodyInner, extraHead = '', ogImage, jsonLd, breadcrumbs }) {
@@ -60,7 +88,7 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
   <title>${escape(title)}</title>
   <meta name="description" content="${escape(description)}" />
   <link rel="canonical" href="${escape(canonical)}" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  ${extraHead.includes('name="robots"') ? '' : '<meta name="robots" content="index, follow, max-image-preview:large" />'}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#121211" />
@@ -173,6 +201,12 @@ function renderMapGuide(map) {
   const siteSections = map.sites
     .map((site) => {
       const strat = STRATS[map.id]?.[site.id]
+      if (!strat && isWithdrawn(site)) {
+        return `
+        <section class="site" id="${escape(site.id)}">
+          <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>${siteNoticeHtml(site)}
+        </section>`
+      }
       if (!strat) return ''
       const canonicalSite = `${SITE_URL}/strats/${map.id}/${site.id}/attack`
       return `
@@ -245,6 +279,7 @@ function renderMapGuide(map) {
 // Higher specificity = less competition = easier to rank.
 function renderSiteGuide(map, site) {
   const strat = STRATS[map.id]?.[site.id]
+  if (!strat && isWithdrawn(site)) return renderWithdrawnSite(map, site)
   if (!strat) return null
 
   const canonical = `${SITE_URL}/guides/${map.id}/${site.id}.html`
@@ -420,7 +455,7 @@ function main() {
     const mapDir = join(OUT_DIR, map.id)
     mkdirSync(mapDir, { recursive: true })
     const expectedSiteFiles = new Set(
-      map.sites.filter((site) => STRATS[map.id]?.[site.id]).map((site) => `${site.id}.html`),
+      map.sites.filter((site) => STRATS[map.id]?.[site.id] || isWithdrawn(site)).map((site) => `${site.id}.html`),
     )
     for (const file of readdirSync(mapDir)) {
       if (file.endsWith('.html') && !expectedSiteFiles.has(file)) unlinkSync(join(mapDir, file))

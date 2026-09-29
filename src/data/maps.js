@@ -306,10 +306,13 @@ const MAPS = [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },
       { id: 'kitchen-dining', name: 'Kitchen / Dining Room', floor: '1F' },
-      // Y11S3 (Operation Split Fire) moved this bomb site downstairs (Ubisoft
-      // season page). The plan below predates that; it stays visible with a
-      // notice until it is re-verified from footage. See siteNotices.js.
-      { id: 'living-library', name: 'Living Room / Library', floor: '1F', notice: { kind: 'layout_changed', since: 'Y11S3', text: 'Ubisoft moved this bomb site downstairs in Y11S3 (Operation Split Fire). This plan was written for the old layout and has not been re-verified yet, so treat it as reference only.' } },
+      // Y11S3 (Operation Split Fire) moved this bomb site from the 1F Living
+      // Room / Library into the reworked basement ("Basement bombsite" in
+      // Ubisoft's Y11S3.1 patch notes). The old plan was WITHDRAWN on
+      // 2026-09-29 (no plan in strats.js, premium-tactics.js or enemyMeta.js)
+      // until the new site is verified from gameplay. The id stays so old
+      // links land on this notice. See siteNotices.js.
+      { id: 'living-library', name: 'Basement (Y11S3 rework)', floor: 'B', notice: { kind: 'unavailable', since: 'Y11S3', text: 'Ubisoft moved this bomb site from the 1F Living Room / Library into Villa\'s reworked basement in Y11S3 (Operation Split Fire). The old plan no longer matches the game, so it has been withdrawn. A new plan will be published once it is verified from current gameplay.' } },
     ],
   },
   // Y11S2 Operation System Override — Calypso Casino (released June 2, 2026).

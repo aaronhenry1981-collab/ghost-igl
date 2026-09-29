@@ -23,6 +23,8 @@ import { useFreeStratLimit } from '../hooks/useFreeStratLimit'
 import SoftPaywall from '../components/strats/SoftPaywall'
 import SeasonCountdown from '../components/SeasonCountdown'
 import useProtectedCatalog from '../hooks/useProtectedCatalog'
+import SiteNotice from '../components/strats/SiteNotice'
+import { siteNoticeFor } from '../data/siteNotices'
 import './StratsPage.css'
 
 const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode'
@@ -449,6 +451,13 @@ function R6StratsPage() {
                 The ban recommendations + expected attacker bans above are accurate intel
                 you can use right now.
               </div>
+            </div>
+          ) : siteNoticeFor(selectedMap, selectedSite)?.kind === 'unavailable' ? (
+            // A withdrawn plan (e.g. a bomb site Ubisoft moved): say why and
+            // what happens next instead of a blank "no data" line.
+            <div className="strats-empty" style={{ textAlign: 'left' }}>
+              <SiteNotice mapId={selectedMap} siteId={selectedSite} />
+              <p style={{ margin: 0 }}>The other sites on {mapData?.name} are unaffected; pick one above.</p>
             </div>
           ) : (
             <div className="strats-empty">No strategy data available for this configuration.</div>

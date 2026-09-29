@@ -1318,42 +1318,6 @@ const STRATS = {
         ],
       },
     },
-    'living-library': {
-      attack: {
-        operators: [
-          { name: 'Thermite', role: 'Hard Breach', priority: 'essential' },
-          { name: 'Twitch', role: 'Support', priority: 'essential' },
-          { name: 'Sledge', role: 'Vertical / Soft Breach', priority: 'recommended' },
-          { name: 'Nomad', role: 'Flank Watch', priority: 'recommended' },
-          { name: 'Lion', role: 'Intel', priority: 'flex' },
-        ],
-        strategy: 'Thermite opens the Library reinforced wall from the garden side. Twitch drone clears electronics and Mira windows before breach. Sledge opens soft walls for new angles into Living Room. Nomad watches kitchen rotation and main stairs. Lion scans during the execute to catch rotating defenders.',
-        callouts: ['Living Room', 'Library', 'Garden', 'Main Hall', 'Fireplace', 'Piano', 'China Room'],
-        utility: [
-          'Thermite: Breach Library reinforced wall from garden',
-          'Twitch: Drone to clear Mira windows and electronics',
-          'Sledge: Open soft walls between Library and Piano room',
-          'Nomad: Airjabs on kitchen rotation and main stairs',
-        ],
-      },
-      defense: {
-        operators: [
-          { name: 'Mira', role: 'Intel / Anchor', priority: 'essential' },
-          { name: 'Kaid', role: 'Anti-Breach', priority: 'essential' },
-          { name: 'Jager', role: 'Utility Denial', priority: 'recommended' },
-          { name: 'Alibi', role: 'Roam / Intel', priority: 'recommended' },
-          { name: 'Azami', role: 'Utility / Cover', priority: 'flex' },
-        ],
-        strategy: 'Mira places a Black Mirror on the Living Room wall for sightlines into main hall. Kaid electrifies the Library wall and nearby hatches. Jager protects the Mira window with ADS. Alibi roams kitchen and 2F to delay the push. Azami patches holes dynamically to deny unexpected angles.',
-        callouts: ['Living Room', 'Library', 'Garden', 'Main Hall', 'Fireplace', 'Piano'],
-        utility: [
-          'Mira: Black Mirror on Living Room wall facing main hall',
-          'Kaid: Electroclaw on Library wall and floor hatch',
-          'Jager: ADS near Mira window and main doorways',
-          'Azami: Kiba barriers to seal unexpected breaches and rotations',
-        ],
-      },
-    },
   },
   // 'calypso-casino' — site names CONFIRMED 2026-06-10 from Aaron's own live
   // ranked objective-vote screen (primary source, supersedes the earlier
