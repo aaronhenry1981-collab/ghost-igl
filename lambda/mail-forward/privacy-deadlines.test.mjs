@@ -49,3 +49,8 @@ test('nothing open and nothing owed: no email; preview never sends', async () =>
   assert.equal(sent.length, 1)
   assert.match(sent[0].s, /^\[TEST\] \[Recon privacy\] 1 request\(s\) due within 7 days/)
 })
+
+test('with no open request, the subject names the owed console purges', () => {
+  const mail = reminderEmail(deadlineReport([], NOW), [{ deletedAt: '2026-07-17T00:00:00Z', daysSince: 74 }])
+  assert.equal(mail.subject, '[Recon privacy] 1 console deletion(s) still owed a full purge')
+})
