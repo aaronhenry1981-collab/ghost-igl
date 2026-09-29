@@ -57,7 +57,9 @@ export function reminderEmail(report, owed) {
     ? `[Recon privacy] ${report.overdue.length} request(s) OVERDUE`
     : report.dueSoon.length
       ? `[Recon privacy] ${report.dueSoon.length} request(s) due within 7 days`
-      : `[Recon privacy] ${report.open.length} open request(s)`
+      : report.open.length
+        ? `[Recon privacy] ${report.open.length} open request(s)`
+        : `[Recon privacy] ${owed.length} console deletion(s) still owed a full purge`
   return { subject, text: lines.join('\n') }
 }
 

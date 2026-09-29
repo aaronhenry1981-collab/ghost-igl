@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto'
 import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
 import { BILLING_FIELDS, confirmationPhrase, planReconciliation } from './reconcile.mjs'
 import { runReferralRewards } from './referral-rewards.mjs'
+import { createStripeHttp } from './stripe-http.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -193,32 +194,11 @@ async function scanAllProfiles() {
   return items
 }
 
-async function stripeRequest(path, params = {}) {
-  if (!STRIPE_SECRET) throw new Error('Stripe is not configured')
-  const query = new URLSearchParams()
-  for (const [key, value] of Object.entries(params)) {
-    if (Array.isArray(value)) value.forEach((item) => query.append(key, String(item)))
-    else if (value !== undefined && value !== null) query.set(key, String(value))
-  }
-  const response = await fetch(`https://api.stripe.com${path}${query.size ? `?${query}` : ''}`, {
-    headers: { Authorization: `Bearer ${STRIPE_SECRET}` },
-  })
-  if (!response.ok) throw new Error(`Stripe ${path} returned HTTP ${response.status}`)
-  return response.json()
-}
-
-// Form-encoded POST with an idempotency key (Stripe keeps the first result
-// for 24h, so a retried request can never create a second object).
-async function stripePost(path, form, idempotencyKey) {
-  if (!STRIPE_SECRET) throw new Error('Stripe is not configured')
-  const response = await fetch(`https://api.stripe.com${path}`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${STRIPE_SECRET}`, 'Content-Type': 'application/x-www-form-urlencoded', 'Idempotency-Key': idempotencyKey },
-    body: new URLSearchParams(form).toString(),
-  })
-  if (!response.ok) throw new Error(`Stripe POST ${path} returned HTTP ${response.status}`)
-  return response.json()
-}
+// Stripe REST helpers live in stripe-http.mjs, shared with the Stripe
+// TEST-mode sandbox (sandbox/referral-sandbox.mjs).
+const stripeHttp = createStripeHttp(STRIPE_SECRET)
+const stripeRequest = stripeHttp.get
+const stripePost = stripeHttp.post
 
 async function isAdminEmail(email) {
   const users = await cognito.send(new ListUsersCommand({ UserPoolId: POOL_ID, Filter: `email = "${String(email).replace(/"/g, '')}"`, Limit: 5 }))
