@@ -1,18 +1,18 @@
 #!/usr/bin/env node
-// WCAG 2.1 AA contrast check for the player home and CRM colour tokens.
+// WCAG 2.1 AA contrast check for the player home, CRM and admin colour tokens.
 // Reads the real values from the CSS files so a palette edit that breaks
 // contrast fails CI. Normal text needs 4.5:1.
 
 import { readFileSync } from 'node:fs'
 
-const FILES = ['src/features/home/PlayerHome.css', 'src/features/crm/Crm.css']
+const FILES = ['src/features/home/PlayerHome.css', 'src/features/crm/Crm.css', 'src/features/admin/admin.css']
 const PAGE_BG = '#06070b' // --bg in src/index.css
 
 function tokens() {
   const out = {}
   for (const file of FILES) {
     const css = readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')
-    for (const m of css.matchAll(/--((?:ph|crm)-[a-z0-9-]+):\s*(#[0-9a-f]{6})\b/gi)) out[m[1]] = m[2]
+    for (const m of css.matchAll(/--((?:ph|crm|ax)-[a-z0-9-]+):\s*(#[0-9a-f]{6})\b/gi)) out[m[1]] = m[2]
   }
   return out
 }
@@ -31,9 +31,14 @@ export function checkContrast() {
   const t = tokens()
   const failures = []
   const results = []
-  for (const prefix of ['ph', 'crm']) {
-    const fgs = ['text', 'text-strong', 'text-muted', 'accent', 'ok', 'warn', 'danger', 'pro', 'elite', 'champion', ...(prefix === 'crm' ? ['info'] : [])]
-    const bgs = { surface: t[`${prefix}-surface`], 'surface-2': t[`${prefix}-surface-2`], page: PAGE_BG }
+  for (const prefix of ['ph', 'crm', 'ax']) {
+    const fgs = prefix === 'ax'
+      ? ['text', 'text-strong', 'text-muted', 'accent', 'ok', 'warn', 'danger', 'info']
+      : ['text', 'text-strong', 'text-muted', 'accent', 'ok', 'warn', 'danger', 'pro', 'elite', 'champion', ...(prefix === 'crm' ? ['info'] : [])]
+    // The admin area has its own page colour (--ax-bg) and a third surface.
+    const bgs = prefix === 'ax'
+      ? { surface: t['ax-surface'], 'surface-2': t['ax-surface-2'], 'surface-3': t['ax-surface-3'], page: t['ax-bg'] }
+      : { surface: t[`${prefix}-surface`], 'surface-2': t[`${prefix}-surface-2`], page: PAGE_BG }
     for (const fg of fgs) {
       const color = t[`${prefix}-${fg}`]
       if (!color) {
@@ -48,7 +53,7 @@ export function checkContrast() {
     }
   }
   // Fixed pairs used by specific components.
-  for (const [label, fg, bg] of [['unread badge', '#03141a', t['ph-accent']], ['done checkmark', '#04110a', t['ph-ok']]]) {
+  for (const [label, fg, bg] of [['unread badge', '#03141a', t['ph-accent']], ['done checkmark', '#04110a', t['ph-ok']], ['admin primary button', '#151616', t['ax-accent']], ['admin primary button hover', '#151616', t['ax-accent-hover']]]) {
     const ratio = contrast(fg, bg)
     results.push({ pair: label, ratio: Math.round(ratio * 100) / 100 })
     if (ratio < 4.5) failures.push(`${label} is ${ratio.toFixed(2)}:1, needs 4.5:1`)

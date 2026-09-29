@@ -47,11 +47,12 @@ export default defineConfig([
   // Fast-refresh purity doesn't apply to these:
   //  - main.jsx is the entry point (route table + layout wrappers); it is
   //    never hot-swapped as a component module.
-  //  - hooks/ files export a hook plus its context/provider component — the
+  //  - hooks/ files (and the admin data provider) export a hook plus its
+  //    context/provider component — the
   //    standard React context pattern. Splitting each into two files buys
   //    nothing but churn.
   {
-    files: ['src/main.jsx', 'src/hooks/**/*.{js,jsx}'],
+    files: ['src/main.jsx', 'src/hooks/**/*.{js,jsx}', 'src/features/admin/AdminData.jsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

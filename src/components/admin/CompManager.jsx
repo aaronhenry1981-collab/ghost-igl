@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../../lib/cognito'
+import { adminFetch, adminSend } from '../../features/admin/adminFetch'
+import { Badge, Field, Notice, Panel, Skeleton, StateView } from '../../features/admin/ui'
 
 // Comp account manager — grant time-limited Pro/Elite/Champion access without
 // charging, then convert to paid or revoke when the trial ends.
@@ -18,50 +19,16 @@ const DURATIONS = [
   { label: '3 months', days: 90 },
   { label: '6 months', days: 180 },
   { label: '1 year', days: 365 },
-  { label: 'Forever (placeholder 2099)', days: 0 },
+  { label: 'No end date', days: 0 },
 ]
 
-async function authedFetch(path, opts = {}) {
-  const cognitoUser = getCurrentUser()
-  if (!cognitoUser) throw new Error('Not signed in')
-  const session = await getSession(cognitoUser)
-  const token = getIdToken(session)
-  const res = await fetch(`${API_URL}${path}`, {
-    ...opts,
-    headers: { Authorization: `Bearer ${token}`, ...(opts.headers || {}) },
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
-  return data
-}
-
-function statusPillStyle(status) {
-  const colors = {
-    active: { bg: 'rgba(80,200,120,0.15)', border: '#50c878', fg: '#7ee2a4' },
-    expiring: { bg: 'rgba(255,180,80,0.15)', border: '#ffb450', fg: '#ffc97a' },
-    expired: { bg: 'rgba(180,180,180,0.15)', border: '#888', fg: '#aaa' },
-    canceled: { bg: 'rgba(220,90,90,0.12)', border: '#a85050', fg: '#d99' },
-  }
-  const c = colors[status] || colors.canceled
-  return {
-    display: 'inline-block',
-    padding: '2px 8px',
-    fontSize: '0.72rem',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.04em',
-    color: c.fg,
-    background: c.bg,
-    border: `1px solid ${c.border}`,
-    borderRadius: 999,
-  }
-}
+const STATUS_TONE = { active: 'ok', expiring: 'warning', expired: 'muted', canceled: 'danger' }
 
 export default function CompManager() {
   const [comps, setComps] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [notice, setNotice] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(null)
+  const [status, setStatus] = useState(null)
 
   // Grant-form state
   const [email, setEmail] = useState('')
@@ -72,12 +39,12 @@ export default function CompManager() {
 
   const load = useCallback(async () => {
     setLoading(true)
-    setError(null)
     try {
-      const data = await authedFetch('/admin/comps')
+      const data = await adminFetch('/admin/comps')
       setComps(data.comps || [])
+      setLoadError(null)
     } catch (err) {
-      setError(`Could not load comps: ${err.message}`)
+      setLoadError(err.message)
     } finally {
       setLoading(false)
     }
@@ -88,46 +55,36 @@ export default function CompManager() {
   async function grant(e) {
     e.preventDefault()
     const cleanEmail = email.trim().toLowerCase()
-    if (!cleanEmail.includes('@')) {
-      setError('Valid email required')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setStatus({ tone: 'danger', text: 'Enter a valid email address.' })
       return
     }
-    const friendly = DURATIONS.find((d) => d.days === durationDays)?.label || `${durationDays}d`
-    if (!window.confirm(`Grant ${plan} comp to ${cleanEmail} for ${friendly}?`)) return
+    const friendly = DURATIONS.find((d) => d.days === durationDays)?.label || `${durationDays} days`
+    if (!window.confirm(`Grant ${plan} access to ${cleanEmail} for ${friendly.toLowerCase()} without charging?`)) return
     setGranting(true)
-    setError(null)
-    setNotice(null)
+    setStatus(null)
     try {
-      const res = await authedFetch('/admin/comp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: cleanEmail, plan, durationDays, note: note.trim() }),
-      })
-      setNotice(`Comped ${res.email} → ${res.plan} until ${res.current_period_end?.slice(0, 10)}.`)
+      const res = await adminSend('/admin/comp', 'POST', { email: cleanEmail, plan, durationDays, note: note.trim() })
+      setStatus({ tone: 'ok', text: `Granted ${res.plan} to ${res.email} until ${res.current_period_end?.slice(0, 10)}.` })
       setEmail('')
       setNote('')
       await load()
     } catch (err) {
-      setError(`Comp failed: ${err.message}`)
+      setStatus({ tone: 'danger', text: `Grant failed: ${err.message}` })
     } finally {
       setGranting(false)
     }
   }
 
   async function revoke(targetEmail) {
-    if (!window.confirm(`Revoke comp for ${targetEmail}?\n\nThey'll lose access immediately. Use this when converting to a paying customer or ending a trial early.`)) return
-    setError(null)
-    setNotice(null)
+    if (!window.confirm(`Revoke complimentary access for ${targetEmail}?\n\nThey lose access immediately. Use this when converting to a paying customer or ending a trial early.`)) return
+    setStatus(null)
     try {
-      await authedFetch('/admin/uncomp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: targetEmail }),
-      })
-      setNotice(`Revoked comp for ${targetEmail}.`)
+      await adminSend('/admin/uncomp', 'POST', { email: targetEmail })
+      setStatus({ tone: 'ok', text: `Revoked complimentary access for ${targetEmail}.` })
       await load()
     } catch (err) {
-      setError(`Revoke failed: ${err.message}`)
+      setStatus({ tone: 'danger', text: `Revoke failed: ${err.message}` })
     }
   }
 
@@ -136,119 +93,84 @@ export default function CompManager() {
   const revoked = comps.filter((c) => c.raw_status === 'canceled')
 
   return (
-    <section className="admin-section">
-      <div className="admin-section-header">
-        <h2>Comp Accounts</h2>
-        <p className="admin-section-sub">
-          Free Pro, Elite, or Champion access for influencers, Discord giveaways, refunds, and beta testers.
-          Excluded from MRR. Auto-expires when the period ends — no cron needed.
-        </p>
-      </div>
+    <Panel
+      title="Complimentary access"
+      description="Free Pro, Elite or Champion access for creators, giveaways, refunds in progress and testers. Excluded from revenue; access ends automatically at the end date."
+    >
+      {status && <Notice tone={status.tone} onDismiss={() => setStatus(null)}>{status.text}</Notice>}
 
-      {error && <div className="admin-error">{error}</div>}
-      {notice && <div className="admin-notice">{notice}</div>}
-
-      <form onSubmit={grant} className="comp-grant-form" style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: '2fr 1fr 1fr 2fr auto', alignItems: 'end', marginBottom: '1.5rem' }}>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Email</span>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="player@gmail.com"
-            className="admin-input"
-          />
-        </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Plan</span>
-          <select value={plan} onChange={(e) => setPlan(e.target.value)} className="admin-input">
+      <form onSubmit={grant} className="ax-form-grid" style={{ marginBottom: 20 }}>
+        <Field label="Member email">
+          <input className="ax-input" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="player@example.com" autoComplete="off" />
+        </Field>
+        <Field label="Plan">
+          <select className="ax-select" value={plan} onChange={(e) => setPlan(e.target.value)}>
             <option value="champion">Champion</option>
             <option value="elite">Elite</option>
             <option value="pro">Pro</option>
           </select>
-        </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Duration</span>
-          <select value={durationDays} onChange={(e) => setDurationDays(Number(e.target.value))} className="admin-input">
-            {DURATIONS.map((d) => (
-              <option key={d.days} value={d.days}>{d.label}</option>
-            ))}
+        </Field>
+        <Field label="Duration">
+          <select className="ax-select" value={durationDays} onChange={(e) => setDurationDays(Number(e.target.value))}>
+            {DURATIONS.map((d) => <option key={d.days} value={d.days}>{d.label}</option>)}
           </select>
-        </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Note (audit trail)</span>
-          <input
-            type="text"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Discord giveaway #3"
-            maxLength={200}
-            className="admin-input"
-          />
-        </label>
-        <button type="submit" className="btn btn-primary" disabled={granting}>
-          {granting ? 'Granting…' : 'Grant Comp'}
-        </button>
+        </Field>
+        <Field label="Reason (kept in the audit log)">
+          <input className="ax-input" type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Creator trial" maxLength={200} />
+        </Field>
+        <div>
+          <button type="submit" className="ax-btn ax-btn--primary" disabled={granting}>{granting ? 'Granting…' : 'Grant access'}</button>
+        </div>
       </form>
 
-      {loading ? (
-        <p style={{ color: 'rgba(235,228,215,0.6)' }}>Loading comps…</p>
-      ) : (
-        <>
-          <CompTable title={`Active (${active.length})`} comps={active} onRevoke={revoke} showDays />
-          {expired.length > 0 && <CompTable title={`Expired — auto-revoked (${expired.length})`} comps={expired} onRevoke={revoke} dimmed />}
-          {revoked.length > 0 && <CompTable title={`Revoked (${revoked.length})`} comps={revoked} onRevoke={null} dimmed />}
-          {comps.length === 0 && <p style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.9rem' }}>No comps yet. Use the form above to grant your first one.</p>}
-        </>
-      )}
-    </section>
+      {loading && comps.length === 0 ? <Skeleton rows={3} />
+        : loadError ? <StateView kind="error" title="Complimentary access could not be loaded" onRetry={load}>{loadError}</StateView>
+          : comps.length === 0 ? <StateView kind="empty" compact title="No complimentary access granted yet" />
+            : (
+              <>
+                <CompTable title={`Active (${active.length})`} comps={active} onRevoke={revoke} showDays />
+                {expired.length > 0 && <CompTable title={`Expired (${expired.length})`} comps={expired} onRevoke={revoke} dimmed />}
+                {revoked.length > 0 && <CompTable title={`Revoked (${revoked.length})`} comps={revoked} onRevoke={null} dimmed />}
+              </>
+            )}
+    </Panel>
   )
 }
 
 function CompTable({ title, comps, onRevoke, showDays = false, dimmed = false }) {
-  if (!comps.length) return null
   return (
-    <div style={{ marginBottom: '1.25rem', opacity: dimmed ? 0.7 : 1 }}>
-      <h3 style={{ fontSize: '0.95rem', margin: '0 0 0.5rem', color: 'rgba(235,228,215,0.85)' }}>{title}</h3>
-      <div className="admin-table-wrap">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Plan</th>
-              <th>Status</th>
-              {showDays && <th>Days left</th>}
-              <th>Expires</th>
-              <th>Note</th>
-              {onRevoke && <th></th>}
-            </tr>
-          </thead>
-          <tbody>
-            {comps.map((c) => (
-              <tr key={c.stripe_customer_id}>
-                <td className="admin-mono">{c.email}</td>
-                <td style={{ textTransform: 'capitalize' }}>{c.plan}</td>
-                <td><span style={statusPillStyle(c.status)}>{c.status}</span></td>
-                {showDays && <td>{c.days_remaining != null ? `${c.days_remaining}d` : '—'}</td>}
-                <td className="admin-mono" style={{ fontSize: '0.8rem' }}>
-                  {c.current_period_end ? c.current_period_end.slice(0, 10) : '—'}
-                </td>
-                <td style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)', maxWidth: 220 }}>
-                  {c.comp_note || <span style={{ opacity: 0.4 }}>—</span>}
-                </td>
-                {onRevoke && (
-                  <td>
-                    <button onClick={() => onRevoke(c.email)} className="btn btn-sm btn-outline">
-                      Revoke
-                    </button>
-                  </td>
-                )}
+    <>
+      <p className="ax-subhead">{title}</p>
+      {comps.length === 0 ? <p className="ax-help">None.</p> : (
+        <div className="ax-table-wrap" style={{ border: '1px solid var(--ax-border)', borderRadius: 6, marginBottom: 16 }}>
+          <table className="ax-table">
+            <thead>
+              <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Status</th>
+                {showDays && <th scope="col">Days left</th>}
+                <th scope="col">Ends</th>
+                <th scope="col">Reason</th>
+                {onRevoke && <th scope="col"><span className="ax-sr">Actions</span></th>}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            </thead>
+            <tbody>
+              {comps.map((c) => (
+                <tr key={c.stripe_customer_id} className={dimmed ? 'is-dim' : ''}>
+                  <td style={{ overflowWrap: 'anywhere' }}>{c.email}</td>
+                  <td style={{ textTransform: 'capitalize' }}>{c.plan}</td>
+                  <td><Badge tone={STATUS_TONE[c.status] || 'muted'}>{c.status}</Badge></td>
+                  {showDays && <td className="ax-num">{c.days_remaining != null ? `${c.days_remaining}` : '—'}</td>}
+                  <td className="ax-num">{c.current_period_end ? (c.current_period_end.startsWith('2099') ? 'No end date' : c.current_period_end.slice(0, 10)) : '—'}</td>
+                  <td>{c.comp_note || <span className="ax-muted">—</span>}</td>
+                  {onRevoke && <td className="ax-cell-actions"><button type="button" onClick={() => onRevoke(c.email)} className="ax-btn ax-btn--sm ax-btn--danger">Revoke</button></td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
   )
 }

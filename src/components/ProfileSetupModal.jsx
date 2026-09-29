@@ -7,7 +7,8 @@ import { getRefSource, clearRefSource } from '../lib/refSource'
 import { RANKS } from '../data/ranks' // single source of truth — all 40 R6 ranks w/ divisions
 
 // First-login profile setup. Collects identity fields Aaron needs to know
-// who his customers are when emailing them — display name, platform, region,
+// who his customers are when emailing them — display name, optional first and
+// last name, platform, region,
 // referral source — plus optional R6-specific fields (rank, role, gamer tag,
 // goal rank). Everything is saved to ghost-igl-profiles via PUT /me.
 //
@@ -76,6 +77,9 @@ export default function ProfileSetupModal() {
 
   const [form, setForm] = useState({
     display_name: profile?.display_name || '',
+    // Real name: optional, never required to use what they paid for.
+    first_name: profile?.first_name || '',
+    last_name: profile?.last_name || '',
     platform: profile?.platform || '',
     region: profile?.region || '',
     discord_username: profile?.discord_username || '',
@@ -111,6 +115,11 @@ export default function ProfileSetupModal() {
       setStep(1)
       return
     }
+    if (/@/.test(`${form.first_name}${form.last_name}`)) {
+      setError('Enter your name, not an email address.')
+      setStep(1)
+      return
+    }
 
     setSubmitting(true)
     try {
@@ -125,7 +134,11 @@ export default function ProfileSetupModal() {
       if (form.r6_main_role) gameProfiles.r6.main_role = form.r6_main_role
       if (form.r6_ubisoft_username.trim()) gameProfiles.r6.ubisoft_username = form.r6_ubisoft_username.trim()
 
+      const firstName = form.first_name.replace(/\s+/g, ' ').trim()
+      const lastName = form.last_name.replace(/\s+/g, ' ').trim()
       const body = {
+        ...(firstName ? { first_name: firstName } : {}),
+        ...(lastName ? { last_name: lastName } : {}),
         display_name: form.display_name.trim(),
         platform: form.platform,
         region: form.region || null,
@@ -205,6 +218,14 @@ export default function ProfileSetupModal() {
             <Field label="Display name" required>
               <input type="text" value={form.display_name} onChange={(e) => setField('display_name', e.target.value)} placeholder="What should we call you?" maxLength={60} className="testi-input" autoFocus />
             </Field>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.9rem' }}>
+              <Field label="First name (optional)">
+                <input type="text" value={form.first_name} onChange={(e) => setField('first_name', e.target.value)} autoComplete="given-name" maxLength={100} className="testi-input" />
+              </Field>
+              <Field label="Last name (optional)">
+                <input type="text" value={form.last_name} onChange={(e) => setField('last_name', e.target.value)} autoComplete="family-name" maxLength={100} className="testi-input" />
+              </Field>
+            </div>
             <Field label="Platform" required>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
                 {PLATFORMS.map(p => (
@@ -272,6 +293,7 @@ export default function ProfileSetupModal() {
               onClick={() => {
                 if (!form.display_name.trim()) { setError('Display name is required.'); return }
                 if (!form.platform) { setError('Pick a platform.'); return }
+                if (/@/.test(`${form.first_name}${form.last_name}`)) { setError('Enter your name, not an email address.'); return }
                 setError(null); setStep(2)
               }}
               className="btn btn-primary"

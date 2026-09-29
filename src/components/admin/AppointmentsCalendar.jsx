@@ -3,7 +3,8 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../../lib/cognito'
+import { adminFetch, adminSend, publicFetch } from '../../features/admin/adminFetch'
+import { Badge, Drawer, Field, Icon, KeyValues, Notice, Panel, Skeleton, StateView } from '../../features/admin/ui'
 import {
   bookingEventTitle,
   bookingStatusLabel,
@@ -19,27 +20,16 @@ import {
 // + the channel it came from). Everything reads/writes the recon6-booking
 // Lambda. Times render in the coach's configured timezone (Aaron's local).
 
-async function authedFetch(path, opts = {}) {
-  const user = getCurrentUser()
-  if (!user) throw new Error('Not signed in')
-  const session = await getSession(user)
-  const token = getIdToken(session)
-  const res = await fetch(`${API_URL}${path}`, {
-    ...opts,
-    headers: { Authorization: `Bearer ${token}`, ...(opts.headers || {}) },
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
-  return data
-}
-
-// status → colour. Solid confirmed, amber held, blue comped, green completed.
+// status → colour. Solid confirmed, amber held, blue comped, grey completed.
 const STATUS_COLOR = {
-  confirmed: '#2f9e6b',
-  comped: '#3b82f6',
-  completed: '#80786b',
-  held: '#d9871f',
+  confirmed: '#4fae7c',
+  comped: '#6f96c8',
+  completed: '#8a8377',
+  held: '#d9a441',
 }
+const OPEN_BG = 'rgba(79,174,124,0.14)'
+const ONEOFF_BG = 'rgba(79,174,124,0.22)'
+const TIMEOFF_BG = 'rgba(239,122,112,0.18)'
 
 const two = (n) => String(n).padStart(2, '0')
 const ymd = (d) => `${d.getUTCFullYear()}-${two(d.getUTCMonth() + 1)}-${two(d.getUTCDate())}`
@@ -55,34 +45,38 @@ function timeUntil(iso, nowMs) {
   return `${Math.round(h / 24)}d`
 }
 
-export default function AppointmentsCalendar() {
+const SLOT_FMT = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }
+
+export default function AppointmentsCalendar({ reloadSignal = 0 }) {
   const [config, setConfig] = useState(null)
   const [bookings, setBookings] = useState([])
+  const [loadError, setLoadError] = useState(null)
   const [range, setRange] = useState(null) // {start: Date, end: Date} of the visible view
   const [selectedSlotId, setSelectedSlotId] = useState(null) // booking drawer follows refreshed server data
-  const [showCalendar, setShowCalendar] = useState(false)
   const [sendingCheckinSlotId, setSendingCheckinSlotId] = useState(null)
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState(null) // { tone, text }
   const [webcal, setWebcal] = useState(null)
   const [comp, setComp] = useState(null) // {slotId, name, email} for the comp form
   const [openSlots, setOpenSlots] = useState([])
+  const [narrow] = useState(() => typeof window !== 'undefined' && window.matchMedia?.('(max-width: 767px)').matches)
   const calRef = useRef(null)
 
   const load = useCallback(async () => {
     try {
       const [a, b] = await Promise.all([
-        authedFetch('/admin/availability'),
-        authedFetch('/admin/bookings?all=1'),
+        adminFetch('/admin/availability'),
+        adminFetch('/admin/bookings?all=1'),
       ])
       setConfig(a.config)
       setBookings(b.bookings || [])
+      setLoadError(null)
     } catch (err) {
-      setStatus(`Load failed: ${err.message}`)
+      setLoadError(err.message)
     }
   }, [])
 
-  // Mount-time fetch — same pattern as the other admin panels.
-  useEffect(() => { load() }, [load])
+  // Mount-time fetch (and again when the availability editor saves).
+  useEffect(() => { load() }, [load, reloadSignal])
 
   // Clock in state (Date.now() only inside the effect, never during render) so
   // "upcoming" and time-until stay pure and refresh each minute.
@@ -97,7 +91,7 @@ export default function AppointmentsCalendar() {
   // Open slots (for reschedule / comp pickers) — refreshed lazily.
   const loadOpenSlots = useCallback(async () => {
     try {
-      const r = await fetch(`${API_URL}/booking/slots`).then((x) => x.json())
+      const r = await publicFetch('/booking/slots')
       setOpenSlots(r.slots || [])
     } catch { /* non-fatal */ }
   }, [])
@@ -121,8 +115,8 @@ export default function AppointmentsCalendar() {
         title: bookingEventTitle(b, nowMs),
         start: b.start,
         end,
-        backgroundColor: STATUS_COLOR[b.status] || '#2f9e6b',
-        borderColor: STATUS_COLOR[b.status] || '#2f9e6b',
+        backgroundColor: STATUS_COLOR[b.status] || STATUS_COLOR.confirmed,
+        borderColor: STATUS_COLOR[b.status] || STATUS_COLOR.confirmed,
         extendedProps: { booking: b },
       })
     }
@@ -136,14 +130,14 @@ export default function AppointmentsCalendar() {
         const blacked = (config.blackouts || []).includes(date)
         if (!blacked) {
           for (const w of config.windows || []) {
-            if (w.dow === dow) evs.push(bg(`${date}T${w.start}:00`, `${date}T${w.end}:00`, 'rgba(47,158,107,0.12)'))
+            if (w.dow === dow) evs.push(bg(`${date}T${w.start}:00`, `${date}T${w.end}:00`, OPEN_BG))
           }
           for (const o of config.oneoffs || []) {
-            if (o.date === date) evs.push(bg(`${date}T${o.start}:00`, `${date}T${o.end}:00`, 'rgba(47,158,107,0.18)'))
+            if (o.date === date) evs.push(bg(`${date}T${o.start}:00`, `${date}T${o.end}:00`, ONEOFF_BG))
           }
         }
         for (const t of config.timeoff || []) {
-          if (t.date === date) evs.push(bg(`${date}T${t.start}:00`, `${date}T${t.end}:00`, 'rgba(220,80,80,0.16)'))
+          if (t.date === date) evs.push(bg(`${date}T${t.start}:00`, `${date}T${t.end}:00`, TIMEOFF_BG))
         }
         cursor.setUTCDate(cursor.getUTCDate() + 1)
       }
@@ -167,12 +161,16 @@ export default function AppointmentsCalendar() {
     return () => clearInterval(id)
   }, [activeHolds.length, load])
 
+  const closeDrawer = useCallback(() => setSelectedSlotId(null), [])
+  const closeComp = useCallback(() => setComp(null), [])
+
   if (!config) {
     return (
-      <section className="admin-section">
-        <div className="admin-section-header"><h2>Appointments</h2></div>
-        <p className="admin-footnote">{status || 'Loading calendar…'}</p>
-      </section>
+      <Panel title="Upcoming sessions">
+        {loadError
+          ? <StateView kind="error" title="The coaching calendar could not be loaded" onRetry={load}>{loadError}</StateView>
+          : <Skeleton rows={4} />}
+      </Panel>
     )
   }
 
@@ -185,36 +183,37 @@ export default function AppointmentsCalendar() {
       return { date: `${g('year')}-${g('month')}-${g('day')}`, time: `${g('hour')}:${g('minute')}` }
     }
     const s = parts(info.start), e = parts(info.end)
-    if (s.date !== e.date) { setStatus('Keep a one-off window within a single day.'); return }
-    const oneoffs = [...(config.oneoffs || []), { date: s.date, start: s.time, end: e.time }]
-    await saveConfig({ ...config, oneoffs })
-    setStatus(`Opened ${s.date} ${s.time}–${e.time} for booking.`)
+    if (s.date !== e.date) { setStatus({ tone: 'warning', text: 'Keep a one-off window within a single day.' }); return }
+    if (await addOneoff({ date: s.date, start: s.time, end: e.time })) setStatus({ tone: 'ok', text: `Opened ${s.date} ${s.time}–${e.time} for booking.` })
     calRef.current?.getApi().unselect()
   }
 
-  async function saveConfig(next) {
+  // Append to the LATEST saved config so weekly-window edits made in the
+  // availability editor are never overwritten by this screen's copy.
+  async function addOneoff(window) {
     try {
-      const r = await authedFetch('/admin/availability', {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ config: next }),
-      })
+      const latest = (await adminFetch('/admin/availability')).config || config
+      const r = await adminSend('/admin/availability', 'PUT', { config: { ...latest, oneoffs: [...(latest.oneoffs || []), window] } })
       setConfig(r.config)
-    } catch (err) { setStatus(`Save failed: ${err.message}`) }
+      return true
+    } catch (err) {
+      setStatus({ tone: 'danger', text: `Save failed: ${err.message}` })
+      return false
+    }
   }
 
   async function action(body, okMsg, { keepOpen = false } = {}) {
-    setStatus('Working…')
+    setStatus({ tone: 'info', text: 'Working…' })
     try {
-      await authedFetch('/admin/booking', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
-      })
-      setStatus(okMsg)
+      await adminSend('/admin/booking', 'POST', body)
+      setStatus({ tone: 'ok', text: okMsg })
       if (!keepOpen) {
         setSelectedSlotId(null)
         setComp(null)
       }
       await load()
       return true
-    } catch (err) { setStatus(`Failed: ${err.message}`) }
+    } catch (err) { setStatus({ tone: 'danger', text: `Failed: ${err.message}` }) }
     return false
   }
 
@@ -232,133 +231,135 @@ export default function AppointmentsCalendar() {
   }
 
   async function showWebcal() {
-    try { const r = await authedFetch('/admin/calendar-url'); setWebcal(r) }
-    catch (err) { setStatus(`Feed URL failed: ${err.message}`) }
+    try { setWebcal(await adminFetch('/admin/calendar-url')) }
+    catch (err) { setStatus({ tone: 'danger', text: `Calendar feed link failed: ${err.message}` }) }
   }
 
   return (
-    <section className="admin-section">
-      <style>{`
-        .appointment-list{display:grid;gap:10px;margin:12px 0 16px}
-        .appointment-row{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(170px,.75fr) auto;gap:18px;align-items:center;background:#1c1b19;border:1px solid #3e3a33;border-radius:12px;padding:14px 16px}
-        .appointment-row__date{color:#f5a374;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-        .appointment-row__time{color:#f4f7fb;font-size:1.25rem;font-weight:800;margin-top:2px}
-        .appointment-row__name{color:#f4f7fb;font-size:1rem;font-weight:800}
-        .appointment-row__contact,.appointment-row__meta{color:#b2aca2;font-size:.82rem;line-height:1.45;overflow-wrap:anywhere}
-        .appointment-row__actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-        .appointment-empty{background:#1c1b19;border:1px dashed #4c473f;border-radius:12px;color:#b2aca2;padding:20px;text-align:center}
-        @media(max-width:900px){.appointment-row{grid-template-columns:1fr 1fr}.appointment-row__actions{justify-content:flex-start}}
-        @media(max-width:620px){.appointment-row{grid-template-columns:1fr}.appointment-row__actions{justify-content:stretch}.appointment-row__actions .btn{flex:1}}
-      `}</style>
-      <div className="admin-section-header"><h2>Upcoming appointments</h2></div>
-      <p className="admin-footnote">
-        Confirmed sessions in <strong>{tz}</strong>. Date, time, customer, and contact actions are kept together.
-      </p>
+    <>
+      {status && <Notice tone={status.tone} onDismiss={() => setStatus(null)}>{status.text}</Notice>}
 
-      <div className="appointment-list" role="list" aria-label="Upcoming coaching appointments">
+      <Panel
+        title="Upcoming sessions"
+        description={<>Confirmed sessions, shown in <strong className="ax-strong">{tz}</strong>.</>}
+        bodyClassName="is-flush"
+        actions={<button type="button" className="ax-btn ax-btn--sm" onClick={load}><Icon name="refresh" /> Refresh</button>}
+      >
+        {activeHolds.length > 0 && (
+          <div style={{ padding: '12px 20px 0' }}>
+            <Notice tone="warning">
+              {activeHolds.length} checkout {activeHolds.length === 1 ? 'hold is' : 'holds are'} waiting for payment. {activeHolds.length === 1 ? 'It is' : 'They are'} not an appointment yet.
+            </Notice>
+          </div>
+        )}
         {upcoming.length === 0 ? (
-          <div className="appointment-empty">No confirmed upcoming sessions.</div>
-        ) : upcoming.map((b) => (
-          <AppointmentRow
-            key={b.slotId}
-            booking={b}
-            fmtInTz={fmtInTz}
-            nowMs={nowMs}
-            sending={sendingCheckinSlotId === b.slotId}
-            onManage={() => setSelectedSlotId(b.slotId)}
-            onCheckin={() => sendCheckin(b)}
-          />
-        ))}
-      </div>
-      {activeHolds.length > 0 && (
-        <p className="admin-footnote" style={{ color: '#e5ad58', marginBottom: 12 }}>
-          {activeHolds.length} checkout {activeHolds.length === 1 ? 'hold is' : 'holds are'} waiting for payment. {activeHolds.length === 1 ? 'It is' : 'They are'} not an appointment yet.
-        </p>
-      )}
+          <StateView kind="empty" title="No confirmed upcoming sessions">New bookings appear here as soon as payment confirms.</StateView>
+        ) : (
+          <div role="list" aria-label="Upcoming coaching sessions">
+            {upcoming.map((b) => (
+              <AppointmentRow
+                key={b.slotId}
+                booking={b}
+                fmtInTz={fmtInTz}
+                nowMs={nowMs}
+                sending={sendingCheckinSlotId === b.slotId}
+                onManage={() => setSelectedSlotId(b.slotId)}
+                onCheckin={() => sendCheckin(b)}
+              />
+            ))}
+          </div>
+        )}
+      </Panel>
 
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
-        <button type="button" className="btn" aria-expanded={showCalendar} onClick={() => setShowCalendar((open) => !open)}>
-          {showCalendar ? 'Hide calendar & availability' : 'Manage calendar & availability'}
-        </button>
-      </div>
-      {showCalendar && (
-        <div style={{ marginTop: 12 }}>
-          <p className="admin-footnote">
-            Drag an empty range to open a one-off bookable window; click a booking to manage it.
-            Green = open · amber = checkout hold · other coloured blocks = sessions · red = time off.
-          </p>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
-            <button type="button" className="btn" onClick={() => { loadOpenSlots(); setComp({ slotId: '', name: '', email: '' }) }}>+ Comp a session</button>
-            <button type="button" className="btn" onClick={showWebcal}>Subscribe on my phone</button>
-          </div>
-          {webcal?.url && (
-            <p className="admin-footnote" style={{ marginBottom: 10 }}>
-              Add this to Apple/Google Calendar once and every booking appears automatically:<br />
-              <a href={webcal.url}>{webcal.url}</a>
-            </p>
-          )}
-          <div className="appointments-calendar" style={{ background: '#171716', borderRadius: 12, padding: 8 }}>
-            <FullCalendar
-              ref={calRef}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="timeGridWeek"
-              headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' }}
-              timeZone={tz}
-              height="auto"
-              nowIndicator
-              selectable
-              selectMirror
-              slotMinTime="08:00:00"
-              slotMaxTime="24:00:00"
-              allDaySlot={false}
-              events={events}
-              select={onSelect}
-              eventClick={(info) => {
-                const b = info.event.extendedProps.booking
-                if (b) setSelectedSlotId(b.slotId)
-              }}
-              datesSet={(arg) => setRange({ start: arg.start, end: arg.end })}
-            />
-          </div>
+      <Panel
+        title="Calendar"
+        description="Drag across an empty time to open a one-off bookable window. Select a booking to manage it."
+        actions={
+          <>
+            <button type="button" className="ax-btn ax-btn--sm" onClick={() => { loadOpenSlots(); setComp({ slotId: '', name: '', email: '' }) }}>Comp a session</button>
+            <button type="button" className="ax-btn ax-btn--sm" onClick={showWebcal}>Calendar feed for your phone</button>
+          </>
+        }
+      >
+        {webcal?.url && (
+          <Notice tone="info" title="Calendar feed" onDismiss={() => setWebcal(null)}>
+            Add this link to Apple or Google Calendar once and every booking appears automatically: <a className="ax-link" href={webcal.url}>{webcal.url}</a>
+          </Notice>
+        )}
+        <div className="ax-legend" style={{ marginBottom: 12 }}>
+          <span><i style={{ background: OPEN_BG, border: '1px solid rgba(79,174,124,.5)' }} /> Open for booking</span>
+          <span><i style={{ background: STATUS_COLOR.confirmed }} /> Confirmed</span>
+          <span><i style={{ background: STATUS_COLOR.comped }} /> Comped</span>
+          <span><i style={{ background: STATUS_COLOR.held }} /> Checkout hold</span>
+          <span><i style={{ background: STATUS_COLOR.completed }} /> Completed</span>
+          <span><i style={{ background: TIMEOFF_BG, border: '1px solid rgba(239,122,112,.5)' }} /> Time off</span>
         </div>
-      )}
+        <div className="ax-calendar">
+          <FullCalendar
+            ref={calRef}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView={narrow ? 'timeGridDay' : 'timeGridWeek'}
+            headerToolbar={{ left: 'prev,next today', center: 'title', right: narrow ? 'timeGridDay,dayGridMonth' : 'dayGridMonth,timeGridWeek,timeGridDay' }}
+            timeZone={tz}
+            height="auto"
+            nowIndicator
+            selectable
+            selectMirror
+            slotMinTime="08:00:00"
+            slotMaxTime="24:00:00"
+            allDaySlot={false}
+            events={events}
+            select={onSelect}
+            eventClick={(info) => {
+              const b = info.event.extendedProps.booking
+              if (b) setSelectedSlotId(b.slotId)
+            }}
+            datesSet={(arg) => setRange({ start: arg.start, end: arg.end })}
+          />
+        </div>
+      </Panel>
 
-      {status && <p className="admin-footnote" style={{ marginTop: 10, color: status.includes('ailed') ? '#ff6b6b' : '#7ee2a4' }}>{status}</p>}
-
-      {/* Comp form */}
       {comp && (
-        <Drawer title="Comp a session (free, confirmed)" onClose={() => setComp(null)}>
-          <label className="fld">Open slot
-            <select value={comp.slotId} onChange={(e) => setComp({ ...comp, slotId: e.target.value })}>
-              <option value="">— pick an open slot —</option>
-              {openSlots.map((s) => <option key={s} value={s}>{fmtInTz(s, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</option>)}
-            </select>
-          </label>
-          <label className="fld">Name<input value={comp.name} onChange={(e) => setComp({ ...comp, name: e.target.value })} /></label>
-          <label className="fld">Email<input value={comp.email} onChange={(e) => setComp({ ...comp, email: e.target.value })} /></label>
-          <button type="button" className="btn btn-primary" disabled={!comp.slotId || !comp.name || !comp.email}
-            onClick={() => action({ action: 'comp', slotId: comp.slotId, name: comp.name, email: comp.email }, 'Comped — customer emailed.')}>
-            Create comped booking
-          </button>
+        <Drawer
+          title="Comp a session"
+          subtitle="Creates a free, confirmed booking and emails the customer."
+          onClose={closeComp}
+          footer={
+            <button type="button" className="ax-btn ax-btn--primary" disabled={!comp.slotId || !comp.name || !comp.email}
+              onClick={() => action({ action: 'comp', slotId: comp.slotId, name: comp.name, email: comp.email }, 'Comped. The customer was emailed.')}>
+              Create comped booking
+            </button>
+          }
+        >
+          <div className="ax-form-stack">
+            <Field label="Open slot">
+              <select className="ax-select" value={comp.slotId} onChange={(e) => setComp({ ...comp, slotId: e.target.value })}>
+                <option value="">Pick an open slot</option>
+                {openSlots.map((s) => <option key={s} value={s}>{fmtInTz(s, SLOT_FMT)}</option>)}
+              </select>
+            </Field>
+            <Field label="Customer name"><input className="ax-input" value={comp.name} onChange={(e) => setComp({ ...comp, name: e.target.value })} /></Field>
+            <Field label="Customer email"><input className="ax-input" type="email" value={comp.email} onChange={(e) => setComp({ ...comp, email: e.target.value })} /></Field>
+          </div>
         </Drawer>
       )}
 
-      {/* Booking detail drawer */}
       {selected && (
         <BookingDrawer
+          key={selected.slotId}
           booking={selected}
           tz={tz}
           openSlots={openSlots}
           loadOpenSlots={loadOpenSlots}
           fmtInTz={fmtInTz}
           nowMs={nowMs}
-          onClose={() => setSelectedSlotId(null)}
+          onClose={closeDrawer}
           onAction={action}
           sendingCheckin={sendingCheckinSlotId === selected.slotId}
           onCheckin={() => sendCheckin(selected)}
         />
       )}
-    </section>
+    </>
   )
 }
 
@@ -368,27 +369,25 @@ function AppointmentRow({ booking: b, fmtInTz, nowMs, sending, onManage, onCheck
   const identity = b.customer?.name || b.customer?.email || 'Customer'
 
   return (
-    <article className="appointment-row" role="listitem">
+    <article className="ax-appt" role="listitem">
       <div>
-        <div className="appointment-row__date">{fmtInTz(b.start, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</div>
-        <div className="appointment-row__time">{fmtInTz(b.start, { hour: 'numeric', minute: '2-digit' })}</div>
-        <div className="appointment-row__meta">in {timeUntil(b.start, nowMs)}</div>
+        <p className="ax-appt__date">{fmtInTz(b.start, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</p>
+        <p className="ax-appt__time">{fmtInTz(b.start, { hour: 'numeric', minute: '2-digit' })}</p>
+        <p className="ax-muted" style={{ fontSize: '0.75rem' }}>in {timeUntil(b.start, nowMs)}</p>
+      </div>
+      <div className="ax-person">
+        <span className="ax-person__name">{identity}</span>
+        <span className="ax-person__email">{b.customer?.email || 'No email recorded'}</span>
+        {b.customer?.discord && <span className="ax-person__email">Discord: {b.customer.discord}</span>}
       </div>
       <div>
-        <div className="appointment-row__name">{identity}</div>
-        <div className="appointment-row__contact">{b.customer?.email || 'No email recorded'}</div>
-        {b.customer?.discord && <div className="appointment-row__contact">Discord: {b.customer.discord}</div>}
+        <p className="ax-strong" style={{ fontSize: '0.8125rem' }}>{b.sessionType || 'Coaching session'}</p>
+        <p className="ax-muted" style={{ fontSize: '0.78rem' }}>{bookingStatusLabel(b, nowMs)}</p>
+        {b.lastCheckinAt && <p className="ax-muted" style={{ fontSize: '0.75rem' }}>Check-in sent {fmtInTz(b.lastCheckinAt, { hour: 'numeric', minute: '2-digit' })}</p>}
       </div>
-      <div>
-        <div className="appointment-row__meta"><strong>{b.sessionType || 'Coaching session'}</strong></div>
-        <div className="appointment-row__meta">{bookingStatusLabel(b, nowMs)}</div>
-        {b.lastCheckinAt && (
-          <div className="appointment-row__meta">Check-in sent {fmtInTz(b.lastCheckinAt, { hour: 'numeric', minute: '2-digit' })}</div>
-        )}
-      </div>
-      <div className="appointment-row__actions">
-        <button type="button" className="btn" onClick={onManage}>Manage</button>
-        <button type="button" className="btn btn-primary" onClick={onCheckin} disabled={sending || coolingDown || !b.customer?.email}>
+      <div className="ax-appt__actions">
+        <button type="button" className="ax-btn ax-btn--sm" onClick={onManage}>Manage</button>
+        <button type="button" className="ax-btn ax-btn--sm ax-btn--primary" onClick={onCheckin} disabled={sending || coolingDown || !b.customer?.email}>
           {sending ? 'Sending…' : coolingDown ? 'Check-in sent' : 'Send check-in'}
         </button>
       </div>
@@ -400,20 +399,6 @@ function bg(start, end, color) {
   return { start, end, display: 'background', backgroundColor: color, groupId: 'availability' }
 }
 
-function Drawer({ title, children, onClose }) {
-  return (
-    <div role="dialog" aria-label={title}
-      style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(420px, 94vw)', background: '#1c1b19', borderLeft: '1px solid #433f37', boxShadow: '-8px 0 24px rgba(0,0,0,.4)', padding: 20, overflowY: 'auto', zIndex: 200 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <h3 style={{ margin: 0 }}>{title}</h3>
-        <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', color: '#a59e91', fontSize: '1.4rem', cursor: 'pointer' }} aria-label="Close">×</button>
-      </div>
-      <style>{`.fld{display:block;margin:10px 0;font-size:.82rem;color:#a59e91}.fld input,.fld select,.fld textarea{display:block;width:100%;margin-top:4px;background:#171716;color:#e9e4dd;border:1px solid #433f37;border-radius:8px;padding:8px 10px;font-size:.95rem}.drawer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.drawer-actions .btn{flex:1;min-width:120px}`}</style>
-      {children}
-    </div>
-  )
-}
-
 function BookingDrawer({ booking: b, tz, openSlots, loadOpenSlots, fmtInTz, nowMs, onClose, onAction, sendingCheckin, onCheckin }) {
   const [notes, setNotes] = useState(b.notes || '')
   const [newSlot, setNewSlot] = useState('')
@@ -422,70 +407,68 @@ function BookingDrawer({ booking: b, tz, openSlots, loadOpenSlots, fmtInTz, nowM
   const isHold = b.status === 'held'
   const activeHold = isActiveCheckoutHold(b, nowMs)
   const identity = b.customer?.name || b.customer?.email
+  const paymentText = isHold ? 'Not paid' : (b.payment?.status || (b.status === 'comped' ? 'Comped' : null))
+
+  const footer = isHold ? null : rescheduling ? (
+    <>
+      <button type="button" className="ax-btn ax-btn--primary ax-btn--sm" disabled={!newSlot}
+        onClick={() => onAction({ action: 'reschedule', slotId: b.slotId, newSlotId: newSlot }, 'Rescheduled. The customer was emailed.')}>Confirm move</button>
+      <button type="button" className="ax-btn ax-btn--sm" onClick={() => setRescheduling(false)}>Back</button>
+    </>
+  ) : (
+    <>
+      <button type="button" className="ax-btn ax-btn--sm" onClick={() => { loadOpenSlots(); setRescheduling(true) }}>Reschedule</button>
+      <button type="button" className="ax-btn ax-btn--sm" onClick={() => onAction({ action: 'complete', slotId: b.slotId }, 'Marked complete.')}>Mark complete</button>
+      <button type="button" className="ax-btn ax-btn--sm ax-btn--danger"
+        onClick={() => { if (window.confirm('Cancel this booking and free the slot? The customer is emailed.')) onAction({ action: 'cancel', slotId: b.slotId }, 'Cancelled. The slot is free and the customer was emailed.') }}>Cancel booking</button>
+    </>
+  )
 
   return (
-    <Drawer title={identity || (isHold ? 'Checkout hold' : 'Booking')} onClose={onClose}>
-      <div style={{ fontSize: '.9rem', lineHeight: 1.7 }}>
-        <div><strong>{fmtInTz(b.start, { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</strong> ({tz})</div>
-        <div>Status: <strong>{bookingStatusLabel(b, nowMs)}</strong></div>
-        <div>Session type: {b.sessionType || 'Not selected yet'}</div>
-        <div>Payment: {isHold ? 'Not paid' : (b.payment?.status || (b.status === 'comped' ? 'comped' : '—'))}{b.payment?.stripe_id ? <> · <a href={`https://dashboard.stripe.com/payments/${b.payment.stripe_id}`} target="_blank" rel="noopener noreferrer">Stripe</a></> : null}</div>
-        {isHold && (
-          <div style={{ color: activeHold ? '#e5ad58' : '#a59e91', margin: '6px 0' }}>
-            {activeHold
-              ? <>Expires {fmtInTz(b.heldUntil, { hour: 'numeric', minute: '2-digit', second: '2-digit' })} — this is not a session unless checkout finishes.</>
-              : <>This checkout hold expired and is not a session.</>}
-          </div>
-        )}
-        <div style={{ margin: '6px 0' }}>
-          Source: <span style={{ background: '#302e2c', border: '1px solid #433f37', borderRadius: 999, padding: '2px 10px', fontWeight: 700, color: src === 'direct' ? '#a59e91' : '#7ee2a4' }}>{src}</span>
-        </div>
-        <div>Customer: <strong>{identity || 'Identity not entered yet'}</strong></div>
-        {!identity && isHold && <div style={{ color: '#a59e91' }}>The visitor selected this time but has not submitted the booking form.</div>}
-        {b.customer?.email && b.customer.email !== identity && <div>Email: {b.customer.email}</div>}
-        {b.customer?.discord && <div>Discord: {b.customer.discord}</div>}
-        {b.customer?.rank_goal && <div>Rank goal: {b.customer.rank_goal}</div>}
-        {b.customer?.notes && <div style={{ color: '#a59e91', marginTop: 6 }}>“{b.customer.notes}”</div>}
-        <div style={{ color: '#847b6c', marginTop: 6, fontSize: '.78rem' }}>Reference: {b.slotId}</div>
-      </div>
-
-      <label className="fld" style={{ marginTop: 14 }}>Private notes (only you see these)
-        <textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
-      </label>
-      <button type="button" className="btn" onClick={() => onAction({ action: 'notes', slotId: b.slotId, notes }, 'Notes saved.')}>Save notes</button>
-
-      {!isHold && b.customer?.email && (
-        <button type="button" className="btn btn-primary" style={{ marginTop: 10 }} disabled={sendingCheckin} onClick={onCheckin}>
-          {sendingCheckin ? 'Sending check-in…' : 'Send “Are you online?” check-in'}
-        </button>
+    <Drawer title={identity || (isHold ? 'Checkout hold' : 'Booking')} subtitle={`${fmtInTz(b.start, { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} (${tz})`} onClose={onClose} footer={footer}>
+      {isHold && (
+        <Notice tone="warning">
+          {activeHold
+            ? <>Expires {fmtInTz(b.heldUntil, { hour: 'numeric', minute: '2-digit', second: '2-digit' })}. This is not a session unless checkout finishes.</>
+            : <>This checkout hold expired and is not a session.</>}
+        </Notice>
       )}
+      <KeyValues items={[
+        { label: 'Status', value: <Badge tone={isHold ? 'warning' : b.status === 'completed' ? 'muted' : 'ok'}>{bookingStatusLabel(b, nowMs)}</Badge> },
+        { label: 'Session type', value: b.sessionType || 'Not selected yet' },
+        { label: 'Payment', value: paymentText, hint: b.payment?.stripe_id ? <a className="ax-link" href={`https://dashboard.stripe.com/payments/${b.payment.stripe_id}`} target="_blank" rel="noopener noreferrer">Open payment in Stripe <Icon name="external" size={12} /></a> : null },
+        { label: 'Came from', value: <Badge tone={src === 'direct' ? 'muted' : 'ok'}>{src}</Badge> },
+        { label: 'Customer', value: identity || 'Identity not entered yet', hint: !identity && isHold ? 'The visitor picked this time but has not submitted the booking form.' : null },
+        b.customer?.email && b.customer.email !== identity ? { label: 'Email', value: b.customer.email } : null,
+        b.customer?.discord ? { label: 'Discord', value: b.customer.discord } : null,
+        b.customer?.rank_goal ? { label: 'Rank goal', value: b.customer.rank_goal } : null,
+        b.customer?.notes ? { label: 'Customer note', value: `“${b.customer.notes}”` } : null,
+        { label: 'Reference', value: <span className="ax-mono">{b.slotId}</span> },
+      ]} />
 
-      {isHold ? (
-        <p className="admin-footnote" style={{ marginTop: 14, color: '#e5ad58' }}>
-          Session controls stay locked until payment confirms the booking. An unfinished hold releases automatically.
-        </p>
-      ) : rescheduling ? (
-        <div style={{ marginTop: 14 }}>
-          <label className="fld">Move to open slot
-            <select value={newSlot} onChange={(e) => setNewSlot(e.target.value)}>
-              <option value="">— pick a new slot —</option>
-              {openSlots.map((s) => <option key={s} value={s}>{fmtInTz(s, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</option>)}
+      <hr className="ax-divider" />
+      <div className="ax-form-stack">
+        <Field label="Private notes" hint="Only admins see these.">
+          <textarea className="ax-textarea" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
+        </Field>
+        <div className="ax-btn-row">
+          <button type="button" className="ax-btn ax-btn--sm" onClick={() => onAction({ action: 'notes', slotId: b.slotId, notes }, 'Notes saved.', { keepOpen: true })}>Save notes</button>
+          {!isHold && b.customer?.email && (
+            <button type="button" className="ax-btn ax-btn--sm ax-btn--primary" disabled={sendingCheckin} onClick={onCheckin}>
+              {sendingCheckin ? 'Sending check-in…' : 'Send “Are you online?” check-in'}
+            </button>
+          )}
+        </div>
+        {isHold && <p className="ax-help">Session controls stay locked until payment confirms the booking. An unfinished hold releases automatically.</p>}
+        {!isHold && rescheduling && (
+          <Field label="Move to open slot">
+            <select className="ax-select" value={newSlot} onChange={(e) => setNewSlot(e.target.value)}>
+              <option value="">Pick a new slot</option>
+              {openSlots.map((s) => <option key={s} value={s}>{fmtInTz(s, SLOT_FMT)}</option>)}
             </select>
-          </label>
-          <div className="drawer-actions">
-            <button type="button" className="btn btn-primary" disabled={!newSlot}
-              onClick={() => onAction({ action: 'reschedule', slotId: b.slotId, newSlotId: newSlot }, 'Rescheduled — customer emailed.')}>Confirm move</button>
-            <button type="button" className="btn" onClick={() => setRescheduling(false)}>Back</button>
-          </div>
-        </div>
-      ) : (
-        <div className="drawer-actions">
-          <button type="button" className="btn" onClick={() => { loadOpenSlots(); setRescheduling(true) }}>Reschedule</button>
-          <button type="button" className="btn" onClick={() => onAction({ action: 'complete', slotId: b.slotId }, 'Marked complete.')}>Mark complete</button>
-          <button type="button" className="btn" style={{ color: '#ff6b6b', borderColor: '#5a2530' }}
-            onClick={() => { if (window.confirm('Cancel this booking and free the slot? The customer is emailed.')) onAction({ action: 'cancel', slotId: b.slotId }, 'Cancelled — slot freed, customer emailed.') }}>Cancel</button>
-        </div>
-      )}
+          </Field>
+        )}
+      </div>
     </Drawer>
   )
 }
