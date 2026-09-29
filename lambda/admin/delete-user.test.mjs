@@ -32,7 +32,12 @@ const stub = async function (cmd) {
 sendOf(DynamoDBDocumentClient).send = stub
 sendOf(CognitoIdentityProviderClient).send = stub
 
-const { deleteUser } = await import('./index.mjs')
+const { deleteUser, handler } = await import('./index.mjs')
+
+test('an HTTP request naming the referral job still needs an admin token', async () => {
+  const r = await handler({ job: 'referral-rewards', mode: 'apply', requestContext: { http: { method: 'POST', path: '/prod/admin/users' } }, headers: {} })
+  assert.equal(r.statusCode, 401)
+})
 const del = async (email) => {
   const r = await deleteUser(JSON.stringify({ email }), {}, 'admin@example.test')
   return { status: r.statusCode, body: JSON.parse(r.body) }

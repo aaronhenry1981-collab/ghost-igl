@@ -5,6 +5,7 @@ import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
 import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
 import { BILLING_FIELDS, confirmationPhrase, planReconciliation } from './reconcile.mjs'
+import { runReferralRewards } from './referral-rewards.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -39,6 +40,10 @@ function buildHeaders(event) {
 }
 
 export async function handler(event) {
+  // Direct invocations only (EventBridge schedule, operator CLI). API Gateway
+  // events always carry requestContext, so this can't be reached over HTTP.
+  if (!event?.requestContext && event?.job === 'referral-rewards') return await referralRewardsJob(event)
+
   const headers = buildHeaders(event)
   const method = event.requestContext?.http?.method
   const path = event.requestContext?.http?.path || event.rawPath || ''
@@ -200,6 +205,44 @@ async function stripeRequest(path, params = {}) {
   })
   if (!response.ok) throw new Error(`Stripe ${path} returned HTTP ${response.status}`)
   return response.json()
+}
+
+// Form-encoded POST with an idempotency key (Stripe keeps the first result
+// for 24h, so a retried request can never create a second object).
+async function stripePost(path, form, idempotencyKey) {
+  if (!STRIPE_SECRET) throw new Error('Stripe is not configured')
+  const response = await fetch(`https://api.stripe.com${path}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${STRIPE_SECRET}`, 'Content-Type': 'application/x-www-form-urlencoded', 'Idempotency-Key': idempotencyKey },
+    body: new URLSearchParams(form).toString(),
+  })
+  if (!response.ok) throw new Error(`Stripe POST ${path} returned HTTP ${response.status}`)
+  return response.json()
+}
+
+async function isAdminEmail(email) {
+  const users = await cognito.send(new ListUsersCommand({ UserPoolId: POOL_ID, Filter: `email = "${String(email).replace(/"/g, '')}"`, Limit: 5 }))
+  for (const u of users.Users || []) {
+    const g = await cognito.send(new AdminListGroupsForUserCommand({ UserPoolId: POOL_ID, Username: u.Username }))
+    if ((g.Groups || []).some((x) => x.GroupName === 'admins')) return true
+  }
+  return false
+}
+
+// Daily EventBridge job (rule recon6-referral-rewards-daily) and operator
+// runs: `aws lambda invoke` with {"job":"referral-rewards","mode":"preview"}.
+// See docs/REFERRAL-REWARDS.md.
+async function referralRewardsJob(event) {
+  const summary = await runReferralRewards({
+    mode: event.mode === 'apply' ? 'apply' : 'preview',
+    only: typeof event.referrer === 'string' ? event.referrer.toLowerCase() : null,
+    ddb,
+    stripe: { get: stripeRequest, post: stripePost },
+    isAdmin: isAdminEmail,
+    audit: (action, target, details) => audit('referral-rewards-job', action, target, details),
+  })
+  console.log('referral_rewards', JSON.stringify(summary))
+  return summary
 }
 
 async function stripeList(path, params = {}) {

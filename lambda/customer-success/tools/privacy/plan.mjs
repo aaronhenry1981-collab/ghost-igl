@@ -37,6 +37,7 @@ export function buildDeletionPlan({ email, collected }) {
   del(TABLES.subscriptions, collected.records.subscriptions)
   del(TABLES.crmLog, collected.records.crmLog)
   del(TABLES.referrals, collected.records.referrals)
+  del(TABLES.referralRewards, collected.records.referralRewards || [])
   del(TABLES.climb, collected.records.climb)
   del(TABLES.coachingEvents, collected.records.coachingEvents)
   del(TABLES.reviewArchive, collected.records.reviewArchive)
