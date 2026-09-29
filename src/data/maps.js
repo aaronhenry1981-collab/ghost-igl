@@ -307,12 +307,15 @@ const MAPS = [
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },
       { id: 'kitchen-dining', name: 'Kitchen / Dining Room', floor: '1F' },
       // Y11S3 (Operation Split Fire) moved this bomb site from the 1F Living
-      // Room / Library into the reworked basement ("Basement bombsite" in
-      // Ubisoft's Y11S3.1 patch notes). The old plan was WITHDRAWN on
-      // 2026-09-29 (no plan in strats.js, premium-tactics.js or enemyMeta.js)
-      // until the new site is verified from gameplay. The id stays so old
-      // links land on this notice. See siteNotices.js.
-      { id: 'living-library', name: 'Basement (Y11S3 rework)', floor: 'B', notice: { kind: 'unavailable', since: 'Y11S3', text: 'Ubisoft moved this bomb site from the 1F Living Room / Library into Villa\'s reworked basement in Y11S3 (Operation Split Fire). The old plan no longer matches the game, so it has been withdrawn. A new plan will be published once it is verified from current gameplay.' } },
+      // Room / Library into the reworked basement. Name and floor, checked
+      // 2026-09-29 against three sources that agree: Ubisoft's Y11S3.1 patch
+      // notes ("Basement bombsite"), siege.gg event data (site "Art Storage/
+      // Old Office", rounds recorded since the rework) and the pre-existing
+      // basement room names "B Art Storage" / "B Old Office". The old plan
+      // was WITHDRAWN (no plan in strats.js, premium-tactics.js or
+      // enemyMeta.js) until the new layout is verified from gameplay. The id
+      // stays so old links land on this notice. See siteNotices.js.
+      { id: 'living-library', name: 'Art Storage / Old Office', floor: 'B', notice: { kind: 'unavailable', since: 'Y11S3', text: 'Ubisoft moved this bomb site from the 1F Living Room / Library to Art Storage / Old Office in Villa\'s reworked basement in Y11S3 (Operation Split Fire). The old plan no longer matches the game, so it has been withdrawn. A new plan will be published once the new layout is verified from current gameplay.' } },
     ],
   },
   // Y11S2 Operation System Override — Calypso Casino (released June 2, 2026).

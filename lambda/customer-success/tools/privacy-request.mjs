@@ -27,7 +27,7 @@ import { configureContactKeySecret, contactKeyFor, reconPlayerIdFor } from '../l
 import { createSources, reviewArchiveHash } from './privacy/sources.mjs'
 import { buildDeletionPlan, buildExport } from './privacy/plan.mjs'
 import { applyDeletionPlan } from './privacy/apply.mjs'
-import { createRegister, daysLeft, manualRow, satisfiedBy } from './privacy/register.mjs'
+import { completionPlan, createRegister, daysLeft, exportStillOwed, manualRow } from './privacy/register.mjs'
 
 const REGION = 'us-east-1'
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID || 'us-east-1_rvLy8WLQB'
@@ -76,22 +76,28 @@ export async function collect(email, sources, { extraSubs = [] } = {}) {
 export function pendingPurges(auditItems) {
   const purged = new Map()
   for (const i of auditItems) {
-    if (i.action !== 'privacy.delete') continue
+    // Only a deletion whose removal was verified counts as the purge.
+    if (i.action !== 'privacy.delete' || i.details?.verification?.verified !== true) continue
     const t = String(i.timestamp || '')
     if (t > (purged.get(i.target) || '')) purged.set(i.target, t)
   }
   return auditItems
     .filter((i) => i.action === 'user.delete' && String(i.target || '').includes('@'))
     .filter((i) => String(i.timestamp || '') > (purged.get(`email_hash:${reviewArchiveHash(i.target)}`) || ''))
-    .map((i) => ({ email: i.target, deletedAt: i.timestamp, cognitoSub: i.details?.cognito_sub || null }))
+    .map((i) => ({ email: i.target, deletedAt: i.timestamp, cognitoSub: i.details?.cognito_sub || null, review: auditItems.filter((r) => r.action === 'user.delete.review' && r.target === i.target).sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)))[0]?.details?.finding || null }))
     .sort((a, b) => String(a.deletedAt).localeCompare(String(b.deletedAt)))
 }
 
-// Close every open register request a finished export / deletion satisfies.
-async function closeSatisfied(register, email, action, note) {
-  const rows = satisfiedBy(await register.all(), email, action)
-  for (const r of rows) await register.close(r.request_id, { outcome: 'completed', note, actor: process.env.PRIVACY_ACTOR })
-  console.log(rows.length ? `register: closed ${rows.map((r) => r.request_id).join(', ')} as completed` : 'register: no open request for this email (log one first if this was a request: privacy-request.mjs log)')
+// Record a finished export / VERIFIED deletion on this person's open requests
+// (register.mjs completionPlan decides which parts and which closes).
+async function recordCompletion(register, email, action, { verified = false, note } = {}) {
+  const { updates, untouched } = completionPlan(await register.all(), email, action, { verified })
+  for (const u of updates) {
+    await register.complete(u, { note, actor: process.env.PRIVACY_ACTOR })
+    console.log(`register: ${u.requestId} ${u.part} part recorded${u.close ? ', request CLOSED as completed' : ', request stays OPEN (other part not done)'}`)
+  }
+  for (const t of untouched) console.log(`register: ${t.requestId} (${t.kind}) left open: ${t.why}`)
+  if (!updates.length && !untouched.length) console.log('register: no open request for this email (log one first if this was a request: privacy-request.mjs log)')
 }
 
 async function registerCommand(mode, register) {
@@ -114,6 +120,13 @@ async function registerCommand(mode, register) {
     console.log(`logged ${row.request_id} (${row.kind}), due ${row.due_at.slice(0, 10)}`)
     return
   }
+  if (mode === 'kind') {
+    const [, , , requestId] = process.argv
+    if (!requestId?.startsWith('PR-')) throw new Error('usage: privacy-request.mjs kind <PR-id> --kind <deletion|export|access|export+deletion>')
+    await register.setKind(requestId, arg('--kind'))
+    console.log(`${requestId} kind set to ${arg('--kind')}`)
+    return
+  }
   if (mode === 'close') {
     const [, , , requestId] = process.argv
     if (!requestId?.startsWith('PR-')) throw new Error('usage: privacy-request.mjs close <PR-id> --outcome <completed|rejected|not_a_request|test> --note "..."')
@@ -124,13 +137,14 @@ async function registerCommand(mode, register) {
 
 async function main() {
   const [mode, email] = process.argv.slice(2)
-  const registerModes = ['requests', 'log', 'close']
-  const noEmail = ['pending', 'requests', 'close']
+  const registerModes = ['requests', 'log', 'kind', 'close']
+  const noEmail = ['pending', 'requests', 'kind', 'close']
   if (![...registerModes, 'export', 'preview-delete', 'apply-delete', 'pending'].includes(mode) || (!noEmail.includes(mode) && (!email || !email.includes('@')))) {
     console.error([
       'usage: privacy-request.mjs export|preview-delete|apply-delete <email> [--sub <cognito-sub>] [--out <dir>] [--plan <id> --confirm "<phrase>"]',
       '       privacy-request.mjs requests                       open requests and their deadlines',
       '       privacy-request.mjs log <email> --kind <k> --received <ISO> [--note "..."]   a request that arrived another way',
+      '       privacy-request.mjs kind <PR-id> --kind <deletion|export|access|export+deletion>   after reading an unspecified request',
       '       privacy-request.mjs close <PR-id> --outcome <completed|rejected|not_a_request|test> --note "..."',
       '       privacy-request.mjs pending                        console deletions still owed a full purge',
     ].join('\n'))
@@ -148,7 +162,8 @@ async function main() {
   if (mode === 'pending') {
     const pending = pendingPurges(await sources.deletionAudit())
     console.log(`admin-console deletions awaiting the full purge: ${pending.length}`)
-    for (const p of pending) console.log(`  ${p.deletedAt}  ${p.email}  ${p.cognitoSub ? 'sub recorded' : 'sub NOT recorded (sub-keyed data cannot be located)'}`)
+    for (const p of pending) console.log(`  ${p.deletedAt}  ${p.email}  ${p.cognitoSub ? 'sub recorded' : 'sub NOT recorded (sub-keyed data cannot be located)'}${p.review ? `
+      reviewed: ${p.review}` : ''}`)
     return
   }
   const extraSubs = process.argv.flatMap((a, i) => (a === '--sub' && process.argv[i + 1] ? [process.argv[i + 1]] : []))
@@ -165,7 +180,7 @@ async function main() {
     writeFileSync(path, JSON.stringify(bundle, null, 2))
     console.log(`export written: ${path}`)
     console.log('counts:', JSON.stringify(bundle.counts), `cognito accounts: ${collected.cognito.length}`)
-    await closeSatisfied(createRegister(ddb), collected.email, 'export', `export ${tag} (send it to the verified email, then delete the local copy)`)
+    await recordCompletion(createRegister(ddb), collected.email, 'export', { note: `export ${tag} (send it to the verified email, then delete the local copy)` })
     return
   }
 
@@ -186,11 +201,15 @@ async function main() {
   // apply-delete
   if (arg('--plan') !== plan.planId) throw new Error(`plan id mismatch: the data changed since that preview (current plan ${plan.planId}); preview again`)
   if (arg('--confirm') !== plan.confirmPhrase) throw new Error(`confirmation must be exactly: ${plan.confirmPhrase}`)
+  const owedExport = exportStillOwed(await createRegister(ddb).all(), collected.email)
+  if (owedExport.length) throw new Error(`${owedExport.map((r) => r.request_id).join(', ')} asks for a copy AND deletion: run export first (deleting first would make the export impossible)`)
   const result = await applyDeletionPlan({ plan, ddb, cognito, userPoolId: USER_POOL_ID, actor: process.env.PRIVACY_ACTOR || 'privacy-tool' })
-  console.log('deletion result:', JSON.stringify(result))
+  const { verification, ...counts } = result
+  console.log('deletion result:', JSON.stringify(counts))
+  console.log(`verification: ${verification.verified ? `all ${verification.checked} targeted records confirmed removed` : `${verification.remaining.length} of ${verification.checked} NOT removed: ${JSON.stringify(verification.remaining)}`}`)
   console.log(`Remaining manual step: delete ${plan.stripeCustomers.length} Stripe customer(s) in the Stripe Dashboard if the request covers payment data.`)
-  if (result.failed) console.log(`register: NOT closed, ${result.failed} action(s) failed; fix them and run apply-delete again`)
-  else await closeSatisfied(createRegister(ddb), collected.email, 'delete', `apply-delete plan ${plan.planId}`)
+  if (!verification.verified) console.log('register: deletion NOT recorded (not verified); fix what remains and run preview-delete / apply-delete again')
+  else await recordCompletion(createRegister(ddb), collected.email, 'delete', { verified: true, note: `apply-delete plan ${plan.planId}, ${verification.checked} records verified removed` })
 }
 
 // Run only when invoked directly (tests import collect() without running main).

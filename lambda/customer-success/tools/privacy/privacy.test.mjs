@@ -75,44 +75,96 @@ test('an account already deleted in the console is still found by its sub (--sub
   assert.ok(plan.actions.some((a) => a.table === TABLES.climb && a.key.sub === 'sub-7'))
 })
 
-test('pending lists console deletions without a later full purge', () => {
+test('pending: only a VERIFIED purge clears a console deletion; a review note is shown, never clears', () => {
   const other = 'other@example.test'
+  const third = 'third@example.test'
+  const verified = { verification: { verified: true, checked: 3, remaining: 0 } }
   const items = [
     { action: 'user.delete', target: EMAIL, timestamp: '2026-09-01T00:00:00Z', details: { cognito_sub: 'sub-1' } },
     { action: 'user.delete', target: other, timestamp: '2026-09-02T00:00:00Z', details: {} },
-    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(other)}`, timestamp: '2026-09-03T00:00:00Z' },
-    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(EMAIL)}`, timestamp: '2026-08-01T00:00:00Z' },
+    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(other)}`, timestamp: '2026-09-03T00:00:00Z', details: verified },
+    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(EMAIL)}`, timestamp: '2026-08-01T00:00:00Z', details: verified },
+    { action: 'user.delete', target: third, timestamp: '2026-09-04T00:00:00Z', details: {} },
+    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(third)}`, timestamp: '2026-09-05T00:00:00Z', details: { verification: { verified: false, checked: 3, remaining: 1 } } },
+    { action: 'user.delete.review', target: EMAIL, timestamp: '2026-09-29T00:00:00Z', details: { finding: 'administrator account removal after cancellation/refund; no customer deletion request found' } },
   ]
-  assert.deepEqual(pendingPurges(items), [{ email: EMAIL, deletedAt: '2026-09-01T00:00:00Z', cognitoSub: 'sub-1' }], 'a purge older than the deletion does not count')
+  const pending = pendingPurges(items)
+  assert.deepEqual(pending.map((p) => p.email), [EMAIL, third], 'an older purge and an unverified purge do not count; a verified later purge does')
+  assert.match(pending[0].review, /no customer deletion request found/)
+  assert.equal(pending[1].review, null)
 })
 
-test('apply deletes, anonymises, removes Cognito last, and audits by hash only', async () => {
+test('apply re-reads every targeted record: verified only when all are gone', async () => {
   const c = await collect(EMAIL, fakeSources())
   const plan = buildDeletionPlan({ email: c.email, collected: c })
   const calls = []
-  const ddb = { send: async (cmd) => { calls.push({ kind: cmd.constructor.name, input: cmd.input }); return {} } }
-  const cognito = { send: async (cmd) => { calls.push({ kind: cmd.constructor.name, input: cmd.input }); return {} } }
-  const res = await applyDeletionPlan({ plan, ddb, cognito, userPoolId: 'pool', actor: 'operator@example.test' })
+  const notFound = () => { const e = new Error('nf'); e.name = 'UserNotFoundException'; return e }
+  const cognitoGone = { send: async (cmd) => { calls.push({ kind: cmd.constructor.name, input: cmd.input }); if (cmd.constructor.name === 'AdminGetUserCommand') throw notFound(); return {} } }
+  const ddbGone = { send: async (cmd) => { calls.push({ kind: cmd.constructor.name, input: cmd.input }); return {} } }
+  const res = await applyDeletionPlan({ plan, ddb: ddbGone, cognito: cognitoGone, userPoolId: 'pool', actor: 'operator@example.test' })
   assert.equal(res.failed, 0)
   assert.equal(res.cognitoDelete, 1)
-  const kinds = calls.map((c) => c.kind)
+  assert.equal(res.verification.verified, true)
+  assert.equal(res.verification.checked, plan.actions.length)
+  const kinds = calls.map((x) => x.kind)
   assert.ok(kinds.indexOf('AdminDeleteUserCommand') > kinds.lastIndexOf('DeleteCommand'), 'Cognito goes last')
-  const update = calls.find((c) => c.kind === 'UpdateCommand')
-  assert.match(update.input.UpdateExpression, /^REMOVE /)
-  const audit = calls.find((c) => c.kind === 'PutCommand').input.Item
+  assert.ok(calls.filter((x) => x.kind === 'GetCommand').every((x) => x.input.ConsistentRead === true), 'verification uses consistent reads')
+  const audit = calls.find((x) => x.kind === 'PutCommand').input.Item
   assert.equal(audit.action, 'privacy.delete')
+  assert.deepEqual(audit.details.verification, { verified: true, checked: plan.actions.length, remaining: 0 })
   assert.ok(!JSON.stringify(audit).includes(EMAIL), 'the audit entry never names the email')
+
+  // A row still there after the delete, an anonymised slot still holding the
+  // customer, or a surviving account = NOT verified.
+  const { verifyDeletionPlan } = await import('./apply.mjs')
+  const stillThere = { send: async (cmd) => {
+    if (cmd.constructor.name !== 'GetCommand') return {}
+    if (cmd.input.TableName === TABLES.profiles) return { Item: { email: EMAIL } }
+    if (cmd.input.TableName === TABLES.bookings && cmd.input.Key.slotId === 'S1') return { Item: { slotId: 'S1', customer: { email: EMAIL } } }
+    return {}
+  } }
+  const v1 = await verifyDeletionPlan({ plan, ddb: stillThere, cognito: cognitoGone, userPoolId: 'pool' })
+  assert.equal(v1.verified, false)
+  assert.deepEqual(v1.remaining.map((r) => `${r.op}:${r.table}`).sort(), [`anonymize:${TABLES.bookings}`, `delete:${TABLES.profiles}`])
+  const v2 = await verifyDeletionPlan({ plan, ddb: ddbGone, cognito: { send: async () => ({ Username: 'u-1' }) }, userPoolId: 'pool' })
+  assert.equal(v2.verified, false, 'a surviving Cognito account fails verification')
 })
 
-test('register: manual rows get a 30-day due date; completion matches by email and kind', async () => {
-  const { manualRow, satisfiedBy, daysLeft, emailHash } = await import('./register.mjs')
-  const row = manualRow({ email: ' Player.X@Example.test ', kind: 'deletion', receivedAt: '2026-09-29T10:00:00.000Z' })
-  assert.match(row.request_id, /^PR-20260929-[0-9a-f]{6}$/)
-  assert.equal(row.due_at, '2026-10-29T10:00:00.000Z')
-  assert.equal(row.email_hash, emailHash(EMAIL))
-  assert.equal(daysLeft(row, Date.parse('2026-10-19T10:00:00.000Z')), 10)
+test('register completion: export never closes a deletion, unspecified or unfinished combined request', async () => {
+  const { manualRow, completionPlan, exportStillOwed, daysLeft, emailHash } = await import('./register.mjs')
+  const base = manualRow({ email: ' Player.X@Example.test ', kind: 'deletion', receivedAt: '2026-09-29T10:00:00.000Z' })
+  assert.match(base.request_id, /^PR-20260929-[0-9a-f]{6}$/)
+  assert.equal(base.due_at, '2026-10-29T10:00:00.000Z')
+  assert.equal(base.email_hash, emailHash(EMAIL))
+  assert.equal(daysLeft(base, Date.parse('2026-10-19T10:00:00.000Z')), 10)
   assert.throws(() => manualRow({ email: EMAIL, kind: 'nonsense', receivedAt: '2026-09-29' }), /--kind/)
-  const rows = [row, { ...row, request_id: 'PR-x', kind: 'export' }, { ...row, request_id: 'PR-y', status: 'completed' }, { ...row, request_id: 'PR-z', email_hash: 'other' }]
-  assert.deepEqual(satisfiedBy(rows, EMAIL, 'delete').map((r) => r.request_id), [row.request_id])
-  assert.deepEqual(satisfiedBy(rows, EMAIL, 'export').map((r) => r.request_id), ['PR-x'])
+  const rows = [
+    { ...base, request_id: 'PR-del', kind: 'deletion' },
+    { ...base, request_id: 'PR-exp', kind: 'export' },
+    { ...base, request_id: 'PR-acc', kind: 'access' },
+    { ...base, request_id: 'PR-both', kind: 'export+deletion' },
+    { ...base, request_id: 'PR-unk', kind: 'unspecified' },
+    { ...base, request_id: 'PR-done', kind: 'export', status: 'completed' },
+    { ...base, request_id: 'PR-other', kind: 'export', email_hash: 'someone-else' },
+  ]
+  const ex = completionPlan(rows, EMAIL, 'export')
+  assert.deepEqual(ex.updates, [
+    { requestId: 'PR-exp', part: 'export', close: true },
+    { requestId: 'PR-acc', part: 'export', close: true },
+    { requestId: 'PR-both', part: 'export', close: false },
+  ], 'export closes export/access only; the combined request records the export part and stays open')
+  assert.deepEqual(ex.untouched.map((u) => u.requestId).sort(), ['PR-del', 'PR-unk'])
+
+  assert.deepEqual(completionPlan(rows, EMAIL, 'delete', { verified: false }).updates, [], 'an unverified deletion completes nothing')
+  const del = completionPlan(rows, EMAIL, 'delete', { verified: true })
+  assert.deepEqual(del.updates, [
+    { requestId: 'PR-del', part: 'deletion', close: true },
+    { requestId: 'PR-both', part: 'deletion', close: false },
+  ], 'a combined request closes only when its export part is also done')
+  assert.deepEqual(del.untouched.map((u) => u.requestId).sort(), ['PR-acc', 'PR-exp', 'PR-unk'])
+
+  const exportDone = rows.map((r) => (r.request_id === 'PR-both' ? { ...r, export_completed_at: '2026-10-01T00:00:00Z' } : r))
+  assert.deepEqual(completionPlan(exportDone, EMAIL, 'delete', { verified: true }).updates.find((u) => u.requestId === 'PR-both'), { requestId: 'PR-both', part: 'deletion', close: true })
+  assert.deepEqual(exportStillOwed(rows, EMAIL).map((r) => r.request_id), ['PR-both'], 'apply-delete refuses while the combined export is owed')
+  assert.deepEqual(exportStillOwed(exportDone, EMAIL), [])
 })

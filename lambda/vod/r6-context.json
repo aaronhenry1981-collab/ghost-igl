@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T05:48:49.335Z",
+  "generated_at": "2026-09-29T11:29:03.390Z",
   "current_patch": {
     "version": "Y11S3.1",
     "season": "Operation Split Fire",
@@ -3016,7 +3016,7 @@
         },
         {
           "id": "living-library",
-          "name": "Basement (Y11S3 rework)",
+          "name": "Art Storage / Old Office",
           "floor": "B",
           "attack_operators": [],
           "defense_operators": [],

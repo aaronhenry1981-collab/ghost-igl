@@ -27,17 +27,27 @@ export function deadlineReport(rows, now = Date.now()) {
   return { open, dueSoon: open.filter((r) => r.daysLeft >= 0 && r.daysLeft <= 7), overdue: open.filter((r) => r.daysLeft < 0) }
 }
 
-/** Console deletions (user.delete) with no later privacy.delete for the same email. */
+/**
+ * Accounts removed in the admin console (user.delete) whose other records
+ * are still stored: no later privacy.delete for the same email whose removal
+ * was VERIFIED. A review note (audit user.delete.review, e.g. "administrator
+ * removal after cancellation/refund; no customer deletion request found") is
+ * shown with it; it does not clear it.
+ */
 export function consolePurgesOwed(auditRows) {
   const purged = new Map()
   for (const r of auditRows) {
-    if (r.action !== 'privacy.delete') continue
+    if (r.action !== 'privacy.delete' || r.details?.verification?.verified !== true) continue
     if (String(r.timestamp) > (purged.get(r.target) || '')) purged.set(r.target, String(r.timestamp))
+  }
+  const reviews = new Map()
+  for (const r of auditRows) {
+    if (r.action === 'user.delete.review' && String(r.timestamp) > String(reviews.get(r.target)?.timestamp || '')) reviews.set(r.target, r)
   }
   return auditRows
     .filter((r) => r.action === 'user.delete' && String(r.target || '').includes('@'))
     .filter((r) => String(r.timestamp) > (purged.get(`email_hash:${hash24(r.target)}`) || ''))
-    .map((r) => ({ deletedAt: r.timestamp, daysSince: Math.floor((Date.now() - Date.parse(r.timestamp)) / DAY) }))
+    .map((r) => ({ deletedAt: r.timestamp, daysSince: Math.floor((Date.now() - Date.parse(r.timestamp)) / DAY), review: reviews.get(r.target)?.details?.finding || null }))
 }
 
 export function reminderEmail(report, owed) {
@@ -49,7 +59,8 @@ export function reminderEmail(report, owed) {
     lines.push(`- ${r.id}  ${r.kind}  received ${String(r.receivedAt).slice(0, 10)}  due ${String(r.dueAt).slice(0, 10)}  (${when})`)
   }
   if (owed.length) {
-    lines.push('', `Admin-console deletions still owed a full purge: ${owed.length} (oldest ${Math.max(...owed.map((o) => o.daysSince))} days ago).`)
+    lines.push('', `Accounts removed in the admin console whose other records are still stored: ${owed.length}. The Privacy page says personal data is removed within 30 days of deletion; each needs the owner's decision.`)
+    for (const o of owed) lines.push(`- removed ${String(o.deletedAt).slice(0, 10)} (${o.daysSince} days ago)${o.review ? `. Reviewed: ${o.review}` : '. Not reviewed yet.'}`)
   }
   lines.push('', 'Look them up and act: node tools/privacy-request.mjs requests (lambda/customer-success). Runbook: docs/PRIVACY-REQUESTS.md.',
     'Close a request when done: the export/apply-delete commands close it automatically; otherwise privacy-request.mjs close <id> --outcome <completed|rejected|not_a_request> --note "...".')
@@ -59,7 +70,7 @@ export function reminderEmail(report, owed) {
       ? `[Recon privacy] ${report.dueSoon.length} request(s) due within 7 days`
       : report.open.length
         ? `[Recon privacy] ${report.open.length} open request(s)`
-        : `[Recon privacy] ${owed.length} console deletion(s) still owed a full purge`
+        : `[Recon privacy] ${owed.length} removed account(s) still have stored records`
   return { subject, text: lines.join('\n') }
 }
 

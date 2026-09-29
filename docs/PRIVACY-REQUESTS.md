@@ -13,10 +13,15 @@ Every request gets a row in the register (DynamoDB `recon-privacy-requests`), wi
   - it lists open requests, most urgent first, and flags any due within 7 days or overdue;
   - it also counts admin-console deletions still owed a full purge;
   - the email names requests by id only, never an address.
-- **Completion.**
-  - A successful `export` or `apply-delete` closes the matching open request automatically, and the output says so.
-  - Otherwise, close it yourself with `privacy-request.mjs close <PR-id> --outcome completed|rejected|not_a_request --note "..."`.
+- **Completion.** The register records what was actually done (`tools/privacy/register.mjs` `completionPlan`):
+  - **`export`** closes `export` and `access` requests only. On an `export+deletion` request it records just the export part, and the request stays open.
+  - **Deletion.** `apply-delete` re-reads every targeted record afterwards with consistent reads, and checks the Cognito account. The deletion counts only if every targeted record is confirmed gone. Then it closes `deletion` requests. On an `export+deletion` request it records the deletion part, and closes the request only if the export part is done.
+  - **Combined requests.** `apply-delete` refuses while an `export+deletion` request still needs its export. Run `export` first.
+  - **Unspecified requests** are never closed automatically. Read the request, then run `privacy-request.mjs kind <PR-id> --kind ...`.
+  - **Verification in the audit.** The `privacy.delete` audit entry records the result of the check (counts only). A console deletion counts as purged only by a verified `privacy.delete`.
+  - **Manual close.** `privacy-request.mjs close <PR-id> --outcome completed|rejected|not_a_request --note "..."`.
   - When a row is closed, its plain address is removed; the row stays as the record, keyed by hash.
+- **Console removals** (`pending`, and the reminder) stay listed until a verified purge. A review note (audit `user.delete.review`) records the finding next to the removal. It never clears it.
 - **See the queue:** `node tools/privacy-request.mjs requests`.
 
 ## 1. Verify the requester

@@ -110,9 +110,9 @@ export function createSources({ ddb, cognito, userPoolId }) {
       const items = await pageAll(ddb, ScanCommand, { TableName: AUDIT_TABLE, FilterExpression: '#a = :a AND #t = :t', ExpressionAttributeNames: { '#a': 'action', '#t': 'target' }, ExpressionAttributeValues: { ':a': 'user.delete', ':t': email } })
       return [...new Set(items.map((i) => i.details?.cognito_sub).filter(Boolean))]
     },
-    // Console deletions and completed privacy purges, for the worklist.
+    // Console deletions, privacy purges and review notes, for the worklist.
     async deletionAudit() {
-      return pageAll(ddb, ScanCommand, { TableName: AUDIT_TABLE, FilterExpression: '#a IN (:d, :p)', ExpressionAttributeNames: { '#a': 'action' }, ExpressionAttributeValues: { ':d': 'user.delete', ':p': 'privacy.delete' } })
+      return pageAll(ddb, ScanCommand, { TableName: AUDIT_TABLE, FilterExpression: '#a IN (:d, :p, :r)', ExpressionAttributeNames: { '#a': 'action' }, ExpressionAttributeValues: { ':d': 'user.delete', ':p': 'privacy.delete', ':r': 'user.delete.review' } })
     },
     async playerData(reconPlayerId) {
       if (!reconPlayerId) return { store: [], events: [], snapshots: [], identities: [] }

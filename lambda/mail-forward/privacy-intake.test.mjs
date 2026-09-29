@@ -9,6 +9,7 @@ test('requests are recognised from the subject the Privacy page asks for, or the
   assert.deepEqual(classifyPrivacyRequest('Privacy request', 'Please delete my account and all my data.'), { isRequest: true, kind: 'deletion' })
   assert.deepEqual(classifyPrivacyRequest('hi', 'Can I get a copy of my data?'), { isRequest: true, kind: 'export' })
   assert.deepEqual(classifyPrivacyRequest('GDPR', 'right to erasure'), { isRequest: true, kind: 'unspecified' })
+  assert.deepEqual(classifyPrivacyRequest('Privacy request', 'Please send me a copy of my data and then delete my account.'), { isRequest: true, kind: 'export+deletion' }, 'copy + delete is one combined request')
   assert.equal(classifyPrivacyRequest('Refund', 'I would like to cancel my subscription, manage subscription says invalid API key').isRequest, false)
   assert.equal(classifyPrivacyRequest('Question about my booking', 'Can I move my session to Friday?').isRequest, false)
 })
