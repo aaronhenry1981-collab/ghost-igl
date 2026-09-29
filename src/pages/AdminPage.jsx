@@ -334,7 +334,10 @@ export default function AdminPage() {
       if (res.cognito_deleted) parts.push('Cognito user removed')
       if (res.profile_deleted) parts.push('profile removed')
       if (res.sub_rows > 0) parts.push(`${res.sub_rows} sub row(s) marked canceled`)
-      setNotice(`Deleted ${targetEmail}: ${parts.join(', ') || 'nothing to delete (already gone)'}.`)
+      // The console removes sign-in, profile and membership rows only. The
+      // rest (player data, climb, coaching, support, bookings) is removed with
+      // the privacy tool; the account's sub is kept in the audit log for it.
+      setNotice(`Deleted ${targetEmail}: ${parts.join(', ') || 'nothing to delete (already gone)'}. For a deletion request, finish the full purge with the privacy tool (docs/PRIVACY-REQUESTS.md).`)
       await loadData()
     } catch (err) {
       setError(`Delete failed: ${err.message}`)

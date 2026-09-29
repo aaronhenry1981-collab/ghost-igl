@@ -39,6 +39,8 @@ export const KEYS = Object.freeze({
   [TABLES.playerIdentities]: ['recon_player_id', 'identity_key'],
 })
 
+export const AUDIT_TABLE = 'ghost-igl-audit-log'
+
 // The VOD review archive stores this instead of the email (lambda/vod).
 export const reviewArchiveHash = (email) => createHash('sha256').update(String(email || '')).digest('hex').slice(0, 24)
 
@@ -97,6 +99,17 @@ export function createSources({ ddb, cognito, userPoolId }) {
       // (case-number and case-id pointers, proactive-care markers).
       const refs = await pageAll(ddb, ScanCommand, { TableName: TABLES.customerSuccess, FilterExpression: 'contactKey = :k AND pk <> :pk', ExpressionAttributeValues: { ':k': contactKey, ':pk': `C#${contactKey}` } })
       return [...own, ...refs]
+    },
+    // Cognito subs recorded by the admin console's "Delete user" (audit
+    // action user.delete, details.cognito_sub), so data keyed by the sub can
+    // still be found after the Cognito account is gone.
+    async deletedAccountSubs(email) {
+      const items = await pageAll(ddb, ScanCommand, { TableName: AUDIT_TABLE, FilterExpression: '#a = :a AND #t = :t', ExpressionAttributeNames: { '#a': 'action', '#t': 'target' }, ExpressionAttributeValues: { ':a': 'user.delete', ':t': email } })
+      return [...new Set(items.map((i) => i.details?.cognito_sub).filter(Boolean))]
+    },
+    // Console deletions and completed privacy purges, for the worklist.
+    async deletionAudit() {
+      return pageAll(ddb, ScanCommand, { TableName: AUDIT_TABLE, FilterExpression: '#a IN (:d, :p)', ExpressionAttributeNames: { '#a': 'action' }, ExpressionAttributeValues: { ':d': 'user.delete', ':p': 'privacy.delete' } })
     },
     async playerData(reconPlayerId) {
       if (!reconPlayerId) return { store: [], events: [], snapshots: [], identities: [] }

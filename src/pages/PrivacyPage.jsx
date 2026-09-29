@@ -23,7 +23,7 @@ export default function PrivacyPage() {
       </ul>
 
       <h2>3. Data Storage & Security</h2>
-      <p>Your data is stored securely using industry-standard encryption. Uploaded screenshots are processed for analysis and deleted within 30 days. We do not sell your data to third parties.</p>
+      <p>Your data is stored securely using industry-standard encryption. Uploaded screenshots are sent for analysis and are not stored: we keep no copy of the images. The written result of each AI review (the notes you typed and the analysis, no images) is kept under a hashed identifier instead of your email so we can improve coaching quality. We do not sell your data to third parties.</p>
 
       <h2>4. Third-Party Services</h2>
       <p>We use the following third-party services:</p>
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
       </ul>
 
       <h2>7. Data Retention</h2>
-      <p>Account data is retained while your account is active. Upon deletion, personal data is removed within 30 days. Anonymized usage statistics may be retained for service improvement.</p>
+      <p>Account data is retained while your account is active. Upon deletion, personal data is removed within 30 days, including your written AI review results, support history, progress and coaching records. Booked coaching times stay on our schedule with your details removed. Payment records are held by Stripe. Anonymized usage statistics may be retained for service improvement.</p>
 
       <h2>8. Children's Privacy</h2>
       <p>The Service is not intended for users under 13 years of age. We do not knowingly collect personal information from children under 13.</p>

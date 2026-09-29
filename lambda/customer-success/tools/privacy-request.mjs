@@ -6,6 +6,11 @@
 //   node tools/privacy-request.mjs export         <email> --out <dir>
 //   node tools/privacy-request.mjs preview-delete <email> --out <dir>
 //   node tools/privacy-request.mjs apply-delete   <email> --plan <planId> --confirm "DELETE ALL DATA FOR <email>"
+//   node tools/privacy-request.mjs pending
+//
+// --sub <cognito-sub> adds the sub of an account that no longer exists; subs
+// recorded by the admin console's "Delete user" are found automatically.
+// pending lists console deletions that still need the full purge.
 //
 // export and preview-delete only READ. apply-delete re-collects everything,
 // rebuilds the plan and refuses unless the plan id matches the preview (so a
@@ -32,12 +37,16 @@ function arg(name) {
   return i > -1 ? process.argv[i + 1] : null
 }
 
-export async function collect(email, sources) {
+// extraSubs: Cognito subs of accounts that no longer exist (--sub, or found
+// in the audit log of an admin-console deletion). Player data, Road to
+// Champion and coaching history are keyed by the sub, not the email.
+export async function collect(email, sources, { extraSubs = [] } = {}) {
   const typed = String(email).trim()
   const lower = typed.toLowerCase()
   // The pool is case-sensitive on email; legacy accounts may use capitals.
   const cognito = [...await sources.cognitoUser(lower), ...(typed !== lower ? await sources.cognitoUser(typed) : [])]
-  const subs = [...new Set(cognito.map((u) => u.sub).filter(Boolean))]
+  const audited = sources.deletedAccountSubs ? await sources.deletedAccountSubs(lower) : []
+  const subs = [...new Set([...cognito.map((u) => u.sub), ...audited, ...extraSubs].filter(Boolean))]
   const rpids = subs.map((s) => reconPlayerIdFor(s))
   const perSub = async (fn) => (await Promise.all(subs.map(fn))).flat()
   const player = await Promise.all(rpids.map((r) => sources.playerData(r)))
@@ -56,13 +65,30 @@ export async function collect(email, sources) {
     playerSnapshots: player.flatMap((p) => p.snapshots),
     playerIdentities: player.flatMap((p) => p.identities),
   }
-  return { email: lower, cognito, records }
+  return { email: lower, cognito, subs, records }
+}
+
+// Admin-console deletions ("Delete user") that have not had the full privacy
+// purge yet. The console removes the sign-in, profile and membership rows;
+// the rest is removed by running preview-delete / apply-delete for each.
+export function pendingPurges(auditItems) {
+  const purged = new Map()
+  for (const i of auditItems) {
+    if (i.action !== 'privacy.delete') continue
+    const t = String(i.timestamp || '')
+    if (t > (purged.get(i.target) || '')) purged.set(i.target, t)
+  }
+  return auditItems
+    .filter((i) => i.action === 'user.delete' && String(i.target || '').includes('@'))
+    .filter((i) => String(i.timestamp || '') > (purged.get(`email_hash:${reviewArchiveHash(i.target)}`) || ''))
+    .map((i) => ({ email: i.target, deletedAt: i.timestamp, cognitoSub: i.details?.cognito_sub || null }))
+    .sort((a, b) => String(a.deletedAt).localeCompare(String(b.deletedAt)))
 }
 
 async function main() {
   const [mode, email] = process.argv.slice(2)
-  if (!['export', 'preview-delete', 'apply-delete'].includes(mode) || !email || !email.includes('@')) {
-    console.error('usage: privacy-request.mjs export|preview-delete|apply-delete <email> [--out <dir>] [--plan <id> --confirm "<phrase>"]')
+  if (!['export', 'preview-delete', 'apply-delete', 'pending'].includes(mode) || (mode !== 'pending' && (!email || !email.includes('@')))) {
+    console.error('usage: privacy-request.mjs export|preview-delete|apply-delete <email> [--sub <cognito-sub>] [--out <dir>] [--plan <id> --confirm "<phrase>"]\n       privacy-request.mjs pending')
     process.exit(2)
   }
   const secret = execFileSync('aws', ['ssm', 'get-parameter', '--name', CONTACT_KEY_PARAM, '--with-decryption', '--region', REGION, '--query', 'Parameter.Value', '--output', 'text'], { encoding: 'utf8', env: { ...process.env, MSYS_NO_PATHCONV: '1' } }).trim()
@@ -70,7 +96,15 @@ async function main() {
   const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }), { marshallOptions: { removeUndefinedValues: true } })
   const cognito = new CognitoIdentityProviderClient({ region: REGION })
   const sources = createSources({ ddb, cognito, userPoolId: USER_POOL_ID })
-  const collected = await collect(email, sources)
+  if (mode === 'pending') {
+    const pending = pendingPurges(await sources.deletionAudit())
+    console.log(`admin-console deletions awaiting the full purge: ${pending.length}`)
+    for (const p of pending) console.log(`  ${p.deletedAt}  ${p.email}  ${p.cognitoSub ? 'sub recorded' : 'sub NOT recorded (sub-keyed data cannot be located)'}`)
+    return
+  }
+  const extraSubs = process.argv.flatMap((a, i) => (a === '--sub' && process.argv[i + 1] ? [process.argv[i + 1]] : []))
+  const collected = await collect(email, sources, { extraSubs })
+  console.log(`cognito accounts: ${collected.cognito.length}, subs searched: ${collected.subs.length}`)
   const tag = `${new Date().toISOString().slice(0, 10)}-${reviewArchiveHash(collected.email).slice(0, 8)}`
   const out = arg('--out')
 

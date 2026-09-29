@@ -54,10 +54,25 @@ node tools/privacy-request.mjs apply-delete player@example.com --plan <planId> -
 - **Audit.** The audit log records the request by email hash only.
 - **Manual step:** delete the listed Stripe customer(s) in the Stripe Dashboard if the request covers payment data.
 
+### Accounts already deleted in the admin console
+
+The console's "Delete user" removes only the sign-in, the profile and the membership rows. Player data, Road to Champion and coaching history are keyed by the account's Cognito `sub`, so since 2026-09-29 the console records that `sub` in its audit entry (`user.delete`, `details.cognito_sub`), and the tool finds it automatically. For an older deletion with no recorded `sub`, pass it by hand if you have it (`--sub <id>`); without it, only the email-keyed data can be found.
+
+List console deletions that still need the full purge:
+
+```powershell
+node tools/privacy-request.mjs pending
+```
+
+Run preview-delete / apply-delete for each one. A purge counts once a `privacy.delete` audit entry exists that is newer than the console deletion.
+
 ## 4. Reply
 
 Confirm to the player what was exported or deleted. The Privacy page commits to deletion within 30 days of the request.
 
-## Still to decide (audit P0-10)
+## Retention (as stated on the Privacy page)
 
-- **AI-review archive retention.** The archive (`recon6-review-archive`) keeps each review's analysis with a hashed email and no expiry. The tool deletes a person's rows on request, but a standing retention period, and saying so on the Privacy page, is a business decision.
+- **Screenshots** are never stored. The VOD Lambda sends them for analysis in memory and keeps no copy.
+- **AI-review archive** (`recon6-review-archive`): keeps the typed notes and the analysis under a hashed email, with no images. It is kept while the account is active and deleted with the rest of the account's data.
+- **Deletion:** everything above is removed within 30 days of a deletion request or a console deletion. Check `pending` at least weekly.
+- **Kept:** booking slots stay on the schedule with the customer removed, and payment records stay at Stripe.
