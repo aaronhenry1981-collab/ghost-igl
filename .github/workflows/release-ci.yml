@@ -4,10 +4,13 @@ name: release-ci
 # credentials are configured, and dummy values plus a dead endpoint make any
 # accidental AWS call fail fast instead of reaching a real account.
 
+# One run per changed head: the pull_request run already tests the merge
+# result, so pushes to release branches and the production line don't rerun it.
 on:
   pull_request:
+  workflow_dispatch:
   push:
-    branches: ['release/**', content/strat-beta-disclaimer, production]
+    branches: [production]
 
 permissions:
   contents: read

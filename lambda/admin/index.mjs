@@ -817,7 +817,11 @@ async function deleteUser(bodyJson, headers, callerEmail) {
   }
 
   const now = new Date().toISOString()
-  const summary = { email, cognito_deleted: false, profile_deleted: false, sub_rows: 0, mode: hard ? 'hard' : 'soft' }
+  // cognito_sub is kept in the audit entry: player data, Road to Champion and
+  // coaching history are keyed by it, and the privacy tool needs it to finish
+  // removing a deleted account's data (docs/PRIVACY-REQUESTS.md).
+  const cognitoSub = (cogUser?.Attributes || []).find((a) => a.Name === 'sub')?.Value || null
+  const summary = { email, cognito_sub: cognitoSub, cognito_deleted: false, profile_deleted: false, sub_rows: 0, mode: hard ? 'hard' : 'soft', privacy_purge: 'pending' }
 
   // Step 4: delete from Cognito
   if (cogUser) {
@@ -872,4 +876,4 @@ async function listAuditLog(headers) {
 }
 
 // Exported for tests (reconcile-route.test.mjs); the handler is the only caller in production.
-export { reconcileMemberships }
+export { reconcileMemberships, deleteUser }

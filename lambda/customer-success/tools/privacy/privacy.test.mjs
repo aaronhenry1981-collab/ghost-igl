@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import { buildDeletionPlan, buildExport } from './plan.mjs'
 import { applyDeletionPlan } from './apply.mjs'
 import { TABLES, reviewArchiveHash } from './sources.mjs'
-import { collect } from '../privacy-request.mjs'
+import { collect, pendingPurges } from '../privacy-request.mjs'
 
 const EMAIL = 'player.x@example.test'
 
@@ -55,6 +55,35 @@ test('a live subscription or an admin account blocks deletion', async () => {
   const admin = await collect(EMAIL, fakeSources({ cognitoUser: async () => [{ username: 'u-1', sub: 'sub-1', groups: ['admins'], attributes: {} }] }))
   assert.match(buildDeletionPlan({ email: EMAIL, collected: admin }).blockers.join(), /admin_account/)
   await assert.rejects(applyDeletionPlan({ plan: buildDeletionPlan({ email: EMAIL, collected: live }), ddb: { send: async () => ({}) }, cognito: { send: async () => ({}) }, userPoolId: 'p' }), /blocked/)
+})
+
+test('an account already deleted in the console is still found by its sub (--sub or audit log)', async () => {
+  const gone = { cognitoUser: async () => [] }
+  const seen = []
+  const climb = async (s) => { seen.push(s); return s ? [{ sub: s }] : [] }
+  const none = await collect(EMAIL, fakeSources({ ...gone, climb }))
+  assert.deepEqual(none.subs, [])
+  assert.equal(none.records.climb.length, 0, 'no sub, nothing sub-keyed is reachable')
+  const viaFlag = await collect(EMAIL, fakeSources({ ...gone, climb }), { extraSubs: ['sub-9'] })
+  assert.deepEqual(viaFlag.subs, ['sub-9'])
+  assert.equal(viaFlag.records.climb.length, 1)
+  const viaAudit = await collect(EMAIL, fakeSources({ ...gone, climb, deletedAccountSubs: async (e) => (e === EMAIL ? ['sub-7'] : []) }))
+  assert.deepEqual(viaAudit.subs, ['sub-7'])
+  assert.equal(viaAudit.records.playerStore.length, 1)
+  const plan = buildDeletionPlan({ email: EMAIL, collected: viaAudit })
+  assert.ok(!plan.actions.some((a) => a.op === 'cognito-delete'), 'no Cognito account left to delete')
+  assert.ok(plan.actions.some((a) => a.table === TABLES.climb && a.key.sub === 'sub-7'))
+})
+
+test('pending lists console deletions without a later full purge', () => {
+  const other = 'other@example.test'
+  const items = [
+    { action: 'user.delete', target: EMAIL, timestamp: '2026-09-01T00:00:00Z', details: { cognito_sub: 'sub-1' } },
+    { action: 'user.delete', target: other, timestamp: '2026-09-02T00:00:00Z', details: {} },
+    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(other)}`, timestamp: '2026-09-03T00:00:00Z' },
+    { action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(EMAIL)}`, timestamp: '2026-08-01T00:00:00Z' },
+  ]
+  assert.deepEqual(pendingPurges(items), [{ email: EMAIL, deletedAt: '2026-09-01T00:00:00Z', cognitoSub: 'sub-1' }], 'a purge older than the deletion does not count')
 })
 
 test('apply deletes, anonymises, removes Cognito last, and audits by hash only', async () => {
