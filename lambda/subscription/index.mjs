@@ -21,6 +21,9 @@ const WORKBOOK_DOWNLOAD_FILENAME = 'Recon6-Siege-Starter-Workbook-Bundle.zip'
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
 const REFERRALS_TABLE = process.env.REFERRALS_TABLE || 'ghost-igl-referrals'
+const AUDIT_TABLE = process.env.AUDIT_TABLE || 'ghost-igl-audit-log'
+const NAME_FIELDS = ['first_name', 'last_name']
+const NAME_CONTROL_CHARS = /[\u0000-\u001f\u007f-\u009f]/
 // Referral cooldown — referred subscription must clear this window before
 // counting toward the referrer's "3 active referrals = free month" credit.
 // Set to 30 days to cover the 7-day refund window plus dunning churn.
@@ -881,6 +884,15 @@ async function putMe(email, bodyJson, headers) {
       if (typeof v === 'string' && v.length > maxLen) {
         return { statusCode: 400, headers, body: JSON.stringify({ error: `${f} max ${maxLen} chars` }) }
       }
+      // Names follow the admin rules (lambda/admin/member-names.mjs): stored as
+      // written, whitespace collapsed, never an email address.
+      if (NAME_FIELDS.includes(f) && typeof v === 'string') {
+        const clean = v.normalize('NFC').replace(/\s+/g, ' ').trim()
+        if (NAME_CONTROL_CHARS.test(clean)) return { statusCode: 400, headers, body: JSON.stringify({ error: `${f} contains control characters` }) }
+        if (clean.includes('@')) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Enter your name, not an email address.' }) }
+        updates[f] = clean === '' ? null : clean
+        continue
+      }
       // Validate game_profiles_json is parseable JSON (object).
       if (f === 'game_profiles_json' && typeof v === 'string' && v.length > 0) {
         try {
@@ -898,6 +910,17 @@ async function putMe(email, bodyJson, headers) {
 
   if (Object.keys(updates).length === 0) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'No valid fields in body' }) }
+  }
+
+  // A name the member actually changed becomes member-sourced and clears any
+  // pending admin review. Account saves resend unchanged names; those leave
+  // the name metadata (e.g. an admin correction) as it is.
+  let nameBefore = null
+  let nameChanged = false
+  if (NAME_FIELDS.some((f) => f in updates)) {
+    const current = (await ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } }))).Item || {}
+    nameBefore = { first_name: current.first_name || null, last_name: current.last_name || null }
+    nameChanged = NAME_FIELDS.some((f) => f in updates && (updates[f] ?? null) !== nameBefore[f])
   }
 
   const now = new Date().toISOString()
@@ -920,6 +943,20 @@ async function putMe(email, bodyJson, headers) {
     i += 1
   }
 
+  if (nameChanged) {
+    const after = Object.fromEntries(NAME_FIELDS.map((f) => [f, f in updates ? updates[f] : nameBefore[f]]))
+    Object.assign(attrNames, { '#nsrc': 'name_source', '#nat': 'name_updated_at', '#nby': 'name_updated_by', '#nrev': 'name_review' })
+    setParts.push('#nat = :now')
+    if (after.first_name || after.last_name) {
+      Object.assign(attrValues, { ':nsrc': 'member', ':nby': 'member' })
+      setParts.push('#nsrc = :nsrc', '#nby = :nby')
+      removeParts.push('#nrev')
+    } else {
+      // The member removed their name: no source to claim; any admin review stays.
+      removeParts.push('#nsrc', '#nby')
+    }
+  }
+
   // Build SET/REMOVE expressions. created_at is set on first insert via
   // if_not_exists so existing rows aren't overwritten on profile edits.
   const setExpr = setParts.join(', ') + ', created_at = if_not_exists(created_at, :now)'
@@ -935,6 +972,29 @@ async function putMe(email, bodyJson, headers) {
   }))
 
   const fresh = await ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } }))
+  if (nameChanged) {
+    // Same record the admin console writes, so the member's history shows it.
+    // Best effort, like the admin audit: logging never fails the save.
+    try {
+      await ddb.send(new PutCommand({
+        TableName: AUDIT_TABLE,
+        Item: {
+          id: crypto.randomUUID(),
+          timestamp: now,
+          actor: email,
+          action: 'user.name.update',
+          target: email,
+          details: {
+            by: 'member',
+            before: nameBefore,
+            after: { first_name: fresh.Item?.first_name || null, last_name: fresh.Item?.last_name || null },
+          },
+        },
+      }))
+    } catch (err) {
+      console.error('Name audit write failed:', err.message)
+    }
+  }
   return { statusCode: 200, headers, body: JSON.stringify({ profile: stripProfile(fresh.Item || {}) }) }
 }
 
