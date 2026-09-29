@@ -187,7 +187,7 @@ async function scanAllProfiles() {
     const r = await ddb.send(new ScanCommand({
       TableName: PROFILES_TABLE,
       ExclusiveStartKey: lastKey,
-      ProjectionExpression: 'email, first_name, last_name, display_name, platform, #region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',
+      ProjectionExpression: 'email, first_name, last_name, name_source, name_updated_at, name_review, display_name, platform, #region, discord_username, discord_handle, gamer_id, preferred_server, main_role, active_game_id, last_seen_at, referral_source, game_profiles_json',
       ExpressionAttributeNames: { '#region': 'region' },
     }))
     items.push(...(r.Items || []))

@@ -57,6 +57,7 @@ const auditLog = []
 const auditScans = []
 let auditRows = []
 let profile = null
+let profileRows = []
 let proto = DynamoDBDocumentClient.prototype
 while (proto && !Object.prototype.hasOwnProperty.call(proto, 'send')) proto = Object.getPrototypeOf(proto)
 proto.send = async function (cmd) {
@@ -67,6 +68,13 @@ proto.send = async function (cmd) {
     return { Items: auditRows.filter((r) => (!v[':t'] || r.target === v[':t']) && (!v[':a'] || r.action === v[':a'])) }
   }
   if (TableName === 'ghost-igl-audit-log') { auditLog.push(cmd.input.Item); return {} }
+  if (cmd.constructor.name === 'ScanCommand' && TableName === 'ghost-igl-profiles') {
+    // Honour the projection, as DynamoDB does: unlisted attributes are dropped.
+    const names = cmd.input.ExpressionAttributeNames || {}
+    const fields = (cmd.input.ProjectionExpression || '').split(',').map((f) => names[f.trim()] || f.trim())
+    return { Items: profileRows.map((row) => Object.fromEntries(Object.entries(row).filter(([k]) => !cmd.input.ProjectionExpression || fields.includes(k)))) }
+  }
+  if (cmd.constructor.name === 'ScanCommand') return { Items: [] }
   if (cmd.constructor.name === 'GetCommand') return { Item: profile ? { ...profile } : undefined }
   if (cmd.constructor.name === 'UpdateCommand') {
     writes.push(cmd.input)
@@ -160,4 +168,36 @@ test('members report how many Stripe customer records they have (duplicate-custo
   const [single] = enrichUsersWithStripe([{ email: 'one@example.test', stripe_customer_id: 'cus_C', plan: 'pro' }], [])
   assert.equal(single.stripe_customer_count, 1)
   assert.deepEqual(single.billing_alerts, [])
+})
+
+test('the member list carries every name field, including names stored for review', async () => {
+  const { CognitoIdentityProviderClient } = await import('@aws-sdk/client-cognito-identity-provider')
+  const cognitoSend = CognitoIdentityProviderClient.prototype.send
+  const realFetch = globalThis.fetch
+  CognitoIdentityProviderClient.prototype.send = async () => ({ Users: [
+    { Username: 'u-review', UserStatus: 'CONFIRMED', Attributes: [{ Name: 'email', Value: 'review@example.test' }] },
+    { Username: 'u-named', UserStatus: 'CONFIRMED', Attributes: [{ Name: 'email', Value: 'named@example.test' }] },
+  ] })
+  globalThis.fetch = async () => new Response('{}', { status: 503 })
+  profileRows = [
+    { email: 'review@example.test', name_review: '[{"source":"stripe","value":"Slayer","reason":"one word"}]', display_name: 'xX', secret_field: 'not exposed' },
+    { email: 'named@example.test', first_name: 'Ana', last_name: 'Lima', name_source: 'cognito', name_updated_at: '2026-09-29T00:00:00Z' },
+  ]
+  groups = ['admins']
+  try {
+    const r = await handler({ requestContext: { http: { method: 'GET', path: '/prod/admin/users' } }, headers: { authorization: 'Bearer t' } })
+    assert.equal(r.statusCode, 200)
+    const users = JSON.parse(r.body).users
+    const review = users.find((u) => u.email === 'review@example.test')
+    const named = users.find((u) => u.email === 'named@example.test')
+    assert.deepEqual(review.name_review, [{ source: 'stripe', value: 'Slayer', reason: 'one word' }], 'review candidates reach the admin UI')
+    assert.equal(named.first_name, 'Ana')
+    assert.equal(named.name_source, 'cognito')
+    assert.equal(named.name_updated_at, '2026-09-29T00:00:00Z')
+    assert.equal(review.secret_field, undefined)
+  } finally {
+    CognitoIdentityProviderClient.prototype.send = cognitoSend
+    globalThis.fetch = realFetch
+    profileRows = []
+  }
 })
