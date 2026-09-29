@@ -1,5 +1,89 @@
 {
-  "generated_at": "2026-09-26T00:33:47.021Z",
+  "generated_at": "2026-09-29T05:48:49.335Z",
+  "current_patch": {
+    "version": "Y11S3.1",
+    "season": "Operation Split Fire",
+    "released": "2026-09-22",
+    "verified_on": "2026-09-25",
+    "source": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/3WMly2DNZqv1GpUK9GNGm5/y11s31-patch-notes",
+    "balance_changes": [
+      {
+        "operators": [
+          "Buck"
+        ],
+        "item": "Skeleton Key",
+        "change": "Skeleton Key total ammo increased to 36 (was 31)."
+      },
+      {
+        "operators": [
+          "Castle"
+        ],
+        "item": "Armor Panel",
+        "change": "An Armor Panel now takes 10 melee hits to destroy (was 9)."
+      },
+      {
+        "operators": [
+          "Fenrir"
+        ],
+        "item": "F-NATT Dread Mine",
+        "change": "F-NATT Dread Mine gas now reaches maximum range in 1.9 seconds (was 2 seconds)."
+      },
+      {
+        "operators": [
+          "Maestro"
+        ],
+        "item": "Evil Eye",
+        "change": "Evil Eye battery life increased to 9 seconds (was 8 seconds)."
+      },
+      {
+        "operators": [
+          "Thermite"
+        ],
+        "item": "Exothermic Charge",
+        "change": "Exothermic Charge damage increased to 220 HP (was 200 HP)."
+      },
+      {
+        "operators": [
+          "Sledge"
+        ],
+        "item": "Breaching Hammer",
+        "change": "Breaching Hammer swing time reduced to 0.8 seconds (was 1 second)."
+      },
+      {
+        "operators": [
+          "Ace",
+          "Castle",
+          "Pulse",
+          "Thermite"
+        ],
+        "item": "M1014",
+        "change": "M1014 damage increased to 30 (was 28)."
+      },
+      {
+        "operators": [
+          "Caveira",
+          "Thunderbird"
+        ],
+        "item": "SPAS-15",
+        "change": "SPAS-15 damage increased to 26 (was 24)."
+      }
+    ],
+    "noor_horus_lance_fixes": [
+      "Montagne's Le Roc Shield no longer auto-retracts just because a Horus Lance hits it.",
+      "Operators can no longer remove a Horus Lance while holding a secondary gadget.",
+      "Shield Operators can throw devices while affected by a Horus Lance.",
+      "Pressing an embedded Horus Lance against a wall no longer prevents its damage.",
+      "Players can no longer swap to a secondary gadget while affected by a Horus Lance.",
+      "Horus Lance flames on Blackbeard's H.U.L.L Adaptable Shield no longer go the wrong way while he rappels.",
+      "Ying's Candela now deploys when hit with Horus Lance flames.",
+      "Montagne's Le Roc Shield can be retracted while crouching and removing a Horus Lance.",
+      "Cancelling the animation no longer removes a Horus Lance immediately from a shield carried on the back.",
+      "Horus Lance flames deployed on top of a door frame now damage opponents.",
+      "Operators no longer continue moving when hit by a Horus Lance.",
+      "The flame effect now plays when the top of an opponent's shield is hit by a Horus Lance while in the prone position."
+    ],
+    "guidance": "Use these numbers when a round depends on them. The Noor lines describe fixed bugs: never suggest one as a tactic or counterplay."
+  },
   "maps": {
     "bank": {
       "name": "Bank",
@@ -2932,30 +3016,13 @@
         },
         {
           "id": "living-library",
-          "name": "Living Room / Library",
-          "floor": "1F",
-          "attack_operators": [
-            "Thermite (Hard Breach)",
-            "Twitch (Support)",
-            "Sledge (Vertical / Soft Breach)",
-            "Nomad (Flank Watch)",
-            "Lion (Intel)"
-          ],
-          "defense_operators": [
-            "Mira (Intel / Anchor)",
-            "Kaid (Anti-Breach)",
-            "Jager (Utility Denial)",
-            "Alibi (Roam / Intel)",
-            "Azami (Utility / Cover)"
-          ],
-          "callouts": [
-            "Living Room",
-            "Library",
-            "Piano",
-            "China Room"
-          ],
-          "attack_strategy_summary": "Thermite opens the Library reinforced wall from the garden side. Twitch drone clears electronics and Mira windows before breach. Sledge opens soft walls for new angles into Living Room. Nomad watches kitchen rotation and main stairs. Lion scans durin",
-          "defense_strategy_summary": "Mira places a Black Mirror on the Living Room wall for sightlines into main hall. Kaid electrifies the Library wall and nearby hatches. Jager protects the Mira window with ADS. Alibi roams kitchen and 2F to delay the push. Azami patches holes dynamic"
+          "name": "Basement (Y11S3 rework)",
+          "floor": "B",
+          "attack_operators": [],
+          "defense_operators": [],
+          "callouts": [],
+          "attack_strategy_summary": null,
+          "defense_strategy_summary": null
         }
       ],
       "bans": {
@@ -3466,13 +3533,6 @@
       ],
       "side": "attack"
     },
-    "Azami": {
-      "roles": [
-        "Utility / Cover",
-        "Flex / Sustain"
-      ],
-      "side": "defense"
-    },
     "Goyo": {
       "roles": [
         "Flex / Denial",
@@ -3519,6 +3579,12 @@
     "Caveira": {
       "roles": [
         "Roam"
+      ],
+      "side": "defense"
+    },
+    "Azami": {
+      "roles": [
+        "Flex / Sustain"
       ],
       "side": "defense"
     },

@@ -1632,52 +1632,6 @@ const PREMIUM_TACTICS = {
         ]
       }
     },
-    "living-library": {
-      "attack": {
-        "attackSpawns": [
-          { "spawn": "Main Road", "from": "Main Road", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
-          { "spawn": "Ruins", "from": "Ruins", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
-          { "spawn": "Fountain", "from": "Fountain", "use": "Verified in-game spawn — drone your approach lane from here before you commit." },
-        ],
-        "spawnKillSpots": [
-          {
-            "from": "Fireplace",
-            "target": "the spawn runs",
-            "risk": "Medium — exposes you to defender ACOG counter-peek",
-            "reward": "Round opener pick that flips utility plan"
-          }
-        ],
-        "advancedSetups": [
-          "Pre-frag the Living Room reinforced wall during execute — soft-breach gadget cycles it open under support cover.",
-          "Fireplace flash rotation forces defenders off Library window angles before main push.",
-          "Coordinated double-vertical: open soft floor above Living Room AND open Library ceiling on the same count to split anchor attention."
-        ]
-      },
-      "defense": {
-        "runouts": [
-          {
-            "from": "Library",
-            "target": "Wine Stairs",
-            "timing": "Action phase 0:30-0:45 — catches attackers droning the spawn area."
-          },
-          {
-            "from": "East Stairs",
-            "target": "Main Hall",
-            "timing": "Mid-round 1:30 mark — disrupts attacker setup before main exec."
-          }
-        ],
-        "antiSpawnPeek": [
-          "Reinforce Living Room exterior wall facing Wine Stairs approach — denies the standard spawn-peek angle.",
-          "Pre-place barbed wire at East Stairs window frame to slow attacker drones and entry attempts.",
-          "Castle barricade on Library window forces attackers to bring soft-breach utility instead of free entry."
-        ],
-        "advancedSetups": [
-          "Mira in Living Room placed last — wait until attackers commit utility, then drop the canister to surprise the push.",
-          "Bandit-trick the Living Room reinforced wall against Hibana — pellet timings are predictable on this site.",
-          "Roamer rotation: Wine Stairs → East Stairs → back to anchor on the 2:00 mark forces attackers to re-clear flanks."
-        ]
-      }
-    }
   }
 }
 

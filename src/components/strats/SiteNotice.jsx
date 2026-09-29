@@ -21,7 +21,7 @@ export default function SiteNotice({ mapId, siteId, compact = false }) {
         textAlign: 'left',
       }}
     >
-      <strong style={{ color: '#ffc45c' }}>Layout changed{notice.since ? ` in ${notice.since}` : ''}.</strong> {notice.text}
+      <strong style={{ color: '#ffc45c' }}>{notice.kind === 'unavailable' ? 'Plan withdrawn' : 'Layout changed'}{notice.since ? ` in ${notice.since}` : ''}.</strong> {notice.text}
     </div>
   )
 }
