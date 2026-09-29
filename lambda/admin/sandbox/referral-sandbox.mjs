@@ -8,6 +8,12 @@
 // Run through the masked-prompt runner (never paste a key into chat or a
 // file): recon6-recovery\entitlement-check-2026-09-27\run-sandbox.ps1
 //
+// Restricted TEST key permissions this run needs (together with the #33
+// webhook sandbox run in the same session): Write on Customers (this covers
+// customer balance transactions, /v1/customers/:id/balance_transactions),
+// Payment Methods, Products, Prices, Subscriptions, Invoices and Test Clocks;
+// Read on Events and Checkout Sessions. Nothing else.
+//
 // It creates a test clock with one customer (card pm_card_visa) on a $12
 // monthly test price tagged recon6-sandbox, then checks:
 //   1 three qualifying referrals -> exactly one credit of -$12 on the balance
@@ -28,7 +34,20 @@ if (!/^(sk|rk)_test_/.test(key)) {
   console.error('STRIPE_SANDBOX_KEY must be a TEST-mode key (sk_test_… or rk_test_…). Live keys are refused.')
   process.exit(2)
 }
-const stripe = createStripeHttp(key)
+// On a permission error, name the missing restricted-key permission (Stripe's
+// error says e.g. "Having the 'rak_customer_write' permission would allow
+// this request"). Only the permission id is printed, never the message,
+// which quotes a masked form of the key.
+async function fetchNamingPermissions(url, init = {}) {
+  const res = await fetch(url, init)
+  if (res.status === 401 || res.status === 403) {
+    const body = await res.clone().json().catch(() => null)
+    const permission = String(body?.error?.message || '').match(/'(rak_[a-z_]+)'/)?.[1]
+    console.error(`MISSING PERMISSION for ${init.method || 'GET'} ${new URL(url).pathname}: ${permission || body?.error?.code || res.status}`)
+  }
+  return res
+}
+const stripe = createStripeHttp(key, fetchNamingPermissions)
 const run = randomBytes(4).toString('hex')
 const REF = `referral-sandbox-${run}@example.test`
 const DAY = 86400000

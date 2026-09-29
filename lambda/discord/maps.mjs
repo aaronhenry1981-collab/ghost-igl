@@ -151,12 +151,12 @@ const MAPS = [
     rankedPool: true,
     sites: [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
-      { id: 'trophy-statuary', name: 'Trophy Room / Statuary Hall', floor: '2F' },
+      { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },
       { id: 'kitchen-dining', name: 'Kitchen / Dining Room', floor: '1F' },
-      // Y11S3 moved this bomb site from the 1F Living Room / Library into the
-      // reworked basement ("Basement bombsite", Y11S3.1 patch notes). Same
-      // label as src/data/maps.js; its plan is withdrawn until verified.
-      { id: 'living-library', name: 'Basement (Y11S3 rework)', floor: 'B', unavailable: true },
+      // Y11S3 moved this bomb site from the 1F Living Room / Library to Art
+      // Storage / Old Office in the reworked basement. Same label and sources
+      // as src/data/maps.js; its plan is withdrawn until verified.
+      { id: 'living-library', name: 'Art Storage / Old Office', floor: 'B', unavailable: true },
     ],
   },
 ]

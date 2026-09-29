@@ -15,6 +15,7 @@ test('the bot\'s Villa sites match the site data, including the withdrawn baseme
   const moved = site.find((s) => s.id === 'living-library')
   assert.equal(moved.notice.kind, 'unavailable')
   assert.deepEqual(bot.find((s) => s.id === 'living-library'), { id: 'living-library', name: moved.name, floor: moved.floor })
+  assert.deepEqual(bot, site.map(({ id, name, floor }) => ({ id, name, floor })), 'every Villa label matches the site data')
   for (const s of site) {
     if (s.notice?.kind === 'unavailable') assert.equal(BOT_MAPS.find((m) => m.id === 'villa').sites.find((b) => b.id === s.id).unavailable, true, `${s.id} is withdrawn in the bot too`)
   }
@@ -22,7 +23,7 @@ test('the bot\'s Villa sites match the site data, including the withdrawn baseme
 
 test('/strat and /callouts show the withdrawn notice, with no link or callouts', () => {
   const strat = stratResponse(opts('villa'))
-  const line = strat.split('\n').find((l) => l.includes('Basement (Y11S3 rework)'))
+  const line = strat.split('\n').find((l) => l.includes('Art Storage / Old Office'))
   assert.match(line, /plan withdrawn/)
   assert.doesNotMatch(line, /\/strats\/villa\/living-library/)
   assert.match(strat, /\/strats\/villa\/aviator-games\/attack/, 'the other Villa sites still link')
