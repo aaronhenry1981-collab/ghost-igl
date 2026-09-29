@@ -111,11 +111,14 @@ const supportStaffNotify = flag('SUPPORT_STAFF_NOTIFY') && env.SUPPORT_STAFF_NOT
       '',
       'Staff-only notification. It never includes the player\'s email or message.',
     ].join('\n')
-    await new SESv2Client({ region }).send(new SendEmailCommand({
+    const sent = await new SESv2Client({ region }).send(new SendEmailCommand({
       FromEmailAddress: env.SUPPORT_STAFF_NOTIFY_FROM,
       Destination: { ToAddresses: env.SUPPORT_STAFF_NOTIFY_TO.split(',').map((s) => s.trim()).filter(Boolean) },
       Content: { Simple: { Subject: { Data: `[Recon support] New case ${caseNumber} · ${category || 'unclassified'}` }, Body: { Text: { Data: text } } } },
     }))
+    // Evidence that SES accepted it (no addresses logged): the live e2e check
+    // looks for this line with the case number.
+    console.info('support_staff_notify_sent', JSON.stringify({ caseNumber, sesMessageId: sent?.MessageId || null }))
   }
   : null
 
