@@ -38,7 +38,7 @@
 
 .sc-subnav-link:hover,
 .sc-subnav-link:focus-visible { border-color: var(--sp-accent); color: var(--sp-text-strong); }
-.sc-subnav-link.is-active { border-color: var(--sp-accent); background: rgba(0, 229, 255, 0.1); color: var(--sp-text-strong); }
+.sc-subnav-link.is-active { border-color: var(--sp-accent); background: rgba(240, 116, 48, 0.1); color: var(--sp-text-strong); }
 
 .sc-crumb { margin: 0; font-family: var(--sp-mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; }
 .sc-crumb a { color: var(--sp-accent); text-decoration: none; }
@@ -52,8 +52,8 @@
 .sc-table-wrap { background: var(--sp-surface); }
 
 .sc-qtable tbody tr { cursor: pointer; }
-.sc-qtable tbody tr:hover { background: #151929; }
-.sc-qtable tbody tr:focus-within { background: #151929; box-shadow: inset 3px 0 0 var(--sp-accent); }
+.sc-qtable tbody tr:hover { background: #201f1e; }
+.sc-qtable tbody tr:focus-within { background: #201f1e; box-shadow: inset 3px 0 0 var(--sp-accent); }
 .sc-qrow.is-overdue { box-shadow: inset 3px 0 0 var(--sp-danger); }
 
 .sc-qlink {
@@ -247,7 +247,7 @@
   height: 40px;
   border: 1px solid var(--sp-accent);
   border-radius: 3px;
-  background: rgba(0, 229, 255, 0.08);
+  background: rgba(240, 116, 48, 0.08);
   color: var(--sp-accent);
   font-family: var(--sp-mono);
   font-weight: 800;
@@ -315,9 +315,9 @@
   flex-direction: column;
   gap: 0.45rem;
   padding: 0.7rem;
-  border: 1px solid rgba(0, 229, 255, 0.35);
+  border: 1px solid rgba(240, 116, 48, 0.35);
   border-radius: 4px;
-  background: rgba(0, 229, 255, 0.03);
+  background: rgba(240, 116, 48, 0.03);
 }
 
 .sc-composer.is-private {
@@ -340,7 +340,7 @@
   cursor: pointer;
 }
 
-.sc-mode-opt.is-on { border-color: var(--sp-accent); background: rgba(0, 229, 255, 0.12); color: var(--sp-text-strong); }
+.sc-mode-opt.is-on { border-color: var(--sp-accent); background: rgba(240, 116, 48, 0.12); color: var(--sp-text-strong); }
 .sc-mode-private.is-on { border-color: var(--sp-warn); background: rgba(255, 203, 128, 0.14); color: var(--sp-warn); }
 .sc-mode-opt:has(input:focus-visible) { outline: 2px solid var(--sp-accent); outline-offset: 2px; }
 
@@ -392,9 +392,9 @@
 
 .sc-inference {
   padding: 0.5rem 0.6rem;
-  border: 1px dashed rgba(201, 179, 255, 0.55);
+  border: 1px dashed rgba(233, 220, 201, 0.55);
   border-radius: 3px;
-  background: rgba(201, 179, 255, 0.05);
+  background: rgba(233, 220, 201, 0.05);
   font-size: 0.87rem;
 }
 
@@ -446,7 +446,7 @@
 }
 
 .sc-cp-block p { margin: 0.15rem 0 0; }
-.sc-cp-root { padding: 0.55rem 0.65rem; border: 1px dashed rgba(201, 179, 255, 0.55); border-radius: 3px; background: rgba(201, 179, 255, 0.05); }
+.sc-cp-root { padding: 0.55rem 0.65rem; border: 1px dashed rgba(233, 220, 201, 0.55); border-radius: 3px; background: rgba(233, 220, 201, 0.05); }
 .sc-cp-esc { padding: 0.55rem 0.65rem; border: 1px solid var(--sp-border-strong); border-radius: 3px; }
 .sc-cp-esc .btn { margin-top: 0.45rem; }
 .sc-steps { margin: 0; padding-left: 1.2rem; font-size: 0.9rem; }
@@ -511,7 +511,7 @@
   overflow: auto;
   border: 1px solid var(--sp-border);
   border-radius: 3px;
-  background: #0a0c13;
+  background: #0f0f0e;
   color: var(--sp-text);
   font-family: var(--sp-mono);
   font-size: 0.8rem;
@@ -579,7 +579,7 @@
   cursor: pointer;
 }
 
-.sc-range-btn.is-on { border-color: var(--sp-accent); background: rgba(0, 229, 255, 0.1); color: var(--sp-text-strong); }
+.sc-range-btn.is-on { border-color: var(--sp-accent); background: rgba(240, 116, 48, 0.1); color: var(--sp-text-strong); }
 .sc-range-btn:focus-visible { outline: 2px solid var(--sp-accent); outline-offset: 2px; }
 
 .sc-metric-grid {
@@ -639,7 +639,7 @@
 }
 
 .sc-bar-track { height: 10px; border-radius: 1px; background: var(--sp-surface-2); overflow: hidden; }
-.sc-bar-track > span { display: block; height: 100%; min-width: 2px; background: linear-gradient(90deg, var(--sp-accent), #5ff1ff); }
+.sc-bar-track > span { display: block; height: 100%; min-width: 2px; background: linear-gradient(90deg, var(--sp-accent), #f49d6a); }
 .sc-bar-count { text-align: right; font-family: var(--sp-mono); font-weight: 700; color: var(--sp-text-strong); }
 .sc-nodata { margin: 0; font-style: italic; color: var(--sp-text-muted); }
 

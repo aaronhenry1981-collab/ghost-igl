@@ -13,12 +13,12 @@
   margin-bottom: 6px;
 }
 .game-vod-header h1 { margin: 0 0 0.5rem; font-size: 2.15rem; line-height: 1.15; }
-.game-vod-header p { margin: 0 0 1rem; color: rgba(230,233,239,0.85); line-height: 1.55; max-width: 720px; }
+.game-vod-header p { margin: 0 0 1rem; color: rgba(235,228,215,0.85); line-height: 1.55; max-width: 720px; }
 
 .game-vod-status {
   display: inline-block;
   padding: 0.55rem 0.9rem;
-  background: rgba(0,229,255,0.04);
+  background: rgba(240,116,48,0.04);
   border: 1px solid;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -72,7 +72,7 @@
   flex-wrap: wrap;
   gap: 0.85rem;
   font-size: 0.85rem;
-  color: rgba(230,233,239,0.7);
+  color: rgba(235,228,215,0.7);
 }
 .game-vod-detected strong { color: var(--text-h, #fff); }
 
@@ -82,20 +82,20 @@
   font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 .game-vod-score-num { font-size: 2.2rem; line-height: 1; }
-.game-vod-score-label { font-size: 0.85rem; color: rgba(230,233,239,0.5); margin-left: 4px; }
+.game-vod-score-label { font-size: 0.85rem; color: rgba(235,228,215,0.5); margin-left: 4px; }
 
 .game-vod-sample section h3 {
   margin: 0 0 0.4rem;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(230,233,239,0.5);
+  color: rgba(235,228,215,0.5);
   font-weight: 700;
 }
 .game-vod-sample section p,
 .game-vod-sample section li {
   margin: 0;
-  color: rgba(230,233,239,0.88);
+  color: rgba(235,228,215,0.88);
   line-height: 1.55;
   font-size: 0.94rem;
 }
@@ -110,9 +110,9 @@
 .game-vod-cta-block {
   margin-top: 1.5rem;
   padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06));
+  background: linear-gradient(135deg, rgba(240,116,48,0.06), rgba(222,202,173,0.06));
   border: 1px solid;
   border-radius: 14px;
 }
 .game-vod-cta-block h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
-.game-vod-cta-block p { margin: 0 0 0.85rem; color: rgba(230,233,239,0.85); line-height: 1.55; }
+.game-vod-cta-block p { margin: 0 0 0.85rem; color: rgba(235,228,215,0.85); line-height: 1.55; }

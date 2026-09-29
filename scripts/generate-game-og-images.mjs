@@ -31,7 +31,7 @@ function escape(s) {
 // Convert a hex color to a darker variant for gradient stops.
 function darken(hex, amount = 0.7) {
   const m = /^#?([0-9a-fA-F]{6})$/.exec(hex || '')
-  if (!m) return '#0a0f19'
+  if (!m) return '#121211'
   const num = parseInt(m[1], 16)
   const r = Math.max(0, Math.floor(((num >> 16) & 0xff) * (1 - amount)))
   const g = Math.max(0, Math.floor(((num >> 8) & 0xff) * (1 - amount)))
@@ -52,7 +52,7 @@ function vocabOf(meta) {
 
 async function renderGameOg(game) {
   const meta = game.gameMeta || {}
-  const accent = meta.color || '#00e5ff'
+  const accent = meta.color || '#f07430'
   const accentDim = darken(accent, 0.6)
   const v = vocabOf(meta)
 
@@ -79,7 +79,7 @@ async function renderGameOg(game) {
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#06070b"/>
+      <stop offset="0" stop-color="#090908"/>
       <stop offset="1" stop-color="${accentDim}"/>
     </linearGradient>
     <radialGradient id="glow1" cx="0.15" cy="0.2" r="0.7">
@@ -108,20 +108,20 @@ async function renderGameOg(game) {
 
   <!-- Top-left brand -->
   <g transform="translate(64 60)">
-    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4" fill="#ecedf3">RECON<tspan fill="${accent}">6</tspan></text>
-    <text y="26" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="rgba(230,233,239,0.55)">AI COACHING · 20 GAMES</text>
+    <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="26" letter-spacing="4" fill="#ebe4d7">RECON<tspan fill="${accent}">6</tspan></text>
+    <text y="26" font-family="Inter, sans-serif" font-size="13" letter-spacing="2" fill="rgba(235,228,215,0.55)">AI COACHING · 20 GAMES</text>
   </g>
 
   <!-- Top-right kicker -->
   <g transform="translate(${W - 64} 60)" text-anchor="end">
     <text font-family="Space Grotesk, Inter, sans-serif" font-weight="700" font-size="14" letter-spacing="6" fill="${accent}">STRATEGY GUIDE</text>
-    <text y="26" font-family="Inter, sans-serif" font-size="14" fill="rgba(230,233,239,0.55)">${escape(subtitle)}</text>
+    <text y="26" font-family="Inter, sans-serif" font-size="14" fill="rgba(235,228,215,0.55)">${escape(subtitle)}</text>
   </g>
 
   <!-- Game title -->
   <g transform="translate(64 280)">
     <text font-family="Space Grotesk, Inter, sans-serif" font-weight="800" font-size="${(meta.displayName || meta.name || game.id).length > 14 ? 78 : 110}" letter-spacing="-3" fill="url(#title)">${escape(meta.displayName || meta.name || game.id)}</text>
-    <text y="56" font-family="Inter, sans-serif" font-size="28" fill="#ecedf3" opacity="0.85">Every ${v.map.toLowerCase()} · Every ${v.op.toLowerCase()} · Every callout</text>
+    <text y="56" font-family="Inter, sans-serif" font-size="28" fill="#ebe4d7" opacity="0.85">Every ${v.map.toLowerCase()} · Every ${v.op.toLowerCase()} · Every callout</text>
   </g>
 
   <!-- Tactic chips row -->
@@ -146,7 +146,7 @@ async function renderGameOg(game) {
 
   <!-- Bottom URL bar -->
   <g transform="translate(64 ${H - 64})">
-    <text font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#ecedf3">r6coaching.com<tspan fill="rgba(230,233,239,0.55)">/games/${escape(game.id)}/</tspan></text>
+    <text font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#ebe4d7">r6coaching.com<tspan fill="rgba(235,228,215,0.55)">/games/${escape(game.id)}/</tspan></text>
   </g>
   <g transform="translate(${W - 64} ${H - 64})" text-anchor="end">
     <text font-family="Space Grotesk, Inter, sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="${accent}">FREE · NO SIGNUP</text>

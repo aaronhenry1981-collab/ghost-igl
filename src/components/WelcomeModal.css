@@ -18,14 +18,14 @@
 
 .welcome-modal {
   position: relative;
-  background: var(--bg-alt, #12121a);
-  border: 1px solid rgba(0, 245, 255, 0.3);
+  background: var(--bg-alt, #171615);
+  border: 1px solid rgba(237, 98, 18, 0.3);
   border-radius: 14px;
   padding: 2.5rem 2rem 2rem;
   max-width: 480px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 245, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(237, 98, 18, 0.1);
   animation: welcome-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -82,7 +82,7 @@
   transition: background 0.2s;
 }
 .welcome-dot.active {
-  background: var(--accent, #00f5ff);
+  background: var(--accent, #ed6212);
   width: 24px;
 }
 
@@ -114,7 +114,7 @@
   flex-direction: column;
   gap: 4px;
   padding: 12px 14px;
-  background: rgba(10, 15, 25, 0.5);
+  background: rgba(18, 18, 17, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   cursor: pointer;
@@ -124,8 +124,8 @@
   transition: border-color 0.15s, background 0.15s, transform 0.1s;
 }
 .welcome-role-btn:hover:not(:disabled) {
-  border-color: var(--accent, #00e5ff);
-  background: rgba(0, 229, 255, 0.04);
+  border-color: var(--accent, #f07430);
+  background: rgba(240, 116, 48, 0.04);
 }
 .welcome-role-btn:active:not(:disabled) { transform: scale(0.99); }
 .welcome-role-btn:disabled {
@@ -133,9 +133,9 @@
   cursor: wait;
 }
 .welcome-role-btn.selected {
-  border-color: #9b59ff;
-  background: rgba(155, 89, 255, 0.1);
-  box-shadow: 0 0 0 1px rgba(155, 89, 255, 0.3) inset;
+  border-color: #cfb389;
+  background: rgba(207, 179, 137, 0.1);
+  box-shadow: 0 0 0 1px rgba(207, 179, 137, 0.3) inset;
 }
 .welcome-role-emoji {
   font-size: 1.35rem;
@@ -148,7 +148,7 @@
 }
 .welcome-role-desc {
   font-size: 0.78rem;
-  color: var(--text, rgba(200, 200, 220, 0.75));
+  color: var(--text, rgba(219, 212, 201, 0.75));
   line-height: 1.35;
 }
 .welcome-role-error {

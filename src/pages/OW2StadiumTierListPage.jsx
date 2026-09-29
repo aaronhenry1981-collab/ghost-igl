@@ -26,8 +26,8 @@ const TIER_LABEL = {
 const TIER_COLOR = {
   S: '#ff8a8a',
   A: '#ffc97a',
-  B: '#00e5ff',
-  C: 'rgba(230,233,239,0.6)',
+  B: '#f07430',
+  C: 'rgba(235,228,215,0.6)',
 }
 
 function buildStadiumTierList(maps, strats) {
@@ -193,7 +193,7 @@ export default function OW2StadiumTierListPage() {
       {TIER_ORDER.map((tier) => (
         <section key={tier} className={`r6-tier-row tier-${tier}`}>
           <header className="r6-tier-row-head" style={{ borderColor: TIER_COLOR[tier] }}>
-            <div className="r6-tier-badge" style={{ background: TIER_COLOR[tier], color: '#0a0f19' }}>{tier}</div>
+            <div className="r6-tier-badge" style={{ background: TIER_COLOR[tier], color: '#121211' }}>{tier}</div>
             <div className="r6-tier-row-title">{TIER_LABEL[tier]}</div>
             <div className="r6-tier-row-count">{grouped[tier].length} heroes</div>
           </header>

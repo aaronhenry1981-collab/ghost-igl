@@ -4,7 +4,7 @@
 .start-page {
   min-height: 100vh;
   background:
-    radial-gradient(120% 60% at 50% -10%, rgba(0, 229, 255, 0.08), transparent 60%),
+    radial-gradient(120% 60% at 50% -10%, rgba(240, 116, 48, 0.08), transparent 60%),
     var(--bg);
   color: var(--text);
 }
@@ -568,7 +568,7 @@
   border: 1px solid var(--border-accent);
   border-radius: 18px;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(0, 229, 255, 0.1), transparent 70%),
+    radial-gradient(120% 90% at 50% 0%, rgba(240, 116, 48, 0.1), transparent 70%),
     var(--bg-card);
 }
 .start-final > p { margin: 0 auto 18px; max-width: 30rem; line-height: 1.5; }
@@ -611,7 +611,7 @@
   bottom: 0;
   z-index: 50;
   padding: 16px 16px calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(6, 7, 11, 0), rgba(6, 7, 11, 0.94) 35%);
+  background: linear-gradient(180deg, rgba(9, 9, 8, 0), rgba(9, 9, 8, 0.94) 35%);
   transform: translateY(110%);
   transition: transform 0.2s var(--ease-out);
 }

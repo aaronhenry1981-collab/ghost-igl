@@ -4,8 +4,8 @@
   "description": "Rainbow Six Siege round plans: operator jobs, callouts and executes. Bank and Coastline are free; paid plans unlock every map, AI reviews of your match screenshots and 1:1 coaching.",
   "start_url": "/strats",
   "display": "standalone",
-  "background_color": "#07090B",
-  "theme_color": "#07090B",
+  "background_color": "#151616",
+  "theme_color": "#151616",
   "orientation": "portrait-primary",
   "categories": ["games", "utilities", "productivity"],
   "icons": [

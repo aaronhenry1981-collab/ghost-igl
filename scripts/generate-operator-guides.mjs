@@ -99,7 +99,7 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd, 
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0a0f19" />
+  <meta name="theme-color" content="#121211" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -112,16 +112,16 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd, 
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 880px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .nav a { color: #00e5ff; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .nav a { color: #f07430; text-decoration: none; margin-right: 1rem; font-weight: 600; }
     .nav a:hover { text-decoration: underline; }
     h1 { font-size: 2rem; margin: 1.5rem 0 0.25rem; }
-    .eyebrow { color: rgba(230,233,239,0.6); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .lead { color: rgba(230,233,239,0.85); font-size: 1.05rem; margin: 1rem 0 1.5rem; }
+    .eyebrow { color: rgba(235,228,215,0.6); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .lead { color: rgba(235,228,215,0.85); font-size: 1.05rem; margin: 1rem 0 1.5rem; }
     h2 { font-size: 1.3rem; margin: 2rem 0 0.5rem; color: #ff9b5c; }
-    h3 { font-size: 1.05rem; margin: 1.25rem 0 0.4rem; color: #00e5ff; }
+    h3 { font-size: 1.05rem; margin: 1.25rem 0 0.4rem; color: #f07430; }
     .pill { display: inline-block; padding: 2px 10px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 999px; margin-right: 6px; }
     .pill-essential { background: rgba(80,200,120,0.15); color: #7ee2a4; border: 1px solid #50c878; }
     .pill-recommended { background: rgba(255,180,80,0.15); color: #ffc97a; border: 1px solid #ffb450; }
@@ -130,16 +130,16 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd, 
     .pill-defense { background: rgba(80,180,255,0.15); color: #7aaaff; border: 1px solid #5099cc; }
     .stat-row { display: flex; gap: 1.5rem; margin: 1rem 0 2rem; flex-wrap: wrap; }
     .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.75rem 1rem; min-width: 120px; }
-    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-label { color: rgba(235,228,215,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .stat-val { font-size: 1.5rem; font-weight: 700; color: #fff; margin-top: 4px; }
     .site-list { list-style: none; padding: 0; margin: 0.5rem 0; }
     .site-list li { padding: 0.5rem 0.75rem; margin-bottom: 4px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid rgba(255,155,92,0.4); }
-    .site-list a { color: #e6e9ef; text-decoration: none; font-weight: 600; }
-    .site-list a:hover { color: #00e5ff; }
-    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: #00e5ff; color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1.5rem 0; }
-    .cta:hover { background: #5cf0ff; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
-    footer a { color: #00e5ff; }
+    .site-list a { color: #ebe4d7; text-decoration: none; font-weight: 600; }
+    .site-list a:hover { color: #f07430; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: #f07430; color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1.5rem 0; }
+    .cta:hover { background: #f49b67; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: #f07430; }
   </style>
 </head>
 <body>
@@ -183,7 +183,7 @@ function operatorPage(op) {
       return `<li>
         <a href="/guides/${mapId}/${s.siteId}.html">${escape(s.siteName)}</a>
         ${sidePill}${priorityPill}
-        <span style="color:rgba(230,233,239,0.6); font-size:0.85rem;">${escape(s.role)}</span>
+        <span style="color:rgba(235,228,215,0.6); font-size:0.85rem;">${escape(s.role)}</span>
       </li>`
     }).join('\n')
     return `<h3>${escape(mapName)}</h3>
@@ -242,7 +242,7 @@ function indexPage(operators) {
     const slug = operatorSlug(op.name)
     return `<li>
       <a href="/guides/operators/${slug}.html">${escape(op.name)}</a>
-      <span style="color:rgba(230,233,239,0.5); font-size:0.85rem; margin-left:6px;">${op.sites.length} site${op.sites.length === 1 ? '' : 's'}</span>
+      <span style="color:rgba(235,228,215,0.5); font-size:0.85rem; margin-left:6px;">${op.sites.length} site${op.sites.length === 1 ? '' : 's'}</span>
     </li>`
   }).join('\n')
 

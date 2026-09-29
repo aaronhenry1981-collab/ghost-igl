@@ -106,7 +106,7 @@
 .upload-zone:hover,
 .upload-zone.dragging {
   border-color: var(--accent);
-  background: rgba(0, 229, 255, 0.03);
+  background: rgba(240, 116, 48, 0.03);
 }
 .upload-zone-icon {
   font-size: 3rem;
@@ -426,8 +426,8 @@
   margin-top: 28px;
   padding: 28px 24px;
   text-align: center;
-  background: linear-gradient(160deg, rgba(0,229,255,0.08), rgba(0,229,255,0.02));
-  border: 1px solid rgba(0,229,255,0.35);
+  background: linear-gradient(160deg, rgba(240,116,48,0.08), rgba(240,116,48,0.02));
+  border: 1px solid rgba(240,116,48,0.35);
   border-radius: 16px;
 }
 .vod-demo-convert-eyebrow {
@@ -435,7 +435,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
-  color: rgba(0,229,255,0.9);
+  color: rgba(240,116,48,0.9);
   margin-bottom: 6px;
 }
 .vod-demo-convert h3 {
@@ -444,10 +444,10 @@
   font-weight: 800;
   margin: 0 0 8px;
 }
-.vod-demo-convert h3 em { color: #00e5ff; font-style: italic; }
+.vod-demo-convert h3 em { color: #f07430; font-style: italic; }
 .vod-demo-convert p {
   font-size: 0.92rem;
-  color: rgba(230,233,239,0.8);
+  color: rgba(235,228,215,0.8);
   max-width: 52ch;
   margin: 0 auto 18px;
   line-height: 1.55;
@@ -471,7 +471,7 @@
   flex-wrap: wrap;
   margin-top: 16px;
   font-size: 0.78rem;
-  color: rgba(230,233,239,0.6);
+  color: rgba(235,228,215,0.6);
 }
 
 /* ─── Detected chips on results ─── */
@@ -486,8 +486,8 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: rgba(0, 245, 255, 0.08);
-  border: 1px solid rgba(0, 245, 255, 0.25);
+  background: rgba(237, 98, 18, 0.08);
+  border: 1px solid rgba(237, 98, 18, 0.25);
   border-radius: 999px;
   font-size: 0.85rem;
 }
@@ -498,7 +498,7 @@
   letter-spacing: 0.05em;
 }
 .analysis-chip-value {
-  color: var(--accent, #00f5ff);
+  color: var(--accent, #ed6212);
   font-weight: 600;
 }
 
@@ -507,12 +507,12 @@
   margin-top: 16px;
   text-align: center;
   font-size: 0.85rem;
-  color: var(--text-dim, rgba(200, 200, 220, 0.6));
+  color: var(--text-dim, rgba(219, 212, 201, 0.6));
 }
 .vod-demo-link {
   background: none;
   border: none;
-  color: var(--accent, #00f5ff);
+  color: var(--accent, #ed6212);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -527,19 +527,19 @@
   gap: 10px;
   padding: 10px 14px;
   margin-bottom: 18px;
-  background: rgba(155, 89, 255, 0.1);
-  border: 1px solid rgba(155, 89, 255, 0.35);
+  background: rgba(207, 179, 137, 0.1);
+  border: 1px solid rgba(207, 179, 137, 0.35);
   border-radius: 8px;
   font-size: 0.88rem;
-  color: #c5a7ff;
+  color: #e5d7c1;
 }
 .vod-demo-badge {
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   padding: 2px 8px;
-  background: linear-gradient(90deg, #9b59ff, #c5a7ff);
-  color: #0a0f19;
+  background: linear-gradient(90deg, #cfb389, #e5d7c1);
+  color: #121211;
   border-radius: 3px;
   flex-shrink: 0;
 }
@@ -559,8 +559,8 @@
 .vod-error-pending {
   text-align: center;
   padding: 36px 28px;
-  background: linear-gradient(180deg, rgba(0, 229, 255, 0.04), rgba(10, 15, 25, 0.7));
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: linear-gradient(180deg, rgba(240, 116, 48, 0.04), rgba(18, 18, 17, 0.7));
+  border: 1px solid rgba(240, 116, 48, 0.2);
   border-radius: 12px;
 }
 .vod-error-icon {
@@ -573,7 +573,7 @@
   color: var(--text-h, #fff);
 }
 .vod-error-pending p {
-  color: var(--text, rgba(200, 200, 220, 0.85));
+  color: var(--text, rgba(219, 212, 201, 0.85));
   margin: 0 auto 10px;
   max-width: 480px;
 }

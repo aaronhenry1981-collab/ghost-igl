@@ -8,7 +8,7 @@
   border-radius: 999px;
   font-size: 12px;
   letter-spacing: 0.02em;
-  color: #cfd8e3;
+  color: #e1dbd1;
   background: rgba(255, 183, 51, 0.08);
   border: 1px solid rgba(255, 183, 51, 0.35);
   white-space: nowrap;
@@ -25,14 +25,14 @@
   background: linear-gradient(90deg, rgba(255, 183, 51, 0.10), rgba(255, 183, 51, 0.02));
   border: 1px solid rgba(255, 183, 51, 0.28);
   font-size: 14px;
-  color: #cfd8e3;
+  color: #e1dbd1;
 }
 .season-banner .season-name { font-weight: 700; color: #eef3f8; }
 .season-banner .season-time b { color: #ffb733; }
 .season-banner .season-next {
   margin-left: auto;
   font-size: 12px;
-  color: #8a97a8;
+  color: #a39c8f;
   letter-spacing: 0.04em;
 }
 

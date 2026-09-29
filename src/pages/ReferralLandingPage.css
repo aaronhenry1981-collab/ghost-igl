@@ -5,12 +5,12 @@
 }
 .ref-loading {
   text-align: center;
-  color: rgba(230, 233, 239, 0.65);
+  color: rgba(235, 228, 215, 0.65);
   padding: 4rem 1rem;
 }
 .ref-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
-  border: 1px solid rgba(0, 229, 255, 0.4);
+  border: 1px solid rgba(240, 116, 48, 0.4);
   border-radius: 16px;
   padding: 2rem 2.25rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
@@ -20,7 +20,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--accent, #00e5ff);
+  color: var(--accent, #f07430);
   margin-bottom: 8px;
 }
 .ref-card h1 {
@@ -32,7 +32,7 @@
   color: #fff;
 }
 .ref-accent {
-  background: linear-gradient(120deg, #00e5ff, #66f2ff);
+  background: linear-gradient(120deg, #f07430, #f4a171);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,7 +40,7 @@
 }
 .ref-lead {
   margin: 0 0 1.5rem;
-  color: rgba(230, 233, 239, 0.85);
+  color: rgba(235, 228, 215, 0.85);
   line-height: 1.6;
   font-size: 1rem;
 }
@@ -56,7 +56,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  color: rgba(230, 233, 239, 0.92);
+  color: rgba(235, 228, 215, 0.92);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -66,7 +66,7 @@
 .ref-check {
   flex: 0 0 18px;
   font-weight: 700;
-  color: var(--accent, #00e5ff);
+  color: var(--accent, #f07430);
   margin-top: 1px;
 }
 .ref-cta-row {
@@ -82,6 +82,6 @@
 .ref-foot p {
   margin: 0;
   font-size: 0.85rem;
-  color: rgba(230, 233, 239, 0.6);
+  color: rgba(235, 228, 215, 0.6);
   line-height: 1.6;
 }

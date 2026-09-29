@@ -24,7 +24,7 @@
 }
 .signin-gate-lead {
   margin: 0 0 1.25rem;
-  color: rgba(230,233,239,0.85);
+  color: rgba(235,228,215,0.85);
   line-height: 1.55;
 }
 .signin-gate-benefits {
@@ -39,7 +39,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  color: rgba(230,233,239,0.9);
+  color: rgba(235,228,215,0.9);
   font-size: 0.92rem;
 }
 .signin-gate-check {
@@ -55,7 +55,7 @@
 }
 .signin-gate-foot {
   font-size: 0.82rem;
-  color: rgba(230,233,239,0.6);
+  color: rgba(235,228,215,0.6);
   padding-top: 1rem;
   border-top: 1px solid rgba(255,255,255,0.06);
 }

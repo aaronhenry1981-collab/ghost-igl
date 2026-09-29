@@ -21,7 +21,7 @@ export default function GameMatchPrepPage() {
   const [mapId, setMapId] = useState(null)
   const [copied, setCopied] = useState(false)
 
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
   const sideAttack = gameMeta.vocab?.side_attack || gameMeta.vocab?.sideAttack || 'Attack'
   const sideDefense = gameMeta.vocab?.side_defense || gameMeta.vocab?.sideDefense || 'Defense'

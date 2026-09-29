@@ -31,7 +31,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
   }, [activeGame])
 
   const meta = activeGame?.gameMeta || {}
-  const accent = meta.color || '#00e5ff'
+  const accent = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || gameId
 
   const stats = (() => {
@@ -65,7 +65,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
         <h1 style={{ margin: '0 0 0.6rem', fontSize: '1.85rem', lineHeight: 1.2 }}>
           {displayName} {feature.toLowerCase()} live in the catalog — in-app UI rolling out next.
         </h1>
-        <p style={{ color: 'rgba(230,233,239,0.85)', margin: '0 0 1.25rem', lineHeight: 1.55 }}>
+        <p style={{ color: 'rgba(235,228,215,0.85)', margin: '0 0 1.25rem', lineHeight: 1.55 }}>
           {loading ? (
             'Loading game data…'
           ) : stats ? (
@@ -87,7 +87,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
           <a
             href={targetUrl}
             className="btn btn-primary"
-            style={{ background: accent, color: '#0a0f19' }}
+            style={{ background: accent, color: '#121211' }}
           >
             Open {displayName} catalog →
           </a>
@@ -105,7 +105,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
           paddingTop: '1.25rem',
           borderTop: '1px solid rgba(255,255,255,0.08)',
           fontSize: '0.85rem',
-          color: 'rgba(230,233,239,0.6)',
+          color: 'rgba(235,228,215,0.6)',
         }}>
           You can change games anytime from the sidebar switcher above. R6 is the only fully-live in-app
           experience today — the others have generated catalogs and rolling-out interactive UI.
@@ -113,7 +113,7 @@ export default function GameRedirect({ feature, gameId, subPath = '' }) {
       </div>
 
       <div style={{ marginTop: '1.25rem', textAlign: 'center', fontSize: '0.85rem' }}>
-        <Link to="/account" style={{ color: 'rgba(230,233,239,0.65)', textDecoration: 'none' }}>
+        <Link to="/account" style={{ color: 'rgba(235,228,215,0.65)', textDecoration: 'none' }}>
           Manage subscription →
         </Link>
       </div>

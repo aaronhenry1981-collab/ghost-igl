@@ -19,7 +19,7 @@ function pickSide(siteData, key) {
 export default function GameMetaPage() {
   const { activeGameId } = useActiveGame()
   const { data, loading, error, gameMeta } = useGameData()
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
   const castWord = gameMeta.vocab?.operator || gameMeta.vocab?.cast || 'Character'
 

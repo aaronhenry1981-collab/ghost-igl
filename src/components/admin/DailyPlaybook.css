@@ -3,8 +3,8 @@
 .playbook {
   margin-bottom: 1.5rem;
   padding: 1.25rem 1.4rem;
-  background: linear-gradient(160deg, rgba(0, 229, 255, 0.07), rgba(0, 229, 255, 0.02));
-  border: 1px solid rgba(0, 229, 255, 0.3);
+  background: linear-gradient(160deg, rgba(240, 116, 48, 0.07), rgba(240, 116, 48, 0.02));
+  border: 1px solid rgba(240, 116, 48, 0.3);
   border-radius: 14px;
 }
 
@@ -24,14 +24,14 @@
 .playbook-date {
   font-size: 0.8rem;
   font-weight: 500;
-  color: rgba(230, 233, 239, 0.45);
+  color: rgba(235, 228, 215, 0.45);
   font-family: var(--mono, ui-monospace, monospace);
   margin-left: 6px;
 }
 .playbook-sub {
   margin: 2px 0 0;
   font-size: 0.84rem;
-  color: rgba(230, 233, 239, 0.65);
+  color: rgba(235, 228, 215, 0.65);
 }
 
 /* Streak badge — bigger + flame-accented once it hits 3 days */
@@ -42,7 +42,7 @@
   align-items: center;
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(230, 233, 239, 0.15);
+  border: 1px solid rgba(235, 228, 215, 0.15);
   border-radius: 10px;
   min-width: 76px;
 }
@@ -55,7 +55,7 @@
   font-size: 1.9rem;
   font-weight: 900;
   line-height: 1;
-  color: #00e5ff;
+  color: #f07430;
 }
 .playbook-streak.hot .playbook-streak-num { color: #ff9b5c; }
 .playbook-streak-label {
@@ -63,7 +63,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
-  color: rgba(230, 233, 239, 0.6);
+  color: rgba(235, 228, 215, 0.6);
   margin-top: 2px;
 }
 
@@ -83,13 +83,13 @@
 }
 .playbook-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00e5ff, #5cffd6);
+  background: linear-gradient(90deg, #f07430, #5cffd6);
   border-radius: 999px;
   transition: width 0.3s ease;
 }
 .playbook-progress-text {
   font-size: 0.78rem;
-  color: rgba(230, 233, 239, 0.6);
+  color: rgba(235, 228, 215, 0.6);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -108,7 +108,7 @@
   gap: 12px;
   padding: 11px 12px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(230, 233, 239, 0.1);
+  border: 1px solid rgba(235, 228, 215, 0.1);
   border-radius: 9px;
   transition: opacity 0.15s, background 0.15s;
 }
@@ -122,9 +122,9 @@
   width: 26px;
   height: 26px;
   border-radius: 7px;
-  border: 2px solid rgba(0, 229, 255, 0.45);
+  border: 2px solid rgba(240, 116, 48, 0.45);
   background: transparent;
-  color: #0a0f19;
+  color: #121211;
   font-size: 0.95rem;
   font-weight: 900;
   cursor: pointer;
@@ -133,7 +133,7 @@
   justify-content: center;
   transition: all 0.12s;
 }
-.playbook-check:hover { border-color: #00e5ff; }
+.playbook-check:hover { border-color: #f07430; }
 .playbook-item.done .playbook-check {
   background: #78dc8c;
   border-color: #78dc8c;
@@ -142,7 +142,7 @@
 .playbook-item-label {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #ecedf3;
+  color: #ebe4d7;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -154,14 +154,14 @@
 .playbook-item-mins {
   font-size: 0.68rem;
   font-weight: 700;
-  color: rgba(230, 233, 239, 0.5);
+  color: rgba(235, 228, 215, 0.5);
   background: rgba(255, 255, 255, 0.05);
   padding: 1px 6px;
   border-radius: 4px;
 }
 .playbook-item-hint {
   font-size: 0.82rem;
-  color: rgba(230, 233, 239, 0.62);
+  color: rgba(235, 228, 215, 0.62);
   margin-top: 3px;
   line-height: 1.45;
 }
@@ -170,7 +170,7 @@
   margin-top: 6px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #00e5ff;
+  color: #f07430;
   text-decoration: none;
 }
 .playbook-item-link:hover { text-decoration: underline; }
@@ -188,9 +188,9 @@
 .playbook-foot-note {
   margin-top: 1rem;
   padding-top: 0.85rem;
-  border-top: 1px dashed rgba(230, 233, 239, 0.12);
+  border-top: 1px dashed rgba(235, 228, 215, 0.12);
   font-size: 0.8rem;
-  color: rgba(230, 233, 239, 0.5);
+  color: rgba(235, 228, 215, 0.5);
   line-height: 1.5;
 }
 

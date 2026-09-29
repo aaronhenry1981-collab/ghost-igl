@@ -1088,7 +1088,7 @@ function R6LiveCoachReady({ catalog }) {
               <button
                 type="button"
                 className="btn btn-primary"
-                style={{ background: '#ffc97a', color: '#0a0f19', borderColor: '#ffc97a' }}
+                style={{ background: '#ffc97a', color: '#121211', borderColor: '#ffc97a' }}
                 onClick={() => switchToHalf(2)}
                 title="Sides swap at round 3 — set up Half 2 bans"
               >

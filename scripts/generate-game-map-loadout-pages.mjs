@@ -47,7 +47,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <link rel="canonical" href="${escape(canonical)}" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="theme-color" content="${themeColor || '#0a0f19'}" />
+  <meta name="theme-color" content="${themeColor || '#121211'}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -58,9 +58,9 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="twitter:image" content="${og}" />
   ${ldBlocks.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n  ')}
   <style>
-    :root { color-scheme: dark; --accent: ${themeColor || '#00e5ff'}; }
+    :root { color-scheme: dark; --accent: ${themeColor || '#f07430'}; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
     .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
@@ -68,23 +68,23 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
     .badge { display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 700; }
     h1 { font-size: 2.2rem; margin: 0 0 0.5rem; line-height: 1.15; }
     h1 .accent { color: var(--accent); }
-    .lead { font-size: 1.05rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
+    .lead { font-size: 1.05rem; color: rgba(235,228,215,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
     h2 { font-size: 1.25rem; margin: 2rem 0 0.85rem; color: var(--accent); }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
     .card { padding: 0.85rem 1rem; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; }
     .card strong { display: block; margin-bottom: 4px; color: #fff; }
-    .card .role { font-size: 0.75rem; color: rgba(230,233,239,0.6); }
+    .card .role { font-size: 0.75rem; color: rgba(235,228,215,0.6); }
     .pill-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
-    .pill { padding: 3px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); color: #66f2ff; border-radius: 999px; font-size: 0.78rem; }
+    .pill { padding: 3px 10px; background: rgba(240,116,48,0.06); border: 1px solid rgba(240,116,48,0.25); color: #f4a171; border-radius: 999px; font-size: 0.78rem; }
     .site-block { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.85rem; }
     .site-block h3 { margin: 0 0 0.5rem; font-size: 1.05rem; color: var(--accent); }
-    .site-block p { margin: 0 0 0.5rem; font-size: 0.9rem; line-height: 1.5; color: rgba(230,233,239,0.8); }
-    .site-block ul { margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; color: rgba(230,233,239,0.85); }
-    .cta-block { padding: 1.25rem 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid var(--accent); border-radius: 14px; margin: 2rem 0; }
-    .cta { display: inline-block; padding: 0.65rem 1.3rem; background: var(--accent); color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; }
+    .site-block p { margin: 0 0 0.5rem; font-size: 0.9rem; line-height: 1.5; color: rgba(235,228,215,0.8); }
+    .site-block ul { margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.85rem; color: rgba(235,228,215,0.85); }
+    .cta-block { padding: 1.25rem 1.5rem; background: linear-gradient(135deg, rgba(240,116,48,0.06), rgba(222,202,173,0.06)); border: 1px solid var(--accent); border-radius: 14px; margin: 2rem 0; }
+    .cta { display: inline-block; padding: 0.65rem 1.3rem; background: var(--accent); color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; }
     .cta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.85rem; }
     .btn-outline { display: inline-block; padding: 0.65rem 1.3rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; font-weight: 700; text-decoration: none; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
     footer a { color: var(--accent); }
   </style>
 </head>
@@ -150,7 +150,7 @@ function findCharacterLoadout(loadouts, characterName) {
 
 async function generateMapLoadoutPage(game, map, data) {
   const meta = game.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const vocab = meta.vocab || {}
   const sideAttack = vocab.side_attack || vocab.sideAttack || 'Attack'
@@ -172,8 +172,8 @@ async function generateMapLoadoutPage(game, map, data) {
   const inlineLoadout = (op) => {
     const ld = findCharacterLoadout(loadouts, op.name)
     if (!ld) return ''
-    if (ld.priority_chain) return `<br><span style="font-size: 0.8rem; color: rgba(230,233,239,0.6);">Priority: ${escape(ld.priority_chain)}</span>`
-    if (ld.primary) return `<br><span style="font-size: 0.8rem; color: rgba(230,233,239,0.6);">Primary: ${escape(ld.primary)}</span>`
+    if (ld.priority_chain) return `<br><span style="font-size: 0.8rem; color: rgba(235,228,215,0.6);">Priority: ${escape(ld.priority_chain)}</span>`
+    if (ld.primary) return `<br><span style="font-size: 0.8rem; color: rgba(235,228,215,0.6);">Primary: ${escape(ld.primary)}</span>`
     return ''
   }
 
@@ -222,7 +222,7 @@ async function generateMapLoadoutPage(game, map, data) {
       const callouts = (atk?.callouts || def?.callouts || []).slice(0, 8)
       return `
         <div class="site-block">
-          <h3>${escape(site.name || site.id)}${site.floor ? ` <span style="font-size: 0.8rem; color: rgba(230,233,239,0.5);">${escape(site.floor)}</span>` : ''}</h3>
+          <h3>${escape(site.name || site.id)}${site.floor ? ` <span style="font-size: 0.8rem; color: rgba(235,228,215,0.5);">${escape(site.floor)}</span>` : ''}</h3>
           ${atk ? `<p><strong style="color: #ffa67a;">${escape(sideAttack)}:</strong> ${escape(atk.strategy || '')}</p>` : ''}
           ${def ? `<p><strong style="color: #7aaaff;">${escape(sideDefense)}:</strong> ${escape(def.strategy || '')}</p>` : ''}
           ${callouts.length > 0 ? `<div class="pill-row">${callouts.map((c) => `<span class="pill">${escape(c)}</span>`).join('')}</div>` : ''}
@@ -232,7 +232,7 @@ async function generateMapLoadoutPage(game, map, data) {
 
     <div class="cta-block">
       <h2 style="margin: 0 0 0.5rem; border: none;">Want These Tuned to Your Rank?</h2>
-      <p style="margin: 0 0 0.85rem; color: rgba(230,233,239,0.85);">
+      <p style="margin: 0 0 0.85rem; color: rgba(235,228,215,0.85);">
         Recon 6 Pro reviews your screenshots and tells you which picks + loadout pieces are actually missing
         from your last 5 matches on ${escape(mapName)}. Not generic meta &mdash; specific fixes.
       </p>

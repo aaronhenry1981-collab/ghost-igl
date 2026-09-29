@@ -5,7 +5,7 @@
 /* ─── Focus rings — visible keyboard nav, hidden on mouse use ─── */
 :focus { outline: none; }
 :focus-visible {
-  outline: 2px solid var(--accent, #00e5ff);
+  outline: 2px solid var(--accent, #f07430);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -17,8 +17,8 @@ textarea:focus-visible,
 [role="button"]:focus-visible,
 [tabindex="0"]:focus-visible {
   box-shadow:
-    0 0 0 3px rgba(0, 229, 255, 0.25),
-    0 0 0 1px var(--accent, #00e5ff);
+    0 0 0 3px rgba(240, 116, 48, 0.25),
+    0 0 0 1px var(--accent, #f07430);
   outline: none;
 }
 /* Buttons (.btn) get an INSET two-tone ring instead (WCAG 2.4.7). The
@@ -30,7 +30,7 @@ textarea:focus-visible,
 .btn:focus-visible,
 .btn:hover:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #03141a;
+  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #0f0f0e;
 }
 
 /* ─── Reduced motion — respect OS-level accessibility preferences ─── */
@@ -45,7 +45,7 @@ textarea:focus-visible,
 
 /* ─── Selection — premium high-contrast pill ─── */
 ::selection {
-  background: rgba(0, 229, 255, 0.32);
+  background: rgba(240, 116, 48, 0.32);
   color: #fff;
   text-shadow: none;
 }
@@ -108,7 +108,7 @@ textarea:focus-visible,
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 229, 255, 0.45);
+  border-color: rgba(240, 116, 48, 0.45);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
@@ -126,7 +126,7 @@ select {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 8px;
-  color: var(--text-h, #ecedf3);
+  color: var(--text-h, #ebe4d7);
   font-family: inherit;
   font-size: 0.95rem;
   padding: 0.6rem 0.85rem;
@@ -146,13 +146,13 @@ input[type="password"]:focus,
 input[type="search"]:focus,
 textarea:focus,
 select:focus {
-  border-color: var(--accent, #00e5ff);
+  border-color: var(--accent, #f07430);
   background: rgba(255, 255, 255, 0.06);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.16);
+  box-shadow: 0 0 0 3px rgba(240, 116, 48, 0.16);
 }
-::placeholder { color: rgba(230, 233, 239, 0.4); }
-label { color: rgba(230, 233, 239, 0.85); font-size: 0.85rem; font-weight: 500; }
+::placeholder { color: rgba(235, 228, 215, 0.4); }
+label { color: rgba(235, 228, 215, 0.85); font-size: 0.85rem; font-weight: 500; }
 
 /* ─── Section dividers — subtle gradient breaks instead of hard lines
    where landing-page sections meet. Quiet visual rhythm. */
@@ -180,12 +180,12 @@ label { color: rgba(230, 233, 239, 0.85); font-size: 0.85rem; font-weight: 500; 
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  text-decoration-color: rgba(0, 229, 255, 0.45);
+  text-decoration-color: rgba(240, 116, 48, 0.45);
   transition: text-decoration-color 0.15s ease, color 0.15s ease;
 }
 .content a:hover,
 .legal-page a:hover {
-  text-decoration-color: var(--accent, #00e5ff);
+  text-decoration-color: var(--accent, #f07430);
 }
 
 /* ─── Modals — consistent backdrop blur so every dialog feels like the
@@ -193,7 +193,7 @@ label { color: rgba(230, 233, 239, 0.85); font-size: 0.85rem; font-weight: 500; 
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(5, 7, 12, 0.78);
+  background: rgba(9, 9, 8, 0.78);
   backdrop-filter: blur(6px) saturate(1.1);
   -webkit-backdrop-filter: blur(6px) saturate(1.1);
   z-index: 4000;
@@ -217,7 +217,7 @@ label { color: rgba(230, 233, 239, 0.85); font-size: 0.85rem; font-weight: 500; 
   background: rgba(255, 255, 255, 0.02);
   border: 1px dashed rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  color: rgba(230, 233, 239, 0.65);
+  color: rgba(235, 228, 215, 0.65);
 }
 .empty-state h3 { margin: 0 0 0.5rem; color: var(--text-h, #fff); }
 .empty-state p { margin: 0 auto 1rem; max-width: 460px; line-height: 1.55; }

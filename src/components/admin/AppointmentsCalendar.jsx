@@ -37,7 +37,7 @@ async function authedFetch(path, opts = {}) {
 const STATUS_COLOR = {
   confirmed: '#2f9e6b',
   comped: '#3b82f6',
-  completed: '#6b7280',
+  completed: '#80786b',
   held: '#d9871f',
 }
 
@@ -240,13 +240,13 @@ export default function AppointmentsCalendar() {
     <section className="admin-section">
       <style>{`
         .appointment-list{display:grid;gap:10px;margin:12px 0 16px}
-        .appointment-row{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(170px,.75fr) auto;gap:18px;align-items:center;background:#101725;border:1px solid #27334a;border-radius:12px;padding:14px 16px}
-        .appointment-row__date{color:#72ddf7;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+        .appointment-row{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(220px,1.35fr) minmax(170px,.75fr) auto;gap:18px;align-items:center;background:#1c1b19;border:1px solid #3e3a33;border-radius:12px;padding:14px 16px}
+        .appointment-row__date{color:#f5a374;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
         .appointment-row__time{color:#f4f7fb;font-size:1.25rem;font-weight:800;margin-top:2px}
         .appointment-row__name{color:#f4f7fb;font-size:1rem;font-weight:800}
-        .appointment-row__contact,.appointment-row__meta{color:#9aa8ba;font-size:.82rem;line-height:1.45;overflow-wrap:anywhere}
+        .appointment-row__contact,.appointment-row__meta{color:#b2aca2;font-size:.82rem;line-height:1.45;overflow-wrap:anywhere}
         .appointment-row__actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-        .appointment-empty{background:#101725;border:1px dashed #31405a;border-radius:12px;color:#9aa8ba;padding:20px;text-align:center}
+        .appointment-empty{background:#1c1b19;border:1px dashed #4c473f;border-radius:12px;color:#b2aca2;padding:20px;text-align:center}
         @media(max-width:900px){.appointment-row{grid-template-columns:1fr 1fr}.appointment-row__actions{justify-content:flex-start}}
         @media(max-width:620px){.appointment-row{grid-template-columns:1fr}.appointment-row__actions{justify-content:stretch}.appointment-row__actions .btn{flex:1}}
       `}</style>
@@ -297,7 +297,7 @@ export default function AppointmentsCalendar() {
               <a href={webcal.url}>{webcal.url}</a>
             </p>
           )}
-          <div className="appointments-calendar" style={{ background: '#0d1320', borderRadius: 12, padding: 8 }}>
+          <div className="appointments-calendar" style={{ background: '#171716', borderRadius: 12, padding: 8 }}>
             <FullCalendar
               ref={calRef}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -403,12 +403,12 @@ function bg(start, end, color) {
 function Drawer({ title, children, onClose }) {
   return (
     <div role="dialog" aria-label={title}
-      style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(420px, 94vw)', background: '#0f1626', borderLeft: '1px solid #2a3550', boxShadow: '-8px 0 24px rgba(0,0,0,.4)', padding: 20, overflowY: 'auto', zIndex: 200 }}>
+      style={{ position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(420px, 94vw)', background: '#1c1b19', borderLeft: '1px solid #433f37', boxShadow: '-8px 0 24px rgba(0,0,0,.4)', padding: 20, overflowY: 'auto', zIndex: 200 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         <h3 style={{ margin: 0 }}>{title}</h3>
-        <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', color: '#8b98ab', fontSize: '1.4rem', cursor: 'pointer' }} aria-label="Close">×</button>
+        <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', color: '#a59e91', fontSize: '1.4rem', cursor: 'pointer' }} aria-label="Close">×</button>
       </div>
-      <style>{`.fld{display:block;margin:10px 0;font-size:.82rem;color:#8b98ab}.fld input,.fld select,.fld textarea{display:block;width:100%;margin-top:4px;background:#0d1320;color:#dce3ea;border:1px solid #2a3550;border-radius:8px;padding:8px 10px;font-size:.95rem}.drawer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.drawer-actions .btn{flex:1;min-width:120px}`}</style>
+      <style>{`.fld{display:block;margin:10px 0;font-size:.82rem;color:#a59e91}.fld input,.fld select,.fld textarea{display:block;width:100%;margin-top:4px;background:#171716;color:#e9e4dd;border:1px solid #433f37;border-radius:8px;padding:8px 10px;font-size:.95rem}.drawer-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.drawer-actions .btn{flex:1;min-width:120px}`}</style>
       {children}
     </div>
   )
@@ -431,22 +431,22 @@ function BookingDrawer({ booking: b, tz, openSlots, loadOpenSlots, fmtInTz, nowM
         <div>Session type: {b.sessionType || 'Not selected yet'}</div>
         <div>Payment: {isHold ? 'Not paid' : (b.payment?.status || (b.status === 'comped' ? 'comped' : '—'))}{b.payment?.stripe_id ? <> · <a href={`https://dashboard.stripe.com/payments/${b.payment.stripe_id}`} target="_blank" rel="noopener noreferrer">Stripe</a></> : null}</div>
         {isHold && (
-          <div style={{ color: activeHold ? '#e5ad58' : '#8b98ab', margin: '6px 0' }}>
+          <div style={{ color: activeHold ? '#e5ad58' : '#a59e91', margin: '6px 0' }}>
             {activeHold
               ? <>Expires {fmtInTz(b.heldUntil, { hour: 'numeric', minute: '2-digit', second: '2-digit' })} — this is not a session unless checkout finishes.</>
               : <>This checkout hold expired and is not a session.</>}
           </div>
         )}
         <div style={{ margin: '6px 0' }}>
-          Source: <span style={{ background: '#1c2740', border: '1px solid #2a3550', borderRadius: 999, padding: '2px 10px', fontWeight: 700, color: src === 'direct' ? '#8b98ab' : '#7ee2a4' }}>{src}</span>
+          Source: <span style={{ background: '#302e2c', border: '1px solid #433f37', borderRadius: 999, padding: '2px 10px', fontWeight: 700, color: src === 'direct' ? '#a59e91' : '#7ee2a4' }}>{src}</span>
         </div>
         <div>Customer: <strong>{identity || 'Identity not entered yet'}</strong></div>
-        {!identity && isHold && <div style={{ color: '#8b98ab' }}>The visitor selected this time but has not submitted the booking form.</div>}
+        {!identity && isHold && <div style={{ color: '#a59e91' }}>The visitor selected this time but has not submitted the booking form.</div>}
         {b.customer?.email && b.customer.email !== identity && <div>Email: {b.customer.email}</div>}
         {b.customer?.discord && <div>Discord: {b.customer.discord}</div>}
         {b.customer?.rank_goal && <div>Rank goal: {b.customer.rank_goal}</div>}
-        {b.customer?.notes && <div style={{ color: '#8b98ab', marginTop: 6 }}>“{b.customer.notes}”</div>}
-        <div style={{ color: '#66758a', marginTop: 6, fontSize: '.78rem' }}>Reference: {b.slotId}</div>
+        {b.customer?.notes && <div style={{ color: '#a59e91', marginTop: 6 }}>“{b.customer.notes}”</div>}
+        <div style={{ color: '#847b6c', marginTop: 6, fontSize: '.78rem' }}>Reference: {b.slotId}</div>
       </div>
 
       <label className="fld" style={{ marginTop: 14 }}>Private notes (only you see these)

@@ -653,12 +653,12 @@ export default function LandingPage() {
             { id: 'cs2', name: 'Counter-Strike 2', short: 'CS2', color: '#f5b800', status: 'LIVE' },
             { id: 'valorant', name: 'Valorant', short: 'VAL', color: '#ff4655', status: 'LIVE' },
             { id: 'cod', name: 'Call of Duty', short: 'COD', color: '#7ed321', status: 'LIVE' },
-            { id: 'apex', name: 'Apex Legends', short: 'APEX', color: '#9b51e0', status: 'LIVE' },
+            { id: 'apex', name: 'Apex Legends', short: 'APEX', color: '#c4a16d', status: 'LIVE' },
             { id: 'ow2', name: 'Overwatch 2', short: 'OW2', color: '#ff8c00', status: 'LIVE' },
             { id: 'mvr', name: 'Marvel Rivals', short: 'MVR', color: '#e62b50', status: 'LIVE' },
-            { id: 'finals', name: 'The Finals', short: 'FINALS', color: '#00d4ff', status: 'LIVE' },
+            { id: 'finals', name: 'The Finals', short: 'FINALS', color: '#ed6212', status: 'LIVE' },
             { id: 'halo', name: 'Halo Infinite', short: 'HALO', color: '#5cb85c', status: 'LIVE' },
-            { id: 'fn', name: 'Fortnite', short: 'FN', color: '#5d3fd3', status: 'LIVE' },
+            { id: 'fn', name: 'Fortnite', short: 'FN', color: '#bc965c', status: 'LIVE' },
             { id: 'rl', name: 'Rocket League', short: 'RL', color: '#f7941d', status: 'LIVE' },
           ].map(g => (
             <div key={g.id} style={{
@@ -674,7 +674,7 @@ export default function LandingPage() {
                 fontSize: '1.5rem', fontWeight: 800, color: g.color,
                 letterSpacing: '0.04em', marginBottom: 4,
               }}>{g.short}</div>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(230,233,239,0.85)', marginBottom: 6 }}>
+              <div style={{ fontSize: '0.78rem', color: 'rgba(235,228,215,0.85)', marginBottom: 6 }}>
                 {g.name}
               </div>
               <div style={{
@@ -684,16 +684,16 @@ export default function LandingPage() {
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 borderRadius: 999,
-                color: g.status === 'LIVE' ? '#7ee2a4' : 'rgba(230,233,239,0.5)',
+                color: g.status === 'LIVE' ? '#7ee2a4' : 'rgba(235,228,215,0.5)',
                 background: g.status === 'LIVE' ? 'rgba(80,200,120,0.15)' : 'rgba(255,255,255,0.05)',
                 border: g.status === 'LIVE' ? '1px solid #50c878' : '1px solid rgba(255,255,255,0.1)',
               }}>{g.status}</div>
             </div>
           ))}
         </div>
-        <p style={{ textAlign: 'center', color: 'rgba(230,233,239,0.6)', fontSize: '0.9rem', marginTop: '1.5rem', maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ textAlign: 'center', color: 'rgba(235,228,215,0.6)', fontSize: '0.9rem', marginTop: '1.5rem', maxWidth: 720, marginLeft: 'auto', marginRight: 'auto' }}>
           Rainbow Six goes deepest — every map, site, operator, and the AI VOD review. Your other games are covered too: maps, characters, loadouts, strats, and match prep, with more depth shipping every week.
-          <strong style={{ color: '#00e5ff' }}> All-Access ($19/mo)</strong> adds every game to one plan as it grows.
+          <strong style={{ color: '#f07430' }}> All-Access ($19/mo)</strong> adds every game to one plan as it grows.
         </p>
       </section>}
 

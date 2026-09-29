@@ -171,13 +171,13 @@ export default function ProfileSetupModal() {
     >
       <div style={{
         maxWidth: 540, width: '100%',
-        background: '#0f1623', border: '1px solid rgba(255,255,255,0.08)',
+        background: '#1a1918', border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 14, padding: '1.75rem',
         maxHeight: '90vh', overflowY: 'auto',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
           <div>
-            <div style={{ fontSize: '0.75rem', color: 'rgba(230,233,239,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+            <div style={{ fontSize: '0.75rem', color: 'rgba(235,228,215,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
               Quick setup · Step {step} of 2
             </div>
             <h2 id="profile-setup-title" style={{ margin: 0, fontSize: '1.5rem' }}>
@@ -189,7 +189,7 @@ export default function ProfileSetupModal() {
           </button>
         </div>
 
-        <p style={{ color: 'rgba(230,233,239,0.7)', fontSize: '0.9rem', margin: '0.5rem 0 0.75rem' }}>
+        <p style={{ color: 'rgba(235,228,215,0.7)', fontSize: '0.9rem', margin: '0.5rem 0 0.75rem' }}>
           {step === 1
             ? "We use this to personalize content and know what to call you in emails. Takes 30 seconds."
             : "Tell us about your setup so the strats and VOD breakdowns match your rank and role. You can update this anytime from Account."}
@@ -292,7 +292,7 @@ export default function ProfileSetupModal() {
 function Field({ label, required, children }) {
   return (
     <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-      <span style={{ color: 'rgba(230,233,239,0.75)' }}>
+      <span style={{ color: 'rgba(235,228,215,0.75)' }}>
         {label}{required && <span style={{ color: '#ff8a8a', marginLeft: 4 }}>*</span>}
       </span>
       {children}

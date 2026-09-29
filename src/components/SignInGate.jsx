@@ -14,7 +14,7 @@ import './SignInGate.css'
 
 export default function SignInGate({ feature, gameMeta, benefits }) {
   const location = useLocation()
-  const accent = gameMeta?.color || '#00e5ff'
+  const accent = gameMeta?.color || '#f07430'
   const displayName = gameMeta?.displayName || ''
   // Preserve the route they were trying to reach so post-sign-in lands
   // them right back here instead of /dashboard.
@@ -48,7 +48,7 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
         )}
 
         <div className="signin-gate-cta">
-          <Link to={signUpUrl} className="btn btn-primary" style={{ background: accent, color: '#0a0f19' }}>
+          <Link to={signUpUrl} className="btn btn-primary" style={{ background: accent, color: '#121211' }}>
             Sign up — free
           </Link>
           <Link to={signInUrl} className="btn btn-outline">

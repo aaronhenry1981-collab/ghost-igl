@@ -185,7 +185,7 @@ export default function OperatorsComparePage() {
                   <div className="cmp-summary-name">{s.name}</div>
                   <div className="cmp-summary-role">{s.role}</div>
                   <StatBar label="Essential sites" value={s.essential} max={maxEssential} color="var(--accent)" />
-                  <StatBar label="Total sites" value={s.total} max={maxTotal} color="rgba(0, 229, 255, 0.5)" />
+                  <StatBar label="Total sites" value={s.total} max={maxTotal} color="rgba(240, 116, 48, 0.5)" />
                   <div className="cmp-summary-split">
                     <span><strong>{s.atk}</strong> ATK</span>
                     <span><strong>{s.def}</strong> DEF</span>

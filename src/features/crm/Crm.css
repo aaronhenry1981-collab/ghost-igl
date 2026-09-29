@@ -1,19 +1,19 @@
 /* Recon customer-success CRM. Same AA-checked tokens as the player home. */
 .crm {
-  --crm-surface: #0e1018;
-  --crm-surface-2: #141724;
-  --crm-border: #262a3d;
-  --crm-border-strong: #353a55;
-  --crm-text: #d5d8e2;
-  --crm-text-strong: #f3f4f8;
-  --crm-text-muted: #a6abbd;
-  --crm-accent: #00e5ff;
+  --crm-surface: #141312;
+  --crm-surface-2: #1d1c1b;
+  --crm-border: #333230;
+  --crm-border-strong: #4c473e;
+  --crm-text: #e2ddd5;
+  --crm-text-strong: #f7f6f4;
+  --crm-text-muted: #b9b4aa;
+  --crm-accent: #f07430;
   --crm-ok: #7ee2a8;
   --crm-warn: #ffcb80;
   --crm-danger: #ff9a9a;
   --crm-info: #9ec5ff;
-  --crm-pro: #00e5ff;
-  --crm-elite: #c9b3ff;
+  --crm-pro: #f07430;
+  --crm-elite: #e9dcc9;
   --crm-champion: #ffd76a;
   max-width: 1280px;
   margin: 0 auto;
@@ -71,7 +71,7 @@
   z-index: 4;
   margin: 0 -1rem 1rem;
   padding: 0 1rem;
-  background: var(--bg, #06070b);
+  background: var(--bg, #090908);
   border-bottom: 1px solid var(--crm-border);
   overflow-x: auto;
   scrollbar-width: thin;
@@ -593,7 +593,7 @@
   max-width: 24rem;
   padding: 0.85rem 1rem;
   border-radius: 12px;
-  border: 1px solid rgba(0, 229, 255, 0.45);
+  border: 1px solid rgba(240, 116, 48, 0.45);
   background: var(--crm-surface);
 }
 
@@ -809,5 +809,5 @@
 /* See PlayerHome.css: inset ring survives the chamfer clip-path. */
 .crm .btn:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #03141a;
+  box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #0f0f0e;
 }

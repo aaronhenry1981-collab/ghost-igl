@@ -26,12 +26,12 @@
   width: 56px;
   height: 56px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(99, 91, 255, 0.15));
+  background: linear-gradient(135deg, rgba(237, 98, 18, 0.2), rgba(99, 91, 255, 0.15));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.75rem;
-  color: #00f5ff;
+  color: #ed6212;
   flex-shrink: 0;
 }
 
@@ -43,7 +43,7 @@
 .activate-eyebrow {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #00f5ff;
+  color: #ed6212;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin-bottom: 0.25rem;
@@ -86,8 +86,8 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 999px;
-  background: rgba(0, 245, 255, 0.1);
-  color: #00f5ff;
+  background: rgba(237, 98, 18, 0.1);
+  color: #ed6212;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,9 +108,9 @@
   font-size: 0.75rem;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(0, 245, 255, 0.2);
+  border: 1px solid rgba(237, 98, 18, 0.2);
   border-radius: 10px;
-  color: #00f5ff;
+  color: #ed6212;
   resize: none;
   word-break: break-all;
 }
@@ -180,14 +180,14 @@
   content: '✓';
   position: absolute;
   left: 0;
-  color: #00f5ff;
+  color: #ed6212;
   font-weight: 700;
 }
 
 /* Download page */
 .download-card {
-  background: linear-gradient(135deg, rgba(99, 91, 255, 0.12), rgba(0, 245, 255, 0.08));
-  border: 1px solid rgba(0, 245, 255, 0.25);
+  background: linear-gradient(135deg, rgba(99, 91, 255, 0.12), rgba(237, 98, 18, 0.08));
+  border: 1px solid rgba(237, 98, 18, 0.25);
   border-radius: 12px;
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -214,7 +214,7 @@
 .download-version {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #00f5ff;
+  color: #ed6212;
 }
 
 .download-date {

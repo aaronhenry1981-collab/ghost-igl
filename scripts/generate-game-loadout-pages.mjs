@@ -101,7 +101,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="${themeColor || '#0a0f19'}" />
+  <meta name="theme-color" content="${themeColor || '#121211'}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -112,9 +112,9 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="twitter:image" content="${og}" />
   ${ldBlocks.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n  ')}
   <style>
-    :root { color-scheme: dark; --accent: ${themeColor || '#00e5ff'}; }
+    :root { color-scheme: dark; --accent: ${themeColor || '#f07430'}; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
     .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; font-size: 0.9rem; }
@@ -122,29 +122,29 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
     .badge { display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; font-weight: 700; }
     h1 { font-size: 2.4rem; margin: 0 0 0.5rem; line-height: 1.15; }
     h1 .accent { color: var(--accent); }
-    .lead { font-size: 1.1rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
+    .lead { font-size: 1.1rem; color: rgba(235,228,215,0.85); max-width: 720px; margin: 0; line-height: 1.55; }
     .section { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1.5rem 1.75rem; margin: 1.5rem 0; }
     .section header { border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.85rem; margin-bottom: 1rem; }
     .section h2 { margin: 0 0 4px; font-size: 1.5rem; color: #fff; }
-    .section-role { font-size: 0.78rem; color: rgba(230,233,239,0.6); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
-    .section-summary { margin: 0 0 1rem; color: rgba(230,233,239,0.85); line-height: 1.55; font-size: 0.95rem; }
+    .section-role { font-size: 0.78rem; color: rgba(235,228,215,0.6); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
+    .section-summary { margin: 0 0 1rem; color: rgba(235,228,215,0.85); line-height: 1.55; font-size: 0.95rem; }
     .block { background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 0.95rem 1.1rem; margin: 0.75rem 0; }
-    .block-title { margin: 0 0 0.6rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(230,233,239,0.55); font-weight: 700; }
-    .block p, .subentry p { margin: 0 0 0.4rem; color: rgba(230,233,239,0.88); line-height: 1.55; font-size: 0.92rem; }
-    .block ul, .subentry ul { margin: 0; padding-left: 1.1rem; color: rgba(230,233,239,0.85); font-size: 0.9rem; line-height: 1.55; }
+    .block-title { margin: 0 0 0.6rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(235,228,215,0.55); font-weight: 700; }
+    .block p, .subentry p { margin: 0 0 0.4rem; color: rgba(235,228,215,0.88); line-height: 1.55; font-size: 0.92rem; }
+    .block ul, .subentry ul { margin: 0; padding-left: 1.1rem; color: rgba(235,228,215,0.85); font-size: 0.9rem; line-height: 1.55; }
     .block li, .subentry li { padding: 2px 0; }
     .rows { display: flex; flex-direction: column; gap: 0.5rem; }
     .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; padding: 0.6rem 0.85rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; }
     .row-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .row-key { font-size: 0.66rem; color: rgba(230,233,239,0.5); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; }
+    .row-key { font-size: 0.66rem; color: rgba(235,228,215,0.5); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; }
     .row-val { font-size: 0.88rem; color: #fff; word-break: break-word; }
     .subgroup { display: grid; gap: 0.85rem; }
     .subentry { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 0.7rem 0.95rem; }
     .subkey { margin: 0 0 0.45rem; font-size: 0.85rem; color: #fff; font-weight: 700; }
-    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 0.5rem 0; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 0.5rem 0; }
     .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.25rem 0; }
     .btn-outline { display: inline-block; padding: 0.7rem 1.4rem; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; font-weight: 700; text-decoration: none; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
     footer a { color: var(--accent); }
   </style>
 </head>
@@ -191,7 +191,7 @@ async function generateLoadoutsPage(game) {
     }
   }
   const meta = game.gameMeta || data.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const loadouts = data.LOADOUTS || {}
   const entries = Object.entries(loadouts)
@@ -204,9 +204,9 @@ async function generateLoadoutsPage(game) {
 
   const tocHtml = entries.length > 3 ? `
     <nav class="toc" aria-label="On this page" style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 0.85rem 1.1rem; margin: 0 0 1.5rem;">
-      <strong style="font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); display: block; margin-bottom: 0.5rem;">Sections</strong>
+      <strong style="font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(235,228,215,0.6); display: block; margin-bottom: 0.5rem;">Sections</strong>
       <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-        ${entries.map(([id, sec]) => `<li><a href="#${escape(id)}" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.25); border-radius: 999px; font-size: 0.8rem;">${escape(sec.name || titleCase(id))}</a></li>`).join('')}
+        ${entries.map(([id, sec]) => `<li><a href="#${escape(id)}" style="color: var(--accent); text-decoration: none; padding: 4px 10px; background: rgba(240,116,48,0.06); border: 1px solid rgba(240,116,48,0.25); border-radius: 999px; font-size: 0.8rem;">${escape(sec.name || titleCase(id))}</a></li>`).join('')}
       </ul>
     </nav>
   ` : ''
@@ -229,9 +229,9 @@ async function generateLoadoutsPage(game) {
 
     ${entries.map(([id, sec]) => renderSection(id, sec)).join('')}
 
-    <div class="section" style="background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border-color: var(--accent);">
+    <div class="section" style="background: linear-gradient(135deg, rgba(240,116,48,0.06), rgba(222,202,173,0.06)); border-color: var(--accent);">
       <h2 style="margin: 0 0 0.5rem; border: none;">Want These Tuned to Your Rank + Role?</h2>
-      <p style="margin: 0 0 1rem; color: rgba(230,233,239,0.85);">
+      <p style="margin: 0 0 1rem; color: rgba(235,228,215,0.85);">
         Recon 6 Pro reviews your screenshots and tells you which loadout pieces you're actually missing &mdash; based on your last 5 matches, not generic meta. $9/mo founding (locked for life if you join before May 31).
       </p>
       <div class="cta-row">

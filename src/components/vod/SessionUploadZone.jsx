@@ -142,7 +142,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
             <h3>Add the moment that cost the round</h3>
             <p>Start with one death cam, scoreboard, or post-plant screenshot.</p>
             <span className="upload-zone-btn">Choose screenshots</span>
-            <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', marginTop: '1rem' }}>
+            <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)', marginTop: '1rem' }}>
               You can add up to {maxImages} screenshots. More images help Recon 6 spot a recurring mistake.
             </p>
           </>
@@ -188,7 +188,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
             >
               {showContext ? '▾' : '▸'} {showContext ? 'Hide context hints' : 'Add context hints (optional)'}
             </button>
-            <span style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)' }}>
+            <span style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)' }}>
               Telling the AI the map / {characterLabel.toLowerCase()} gives sharper feedback. Skip if you want it to detect from the screenshots.
             </span>
           </div>
@@ -196,7 +196,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
           {showContext && (
             <div className="vod-context-grid" style={{ marginTop: '0.75rem', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem' }}>
               <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-                <span style={{ color: 'rgba(230,233,239,0.65)' }}>Map (optional)</span>
+                <span style={{ color: 'rgba(235,228,215,0.65)' }}>Map (optional)</span>
                 <select
                   value={context.map}
                   onChange={(e) => setContextField('map', e.target.value)}
@@ -207,7 +207,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
                 </select>
               </label>
               <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-                <span style={{ color: 'rgba(230,233,239,0.65)' }}>{siteLabel} (optional)</span>
+                <span style={{ color: 'rgba(235,228,215,0.65)' }}>{siteLabel} (optional)</span>
                 <select
                   value={context.site}
                   onChange={(e) => setContextField('site', e.target.value)}
@@ -219,7 +219,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
                 </select>
               </label>
               <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-                <span style={{ color: 'rgba(230,233,239,0.65)' }}>Side (optional)</span>
+                <span style={{ color: 'rgba(235,228,215,0.65)' }}>Side (optional)</span>
                 <select
                   value={context.side}
                   onChange={(e) => setContextField('side', e.target.value)}
@@ -231,7 +231,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
                 </select>
               </label>
               <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-                <span style={{ color: 'rgba(230,233,239,0.65)' }}>{characterLabel} (optional)</span>
+                <span style={{ color: 'rgba(235,228,215,0.65)' }}>{characterLabel} (optional)</span>
                 <select
                   value={context.operator}
                   onChange={(e) => setContextField('operator', e.target.value)}

@@ -94,9 +94,9 @@ export default function AuditLog() {
         <>
           {error && <div className="admin-error">{error}</div>}
           {loading && events.length === 0 ? (
-            <p style={{ color: 'rgba(230,233,239,0.6)' }}>Loading audit events…</p>
+            <p style={{ color: 'rgba(235,228,215,0.6)' }}>Loading audit events…</p>
           ) : events.length === 0 ? (
-            <p style={{ color: 'rgba(230,233,239,0.55)', fontSize: '0.9rem' }}>
+            <p style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.9rem' }}>
               No admin actions logged yet. Comp grants, comp revokes, and user deletions will show up here.
             </p>
           ) : (
@@ -120,7 +120,7 @@ export default function AuditLog() {
                       <td><span style={actionStyle(e.action)}>{e.action}</span></td>
                       <td className="admin-mono" style={{ fontSize: '0.85rem' }}>{e.actor || '—'}</td>
                       <td className="admin-mono" style={{ fontSize: '0.85rem' }}>{e.target || '—'}</td>
-                      <td style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.65)', maxWidth: 380 }}>
+                      <td style={{ fontSize: '0.8rem', color: 'rgba(235,228,215,0.65)', maxWidth: 380 }}>
                         {e.details ? (
                           <code style={{ fontSize: '0.75rem' }}>
                             {Object.entries(e.details).map(([k, v]) => `${k}=${typeof v === 'object' ? JSON.stringify(v) : v}`).join(' · ')}

@@ -61,7 +61,7 @@
   /* Anchor color hack: the link text needs to read against the filled pill,
      and currentColor flips each intensity. Use a dark background-clip trick
      for solid contrast across all three modes. */
-  color: #0a0d12 !important;
+  color: #0f0e0d !important;
   text-decoration: none;
   transition: transform 0.12s ease, filter 0.12s ease;
   white-space: nowrap;
@@ -89,9 +89,9 @@
 
 /* Intensities */
 .founding-top-muted {
-  color: rgba(0, 229, 255, 0.95);
-  background: linear-gradient(90deg, rgba(0, 229, 255, 0.05), rgba(0, 229, 255, 0.12), rgba(0, 229, 255, 0.05));
-  border-bottom-color: rgba(0, 229, 255, 0.25);
+  color: rgba(240, 116, 48, 0.95);
+  background: linear-gradient(90deg, rgba(240, 116, 48, 0.05), rgba(240, 116, 48, 0.12), rgba(240, 116, 48, 0.05));
+  border-bottom-color: rgba(240, 116, 48, 0.25);
 }
 .founding-top-warn {
   color: #ffc97a;

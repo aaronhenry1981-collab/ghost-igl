@@ -14,7 +14,7 @@ export default function GameOperatorsPage() {
   const [query, setQuery] = useState('')
   const [roleFilter, setRoleFilter] = useState('all')
 
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
   const castWord = gameMeta.vocab?.operator || gameMeta.vocab?.cast || 'Character'
   const castWordPlural = `${castWord}${castWord.endsWith('s') ? '' : 's'}`

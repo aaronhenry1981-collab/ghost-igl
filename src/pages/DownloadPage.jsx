@@ -45,18 +45,18 @@ function PlatformSplit() {
   return (
     <div style={{ marginTop: '1.25rem' }}>
       <div style={{ fontWeight: 700, marginBottom: 4 }}>PC vs console</div>
-      <p style={{ fontSize: '0.88rem', color: 'rgba(230,233,239,0.7)', marginBottom: 12 }}>
+      <p style={{ fontSize: '0.88rem', color: 'rgba(235,228,215,0.7)', marginBottom: 12 }}>
         Console gets the full coach through a capture card — nothing is held back. PC just <em>also</em> gets
         the things that are only possible when the coach runs on the same machine as your game.
       </p>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        <div style={{ ...card, borderColor: 'rgba(0,229,255,0.4)' }}>
-          <div style={{ fontWeight: 700, color: '#00e5ff', marginBottom: 8 }}>PC — native</div>
+        <div style={{ ...card, borderColor: 'rgba(240,116,48,0.4)' }}>
+          <div style={{ fontWeight: 700, color: '#f07430', marginBottom: 8 }}>PC — native</div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.88rem', lineHeight: 1.7 }}>
             {SHARED_FEATURES.map((f) => <li key={f}>✓ {f}</li>)}
             {PC_EXTRAS.map((f) => (
               <li key={f.t}>
-                <span style={{ color: '#00e5ff' }}>＋</span> {f.t}
+                <span style={{ color: '#f07430' }}>＋</span> {f.t}
                 <span style={tag(f.now)}>{f.now ? 'Now' : 'Soon'}</span>
               </li>
             ))}
@@ -66,7 +66,7 @@ function PlatformSplit() {
           <div style={{ fontWeight: 700, marginBottom: 8 }}>Console — capture card</div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.88rem', lineHeight: 1.7 }}>
             {SHARED_FEATURES.map((f) => <li key={f}>✓ {f}</li>)}
-            <li style={{ color: 'rgba(230,233,239,0.6)', marginTop: 6 }}>
+            <li style={{ color: 'rgba(235,228,215,0.6)', marginTop: 6 }}>
               Live coaching runs off your HDMI capture feed — fully supported, first-class.
             </li>
           </ul>

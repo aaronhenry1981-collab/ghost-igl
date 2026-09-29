@@ -68,21 +68,21 @@
   height: 100%;
   background: rgba(255, 255, 255, 0.1);
 }
-.account-plan-card-pro::before { background: #00f5ff; }
-.account-plan-card-elite::before { background: linear-gradient(180deg, #b388ff, #00e5ff); }
+.account-plan-card-pro::before { background: #ed6212; }
+.account-plan-card-elite::before { background: linear-gradient(180deg, #dcc8ab, #f07430); }
 .account-plan-card-champion::before { background: linear-gradient(180deg, #ffd700, #ff9900); }
-.account-plan-card-ceo::before { background: linear-gradient(180deg, #b388ff, #00f5ff); }
+.account-plan-card-ceo::before { background: linear-gradient(180deg, #dcc8ab, #ed6212); }
 .account-plan-card-ceo {
-  background: linear-gradient(135deg, rgba(179, 136, 255, 0.06), rgba(0, 245, 255, 0.04));
-  border-color: rgba(179, 136, 255, 0.2);
+  background: linear-gradient(135deg, rgba(220, 200, 171, 0.06), rgba(237, 98, 18, 0.04));
+  border-color: rgba(220, 200, 171, 0.2);
 }
 .account-plan-card-champion {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 153, 0, 0.02));
   border-color: rgba(255, 215, 0, 0.2);
 }
 .account-plan-card-elite {
-  background: linear-gradient(135deg, rgba(179, 136, 255, 0.06), rgba(0, 229, 255, 0.025));
-  border-color: rgba(179, 136, 255, 0.22);
+  background: linear-gradient(135deg, rgba(220, 200, 171, 0.06), rgba(240, 116, 48, 0.025));
+  border-color: rgba(220, 200, 171, 0.22);
 }
 
 .account-plan-name {
@@ -114,13 +114,13 @@
 }
 
 .account-badge-pro {
-  background: rgba(0, 245, 255, 0.15);
-  color: #00f5ff;
+  background: rgba(237, 98, 18, 0.15);
+  color: #ed6212;
 }
 
 .account-badge-elite {
-  background: linear-gradient(135deg, rgba(179, 136, 255, 0.9), rgba(0, 229, 255, 0.9));
-  color: #071018;
+  background: linear-gradient(135deg, rgba(220, 200, 171, 0.9), rgba(240, 116, 48, 0.9));
+  color: #10100f;
 }
 
 .account-badge-champion {
@@ -129,8 +129,8 @@
 }
 
 .account-badge-ceo {
-  background: linear-gradient(135deg, #b388ff, #00f5ff);
-  color: #0a0a0f;
+  background: linear-gradient(135deg, #dcc8ab, #ed6212);
+  color: #0d0d0c;
 }
 
 .account-badge-comp {
@@ -183,7 +183,7 @@
 
 .account-input:focus {
   outline: none;
-  border-color: rgba(0, 245, 255, 0.5);
+  border-color: rgba(237, 98, 18, 0.5);
 }
 
 .account-note {
@@ -258,8 +258,8 @@
   font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
   border-radius: 999px;
-  background: rgba(0, 245, 255, 0.1);
-  color: #00f5ff;
+  background: rgba(237, 98, 18, 0.1);
+  color: #ed6212;
 }
 
 .account-upgrade-cta {

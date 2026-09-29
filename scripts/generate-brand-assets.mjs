@@ -1,26 +1,20 @@
 #!/usr/bin/env node
-// Generates every shipped brand asset from one geometry definition.
+// Generates every shipped brand asset from the approved R6 signature.
 //
-// THE CONCEPT (do not "improve" this):
-//   A hexagon has six sides — that IS the 6, built structurally instead of
-//   typed. Five sides are ice, silent. One is amber — the call. Amber appears
-//   exactly once in the identity. A second amber element kills both.
-//   Field is #07090B.
+// THE IDENTITY (approved 2026-09-28, "01 / R6 SIGNATURE"; do not redraw it):
+//   A bone R and an ember 6 locked together, with the RECON 6 wordmark
+//   (bone, ember 6) underneath, on charcoal. No tagline.
+//   Sources: brand/r6-signature-{mark,wordmark,lockup}.svg, traced from the
+//   approved artwork by brand/trace-r6-signature.py (98-99% pixel agreement,
+//   checked with brand/compare-r6-signature.py). Edit those, never this file's
+//   output.
 //
-// Geometry is lifted verbatim from brand/recon6-avatar.svg (the master), so
-// the shipped mark and the master can never drift.
-//
-// WHY THE SHIPPED MARK IS SIMPLER THAN THE MASTER:
-//   The master carries a 5%-opacity lattice (550 paths) and a reticle ring at
-//   stroke-width 11. At a 32px favicon the lattice is invisible and the ring
-//   is a 0.4px stroke — it renders as grey dirt, not a ring. So the small mark
-//   keeps only what survives: the hexagon, the amber call, and the centre dot.
-//   That's exactly what brand/scale_test.png shows surviving. Nothing is
-//   redesigned; sub-pixel detail is dropped.
+// Palette (sampled from the approved artwork):
+//   charcoal #151616 · bone #EBE4D7 · ember #F07430
 //
 // Run: node scripts/generate-brand-assets.mjs
 
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
@@ -28,48 +22,39 @@ import sharp from 'sharp'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const PUBLIC = join(ROOT, 'public')
+const BRAND = join(ROOT, 'brand')
 
-const FIELD = '#07090B'
-const ICE = '#9BE7FF'
-const AMBER = '#FFB03A'
+export const CHARCOAL = '#151616'
+export const BONE = '#EBE4D7'
+export const EMBER = '#F07430'
 
-// Master geometry (1000×1000 viewBox), verbatim from brand/recon6-avatar.svg.
-// Five ice sides drawn as an open polyline; the amber bar closes the sixth.
-const ICE_FIVE_SIDES =
-  'M 694,163.982 L 888,500 L 694,836.018 L 306,836.018 L 112,500 L 306,163.982'
-const AMBER_SIDE = 'M 306,163.982 L 694,163.982'
-const STROKE = 33
-
-// Painted bbox is x 95.5→904.5, y 147.5→852.5. Square-crop it and add 6 units
-// of air for the miter overshoot at the left/right vertices, so the hexagon
-// nearly fills the frame instead of floating in padding.
-const VB = '89.5 89.5 821 821'
-
-/** The mark. `field=false` gives a transparent background for UI use. */
-function markSvg({ field = true, reticle = false } = {}) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB}" width="512" height="512" role="img" aria-label="RECON6">
-${field ? `  <rect x="89.5" y="89.5" width="821" height="821" fill="${FIELD}"/>\n` : ''}  <path d="${ICE_FIVE_SIDES}" fill="none" stroke="${ICE}" stroke-width="${STROKE}" stroke-linejoin="miter" opacity="0.93"/>
-  <path d="${AMBER_SIDE}" fill="none" stroke="${AMBER}" stroke-width="${STROKE}" stroke-linecap="butt"/>
-${reticle ? `  <circle cx="500" cy="500" r="92" fill="none" stroke="${ICE}" stroke-width="11" opacity="0.88"/>\n` : ''}  <circle cx="500" cy="500" r="30" fill="${ICE}" opacity="0.94"/>
-</svg>
-`
+function load(name) {
+  const svg = readFileSync(join(BRAND, `r6-signature-${name}.svg`), 'utf8')
+  const [, w, h] = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)
+  const paths = [...svg.matchAll(/<path [^>]+\/>/g)].map((m) => m[0])
+  return { w: Number(w), h: Number(h), paths }
 }
 
-// Open Graph: 1200×630 on the field, mark left, wordmark as OUTLINED shapes is
-// overkill here — we draw the mark only. Any wordmark lives in DOM text, never
-// as an SVG <text> node (it would render differently in every browser).
-function ogSvg() {
-  const s = 380
-  const x = (1200 - s) / 2
-  const y = (630 - s) / 2 - 28
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="${FIELD}"/>
-  <svg x="${x}" y="${y}" width="${s}" height="${s}" viewBox="${VB}">
-    <path d="${ICE_FIVE_SIDES}" fill="none" stroke="${ICE}" stroke-width="${STROKE}" stroke-linejoin="miter" opacity="0.93"/>
-    <path d="${AMBER_SIDE}" fill="none" stroke="${AMBER}" stroke-width="${STROKE}" stroke-linecap="butt"/>
-    <circle cx="500" cy="500" r="92" fill="none" stroke="${ICE}" stroke-width="11" opacity="0.88"/>
-    <circle cx="500" cy="500" r="30" fill="${ICE}" opacity="0.94"/>
-  </svg>
+const mark = load('mark')
+const wordmark = load('wordmark')
+const lockup = load('lockup')
+
+// Transparent UI assets (navbar etc.) keep the artwork's own viewBox.
+const uiSvg = (a) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${a.w} ${a.h}" width="${a.w}" height="${a.h}" role="img" aria-label="Recon 6">
+  ${a.paths.join('\n  ')}
+</svg>
+`
+
+// A piece of artwork centred at `width` inside a charcoal canvas.
+function onField(a, canvasW, canvasH, width, dy = 0) {
+  const scale = width / a.w
+  const x = (canvasW - width) / 2
+  const y = (canvasH - a.h * scale) / 2 + dy
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvasW} ${canvasH}" width="${canvasW}" height="${canvasH}" role="img" aria-label="Recon 6">
+  <rect width="${canvasW}" height="${canvasH}" fill="${CHARCOAL}"/>
+  <g transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${scale.toFixed(5)})">
+    ${a.paths.join('\n    ')}
+  </g>
 </svg>
 `
 }
@@ -77,28 +62,31 @@ function ogSvg() {
 async function main() {
   mkdirSync(PUBLIC, { recursive: true })
 
-  const favicon = markSvg({ field: true })
-  const logoMark = markSvg({ field: false })
-
+  // Icon: the monogram on charcoal, filling ~84% of the square so it still
+  // reads at 32px.
+  const favicon = onField(mark, 512, 512, 430)
   writeFileSync(join(PUBLIC, 'favicon.svg'), favicon)
-  writeFileSync(join(PUBLIC, 'logo-mark.svg'), logoMark)
+  writeFileSync(join(PUBLIC, 'logo-mark.svg'), uiSvg(mark))
+  writeFileSync(join(PUBLIC, 'logo-wordmark.svg'), uiSvg(wordmark))
+  writeFileSync(join(PUBLIC, 'logo-lockup.svg'), uiSvg(lockup))
 
   // PNG fallbacks. 32 = browser tab, 180 = apple-touch, 192/512 = manifest.
-  const buf = Buffer.from(favicon)
   for (const size of [32, 180, 192, 512]) {
-    await sharp(buf, { density: 384 })
+    await sharp(Buffer.from(favicon), { density: 384 })
       .resize(size, size)
       .png({ compressionLevel: 9 })
       .toFile(join(PUBLIC, `favicon-${size}.png`))
   }
 
-  // OG / Twitter card.
-  writeFileSync(join(PUBLIC, 'og-image.svg'), ogSvg())
-  await sharp(Buffer.from(ogSvg()), { density: 192 })
+  // OG / Twitter card: the full approved lockup, centred on charcoal.
+  const og = onField(lockup, 1200, 630, 620)
+  writeFileSync(join(PUBLIC, 'og-image.svg'), og)
+  await sharp(Buffer.from(og), { density: 144 })
+    .resize(1200, 630)
     .png({ compressionLevel: 9 })
     .toFile(join(PUBLIC, 'og-image.png'))
 
-  console.log('✓ brand assets: favicon.svg, logo-mark.svg, favicon-{32,180,192,512}.png, og-image.{svg,png}')
+  console.log('✓ brand assets: favicon.svg, logo-{mark,wordmark,lockup}.svg, favicon-{32,180,192,512}.png, og-image.{svg,png}')
 }
 
 main().catch((err) => {

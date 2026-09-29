@@ -71,8 +71,8 @@ export default function SoftPaywall({ open, viewCount, onDismiss, isAuthed }) {
         style={{
           maxWidth: 540,
           width: '100%',
-          background: 'linear-gradient(180deg, #0d1620 0%, #0a1018 100%)',
-          border: '1px solid rgba(0, 229, 255, 0.35)',
+          background: 'linear-gradient(180deg, #171716 0%, #121110 100%)',
+          border: '1px solid rgba(240, 116, 48, 0.35)',
           borderRadius: 16,
           padding: '1.75rem 1.5rem 1.25rem',
           boxShadow: '0 30px 80px rgba(0, 0, 0, 0.6)',
@@ -137,7 +137,7 @@ export default function SoftPaywall({ open, viewCount, onDismiss, isAuthed }) {
             tier="elite"
             location="softpaywall"
             className="btn btn-outline"
-            style={{ flex: '1 1 auto', minWidth: 200, textAlign: 'center', borderColor: 'rgba(0,229,255,0.5)', color: '#00e5ff' }}
+            style={{ flex: '1 1 auto', minWidth: 200, textAlign: 'center', borderColor: 'rgba(240,116,48,0.5)', color: '#f07430' }}
           >
             Elite — ${ELITE_CURRENT_AMOUNT}/mo
           </MembershipCheckoutButton>

@@ -30,7 +30,10 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <div className="footer-logo">Recon<span>6</span></div>
+          <div className="footer-logo" role="img" aria-label="Recon 6">
+            <img src="/logo-mark.svg" alt="" width="47" height="24" aria-hidden="true" />
+            <img src="/logo-wordmark.svg" alt="" width="93" height="13" aria-hidden="true" />
+          </div>
           <p className="footer-tagline">Rainbow Six Siege coaching built around your real matches.</p>
           <Link to="/progress" className="footer-focus-link">Open Road to Champion →</Link>
         </div>
@@ -97,7 +100,7 @@ export default function Footer() {
           <svg className="payment-badge" viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg" aria-label="PayPal" role="img">
             <title>PayPal</title>
             <text x="24" y="11" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="9" fontWeight="900">
-              <tspan fill="#003087">Pay</tspan><tspan fill="#009cde">Pal</tspan>
+              <tspan fill="#003087">Pay</tspan><tspan fill="#ed6212">Pal</tspan>
             </text>
           </svg>
           <svg className="payment-badge" viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg" aria-label="Apple Pay" role="img">

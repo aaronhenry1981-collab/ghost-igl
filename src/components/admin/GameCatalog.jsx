@@ -133,9 +133,9 @@ export default function GameCatalog() {
               type="button"
               style={{
                 padding: '8px 14px',
-                background: isActive ? (m.color || '#00e5ff') : 'rgba(255,255,255,0.04)',
-                color: isActive ? '#0a0f19' : '#e6e9ef',
-                border: `1px solid ${isActive ? (m.color || '#00e5ff') : 'rgba(255,255,255,0.1)'}`,
+                background: isActive ? (m.color || '#f07430') : 'rgba(255,255,255,0.04)',
+                color: isActive ? '#121211' : '#ebe4d7',
+                border: `1px solid ${isActive ? (m.color || '#f07430') : 'rgba(255,255,255,0.1)'}`,
                 borderRadius: 8,
                 fontWeight: 700,
                 fontSize: '0.85rem',
@@ -153,7 +153,7 @@ export default function GameCatalog() {
       {/* Active game header */}
       <div style={{ marginBottom: '1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '0.5rem' }}>
-          <h3 style={{ margin: 0, color: meta.color || '#00e5ff' }}>
+          <h3 style={{ margin: 0, color: meta.color || '#f07430' }}>
             {meta.displayName || meta.name || activeGameId}
           </h3>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
@@ -161,14 +161,14 @@ export default function GameCatalog() {
             <a
               href={activeGameId === 'r6' ? `${SITE_URL}/guides/` : `${SITE_URL}/games/${activeGameId}/`}
               target="_blank" rel="noreferrer"
-              style={{ fontSize: '0.85rem', color: '#00e5ff', textDecoration: 'none', fontWeight: 600 }}
+              style={{ fontSize: '0.85rem', color: '#f07430', textDecoration: 'none', fontWeight: 600 }}
             >
               Open live page →
             </a>
           </div>
         </div>
         {meta.vocab && (
-          <div style={{ fontSize: '0.8rem', color: 'rgba(230,233,239,0.55)', marginTop: 4 }}>
+          <div style={{ fontSize: '0.8rem', color: 'rgba(235,228,215,0.55)', marginTop: 4 }}>
             Vocab: {castLabel.toLowerCase()} · {mapLabel.toLowerCase()} · {siteLabel.toLowerCase()} · {attackLabel} / {defenseLabel}
           </div>
         )}
@@ -181,7 +181,7 @@ export default function GameCatalog() {
         </div>
       )}
 
-      {loading && <p style={{ color: 'rgba(230,233,239,0.6)' }}>Loading {activeGameId} data…</p>}
+      {loading && <p style={{ color: 'rgba(235,228,215,0.6)' }}>Loading {activeGameId} data…</p>}
 
       {!loading && !error && stats && (
         <>
@@ -210,11 +210,11 @@ export default function GameCatalog() {
                   borderLeft: `3px solid ${siteCount > 0 ? '#50c878' : 'rgba(255,255,255,0.2)'}`,
                   borderRadius: 6,
                   textDecoration: 'none',
-                  color: '#e6e9ef',
+                  color: '#ebe4d7',
                   fontSize: '0.88rem',
                 }}>
                   <strong>{m.name || m.id}</strong>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(230,233,239,0.55)', marginTop: 2 }}>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(235,228,215,0.55)', marginTop: 2 }}>
                     {siteCount > 0 ? `${siteCount} ${siteLabel.toLowerCase()}s with strats` : 'No strats yet'}
                   </div>
                 </a>
@@ -241,11 +241,11 @@ export default function GameCatalog() {
                       border: '1px solid rgba(255,255,255,0.05)',
                       borderRadius: 6,
                       textDecoration: 'none',
-                      color: '#e6e9ef',
+                      color: '#ebe4d7',
                       fontSize: '0.85rem',
                     }}>
                       <strong>{c.name}</strong>
-                      {c.role && <span style={{ color: 'rgba(230,233,239,0.55)', fontSize: '0.75rem', marginLeft: 6 }}>{c.role}</span>}
+                      {c.role && <span style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.75rem', marginLeft: 6 }}>{c.role}</span>}
                     </a>
                   )
                 })}
@@ -259,14 +259,14 @@ export default function GameCatalog() {
             background: 'rgba(255,255,255,0.03)', borderRadius: 8,
             display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.85rem',
           }}>
-            <a href={activeGameId === 'r6' ? `${SITE_URL}/guides/` : `${SITE_URL}/games/${activeGameId}/`} target="_blank" rel="noreferrer" style={{ color: '#00e5ff' }}>
+            <a href={activeGameId === 'r6' ? `${SITE_URL}/guides/` : `${SITE_URL}/games/${activeGameId}/`} target="_blank" rel="noreferrer" style={{ color: '#f07430' }}>
               Live game page →
             </a>
-            <a href={activeGameId === 'r6' ? `${SITE_URL}/guides/operators/` : `${SITE_URL}/games/${activeGameId}/cast/`} target="_blank" rel="noreferrer" style={{ color: '#00e5ff' }}>
+            <a href={activeGameId === 'r6' ? `${SITE_URL}/guides/operators/` : `${SITE_URL}/games/${activeGameId}/cast/`} target="_blank" rel="noreferrer" style={{ color: '#f07430' }}>
               Cast catalog →
             </a>
             {activeGameId === 'r6' && (
-              <a href={`${SITE_URL}/guides/bans/`} target="_blank" rel="noreferrer" style={{ color: '#00e5ff' }}>
+              <a href={`${SITE_URL}/guides/bans/`} target="_blank" rel="noreferrer" style={{ color: '#f07430' }}>
                 Ban guides →
               </a>
             )}
@@ -285,13 +285,13 @@ function Stat({ label, value, sub }) {
       border: '1px solid rgba(255,255,255,0.08)',
       borderRadius: 10,
     }}>
-      <div style={{ fontSize: '0.7rem', color: 'rgba(230,233,239,0.6)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+      <div style={{ fontSize: '0.7rem', color: 'rgba(235,228,215,0.6)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
         {label}
       </div>
       <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', marginTop: 2 }}>
         {value}
       </div>
-      {sub && <div style={{ fontSize: '0.7rem', color: 'rgba(230,233,239,0.5)', marginTop: 2 }}>{sub}</div>}
+      {sub && <div style={{ fontSize: '0.7rem', color: 'rgba(235,228,215,0.5)', marginTop: 2 }}>{sub}</div>}
     </div>
   )
 }

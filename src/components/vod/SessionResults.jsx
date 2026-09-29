@@ -38,9 +38,9 @@ function DetectedPills({ detected }) {
         const colors = {
           attack: { bg: 'rgba(255,138,80,0.15)', fg: '#ffa67a' },
           defense: { bg: 'rgba(80,180,255,0.15)', fg: '#7aaaff' },
-          map: { bg: 'rgba(0,229,255,0.12)', fg: '#7eddee' },
+          map: { bg: 'rgba(240,116,48,0.12)', fg: '#eea77e' },
           site: { bg: 'rgba(255,155,92,0.12)', fg: '#ffb88c' },
-          op: { bg: 'rgba(180,140,255,0.12)', fg: '#c0a8f0' },
+          op: { bg: 'rgba(222,202,173,0.12)', fg: '#e1d0b7' },
           phase: { bg: 'rgba(180,180,180,0.12)', fg: '#bbb' },
         }
         const c = colors[p.kind] || colors.phase
@@ -55,9 +55,9 @@ function DetectedPills({ detected }) {
   )
 }
 
-function BulletList({ items, color = '#e6e9ef', emptyMessage = null }) {
+function BulletList({ items, color = '#ebe4d7', emptyMessage = null }) {
   if (!items || items.length === 0) {
-    return emptyMessage ? <p style={{ color: 'rgba(230,233,239,0.5)', fontStyle: 'italic' }}>{emptyMessage}</p> : null
+    return emptyMessage ? <p style={{ color: 'rgba(235,228,215,0.5)', fontStyle: 'italic' }}>{emptyMessage}</p> : null
   }
   return (
     <ul style={{ margin: '0.25rem 0', paddingLeft: '1.2rem' }}>
@@ -94,7 +94,7 @@ export default function SessionResults({ analysis }) {
         {(session.detected_map || session.detected_side) && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
             {session.detected_map && (
-              <span style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)' }}>
+              <span style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)' }}>
                 Detected: <strong>{session.detected_map}</strong>
                 {session.detected_side ? ` (${session.detected_side})` : ''} · {session.image_count} {session.image_count === 1 ? 'image' : 'images'}
               </span>
@@ -133,7 +133,7 @@ export default function SessionResults({ analysis }) {
                 )}
                 {img.specific_advice?.length > 0 && (
                   <div style={{ marginTop: '0.5rem' }}>
-                    <strong style={{ color: '#00e5ff', fontSize: '0.85rem' }}>Specific advice</strong>
+                    <strong style={{ color: '#f07430', fontSize: '0.85rem' }}>Specific advice</strong>
                     <BulletList items={img.specific_advice} />
                   </div>
                 )}
@@ -172,7 +172,7 @@ export default function SessionResults({ analysis }) {
           borderRadius: 12,
         }}>
           <h3 style={{ margin: '0 0 0.5rem', color: '#ff9b5c' }}>📋 Your practice plan this week</h3>
-          <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)', margin: '0 0 0.75rem' }}>
+          <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)', margin: '0 0 0.75rem' }}>
             Based on the patterns above. Spend 10-15 minutes per drill before your next ranked session.
           </p>
           <BulletList items={practicePlan.this_week} />
@@ -184,17 +184,17 @@ export default function SessionResults({ analysis }) {
         <section className="vod-section" style={{
           marginBottom: '1.5rem',
           padding: '1rem',
-          background: 'rgba(180,140,255,0.06)',
-          border: '1px solid rgba(180,140,255,0.3)',
+          background: 'rgba(222,202,173,0.06)',
+          border: '1px solid rgba(222,202,173,0.3)',
           borderRadius: 12,
         }}>
-          <h3 style={{ margin: '0 0 0.5rem', color: '#c0a8f0' }}>🎯 Operator-specific feedback</h3>
+          <h3 style={{ margin: '0 0 0.5rem', color: '#e1d0b7' }}>🎯 Operator-specific feedback</h3>
           <p style={{ margin: 0 }}>{opFeedback}</p>
         </section>
       )}
 
       {analysis.tier === 'pro' && (
-        <p style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.55)', textAlign: 'center', marginTop: '1.5rem' }}>
+        <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)', textAlign: 'center', marginTop: '1.5rem' }}>
           Want a deeper review? <a href="/#pricing">Upgrade to Elite</a> for full-round 10-screenshot sessions, accountability for the picks you made, and a weekly drill list built from your own clips.
         </p>
       )}

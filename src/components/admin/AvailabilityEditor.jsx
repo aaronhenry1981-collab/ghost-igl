@@ -112,7 +112,7 @@ export default function AvailabilityEditor() {
       <h3 style={{ margin: '14px 0 6px' }}>Blackout dates</h3>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
         {config.blackouts.map((d) => (
-          <span key={d} style={{ padding: '2px 10px', border: '1px solid #2a3550', borderRadius: 999 }}>
+          <span key={d} style={{ padding: '2px 10px', border: '1px solid #433f37', borderRadius: 999 }}>
             {d} <button type="button" onClick={() => setField('blackouts', config.blackouts.filter((x) => x !== d))}>✕</button>
           </span>
         ))}

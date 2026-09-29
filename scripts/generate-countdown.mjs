@@ -154,9 +154,9 @@ export function renderCountdownPage({ live = LIVE_SEASON, next = NEXT_SEASON, no
   isPartOf: { '@type': 'WebSite', name: 'RECON6', url: SITE },
 }).replaceAll('<', '\\u003c')}</script>
 <style>
-  :root { --bg:#080c12; --panel:#111925; --line:#243248; --cyan:#5dd8e8; --text:#eaf1f8; --dim:#91a0b4; }
+  :root { --bg:#0e0d0c; --panel:#1c1b1a; --line:#3b3731; --cyan:#e8905d; --text:#eaf1f8; --dim:#aca599; }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:radial-gradient(circle at 50% 0,rgba(93,216,232,.09),transparent 34%),var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.65; }
+  body { background:radial-gradient(circle at 50% 0,rgba(232,144,93,.09),transparent 34%),var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.65; }
   .topbar { max-width:960px; margin:0 auto; padding:20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,.06); }
   .brand { color:var(--text); font-weight:800; letter-spacing:.12em; }
   .brand b { color:var(--cyan); }
@@ -164,18 +164,18 @@ export function renderCountdownPage({ live = LIVE_SEASON, next = NEXT_SEASON, no
   .wrap { max-width:900px; margin:0 auto; padding:54px 20px 80px; }
   a { color:var(--cyan); text-decoration:none; }
   a:hover { text-decoration:underline; }
-  .season-hero { text-align:center; padding:34px 24px 28px; background:linear-gradient(180deg,rgba(93,216,232,.06),rgba(17,25,37,.72)); border:1px solid var(--line); border-radius:18px; box-shadow:0 22px 60px rgba(0,0,0,.28); }
+  .season-hero { text-align:center; padding:34px 24px 28px; background:linear-gradient(180deg,rgba(232,144,93,.06),rgba(28,27,26,.72)); border:1px solid var(--line); border-radius:18px; box-shadow:0 22px 60px rgba(0,0,0,.28); }
   .eyebrow { color:var(--cyan); font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
   h1 { font-size:clamp(2rem,6vw,3.3rem); line-height:1.08; letter-spacing:-.04em; margin-bottom:12px; text-wrap:balance; }
   .sub { color:var(--dim); margin:0 auto 24px; max-width:650px; }
   .timer { display:flex; gap:10px; justify-content:center; margin:24px 0 12px; flex-wrap:wrap; }
-  .cell { background:rgba(7,12,18,.78); border:1px solid var(--line); border-radius:12px; padding:16px 8px; width:112px; text-align:center; }
+  .cell { background:rgba(13,13,12,.78); border:1px solid var(--line); border-radius:12px; padding:16px 8px; width:112px; text-align:center; }
   .cell b { display:block; font-size:2.4rem; color:var(--cyan); font-variant-numeric:tabular-nums; }
   .cell span { color:var(--dim); font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; }
   .hedge { text-align:center; color:var(--dim); font-size:.86rem; margin:0 auto; max-width:650px; }
   .facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; max-width:680px; margin:8px auto 0; text-align:left; }
   .facts[hidden] { display:none; }
-  .facts div { background:rgba(7,12,18,.78); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .facts div { background:rgba(13,13,12,.78); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
   .facts dt { color:var(--dim); font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
   .facts dd { font-weight:600; }
   .content { max-width:760px; margin:40px auto 0; }

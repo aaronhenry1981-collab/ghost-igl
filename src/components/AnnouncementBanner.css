@@ -19,13 +19,13 @@
 }
 
 .announcement-info {
-  background: rgba(0, 245, 255, 0.12);
-  color: #e8fbff;
+  background: rgba(237, 98, 18, 0.12);
+  color: #fdf1ea;
 }
 
 .announcement-update {
-  background: rgba(155, 89, 255, 0.15);
-  color: #ece4ff;
+  background: rgba(207, 179, 137, 0.15);
+  color: #f7f3ec;
 }
 
 .announcement-maintenance {

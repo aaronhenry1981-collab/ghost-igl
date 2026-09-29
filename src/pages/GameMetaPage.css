@@ -1,5 +1,5 @@
 .game-meta-page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
-.game-meta-loading, .game-meta-empty { text-align: center; padding: 4rem 1rem; color: rgba(230,233,239,0.6); }
+.game-meta-loading, .game-meta-empty { text-align: center; padding: 4rem 1rem; color: rgba(235,228,215,0.6); }
 .game-meta-empty h1 { color: var(--text-h, #fff); margin: 0 0 0.5rem; }
 
 .game-meta-header {
@@ -15,7 +15,7 @@
   margin-bottom: 6px;
 }
 .game-meta-header h1 { margin: 0 0 0.5rem; font-size: 2.15rem; line-height: 1.15; }
-.game-meta-header p { margin: 0; color: rgba(230,233,239,0.78); max-width: 720px; line-height: 1.55; }
+.game-meta-header p { margin: 0; color: rgba(235,228,215,0.78); max-width: 720px; line-height: 1.55; }
 
 .game-meta-grid {
   display: grid;
@@ -31,7 +31,7 @@
 .game-meta-card h2 { margin: 0 0 4px; font-size: 1.15rem; }
 .game-meta-card-sub {
   margin: 0 0 1rem;
-  color: rgba(230,233,239,0.6);
+  color: rgba(235,228,215,0.6);
   font-size: 0.85rem;
 }
 
@@ -54,11 +54,11 @@
   border-radius: 6px;
   font-size: 0.9rem;
 }
-.game-meta-rank { color: rgba(230,233,239,0.4); font-weight: 700; font-size: 0.78rem; }
+.game-meta-rank { color: rgba(235,228,215,0.4); font-weight: 700; font-size: 0.78rem; }
 .game-meta-name { font-weight: 600; color: var(--text-h, #fff); }
 .game-meta-role {
   font-size: 0.78rem;
-  color: rgba(230,233,239,0.55);
+  color: rgba(235,228,215,0.55);
 }
 .game-meta-stats {
   display: flex;
@@ -67,14 +67,14 @@
   font-weight: 700;
 }
 .game-meta-stat-essential { color: #ff8a50; }
-.game-meta-stat-recommended { color: #00e5ff; }
-.game-meta-stat-flex { color: rgba(230,233,239,0.5); }
+.game-meta-stat-recommended { color: #f07430; }
+.game-meta-stat-flex { color: rgba(235,228,215,0.5); }
 
 .game-meta-foot {
   margin-top: 2rem;
   padding-top: 1.25rem;
   border-top: 1px solid rgba(255,255,255,0.06);
   font-size: 0.92rem;
-  color: rgba(230,233,239,0.7);
+  color: rgba(235,228,215,0.7);
 }
 .game-meta-foot p { margin: 0; }

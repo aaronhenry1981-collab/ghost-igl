@@ -23,18 +23,18 @@ export default function ChampionGate({ label, children, compact = false }) {
       : 'Sign in and subscribe to Elite to unlock.'
 
   return (
-    <div className="pro-gate champion-gate" style={{ borderColor: 'rgba(0, 229, 255, 0.4)' }}>
+    <div className="pro-gate champion-gate" style={{ borderColor: 'rgba(240, 116, 48, 0.4)' }}>
       <div
         className="pro-gate-overlay"
         style={{
           background: compact
-            ? 'linear-gradient(180deg, rgba(0,229,255,0.05) 0%, rgba(0,229,255,0.18) 100%)'
+            ? 'linear-gradient(180deg, rgba(240,116,48,0.05) 0%, rgba(240,116,48,0.18) 100%)'
             : undefined,
         }}
       >
         <div className="pro-gate-lock" style={{ filter: 'hue-rotate(180deg)' }}>★</div>
         <div className="pro-gate-text">
-          <strong style={{ color: '#00e5ff' }}>{label || 'Elite Strategy Library'}</strong>
+          <strong style={{ color: '#f07430' }}>{label || 'Elite Strategy Library'}</strong>
           <p>{helperText}</p>
         </div>
         {user ? (
@@ -42,7 +42,7 @@ export default function ChampionGate({ label, children, compact = false }) {
             tier="elite"
             location="elite-gate"
             className="btn btn-primary btn-sm pro-gate-btn"
-            style={{ background: 'linear-gradient(135deg, #00e5ff 0%, #0091ea 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #f07430 0%, #0091ea 100%)' }}
           >
             {ctaCopy}
           </MembershipCheckoutButton>
