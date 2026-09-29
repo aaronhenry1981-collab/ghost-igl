@@ -2,6 +2,23 @@
 
 The Privacy page tells players to email **support@r6coaching.com** from their account email, with "Privacy request" in the subject. That is the only r6coaching.com address that receives mail; before 2026-09-28 the page named privacy@, which never received anything.
 
+## 0. How requests are tracked to completion (since 2026-09-29)
+
+Every request gets a row in the register (DynamoDB `recon-privacy-requests`), with a due date **30 days after it arrived** (the Privacy page's promise). The row stays open until someone closes it.
+
+- **Email to support@ is logged automatically.** The mail forwarder (`lambda/mail-forward/privacy-intake.mjs`) logs any email whose subject or body looks like a privacy request: "Privacy request", GDPR/CCPA, or asking to delete, erase or export data. The forwarded copy's subject is tagged `[Privacy request PR-…, <kind>, due <date>]`. If the log write fails, the subject says `NOT LOGGED`: log it by hand at once.
+  - **Deliberately generous.** Close a false match with `--outcome not_a_request`.
+- **Anything else must be logged by hand the same day.** That covers a Support case, Discord, or an email to another address. Run `privacy-request.mjs log <email> --kind deletion|export|access|unspecified --received <when it arrived, ISO> --note "..."`.
+- **Daily reminder.** EventBridge `recon6-privacy-deadlines-daily` runs the forwarder's `privacy-deadlines` job, which emails the staff list every day while any request is open:
+  - it lists open requests, most urgent first, and flags any due within 7 days or overdue;
+  - it also counts admin-console deletions still owed a full purge;
+  - the email names requests by id only, never an address.
+- **Completion.**
+  - A successful `export` or `apply-delete` closes the matching open request automatically, and the output says so.
+  - Otherwise, close it yourself with `privacy-request.mjs close <PR-id> --outcome completed|rejected|not_a_request --note "..."`.
+  - When a row is closed, its plain address is removed; the row stays as the record, keyed by hash.
+- **See the queue:** `node tools/privacy-request.mjs requests`.
+
 ## 1. Verify the requester
 
 - Act only on a request sent from the account's email address.
