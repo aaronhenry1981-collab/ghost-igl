@@ -1,3 +1,5 @@
+import { planFromPrice } from './reconcile.mjs'
+
 const LIVE_STATUSES = new Set(['active', 'trialing', 'past_due', 'unpaid', 'incomplete', 'paused'])
 
 function priceFor(subscription) {
@@ -65,20 +67,13 @@ export function billingStateFor(subscription) {
 export function planFor(subscription, fallbackPlan = 'free', env = process.env) {
   const price = priceFor(subscription)
   const priceId = price?.id
-  const known = new Map([
-    [env.STRIPE_PRO_PRICE_ID, 'pro'],
-    [env.STRIPE_PRO_FOUNDING_PRICE_ID, 'pro'],
-    [env.STRIPE_PRO_ALL_ACCESS_PRICE_ID, 'pro'],
-    [env.STRIPE_PRO_ALL_ACCESS_ANNUAL_PRICE_ID, 'pro'],
-    [env.STRIPE_ELITE_PRICE_ID, 'elite'],
-    [env.STRIPE_CHAMPION_PRICE_ID, 'champion'],
-    [env.STRIPE_CHAMPION_FOUNDING_PRICE_ID, 'champion'],
-    [env.STRIPE_CHAMPION_REGULAR_PRICE_ID, 'champion'],
-    [env.STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID, 'champion'],
-    [env.STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID, 'champion'],
-  ].filter(([id]) => Boolean(id)))
-  known.set(env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID || 'price_1TzrjiJNddvjgWcgw1DYSf88', 'champion')
-  if (known.has(priceId)) return known.get(priceId)
+  // The same price table the webhook grants access from (reconcile.mjs keeps
+  // it in step with the webhook, with a drift test). The STRIPE_CHAMPION_*
+  // variables predate the tier rename: those prices ($29 legacy, $39) are
+  // Elite; only the $70 membership price is Champion.
+  if (env.STRIPE_ELITE_PRICE_ID && priceId === env.STRIPE_ELITE_PRICE_ID) return 'elite'
+  const mapped = planFromPrice(priceId, env)
+  if (mapped) return mapped
 
   const named = [
     subscription?.metadata?.plan,
