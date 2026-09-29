@@ -138,8 +138,8 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
       kind: 'coaching',
       title: 'Book your coaching session',
       body: b.plan === 'champion'
-        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one through Support while you still have them; don\'t pay by card.'
-        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Book through Support; don\'t pay by card.`,
+        ? 'Champion includes two live 1:1 sessions with Aaron each month. Book one on the coaching page while you still have them; signed in, it uses an included session with no card.'
+        : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Book on the coaching page while signed in; no card needed.`,
       cta: INCLUDED_SESSION_CTA,
       evidence: [b.plan === 'champion' ? 'No session booked in the last 30 days' : `${credits} unused credit${credits === 1 ? '' : 's'}`],
     }
@@ -297,7 +297,7 @@ export function deriveHelp(facts) {
     options.push({ id: 'message', label: 'Message Recon 6', detail: 'Questions, bugs or billing. Aaron reads every message.', cta: { label: 'Send a message', action: 'message_support' } })
   }
   options.push(plan === 'champion'
-    ? { id: 'coaching', label: 'Book a live session', detail: 'Two 1:1 sessions with Aaron are included each month. Book them through Support, not card checkout.', cta: INCLUDED_SESSION_CTA }
+    ? { id: 'coaching', label: 'Book a live session', detail: 'Two 1:1 sessions with Aaron are included each month. Sign in and book on the coaching page; no card needed.', cta: INCLUDED_SESSION_CTA }
     : { id: 'coaching', label: 'Book a 1:1 session', detail: 'First session $20. Aaron reviews your rounds with you.', cta: { label: 'See coaching', href: '/coaching/index.html' } })
   options.push({ id: 'email', label: 'Email support', detail: 'support@r6coaching.com', cta: { label: 'Email us', href: 'mailto:support@r6coaching.com' } })
   return options

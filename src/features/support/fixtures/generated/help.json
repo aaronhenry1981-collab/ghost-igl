@@ -26,7 +26,7 @@
       {
         "slug": "coaching-credits",
         "title": "Coaching credits and booking sessions",
-        "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+        "summary": "How Champion coaching credits are added, how to book an included session with no card, and how to move or cancel one.",
         "category": "coaching_credits",
         "status": "reviewed"
       },
@@ -93,7 +93,7 @@
           "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
           "category": "rank_stat_discrepancy",
           "status": "reviewed",
-          "score": 20.465
+          "score": 20.542
         },
         {
           "slug": "connect-your-gaming-account",
@@ -101,7 +101,7 @@
           "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
           "category": "ubisoft_connection",
           "status": "reviewed",
-          "score": 4.216
+          "score": 4.23
         },
         {
           "slug": "get-better-vod-results",
@@ -109,7 +109,7 @@
           "summary": "Small changes to what you upload make the review much sharper.",
           "category": "ai_result",
           "status": "reviewed",
-          "score": 2.262
+          "score": 2.276
         },
         {
           "slug": "how-recon-history-works",
@@ -117,7 +117,7 @@
           "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
           "category": "historical_data",
           "status": "reviewed",
-          "score": 1.261
+          "score": 1.279
         },
         {
           "slug": "upload-a-vod-for-ai-review",
@@ -125,15 +125,15 @@
           "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
           "status": "reviewed",
-          "score": 1.16
+          "score": 1.178
         },
         {
           "slug": "coaching-credits",
           "title": "Coaching credits and booking sessions",
-          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "summary": "How Champion coaching credits are added, how to book an included session with no card, and how to move or cancel one.",
           "category": "coaching_credits",
           "status": "reviewed",
-          "score": 1.076
+          "score": 0.944
         }
       ],
       "status": "ok",
@@ -148,7 +148,7 @@
           "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
           "status": "reviewed",
-          "score": 19.896
+          "score": 19.972
         },
         {
           "slug": "get-better-vod-results",
@@ -156,7 +156,7 @@
           "summary": "Small changes to what you upload make the review much sharper.",
           "category": "ai_result",
           "status": "reviewed",
-          "score": 12.617
+          "score": 12.657
         },
         {
           "slug": "match-replays",
@@ -164,7 +164,7 @@
           "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
           "category": "replay_upload",
           "status": "reviewed",
-          "score": 7.823
+          "score": 7.845
         },
         {
           "slug": "subscription-and-access",
@@ -172,7 +172,7 @@
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
           "status": "reviewed",
-          "score": 2.516
+          "score": 2.544
         },
         {
           "slug": "why-rank-or-stats-look-different",
@@ -180,7 +180,7 @@
           "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
           "category": "rank_stat_discrepancy",
           "status": "reviewed",
-          "score": 1.509
+          "score": 1.517
         },
         {
           "slug": "connect-your-gaming-account",
@@ -188,7 +188,7 @@
           "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
           "category": "ubisoft_connection",
           "status": "reviewed",
-          "score": 1.096
+          "score": 1.109
         },
         {
           "slug": "billing-and-payments",
@@ -196,7 +196,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 0.988
+          "score": 0.999
         }
       ],
       "status": "ok",
@@ -211,7 +211,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 53.108
+          "score": 53.305
         }
       ],
       "status": "ok",
@@ -226,7 +226,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 38.406
+          "score": 38.521
         },
         {
           "slug": "desktop-client",
@@ -234,15 +234,15 @@
           "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
           "category": "desktop_client",
           "status": "reviewed",
-          "score": 18.975
+          "score": 19.109
         },
         {
           "slug": "coaching-credits",
           "title": "Coaching credits and booking sessions",
-          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "summary": "How Champion coaching credits are added, how to book an included session with no card, and how to move or cancel one.",
           "category": "coaching_credits",
           "status": "reviewed",
-          "score": 3.212
+          "score": 4.346
         },
         {
           "slug": "subscription-and-access",
@@ -250,7 +250,7 @@
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
           "status": "reviewed",
-          "score": 2.039
+          "score": 2.056
         }
       ],
       "status": "ok",
@@ -372,7 +372,7 @@
         "how_to",
         "broken"
       ],
-      "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+      "summary": "How Champion coaching credits are added, how to book an included session with no card, and how to move or cancel one.",
       "keywords": [
         "coaching",
         "credits",
@@ -382,9 +382,11 @@
         "1:1",
         "one on one",
         "reschedule",
-        "coach"
+        "cancel",
+        "coach",
+        "included"
       ],
-      "body": "## How credits are added\nA Champion membership sets your coaching credits to two each time the monthly payment goes through. Unused credits do not roll over to the next month.\n## Champion members: before you book\nThe coaching page does not apply your included credits yet: it sends every booking to card checkout. Don't pay by card for a session your plan includes. Open a case from Support to use an included session.\n## Booking a paid session\nBook from the coaching page. It shows the session length and the times you can pick. A slot is held for a few minutes while you finish booking.\n## Changing a session\nTo move a session, use the reschedule link in your confirmation email. Don't cancel and rebook: cancelling does not return a credit.\n## Credits look wrong?\nOpen a case from Support with roughly when you paid. We can see your bookings and the credits on record.",
+      "body": "## How credits are added\nA Champion membership sets your coaching credits to two each time the monthly payment goes through. Unused credits do not roll over to the next month.\n## Booking an included session\nSign in to Recon, then open the coaching page on the same device. It shows how many included sessions you have left this month. Pick a time and confirm: the booking uses one included session, with no card and no checkout. Your confirmation email has the calendar invite.\nIf the page does not show your included sessions, sign in again with the email your membership uses, then reload the coaching page.\n## Booking a paid session\nSigned out, or with no included sessions left, the coaching page books a paid session. It shows the session length and the times you can pick. A slot is held for a few minutes while you finish booking.\n## Changing or cancelling a session\nTo move a session, use the reschedule link in your confirmation email; an included session stays included. If you cancel an included session before it starts, the credit comes back to your account for that month. Once the session time has passed, cancelling does not return it.\n## Credits look wrong?\nOpen a case from Support with roughly when you paid. We can see your bookings and the credits on record.",
       "status": "reviewed",
       "reviewedBy": "Release review 2026-09-28 (checked against production code)",
       "reviewedOn": "2026-09-28",
@@ -675,7 +677,7 @@
         {
           "slug": "coaching-credits",
           "title": "Coaching credits and booking sessions",
-          "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
+          "summary": "How Champion coaching credits are added, how to book an included session with no card, and how to move or cancel one.",
           "category": "coaching_credits",
           "status": "reviewed"
         },
