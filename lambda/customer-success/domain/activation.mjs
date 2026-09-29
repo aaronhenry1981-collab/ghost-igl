@@ -57,7 +57,7 @@ export function deriveActivation(facts) {
     steps.push({
       id: 'coaching',
       label: 'Use your coaching session',
-      detail: plan === 'champion' ? 'Two live 1:1 sessions with Aaron are included every month. Book them through Support, not card checkout.' : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Book through Support, not card checkout.`,
+      detail: plan === 'champion' ? 'Two live 1:1 sessions with Aaron are included every month. Sign in and book on the coaching page; no card needed.' : `You have ${credits} session credit${credits === 1 ? '' : 's'} ready to use. Sign in and book on the coaching page; no card needed.`,
       done: facts.sources.bookings === 'ok' ? (facts.activity.coaching?.total || 0) > 0 : null,
       cta: INCLUDED_SESSION_CTA,
     })

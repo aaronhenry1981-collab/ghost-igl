@@ -18,9 +18,9 @@ test('with support off the card never links to Player Command', () => {
   assert.deepEqual(off.map((o) => o.id), ['coaching', 'email'])
 })
 
-test('audit P0-3: included sessions are routed to Support, never to card checkout', async () => {
+test('audit P0-3: included sessions go to self-service booking on the coaching page', async () => {
   const { INCLUDED_SESSION_CTA } = await import('./plans.mjs')
-  assert.equal(INCLUDED_SESSION_CTA.href, '/support?category=coaching_credits')
+  assert.equal(INCLUDED_SESSION_CTA.href, '/coaching/index.html#book')
   const champ = deriveHelp(facts({ support: true, messaging: false }, 'champion'))
   const coaching = champ.find((o) => o.id === 'coaching')
   assert.equal(coaching.cta.href, INCLUDED_SESSION_CTA.href)

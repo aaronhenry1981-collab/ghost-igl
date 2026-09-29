@@ -68,12 +68,10 @@ export const PLAN_FEATURES = Object.freeze({
 
 export const COACHING_SESSIONS_PER_MONTH = Object.freeze({ free: 0, pro: 0, elite: 0, champion: 2 })
 
-// Audit P0-3: the coaching page never sends a sign-in token, so it cannot
-// apply included sessions or credits and sends every booking to card
-// checkout. Until self-serve redemption exists, anything that invites a
-// member to USE an included session or credit goes to Support instead, so
-// nobody is charged for what their plan includes.
-export const INCLUDED_SESSION_CTA = Object.freeze({ label: 'Use an included session', href: '/support?category=coaching_credits' })
+// Audit P0-3 (closed 2026-09-29): the coaching page sends the member's
+// sign-in token, so a signed-in member with an included session books it
+// with no card or checkout (lambda/booking type 'included').
+export const INCLUDED_SESSION_CTA = Object.freeze({ label: 'Book an included session', href: '/coaching/index.html#book' })
 
 const LIVE_STATUSES = new Set(['active', 'trialing'])
 const PAYMENT_ISSUE_STATUSES = new Set(['past_due', 'unpaid', 'incomplete'])

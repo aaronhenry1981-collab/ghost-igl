@@ -95,7 +95,7 @@
   </div>
   </div>
   <p style="color:var(--dim);font-size:.9rem;margin-top:12px">Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose Champion at $70/month for two sessions. Pay securely at checkout; booked slots are confirmed with a calendar invite.</p>
-  <p style="color:var(--dim);font-size:.9rem;margin-top:8px"><strong>Already a Champion member?</strong> This page charges a card and does not apply your included sessions yet. Don't book here: <a href="/support?category=coaching_credits">use an included session through Support</a>.</p>
+  <p id="memberNote" style="color:var(--dim);font-size:.9rem;margin-top:8px"><strong>Champion member?</strong> <a href="/auth">Sign in</a> on this device, then come back to this page. Booking below uses one of your included sessions, with no card and no checkout.</p>
 
   <h2>How a session works</h2>
   <p class="sub">Bring screenshots or notes from the rounds you keep losing: what killed you, where, and the pattern across rounds. In the session we watch the moments that matter, fix ONE thing properly, and build the plan for your next queue — with the same strat library and live-coach data RECON6 subscribers use. After the session you get the write-up: the leak, the fix, the drill.</p>
@@ -122,6 +122,9 @@
        .ics + self-serve reschedule/cancel links. The Formspree form below
        survives ONLY as the automatic fallback if the API is unreachable. -->
   <div id="scheduler">
+    <div id="includedBanner" hidden style="background:rgba(92,255,180,.08);border:1px solid var(--cyan);border-radius:10px;padding:10px 14px;margin:0 0 12px">
+      Signed in as <strong id="includedEmail"></strong>: <strong id="includedCount"></strong> included session<span id="includedPlural">s</span> left this month. Pick a time and confirm. Booking uses one; there is no card or checkout. Cancel before the session starts and it comes back.
+    </div>
     <div id="slotArea"><p style="color:var(--dim)">Loading open times…</p></div>
     <div id="holdBar" style="display:none;background:rgba(255,155,92,.12);border:1px solid var(--orange);border-radius:10px;padding:10px 14px;margin:12px 0">
       Holding <strong id="holdSlotLabel"></strong> for you — <span id="holdCountdown">5:00</span> to finish booking.
@@ -138,6 +141,7 @@
       <label for="c-type">Session type</label>
       <select id="c-type" name="type">
         <option value="intro">First Session — $20</option><option value="single">Single Session — $40</option>
+        <option value="included" hidden disabled>Included session (Champion) — uses 1 included session</option>
       </select>
       <label for="c-notes">What's costing you rounds? (optional)</label>
       <textarea id="c-notes" name="notes" rows="3" placeholder="e.g. I keep dying first on attack"></textarea>
@@ -211,6 +215,68 @@
     try { return localStorage.getItem(SRC_KEY) || 'direct'; } catch (e) { return 'direct'; }
   }
   captureRef();
+
+  // ---- Champion included sessions ----
+  // The main app (same origin) keeps its Cognito session in localStorage. Use
+  // its id token, refreshing an expired one with the stored refresh token the
+  // way the Cognito SDK does, so a signed-in member books with an included
+  // session and is never sent to checkout. Signed out = the normal paid flow.
+  var CLIENT_ID = '5bpa1cteenctoue24v4e245re8';
+  var COGNITO_BASE = 'CognitoIdentityServiceProvider.' + CLIENT_ID + '.';
+  function jwtExpMs(t) {
+    try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp * 1000; } catch (e) { return 0; }
+  }
+  function freshIdToken() {
+    var user, idToken, refresh;
+    try {
+      user = localStorage.getItem(COGNITO_BASE + 'LastAuthUser');
+      if (!user) return Promise.resolve(null);
+      idToken = localStorage.getItem(COGNITO_BASE + user + '.idToken');
+      refresh = localStorage.getItem(COGNITO_BASE + user + '.refreshToken');
+    } catch (e) { return Promise.resolve(null); }
+    if (idToken && jwtExpMs(idToken) - Date.now() > 60000) return Promise.resolve(idToken);
+    if (!refresh) return Promise.resolve(null);
+    return fetch('https://cognito-idp.us-east-1.amazonaws.com/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-amz-json-1.1', 'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth' },
+      body: JSON.stringify({ AuthFlow: 'REFRESH_TOKEN_AUTH', ClientId: CLIENT_ID, AuthParameters: { REFRESH_TOKEN: refresh } }),
+    }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      var res = d && d.AuthenticationResult;
+      if (!res || !res.IdToken) return null;
+      try {
+        localStorage.setItem(COGNITO_BASE + user + '.idToken', res.IdToken);
+        if (res.AccessToken) localStorage.setItem(COGNITO_BASE + user + '.accessToken', res.AccessToken);
+      } catch (e) { /* storage blocked: still usable for this request */ }
+      return res.IdToken;
+    }).catch(function () { return null; });
+  }
+  function updateConfirmButton() {
+    document.getElementById('confirmBtn').textContent = document.getElementById('c-type').value === 'included' ? 'Book included session →' : 'Continue to payment →';
+  }
+  document.getElementById('c-type').addEventListener('change', updateConfirmButton);
+  function loadMember() {
+    freshIdToken().then(function (token) {
+      if (!token) return null;
+      return fetch(API + '/booking/my-credits', { headers: { Authorization: 'Bearer ' + token } })
+        .then(function (r) { return r.ok ? r.json() : null; });
+    }).then(function (d) {
+      if (!d || !d.email) return;
+      var email = document.getElementById('c-email');
+      email.value = d.email;
+      if (!(d.credits > 0)) return;
+      email.readOnly = true;
+      document.getElementById('includedEmail').textContent = d.email;
+      document.getElementById('includedCount').textContent = String(d.credits);
+      document.getElementById('includedPlural').style.display = d.credits === 1 ? 'none' : '';
+      document.getElementById('includedBanner').hidden = false;
+      document.getElementById('memberNote').style.display = 'none';
+      var sel = document.getElementById('c-type');
+      var opt = sel.querySelector('option[value="included"]');
+      opt.hidden = false; opt.disabled = false; sel.value = 'included';
+      updateConfirmButton();
+    }).catch(function () { /* booking still works as a paid session */ });
+  }
+  loadMember();
 
   function fallbackToForm() {
     document.getElementById('scheduler').style.display = 'none';
@@ -292,9 +358,13 @@
     errEl.style.display = 'none';
     // Create a Stripe Checkout Session for the chosen type, then redirect. The
     // slot stays held during checkout; payment confirms it (webhook + success
-    // page). A pre-paid package credit confirms directly with no redirect.
-    fetch(API + '/booking/checkout', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+    // page). A signed-in member's included session (or other credit)
+    // confirms directly with no redirect: the sign-in token proves the email.
+    freshIdToken().then(function (token) {
+      var headers = { 'Content-Type': 'application/json' };
+      if (token) headers.Authorization = 'Bearer ' + token;
+      return fetch(API + '/booking/checkout', {
+      method: 'POST', headers: headers,
       body: JSON.stringify({
         slotId: held.slotId, holdToken: held.token, tz: tz,
         name: val('c-name'), email: val('c-email'), discord: val('c-discord'),
@@ -302,16 +372,19 @@
         kb_consent: !!(document.getElementById('c-kbconsent') || {}).checked,
         referral_source: getRef(),
       }),
+      });
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
         if (res.ok && res.d.checkoutUrl) { window.location.href = res.d.checkoutUrl; return; }
         if (res.ok && res.d.booked) {
           if (holdTimer) clearInterval(holdTimer);
           document.getElementById('holdBar').style.display = 'none';
+          document.getElementById('confirmBtn').style.display = 'none';
           var ok = document.getElementById('confirmOk'); ok.style.display = 'block';
           ok.textContent = res.d.viaCredit
-            ? 'Booked with a package credit (' + res.d.creditsLeft + ' left). Calendar invite is in your email.'
+            ? 'Booked with an included session (' + res.d.creditsLeft + ' left this month). No card was charged. Your confirmation and calendar invite are in your email.'
             : 'Booked. Confirmation + calendar invite are in your email.';
+          if (res.d.viaCredit) document.getElementById('includedCount').textContent = String(res.d.creditsLeft);
           return;
         }
         // Returning player (already used the intro) → bump to the $40 single.

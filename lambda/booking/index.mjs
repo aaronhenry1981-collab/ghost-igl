@@ -18,6 +18,8 @@
 //   GET  /booking/slots?days=14        public — open slots (UTC ids)
 //   POST /booking/hold                 public — 5-minute hold {slotId}
 //   POST /booking/confirm              retired — payment/credit proof is required
+//   POST /booking/checkout             public — paid checkout, or an included/package credit when signed in
+//   GET  /booking/my-credits           signed-in — included-session balance
 //   GET  /booking/manage?token=        public — booking info for the manage page
 //   POST /booking/manage               public — {token, action: cancel|reschedule, newSlotId?}
 //   GET  /admin/bookings               admin  — upcoming bookings
@@ -52,6 +54,7 @@ const COACHING = {
   single: { price: process.env.COACHING_SINGLE_PRICE_ID || 'price_1TsOsaJNddvjgWcgmalTAfcn', amount: 4000, label: 'Single Session' },
   package: { price: process.env.COACHING_PACKAGE_PRICE_ID || 'price_1TsOswJNddvjgWcgBuf68fSA', amount: 14000, label: '4-Session Package' },
 }
+const INCLUDED_SESSION = { label: 'Included session (Champion)' }
 const PACKAGE_SESSIONS = 4 // legacy à-la-carte package (archived); kept for old rows
 // Reconciled model: the $70/mo add-on grants a fixed monthly credit balance.
 const COACHING_ADDON_PRICE_ID = process.env.COACHING_ADDON_PRICE_ID || 'price_1TsZtQJNddvjgWcgwPKVEYQm'
@@ -534,14 +537,21 @@ async function confirmHeldWithCredit(slotId, holdToken, email) {
   }
   const manageToken = createManageToken(slotId)
   const now = new Date().toISOString()
+  // Record which credit cycle paid for the session (membership credits are
+  // SET each month, no rollover) so a cancellation can return the credit only
+  // to that same cycle. The condition pins the cycle read here.
+  const creditRow = (await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: creditKey(email) } }))).Item
+  const creditValidUntil = creditRow?.validUntil || null
   try {
     await ddb.send(new TransactWriteCommand({
       TransactItems: [
         { Update: {
           TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
           UpdateExpression: 'SET credits = credits - :one, updatedAt = :t',
-          ConditionExpression: 'attribute_exists(credits) AND credits >= :one AND (attribute_not_exists(validUntil) OR validUntil >= :t)',
-          ExpressionAttributeValues: { ':one': 1, ':t': now },
+          ConditionExpression: creditValidUntil
+            ? 'attribute_exists(credits) AND credits >= :one AND validUntil = :cycle AND validUntil >= :t'
+            : 'attribute_exists(credits) AND credits >= :one AND attribute_not_exists(validUntil)',
+          ExpressionAttributeValues: { ':one': 1, ':t': now, ...(creditValidUntil ? { ':cycle': creditValidUntil } : {}) },
         } },
         { Update: {
           TableName: BOOK_TABLE, Key: { slotId },
@@ -550,7 +560,7 @@ async function confirmHeldWithCredit(slotId, holdToken, email) {
           ExpressionAttributeNames: { '#s': 'status' },
           ExpressionAttributeValues: {
             ':confirmed': 'confirmed', ':held': 'held', ':hold': String(holdToken),
-            ':manage': manageToken, ':t': now, ':payment': { status: 'credit', amount: 0 },
+            ':manage': manageToken, ':t': now, ':payment': { status: 'credit', amount: 0, ...(creditValidUntil ? { creditValidUntil } : {}) },
           },
         } },
       ],
@@ -561,6 +571,47 @@ async function confirmHeldWithCredit(slotId, holdToken, email) {
   const cfg = await getConfig()
   await notifyBooked({ slotId, customer: row.customer || {}, sessionType: row.sessionType, manageToken }, cfg)
   return { ok: true, slotId, creditsLeft: await getCredits(email) }
+}
+
+// Cancel a booking: keep history under a tombstone key, free the slot, and,
+// when `returnCredit` is set and the session was paid with an included credit,
+// give that credit back in the same transaction. The credit only goes back to
+// the cycle that paid for it (payment.creditValidUntil); after the monthly
+// reset it has lapsed like any unused credit. The delete is conditional on the
+// booking being unchanged, so a repeated or concurrent cancel can never
+// return a credit twice. Returns { ok, creditReturned } or { ok: false }.
+async function cancelBooking(b, { returnCredit }) {
+  const at = new Date().toISOString()
+  const tombstone = { TableName: BOOK_TABLE, Item: { ...b, slotId: `${b.slotId}#cancelled#${Date.now()}`, status: 'cancelled', cancelledAt: at }, ConditionExpression: 'attribute_not_exists(slotId)' }
+  const remove = {
+    TableName: BOOK_TABLE, Key: { slotId: b.slotId },
+    ConditionExpression: b.manageToken ? '#s = :st AND manageToken = :m' : '#s = :st',
+    ExpressionAttributeNames: { '#s': 'status' },
+    ExpressionAttributeValues: { ':st': b.status, ...(b.manageToken ? { ':m': b.manageToken } : {}) },
+  }
+  const email = String(b.customer?.email || '').toLowerCase()
+  const cycle = b.payment?.creditValidUntil || null
+  const credit = returnCredit && b.payment?.status === 'credit' && email ? { Update: {
+    TableName: BOOK_TABLE, Key: { slotId: creditKey(email) },
+    UpdateExpression: 'SET credits = credits + :one, updatedAt = :t',
+    ConditionExpression: cycle ? 'attribute_exists(credits) AND validUntil = :cycle' : 'attribute_exists(credits) AND attribute_not_exists(validUntil)',
+    ExpressionAttributeValues: { ':one': 1, ':t': at, ...(cycle ? { ':cycle': cycle } : {}) },
+  } } : null
+  const attempt = (items) => ddb.send(new TransactWriteCommand({ TransactItems: items }))
+  try {
+    await attempt([{ Put: tombstone }, { Delete: remove }, ...(credit ? [credit] : [])])
+    return { ok: true, creditReturned: Boolean(credit) }
+  } catch (err) {
+    const reasons = (err?.CancellationReasons || []).map((r) => r?.Code)
+    // Only the credit's cycle check failed: the credit has lapsed; cancel without it.
+    if (credit && reasons[2] === 'ConditionalCheckFailed' && reasons[0] !== 'ConditionalCheckFailed' && reasons[1] !== 'ConditionalCheckFailed') {
+      try {
+        await attempt([{ Put: tombstone }, { Delete: remove }])
+        return { ok: true, creditReturned: false }
+      } catch { return { ok: false } }
+    }
+    return { ok: false }
+  }
 }
 
 // ---- handler --------------------------------------------------------------------
@@ -638,6 +689,15 @@ export async function handler(event) {
       return resp(200, { holdToken, heldUntil })
     }
 
+    // ---------- signed-in: included-session balance for the coaching page ----------
+    if (method === 'GET' && path.endsWith('/booking/my-credits')) {
+      const identity = await optionalUser(event)
+      const email = String(identity?.email || '').trim().toLowerCase()
+      if (!email) return resp(401, { error: 'sign in required' })
+      const row = (await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: creditKey(email) } }))).Item
+      return resp(200, { email, credits: await getCredits(email), validUntil: row?.validUntil || null })
+    }
+
     // ---------- retired: public confirm (payment bypass in legacy clients) ----------
     if (method === 'POST' && path.endsWith('/booking/confirm')) {
       return resp(410, { error: 'This route is retired. Use checkout so payment or a coaching credit is verified.' })
@@ -652,7 +712,8 @@ export async function handler(event) {
       if (!stripe) return resp(500, { error: 'payments not configured' })
       const { slotId, holdToken, name, email, discord, rank_goal, tz, notes } = body
       const type = String(body.type || '').toLowerCase()
-      const plan = COACHING[type]
+      // 'included' = a Champion's included session: credit only, never checkout.
+      const plan = type === 'included' ? INCLUDED_SESSION : COACHING[type]
       if (!slotId || !holdToken || !email || !name || !plan) return resp(400, { error: 'missing or invalid fields' })
 
       // Server-side first-session gating for the $20 intro.
@@ -697,6 +758,9 @@ export async function handler(event) {
         const r = await confirmHeldWithCredit(slotId, holdToken, creditOwner)
         if (!r.ok) return resp(409, r)
         return resp(200, { booked: true, viaCredit: true, creditsLeft: r.creditsLeft, slotId })
+      }
+      if (type === 'included') {
+        return resp(409, { code: 'no_included_credit', error: 'No included session is available on this account. Sign in with your membership email, or book a paid session.' })
       }
 
       const session = await stripe.checkout.sessions.create({
@@ -799,15 +863,14 @@ export async function handler(event) {
 
       if (action === 'cancel') {
         // Free the slot (PK = slotId) but keep history under a tombstone key.
-        await ddb.send(new PutCommand({
-          TableName: BOOK_TABLE,
-          Item: { ...b, slotId: `${b.slotId}#cancelled#${Date.now()}`, status: 'cancelled', cancelledAt: new Date().toISOString() },
-        }))
-        await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: b.slotId } }))
+        // An included session cancelled before it starts gets its credit back.
+        const beforeStart = Date.parse(b.slotId) > Date.now()
+        const r = await cancelBooking(b, { returnCredit: beforeStart })
+        if (!r.ok) return resp(409, { error: 'This booking changed — reload the page.' })
         await sendMail(b.customer.email, 'Your RECON6 session is cancelled',
-          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\nBook again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
-        for (const a of ALERT_EMAILS) await sendMail(a, `CANCELLED: ${b.slotId}`, `${b.customer.name} <${b.customer.email}> cancelled ${b.sessionType} at ${b.slotId}.`)
-        return resp(200, { cancelled: true })
+          `Cancelled: ${b.sessionType} at ${b.slotId} (UTC).\n${r.creditReturned ? 'Your included session is back on your account.\n' : ''}Book again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
+        for (const a of ALERT_EMAILS) await sendMail(a, `CANCELLED: ${b.slotId}`, `${b.customer.name} <${b.customer.email}> cancelled ${b.sessionType} at ${b.slotId}.${r.creditReturned ? ' Included credit returned.' : ''}`)
+        return resp(200, { cancelled: true, creditReturned: r.creditReturned })
       }
 
       if (action === 'reschedule') {
@@ -817,9 +880,12 @@ export async function handler(event) {
         try {
           await ddb.send(new PutCommand({
             TableName: BOOK_TABLE,
+            // payment/coachingType travel with the booking so a later cancel
+            // still knows it was paid with an included credit.
             Item: {
               slotId: newSlotId, status: 'confirmed', customer: b.customer, sessionType: b.sessionType,
               manageToken: nextManageToken, confirmedAt: new Date().toISOString(), rescheduledFrom: b.slotId,
+              ...(b.payment ? { payment: b.payment } : {}), ...(b.coachingType ? { coachingType: b.coachingType } : {}),
             },
             ConditionExpression: 'attribute_not_exists(slotId)',
           }))
@@ -963,14 +1029,13 @@ export async function handler(event) {
           const g = await ddb.send(new GetCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
           const b = g.Item
           if (!b) return resp(404, { error: 'booking not found' })
-          await ddb.send(new PutCommand({
-            TableName: BOOK_TABLE,
-            Item: { ...b, slotId: `${b.slotId}#cancelled#${new Date().toISOString()}`, status: 'cancelled', cancelledAt: new Date().toISOString() },
-          }))
-          await ddb.send(new DeleteCommand({ TableName: BOOK_TABLE, Key: { slotId: String(slotId) } }))
+          // Coach-cancelled: an included session always gets its credit back
+          // (while its cycle is current).
+          const r = await cancelBooking(b, { returnCredit: true })
+          if (!r.ok) return resp(409, { error: 'booking changed — reload' })
           if (b.customer?.email) await sendMail(b.customer.email, 'Your RECON6 session was cancelled',
-            `Your ${b.sessionType || 'session'} at ${b.slotId} (UTC) was cancelled by the coach.\nBook again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
-          return resp(200, { cancelled: true })
+            `Your ${b.sessionType || 'session'} at ${b.slotId} (UTC) was cancelled by the coach.\n${r.creditReturned ? 'Your included session is back on your account.\n' : ''}Book again any time: ${SITE}/coaching/index.html\n\nAaron — Recon 6`)
+          return resp(200, { cancelled: true, creditReturned: r.creditReturned })
         }
         if (action === 'reschedule') {
           if (!slotId || !newSlotId) return resp(400, { error: 'slotId and newSlotId required' })

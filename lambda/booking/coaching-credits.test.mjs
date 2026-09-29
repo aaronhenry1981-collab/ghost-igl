@@ -242,3 +242,190 @@ test('legacy paid session without hold proof cannot finalize a slot', async () =
   assert.equal(ddbCalls.length, 0, 'missing hold proof must fail before booking state is read or mutated')
   fakeCheckoutSession = null
 })
+
+// ---------- included sessions: self-service redemption, duplicates, cancellation ----------
+
+const CYCLE = '2099-01-31T00:00:00.000Z'
+const FUTURE_SLOT = '2099-01-10T18:00:00.000Z'
+const PAST_SLOT = '2020-01-10T18:00:00.000Z'
+const checkoutCalls = () => sessionsProto.create.mock.calls.length
+const manageTokenFor = (slotId) => {
+  const payload = Buffer.from(JSON.stringify({ slotId, nonce: 'n'.repeat(32) })).toString('base64url')
+  return `${payload}.${crypto.createHmac('sha256', process.env.STRIPE_SECRET_KEY).update(payload).digest('base64url')}`
+}
+const checkoutEvent = (fields, token = 'valid-test-token') => ({
+  requestContext: { http: { method: 'POST' } }, rawPath: '/prod/booking/checkout',
+  headers: token ? { authorization: `Bearer ${token}` } : {},
+  body: JSON.stringify({ slotId: FUTURE_SLOT, holdToken: 'hold-inc', name: 'Player', email: 'player@example.test', type: 'included', ...fields }),
+})
+const cancelled = () => { const e = new Error('cancelled'); e.name = 'TransactionCanceledException'; return e }
+// A held slot plus a membership credit row with `credits` left in cycle CYCLE.
+function heldWorld(credits) {
+  const state = { credits, slot: { slotId: FUTURE_SLOT, status: 'held', holdToken: 'hold-inc', heldUntil: '2099-01-01T00:00:00.000Z' } }
+  ddbResponder = async (name, input) => {
+    if (name === 'GetCommand' && String(input.Key?.slotId || '').startsWith('credits#')) {
+      return { Item: state.credits == null ? null : { credits: state.credits, creditType: 'membership', validUntil: CYCLE } }
+    }
+    if (name === 'GetCommand' && input.Key?.slotId === FUTURE_SLOT) return { Item: { ...state.slot } }
+    if (name === 'UpdateCommand' && input.Key?.slotId === FUTURE_SLOT && /customer/.test(input.UpdateExpression)) {
+      if (state.slot.status !== 'held') { const e = new Error('conditional'); e.name = 'ConditionalCheckFailedException'; throw e }
+      state.slot.customer = input.ExpressionAttributeValues[':cust']
+      return {}
+    }
+    if (name === 'TransactWriteCommand') {
+      const debit = input.TransactItems[0].Update
+      if (state.credits < 1 || debit.ExpressionAttributeValues[':cycle'] !== CYCLE) throw cancelled()
+      state.credits -= 1
+      state.slot = { ...state.slot, status: 'confirmed', payment: input.TransactItems[1].Update.ExpressionAttributeValues[':payment'] }
+      return {}
+    }
+    if (name === 'GetCommand') return { Item: null }
+    return {}
+  }
+  return state
+}
+
+test('included session: signed-in member books with a credit, never card checkout, and the cycle is recorded', async () => {
+  ddbCalls = []
+  const before = checkoutCalls()
+  const state = heldWorld(2)
+  const res = await handler(checkoutEvent({}))
+  assert.equal(res.statusCode, 200)
+  const body = JSON.parse(res.body)
+  assert.equal(body.viaCredit, true)
+  assert.equal(body.creditsLeft, 1)
+  assert.equal(checkoutCalls(), before, 'no Stripe checkout for an included session')
+  const debit = ddbCalls.find((c) => c.name === 'TransactWriteCommand').input.TransactItems[0].Update
+  assert.match(debit.ConditionExpression, /validUntil = :cycle/)
+  assert.equal(state.slot.payment.creditValidUntil, CYCLE)
+  ddbResponder = null
+})
+
+test('included session without a credit (or signed out, or another email) is refused, never charged', async () => {
+  const cases = [['no credit', 'valid-test-token', 'player@example.test', 0], ['signed out', null, 'player@example.test', 2], ['other email', 'valid-test-token', 'someone.else@example.test', 2]]
+  for (const [label, token, email, credits] of cases) {
+    ddbCalls = []
+    const before = checkoutCalls()
+    heldWorld(credits)
+    const res = await handler(checkoutEvent({ email }, token))
+    assert.equal(res.statusCode, 409, label)
+    assert.equal(JSON.parse(res.body).code, 'no_included_credit', label)
+    assert.equal(checkoutCalls(), before, `${label}: no checkout`)
+    assert.ok(!ddbCalls.some((c) => c.name === 'TransactWriteCommand'), `${label}: no credit movement`)
+  }
+  ddbResponder = null
+})
+
+test('a duplicate submission for the same hold books once and takes one credit', async () => {
+  ddbCalls = []
+  const state = heldWorld(2)
+  const first = await handler(checkoutEvent({}))
+  const second = await handler(checkoutEvent({}))
+  assert.equal(first.statusCode, 200)
+  assert.equal(second.statusCode, 409)
+  assert.equal(state.credits, 1)
+  assert.equal(ddbCalls.filter((c) => c.name === 'TransactWriteCommand').length, 1)
+  ddbResponder = null
+})
+
+function bookedWorld(slotId, { payment = { status: 'credit', amount: 0, creditValidUntil: CYCLE }, reasons = null, gone = false } = {}) {
+  const token = manageTokenFor(slotId)
+  const state = { txns: [] }
+  ddbResponder = async (name, input) => {
+    if (name === 'GetCommand' && input.Key?.slotId === slotId) {
+      return { Item: gone ? null : { slotId, status: 'confirmed', manageToken: token, customer: { name: 'Player', email: 'player@example.test' }, sessionType: 'Included session (Champion)', payment } }
+    }
+    if (name === 'TransactWriteCommand') {
+      state.txns.push(input.TransactItems)
+      if (reasons && (reasons.length === input.TransactItems.length)) {
+        const e = cancelled(); e.CancellationReasons = reasons.map((Code) => ({ Code })); throw e
+      }
+      return {}
+    }
+    if (name === 'GetCommand') return { Item: null }
+    return {}
+  }
+  return { token, state }
+}
+const manageEvent = (token, action = 'cancel', extra = {}) => ({
+  requestContext: { http: { method: 'POST' } }, rawPath: '/prod/booking/manage',
+  body: JSON.stringify({ token, action, ...extra }),
+})
+
+test('cancelling an included session before it starts returns the credit to the same cycle, atomically', async () => {
+  ddbCalls = []
+  const { token, state } = bookedWorld(FUTURE_SLOT)
+  const res = await handler(manageEvent(token))
+  assert.equal(res.statusCode, 200)
+  assert.equal(JSON.parse(res.body).creditReturned, true)
+  assert.equal(state.txns.length, 1)
+  const [put, del, credit] = state.txns[0]
+  assert.match(put.Put.ConditionExpression, /attribute_not_exists\(slotId\)/)
+  assert.match(del.Delete.ConditionExpression, /#s = :st AND manageToken = :m/)
+  assert.match(credit.Update.UpdateExpression, /credits \+ :one/)
+  assert.equal(credit.Update.ExpressionAttributeValues[':cycle'], CYCLE)
+  ddbResponder = null
+})
+
+test('cancelling after the start time, or a paid session, returns no credit', async () => {
+  const cases = [['after start', PAST_SLOT, undefined], ['paid session', FUTURE_SLOT, { status: 'paid', amount: 4000 }]]
+  for (const [label, slot, payment] of cases) {
+    ddbCalls = []
+    const { token, state } = bookedWorld(slot, payment ? { payment } : {})
+    const res = await handler(manageEvent(token))
+    assert.equal(res.statusCode, 200, label)
+    assert.equal(JSON.parse(res.body).creditReturned, false, label)
+    assert.equal(state.txns[0].length, 2, `${label}: tombstone + delete only`)
+  }
+  ddbResponder = null
+})
+
+test('after the monthly reset the credit has lapsed: the cancel goes through without it', async () => {
+  ddbCalls = []
+  const { token, state } = bookedWorld(FUTURE_SLOT, { reasons: ['None', 'None', 'ConditionalCheckFailed'] })
+  const res = await handler(manageEvent(token))
+  assert.equal(res.statusCode, 200)
+  assert.equal(JSON.parse(res.body).creditReturned, false)
+  assert.deepEqual(state.txns.map((t) => t.length), [3, 2])
+  ddbResponder = null
+})
+
+test('a cancel of an already-cancelled booking is refused and returns nothing', async () => {
+  ddbCalls = []
+  const { token } = bookedWorld(FUTURE_SLOT, { gone: true })
+  const res = await handler(manageEvent(token))
+  assert.equal(res.statusCode, 404)
+  assert.ok(!ddbCalls.some((c) => c.name === 'TransactWriteCommand'))
+  ddbResponder = null
+})
+
+test('a concurrent cancel that loses the race returns no credit and does not retry', async () => {
+  ddbCalls = []
+  const { token, state } = bookedWorld(FUTURE_SLOT, { reasons: ['None', 'ConditionalCheckFailed', 'None'] })
+  const res = await handler(manageEvent(token))
+  assert.equal(res.statusCode, 409)
+  assert.equal(state.txns.length, 1)
+  ddbResponder = null
+})
+
+test('rescheduling keeps the credit payment so a later cancel can return it', async () => {
+  ddbCalls = []
+  const { token } = bookedWorld(FUTURE_SLOT)
+  const slots = JSON.parse((await handler({ requestContext: { http: { method: 'GET' } }, rawPath: '/prod/booking/slots' })).body).slots || []
+  assert.ok(slots.length, 'the default availability config yields open slots')
+  const res = await handler(manageEvent(token, 'reschedule', { newSlotId: slots[0] }))
+  assert.equal(res.statusCode, 200)
+  const put = ddbCalls.find((c) => c.name === 'PutCommand' && c.input.Item?.slotId === slots[0])
+  assert.deepEqual(put.input.Item.payment, { status: 'credit', amount: 0, creditValidUntil: CYCLE })
+  ddbResponder = null
+})
+
+test('GET /booking/my-credits needs a signed-in member', async () => {
+  heldWorld(2)
+  const anon = await handler({ requestContext: { http: { method: 'GET' } }, rawPath: '/prod/booking/my-credits', headers: {} })
+  assert.equal(anon.statusCode, 401)
+  const me = await handler({ requestContext: { http: { method: 'GET' } }, rawPath: '/prod/booking/my-credits', headers: { authorization: 'Bearer valid-test-token' } })
+  assert.equal(me.statusCode, 200)
+  assert.deepEqual(JSON.parse(me.body), { email: 'player@example.test', credits: 2, validUntil: CYCLE })
+  ddbResponder = null
+})

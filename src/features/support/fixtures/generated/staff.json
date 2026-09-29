@@ -5518,7 +5518,7 @@
         ],
         "draftReply": {
           "kind": "inference",
-          "text": "Good question. This guide covers the basics: Can I upload match replays?. Here is the short version for your account, and reply if anything is unclear.",
+          "text": "Good question. This guide covers the basics: Get better results from AI VOD review. Here is the short version for your account, and reply if anything is unclear.",
           "guard": {
             "ok": true,
             "violations": []
@@ -5528,15 +5528,15 @@
         "helpArticles": [
           {
             "kind": "inference",
-            "slug": "match-replays",
-            "title": "Can I upload match replays?",
+            "slug": "get-better-vod-results",
+            "title": "Get better results from AI VOD review",
             "status": "reviewed",
             "basis": "help search ranking"
           },
           {
             "kind": "inference",
-            "slug": "get-better-vod-results",
-            "title": "Get better results from AI VOD review",
+            "slug": "match-replays",
+            "title": "Can I upload match replays?",
             "status": "reviewed",
             "basis": "help search ranking"
           },
@@ -13762,15 +13762,15 @@
           },
           {
             "kind": "inference",
-            "slug": "sign-in-and-password-help",
-            "title": "Sign-in, confirmation code and password help",
+            "slug": "coaching-credits",
+            "title": "Coaching credits and booking sessions",
             "status": "reviewed",
             "basis": "help search ranking"
           },
           {
             "kind": "inference",
-            "slug": "upload-a-vod-for-ai-review",
-            "title": "Upload a VOD for AI review",
+            "slug": "sign-in-and-password-help",
+            "title": "Sign-in, confirmation code and password help",
             "status": "reviewed",
             "basis": "help search ranking"
           }
