@@ -98,6 +98,10 @@ function mapsResponse() {
   return `**Recon 6 — Map Pool**\n\n__Ranked rotation:__\n${ranked}\n\n__Other maps:__ ${other}\n\nUse \`/strat <map>\` for bomb sites.`
 }
 
+// A site whose plan was withdrawn (maps.mjs `unavailable`): say so, link and
+// list nothing, and never offer tactics for it.
+const WITHDRAWN = 'plan withdrawn. Ubisoft moved this bomb site in Y11S3 and a new plan will be published once it is verified from current gameplay.'
+
 function stratResponse(interaction) {
   const opts = interaction.data?.options || []
   const mapOpt = opts.find((o) => o.name === 'map')
@@ -110,7 +114,9 @@ function stratResponse(interaction) {
   if (!map) return `No map matching "${mapOpt.value}". Try \`/maps\` for the list.`
 
   const sites = map.sites
-    .map((s) => `• **${s.floor}** — [${s.name}](${INFO_URL}/#/strats/${map.id}/${s.id}/attack)`)
+    .map((s) => (s.unavailable
+      ? `• **${s.floor}** — ${s.name}: ${WITHDRAWN}`
+      : `• **${s.floor}** — [${s.name}](${INFO_URL}/#/strats/${map.id}/${s.id}/attack)`))
     .join('\n')
   return `**${map.name}** bomb sites:\n${sites}\n\nFull strat breakdown at ${INFO_URL}/#/strats/${map.id} (Pro+).`
 }
@@ -179,6 +185,7 @@ function calloutsResponse(interaction) {
   )
   if (!site) return `No site matching "${siteOpt.value}" on ${map.name}. Try just \`/callouts map:${map.id}\`.`
 
+  if (site.unavailable) return `**${map.name} — ${site.name}**: ${WITHDRAWN}`
   const tags = CALLOUTS[map.id]?.[site.id]
   if (!tags) {
     return `No callouts cached yet for **${map.name} — ${site.name}**. Full breakdown at ${INFO_URL}/#/strats/${map.id}/${site.id}/attack`
@@ -239,3 +246,6 @@ function helpResponse() {
     '`/help` — this message',
   ].join('\n')
 }
+
+// Exported for tests (withdrawn-site handling); the handler is the only caller in production.
+export { stratResponse, calloutsResponse }

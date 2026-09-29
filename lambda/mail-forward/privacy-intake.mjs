@@ -27,7 +27,9 @@ export function classifyPrivacyRequest(subject, text) {
   const del = DELETE.test(t)
   const exp = EXPORT.test(t)
   const isRequest = TRIGGER.test(t) || del || exp
-  const kind = del ? 'deletion' : exp ? 'export' : 'unspecified'
+  // Asking for a copy AND deletion is one combined request: the export part
+  // must be done before the deletion (privacy-request.mjs enforces it).
+  const kind = del && exp ? 'export+deletion' : del ? 'deletion' : exp ? 'export' : 'unspecified'
   return { isRequest, kind }
 }
 

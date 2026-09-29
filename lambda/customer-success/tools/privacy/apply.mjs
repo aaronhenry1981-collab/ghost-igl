@@ -2,10 +2,32 @@
 // it re-collected the data, re-built the plan, checked the plan id and the
 // typed confirmation, and found no blockers. Cognito accounts go last so a
 // failure part-way leaves the person able to sign in and ask again.
-import { DeleteCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
-import { AdminDeleteUserCommand } from '@aws-sdk/client-cognito-identity-provider'
+import { DeleteCommand, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { AdminDeleteUserCommand, AdminGetUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { randomUUID } from 'node:crypto'
 import { reviewArchiveHash } from './sources.mjs'
+
+// Re-read every record the plan targeted (consistent reads) and the Cognito
+// accounts. A deletion is only "done" when each deleted row is gone, each
+// anonymised row no longer has the removed fields, and each account is gone.
+export async function verifyDeletionPlan({ plan, ddb, cognito, userPoolId }) {
+  const remaining = []
+  for (const a of plan.actions) {
+    if (a.op === 'cognito-delete') {
+      try {
+        await cognito.send(new AdminGetUserCommand({ UserPoolId: userPoolId, Username: a.username }))
+        remaining.push({ op: a.op, table: 'cognito' })
+      } catch (err) {
+        if (err?.name !== 'UserNotFoundException') remaining.push({ op: a.op, table: 'cognito', error: err?.name || 'Error' })
+      }
+      continue
+    }
+    const item = (await ddb.send(new GetCommand({ TableName: a.table, Key: a.key, ConsistentRead: true }))).Item
+    if (a.op === 'delete' && item) remaining.push({ op: a.op, table: a.table, key: a.key })
+    if (a.op === 'anonymize' && item && a.remove.some((f) => item[f] !== undefined)) remaining.push({ op: a.op, table: a.table, key: a.key })
+  }
+  return { verified: remaining.length === 0, checked: plan.actions.length, remaining }
+}
 
 export async function applyDeletionPlan({ plan, ddb, cognito, userPoolId, actor, auditTable = 'ghost-igl-audit-log', now = () => new Date() }) {
   if (plan.blockers.length) throw new Error(`plan is blocked: ${plan.blockers.join('; ')}`)
@@ -29,10 +51,12 @@ export async function applyDeletionPlan({ plan, ddb, cognito, userPoolId, actor,
       console.error(`FAILED ${a.op} ${a.table || 'cognito'}: ${err?.name || 'Error'}`)
     }
   }
-  // The audit entry names the request by hash only, never the email.
+  const verification = await verifyDeletionPlan({ plan, ddb, cognito, userPoolId })
+  // The audit entry names the request by hash only, never the email, and
+  // records whether the removal was verified (counts only).
   await ddb.send(new PutCommand({
     TableName: auditTable,
-    Item: { id: randomUUID(), timestamp: now().toISOString(), actor: actor || 'privacy-tool', action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(plan.email)}`, details: { planId: plan.planId, counts: plan.counts, result: done } },
+    Item: { id: randomUUID(), timestamp: now().toISOString(), actor: actor || 'privacy-tool', action: 'privacy.delete', target: `email_hash:${reviewArchiveHash(plan.email)}`, details: { planId: plan.planId, counts: plan.counts, result: done, verification: { verified: verification.verified, checked: verification.checked, remaining: verification.remaining.length } } },
   }))
-  return done
+  return { ...done, verification }
 }
