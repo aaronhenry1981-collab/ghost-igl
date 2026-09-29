@@ -1,0 +1,63 @@
+# Handling privacy requests (access, export, deletion)
+
+The Privacy page tells players to email **support@r6coaching.com** from their account email, with "Privacy request" in the subject. That is the only r6coaching.com address that receives mail; before 2026-09-28 the page named privacy@, which never received anything.
+
+## 1. Verify the requester
+
+- Act only on a request sent from the account's email address.
+- If it came from another address, reply there and ask them to write from the account email.
+- Never export or delete on the strength of a name, gamertag or payment detail alone.
+
+## 2. Export (a copy of their data)
+
+The tool lives in the repo at `lambda/customer-success/tools/privacy-request.mjs` and runs with your own AWS credentials. It only reads:
+
+```powershell
+cd C:\IronFront_Master\ghost-igl-production\lambda\customer-success
+npm ci
+node tools/privacy-request.mjs export player@example.com --out C:\IronFront_Master\recon6-recovery\privacy-requests
+```
+
+It collects:
+- the Cognito account attributes;
+- the profile;
+- membership rows;
+- the CRM log;
+- referrals;
+- Road to Champion;
+- coaching events and bookings;
+- the AI-review archive (matched by email hash);
+- support and customer-success records;
+- player-data.
+
+The file is named by a hash of the email. Keep it outside the repository, send it only to the verified email, then delete your local copy.
+
+Payment records live at Stripe (the payment processor). For those, point the player to Stripe's receipts, or export them from the Stripe Dashboard.
+
+## 3. Deletion
+
+```powershell
+node tools/privacy-request.mjs preview-delete player@example.com
+```
+
+The preview lists what would be deleted, anonymised or blocked. It stays blocked while:
+- **the player has a live membership:** cancel it in Stripe first;
+- **the account is an admin.**
+
+Booking slots stay on the schedule with the customer details removed; everything else that belongs to the player is deleted, Cognito account last. To apply exactly that preview:
+
+```powershell
+node tools/privacy-request.mjs apply-delete player@example.com --plan <planId> --confirm "DELETE ALL DATA FOR player@example.com"
+```
+
+- **A preview is single-use.** If anything changed since it was taken, the plan id no longer matches and nothing runs; take a new preview.
+- **Audit.** The audit log records the request by email hash only.
+- **Manual step:** delete the listed Stripe customer(s) in the Stripe Dashboard if the request covers payment data.
+
+## 4. Reply
+
+Confirm to the player what was exported or deleted. The Privacy page commits to deletion within 30 days of the request.
+
+## Still to decide (audit P0-10)
+
+- **AI-review archive retention.** The archive (`recon6-review-archive`) keeps each review's analysis with a hashed email and no expiry. The tool deletes a person's rows on request, but a standing retention period, and saying so on the Privacy page, is a business decision.

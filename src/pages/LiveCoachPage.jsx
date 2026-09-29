@@ -12,6 +12,7 @@ import ProGate from '../components/strats/ProGate'
 import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import { track } from '../utils/analytics'
 import './LiveCoachPage.css'
+import SiteNotice from '../components/strats/SiteNotice'
 
 // Live Coach — Aaron's "in-match walkthrough" feature.
 //
@@ -596,6 +597,7 @@ function R6LiveCoachReady({ catalog }) {
         </div>
         <h2>{instructionTitle}</h2>
         <p>{instructionBody}</p>
+        {currentSite && <SiteNotice mapId={mapId} siteId={currentSite.id} compact />}
         {selectedOpName && coachLoadout && (
           <div className="live-coach-now-loadout">
             <strong>Bring:</strong> {coachLoadout.primary?.split(' or ')[0] || coachLoadout.primary}

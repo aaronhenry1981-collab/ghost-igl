@@ -4,6 +4,7 @@ import MAPS from '../data/maps'
 import STRATS from '../data/public-strats.generated'
 import BANS from '../data/public-bans.generated'
 import './EmbedMatchPrepPage.css'
+import SiteNotice from '../components/strats/SiteNotice'
 
 // Embeddable Match Prep widget — designed for iframe embedding on other
 // R6 content sites. Strips ALL site chrome (no navbar, no footer, no
@@ -104,6 +105,7 @@ export default function EmbedMatchPrepPage() {
                   <h3>{site.name}</h3>
                   {site.floor && <span>{site.floor}</span>}
                 </header>
+                <SiteNotice mapId={mapId} siteId={site.id} compact />
                 {attackOps && (
                   <div className="embed-site-row">
                     <span className="embed-site-label atk">ATK</span>

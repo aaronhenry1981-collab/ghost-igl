@@ -25,6 +25,14 @@ function escape(s) {
     .replace(/"/g, '&quot;')
 }
 
+// A visible notice on a site whose plan is known to be out of date (maps.js
+// `notice`, e.g. a bomb site Ubisoft moved in a season update).
+function siteNoticeHtml(site) {
+  if (!site?.notice) return ''
+  const since = site.notice.since ? ` in ${escape(site.notice.since)}` : ''
+  return `<p class="site-notice" role="note" style="border:1px solid rgba(255,196,92,.55);background:rgba(255,196,92,.1);border-radius:8px;padding:.7rem .9rem;color:#ffe2a8"><strong style="color:#ffc45c">Layout changed${since}.</strong> ${escape(site.notice.text)}</p>`
+}
+
 function htmlShell({ title, description, canonical, bodyInner, extraHead = '', ogImage, jsonLd, breadcrumbs }) {
   const ogImageUrl = ogImage || `${SITE_URL}/og-image.png`
   // Compose JSON-LD: optional Article + optional BreadcrumbList. Both improve
@@ -169,7 +177,7 @@ function renderMapGuide(map) {
       const canonicalSite = `${SITE_URL}/strats/${map.id}/${site.id}/attack`
       return `
         <section class="site" id="${escape(site.id)}">
-          <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>
+          <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>${siteNoticeHtml(site)}
           ${renderSide('attack', strat.attack)}
           ${renderSide('defense', strat.defense)}
           <a class="deep-link" href="${canonicalSite}">Open full interactive strat &rarr;</a>
@@ -270,7 +278,7 @@ function renderSiteGuide(map, site) {
       <span>${escape(site.name)}</span>
     </nav>
     <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(230,233,239,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
-    <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>
+    <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>${siteNoticeHtml(site)}
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
 
     <section class="site" id="${escape(site.id)}">

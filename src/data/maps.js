@@ -306,7 +306,10 @@ const MAPS = [
       { id: 'aviator-games', name: 'Aviator Room / Games Room', floor: '2F' },
       { id: 'trophy-statuary', name: 'Trophy Room / Statuary Room', floor: '2F' },
       { id: 'kitchen-dining', name: 'Kitchen / Dining Room', floor: '1F' },
-      { id: 'living-library', name: 'Living Room / Library', floor: '1F' },
+      // Y11S3 (Operation Split Fire) moved this bomb site downstairs (Ubisoft
+      // season page). The plan below predates that; it stays visible with a
+      // notice until it is re-verified from footage. See siteNotices.js.
+      { id: 'living-library', name: 'Living Room / Library', floor: '1F', notice: { kind: 'layout_changed', since: 'Y11S3', text: 'Ubisoft moved this bomb site downstairs in Y11S3 (Operation Split Fire). This plan was written for the old layout and has not been re-verified yet, so treat it as reference only.' } },
     ],
   },
   // Y11S2 Operation System Override — Calypso Casino (released June 2, 2026).

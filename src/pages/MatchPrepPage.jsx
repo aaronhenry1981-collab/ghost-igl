@@ -11,6 +11,7 @@ import { foundingPromisePhrase, isFoundingOpen } from '../config/founding'
 import FoundingCountdown from '../components/FoundingCountdown'
 import { track } from '../utils/analytics'
 import './MatchPrepPage.css'
+import SiteNotice from '../components/strats/SiteNotice'
 
 // Match Prep — a one-screen pre-round prep card. The buyer's question
 // is "what do I need to know in the 90 seconds before I ready up?". This
@@ -466,6 +467,7 @@ function R6MatchPrepPage() {
                     <h4>{site.name}</h4>
                     {site.floor && <span className="match-prep-site-floor">{site.floor}</span>}
                   </header>
+                  <SiteNotice mapId={mapId} siteId={site.id} compact />
                   {callouts.length > 0 && (
                     <div className="match-prep-site-row">
                       <span className="match-prep-row-label">Callouts</span>

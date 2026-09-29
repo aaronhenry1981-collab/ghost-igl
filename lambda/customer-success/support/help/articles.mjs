@@ -116,7 +116,7 @@ export const ARTICLES = Object.freeze([
       '## Which value Recon shows',
       'Recon prefers a value from the last 24 hours, then the more trusted source (official data over your own input), then the most recent. Anything older than a day is treated as stale, and values you reported yourself stay labelled as self-reported.',
       '## Your data',
-      'Your history isn\'t shared with other players. Recon staff can see it when helping you. For a copy of your data or to ask for it to be deleted, follow the Privacy page: email privacy@r6coaching.com from your account email.',
+      'Your history isn\'t shared with other players. Recon staff can see it when helping you. For a copy of your data or to ask for it to be deleted, follow the Privacy page: email support@r6coaching.com from your account email with "Privacy request" in the subject.',
     ].join('\n'),
     ...REVIEWED,
     sources: ['docs/RECON-PLAYER-DATA-FOUNDATION.md', 'lambda/player-data/core.mjs', 'lambda/player-data/index.mjs', 'src/pages/PrivacyPage.jsx'],

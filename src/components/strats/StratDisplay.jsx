@@ -9,6 +9,7 @@ import ProGate from './ProGate'
 import ChampionGate from './ChampionGate'
 import TacticalRoundPlan from './TacticalRoundPlan'
 import GameplayDecisionGallery from './GameplayDecisionGallery'
+import SiteNotice from './SiteNotice'
 import { useUserRole, operatorFitsRole } from '../../hooks/useUserRole'
 import { operatorContextUrl } from '../../lib/loadoutFlow'
 
@@ -115,6 +116,7 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
 
   return (
     <div className="strat-display">
+      <SiteNotice mapId={mapId} siteId={siteId} />
       <div
         className="strat-beta-notice"
         role="note"
