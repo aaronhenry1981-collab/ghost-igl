@@ -103,3 +103,16 @@ test('apply deletes, anonymises, removes Cognito last, and audits by hash only',
   assert.equal(audit.action, 'privacy.delete')
   assert.ok(!JSON.stringify(audit).includes(EMAIL), 'the audit entry never names the email')
 })
+
+test('register: manual rows get a 30-day due date; completion matches by email and kind', async () => {
+  const { manualRow, satisfiedBy, daysLeft, emailHash } = await import('./register.mjs')
+  const row = manualRow({ email: ' Player.X@Example.test ', kind: 'deletion', receivedAt: '2026-09-29T10:00:00.000Z' })
+  assert.match(row.request_id, /^PR-20260929-[0-9a-f]{6}$/)
+  assert.equal(row.due_at, '2026-10-29T10:00:00.000Z')
+  assert.equal(row.email_hash, emailHash(EMAIL))
+  assert.equal(daysLeft(row, Date.parse('2026-10-19T10:00:00.000Z')), 10)
+  assert.throws(() => manualRow({ email: EMAIL, kind: 'nonsense', receivedAt: '2026-09-29' }), /--kind/)
+  const rows = [row, { ...row, request_id: 'PR-x', kind: 'export' }, { ...row, request_id: 'PR-y', status: 'completed' }, { ...row, request_id: 'PR-z', email_hash: 'other' }]
+  assert.deepEqual(satisfiedBy(rows, EMAIL, 'delete').map((r) => r.request_id), [row.request_id])
+  assert.deepEqual(satisfiedBy(rows, EMAIL, 'export').map((r) => r.request_id), ['PR-x'])
+})
