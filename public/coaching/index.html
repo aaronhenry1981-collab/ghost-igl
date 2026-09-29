@@ -14,7 +14,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"RECON6 Rainbow Six Siege Coaching","serviceType":"Esports coaching (Rainbow Six Siege)","provider":{"@type":"Organization","name":"RECON6","url":"https://r6coaching.com"},"areaServed":"Online","description":"AI-augmented 1-on-1 Rainbow Six Siege coaching: VOD review, live-coached ranked plans, and measurable death-cause tracking. First session 50% off ($20).","offers":[{"@type":"Offer","name":"Single Session (per session)","price":"40","priceCurrency":"USD"},{"@type":"Offer","name":"Champion Membership (/month · 2 sessions)","price":"70","priceCurrency":"USD"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does \"AI-augmented\" actually mean?","acceptedAnswer":{"@type":"Answer","text":"You get a human coach working with a full AI staff. Every session uses the RECON6 stack: AI VOD breakdowns of your rounds, death-cause analysis across your sessions, and the same live-coach system that calls bans, picks, and setups in real matches. The AI finds the pattern; your coach fixes it with you. Nothing about it is hidden — the AI is the point."}},{"@type":"Question","name":"What happens in the first session?","acceptedAnswer":{"@type":"Answer","text":"A full hour. You bring 2-3 clips or screenshots of rounds you lost, we break down the decisions that cost you rounds, and you leave with a concrete plan for your next queue. Your first session is 50% off the $40 single rate — just $20. After that, book a $40 single or choose Champion at $70/month for two sessions."}},{"@type":"Question","name":"Is this boosting?","acceptedAnswer":{"@type":"Answer","text":"No. Nobody touches your account, ever. You earn every rank — coaching just stops you from making the same mistake five matches in a row."}},{"@type":"Question","name":"Console or PC?","acceptedAnswer":{"@type":"Answer","text":"Both. Your coach plays ranked on PS5 with a capture-card coaching setup, so console players get coached by someone who actually plays with their input and their lobbies. PC works exactly the same."}},{"@type":"Question","name":"How do sessions get scheduled and paid?","acceptedAnswer":{"@type":"Answer","text":"Pick an open time on the calendar and pay securely through Stripe. Your first session is $20; later single sessions are $40. A booked slot is confirmed with a calendar invite."}},{"@type":"Question","name":"What rank do I need to be?","acceptedAnswer":{"@type":"Answer","text":"Any rank. Copper through Champion, the process is the same: identify one decision pattern that is costing rounds, practice the correction, and review the evidence in your next games."}}]}</script>
 <style>
-  :root { --bg:#0a0e17; --panel:#111827; --line:#1f2a3f; --cyan:#00e5ff; --text:#dbe4f0; --dim:#8b98ab; --orange:#ff9b5c; }
+  :root { --bg:#111110; --panel:#1d1c1b; --line:#31302d; --cyan:#f07430; --text:#dbe4f0; --dim:#a59e91; --orange:#ff9b5c; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; }
   .wrap { max-width:960px; margin:0 auto; padding:48px 20px 80px; }
@@ -23,17 +23,17 @@
   h2 { font-size:1.3rem; color:var(--cyan); margin:44px 0 14px; }
   .sub { color:var(--dim); font-size:1.05rem; max-width:680px; }
   .btn { display:inline-block; padding:12px 22px; border-radius:10px; border:1px solid var(--cyan); color:var(--cyan); text-decoration:none; font-weight:700; margin-top:10px; }
-  .btn.primary { background:var(--cyan); color:#04222a; }
+  .btn.primary { background:var(--cyan); color:#181716; }
   .selector { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px; margin:30px 0; }
   .selector .row { display:flex; gap:14px; flex-wrap:wrap; align-items:end; }
   .selector label { display:block; font-size:.85rem; color:var(--dim); margin-bottom:4px; }
-  .selector select { background:#0d1320; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; min-width:170px; }
+  .selector select { background:#171716; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; min-width:170px; }
   #reco { margin-top:14px; font-size:1.02rem; }
   #reco strong { color:var(--orange); }
   .tiers { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
   .tier { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; position:relative; }
   .tier.featured { border-color:var(--cyan); }
-  .tier .tag { position:absolute; top:-10px; left:16px; background:var(--cyan); color:#04222a; font-size:.7rem; font-weight:800; padding:2px 10px; border-radius:999px; letter-spacing:.06em; }
+  .tier .tag { position:absolute; top:-10px; left:16px; background:var(--cyan); color:#181716; font-size:.7rem; font-weight:800; padding:2px 10px; border-radius:999px; letter-spacing:.06em; }
   .tier h3 { margin-bottom:4px; }
   .price { font-size:1.6rem; font-weight:800; color:var(--cyan); }
   .price span { font-size:.8rem; color:var(--dim); font-weight:400; }
@@ -43,8 +43,8 @@
   details p { margin-top:10px; color:var(--dim); }
   form { background:var(--panel); border:1px solid var(--cyan); border-radius:14px; padding:24px; margin-top:16px; }
   form label { display:block; font-size:.85rem; color:var(--dim); margin:12px 0 4px; }
-  form input, form select, form textarea { width:100%; background:#0d1320; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; }
-  form button { margin-top:18px; width:100%; padding:14px; background:var(--cyan); color:#04222a; font-weight:800; font-size:1.05rem; border:none; border-radius:10px; cursor:pointer; }
+  form input, form select, form textarea { width:100%; background:#171716; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; }
+  form button { margin-top:18px; width:100%; padding:14px; background:var(--cyan); color:#181716; font-weight:800; font-size:1.05rem; border:none; border-radius:10px; cursor:pointer; }
   .ok { color:#7ee2a4; margin-top:12px; display:none; }
   footer { margin-top:52px; color:var(--dim); font-size:.85rem; border-top:1px solid var(--line); padding-top:18px; }
 </style>
