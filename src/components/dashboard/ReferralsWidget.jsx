@@ -91,7 +91,7 @@ export default function ReferralsWidget() {
   if (qualifies_for_comp) {
     // No billing credit is applied automatically (no code applies one), so
     // this banner must not promise that. The referral record is unchanged.
-    banner = { tone: 'success', label: 'Referral goal reached', text: 'Your referrals are recorded. The free-month credit is not applied to your bill automatically; email support@r6coaching.com about your credit.' }
+    banner = { tone: 'success', label: 'Free month earned', text: 'Your referrals are recorded. We add the free-month credit to your account by hand (it is not automatic yet). If it is not on your next bill, email support@r6coaching.com.' }
   } else if (is_founding_referrer && founding_window_open) {
     banner = { tone: 'accent', label: 'Founding referrer · locked for life', text: 'You’re grandfathered into the referral program at your current tier forever — even after it restricts to Champion+ only.' }
   } else if (is_founding_referrer && !founding_window_open) {

@@ -23,7 +23,7 @@ All articles say "open a case from Support" (the account-menu label), not "Get H
 ## Held for a decision (not published)
 
 1. **Billing-portal capabilities.** Whether players can cancel, update the card and see invoices in the portal is set in the Stripe Dashboard, not in code. The article only says "Manage billing opens Stripe's secure billing portal". Confirm the portal settings, then add the capabilities.
-2. **Data export and deletion.** The Privacy page promises deletion "within 30 days" through privacy@r6coaching.com. No code deletes player-data records (there is no delete route), and a self-serve export API exists that no page uses. The article points to the Privacy page without repeating the timeline. Decide the process (audit P0-10).
+2. **Data export and deletion (resolved 2026-09-28).** An operator tool now handles export and deletion (`lambda/customer-success/tools/privacy-request.mjs`, runbook in `docs/PRIVACY-REQUESTS.md`). The Privacy page's contact was `privacy@r6coaching.com`, which never received mail; it now points to support@. The article points there too.
 3. **AI-review retention.** The VOD Lambda writes the full analysis to a `recon6-review-archive` table, with a hashed email and no images and no expiry. The Privacy page doesn't disclose this, and it still mentions video uploads. The article says only what the player can see (a short summary; the full report can't be reopened). Decide retention and update the Privacy page (audit P0-10).
 4. **How Champions redeem included sessions.** The article tells Champions to use Support instead of paying by card. The actual redemption process (manual booking, self-serve token booking, or something else) is audit P0-3.
 

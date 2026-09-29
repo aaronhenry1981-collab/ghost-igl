@@ -93,7 +93,7 @@
           "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
           "category": "rank_stat_discrepancy",
           "status": "reviewed",
-          "score": 20.462
+          "score": 20.465
         },
         {
           "slug": "connect-your-gaming-account",
@@ -101,7 +101,7 @@
           "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
           "category": "ubisoft_connection",
           "status": "reviewed",
-          "score": 4.214
+          "score": 4.216
         },
         {
           "slug": "get-better-vod-results",
@@ -117,7 +117,7 @@
           "summary": "Recon's player record stores dated snapshots with their source, so progress has a timeline you can trust.",
           "category": "historical_data",
           "status": "reviewed",
-          "score": 1.277
+          "score": 1.261
         },
         {
           "slug": "upload-a-vod-for-ai-review",
@@ -125,7 +125,7 @@
           "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
           "status": "reviewed",
-          "score": 1.158
+          "score": 1.16
         },
         {
           "slug": "coaching-credits",
@@ -133,7 +133,7 @@
           "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
           "category": "coaching_credits",
           "status": "reviewed",
-          "score": 1.075
+          "score": 1.076
         }
       ],
       "status": "ok",
@@ -148,7 +148,7 @@
           "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
           "category": "vod_upload",
           "status": "reviewed",
-          "score": 19.893
+          "score": 19.896
         },
         {
           "slug": "get-better-vod-results",
@@ -156,7 +156,7 @@
           "summary": "Small changes to what you upload make the review much sharper.",
           "category": "ai_result",
           "status": "reviewed",
-          "score": 12.616
+          "score": 12.617
         },
         {
           "slug": "match-replays",
@@ -164,7 +164,7 @@
           "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
           "category": "replay_upload",
           "status": "reviewed",
-          "score": 7.821
+          "score": 7.823
         },
         {
           "slug": "subscription-and-access",
@@ -172,7 +172,7 @@
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
           "status": "reviewed",
-          "score": 2.514
+          "score": 2.516
         },
         {
           "slug": "why-rank-or-stats-look-different",
@@ -188,7 +188,7 @@
           "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
           "category": "ubisoft_connection",
           "status": "reviewed",
-          "score": 1.095
+          "score": 1.096
         },
         {
           "slug": "billing-and-payments",
@@ -196,7 +196,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 0.987
+          "score": 0.988
         }
       ],
       "status": "ok",
@@ -211,7 +211,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 53.103
+          "score": 53.108
         }
       ],
       "status": "ok",
@@ -226,7 +226,7 @@
           "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
           "category": "billing_question",
           "status": "reviewed",
-          "score": 38.402
+          "score": 38.406
         },
         {
           "slug": "desktop-client",
@@ -234,7 +234,7 @@
           "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
           "category": "desktop_client",
           "status": "reviewed",
-          "score": 18.97
+          "score": 18.975
         },
         {
           "slug": "coaching-credits",
@@ -242,7 +242,7 @@
           "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
           "category": "coaching_credits",
           "status": "reviewed",
-          "score": 3.209
+          "score": 3.212
         },
         {
           "slug": "subscription-and-access",
@@ -250,7 +250,7 @@
           "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
           "category": "subscription",
           "status": "reviewed",
-          "score": 2.037
+          "score": 2.039
         }
       ],
       "status": "ok",
@@ -453,7 +453,7 @@
         "data",
         "privacy"
       ],
-      "body": "## Dated snapshots\nRecon's player record stores dated snapshots with their source and how they were verified. New snapshots are added instead of overwriting older ones. Profile values such as your saved rank and goal are different: saving a new one replaces the old one.\n## Which value Recon shows\nRecon prefers a value from the last 24 hours, then the more trusted source (official data over your own input), then the most recent. Anything older than a day is treated as stale, and values you reported yourself stay labelled as self-reported.\n## Your data\nYour history isn't shared with other players. Recon staff can see it when helping you. For a copy of your data or to ask for it to be deleted, follow the Privacy page: email privacy@r6coaching.com from your account email.",
+      "body": "## Dated snapshots\nRecon's player record stores dated snapshots with their source and how they were verified. New snapshots are added instead of overwriting older ones. Profile values such as your saved rank and goal are different: saving a new one replaces the old one.\n## Which value Recon shows\nRecon prefers a value from the last 24 hours, then the more trusted source (official data over your own input), then the most recent. Anything older than a day is treated as stale, and values you reported yourself stay labelled as self-reported.\n## Your data\nYour history isn't shared with other players. Recon staff can see it when helping you. For a copy of your data or to ask for it to be deleted, follow the Privacy page: email support@r6coaching.com from your account email with \"Privacy request\" in the subject.",
       "status": "reviewed",
       "reviewedBy": "Release review 2026-09-28 (checked against production code)",
       "reviewedOn": "2026-09-28",

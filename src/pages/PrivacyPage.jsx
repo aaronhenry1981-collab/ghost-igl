@@ -2,14 +2,14 @@ export default function PrivacyPage() {
   return (
     <div className="legal-page">
       <h1>Privacy Policy</h1>
-      <p className="legal-updated">Last updated: April 2026</p>
+      <p className="legal-updated">Last updated: September 2026</p>
 
       <h2>1. Information We Collect</h2>
       <p>We collect information you provide directly:</p>
       <ul>
         <li><strong>Account information:</strong> Email address when you subscribe</li>
         <li><strong>Payment information:</strong> Processed securely through Stripe. We do not store credit card numbers</li>
-        <li><strong>Uploaded content:</strong> Screenshots or videos you submit for VOD analysis</li>
+        <li><strong>Uploaded content:</strong> Screenshots you submit for VOD analysis</li>
         <li><strong>Usage data:</strong> Pages visited, features used, collected via privacy-friendly analytics (Plausible)</li>
       </ul>
 
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <ul>
         <li>To provide and improve the Service</li>
         <li>To process payments and manage subscriptions</li>
-        <li>To analyze uploaded screenshots/videos for coaching feedback</li>
+        <li>To analyze uploaded screenshots for coaching feedback</li>
         <li>To send service-related communications (billing, updates)</li>
         <li>To send marketing emails (only with your consent, unsubscribe anytime)</li>
       </ul>
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
       <p>We may update this policy periodically. Changes will be posted on this page with an updated date. Continued use of the Service constitutes acceptance.</p>
 
       <h2>10. Contact</h2>
-      <p>For privacy-related inquiries, contact us at <strong>privacy@r6coaching.com</strong>.</p>
+      <p>For privacy-related inquiries, including requests to access, export or delete your data, email <strong>support@r6coaching.com</strong> from your account email with "Privacy request" in the subject.</p>
     </div>
   )
 }

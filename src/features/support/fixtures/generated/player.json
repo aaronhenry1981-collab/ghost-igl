@@ -231,7 +231,7 @@
               "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
               "category": "subscription",
               "status": "reviewed",
-              "score": 23.387
+              "score": 23.396
             },
             {
               "slug": "match-replays",
@@ -239,7 +239,7 @@
               "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
               "category": "replay_upload",
               "status": "reviewed",
-              "score": 7.539
+              "score": 7.54
             },
             {
               "slug": "get-better-vod-results",
@@ -247,7 +247,7 @@
               "summary": "Small changes to what you upload make the review much sharper.",
               "category": "ai_result",
               "status": "reviewed",
-              "score": 5.684
+              "score": 5.689
             }
           ],
           "redacted": false
@@ -475,7 +475,7 @@
               "summary": "AI VOD review works from screenshots of one round. Here is what it accepts, how the allowance works and what counts against it.",
               "category": "vod_upload",
               "status": "reviewed",
-              "score": 19.893
+              "score": 19.896
             },
             {
               "slug": "get-better-vod-results",
@@ -483,7 +483,7 @@
               "summary": "Small changes to what you upload make the review much sharper.",
               "category": "ai_result",
               "status": "reviewed",
-              "score": 12.616
+              "score": 12.617
             },
             {
               "slug": "match-replays",
@@ -491,7 +491,7 @@
               "summary": "Replay (.rec) upload is not available in Recon. Screenshot-based VOD review is.",
               "category": "replay_upload",
               "status": "reviewed",
-              "score": 7.821
+              "score": 7.823
             }
           ],
           "redacted": false
@@ -714,7 +714,7 @@
               "summary": "Where each number comes from, how fresh it is, and what to do when it does not match the game.",
               "category": "rank_stat_discrepancy",
               "status": "reviewed",
-              "score": 18.098
+              "score": 18.1
             },
             {
               "slug": "subscription-and-access",
@@ -722,7 +722,7 @@
               "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
               "category": "subscription",
               "status": "reviewed",
-              "score": 9.32
+              "score": 9.324
             },
             {
               "slug": "coaching-credits",
@@ -730,7 +730,7 @@
               "summary": "How Champion coaching credits are added, why the booking page does not use them yet, and how to move a session.",
               "category": "coaching_credits",
               "status": "reviewed",
-              "score": 6.259
+              "score": 6.263
             }
           ],
           "redacted": false
@@ -958,7 +958,7 @@
               "summary": "How paid members install and activate the Windows desktop app (beta), and what to send us if it is not working.",
               "category": "desktop_client",
               "status": "reviewed",
-              "score": 44.171
+              "score": 44.18
             },
             {
               "slug": "billing-and-payments",
@@ -966,7 +966,7 @@
               "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
               "category": "billing_question",
               "status": "reviewed",
-              "score": 39.398
+              "score": 39.402
             },
             {
               "slug": "subscription-and-access",
@@ -974,7 +974,7 @@
               "summary": "What Basic, Pro, Elite and Champion include, where to see your plan, and why features can pause.",
               "category": "subscription",
               "status": "reviewed",
-              "score": 5.355
+              "score": 5.359
             }
           ],
           "redacted": false
@@ -1197,7 +1197,7 @@
               "summary": "Fix the most common sign-in problems: missing confirmation code, forgotten password, email typed differently.",
               "category": "account_login",
               "status": "reviewed",
-              "score": 16.432
+              "score": 16.433
             },
             {
               "slug": "connect-your-gaming-account",
@@ -1205,7 +1205,7 @@
               "summary": "Tell Recon which platform and in-game name you play on so plans, your rank and your tracker link fit your account.",
               "category": "ubisoft_connection",
               "status": "reviewed",
-              "score": 2.52
+              "score": 2.524
             },
             {
               "slug": "billing-and-payments",
@@ -1213,7 +1213,7 @@
               "summary": "Where to manage billing, what to do when a payment fails, and how to ask about a charge you do not recognise.",
               "category": "billing_question",
               "status": "reviewed",
-              "score": 1.985
+              "score": 1.987
             }
           ],
           "redacted": false
