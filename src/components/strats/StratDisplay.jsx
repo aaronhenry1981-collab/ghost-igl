@@ -131,7 +131,7 @@ export default function StratDisplay({ strat, side, gated, verifiedCallouts, map
           background: 'rgba(245, 158, 11, 0.08)',
           fontSize: '0.85rem',
           lineHeight: 1.45,
-          color: 'var(--text-secondary, #cbd5e1)',
+          color: 'var(--text-secondary, #ded8ce)',
         }}
       >
         <span aria-hidden="true" style={{ fontSize: '1rem', lineHeight: 1.3 }}>
@@ -306,7 +306,7 @@ function PremiumTactics({ tactics, side }) {
 
   return (
     <div className="strat-section premium-tactics">
-      <div className="strat-section-title" style={{ color: '#00e5ff' }}>
+      <div className="strat-section-title" style={{ color: '#f07430' }}>
         ★ Champion Tactics — {isAttack ? 'Attack' : 'Defense'}
       </div>
 

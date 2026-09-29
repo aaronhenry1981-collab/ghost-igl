@@ -89,9 +89,9 @@ export default function MapSelector({ maps, onSelect }) {
                   fontSize: '0.65rem',
                   padding: '2px 7px',
                   borderRadius: 999,
-                  background: 'rgba(0, 229, 255, 0.18)',
-                  border: '1px solid rgba(0, 229, 255, 0.5)',
-                  color: '#00e5ff',
+                  background: 'rgba(240, 116, 48, 0.18)',
+                  border: '1px solid rgba(240, 116, 48, 0.5)',
+                  color: '#f07430',
                   fontWeight: 700,
                   letterSpacing: '0.05em',
                 }}

@@ -88,7 +88,7 @@ export default function GameVodPreviewPage() {
   const { isPro } = useAuth()
   const goToPricing = useSectionNavigate('pricing')
 
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
   const sample = SAMPLE_FEEDBACK_TEMPLATES[activeGameId] || SAMPLE_FEEDBACK_TEMPLATES.cs2
 
@@ -170,7 +170,7 @@ export default function GameVodPreviewPage() {
         </p>
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
           {!isPro && (
-            <button type="button" onClick={goToPricing} className="btn btn-primary" style={{ background: accent, color: '#0a0f19' }}>See pricing</button>
+            <button type="button" onClick={goToPricing} className="btn btn-primary" style={{ background: accent, color: '#121211' }}>See pricing</button>
           )}
           <Link to="/strats" className="btn btn-outline">Open {displayName} strats</Link>
           <Link to="/loadouts" className="btn btn-outline">Open {displayName} loadouts</Link>

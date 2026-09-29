@@ -46,7 +46,7 @@ export default function GamePickerModal() {
   return (
     <div
       style={{
-        position: 'fixed', inset: 0, background: 'rgba(5,7,12,0.78)',
+        position: 'fixed', inset: 0, background: 'rgba(9,9,8,0.78)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 5000, padding: '1rem',
       }}
@@ -57,7 +57,7 @@ export default function GamePickerModal() {
     >
       <div
         style={{
-          background: 'linear-gradient(180deg, rgba(20,24,34,0.96), rgba(15,18,26,0.96))',
+          background: 'linear-gradient(180deg, rgba(28,27,26,0.96), rgba(21,21,20,0.96))',
           border: '1px solid rgba(255,255,255,0.10)',
           borderRadius: 16,
           padding: '1.75rem',
@@ -76,18 +76,18 @@ export default function GamePickerModal() {
           style={{
             position: 'absolute', top: 12, right: 12,
             background: 'transparent', border: 'none',
-            color: 'rgba(230,233,239,0.55)', fontSize: '1.4rem', cursor: 'pointer',
+            color: 'rgba(235,228,215,0.55)', fontSize: '1.4rem', cursor: 'pointer',
             padding: 4, lineHeight: 1,
           }}
         >×</button>
 
-        <div style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#00e5ff', fontWeight: 700, marginBottom: 6 }}>
+        <div style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#f07430', fontWeight: 700, marginBottom: 6 }}>
           Welcome to Recon 6
         </div>
         <h2 id="game-picker-title" style={{ margin: '0 0 0.4rem', fontSize: '1.5rem' }}>
           Which game are you playing?
         </h2>
-        <p style={{ margin: '0 0 1.25rem', color: 'rgba(230,233,239,0.78)', fontSize: '0.95rem', lineHeight: 1.5 }}>
+        <p style={{ margin: '0 0 1.25rem', color: 'rgba(235,228,215,0.78)', fontSize: '0.95rem', lineHeight: 1.5 }}>
           Pick the game you want coaching for. 11 live with deep content; 9 in early access with catalogs + structure as content scales.
           R6 has the deepest content today, including premium tactics and the desktop coach app.
           You can switch anytime from the sidebar.
@@ -111,22 +111,22 @@ export default function GamePickerModal() {
                 style={{
                   textAlign: 'left',
                   padding: '0.85rem 0.9rem',
-                  background: 'rgba(0,229,255,0.05)',
-                  border: '1px solid rgba(0,229,255,0.3)',
+                  background: 'rgba(240,116,48,0.05)',
+                  border: '1px solid rgba(240,116,48,0.3)',
                   borderRadius: 10,
                   cursor: 'pointer',
-                  color: '#e6e9ef',
+                  color: '#ebe4d7',
                   display: 'flex', flexDirection: 'column', gap: 4,
                   position: 'relative',
                   transition: 'transform 0.12s, border-color 0.12s, background 0.12s',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.borderColor = m.color || '#00e5ff'
+                  e.currentTarget.style.borderColor = m.color || '#f07430'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(0,229,255,0.3)'
+                  e.currentTarget.style.borderColor = 'rgba(240,116,48,0.3)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -134,8 +134,8 @@ export default function GamePickerModal() {
                     aria-hidden="true"
                     style={{
                       width: 10, height: 10, borderRadius: 999,
-                      background: m.color || '#00e5ff',
-                      boxShadow: `0 0 8px ${m.color || '#00e5ff'}`,
+                      background: m.color || '#f07430',
+                      boxShadow: `0 0 8px ${m.color || '#f07430'}`,
                     }}
                   />
                   <strong style={{ fontSize: '0.92rem' }}>{m.displayName || m.name || g.id}</strong>
@@ -167,7 +167,7 @@ export default function GamePickerModal() {
             onClick={dismiss}
             style={{
               background: 'transparent', border: 'none',
-              color: 'rgba(230,233,239,0.55)', fontSize: '0.85rem',
+              color: 'rgba(235,228,215,0.55)', fontSize: '0.85rem',
               cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3,
             }}
           >

@@ -40,8 +40,8 @@ function usd(amount) {
 function Brand() {
   return (
     <Link to="/" className="navbar-logo start-brand" aria-label="Recon 6 home">
-      <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
-      Recon<span>6</span>
+      <img className="navbar-logo-mark" src="/logo-mark.svg" alt="" width="51" height="26" aria-hidden="true" />
+      <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="" width="100" height="14" aria-hidden="true" />
     </Link>
   )
 }

@@ -109,7 +109,7 @@ const html = `<!doctype html>
 <meta property="og:image" content="${SITE}/og-image.png" />
 ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n')}
 <style>
-  :root { --bg:#0a0e17; --panel:#111827; --line:#1f2a3f; --cyan:#00e5ff; --text:#dbe4f0; --dim:#8b98ab; --orange:#ff9b5c; }
+  :root { --bg:#111110; --panel:#1d1c1b; --line:#31302d; --cyan:#f07430; --text:#dbe4f0; --dim:#a59e91; --orange:#ff9b5c; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; }
   .wrap { max-width:960px; margin:0 auto; padding:48px 20px 80px; }
@@ -118,17 +118,17 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   h2 { font-size:1.3rem; color:var(--cyan); margin:44px 0 14px; }
   .sub { color:var(--dim); font-size:1.05rem; max-width:680px; }
   .btn { display:inline-block; padding:12px 22px; border-radius:10px; border:1px solid var(--cyan); color:var(--cyan); text-decoration:none; font-weight:700; margin-top:10px; }
-  .btn.primary { background:var(--cyan); color:#04222a; }
+  .btn.primary { background:var(--cyan); color:#181716; }
   .selector { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px; margin:30px 0; }
   .selector .row { display:flex; gap:14px; flex-wrap:wrap; align-items:end; }
   .selector label { display:block; font-size:.85rem; color:var(--dim); margin-bottom:4px; }
-  .selector select { background:#0d1320; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; min-width:170px; }
+  .selector select { background:#171716; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; min-width:170px; }
   #reco { margin-top:14px; font-size:1.02rem; }
   #reco strong { color:var(--orange); }
   .tiers { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
   .tier { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; position:relative; }
   .tier.featured { border-color:var(--cyan); }
-  .tier .tag { position:absolute; top:-10px; left:16px; background:var(--cyan); color:#04222a; font-size:.7rem; font-weight:800; padding:2px 10px; border-radius:999px; letter-spacing:.06em; }
+  .tier .tag { position:absolute; top:-10px; left:16px; background:var(--cyan); color:#181716; font-size:.7rem; font-weight:800; padding:2px 10px; border-radius:999px; letter-spacing:.06em; }
   .tier h3 { margin-bottom:4px; }
   .price { font-size:1.6rem; font-weight:800; color:var(--cyan); }
   .price span { font-size:.8rem; color:var(--dim); font-weight:400; }
@@ -138,8 +138,8 @@ ${jsonLd.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</sc
   details p { margin-top:10px; color:var(--dim); }
   form { background:var(--panel); border:1px solid var(--cyan); border-radius:14px; padding:24px; margin-top:16px; }
   form label { display:block; font-size:.85rem; color:var(--dim); margin:12px 0 4px; }
-  form input, form select, form textarea { width:100%; background:#0d1320; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; }
-  form button { margin-top:18px; width:100%; padding:14px; background:var(--cyan); color:#04222a; font-weight:800; font-size:1.05rem; border:none; border-radius:10px; cursor:pointer; }
+  form input, form select, form textarea { width:100%; background:#171716; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:10px 12px; font-size:1rem; }
+  form button { margin-top:18px; width:100%; padding:14px; background:var(--cyan); color:#181716; font-weight:800; font-size:1.05rem; border:none; border-radius:10px; cursor:pointer; }
   .ok { color:#7ee2a4; margin-top:12px; display:none; }
   footer { margin-top:52px; color:var(--dim); font-size:.85rem; border-top:1px solid var(--line); padding-top:18px; }
 </style>
@@ -496,13 +496,13 @@ const bookedHtml = `<!doctype html>
 <meta name="robots" content="noindex" />
 <link rel="canonical" href="${SITE}/coaching/booked/" />
 <style>
-  body { background:#0a0e17; color:#dbe4f0; font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; margin:0; }
+  body { background:#111110; color:#dbe4f0; font-family:'Segoe UI',system-ui,sans-serif; line-height:1.65; margin:0; }
   .wrap { max-width:620px; margin:0 auto; padding:64px 20px; text-align:center; }
-  a { color:#00e5ff; }
+  a { color:#f07430; }
   h1 { font-size:2rem; margin-bottom:10px; }
-  .card { background:#111827; border:1px solid #1f2a3f; border-radius:14px; padding:28px; margin-top:20px; text-align:left; }
-  .btn { display:inline-block; padding:12px 22px; border-radius:10px; background:#00e5ff; color:#04222a; text-decoration:none; font-weight:700; margin-top:18px; }
-  .muted { color:#8b98ab; }
+  .card { background:#1d1c1b; border:1px solid #31302d; border-radius:14px; padding:28px; margin-top:20px; text-align:left; }
+  .btn { display:inline-block; padding:12px 22px; border-radius:10px; background:#f07430; color:#181716; text-decoration:none; font-weight:700; margin-top:18px; }
+  .muted { color:#a59e91; }
   .spinner { color:#ff9b5c; }
 </style>
 </head>

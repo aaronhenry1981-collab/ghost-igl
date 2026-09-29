@@ -12,7 +12,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(0, 229, 255, 0.85);
+  color: rgba(240, 116, 48, 0.85);
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
@@ -23,24 +23,24 @@
   letter-spacing: -1px;
   margin: 0 0 0.6rem;
 }
-.r6-tier-accent { color: #00e5ff; }
+.r6-tier-accent { color: #f07430; }
 .r6-tier-lead {
   font-size: 1rem;
-  color: rgba(230, 233, 239, 0.78);
+  color: rgba(235, 228, 215, 0.78);
   line-height: 1.55;
   max-width: 70ch;
   margin: 0 0 0.85rem;
 }
 .r6-tier-cite-line {
   font-size: 0.85rem;
-  color: rgba(230, 233, 239, 0.7);
+  color: rgba(235, 228, 215, 0.7);
   padding: 0.55rem 0.85rem;
-  background: rgba(0, 229, 255, 0.05);
-  border-left: 3px solid #00e5ff;
+  background: rgba(240, 116, 48, 0.05);
+  border-left: 3px solid #f07430;
   border-radius: 6px;
   max-width: 70ch;
 }
-.r6-tier-cite-line em { color: rgba(0, 229, 255, 0.95); font-style: normal; font-family: var(--mono, ui-monospace, monospace); }
+.r6-tier-cite-line em { color: rgba(240, 116, 48, 0.95); font-style: normal; font-family: var(--mono, ui-monospace, monospace); }
 
 .r6-tier-side-toggle {
   display: flex;
@@ -50,15 +50,15 @@
 .r6-tier-side-btn {
   padding: 0.6rem 1.2rem;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(230, 233, 239, 0.2);
+  border: 1px solid rgba(235, 228, 215, 0.2);
   border-radius: 8px;
-  color: rgba(230, 233, 239, 0.7);
+  color: rgba(235, 228, 215, 0.7);
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.12s;
 }
-.r6-tier-side-btn:hover { color: #ecedf3; border-color: rgba(0, 229, 255, 0.5); }
+.r6-tier-side-btn:hover { color: #ebe4d7; border-color: rgba(240, 116, 48, 0.5); }
 .r6-tier-side-btn.attack.active {
   background: rgba(255, 138, 80, 0.18);
   border-color: #ff8a50;
@@ -95,11 +95,11 @@
   flex: 1;
   font-size: 1rem;
   font-weight: 700;
-  color: #ecedf3;
+  color: #ebe4d7;
 }
 .r6-tier-row-count {
   font-size: 0.78rem;
-  color: rgba(230, 233, 239, 0.55);
+  color: rgba(235, 228, 215, 0.55);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 700;
@@ -115,7 +115,7 @@
 }
 .r6-tier-op-card {
   background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(230, 233, 239, 0.08);
+  border: 1px solid rgba(235, 228, 215, 0.08);
   border-left: 4px solid;
   border-radius: 6px;
   padding: 0.55rem 0.75rem;
@@ -130,19 +130,19 @@
 .r6-tier-op-name {
   font-size: 1rem;
   font-weight: 700;
-  color: #ecedf3;
+  color: #ebe4d7;
   text-decoration: none;
 }
-.r6-tier-op-name:hover { color: #00e5ff; }
+.r6-tier-op-name:hover { color: #f07430; }
 .r6-tier-op-score {
   font-family: var(--mono, ui-monospace, monospace);
   font-size: 0.75rem;
-  color: rgba(230, 233, 239, 0.55);
+  color: rgba(235, 228, 215, 0.55);
   font-weight: 600;
 }
 .r6-tier-op-role {
   font-size: 0.78rem;
-  color: rgba(230, 233, 239, 0.65);
+  color: rgba(235, 228, 215, 0.65);
   margin-bottom: 4px;
 }
 .r6-tier-op-stats {
@@ -159,13 +159,13 @@
   text-transform: uppercase;
 }
 .r6-tier-stat.ess { color: #ffc97a; background: rgba(255, 201, 122, 0.12); }
-.r6-tier-stat.rec { color: #00e5ff; background: rgba(0, 229, 255, 0.10); }
-.r6-tier-stat.flex { color: rgba(230, 233, 239, 0.65); background: rgba(255, 255, 255, 0.05); }
+.r6-tier-stat.rec { color: #f07430; background: rgba(240, 116, 48, 0.10); }
+.r6-tier-stat.flex { color: rgba(235, 228, 215, 0.65); background: rgba(255, 255, 255, 0.05); }
 .r6-tier-stat.maps { color: rgba(120, 220, 140, 0.95); background: rgba(120, 220, 140, 0.08); }
 
 .r6-tier-empty {
   padding: 0.85rem;
-  color: rgba(230, 233, 239, 0.5);
+  color: rgba(235, 228, 215, 0.5);
   font-size: 0.85rem;
   text-align: center;
   background: rgba(255, 255, 255, 0.015);
@@ -176,7 +176,7 @@
   margin-top: 2rem;
   padding: 1.25rem 1.4rem;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(0, 229, 255, 0.18);
+  border: 1px solid rgba(240, 116, 48, 0.18);
   border-radius: 10px;
 }
 .r6-tier-methodology h2 {
@@ -186,27 +186,27 @@
 }
 .r6-tier-methodology p {
   font-size: 0.92rem;
-  color: rgba(230, 233, 239, 0.78);
+  color: rgba(235, 228, 215, 0.78);
   line-height: 1.6;
 }
 .r6-tier-methodology ul {
   padding-left: 1.2rem;
   font-size: 0.9rem;
-  color: rgba(230, 233, 239, 0.78);
+  color: rgba(235, 228, 215, 0.78);
   line-height: 1.7;
 }
-.r6-tier-methodology strong { color: #ecedf3; }
+.r6-tier-methodology strong { color: #ebe4d7; }
 
 .r6-tier-foot {
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
-  background: rgba(0, 229, 255, 0.05);
-  border-left: 3px solid #00e5ff;
+  background: rgba(240, 116, 48, 0.05);
+  border-left: 3px solid #f07430;
   border-radius: 6px;
   text-align: center;
   font-size: 0.95rem;
 }
-.r6-tier-foot a { color: #00e5ff; font-weight: 700; }
+.r6-tier-foot a { color: #f07430; font-weight: 700; }
 
 @media (max-width: 720px) {
   .r6-tier-header h1 { font-size: 2rem; }

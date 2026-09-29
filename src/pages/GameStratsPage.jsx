@@ -90,14 +90,14 @@ function PremiumTactics({ data, side, accent, isChampion, goToPricing }) {
     }
     return (
       <section className="game-strat-premium-locked" style={{ borderColor: accent }}>
-        <div className="game-strat-premium-pill" style={{ background: accent, color: '#0a0f19' }}>Champion</div>
+        <div className="game-strat-premium-pill" style={{ background: accent, color: '#121211' }}>Champion</div>
         <h3>Premium Tactics</h3>
         <p>
           {side === 'attack'
             ? `${counts.attackSpawns} attack-spawn ${counts.attackSpawns === 1 ? 'lineup' : 'lineups'} · ${counts.spawnKillSpots} spawn-kill ${counts.spawnKillSpots === 1 ? 'spot' : 'spots'} · ${counts.advancedSetups} advanced setup${counts.advancedSetups === 1 ? '' : 's'} locked behind Champion.`
             : `${counts.runouts} runout${counts.runouts === 1 ? '' : 's'} · ${counts.antiSpawnPeek} anti-spawn-peek ${counts.antiSpawnPeek === 1 ? 'setup' : 'setups'} · ${counts.advancedSetups} advanced setup${counts.advancedSetups === 1 ? '' : 's'} locked behind Champion.`}
         </p>
-        <button type="button" onClick={goToPricing} className="btn btn-primary btn-sm" style={{ background: accent, color: '#0a0f19' }}>
+        <button type="button" onClick={goToPricing} className="btn btn-primary btn-sm" style={{ background: accent, color: '#121211' }}>
           Unlock with Champion →
         </button>
       </section>
@@ -108,7 +108,7 @@ function PremiumTactics({ data, side, accent, isChampion, goToPricing }) {
   return (
     <section className="game-strat-premium">
       <header className="game-strat-premium-head">
-        <div className="game-strat-premium-pill game-strat-premium-pill-active" style={{ background: accent, color: '#0a0f19' }}>Champion</div>
+        <div className="game-strat-premium-pill game-strat-premium-pill-active" style={{ background: accent, color: '#121211' }}>Champion</div>
         <h3>Premium Tactics</h3>
       </header>
 
@@ -186,7 +186,7 @@ export default function GameStratsPage() {
   // Pro+: gates Stadium-mode strats (OW2 Stadium = Pro-only feature).
   // Admin always bypasses; Champion is a superset of Pro so they pass too.
   const hasProAccess = isAdmin || isPro || isChampion
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
   const sideLabels = getSideLabels(gameMeta)
 
@@ -345,7 +345,7 @@ export default function GameStratsPage() {
                   don't bounce — keeps them inside the active game's flow. */}
               {sites.some((s) => stratsForMap?.[s.id] && s.id !== selectedSiteId) && (
                 <div style={{ marginTop: '0.85rem' }}>
-                  <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(230,233,239,0.5)', marginBottom: 6, fontWeight: 700 }}>
+                  <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(235,228,215,0.5)', marginBottom: 6, fontWeight: 700 }}>
                     Other {gameMeta.vocab?.site?.toLowerCase() || 'site'}s with strats
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -358,8 +358,8 @@ export default function GameStratsPage() {
                           onClick={() => setSelectedSiteId(s.id)}
                           style={{
                             padding: '5px 12px',
-                            background: 'rgba(0,229,255,0.06)',
-                            border: '1px solid rgba(0,229,255,0.3)',
+                            background: 'rgba(240,116,48,0.06)',
+                            border: '1px solid rgba(240,116,48,0.3)',
                             borderRadius: 999,
                             color: accent,
                             fontSize: '0.85rem',
@@ -397,7 +397,7 @@ export default function GameStratsPage() {
                   type="button"
                   onClick={goToPricing}
                   className="btn btn-primary"
-                  style={{ marginTop: '0.85rem', background: '#ffc97a', color: '#0a0f19', borderColor: '#ffc97a' }}
+                  style={{ marginTop: '0.85rem', background: '#ffc97a', color: '#121211', borderColor: '#ffc97a' }}
                 >
                   Unlock Stadium — $9/mo founding →
                 </button>

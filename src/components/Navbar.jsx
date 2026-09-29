@@ -258,12 +258,10 @@ export default function Navbar() {
     <>
       <nav className="navbar">
         <div className="navbar-left">
-          <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
-            {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
-                DOM text — never a <text> node inside the SVG, which would render
-                differently in every browser. */}
-            <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
-            Recon<span>6</span>
+          <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile} aria-label="Recon 6 home">
+            {/* Approved R6 signature (brand/): monogram + wordmark, vector art. */}
+            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="" width="51" height="26" aria-hidden="true" />
+            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="" width="100" height="14" aria-hidden="true" />
           </Link>
           {/* GameSwitcher removed 2026-07-06 — RECON6 is R6-only now. The
               component + game data stay in the tree (existing All-Access subs
@@ -366,12 +364,10 @@ export default function Navbar() {
         aria-label="Mobile navigation"
       >
         <div className="mobile-drawer-head">
-          <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile}>
-            {/* The mark is the 6 (a hexagon's six sides). The wordmark stays real
-                DOM text — never a <text> node inside the SVG, which would render
-                differently in every browser. */}
-            <img src="/logo-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
-            Recon<span>6</span>
+          <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile} aria-label="Recon 6 home">
+            {/* Approved R6 signature (brand/): monogram + wordmark, vector art. */}
+            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="" width="51" height="26" aria-hidden="true" />
+            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="" width="100" height="14" aria-hidden="true" />
           </Link>
           <button
             ref={drawerCloseRef}

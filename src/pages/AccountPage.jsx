@@ -210,14 +210,14 @@ export default function AccountPage() {
               <div>
                 <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>
                   <span style={{ color: '#fff' }}>{vodUsage.used}</span>
-                  <span style={{ color: 'rgba(230,233,239,0.5)', fontSize: '1rem', fontWeight: 500 }}> / {vodUsage.limit} sessions</span>
+                  <span style={{ color: 'rgba(235,228,215,0.5)', fontSize: '1rem', fontWeight: 500 }}> / {vodUsage.limit} sessions</span>
                 </div>
-                <div style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)', marginTop: 2 }}>
+                <div style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)', marginTop: 2 }}>
                   <strong style={{ color: '#7ee2a4' }}>{vodUsage.remaining}</strong> remaining {vodUsage.is_trial ? 'in your trial' : 'this period'}
                 </div>
               </div>
               {vodUsage.period_end && (
-                <div style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.6)', textAlign: 'right' }}>
+                <div style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.6)', textAlign: 'right' }}>
                   Resets<br />
                   <strong style={{ color: '#fff' }}>{new Date(vodUsage.period_end).toLocaleDateString()}</strong>
                 </div>
@@ -232,7 +232,7 @@ export default function AccountPage() {
               }} />
             </div>
             {vodUsage.is_trial && (
-              <p style={{ marginTop: 10, fontSize: '0.85rem', color: 'rgba(230,233,239,0.7)' }}>
+              <p style={{ marginTop: 10, fontSize: '0.85rem', color: 'rgba(235,228,215,0.7)' }}>
                 Trial allowance is <strong>3 lifetime sessions</strong> — enough to test the AI on real matches. Subscribe to Pro for 20 sessions per month.
               </p>
             )}
@@ -240,7 +240,7 @@ export default function AccountPage() {
               <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <div>
                   <strong>{me?.ai_usage?.purchased_credits || 0} prepaid AI credits</strong>
-                  <div style={{ fontSize: '0.82rem', color: 'rgba(230,233,239,0.65)', marginTop: 3 }}>
+                  <div style={{ fontSize: '0.82rem', color: 'rgba(235,228,215,0.65)', marginTop: 3 }}>
                     Monthly usage is used first. A VOD review uses 5 prepaid credits only after the monthly allowance is gone.
                   </div>
                 </div>

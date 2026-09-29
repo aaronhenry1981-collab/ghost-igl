@@ -150,7 +150,7 @@ export default function CompManager() {
 
       <form onSubmit={grant} className="comp-grant-form" style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: '2fr 1fr 1fr 2fr auto', alignItems: 'end', marginBottom: '1.5rem' }}>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(230,233,239,0.65)' }}>Email</span>
+          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Email</span>
           <input
             type="email"
             required
@@ -161,7 +161,7 @@ export default function CompManager() {
           />
         </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(230,233,239,0.65)' }}>Plan</span>
+          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Plan</span>
           <select value={plan} onChange={(e) => setPlan(e.target.value)} className="admin-input">
             <option value="champion">Champion</option>
             <option value="elite">Elite</option>
@@ -169,7 +169,7 @@ export default function CompManager() {
           </select>
         </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(230,233,239,0.65)' }}>Duration</span>
+          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Duration</span>
           <select value={durationDays} onChange={(e) => setDurationDays(Number(e.target.value))} className="admin-input">
             {DURATIONS.map((d) => (
               <option key={d.days} value={d.days}>{d.label}</option>
@@ -177,7 +177,7 @@ export default function CompManager() {
           </select>
         </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: '0.85rem' }}>
-          <span style={{ color: 'rgba(230,233,239,0.65)' }}>Note (audit trail)</span>
+          <span style={{ color: 'rgba(235,228,215,0.65)' }}>Note (audit trail)</span>
           <input
             type="text"
             value={note}
@@ -193,13 +193,13 @@ export default function CompManager() {
       </form>
 
       {loading ? (
-        <p style={{ color: 'rgba(230,233,239,0.6)' }}>Loading comps…</p>
+        <p style={{ color: 'rgba(235,228,215,0.6)' }}>Loading comps…</p>
       ) : (
         <>
           <CompTable title={`Active (${active.length})`} comps={active} onRevoke={revoke} showDays />
           {expired.length > 0 && <CompTable title={`Expired — auto-revoked (${expired.length})`} comps={expired} onRevoke={revoke} dimmed />}
           {revoked.length > 0 && <CompTable title={`Revoked (${revoked.length})`} comps={revoked} onRevoke={null} dimmed />}
-          {comps.length === 0 && <p style={{ color: 'rgba(230,233,239,0.55)', fontSize: '0.9rem' }}>No comps yet. Use the form above to grant your first one.</p>}
+          {comps.length === 0 && <p style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.9rem' }}>No comps yet. Use the form above to grant your first one.</p>}
         </>
       )}
     </section>
@@ -210,7 +210,7 @@ function CompTable({ title, comps, onRevoke, showDays = false, dimmed = false })
   if (!comps.length) return null
   return (
     <div style={{ marginBottom: '1.25rem', opacity: dimmed ? 0.7 : 1 }}>
-      <h3 style={{ fontSize: '0.95rem', margin: '0 0 0.5rem', color: 'rgba(230,233,239,0.85)' }}>{title}</h3>
+      <h3 style={{ fontSize: '0.95rem', margin: '0 0 0.5rem', color: 'rgba(235,228,215,0.85)' }}>{title}</h3>
       <div className="admin-table-wrap">
         <table className="admin-table">
           <thead>
@@ -234,7 +234,7 @@ function CompTable({ title, comps, onRevoke, showDays = false, dimmed = false })
                 <td className="admin-mono" style={{ fontSize: '0.8rem' }}>
                   {c.current_period_end ? c.current_period_end.slice(0, 10) : '—'}
                 </td>
-                <td style={{ fontSize: '0.85rem', color: 'rgba(230,233,239,0.65)', maxWidth: 220 }}>
+                <td style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)', maxWidth: 220 }}>
                   {c.comp_note || <span style={{ opacity: 0.4 }}>—</span>}
                 </td>
                 {onRevoke && (

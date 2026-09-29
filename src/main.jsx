@@ -59,7 +59,7 @@ const CreatorDemoPage = lazy(() => import('./pages/CreatorDemoPage'))
 // see noticeable layout shift.
 function RouteLoading() {
   return (
-    <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(230,233,239,0.6)' }}>
+    <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(235,228,215,0.6)' }}>
       Loading…
     </div>
   )
@@ -111,7 +111,7 @@ class ChunkErrorBoundary extends Component {
       // friendlier than the default error screen for the brief moment the
       // user sees it.
       return (
-        <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(230,233,239,0.6)' }}>
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'rgba(235,228,215,0.6)' }}>
           Updating to latest version…
         </div>
       )

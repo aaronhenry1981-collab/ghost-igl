@@ -63,7 +63,7 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0a0f19" />
+  <meta name="theme-color" content="#121211" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -82,47 +82,47 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #0a0f19;
-      color: #e6e9ef;
+      background: #121211;
+      color: #ebe4d7;
       line-height: 1.6;
     }
-    a { color: #00e5ff; text-decoration: none; }
+    a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
     .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff; text-decoration: none; }
-    .brand span { color: #00e5ff; }
-    .nav-links a { margin-left: 18px; color: rgba(230,233,239,0.85); font-size: 0.9rem; }
+    .brand span { color: #f07430; }
+    .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
     h1 { font-size: 2rem; margin: 0 0 8px; }
-    .sub { color: rgba(230,233,239,0.7); margin-bottom: 24px; font-size: 0.95rem; }
+    .sub { color: rgba(235,228,215,0.7); margin-bottom: 24px; font-size: 0.95rem; }
     .cta-top {
-      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #00e5ff, #00b4d8);
-      color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
+      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212);
+      color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
     }
-    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 10px; }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; }
     .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
-    .side { margin: 18px 0; padding: 14px 16px; background: rgba(10,15,25,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .side { margin: 18px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
     .side.attack { border-left-color: #ff8060; }
     .side.defense { border-left-color: #50b4ff; }
     .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .side.attack h3 { color: #ff8060; }
     .side.defense h3 { color: #50b4ff; }
     .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
-    .op { padding: 4px 10px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3); border-radius: 4px; font-size: 0.85rem; color: #c0f4fc; }
-    .op.essential { background: rgba(0,229,255,0.16); border-color: #00e5ff; font-weight: 700; }
-    .strategy { margin: 8px 0; color: rgba(230,233,239,0.9); }
+    .op { padding: 4px 10px; background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.3); border-radius: 4px; font-size: 0.85rem; color: #fad6c2; }
+    .op.essential { background: rgba(240,116,48,0.16); border-color: #f07430; font-weight: 700; }
+    .strategy { margin: 8px 0; color: rgba(235,228,215,0.9); }
     .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(230,233,239,0.85); }
+    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(235,228,215,0.85); }
     .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
     .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .bans ul { margin: 0; padding-left: 18px; }
     .bans li { margin-bottom: 4px; font-size: 0.9rem; }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(10,15,25,0.6)); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
+    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
     .intro-cta h3 { margin: 0 0 6px; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(230,233,239,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #00e5ff; color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(230,233,239,0.5); font-size: 0.82rem; text-align: center; }
+    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
+    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       h1 { font-size: 1.5rem; }
@@ -255,7 +255,7 @@ function renderSiteGuide(map, site) {
   // Sibling sites for internal linking — Google rewards a tight cluster.
   const siblingsHtml = map.sites
     .filter((s) => s.id !== site.id && STRATS[map.id]?.[s.id])
-    .map((s) => `<li><a href="/guides/${map.id}/${escape(s.id)}.html">${escape(s.name)}</a> <span style="color:rgba(230,233,239,0.5);font-size:0.8rem">(${escape(s.floor)})</span></li>`)
+    .map((s) => `<li><a href="/guides/${map.id}/${escape(s.id)}.html">${escape(s.name)}</a> <span style="color:rgba(235,228,215,0.5);font-size:0.8rem">(${escape(s.floor)})</span></li>`)
     .join('')
 
   const bans = BANS[map.id]
@@ -272,12 +272,12 @@ function renderSiteGuide(map, site) {
   }
 
   const bodyInner = `
-    <nav class="breadcrumb" style="font-size:0.85rem;color:rgba(230,233,239,0.6);margin-bottom:8px">
+    <nav class="breadcrumb" style="font-size:0.85rem;color:rgba(235,228,215,0.6);margin-bottom:8px">
       <a href="/guides/">Map Guides</a> ›
       <a href="/guides/${map.id}.html">${escape(map.name)}</a> ›
       <span>${escape(site.name)}</span>
     </nav>
-    <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(230,233,239,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
+    <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(235,228,215,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
     <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>${siteNoticeHtml(site)}
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
 
@@ -381,10 +381,10 @@ function renderIndex(mapsWithStrats) {
     <p class="sub">Free strategy guides for every map in the ranked pool. Operators, callouts, utility, and bans for every bomb site.</p>
     <style>
       .guide-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-      .guide-card a { display: block; padding: 18px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 10px; color: inherit; text-decoration: none; transition: background 0.15s, border-color 0.15s; }
-      .guide-card a:hover { background: rgba(0,229,255,0.06); border-color: #00e5ff; text-decoration: none; }
-      .guide-card h3 { margin: 0 0 4px; color: #00e5ff; }
-      .guide-card p { margin: 0; color: rgba(230,233,239,0.75); font-size: 0.9rem; }
+      .guide-card a { display: block; padding: 18px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; color: inherit; text-decoration: none; transition: background 0.15s, border-color 0.15s; }
+      .guide-card a:hover { background: rgba(240,116,48,0.06); border-color: #f07430; text-decoration: none; }
+      .guide-card h3 { margin: 0 0 4px; color: #f07430; }
+      .guide-card p { margin: 0; color: rgba(235,228,215,0.75); font-size: 0.9rem; }
     </style>
     <ul class="guide-grid">
       ${cards}

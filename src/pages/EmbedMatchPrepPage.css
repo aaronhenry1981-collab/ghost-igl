@@ -3,7 +3,7 @@
    embed us (R6 community blogs, guide sites, Twitch panels). */
 
 .embed-body {
-  background: #0a0f19 !important;
+  background: #121211 !important;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -11,8 +11,8 @@
 
 .embed-page {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #0a0f19;
-  color: #ecedf3;
+  background: #121211;
+  color: #ebe4d7;
   padding: 14px 16px 12px;
   min-height: 100vh;
   box-sizing: border-box;
@@ -25,13 +25,13 @@
   gap: 12px;
   padding-bottom: 10px;
   margin-bottom: 12px;
-  border-bottom: 1px solid rgba(0, 229, 255, 0.18);
+  border-bottom: 1px solid rgba(240, 116, 48, 0.18);
 }
 .embed-eyebrow {
   display: block;
   font-size: 0.65rem;
   letter-spacing: 0.16em;
-  color: rgba(0, 229, 255, 0.85);
+  color: rgba(240, 116, 48, 0.85);
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -44,7 +44,7 @@
 }
 .embed-meta {
   font-size: 0.72rem;
-  color: rgba(230, 233, 239, 0.55);
+  color: rgba(235, 228, 215, 0.55);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 700;
@@ -56,7 +56,7 @@
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(230, 233, 239, 0.55);
+  color: rgba(235, 228, 215, 0.55);
   font-weight: 700;
   margin: 0 0 8px;
 }
@@ -84,18 +84,18 @@
   gap: 2px;
   padding: 6px 8px;
   background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(230, 233, 239, 0.1);
+  border: 1px solid rgba(235, 228, 215, 0.1);
   border-radius: 6px;
   margin-bottom: 4px;
   font-size: 0.78rem;
 }
 .embed-ban strong { font-size: 0.85rem; }
-.embed-ban span { color: rgba(230, 233, 239, 0.65); font-size: 0.72rem; }
+.embed-ban span { color: rgba(235, 228, 215, 0.65); font-size: 0.72rem; }
 
 .embed-sites { display: grid; gap: 8px; }
 .embed-site {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(0, 229, 255, 0.15);
+  border: 1px solid rgba(240, 116, 48, 0.15);
   border-radius: 6px;
   padding: 8px 10px;
 }
@@ -109,7 +109,7 @@
 .embed-site h3 { font-size: 0.92rem; font-weight: 700; margin: 0; }
 .embed-site header span {
   font-size: 0.7rem;
-  color: rgba(230, 233, 239, 0.5);
+  color: rgba(235, 228, 215, 0.5);
 }
 .embed-site-row {
   display: flex;
@@ -128,26 +128,26 @@
 }
 .embed-site-label.atk { color: #ffa67a; background: rgba(255, 138, 80, 0.12); }
 .embed-site-label.def { color: #7aaaff; background: rgba(80, 170, 255, 0.12); }
-.embed-site-row span:last-child { color: rgba(230, 233, 239, 0.85); }
+.embed-site-row span:last-child { color: rgba(235, 228, 215, 0.85); }
 .embed-site-callouts {
   font-size: 0.72rem;
-  color: rgba(0, 229, 255, 0.85);
+  color: rgba(240, 116, 48, 0.85);
   margin-top: 4px;
   padding-top: 4px;
-  border-top: 1px dashed rgba(0, 229, 255, 0.15);
+  border-top: 1px dashed rgba(240, 116, 48, 0.15);
 }
 
 .embed-foot {
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid rgba(230, 233, 239, 0.1);
+  border-top: 1px solid rgba(235, 228, 215, 0.1);
   font-size: 0.72rem;
-  color: rgba(230, 233, 239, 0.55);
+  color: rgba(235, 228, 215, 0.55);
   text-align: center;
 }
-.embed-foot a { color: #00e5ff; text-decoration: none; }
+.embed-foot a { color: #f07430; text-decoration: none; }
 .embed-foot a:hover { text-decoration: underline; }
-.embed-foot strong { color: #ecedf3; font-weight: 700; }
+.embed-foot strong { color: #ebe4d7; font-weight: 700; }
 
 .embed-err {
   padding: 24px;
@@ -159,7 +159,7 @@
 .embed-err-sub {
   margin-top: 8px;
   font-size: 0.85rem;
-  color: rgba(230, 233, 239, 0.75);
+  color: rgba(235, 228, 215, 0.75);
 }
 .embed-err code {
   background: rgba(0, 0, 0, 0.4);

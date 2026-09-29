@@ -185,8 +185,8 @@ export default function TestimonialBuilder() {
                 <div className="testi-row-head">
                   <strong>{t.name}</strong>
                   {t.featured && <span className="testi-row-rank" style={{ background: 'rgba(255,155,92,0.2)', color: '#ff9b5c' }}>★ Featured</span>}
-                  {t.tier === 'champion' && <span className="testi-row-rank" style={{ background: 'rgba(0,229,255,0.18)', color: '#00e5ff' }}>Champion</span>}
-                  {t.tier === 'elite' && <span className="testi-row-rank" style={{ background: 'rgba(179,136,255,0.18)', color: '#bfa2ff' }}>Elite</span>}
+                  {t.tier === 'champion' && <span className="testi-row-rank" style={{ background: 'rgba(240,116,48,0.18)', color: '#f07430' }}>Champion</span>}
+                  {t.tier === 'elite' && <span className="testi-row-rank" style={{ background: 'rgba(220,200,171,0.18)', color: '#e4d4bd' }}>Elite</span>}
                   {t.tier === 'pro' && <span className="testi-row-rank" style={{ background: 'rgba(120,180,255,0.18)', color: '#7eb4ff' }}>Pro</span>}
                   {t.rank && <span className="testi-row-rank">{t.rank}</span>}
                   {t.hours && <span className="testi-row-hours">{t.hours}</span>}

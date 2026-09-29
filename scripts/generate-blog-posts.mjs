@@ -40,7 +40,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0a0f19" />
+  <meta name="theme-color" content="#121211" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -55,25 +55,25 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.7; }
-    a { color: #00e5ff; text-decoration: none; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.7; }
+    a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
     .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff; text-decoration: none; }
-    .brand span { color: #00e5ff; }
-    .nav-links a { margin-left: 18px; color: rgba(230,233,239,0.85); font-size: 0.9rem; }
+    .brand span { color: #f07430; }
+    .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 760px; margin: 0 auto; padding: 32px 24px 80px; }
     article h1 { font-size: 2.1rem; margin: 0 0 8px; line-height: 1.25; }
-    .meta-row { color: rgba(230,233,239,0.6); font-size: 0.88rem; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
-    .meta-row .pill { background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); border-radius: 999px; padding: 2px 10px; color: #c0f4fc; }
-    article p { margin: 0 0 16px; color: rgba(230,233,239,0.9); }
-    article h2 { font-size: 1.4rem; margin: 32px 0 12px; color: #fff; border-left: 3px solid #00e5ff; padding-left: 12px; }
-    article h3 { font-size: 1.05rem; margin: 22px 0 8px; color: #c0f4fc; }
-    article ul, article ol { padding-left: 22px; margin: 0 0 18px; color: rgba(230,233,239,0.9); }
+    .meta-row { color: rgba(235,228,215,0.6); font-size: 0.88rem; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .meta-row .pill { background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.2); border-radius: 999px; padding: 2px 10px; color: #fad6c2; }
+    article p { margin: 0 0 16px; color: rgba(235,228,215,0.9); }
+    article h2 { font-size: 1.4rem; margin: 32px 0 12px; color: #fff; border-left: 3px solid #f07430; padding-left: 12px; }
+    article h3 { font-size: 1.05rem; margin: 22px 0 8px; color: #fad6c2; }
+    article ul, article ol { padding-left: 22px; margin: 0 0 18px; color: rgba(235,228,215,0.9); }
     article ul li, article ol li { margin-bottom: 6px; }
     article strong { color: #fff; font-weight: 700; }
-    article code { background: rgba(0,229,255,0.08); padding: 1px 6px; border-radius: 3px; font-size: 0.92em; color: #c0f4fc; }
-    .callout { margin: 22px 0; padding: 16px 18px; background: rgba(0,229,255,0.05); border-left: 3px solid #00e5ff; border-radius: 0 6px 6px 0; }
+    article code { background: rgba(240,116,48,0.08); padding: 1px 6px; border-radius: 3px; font-size: 0.92em; color: #fad6c2; }
+    .callout { margin: 22px 0; padding: 16px 18px; background: rgba(240,116,48,0.05); border-left: 3px solid #f07430; border-radius: 0 6px 6px 0; }
     .callout.mistakes { background: rgba(255,80,80,0.05); border-left-color: #ff5050; }
     .callout.mistakes h3 { color: #ff8899; margin-top: 0; }
     .callout.drill { background: rgba(80,255,140,0.04); border-left-color: #50ff8c; }
@@ -83,13 +83,13 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     .related { margin: 32px 0; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related h3 { margin: 0 0 10px; }
     .related ul { margin: 0; padding-left: 18px; }
-    .breadcrumb { font-size: 0.85rem; color: rgba(230,233,239,0.6); margin-bottom: 12px; }
-    .breadcrumb a { color: rgba(230,233,239,0.85); }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(10,15,25,0.6)); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
+    .breadcrumb { font-size: 0.85rem; color: rgba(235,228,215,0.6); margin-bottom: 12px; }
+    .breadcrumb a { color: rgba(235,228,215,0.85); }
+    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
     .intro-cta h3 { margin: 0 0 6px; color: #fff; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(230,233,239,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #00e5ff; color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(230,233,239,0.5); font-size: 0.82rem; text-align: center; }
+    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
+    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       article h1 { font-size: 1.55rem; }
@@ -2419,13 +2419,13 @@ function renderIndex(allPosts) {
   // filter can show/hide whole sections via CSS without re-rendering.
   const sectionsHtml = Object.entries(byGame).map(([gameId, group]) => `
     <section class="blog-game-section" data-game="${gameId}" data-genre="${group.genre}" style="margin-bottom: 36px">
-      <h2 style="margin-bottom: 12px">${escape(group.label)} <span style="font-size: 0.7rem; color: rgba(230,233,239,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">${escape(GENRE_LABELS[group.genre] || 'Other')}</span></h2>
+      <h2 style="margin-bottom: 12px">${escape(group.label)} <span style="font-size: 0.7rem; color: rgba(235,228,215,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">${escape(GENRE_LABELS[group.genre] || 'Other')}</span></h2>
       <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
         ${group.posts.map((p) => `
           <li>
-            <a href="/blog/${p.slug}.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">${escape(p.fromRank)} → ${escape(p.toRank)}</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">${escape(p.metaDescription.slice(0, 110))}…</span>
+            <a href="/blog/${p.slug}.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">${escape(p.fromRank)} → ${escape(p.toRank)}</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">${escape(p.metaDescription.slice(0, 110))}…</span>
             </a>
           </li>`).join('')}
       </ul>
@@ -2433,7 +2433,7 @@ function renderIndex(allPosts) {
 
   const bodyInner = `
     <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
-    <p style="color: rgba(230,233,239,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
+    <p style="color: rgba(235,228,215,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
     ${sectionsHtml}
     <div class="intro-cta">
       <h3>Want AI VOD review on top of these guides?</h3>

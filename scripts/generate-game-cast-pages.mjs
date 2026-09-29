@@ -50,7 +50,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="${themeColor || '#0a0f19'}" />
+  <meta name="theme-color" content="${themeColor || '#121211'}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -61,16 +61,16 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="twitter:image" content="${og}" />
   ${ldBlocks.map(b => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n  ')}
   <style>
-    :root { color-scheme: dark; --accent: ${themeColor || '#00e5ff'}; }
+    :root { color-scheme: dark; --accent: ${themeColor || '#f07430'}; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 880px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
     .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
     h1 { font-size: 2.1rem; margin: 1.5rem 0 0.25rem; line-height: 1.15; }
     h1 .accent { color: var(--accent); }
-    .eyebrow { color: rgba(230,233,239,0.6); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .lead { font-size: 1.05rem; color: rgba(230,233,239,0.85); margin: 0.75rem 0 1.5rem; }
+    .eyebrow { color: rgba(235,228,215,0.6); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .lead { font-size: 1.05rem; color: rgba(235,228,215,0.85); margin: 0.75rem 0 1.5rem; }
     h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; color: var(--accent); }
     .pill { display: inline-block; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; margin-right: 6px; }
     .pill-role { background: rgba(255,155,92,0.12); color: #ff9b5c; border: 1px solid rgba(255,155,92,0.4); }
@@ -78,17 +78,17 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
     .pill-side-defense { background: rgba(80,180,255,0.15); color: #7aaaff; border: 1px solid #5099cc; }
     .stat-row { display: flex; gap: 1.25rem; margin: 1rem 0 1.5rem; flex-wrap: wrap; }
     .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.7rem 1.1rem; min-width: 120px; }
-    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .stat-label { color: rgba(235,228,215,0.6); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; }
     .stat-val { font-size: 1.4rem; font-weight: 700; color: #fff; margin-top: 4px; }
     .kit-list { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 6px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
     .kit-list li { padding: 8px 12px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 6px; font-size: 0.9rem; }
     .map-list { list-style: none; padding: 0; margin: 0.5rem 0; }
     .map-list li { padding: 0.6rem 0.85rem; margin-bottom: 4px; background: rgba(255,255,255,0.03); border-left: 3px solid rgba(255,155,92,0.3); border-radius: 6px; font-size: 0.92rem; }
-    .map-list a { color: #e6e9ef; text-decoration: none; font-weight: 600; }
+    .map-list a { color: #ebe4d7; text-decoration: none; font-weight: 600; }
     .map-list a:hover { color: var(--accent); }
-    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1rem 0; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: var(--accent); color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1rem 0; }
     .cta:hover { filter: brightness(1.1); }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
     footer a { color: var(--accent); }
   </style>
 </head>
@@ -148,7 +148,7 @@ function vocabOf(meta) {
 
 function castPage(game, data, member, usage) {
   const meta = game.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const V = vocabOf(meta)
   const slug = slugify(member.id || member.name)
@@ -164,7 +164,7 @@ function castPage(game, data, member, usage) {
   }
 
   const mapsHtml = Object.keys(byMap).length === 0 ? `
-    <p style="color: rgba(230,233,239,0.55); font-style: italic;">No site picks logged yet — full strat coverage rolling out.</p>
+    <p style="color: rgba(235,228,215,0.55); font-style: italic;">No site picks logged yet — full strat coverage rolling out.</p>
   ` : `<ul class="map-list">${Object.entries(byMap).map(([mapId, picks]) => {
     const sidesText = picks.map(p => {
       const sideLabel = p.side === 'attack' ? V.sideAttack : V.sideDefense
@@ -173,7 +173,7 @@ function castPage(game, data, member, usage) {
     }).join(' · ')
     return `<li>
       <a href="/games/${game.id}/${mapId}.html">${escape(mapId)}</a>
-      <span style="color:rgba(230,233,239,0.55); font-size:0.85rem; margin-left:8px">— ${sidesText}</span>
+      <span style="color:rgba(235,228,215,0.55); font-size:0.85rem; margin-left:8px">— ${sidesText}</span>
     </li>`
   }).join('')}</ul>`
 
@@ -204,7 +204,7 @@ function castPage(game, data, member, usage) {
     <h2>Where ${escape(member.name)} is picked</h2>
     ${mapsHtml}
 
-    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(180,140,255,0.06)); border: 1px solid rgba(0,229,255,0.25); border-radius: 12px;">
+    <div style="margin-top: 32px; padding: 20px 24px; background: linear-gradient(135deg, rgba(240,116,48,0.06), rgba(222,202,173,0.06)); border: 1px solid rgba(240,116,48,0.25); border-radius: 12px;">
       <h3 style="margin-top:0">More ${escape(displayName)} guides</h3>
       <p style="margin: 0 0 12px;">Recon 6 covers every ${V.cast.toLowerCase()} and ${V.map.toLowerCase()} in ${escape(displayName)}. Browse the full catalog:</p>
       <a href="/games/${game.id}/" class="cta">All ${escape(displayName)} guides →</a>
@@ -244,13 +244,13 @@ function castPage(game, data, member, usage) {
 
 function castIndexPage(game, data, members) {
   const meta = game.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const V = vocabOf(meta)
 
   const itemsHtml = members.map(m => {
     const slug = slugify(m.id || m.name)
-    return `<li><a href="/games/${game.id}/cast/${slug}.html">${escape(m.name)}</a>${m.role ? ` <span style="color:rgba(230,233,239,0.55);font-size:0.85rem;margin-left:6px">${escape(m.role)}</span>` : ''}</li>`
+    return `<li><a href="/games/${game.id}/cast/${slug}.html">${escape(m.name)}</a>${m.role ? ` <span style="color:rgba(235,228,215,0.55);font-size:0.85rem;margin-left:6px">${escape(m.role)}</span>` : ''}</li>`
   }).join('\n')
 
   const inner = `

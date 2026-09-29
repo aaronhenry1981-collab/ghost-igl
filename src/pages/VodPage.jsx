@@ -283,7 +283,7 @@ export default function VodPage() {
   const effectiveAnalysis = demoMode ? demoAnalysis : analysis
 
   const displayName = gameMeta?.displayName || 'your game'
-  const accent = gameMeta?.color || '#00e5ff'
+  const accent = gameMeta?.color || '#f07430'
 
   useEffect(() => {
     // Sync from the URL (?demo=1 deep link — external system) — guarded, and
@@ -539,10 +539,10 @@ function UsageStrip({ usage, isAdmin, goToPricing, goToUsage }) {
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0.6rem 0.9rem', marginBottom: '0.85rem',
-        background: 'rgba(0,229,255,0.04)', border: '1px solid rgba(0,229,255,0.18)',
-        borderRadius: 8, fontSize: '0.82rem', color: 'rgba(230,233,239,0.8)',
+        background: 'rgba(240,116,48,0.04)', border: '1px solid rgba(240,116,48,0.18)',
+        borderRadius: 8, fontSize: '0.82rem', color: 'rgba(235,228,215,0.8)',
       }}>
-        <span><strong style={{ color: '#00e5ff' }}>Admin</strong> · Unlimited VOD sessions</span>
+        <span><strong style={{ color: '#f07430' }}>Admin</strong> · Unlimited VOD sessions</span>
       </div>
     )
   }
@@ -565,11 +565,11 @@ function UsageStrip({ usage, isAdmin, goToPricing, goToUsage }) {
       fontSize: '0.85rem',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, marginBottom: 6 }}>
-        <span style={{ color: 'rgba(230,233,239,0.85)' }}>
+        <span style={{ color: 'rgba(235,228,215,0.85)' }}>
           <strong style={{ color: '#fff' }}>{remaining}</strong> of {limit} VOD sessions left
           {isTrial && <span style={{ marginLeft: 8, fontSize: '0.7rem', color: '#ffc97a', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Trial</span>}
         </span>
-        <span style={{ color: 'rgba(230,233,239,0.5)', fontSize: '0.78rem' }}>
+        <span style={{ color: 'rgba(235,228,215,0.5)', fontSize: '0.78rem' }}>
           {resetLabel}
         </span>
       </div>

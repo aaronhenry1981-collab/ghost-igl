@@ -25,7 +25,9 @@ const SCREENSHOTS = [
 ]
 
 const LOGOS = [
-  { src: '/favicon.svg', label: 'Brand mark (SVG)', size: 'Vector' },
+  { src: '/logo-lockup.svg', label: 'Logo lockup, R6 monogram + wordmark (SVG, transparent)', size: 'Vector' },
+  { src: '/logo-mark.svg', label: 'R6 monogram (SVG, transparent)', size: 'Vector' },
+  { src: '/favicon.svg', label: 'App icon on charcoal (SVG)', size: 'Vector' },
   { src: '/og-image.png', label: 'Social preview (1200×630 PNG)', size: '1200×630' },
 ]
 
@@ -122,7 +124,7 @@ export default function PressPage() {
         <div className="press-asset-grid">
           {LOGOS.map((a) => (
             <a key={a.src} href={a.src} download className="press-asset-card">
-              <div className="press-asset-preview" style={{ background: a.src.endsWith('.svg') ? '#0a0f19' : 'transparent' }}>
+              <div className="press-asset-preview" style={{ background: a.src.endsWith('.svg') ? '#121211' : 'transparent' }}>
                 <img src={a.src} alt={a.label} />
               </div>
               <div className="press-asset-meta">

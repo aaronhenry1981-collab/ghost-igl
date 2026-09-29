@@ -70,7 +70,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="${themeColor || '#0a0f19'}" />
+  <meta name="theme-color" content="${themeColor || '#121211'}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escape(title)}" />
   <meta property="og:description" content="${escape(description)}" />
@@ -81,34 +81,34 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLd, breadcrum
   <meta name="twitter:image" content="${og}" />
   ${ldBlocks.map(b => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n  ')}
   <style>
-    :root { color-scheme: dark; --accent: ${themeColor || '#00e5ff'}; }
+    :root { color-scheme: dark; --accent: ${themeColor || '#f07430'}; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
     .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; font-weight: 600; }
     .game-hero { padding: 2.5rem 0; text-align: center; }
-    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,233,239,0.6); margin-bottom: 1rem; }
+    .game-hero .badge { display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(235,228,215,0.6); margin-bottom: 1rem; }
     h1 { font-size: 2.5rem; margin: 0 0 0.5rem; line-height: 1.15; }
     h1 .accent { color: var(--accent); }
-    .lead { font-size: 1.15rem; color: rgba(230,233,239,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
+    .lead { font-size: 1.15rem; color: rgba(235,228,215,0.85); max-width: 720px; margin: 0.5rem auto 1.5rem; }
     .cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0; }
     .btn { display: inline-block; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.15s; }
-    .btn-primary { background: var(--accent); color: #0a0f19; }
+    .btn-primary { background: var(--accent); color: #121211; }
     .btn-primary:hover { filter: brightness(1.1); }
     .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
     h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
     h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; }
     .stat-row { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
     .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem 1.25rem; min-width: 140px; text-align: center; }
-    .stat-label { color: rgba(230,233,239,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-label { color: rgba(235,228,215,0.6); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .stat-val { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 4px; }
     .grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); margin: 1rem 0; }
     .grid-item { padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.9rem; }
     .grid-item strong { color: #fff; }
-    .grid-item span { color: rgba(230,233,239,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
-    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(180,140,255,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
+    .grid-item span { color: rgba(235,228,215,0.6); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .pricing-callout { padding: 1.5rem; background: linear-gradient(135deg, rgba(240,116,48,0.08), rgba(222,202,173,0.08)); border: 1px solid var(--accent); border-radius: 12px; margin: 2rem 0; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
     footer a { color: var(--accent); }
   </style>
 </head>
@@ -144,7 +144,7 @@ async function generateGamePage(game) {
   }
 
   const meta = game.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const vocabRaw = meta.vocab || {}
   // Resolve a vocab term across naming conventions; never produce
@@ -203,7 +203,7 @@ async function generateGamePage(game) {
   const blogPosts = blogPostsForGame(game.id)
   const blogHtml = blogPosts.length > 0 ? `
     <h2>${escape(displayName)} Rank-Up Guides</h2>
-    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">Step-by-step guides for climbing each rank tier in ${escape(displayName)} — what to focus on, common mistakes, and drills.</p>
+    <p style="color: rgba(235,228,215,0.75); margin: 0 0 1rem;">Step-by-step guides for climbing each rank tier in ${escape(displayName)} — what to focus on, common mistakes, and drills.</p>
     <div class="grid">
       ${blogPosts.map(p => `
         <a href="/blog/${p.slug}.html" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
@@ -220,7 +220,7 @@ async function generateGamePage(game) {
   const loadoutEntries = Object.entries(loadoutsData)
   const loadoutsHtml = loadoutEntries.length > 0 ? `
     <h2>${escape(displayName)} Loadouts</h2>
-    <p style="color: rgba(230,233,239,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
+    <p style="color: rgba(235,228,215,0.75); margin: 0 0 1rem;">What to pick &mdash; and why. Real loadouts, weapon priorities, and team-comp combos.
       <a href="/loadouts" style="color: var(--accent);">Open the full interactive loadouts &rarr;</a>
     </p>
     <div class="grid">
@@ -228,7 +228,7 @@ async function generateGamePage(game) {
         <a href="/loadouts" class="grid-item" style="text-decoration:none; color:inherit; display:block;">
           <strong>${escape(sec.name || id)}</strong>
           ${sec.role ? `<span>${escape(sec.role)}</span>` : ''}
-          ${sec.summary ? `<div style="font-size: 0.78rem; color: rgba(230,233,239,0.62); margin-top: 4px; line-height: 1.45;">${escape(sec.summary.slice(0, 140))}${sec.summary.length > 140 ? '…' : ''}</div>` : ''}
+          ${sec.summary ? `<div style="font-size: 0.78rem; color: rgba(235,228,215,0.62); margin-top: 4px; line-height: 1.45;">${escape(sec.summary.slice(0, 140))}${sec.summary.length > 140 ? '…' : ''}</div>` : ''}
         </a>
       `).join('')}
     </div>
@@ -346,7 +346,7 @@ function indexPage(games) {
 // pages across the 9 new games — major SEO surface expansion.
 async function generateMapPage(game, data, map) {
   const meta = game.gameMeta || {}
-  const themeColor = meta.color || '#00e5ff'
+  const themeColor = meta.color || '#f07430'
   const displayName = meta.displayName || meta.name || game.id
   const vocabRaw = meta.vocab || {}
   // Resolve a vocab term across naming conventions; never produce
@@ -398,10 +398,10 @@ async function generateMapPage(game, data, map) {
     const defenseOps = siteStrat.defense?.operators?.map(o => `${o.name} (${o.role || 'pick'})`).slice(0, 5).join(', ') || ''
     return `
     <div class="grid-item" style="grid-column: 1 / -1; padding: 1.25rem;">
-      <h3 style="margin:0 0 0.5rem; color: var(--accent);">${escape(s.name || s.id)}${s.floor ? ` <span style="font-size:0.85rem;color:rgba(230,233,239,0.5);font-weight:400">(${escape(s.floor)})</span>` : ''}</h3>
-      ${attackOps ? `<div style="margin: 0.5rem 0;"><strong style="color:#ffa67a;font-size:0.85rem;">${escape(sideAttackLabel)} picks:</strong> <span style="color:rgba(230,233,239,0.85);font-size:0.9rem;">${escape(attackOps)}</span></div>` : ''}
-      ${defenseOps ? `<div style="margin: 0.5rem 0;"><strong style="color:#7aaaff;font-size:0.85rem;">${escape(sideDefenseLabel)} picks:</strong> <span style="color:rgba(230,233,239,0.85);font-size:0.9rem;">${escape(defenseOps)}</span></div>` : ''}
-      ${siteStrat.attack?.callouts?.length ? `<div style="margin: 0.5rem 0; font-size:0.85rem; color:rgba(230,233,239,0.65);"><strong>Callouts:</strong> ${siteStrat.attack.callouts.slice(0, 8).map(escape).join(' · ')}</div>` : ''}
+      <h3 style="margin:0 0 0.5rem; color: var(--accent);">${escape(s.name || s.id)}${s.floor ? ` <span style="font-size:0.85rem;color:rgba(235,228,215,0.5);font-weight:400">(${escape(s.floor)})</span>` : ''}</h3>
+      ${attackOps ? `<div style="margin: 0.5rem 0;"><strong style="color:#ffa67a;font-size:0.85rem;">${escape(sideAttackLabel)} picks:</strong> <span style="color:rgba(235,228,215,0.85);font-size:0.9rem;">${escape(attackOps)}</span></div>` : ''}
+      ${defenseOps ? `<div style="margin: 0.5rem 0;"><strong style="color:#7aaaff;font-size:0.85rem;">${escape(sideDefenseLabel)} picks:</strong> <span style="color:rgba(235,228,215,0.85);font-size:0.9rem;">${escape(defenseOps)}</span></div>` : ''}
+      ${siteStrat.attack?.callouts?.length ? `<div style="margin: 0.5rem 0; font-size:0.85rem; color:rgba(235,228,215,0.65);"><strong>Callouts:</strong> ${siteStrat.attack.callouts.slice(0, 8).map(escape).join(' · ')}</div>` : ''}
     </div>`
   }).join('') : '<p style="opacity:0.5">Site-by-site strats coming with full launch.</p>'
 
@@ -417,14 +417,14 @@ async function generateMapPage(game, data, map) {
         Stadium-mode strategy for ${escape(map.name || map.id)} — Cash economy, Power picks per round, Item shop priorities, hero lineups${stadiumMode ? ' for ' + escape(stadiumMode) + ' mode' : ''}. Stadium runs on a BO7 round structure with 4 Power picks (rounds 1, 3, 5, 7) and a per-round Item shop economy that makes build literacy more decisive than aim.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="${SITE_URL}/strats/${escape(map.id)}/${escape(sites[0]?.id || 'point')}/attack" style="background:#ffc97a;color:#0a0f19;border-color:#ffc97a">Open ${escape(map.name || map.id)} strats →</a>
+        <a class="btn btn-primary" href="${SITE_URL}/strats/${escape(map.id)}/${escape(sites[0]?.id || 'point')}/attack" style="background:#ffc97a;color:#121211;border-color:#ffc97a">Open ${escape(map.name || map.id)} strats →</a>
         <a class="btn btn-outline" href="${SITE_URL}/#pricing">Founding rate $9/mo (ends May 31)</a>
       </div>
     </div>
 
     <div class="pricing-callout" style="background:rgba(255,201,122,0.06);border-color:rgba(255,201,122,0.3);margin-top:1rem">
       <h3 style="margin-top:0;color:#ffc97a">What Pro unlocks for this map</h3>
-      <ul style="margin:0.5rem 0 0;padding-left:1.2rem;color:rgba(230,233,239,0.9)">
+      <ul style="margin:0.5rem 0 0;padding-left:1.2rem;color:rgba(235,228,215,0.9)">
         <li><strong>${sites.length} sites</strong> on ${escape(map.name || map.id)} with attack + defense breakdowns</li>
         <li><strong>Cash priorities per round</strong> — when to bank, when to spend, when to commit Epic Items</li>
         <li><strong>Power-pick reads</strong> — which of your 4 Power picks (R1/R3/R5/R7) wins against dive vs brawl vs comp-counter</li>
@@ -441,13 +441,13 @@ async function generateMapPage(game, data, map) {
     ${stadiumIntro}
 
     <h2>Sites on ${escape(map.name || map.id)}</h2>
-    <p style="color:rgba(230,233,239,0.7);font-size:0.95rem">
+    <p style="color:rgba(235,228,215,0.7);font-size:0.95rem">
       Each Stadium objective plays differently — Clash bank flips reward Brawl comps, Control points reward Dive, Push robot contests reward sustain. Pick your site for the full Pro breakdown.
     </p>
     <div class="grid" style="grid-template-columns: 1fr;">
       ${sites.map(s => `
         <div class="grid-item" style="grid-column: 1 / -1; padding: 1.25rem; border-color:rgba(255,201,122,0.25)">
-          <h3 style="margin:0 0 0.5rem;color:#ffc97a">${escape(s.name || s.id)}${s.floor ? ` <span style="font-size:0.85rem;color:rgba(230,233,239,0.5);font-weight:400">(${escape(s.floor)})</span>` : ''}</h3>
+          <h3 style="margin:0 0 0.5rem;color:#ffc97a">${escape(s.name || s.id)}${s.floor ? ` <span style="font-size:0.85rem;color:rgba(235,228,215,0.5);font-weight:400">(${escape(s.floor)})</span>` : ''}</h3>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem">
             <a class="btn btn-outline" href="${SITE_URL}/strats/${escape(map.id)}/${escape(s.id)}/attack" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Attack strats →</a>
             <a class="btn btn-outline" href="${SITE_URL}/strats/${escape(map.id)}/${escape(s.id)}/defense" style="border-color:rgba(255,201,122,0.5);color:#ffc97a;font-size:0.85rem;padding:6px 14px">Defense strats →</a>

@@ -42,12 +42,12 @@ const html = `<!doctype html>
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 720px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .nav a { color: #00e5ff; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .nav a { color: #f07430; text-decoration: none; margin-right: 1rem; font-weight: 600; }
     h1 { font-size: 1.8rem; margin: 1.5rem 0 0.5rem; }
-    .subtitle { color: rgba(230,233,239,0.6); font-size: 0.95rem; margin-bottom: 2rem; }
+    .subtitle { color: rgba(235,228,215,0.6); font-size: 0.95rem; margin-bottom: 2rem; }
     .check {
       display: flex; justify-content: space-between; align-items: center;
       padding: 0.85rem 1rem; margin-bottom: 6px;
@@ -57,7 +57,7 @@ const html = `<!doctype html>
     .check.ok { border-left-color: #50c878; }
     .check.fail { border-left-color: #ff5a5a; }
     .check.pending { border-left-color: rgba(255,255,255,0.3); }
-    .check-name { font-weight: 600; color: #e6e9ef; }
+    .check-name { font-weight: 600; color: #ebe4d7; }
     .check-pill {
       font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px;
       text-transform: uppercase; letter-spacing: 0.05em;
@@ -72,8 +72,8 @@ const html = `<!doctype html>
     }
     .summary.degraded { background: rgba(255,180,80,0.08); border-color: #ffb450; color: #ffc97a; }
     .summary.outage { background: rgba(255,90,90,0.1); border-color: #ff5a5a; color: #ff8a8a; }
-    .footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
-    .last-checked { font-size: 0.85rem; color: rgba(230,233,239,0.55); margin-top: 1rem; }
+    .footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
+    .last-checked { font-size: 0.85rem; color: rgba(235,228,215,0.55); margin-top: 1rem; }
   </style>
 </head>
 <body>

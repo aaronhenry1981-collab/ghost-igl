@@ -239,7 +239,7 @@ export default function LoadoutsPage() {
     />
   }
 
-  const accent = gameMeta.color || '#00e5ff'
+  const accent = gameMeta.color || '#f07430'
   const displayName = gameMeta.displayName || gameMeta.name || activeGameId
 
   if (loading) {

@@ -43,23 +43,23 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd }
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.6; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     .container { max-width: 880px; margin: 0 auto; padding: 1.5rem; }
     .nav { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .nav a { color: #00e5ff; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+    .nav a { color: #f07430; text-decoration: none; margin-right: 1rem; font-weight: 600; }
     .nav a:hover { text-decoration: underline; }
     h1 { font-size: 2rem; margin: 1.5rem 0 0.25rem; }
-    .eyebrow { color: rgba(230,233,239,0.6); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .lead { color: rgba(230,233,239,0.85); font-size: 1.05rem; margin: 1rem 0 1.5rem; }
+    .eyebrow { color: rgba(235,228,215,0.6); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .lead { color: rgba(235,228,215,0.85); font-size: 1.05rem; margin: 1rem 0 1.5rem; }
     h2 { font-size: 1.3rem; margin: 2rem 0 0.5rem; color: #ff9b5c; }
     .ban-card { background: rgba(255,90,90,0.06); border: 1px solid rgba(255,90,90,0.3); border-left: 4px solid #ff5a5a; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
     .ban-card.defense { background: rgba(90,180,255,0.06); border-color: rgba(90,180,255,0.3); border-left-color: #5a99ff; }
     .ban-name { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .ban-reason { color: rgba(230,233,239,0.85); font-size: 0.95rem; }
-    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: #00e5ff; color: #0a0f19; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1.5rem 0; }
-    .cta:hover { background: #5cf0ff; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(230,233,239,0.5); font-size: 0.85rem; text-align: center; }
-    footer a { color: #00e5ff; }
+    .ban-reason { color: rgba(235,228,215,0.85); font-size: 0.95rem; }
+    .cta { display: inline-block; padding: 0.7rem 1.4rem; background: #f07430; color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1.5rem 0; }
+    .cta:hover { background: #f49b67; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
+    footer a { color: #f07430; }
   </style>
 </head>
 <body>
@@ -126,7 +126,7 @@ function indexPage(maps) {
     .map(m => {
       return `<li>
         <a href="/guides/bans/${m.id}.html"><strong>${escape(m.name)}</strong></a>
-        <div style="font-size:0.85rem; color:rgba(230,233,239,0.6); margin-top:4px;">
+        <div style="font-size:0.85rem; color:rgba(235,228,215,0.6); margin-top:4px;">
           Map-specific attacker and defender ban framework
         </div>
       </li>`

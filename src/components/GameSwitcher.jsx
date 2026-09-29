@@ -128,7 +128,7 @@ export default function GameSwitcher() {
         <span className="game-switcher-current">
           <span
             className="game-switcher-dot"
-            style={{ background: meta.color || '#00e5ff' }}
+            style={{ background: meta.color || '#f07430' }}
             aria-hidden="true"
           />
           <span className="game-switcher-name">{meta.displayName || meta.name || activeGameId}</span>
@@ -153,7 +153,7 @@ export default function GameSwitcher() {
         <div className="game-switcher-pop" role="listbox">
           <div className="game-switcher-pop-head">
             <strong>Pick a game</strong>
-            <span style={{ color: 'rgba(230,233,239,0.55)', fontSize: '0.72rem' }}>
+            <span style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.72rem' }}>
               {isAdmin ? 'Admin · every game'
                 : isAllAccess ? 'All-Access · every game'
                 : lockedGameId ? 'Pro · single game' : 'Pick your game'}
@@ -177,7 +177,7 @@ export default function GameSwitcher() {
                   >
                     <span
                       className="game-switcher-option-dot"
-                      style={{ background: m.color || '#00e5ff' }}
+                      style={{ background: m.color || '#f07430' }}
                       aria-hidden="true"
                     />
                     <span className="game-switcher-option-name">{m.displayName || m.name || g.id}</span>
