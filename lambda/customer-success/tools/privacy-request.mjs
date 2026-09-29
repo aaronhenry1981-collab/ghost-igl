@@ -55,6 +55,7 @@ export async function collect(email, sources, { extraSubs = [] } = {}) {
     subscriptions: await sources.subscriptions(lower),
     crmLog: await sources.crmLog(lower),
     referrals: await sources.referrals(lower),
+    referralRewards: sources.referralRewards ? await sources.referralRewards(lower) : [],
     climb: await perSub((s) => sources.climb(s)),
     coachingEvents: await perSub((s) => sources.coachingEvents(s)),
     bookings: await sources.bookings(lower),

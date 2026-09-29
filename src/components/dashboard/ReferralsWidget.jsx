@@ -81,17 +81,17 @@ export default function ReferralsWidget() {
   const progress = Math.min(same_tier_active, 3)
   const isFree = !isPro && !isAdmin
   // Decide which header / urgency banner to show:
-  //   1. Referral goal reached → green, credit handled by support (not automatic)
-  //   2. Qualifies (3+ active) but no cron run yet → green "you've earned it"
-  //   3. Founding referrer + still in window → "founding referrer" badge
-  //   4. Founding window open, not yet a paid sub → "join now to lock in"
-  //   5. Post-launch, not eligible → quiet upgrade prompt
-  //   6. Otherwise → standard progress
+  //   1. Referral goal reached → green; the daily referral-rewards job credits
+  //      the free month (lambda/admin/referral-rewards.mjs)
+  //   2. Founding referrer + still in window → "founding referrer" badge
+  //   3. Founding window open, not yet a paid sub → "join now to lock in"
+  //   4. Post-launch, not eligible → quiet upgrade prompt
+  //   5. Otherwise → standard progress
   let banner = null
   if (qualifies_for_comp) {
-    // No billing credit is applied automatically (no code applies one), so
-    // this banner must not promise that. The referral record is unchanged.
-    banner = { tone: 'success', label: 'Free month earned', text: 'Your referrals are recorded. We add the free-month credit to your account by hand (it is not automatic yet). If it is not on your next bill, email support@r6coaching.com.' }
+    // The job runs daily; members without a monthly Stripe subscription
+    // (comped, admin) are credited by hand, hence the support fallback.
+    banner = { tone: 'success', label: 'Free month earned', text: 'A free month of your plan is added to your account balance automatically within a day and comes off your next bill. If it is not there, email support@r6coaching.com.' }
   } else if (is_founding_referrer && founding_window_open) {
     banner = { tone: 'accent', label: 'Founding referrer · locked for life', text: 'You’re grandfathered into the referral program at your current tier forever — even after it restricts to Champion+ only.' }
   } else if (is_founding_referrer && !founding_window_open) {

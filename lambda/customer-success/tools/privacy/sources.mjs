@@ -11,6 +11,7 @@ export const TABLES = Object.freeze({
   subscriptions: 'ghost-igl-subscriptions',
   crmLog: 'ghost-igl-crm-log',
   referrals: 'ghost-igl-referrals',
+  referralRewards: 'ghost-igl-referral-rewards',
   climb: 'recon6-climb-progress',
   coachingEvents: 'recon6-coaching-events',
   bookings: 'recon6-bookings',
@@ -28,6 +29,7 @@ export const KEYS = Object.freeze({
   [TABLES.subscriptions]: ['stripe_customer_id'],
   [TABLES.crmLog]: ['email'],
   [TABLES.referrals]: ['referrer_email', 'referred_email'],
+  [TABLES.referralRewards]: ['referrer_email', 'reward_seq'],
   [TABLES.climb]: ['sub'],
   [TABLES.coachingEvents]: ['userId', 'sk'],
   [TABLES.bookings]: ['slotId'],
@@ -83,6 +85,7 @@ export function createSources({ ddb, cognito, userPoolId }) {
       const seen = new Set()
       return [...asReferrer, ...asReferred].filter((i) => { const k = `${i.referrer_email}|${i.referred_email}`; if (seen.has(k)) return false; seen.add(k); return true })
     },
+    referralRewards: (email) => pageAll(ddb, QueryCommand, { TableName: TABLES.referralRewards, KeyConditionExpression: 'referrer_email = :e', ExpressionAttributeValues: { ':e': email } }),
     async climb(sub) {
       if (!sub) return []
       const r = await ddb.send(new GetCommand({ TableName: TABLES.climb, Key: { sub } }))
