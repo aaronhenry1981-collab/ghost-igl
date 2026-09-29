@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTestimonials } from '../../hooks/useTestimonials'
+import { Badge, Field, Notice, Panel, Skeleton, StateView } from '../../features/admin/ui'
 
 const RANK_SUGGESTIONS = [
   'Copper → Bronze',
@@ -10,6 +11,8 @@ const RANK_SUGGESTIONS = [
   'Emerald → Diamond',
   'Diamond → Champion',
 ]
+const TIER_BADGE = { champion: ['accent', 'Champion'], elite: ['bone', 'Elite'], pro: ['info', 'Pro'] }
+const EMPTY = { name: '', text: '', rank: '', hours: '', tier: '', featured: false }
 
 function initialsFromName(name) {
   return String(name || '')
@@ -20,37 +23,17 @@ function initialsFromName(name) {
     .toUpperCase()
 }
 
-function EmptyRow({ children }) {
-  return <div className="testi-empty">{children}</div>
-}
-
 export default function TestimonialBuilder() {
-  const { list, loading, add, remove } = useTestimonials()
-  const [form, setForm] = useState({
-    name: '',
-    text: '',
-    rank: '',
-    hours: '',
-    tier: '',
-    featured: false,
-  })
-  const [error, setError] = useState(null)
+  const { list, loading, error: loadError, refresh, add, remove } = useTestimonials()
+  const [form, setForm] = useState(EMPTY)
+  const [status, setStatus] = useState(null)
   const [submitting, setSubmitting] = useState(false)
-
-  function reset() {
-    setForm({ name: '', text: '', rank: '', hours: '', tier: '', featured: false })
-    setError(null)
-  }
 
   async function submit(e) {
     e.preventDefault()
-    setError(null)
+    setStatus(null)
     if (!form.name.trim() || !form.text.trim()) {
-      setError('Name and quote are both required.')
-      return
-    }
-    if (form.text.length > 500) {
-      setError('Keep the quote under 500 characters.')
+      setStatus({ tone: 'danger', text: 'Author name and quote are both required.' })
       return
     }
     setSubmitting(true)
@@ -63,149 +46,91 @@ export default function TestimonialBuilder() {
         tier: form.tier || undefined,
         featured: form.featured,
       })
-      reset()
+      setForm(EMPTY)
+      setStatus({ tone: 'ok', text: 'Testimonial added. It is live on the landing page.' })
     } catch (err) {
-      setError(err.message || 'Failed to add testimonial')
+      setStatus({ tone: 'danger', text: `Not added: ${err.message || 'request failed'}` })
     } finally {
       setSubmitting(false)
     }
   }
 
-  async function handleRemove(id) {
-    if (!window.confirm('Delete this testimonial? It will disappear from the landing page immediately.')) return
-    try { await remove(id) }
-    catch (err) { setError(err.message || 'Failed to delete') }
+  async function handleRemove(t) {
+    if (!window.confirm(`Delete the testimonial from ${t.name}? It disappears from the landing page immediately.`)) return
+    setStatus(null)
+    try {
+      await remove(t.id)
+      setStatus({ tone: 'ok', text: 'Testimonial deleted.' })
+    } catch (err) {
+      setStatus({ tone: 'danger', text: `Delete failed: ${err.message || 'request failed'}` })
+    }
   }
 
   return (
-    <section className="admin-section admin-testimonials">
-      <div className="admin-section-header">
-        <h2>Testimonials</h2>
-        <div className="admin-actions">
-          <span className="admin-footnote" style={{ margin: 0 }}>
-            {loading ? 'Loading…' : `${list.length} total · live on landing page now`}
-          </span>
-        </div>
+    <Panel
+      title="Testimonials"
+      description="Real customer quotes shown on the landing page. The section is hidden when there are none. Only publish what the customer actually said, with their permission."
+      actions={<span className="ax-muted ax-num" style={{ fontSize: '0.78rem' }}>{loading ? 'Loading…' : `${list.length} live`}</span>}
+      bodyClassName="is-flush"
+    >
+      <div style={{ padding: '16px 20px 20px', borderBottom: '1px solid var(--ax-border)' }}>
+        {status && <Notice tone={status.tone} onDismiss={() => setStatus(null)}>{status.text}</Notice>}
+        <form onSubmit={submit} className="ax-form-stack">
+          <div className="ax-form-grid">
+            <Field label="Author name">
+              <input className="ax-input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={60} placeholder="Name or gamer tag they approved" />
+            </Field>
+            <Field label="Rank progression (optional)">
+              <input className="ax-input" value={form.rank} onChange={(e) => setForm({ ...form, rank: e.target.value })} maxLength={40} placeholder="Gold → Platinum" list="ax-rank-suggestions" />
+              <datalist id="ax-rank-suggestions">{RANK_SUGGESTIONS.map((r) => <option key={r} value={r} />)}</datalist>
+            </Field>
+            <Field label="Hours played (optional)">
+              <input className="ax-input" value={form.hours} onChange={(e) => setForm({ ...form, hours: e.target.value })} maxLength={20} placeholder="1,200 hrs" />
+            </Field>
+            <Field label="Verified plan (optional)">
+              <select className="ax-select" value={form.tier} onChange={(e) => setForm({ ...form, tier: e.target.value })}>
+                <option value="">No badge</option>
+                <option value="pro">Pro subscriber</option>
+                <option value="elite">Elite subscriber</option>
+                <option value="champion">Champion subscriber</option>
+              </select>
+            </Field>
+          </div>
+          <Field label="Quote" hint={`${form.text.length}/500`}>
+            <textarea className="ax-textarea" rows={3} value={form.text} onChange={(e) => setForm({ ...form, text: e.target.value })} maxLength={500} placeholder="One or two sentences reads best." />
+          </Field>
+          <div className="ax-btn-row">
+            <label className="ax-check"><input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> Feature (pin to top)</label>
+            <span style={{ flex: 1 }} />
+            <button type="button" className="ax-btn ax-btn--sm ax-btn--ghost" onClick={() => { setForm(EMPTY); setStatus(null) }}>Clear</button>
+            <button type="submit" className="ax-btn ax-btn--sm ax-btn--primary" disabled={submitting}>{submitting ? 'Adding…' : 'Add testimonial'}</button>
+          </div>
+        </form>
       </div>
 
-      <form onSubmit={submit} className="testi-form">
-        <div className="testi-form-row">
-          <label className="testi-field">
-            <span>Author name</span>
-            <input
-              type="text"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Splinter, SarahR6, etc."
-              maxLength={60}
-              className="testi-input"
-            />
-          </label>
-          <label className="testi-field">
-            <span>Rank progression (optional)</span>
-            <input
-              type="text"
-              value={form.rank}
-              onChange={(e) => setForm({ ...form, rank: e.target.value })}
-              placeholder="e.g. Gold → Platinum"
-              maxLength={40}
-              className="testi-input"
-              list="rank-suggestions"
-            />
-            <datalist id="rank-suggestions">
-              {RANK_SUGGESTIONS.map((r) => <option key={r} value={r} />)}
-            </datalist>
-          </label>
-          <label className="testi-field testi-field-narrow">
-            <span>Hours (optional)</span>
-            <input
-              type="text"
-              value={form.hours}
-              onChange={(e) => setForm({ ...form, hours: e.target.value })}
-              placeholder="1,200 hrs"
-              maxLength={20}
-              className="testi-input"
-            />
-          </label>
-        </div>
-        <label className="testi-field">
-          <span>Quote <span className="testi-char-count">{form.text.length}/500</span></span>
-          <textarea
-            value={form.text}
-            onChange={(e) => setForm({ ...form, text: e.target.value })}
-            placeholder="What did they say? Keep it punchy — one or two sentences reads best on the landing page."
-            maxLength={500}
-            rows={3}
-            className="testi-input"
-          />
-        </label>
-        <div className="testi-form-row">
-          <label className="testi-field testi-field-narrow">
-            <span>Verified tier (optional)</span>
-            <select
-              value={form.tier}
-              onChange={(e) => setForm({ ...form, tier: e.target.value })}
-              className="testi-input"
-            >
-              <option value="">No badge</option>
-              <option value="pro">Pro subscriber</option>
-              <option value="elite">Elite subscriber</option>
-              <option value="champion">Champion subscriber</option>
-            </select>
-          </label>
-          <label className="testi-field testi-field-narrow" style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 24 }}>
-            <input
-              type="checkbox"
-              checked={form.featured}
-              onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-            />
-            <span style={{ fontSize: '0.9rem' }}>Featured (pin to top)</span>
-          </label>
-        </div>
-        {error && <div className="admin-note admin-note-error">{error}</div>}
-        <div className="testi-form-actions">
-          <button type="submit" className="btn btn-primary btn-sm" disabled={submitting}>
-            {submitting ? 'Posting…' : 'Add testimonial'}
-          </button>
-          <button type="button" onClick={reset} className="btn btn-sm btn-outline">Clear</button>
-        </div>
-      </form>
-
-      <div className="testi-list">
-        {list.length === 0 ? (
-          <EmptyRow>
-            No testimonials yet. The landing page shows the "Players are ranking up" section only
-            when at least one testimonial is visible.
-          </EmptyRow>
-        ) : (
-          list.map((t) => (
-            <div key={t.id} className="testi-row">
-              <div className="testi-row-avatar">{initialsFromName(t.name)}</div>
-              <div className="testi-row-body">
-                <div className="testi-row-head">
-                  <strong>{t.name}</strong>
-                  {t.featured && <span className="testi-row-rank" style={{ background: 'rgba(255,155,92,0.2)', color: '#ff9b5c' }}>★ Featured</span>}
-                  {t.tier === 'champion' && <span className="testi-row-rank" style={{ background: 'rgba(240,116,48,0.18)', color: '#f07430' }}>Champion</span>}
-                  {t.tier === 'elite' && <span className="testi-row-rank" style={{ background: 'rgba(220,200,171,0.18)', color: '#e4d4bd' }}>Elite</span>}
-                  {t.tier === 'pro' && <span className="testi-row-rank" style={{ background: 'rgba(120,180,255,0.18)', color: '#7eb4ff' }}>Pro</span>}
-                  {t.rank && <span className="testi-row-rank">{t.rank}</span>}
-                  {t.hours && <span className="testi-row-hours">{t.hours}</span>}
-                </div>
-                <p className="testi-row-quote">“{t.text}”</p>
-              </div>
-              <div className="testi-row-actions">
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline"
-                  onClick={() => handleRemove(t.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </section>
+      {loading && list.length === 0 ? <Skeleton rows={3} />
+        : loadError && list.length === 0 ? <StateView kind="error" title="Testimonials could not be loaded" onRetry={refresh}>{loadError}</StateView>
+          : list.length === 0 ? <StateView kind="empty" title="No testimonials">The landing page hides the section until one is added.</StateView>
+            : (
+              <ul className="ax-quote-list">
+                {list.map((t) => (
+                  <li key={t.id} className="ax-quote">
+                    <span className="ax-avatar" aria-hidden="true">{initialsFromName(t.name)}</span>
+                    <div style={{ minWidth: 0 }}>
+                      <div className="ax-quote__head">
+                        <span className="ax-strong">{t.name}</span>
+                        {t.featured && <Badge tone="accent">Featured</Badge>}
+                        {TIER_BADGE[t.tier] && <Badge tone={TIER_BADGE[t.tier][0]}>{TIER_BADGE[t.tier][1]}</Badge>}
+                        {t.rank && <Badge tone="muted">{t.rank}</Badge>}
+                        {t.hours && <span className="ax-muted" style={{ fontSize: '0.75rem' }}>{t.hours}</span>}
+                      </div>
+                      <p className="ax-quote__text">“{t.text}”</p>
+                    </div>
+                    <div><button type="button" className="ax-btn ax-btn--sm ax-btn--danger" onClick={() => handleRemove(t)}>Delete</button></div>
+                  </li>
+                ))}
+              </ul>
+            )}
+    </Panel>
   )
 }

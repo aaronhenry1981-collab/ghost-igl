@@ -26,6 +26,8 @@ export default function AccountPage() {
   const goToPricing = useSectionNavigate('pricing')
   const [me, setMe] = useState(null)
   const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
     discord_handle: '',
     gamer_id: '',
     platform: '',
@@ -82,9 +84,13 @@ export default function AccountPage() {
 
   async function saveProfile(e) {
     e.preventDefault()
-    setSaving(true)
     setError(null)
     setNotice(null)
+    if (/@/.test(`${form.first_name}${form.last_name}`)) {
+      setError('Enter your name, not an email address.')
+      return
+    }
+    setSaving(true)
     try {
       const body = JSON.stringify(pickFields(form))
       const res = await authedFetch('/me', { method: 'PUT', body })
@@ -254,15 +260,39 @@ export default function AccountPage() {
       )}
 
       <section className="account-section">
-        <h2>Your gamer profile</h2>
+        <h2>Your profile</h2>
         <p className="account-muted">
-          Used by coaching features to tailor callouts and match the correct public player profile. Enter the exact in-game ID for your selected platform. Recon 6 never stores your TRN or Ubisoft password.
+          Your name helps us recognise you in coaching and support. The gamer details tailor callouts and match the correct public player profile: enter the exact in-game ID for your selected platform. Recon 6 never stores your TRN or Ubisoft password.
         </p>
 
         {loading ? (
           <p>Loading profile…</p>
         ) : (
           <form onSubmit={saveProfile} className="account-form">
+            <div className="account-form-row">
+              <Field label="First name (optional)">
+                <input
+                  type="text"
+                  maxLength={100}
+                  autoComplete="given-name"
+                  value={form.first_name}
+                  onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                  className="account-input"
+                />
+              </Field>
+              <Field label="Last name (optional)">
+                <input
+                  type="text"
+                  maxLength={100}
+                  autoComplete="family-name"
+                  value={form.last_name}
+                  onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                  className="account-input"
+                />
+              </Field>
+            </div>
+            <p className="account-muted" style={{ marginTop: '-0.25rem' }}>If you go by one name, leave last name empty.</p>
+
             <Field label="Discord handle" placeholder="yourname or yourname#1234">
               <input
                 type="text"
@@ -370,8 +400,8 @@ function AccessItem({ enabled, allow, note }) {
 }
 
 function pickFields(o) {
-  const keys = ['discord_handle', 'gamer_id', 'platform', 'preferred_server', 'main_role']
+  const keys = ['first_name', 'last_name', 'discord_handle', 'gamer_id', 'platform', 'preferred_server', 'main_role']
   const out = {}
-  for (const k of keys) out[k] = o[k] ?? ''
+  for (const k of keys) out[k] = typeof o[k] === 'string' && (k === 'first_name' || k === 'last_name') ? o[k].replace(/\s+/g, ' ').trim() : (o[k] ?? '')
   return out
 }

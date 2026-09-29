@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import CrmOverview from './CrmOverview'
 import CrmQueue from './CrmQueue'
@@ -17,22 +17,38 @@ const SupportCommand = lazy(() => import('../support/staff/SupportCommand'))
 
 // Recon customer-success CRM shell. `api` is injected (live Cognito-backed
 // client, or the dev fixture client) so the same screens render either way.
-export default function CrmPage({ api, basePath, tab = 'overview', playerKey = null, preview = false, support = null }) {
-  const tabs = CRM_TABS
+export default function CrmPage({ api, basePath, tab = 'overview', playerKey = null, preview = false, support = null, embedded = false }) {
+  // In the admin shell, Support has its own sidebar entry and sub-navigation.
+  const tabs = embedded ? CRM_TABS.filter((t) => t.id !== 'support') : CRM_TABS
   const current = playerKey ? 'players' : tab
-  const active = tabs.find((t) => t.id === current) || tabs[0]
+  const active = CRM_TABS.find((t) => t.id === current) || CRM_TABS[0]
+  const title = playerKey ? 'Player record' : embedded && current === 'overview' ? 'Customer success' : active.label
+  useEffect(() => {
+    if (embedded) document.title = `${title} · Recon 6 Admin`
+  }, [embedded, title])
 
   return (
     <div className="crm">
-      <header className="crm-header">
-        <div>
-          <p className="crm-eyebrow">Recon 6 · Customer success{preview ? ' · fictional preview data' : ''}</p>
-          <h1 className="crm-title">{playerKey ? 'Player record' : active.label}</h1>
-        </div>
-        {!preview && <NavLink to="/admin" className="btn btn-ghost btn-sm">Admin console</NavLink>}
-      </header>
+      {embedded ? (
+        // Inside the admin shell: the shell supplies navigation, so this is
+        // just the standard admin page header.
+        <header className="ax-page-header crm-embedded-header">
+          <div className="ax-page-header__text">
+            <p className="ax-eyebrow">{current === 'support' ? 'Support' : current === 'overview' ? 'Overview' : 'Customer success'}{preview ? ' · fictional preview data' : ''}</p>
+            <h1 className="ax-page-title">{title}</h1>
+          </div>
+        </header>
+      ) : (
+        <header className="crm-header">
+          <div>
+            <p className="crm-eyebrow">Recon 6 · Customer success{preview ? ' · fictional preview data' : ''}</p>
+            <h1 className="crm-title">{title}</h1>
+          </div>
+          {!preview && <NavLink to="/admin" className="btn btn-ghost btn-sm">Admin console</NavLink>}
+        </header>
+      )}
 
-      <nav className="crm-tabs" aria-label="Customer success sections">
+      {!(embedded && current === 'support') && <nav className="crm-tabs" aria-label="Customer success sections">
         <ul>
           {tabs.map((t) => (
             <li key={t.id}>
@@ -42,7 +58,7 @@ export default function CrmPage({ api, basePath, tab = 'overview', playerKey = n
             </li>
           ))}
         </ul>
-      </nav>
+      </nav>}
 
       {!api.configured ? (
         <section className="crm-panel" role="status">

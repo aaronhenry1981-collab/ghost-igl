@@ -1,143 +1,75 @@
-import { useState, useEffect, useCallback } from 'react'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../../lib/cognito'
+import { useMemo, useState } from 'react'
+import { useAdminData, useAdminResource } from '../../features/admin/AdminData'
+import { AUDIT_ACTIONS, auditDetailLines, auditLabel, auditTone, timeAgo } from '../../features/admin/auditFormat.mjs'
+import { foldText, paginate } from '../../features/admin/memberDirectory.mjs'
+import { formatDateTime } from '../../features/admin/memberFormat.mjs'
+import { Badge, Icon, Pagination, Panel, Skeleton, StateView } from '../../features/admin/ui'
 
-// Admin audit log — shows the last 100 admin actions (comp grants, revokes,
-// user deletions) with actor, timestamp, target, and details. Backed by
-// /admin/audit endpoint reading from the ghost-igl-audit-log DDB table.
-//
-// Logged actions today: comp.grant, comp.revoke, user.delete. Future actions
-// can be logged by adding `await audit(actorEmail, 'verb.noun', target, details)`
-// to any handler in the admin Lambda.
+// Admin audit log: the latest 100 audited admin actions (comp grants and
+// revokes, name edits, reconciliation, console removals) from the
+// ghost-igl-audit-log table via GET /admin/audit.
+export default function AuditLog({ id }) {
+  const { nowMs } = useAdminData()
+  const audit = useAdminResource('/admin/audit')
+  const [action, setAction] = useState('all')
+  const [q, setQ] = useState('')
+  const [page, setPage] = useState(1)
+  const events = useMemo(() => audit.data?.events || [], [audit.data])
 
-async function authedFetch(path, opts = {}) {
-  const cognitoUser = getCurrentUser()
-  if (!cognitoUser) throw new Error('Not signed in')
-  const session = await getSession(cognitoUser)
-  const token = getIdToken(session)
-  const res = await fetch(`${API_URL}${path}`, {
-    ...opts,
-    headers: { Authorization: `Bearer ${token}`, ...(opts.headers || {}) },
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
-  return data
-}
-
-const ACTION_COLORS = {
-  'comp.grant':  { bg: 'rgba(80,200,120,0.12)',  fg: '#7ee2a4', border: '#50c878' },
-  'comp.revoke': { bg: 'rgba(220,90,90,0.12)',   fg: '#d99',    border: '#a85050' },
-  'user.delete': { bg: 'rgba(255,90,90,0.15)',   fg: '#ff8a8a', border: '#ff5a5a' },
-}
-
-function actionStyle(action) {
-  const c = ACTION_COLORS[action] || { bg: 'rgba(180,180,180,0.12)', fg: '#aaa', border: '#888' }
-  return {
-    display: 'inline-block', padding: '2px 8px', fontSize: '0.7rem', fontWeight: 700,
-    textTransform: 'uppercase', letterSpacing: '0.04em',
-    color: c.fg, background: c.bg, border: `1px solid ${c.border}`,
-    borderRadius: 999,
-  }
-}
-
-function formatTimeAgo(iso) {
-  if (!iso) return '—'
-  const ms = Date.now() - new Date(iso).getTime()
-  const m = Math.floor(ms / 60000)
-  if (m < 1) return 'just now'
-  if (m < 60) return `${m}m ago`
-  const h = Math.floor(m / 60)
-  if (h < 24) return `${h}h ago`
-  const d = Math.floor(h / 24)
-  return `${d}d ago`
-}
-
-export default function AuditLog() {
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [collapsed, setCollapsed] = useState(true)
-
-  const refresh = useCallback(async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const data = await authedFetch('/admin/audit')
-      setEvents(data.events || [])
-    } catch (err) {
-      setError(err.message || 'Failed to load audit log')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!collapsed) refresh()
-  }, [collapsed, refresh])
+  const actions = useMemo(() => [...new Set(events.map((e) => e.action).filter(Boolean))].sort(), [events])
+  const filtered = useMemo(() => {
+    const tokens = foldText(q).split(' ').filter(Boolean)
+    return events.filter((e) => (action === 'all' || e.action === action) &&
+      tokens.every((t) => foldText(`${e.target || ''} ${e.actor || ''} ${auditLabel(e.action)}`).includes(t)))
+  }, [events, action, q])
+  const view = paginate(filtered, page, 25)
 
   return (
-    <section className="admin-section">
-      <div className="admin-section-header">
-        <h2>Admin Audit Log</h2>
-        <div className="admin-actions">
-          <button onClick={() => setCollapsed(c => !c)} className="btn btn-sm btn-outline">
-            {collapsed ? 'Show log' : 'Hide log'}
-          </button>
-          {!collapsed && (
-            <button onClick={refresh} className="btn btn-sm btn-outline" disabled={loading}>
-              {loading ? 'Loading…' : 'Refresh'}
-            </button>
-          )}
+    <Panel
+      id={id}
+      title="Audit log"
+      description="The latest 100 audited admin actions. Full history is kept in DynamoDB with point-in-time recovery."
+      actions={<button type="button" className="ax-btn ax-btn--sm" onClick={audit.reload} disabled={audit.status === 'loading' || audit.status === 'refreshing'}><Icon name="refresh" /> Refresh</button>}
+      bodyClassName="is-flush"
+    >
+      <div className="ax-toolbar">
+        <div className="ax-search">
+          <Icon name="search" />
+          <label className="ax-sr" htmlFor="ax-audit-q">Search the audit log</label>
+          <input id="ax-audit-q" type="search" className="ax-input" placeholder="Search member or admin email" value={q} onChange={(e) => { setQ(e.target.value); setPage(1) }} />
         </div>
+        <label className="ax-sr" htmlFor="ax-audit-action">Action</label>
+        <select id="ax-audit-action" className="ax-select" value={action} onChange={(e) => { setAction(e.target.value); setPage(1) }}>
+          <option value="all">All actions</option>
+          {actions.map((a) => <option key={a} value={a}>{AUDIT_ACTIONS[a]?.label || a}</option>)}
+        </select>
       </div>
 
-      {!collapsed && (
-        <>
-          {error && <div className="admin-error">{error}</div>}
-          {loading && events.length === 0 ? (
-            <p style={{ color: 'rgba(235,228,215,0.6)' }}>Loading audit events…</p>
-          ) : events.length === 0 ? (
-            <p style={{ color: 'rgba(235,228,215,0.55)', fontSize: '0.9rem' }}>
-              No admin actions logged yet. Comp grants, comp revokes, and user deletions will show up here.
-            </p>
-          ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>When</th>
-                    <th>Action</th>
-                    <th>Actor</th>
-                    <th>Target</th>
-                    <th>Details</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {events.map((e) => (
-                    <tr key={e.id}>
-                      <td className="admin-mono" style={{ fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
-                        {formatTimeAgo(e.timestamp)}
-                      </td>
-                      <td><span style={actionStyle(e.action)}>{e.action}</span></td>
-                      <td className="admin-mono" style={{ fontSize: '0.85rem' }}>{e.actor || '—'}</td>
-                      <td className="admin-mono" style={{ fontSize: '0.85rem' }}>{e.target || '—'}</td>
-                      <td style={{ fontSize: '0.8rem', color: 'rgba(235,228,215,0.65)', maxWidth: 380 }}>
-                        {e.details ? (
-                          <code style={{ fontSize: '0.75rem' }}>
-                            {Object.entries(e.details).map(([k, v]) => `${k}=${typeof v === 'object' ? JSON.stringify(v) : v}`).join(' · ')}
-                          </code>
-                        ) : <span style={{ opacity: 0.4 }}>—</span>}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p className="admin-footnote" style={{ marginTop: '0.5rem' }}>
-                Showing the last {events.length} admin actions. Full history persists in DynamoDB (PITR enabled).
-              </p>
-            </div>
-          )}
-        </>
-      )}
-    </section>
+      {audit.status === 'loading' ? <Skeleton rows={5} />
+        : audit.status === 'error' ? <StateView kind="error" title="The audit log could not be loaded" onRetry={audit.reload}>{audit.error}</StateView>
+          : events.length === 0 ? <StateView kind="empty" title="No admin actions recorded yet" />
+            : filtered.length === 0 ? <StateView kind="empty" title="No actions match">Clear the search or pick another action.</StateView>
+              : (
+                <>
+                  <div className="ax-table-wrap">
+                    <table className="ax-table">
+                      <thead><tr><th scope="col">When</th><th scope="col">Action</th><th scope="col">Member</th><th scope="col" className="ax-hide-lg">By</th><th scope="col">Details</th></tr></thead>
+                      <tbody>
+                        {view.items.map((e) => (
+                          <tr key={e.id}>
+                            <td className="ax-num" style={{ whiteSpace: 'nowrap' }}>{timeAgo(e.timestamp, nowMs)}<small>{formatDateTime(e.timestamp)}</small></td>
+                            <td><Badge tone={auditTone(e.action)}>{auditLabel(e.action)}</Badge></td>
+                            <td style={{ overflowWrap: 'anywhere' }}>{e.target || '—'}</td>
+                            <td className="ax-hide-lg" style={{ overflowWrap: 'anywhere' }}>{e.actor || 'system'}</td>
+                            <td style={{ maxWidth: 360 }}>{auditDetailLines(e.details).slice(0, 4).map((line) => <small key={line} style={{ marginTop: 0, overflowWrap: 'anywhere' }}>{line}</small>)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <Pagination {...view} onPage={setPage} label="actions" />
+                </>
+              )}
+    </Panel>
   )
 }

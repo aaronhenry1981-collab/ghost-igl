@@ -1,11 +1,13 @@
-import { useCallback, useMemo } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { lazy, Suspense, useCallback, useMemo } from 'react'
+import { Link, Route, Routes, useParams, useSearchParams } from 'react-router-dom'
 import PlayerHome from '../home/PlayerHome'
 import { useHomeView } from '../home/useHomeView'
 import CrmPage from '../crm/CrmPage'
 import { createDevCrmApi, createDevHomeApi, devFetch, DEV_SCENARIOS } from './devClient'
 import { DevHelp, DevSupportPlayer, DevSupportStaff, SupportDevIndex } from '../support/dev/SupportDevPreview'
 import './dev.css'
+
+const DevAdminPreview = lazy(() => import('./DevAdminPreview'))
 
 // DEV ONLY (never in production builds; see main.jsx). Renders real product
 // surfaces against the local customer-success dev server, which runs the
@@ -14,11 +16,19 @@ import './dev.css'
 //   /__dev/crm, /__dev/crm/queue, /__dev/crm/players/<key>
 //   /__dev/support[/cases/<n>], /__dev/help[/<slug>], /__dev/crm/support/*
 //   (support screens use the in-memory fixture transport; ?as=<scenario>)
+//   /__dev/admin[/*] (the admin application over adminFixtures.js)
 export default function DevPreviewPage() {
   const splat = useParams()['*'] || ''
   const [params] = useSearchParams()
   const parts = splat.split('/').filter(Boolean)
 
+  if (parts[0] === 'admin') {
+    return (
+      <Suspense fallback={null}>
+        <Routes><Route path="admin/*" element={<DevAdminPreview />} /></Routes>
+      </Suspense>
+    )
+  }
   const scenario = params.get('as') || 'default'
   if (parts[0] === 'support') return <DevSupportPlayer rest={parts.slice(1)} as={scenario} />
   if (parts[0] === 'help') return <DevHelp slug={parts[1]} as={scenario} />
@@ -38,6 +48,8 @@ export default function DevPreviewPage() {
       <ul>
         {DEV_SCENARIOS.map((s) => <li key={s}><Link to={`/__dev/home?as=${s}`}>{s}</Link></li>)}
       </ul>
+      <h2>Admin</h2>
+      <ul><li><Link to="/__dev/admin">Admin application (fictional members)</Link></li></ul>
       <h2>Customer success CRM</h2>
       <ul><li><Link to="/__dev/crm">CRM overview (fictional admin)</Link></li></ul>
       <SupportDevIndex />

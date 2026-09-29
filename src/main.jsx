@@ -17,7 +17,7 @@ import LandingPage from './pages/LandingPage'
 // loaded so first-load JS shrinks dramatically (~774 KB → ~250 KB landing
 // chunk + smaller per-route chunks fetched on demand).
 //
-// Page-specific CSS (AdminPage.css, ActivatePage.css) is now imported by
+// Page-specific CSS (the admin design system, ActivatePage.css) is imported by
 // the page itself rather than in main.jsx — keeps the landing CSS lean.
 const StratsPage = lazy(() => import('./pages/StratsPage'))
 const SetupsPage = lazy(() => import('./pages/SetupsPage'))
@@ -31,7 +31,7 @@ const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
 const MetaPage = lazy(() => import('./pages/MetaPage'))
 const VodPage = lazy(() => import('./pages/VodPage'))
 const AuthPage = lazy(() => import('./pages/AuthPage'))
-const AdminPage = lazy(() => import('./pages/AdminPage'))
+const AdminRoute = lazy(() => import('./features/admin/AdminRoute'))
 const AccountPage = lazy(() => import('./pages/AccountPage'))
 const ActivatePage = lazy(() => import('./pages/ActivatePage'))
 const DownloadPage = lazy(() => import('./pages/DownloadPage'))
@@ -43,7 +43,6 @@ const BeginnerGuidePage = lazy(() => import('./pages/BeginnerGuidePage'))
 const MatchPrepPage = lazy(() => import('./pages/MatchPrepPage'))
 const LoadoutsPage = lazy(() => import('./pages/LoadoutsPage'))
 const PlayerHomePage = lazy(() => import('./features/home/PlayerHomePage'))
-const CrmRoute = lazy(() => import('./features/crm/CrmRoute'))
 const SupportRoute = lazy(() => import('./features/support/SupportRoute'))
 const HelpRoute = lazy(() => import('./features/support/HelpRoute'))
 // Dev-only fixture previews (fictional data). `import.meta.env.DEV` is false in
@@ -197,11 +196,9 @@ const router = createBrowserRouter([
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },
       { path: '/meta', element: <L><MetaPage /></L> },
       { path: '/vod', element: <L><VodPage /></L> },
-      { path: '/admin', element: <L><AdminPage /></L> },
-      { path: '/admin/crm', element: <L><CrmRoute /></L> },
-      { path: '/admin/crm/players/:key', element: <L><CrmRoute /></L> },
-      { path: '/admin/crm/support/*', element: <L><CrmRoute /></L> },
-      { path: '/admin/crm/:tab', element: <L><CrmRoute /></L> },
+      // Admin application: its own shell and routes (members, coaching,
+      // customer success, support, growth, content, system).
+      { path: '/admin/*', element: <L><AdminRoute /></L> },
       { path: '/account', element: <L><AccountPage /></L> },
       // Player Command (support) + Help Center. Registered explicitly: unknown
       // paths redirect home via the catch-all below.

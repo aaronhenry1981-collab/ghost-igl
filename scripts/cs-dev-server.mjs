@@ -42,7 +42,8 @@ const handle = createApp({
   config: {
     features: { messaging: true, feedback: true },
     activityTrackingSince: new Date(now - 30 * 86400000).toISOString(),
-    allowedOrigins: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    // Vite dev ports used by local worktrees (5173 default, 5174-5179 side by side).
+    allowedOrigins: [5173, 5174, 5175, 5176, 5177, 5178, 5179].flatMap((port) => [`http://localhost:${port}`, `http://127.0.0.1:${port}`]),
     // Mirrors production: delivery off unless CS_DEV_DELIVERY=in_app.
     deliveryMode: process.env.CS_DEV_DELIVERY === 'in_app' ? 'in_app' : 'disabled',
   },

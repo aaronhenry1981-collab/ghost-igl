@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getCurrentUser, getIdToken, getSession } from '../../lib/cognito'
+import { Badge, Icon, KeyValues, Notice, Panel, StateView } from '../../features/admin/ui'
 import './GrowthEngine.css'
 
 const LOCAL_PUBLISHER = 'http://127.0.0.1:5599'
@@ -45,27 +46,31 @@ async function localRequest(path, init = {}) {
 function AccountCard({ account, busy, onConnect }) {
   const ready = account.state === 'ready' || account.state === 'review-required'
   const providerName = account.provider === 'youtube' ? 'YouTube Shorts' : 'TikTok'
+  const checks = [
+    [account.clientConfigured, `Developer app ${account.clientConfigured ? 'ready' : 'needed'}`],
+    [account.connected, `Account ${account.connected ? 'authorized' : 'not authorized'}`],
+    [account.publicAuditApproved, `Public posting ${account.publicAuditApproved ? 'approved' : 'awaiting platform audit'}`],
+  ]
   return (
-    <article className={`growth-account is-${account.state}`}>
-      <div className="growth-account-head">
-        <div><span>{providerName}</span><h3>{account.handle}</h3></div>
-        <strong>{ready ? 'Connected' : 'Setup incomplete'}</strong>
+    <article className="growth-account">
+      <div className="growth-account__head">
+        <div>
+          <p className="ax-eyebrow">{providerName}</p>
+          <p className="ax-strong">{account.handle}</p>
+        </div>
+        <Badge tone={ready ? 'ok' : 'warning'}>{ready ? 'Connected' : 'Setup incomplete'}</Badge>
       </div>
-      <div className="growth-account-checks">
-        <span className={account.clientConfigured ? 'ok' : ''}>Developer app {account.clientConfigured ? 'ready' : 'needed'}</span>
-        <span className={account.connected ? 'ok' : ''}>Account {account.connected ? 'authorized' : 'not authorized'}</span>
-        <span className={account.publicAuditApproved ? 'ok' : ''}>Public posting {account.publicAuditApproved ? 'approved' : 'awaiting platform audit'}</span>
-      </div>
-      <p>{account.nextAction}</p>
+      <ul className="growth-checks">
+        {checks.map(([ok, label]) => <li key={label} className={ok ? 'is-ok' : ''}><Icon name={ok ? 'check' : 'close'} size={14} /> {label}</li>)}
+      </ul>
+      {account.nextAction && <p className="ax-help">{account.nextAction}</p>}
       {account.clientConfigured && !account.connected && (
-        <button type="button" className="btn btn-sm btn-primary" disabled={busy} onClick={() => onConnect(account.provider)}>
-          Authorize {account.handle} once
+        <button type="button" className="ax-btn ax-btn--sm ax-btn--primary" style={{ marginTop: 10 }} disabled={busy} onClick={() => onConnect(account.provider)}>
+          Authorize {account.handle}
         </button>
       )}
       {!account.clientConfigured && (
-        <small>
-          One-time setup file: <code>C:\IronFront_Master\aim-coach\{account.provider}-client.json</code>
-        </small>
+        <p className="ax-help" style={{ marginTop: 8 }}>One-time setup file: <code>C:\IronFront_Master\aim-coach\{account.provider}-client.json</code></p>
       )}
     </article>
   )
@@ -75,35 +80,33 @@ function QueueItem({ item, tiktokReady, busy, onTikTokPublish }) {
   const youtube = item.youtube || {}
   const tiktok = item.tiktok || {}
   const isRealClip = item.render_state === 'ready' && item.clip_path
+  const secs = Number(item.event_secs || 0)
   return (
-    <article className={`growth-queue-item is-${item.render_state || 'waiting'}`}>
-      <div className="growth-queue-top">
+    <article className="growth-item">
+      <div className="growth-item__head">
         <div>
-          <span>{item.event_kind === 'death' ? 'Recorded death review' : 'Recorded round win'} · {formatWhen(item.scheduled_at)}</span>
-          <h3>{item.title || 'Evidence clip waiting to render'}</h3>
+          <p className="ax-eyebrow">{item.event_kind === 'death' ? 'Recorded death review' : 'Recorded round win'} · {formatWhen(item.scheduled_at)}</p>
+          <p className="ax-strong">{item.title || 'Evidence clip waiting to render'}</p>
         </div>
-        <strong>{isRealClip ? 'Real clip ready' : providerLabel(item.render_state)}</strong>
+        <Badge tone={isRealClip ? 'ok' : 'muted'}>{isRealClip ? 'Clip ready' : providerLabel(item.render_state)}</Badge>
       </div>
-      <dl>
-        <div><dt>Source</dt><dd>{fileName(item.source_video)} at {Math.floor(Number(item.event_secs || 0) / 60)}:{String(Number(item.event_secs || 0) % 60).padStart(2, '0')}</dd></div>
-        <div><dt>Evidence</dt><dd>{item.evidence || 'No evidence recorded.'}</dd></div>
-        <div><dt>Correction</dt><dd>{item.correction || 'Waiting for a recorded coaching correction.'}</dd></div>
-      </dl>
-      {item.render_error && <p className="growth-error">{item.render_error}</p>}
-      <div className="growth-platform-row">
-        <div>
-          <span>YouTube</span><strong>{providerLabel(youtube.state)}</strong>
-          {youtube.url && <a href={youtube.url} target="_blank" rel="noreferrer">Open verified post</a>}
-          {youtube.error && <small>{youtube.error}</small>}
-        </div>
-        <div>
-          <span>TikTok</span><strong>{providerLabel(tiktok.state)}</strong>
-          {tiktok.url && <a href={tiktok.url} target="_blank" rel="noreferrer">Open verified post</a>}
-          {tiktok.error && <small>{tiktok.error}</small>}
-        </div>
+      <KeyValues items={[
+        { label: 'Source', value: `${fileName(item.source_video)} at ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}` },
+        { label: 'Evidence', value: item.evidence || 'No evidence recorded.' },
+        { label: 'Correction', value: item.correction || 'Waiting for a recorded coaching correction.' },
+      ]} />
+      {item.render_error && <Notice tone="danger">{item.render_error}</Notice>}
+      <div className="growth-platforms">
+        {[['YouTube', youtube], ['TikTok', tiktok]].map(([label, p]) => (
+          <div key={label}>
+            <span className="ax-muted">{label}</span> <span className="ax-strong">{providerLabel(p.state)}</span>
+            {p.url && <> · <a className="ax-link" href={p.url} target="_blank" rel="noreferrer">Open post</a></>}
+            {p.error && <p className="ax-help" style={{ color: 'var(--ax-danger)' }}>{p.error}</p>}
+          </div>
+        ))}
         {isRealClip && tiktokReady && tiktok.state === 'review-required' && (
-          <button type="button" className="btn btn-sm btn-primary" disabled={busy} onClick={() => onTikTokPublish(item.id)}>
-            Review & publish to TikTok
+          <button type="button" className="ax-btn ax-btn--sm ax-btn--primary" disabled={busy} onClick={() => onTikTokPublish(item.id)}>
+            Review and publish to TikTok
           </button>
         )}
       </div>
@@ -186,55 +189,49 @@ export default function GrowthEngine({ currentMrr = 0 }) {
     )
   }
 
+  const confirmed = status?.confirmedThisWeek
+  const target = status?.weeklyTarget || 3
+  const clipsReady = items.filter((item) => item.render_state === 'ready').length
+
   return (
-    <section className="growth-engine" aria-labelledby="growth-engine-title">
-      <header className="growth-engine-header">
-        <div>
-          <span className="admin-eyebrow">Evidence publishing system · build 208</span>
-          <h2 id="growth-engine-title">Three real gameplay clips each week</h2>
-          <p>The Owner Coach finds recorded deaths and round wins, cuts vertical clips locally, and schedules them without Bedrock. No copied scripts, manual uploads, or fake “posted” buttons.</p>
+    <>
+      <Panel
+        title="Evidence publishing"
+        description="The Owner Coach on your PC finds recorded deaths and round wins, cuts vertical clips locally and schedules them. Clip selection makes no AI calls and gameplay video never uploads to AWS."
+        bodyClassName="is-flush"
+      >
+        <div className="ax-metrics">
+          <div className="ax-metric"><p className="ax-metric__label">Posts confirmed this week</p><p className="ax-metric__value">{confirmed ?? '—'} / {target}</p><p className="ax-metric__hint">{confirmed == null ? 'Owner Coach not reachable' : 'Confirmed by the platform'}</p></div>
+          <div className="ax-metric"><p className="ax-metric__label">Clips ready</p><p className="ax-metric__value">{status ? clipsReady : '—'}</p></div>
+          <div className="ax-metric"><p className="ax-metric__label">MRR toward the $10,000 goal</p><p className="ax-metric__value">${Number(currentMrr || 0).toLocaleString()}</p><p className="ax-metric__hint">${gap.toLocaleString()} to go</p></div>
         </div>
-        <div className="growth-target">
-          <span>MRR goal</span><strong>${Number(currentMrr || 0).toLocaleString()} / $10,000</strong><small>${gap.toLocaleString()} gap</small>
-        </div>
-      </header>
+      </Panel>
 
-      <div className="growth-truth-strip">
-        <div><strong>{status?.confirmedThisWeek ?? '—'} / {status?.weeklyTarget || 3}</strong><span>provider-confirmed this week</span></div>
-        <div><strong>{items.filter((item) => item.render_state === 'ready').length}</strong><span>real clips ready</span></div>
-        <div><strong>0</strong><span>AI calls for selection</span></div>
-        <div><strong>Local only</strong><span>no gameplay upload to AWS</span></div>
-      </div>
+      {error && (
+        <Notice tone="warning" title="Owner Coach not connected." actions={<button type="button" className="ax-btn ax-btn--sm" onClick={() => load()} disabled={busy}>Check again</button>}>
+          {error}
+        </Notice>
+      )}
+      {notice && <Notice tone="ok" onDismiss={() => setNotice(null)}>{notice}</Notice>}
 
-      {error && <div className="growth-alert is-error"><strong>Not ready yet</strong><span>{error}</span><button type="button" className="btn btn-sm btn-outline" onClick={() => load()} disabled={busy}>Check again</button></div>}
-      {notice && <div className="growth-alert is-ok"><strong>Updated</strong><span>{notice}</span></div>}
+      <Panel title="Publishing accounts" description="Each platform grants and can revoke its own token. Passwords never go into Recon 6.">
+        {!status && !error ? <StateView kind="loading" compact title="Checking the Owner Coach…" />
+          : (status?.accounts || []).length === 0 ? <StateView kind="empty" compact title="No publishing accounts">Start the Owner Coach on this PC to manage accounts.</StateView>
+            : <div className="growth-accounts">{status.accounts.map((account) => <AccountCard key={account.provider} account={account} busy={busy} onConnect={connect} />)}</div>}
+      </Panel>
 
-      <div className="growth-section-heading">
-        <div><span>One-time account authorization</span><h3>Publishing accounts</h3></div>
-        <p>Passwords never go into Recon 6. Each platform grants and can revoke its own token.</p>
-      </div>
-      <div className="growth-account-grid">
-        {(status?.accounts || []).map((account) => <AccountCard key={account.provider} account={account} busy={busy} onConnect={connect} />)}
-        {!status && !error && <div className="growth-loading">Checking the Owner Coach…</div>}
-      </div>
-
-      <div className="growth-section-heading growth-queue-heading">
-        <div><span>Monday · Wednesday · Friday</span><h3>Evidence queue</h3></div>
-        <button type="button" className="btn btn-sm btn-outline" onClick={scanNow} disabled={busy || !status}>{busy ? 'Working…' : 'Check recordings now'}</button>
-      </div>
-      <p className="growth-automation-note">
-        The Windows task checks automatically each day. This button is only a fallback. YouTube schedules itself after authorization and audit; TikTok requires one express Review & Publish action because TikTok’s platform rules require it.
-      </p>
-      <div className="growth-queue">
+      <Panel
+        title="Evidence queue"
+        description="Monday, Wednesday and Friday. A Windows task checks recordings daily; this button is only a fallback. TikTok requires one Review and publish action per post."
+        actions={<button type="button" className="ax-btn ax-btn--sm" onClick={scanNow} disabled={busy || !status}>{busy ? 'Working…' : 'Check recordings now'}</button>}
+        bodyClassName="is-flush"
+      >
         {items.length ? items.map((item) => (
           <QueueItem key={item.id} item={item} tiktokReady={accounts.tiktok?.state === 'review-required'} busy={busy} onTikTokPublish={publishTikTok} />
         )) : (
-          <div className="growth-empty">
-            <strong>No invented assignments.</strong>
-            <span>The first queue item appears only after the Coach finds a recorded death or round win with usable evidence.</span>
-          </div>
+          <StateView kind="empty" title="No clips queued">An item appears only after the Coach finds a recorded death or round win with usable evidence.</StateView>
         )}
-      </div>
-    </section>
+      </Panel>
+    </>
   )
 }

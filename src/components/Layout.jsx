@@ -22,7 +22,21 @@ import { GameProvider } from '../hooks/useActiveGame'
 export default function Layout() {
   const location = useLocation()
   const isLanding = location.pathname === '/'
-  const isAdmin = location.pathname.startsWith('/admin')
+  // The admin area (and its dev fixture preview) has its own top bar and
+  // navigation instead of the public site chrome.
+  const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/__dev/admin')
+
+  if (isAdmin) {
+    return (
+      <ErrorBoundary>
+        <GameProvider>
+          <Outlet />
+          <ReferralAttributor />
+          <ActivityBeacon />
+        </GameProvider>
+      </ErrorBoundary>
+    )
+  }
 
   return (
     <ErrorBoundary>
@@ -35,9 +49,9 @@ export default function Layout() {
         <main className="app-main">
           <Outlet />
         </main>
-        {!isAdmin && <Footer />}
-        {!isAdmin && <WelcomeModal />}
-        {!isAdmin && <ProfileSetupModal />}
+        <Footer />
+        <WelcomeModal />
+        <ProfileSetupModal />
         {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
             game to pick. Component kept in tree (see GameSwitcher note). */}
         <ReferralAttributor />

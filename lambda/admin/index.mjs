@@ -7,6 +7,7 @@ import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor
 import { BILLING_FIELDS, confirmationPhrase, planReconciliation } from './reconcile.mjs'
 import { runReferralRewards } from './referral-rewards.mjs'
 import { createStripeHttp } from './stripe-http.mjs'
+import { nameFieldsOf, validateNameEdit } from './member-names.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -75,7 +76,8 @@ export async function handler(event) {
     if (path.endsWith('/admin/comps') && method === 'GET') return await listComps(headers)
     if (path.endsWith('/admin/uncomp') && method === 'POST') return await uncompUser(event.body, headers, payload?.email)
     if (path.endsWith('/admin/users/delete') && method === 'POST') return await deleteUser(event.body, headers, payload?.email)
-    if (path.endsWith('/admin/audit') && method === 'GET') return await listAuditLog(headers)
+    if (path.endsWith('/admin/audit') && method === 'GET') return await listAuditLog(headers, event.queryStringParameters?.target)
+    if (path.endsWith('/admin/users/name') && method === 'POST') return await updateMemberName(event.body, headers, payload?.email)
     return { statusCode: 404, headers, body: JSON.stringify({ error: `Unknown route: ${method} ${path}` }) }
   } catch (err) {
     console.error('Route handler error:', err)
@@ -270,14 +272,18 @@ function enrichUsersWithStripe(users, subscriptions) {
     for (const subscription of byEmail.get((user.email || '').toLowerCase()) || []) matches.set(subscription.id, subscription)
     const all = [...matches.values()]
     const live = all.filter(isLiveStripeSubscription)
+    // Distinct Recon 6 Stripe customer records behind this member (the same
+    // person checking out twice creates a second customer).
+    const customerCount = new Set([user.stripe_customer_id, ...all.map(stripeCustomerId)].filter(Boolean)).size
     const primary = choosePrimarySubscription(live.length ? live : all)
     if (!primary) {
       const fallbackState = user.sub_status === 'canceled' ? 'canceled' : 'free'
-      return { ...user, billing_state: fallbackState, will_renew: false, live_subscription_count: 0, billing_alerts: [] }
+      return { ...user, billing_state: fallbackState, will_renew: false, live_subscription_count: 0, stripe_customer_count: customerCount, billing_alerts: [] }
     }
     const details = stripeSubscriptionDetails(primary, user.plan)
     const alerts = []
     if (live.length > 1) alerts.push('multiple_live_subscriptions')
+    if (customerCount > 1) alerts.push('multiple_stripe_customers')
     if (billingStateFor(primary) === 'payment_issue') alerts.push('payment_issue')
     return {
       ...user,
@@ -285,6 +291,7 @@ function enrichUsersWithStripe(users, subscriptions) {
       plan: planFor(primary, user.plan),
       current_period_end: details.next_billing_at,
       live_subscription_count: live.length,
+      stripe_customer_count: customerCount,
       paid_without_site_account: live.length > 0 && (user.orphan === true || user.cognito_status === 'NO_ACCOUNT'),
       billing_alerts: alerts,
     }
@@ -424,8 +431,7 @@ async function getUsers(headers) {
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
       is_comp: sub ? (sub.status === 'active' && isComp(sub)) : false,
-      first_name: profile?.first_name || null,
-      last_name: profile?.last_name || null,
+      ...nameFieldsOf(profile),
       display_name: profile?.display_name || null,
       platform: profile?.platform || null,
       region: profile?.region || profile?.preferred_server || null,
@@ -462,8 +468,7 @@ async function getUsers(headers) {
       stripe_subscription_id: sub.stripe_subscription_id || null,
       current_period_end: sub.current_period_end || null,
       orphan: true,               // Stripe-only, no Cognito match
-      first_name: profile?.first_name || null,
-      last_name: profile?.last_name || null,
+      ...nameFieldsOf(profile),
       display_name: profile?.display_name || null,
       platform: profile?.platform || null,
       region: profile?.region || profile?.preferred_server || null,
@@ -890,13 +895,72 @@ async function deleteUser(bodyJson, headers, callerEmail) {
   return { statusCode: 200, headers, body: JSON.stringify({ ok: true, ...summary }) }
 }
 
-async function listAuditLog(headers) {
+async function listAuditLog(headers, target) {
   // Scan + sort newest-first. For an admin UI showing the last ~100 events
   // this is fine; if the table grows large, switch to a GSI on timestamp.
-  const r = await ddb.send(new ScanCommand({ TableName: AUDIT_TABLE, Limit: 200 }))
-  const items = (r.Items || []).sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
-  return { statusCode: 200, headers, body: JSON.stringify({ events: items.slice(0, 100) }) }
+  // ?target=<email or id> narrows it to one member's history.
+  const t = typeof target === 'string' ? target.trim().toLowerCase() : ''
+  const items = []
+  let ExclusiveStartKey
+  do {
+    const r = await ddb.send(new ScanCommand({ TableName: AUDIT_TABLE, ExclusiveStartKey, ...(t ? { FilterExpression: '#t = :t', ExpressionAttributeNames: { '#t': 'target' }, ExpressionAttributeValues: { ':t': t } } : {}) }))
+    items.push(...(r.Items || []))
+    ExclusiveStartKey = items.length < 10000 ? r.LastEvaluatedKey : undefined
+  } while (ExclusiveStartKey)
+  items.sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
+  return { statusCode: 200, headers, body: JSON.stringify({ events: items.slice(0, t ? 200 : 100) }) }
+}
+
+// True when the account was removed in the admin console (audit user.delete).
+// Such records are preserved as they are until a person decides.
+async function removedInConsole(email) {
+  let ExclusiveStartKey
+  do {
+    const r = await ddb.send(new ScanCommand({
+      TableName: AUDIT_TABLE, ExclusiveStartKey,
+      FilterExpression: '#t = :t AND #a = :a',
+      ExpressionAttributeNames: { '#t': 'target', '#a': 'action' },
+      ExpressionAttributeValues: { ':t': email, ':a': 'user.delete' },
+    }))
+    if ((r.Items || []).length > 0) return true
+    ExclusiveStartKey = r.LastEvaluatedKey
+  } while (ExclusiveStartKey)
+  return false
+}
+
+// Correct a member's name. Touches ONLY the profile's name fields (the email
+// is the key and never changes; billing, subscriptions and entitlements are
+// other tables and are not read or written). Empty = remove that part, so a
+// single-name member keeps one field. Audited with before/after.
+async function updateMemberName(bodyJson, headers, callerEmail) {
+  let body
+  try { body = JSON.parse(bodyJson || '{}') } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) } }
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+  if (!email || !email.includes('@')) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Valid email required' }) }
+  let names
+  try { names = validateNameEdit(body) } catch (err) { return { statusCode: 400, headers, body: JSON.stringify({ error: err.message }) } }
+  if (await removedInConsole(email)) {
+    return { statusCode: 409, headers, body: JSON.stringify({ error: 'This account was removed in the console. Its remaining records are preserved unchanged, so the name cannot be edited.' }) }
+  }
+  const before = (await ddb.send(new GetCommand({ TableName: PROFILES_TABLE, Key: { email } }))).Item || null
+  const now = new Date().toISOString()
+  const set = ['name_source = :src', 'name_updated_at = :now', 'name_updated_by = :by', 'updated_at = :now', 'created_at = if_not_exists(created_at, :now)']
+  const remove = ['name_review']
+  const values = { ':src': 'admin', ':now': now, ':by': callerEmail || 'admin' }
+  if (names.first) { set.push('first_name = :first'); values[':first'] = names.first } else remove.push('first_name')
+  if (names.last) { set.push('last_name = :last'); values[':last'] = names.last } else remove.push('last_name')
+  const updated = await ddb.send(new UpdateCommand({
+    TableName: PROFILES_TABLE, Key: { email },
+    UpdateExpression: `SET ${set.join(', ')} REMOVE ${remove.join(', ')}`,
+    ExpressionAttributeValues: values,
+    ReturnValues: 'ALL_NEW',
+  }))
+  await audit(callerEmail, 'user.name.update', email, {
+    before: { first_name: before?.first_name || null, last_name: before?.last_name || null },
+    after: { first_name: names.first || null, last_name: names.last || null },
+  })
+  return { statusCode: 200, headers, body: JSON.stringify({ ok: true, email, ...nameFieldsOf(updated.Attributes) }) }
 }
 
 // Exported for tests (reconcile-route.test.mjs); the handler is the only caller in production.
-export { reconcileMemberships, deleteUser }
+export { reconcileMemberships, deleteUser, updateMemberName, listAuditLog, enrichUsersWithStripe }
