@@ -4,18 +4,35 @@
 // Run: node scripts/generate-guides.mjs
 // Output: public/guides/<map-id>.html + public/guides/index.html
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/public-strats.generated.js'
 import BANS from '../src/data/public-bans.generated.js'
+import {
+  ARTICLE_CSS, SITE_URL, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished,
+  fitDescription, fitTitle, footerHtml, mapSources, navHtml, sourcesHtml,
+} from './lib/article-seo.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT_DIR = join(ROOT, 'public', 'guides')
 
-const SITE_URL = 'https://r6coaching.com'
+// "CEO Office / Executive Lounge" -> "CEO Office"; both rooms when two sites
+// on the map share the first one.
+function siteLabel(map, site) {
+  const first = (s) => String(s.name).split(' / ')[0]
+  const shared = map.sites.some((other) => other.id !== site.id && first(other) === first(site))
+  return shared ? String(site.name).replace(' / ', ' & ') : first(site)
+}
+
+const operatorSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+const mapFigure = (map, caption) => figureHtml({
+  src: `/guides/og/${map.id}.svg`,
+  alt: `${map.name} map card from Recon 6's Rainbow Six Siege guide`,
+  caption,
+})
 
 function escape(s) {
   return String(s || '')
@@ -151,6 +168,10 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
     .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
     .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
     .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+    .definition { font-size: 1.02rem; color: rgba(235,228,215,0.92); }
+    .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
+    .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
+    .related-links ul { margin: 0; padding-left: 18px; }${ARTICLE_CSS}
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       h1 { font-size: 1.5rem; }
@@ -159,22 +180,23 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="${SITE_URL}/">RECON<span>6</span></a>
-    <div class="nav-links">
-      <a href="${SITE_URL}/guides/">All guides</a>
-      <a href="${SITE_URL}/strats">Interactive strats</a>
-      <a href="${SITE_URL}/#pricing">Pricing</a>
-    </div>
-  </nav>
+  ${navHtml()}
   <main>
     ${bodyInner}
   </main>
-  <div class="footer-strip">
-    <p>&copy; Recon 6 — AI-powered Rainbow Six Siege coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
-  </div>
+  ${footerHtml()}
 </body>
 </html>`
+}
+
+function relatedHtml(heading, links) {
+  const items = links.filter(Boolean)
+  if (!items.length) return ''
+  return `
+    <section class="related-links">
+      <h2>${escape(heading)}</h2>
+      <ul>${items.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
+    </section>`
 }
 
 function renderSide(side, strat) {
@@ -233,33 +255,53 @@ function renderMapGuide(map) {
   }
 
   const siteNames = map.sites.map((s) => s.name).join(', ')
-  const description = `Rainbow Six Siege strategy preview for ${map.name}: operator picks, a short execute overview, and key callouts for every bomb site (${siteNames}).`
+  const shortNames = map.sites.map((s) => siteLabel(map, s))
+  const description = fitDescription(
+    `Rainbow Six Siege strategy preview for ${map.name}: operator picks, a short execute overview, and key callouts for every bomb site (${siteNames}).`,
+    `${map.name} guide for Rainbow Six Siege: operator picks, a short execute overview and the key callouts for all ${map.sites.length} bomb sites.`,
+  )
+  const url = `${SITE_URL}/guides/${map.id}.html`
+  const datePublished = firstPublished(join(OUT_DIR, `${map.id}.html`))
+
+  const siteGuideLinks = map.sites
+    .filter((s) => STRATS[map.id]?.[s.id])
+    .map((s) => ({ name: `${map.name} ${siteLabel(map, s)} guide`, url: `/guides/${map.id}/${s.id}.html` }))
 
   const bodyInner = `
+    <nav class="breadcrumb" style="font-size:0.85rem;color:rgba(235,228,215,0.6);margin-bottom:8px">
+      <a href="/guides/">Map Guides</a> ›
+      <span>${escape(map.name)}</span>
+    </nav>
     <h1>${escape(map.name)} — Complete Strategy Guide</h1>
-    <p class="sub">Operator picks, a short execute overview, and key callouts for every bomb site. Full utility and ban intel unlock after sign-in.</p>
+    ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'guide' })}
+    <p class="definition">${escape(map.name)} is a Rainbow Six Siege map with ${map.sites.length} bomb sites: ${escape(shortNames.join(', '))}. For each one, this guide gives the operator picks, a short execute overview and the key callouts.</p>
+    <p class="sub">Full utility and ban intel unlock after sign-in.</p>
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}">Open interactive ${escape(map.name)} strats &rarr;</a>
+    ${mapFigure(map, `${map.name}: ${shortNames.join(', ')}`)}
     ${bansHtml}
     ${siteSections}
+    ${relatedHtml(`More on ${map.name}`, [
+      ...siteGuideLinks,
+    ])}
+    ${sourcesHtml(mapSources(map.id, map.name))}
     <div class="intro-cta">
-      <h3>Want the full utility breakdown + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility placement, enemy predictions, and AI-powered gameplay analysis. Review the current R6 plans before you subscribe.</p>
-      <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
+      <h3>The full ${escape(map.name)} plan is in Pro</h3>
+      <p>Utility for every operator on every ${escape(map.name)} site, and AI review of your own rounds.</p>
+      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
     </div>`
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  const jsonLd = articleSchema({
     headline: `${map.name} — Complete Rainbow Six Siege Strategy Guide`,
     description,
-    author: { '@type': 'Organization', name: 'Recon 6' },
-    publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/guides/${map.id}.html` },
-    inLanguage: 'en-US',
-  }
+    url,
+    datePublished,
+    dateModified: TEMPLATE_REVISED,
+    image: `${SITE_URL}/og-image.png`,
+    section: 'Map guides',
+  })
 
   return htmlShell({
-    title: `${map.name} Strategy Guide — Recon 6 (R6 Siege)`,
+    title: fitTitle(`${map.name} Strategy Guide — Recon 6 (R6 Siege)`, `${map.name} Guide — Recon 6 (R6 Siege)`, `${map.name} R6 Guide`),
     description,
     canonical: `${SITE_URL}/guides/${map.id}.html`,
     bodyInner,
@@ -283,9 +325,22 @@ function renderSiteGuide(map, site) {
   if (!strat) return null
 
   const canonical = `${SITE_URL}/guides/${map.id}/${site.id}.html`
-  const slug = `${map.name} ${site.name}`
-  const title = `${slug} — Attack & Defense Strats (R6 Siege) | Recon 6`
-  const description = `${map.name} ${site.name} (${site.floor}) Rainbow Six Siege strategy: attack lineup, defense setup, callouts, and utility usage. Free tactical guide.`
+  const label = siteLabel(map, site)
+  // Distinct from the app's /strats/<map>/<site> titles ("… Strats: Attack & Defense").
+  const title = fitTitle(
+    `${map.name} ${label} Guide: Operators & Callouts | Recon 6`,
+    `${map.name} ${label} Guide | Recon 6`,
+    `${label} on ${map.name}: R6 Site Guide`,
+    `${label} Site Guide (${map.name})`,
+  )
+  const description = fitDescription(
+    `${map.name} ${site.name} (${site.floor}) Rainbow Six Siege strategy: attack lineup, defense setup, callouts, and utility usage. Free tactical guide.`,
+    `${map.name} ${label} (${site.floor}) Rainbow Six Siege strategy: attack lineup, defense setup, callouts, and utility usage. Free tactical guide.`,
+    `${label} on ${map.name} in Rainbow Six Siege: the attack lineup, the defense setup and the callouts, in one free guide.`,
+  )
+  const datePublished = firstPublished(join(OUT_DIR, map.id, `${site.id}.html`))
+  const essentialOps = [...new Set(['attack', 'defense'].flatMap((side) =>
+    (strat[side]?.operators || []).filter((o) => o.priority === 'essential').map((o) => o.name)))]
 
   // Sibling sites for internal linking — Google rewards a tight cluster.
   const siblingsHtml = map.sites
@@ -313,8 +368,10 @@ function renderSiteGuide(map, site) {
       <span>${escape(site.name)}</span>
     </nav>
     <h1>${escape(map.name)} — ${escape(site.name)} <span style="color:rgba(235,228,215,0.55);font-weight:400;font-size:0.7em">(${escape(site.floor)})</span></h1>
-    <p class="sub">Operator picks, callouts, utility, and bans for ${escape(site.name)} on ${escape(map.name)}. Both attack and defense covered.</p>${siteNoticeHtml(site)}
+    ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'guide' })}
+    <p class="definition">${escape(site.name)} is a ${escape(site.floor)} bomb site on ${escape(map.name)} in Rainbow Six Siege. This guide gives the attack lineup, the defense setup and the callouts for it.</p>${siteNoticeHtml(site)}
     <a class="cta-top" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open interactive ${escape(site.name)} strat &rarr;</a>
+    ${mapFigure(map, `${map.name} — ${site.name} (${site.floor})`)}
 
     <section class="site" id="${escape(site.id)}">
       <h2>${escape(site.floor)} &mdash; ${escape(site.name)}</h2>
@@ -333,10 +390,16 @@ function renderSiteGuide(map, site) {
         : ''
     }
 
+    ${relatedHtml(`Related ${map.name} guides`, [
+      { name: `${map.name} map guide`, url: `/guides/${map.id}.html` },
+      ...essentialOps.slice(0, 4).map((name) => ({ name: `${name} operator guide`, url: `/guides/operators/${operatorSlug(name)}.html` })),
+    ])}
+    ${sourcesHtml(mapSources(map.id, map.name))}
+
     <div class="intro-cta">
-      <h3>Want full utility placement + AI VOD review?</h3>
-      <p>Recon 6 Pro unlocks per-operator utility breakdown, enemy predictions, and AI-powered gameplay analysis. Current prices are shown before checkout; paid memberships do not include a free trial.</p>
-      <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
+      <h3>Run the full ${escape(label)} plan</h3>
+      <p>Pro adds the utility for every operator on ${escape(label)}, and AI review of your own rounds.</p>
+      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
     </div>`
 
   // Layered JSON-LD via @graph — Article + HowTo + breadcrumbs in one block.
@@ -359,19 +422,19 @@ function renderSiteGuide(map, site) {
       url: `${canonical}#defense`,
     })
   }
+  const { '@context': _context, ...article } = articleSchema({
+    headline: `${map.name} ${site.name} — Rainbow Six Siege Attack & Defense Strategy`,
+    description,
+    url: canonical,
+    datePublished,
+    dateModified: TEMPLATE_REVISED,
+    image: `${SITE_URL}/og-image.png`,
+    section: 'Site guides',
+  })
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'Article',
-        headline: `${map.name} ${site.name} — Rainbow Six Siege Attack & Defense Strategy`,
-        description,
-        author: { '@type': 'Organization', name: 'Recon 6' },
-        publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
-        mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-        isPartOf: { '@type': 'WebPage', '@id': `${SITE_URL}/guides/${map.id}.html` },
-        inLanguage: 'en-US',
-      },
+      { ...article, isPartOf: { '@type': 'WebPage', '@id': `${SITE_URL}/guides/${map.id}.html` } },
       {
         '@type': 'HowTo',
         name: `How to play ${site.name} on ${map.name}`,
@@ -424,6 +487,11 @@ function renderIndex(mapsWithStrats) {
     <ul class="guide-grid">
       ${cards}
     </ul>
+    ${relatedHtml('More guides', [
+      { name: "Operator guides: every operator in Recon 6's plans", url: '/guides/operators/' },
+      { name: 'Blog: rank-up guides and operator deep dives', url: '/blog/' },
+      { name: 'Compare Recon 6 with a coach, free guides and other tools', url: '/compare/' },
+    ])}
     <div class="intro-cta">
       <h3>Prefer the interactive tool?</h3>
       <p>Deep-linked strats with search, keyboard shortcuts, and personalized operator picks based on your main role.</p>

@@ -23,12 +23,12 @@
 - [1-on-1 coaching](https://r6coaching.com/coaching/): live sessions with Aaron
 - [About and contact](https://r6coaching.com/about): who builds Recon 6 and how to reach him
 - [Press kit](https://r6coaching.com/press): logos, screenshots and product copy
+- [Compare Recon 6](https://r6coaching.com/compare/): next to a 1-on-1 coach, free guides and other coaching tools
 - [Refund policy](https://r6coaching.com/refund), [Privacy policy](https://r6coaching.com/privacy), [Terms](https://r6coaching.com/terms)
 
 ## Guides
 - [All map guides](https://r6coaching.com/guides/)
 - [Operator guides](https://r6coaching.com/guides/operators/)
-- [Ban guides](https://r6coaching.com/guides/bans/)
 - [Blog: rank-up and operator guides](https://r6coaching.com/blog/)
 - [Bank map guide](https://r6coaching.com/guides/bank.html): sites, callouts and the operators each plan uses
 - [Border map guide](https://r6coaching.com/guides/border.html): sites, callouts and the operators each plan uses

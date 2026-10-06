@@ -61,6 +61,7 @@ export default function Footer() {
           <ul>
             <li><Link to="/about">About Recon 6</Link></li>
             <li><a href="/about#contact">Contact</a></li>
+            <li><a href="/compare/">Compare Recon 6</a></li>
             <li><Link to="/press">Press kit</Link></li>
             <li><Link to="/creator-demo">Creator demo</Link></li>
             <li><Link to="/download">Desktop coach</Link></li>

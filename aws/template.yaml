@@ -187,13 +187,18 @@ Resources:
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
           ResponseHeadersPolicyId: !Ref SiteSecurityHeadersPolicy
           Compress: true
+        # Unknown paths get a real 404 (public/404.html). App routes never
+        # reach S3's miss: the viewer-request function
+        # aws/cloudfront-site-router.js serves each route's shell first.
         CustomErrorResponses:
           - ErrorCode: 403
-            ResponseCode: 200
-            ResponsePagePath: /index.html
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+            ErrorCachingMinTTL: 60
           - ErrorCode: 404
-            ResponseCode: 200
-            ResponsePagePath: /index.html
+            ResponseCode: 404
+            ResponsePagePath: /404.html
+            ErrorCachingMinTTL: 60
         HttpVersion: http2and3
         PriceClass: PriceClass_100
 

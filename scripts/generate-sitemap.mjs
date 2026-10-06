@@ -43,12 +43,16 @@ const STATIC_URLS = [
   { loc: '/refund', freq: 'yearly', pri: 0.3 },
   { loc: '/guides/', freq: 'weekly', pri: 0.9 },
   { loc: '/guides/operators/', freq: 'weekly', pri: 0.9 },
-  { loc: '/guides/bans/', freq: 'weekly', pri: 0.8 },
   { loc: '/blog/', freq: 'weekly', pri: 0.85 },
   { loc: '/countdown/', freq: 'weekly', pri: 0.85 },
   { loc: '/coaching/index.html', freq: 'weekly', pri: 0.95 },
   { loc: '/climb/', freq: 'weekly', pri: 0.9 },
   { loc: '/tools/', freq: 'weekly', pri: 0.85 },
+  { loc: '/author/aaron/', freq: 'monthly', pri: 0.5 },
+  { loc: '/compare/', freq: 'monthly', pri: 0.7 },
+  { loc: '/compare/recon-6-vs-1-on-1-coaching.html', freq: 'monthly', pri: 0.8 },
+  { loc: '/compare/recon-6-vs-youtube-and-discord.html', freq: 'monthly', pri: 0.8 },
+  { loc: '/compare/rainbow-six-siege-coaching-tools.html', freq: 'monthly', pri: 0.8 },
 ]
 
 // The source files behind each app route (static pages are their own source).
@@ -83,7 +87,8 @@ function sourcesFor(loc) {
 // by the committed copy of the output (which can lag the live site).
 const STRAT_DATA = ['src/data/maps.js', 'src/data/strats.js', 'scripts/generate-content-boundaries.mjs']
 function datingInputs(loc) {
-  if (loc.startsWith('/guides/bans/')) return ['scripts/generate-ban-guides.mjs', 'src/data/bans.js', ...STRAT_DATA]
+  if (loc.startsWith('/compare/')) return ['scripts/generate-compare-pages.mjs', 'scripts/lib/article-seo.mjs']
+  if (loc === '/author/aaron/') return ['scripts/generate-author-page.mjs', 'scripts/lib/article-seo.mjs']
   if (loc.startsWith('/guides/operators/')) return ['scripts/generate-operator-guides.mjs', ...STRAT_DATA]
   if (loc.startsWith('/guides/')) return ['scripts/generate-guides.mjs', ...STRAT_DATA]
   if (loc.startsWith('/blog/r6-operator-')) return sourcesFor(loc)
@@ -146,7 +151,6 @@ const operatorSet = new Set()
 for (const map of MAPS) {
   if (map.comingSoon || !STRATS[map.id]) continue
   urls.push(urlEntry({ loc: `/guides/${map.id}.html`, freq: 'monthly', pri: 0.8 }))
-  urls.push(urlEntry({ loc: `/guides/bans/${map.id}.html`, freq: 'monthly', pri: 0.7 }))
 
   for (const site of map.sites) {
     if (!STRATS[map.id]?.[site.id]) continue

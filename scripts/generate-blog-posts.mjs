@@ -9,9 +9,13 @@
 //
 // Run: node scripts/generate-blog-posts.mjs
 
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  ARTICLE_CSS, TEMPLATE_REVISED, articleSchema, bylineHtml, descriptionFrom, firstPublished, footerHtml,
+  navHtml, seasonSources, sourcesHtml, titleFromHeadline,
+} from './lib/article-seo.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -90,6 +94,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
     .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
     .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+${ARTICLE_CSS}
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       article h1 { font-size: 1.55rem; }
@@ -110,21 +115,11 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
       }
     } catch (e) { /* private mode / blocked storage — lose attribution only */ }
   </script>
-  <nav class="nav">
-    <a class="brand" href="${SITE_URL}/">RECON<span>+</span></a>
-    <div class="nav-links">
-      <a href="${SITE_URL}/blog/">Blog</a>
-      <a href="${SITE_URL}/guides/">Map guides</a>
-      <a href="${SITE_URL}/strats">Interactive strats</a>
-      <a href="${SITE_URL}/#pricing">Pricing</a>
-    </div>
-  </nav>
+  ${navHtml()}
   <main>
     ${bodyInner}
   </main>
-  <div class="footer-strip">
-    <p>&copy; Recon 6 — Rainbow Six Siege coaching. <a href="${SITE_URL}/">r6coaching.com</a></p>
-  </div>
+  ${footerHtml()}
 </body>
 </html>`
 }
@@ -2257,6 +2252,9 @@ function renderBreadcrumb(post) {
 
 function renderPost(post) {
   const canonical = `${SITE_URL}/blog/${post.slug}.html`
+  const datePublished = post.datePublished || firstPublished(join(OUT_DIR, `${post.slug}.html`), '2026-05-10')
+  const title = titleFromHeadline(post.metaTitle)
+  const description = descriptionFrom(post.metaDescription)
   const sectionsHtml = post.sections.map((s) => `
     <h2 id="${s.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}">${escape(s.heading)}</h2>
     ${s.html}
@@ -2298,20 +2296,20 @@ function renderPost(post) {
     </div>`
     : `
     <div class="intro-cta">
-      <h3>Want AI-powered VOD review on your own gameplay?</h3>
-      <p>Recon 6 Pro reviews the match screenshots you submit and suggests corrections to check against your round context. See current membership prices and included tools on the Plans page. Paid memberships do not include a free trial.</p>
-      <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
+      <h3>Check your own rounds</h3>
+      <p>Pro reviews screenshots from rounds you played.</p>
+      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
     </div>`
 
   const bodyInner = `
     ${renderBreadcrumb(post)}
     <article>
       <h1>${escape(post.metaTitle)}</h1>
+      ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'aiPost' })}
       <div class="meta-row">
         <span class="pill">${escape(post.gameLabel)}</span>
         <span class="pill">${escape(post.fromRank)} → ${escape(post.toRank)}</span>
         <span>${post.readMinutes} min read</span>
-        <span>Last updated: ${post.dateModified || post.datePublished || '2026-05'}</span>
       </div>
       ${post.intro}
       ${sectionsHtml}
@@ -2319,6 +2317,7 @@ function renderPost(post) {
       ${drillHtml}
       ${aiHtml}
       ${relatedHtml}
+      ${post.game === 'r6' ? sourcesHtml(seasonSources()) : ''}
       ${ctaHtml}
     </article>`
 
@@ -2327,19 +2326,16 @@ function renderPost(post) {
   // numbered steps in the SERP for "how to" queries, which is exactly what
   // these posts target.
   const jsonLdBlocks = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
+    articleSchema({
+      type: 'BlogPosting',
       headline: post.metaTitle,
-      description: post.metaDescription,
-      author: { '@type': 'Organization', name: 'Recon 6' },
-      publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
-      datePublished: post.datePublished || '2026-05-10',
-      dateModified: post.dateModified || post.datePublished || '2026-05-10',
-      mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-      inLanguage: 'en-US',
-      articleSection: post.gameLabel,
-    },
+      description,
+      url: canonical,
+      datePublished,
+      dateModified: TEMPLATE_REVISED,
+      image: `${SITE_URL}/og-image.png`,
+      section: post.gameLabel,
+    }),
     {
       '@context': 'https://schema.org',
       '@type': 'HowTo',
@@ -2367,8 +2363,8 @@ function renderPost(post) {
   ]
 
   return htmlShell({
-    title: post.metaTitle,
-    description: post.metaDescription,
+    title,
+    description,
     canonical,
     bodyInner,
     jsonLdBlocks,
@@ -2407,6 +2403,20 @@ const GENRE_LABELS = {
   sports: 'Sports',
 }
 
+// The operator deep dives come from scripts/generate-r6-operator-posts.mjs
+// (run by hand); list whatever is published.
+function operatorDeepDivesHtml() {
+  const posts = readdirSync(OUT_DIR).filter((f) => /^r6-operator-[a-z0-9-]+\.html$/.test(f)).sort()
+  if (!posts.length) return ''
+  const name = (f) => f.replace(/^r6-operator-|\.html$/g, '').replace(/(^|-)([a-z])/g, (_, d, c) => `${d ? ' ' : ''}${c.toUpperCase()}`)
+  return `
+    <section class="game-section" id="r6-operators">
+      <h2>R6 operator deep dives</h2>
+      <p style="color: rgba(235,228,215,0.75)">Loadout, the sites where Recon 6's plans pick them, counters and how to climb, for ${posts.length} operators.</p>
+      <ul>${posts.map((f) => `<li><a href="/blog/${f}">${escape(name(f))}</a></li>`).join('')}</ul>
+    </section>`
+}
+
 function renderIndex(allPosts) {
   // Group by game for the index page.
   const byGame = {}
@@ -2435,10 +2445,11 @@ function renderIndex(allPosts) {
     <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
     <p style="color: rgba(235,228,215,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
     ${sectionsHtml}
+    ${operatorDeepDivesHtml()}
     <div class="intro-cta">
-      <h3>Want AI VOD review on top of these guides?</h3>
-      <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round.</p>
-      <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
+      <h3>Want feedback on your own rounds?</h3>
+      <p>Recon 6 Pro reviews screenshots from your matches and points out the mistake to fix next.</p>
+      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
     </div>`
 
   const jsonLdBlocks = [
@@ -2462,7 +2473,7 @@ function renderIndex(allPosts) {
 
   return htmlShell({
     title: 'Rainbow Six Siege Guides — Recon 6 Blog',
-    description: 'Practical Rainbow Six Siege guides for ranked play, map plans, operators, and decision-making.',
+    description: 'Practical Rainbow Six Siege guides for ranked play: how to climb each rank, operator deep dives, season patch breakdowns, and decision-making.',
     canonical: `${SITE_URL}/blog/`,
     bodyInner,
     jsonLdBlocks,
@@ -10212,7 +10223,7 @@ const DOTA2_POSTS = [
 function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
-  const allPosts = R6_POSTS.map((post) => {
+  const allPosts = R6_POSTS.filter((post) => !post.slug.endsWith('-defense-setups-ranked')).map((post) => {
     if (!post.slug.endsWith('-defense-setups-ranked')) return post
     return {
       ...post,

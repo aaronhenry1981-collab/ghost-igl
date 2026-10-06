@@ -1,0 +1,307 @@
+{
+  "verifiedOn": "2026-10-06",
+  "general": {
+    "ubisoftOperators": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators",
+    "ubisoftMaps": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps",
+    "ubisoftPatchNotes": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/patch-notes",
+    "ubisoftSeasonNotes": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/news-updates/PONCuRt8LaCr3O31NkBQb/y11s3-designers-notes",
+    "siegeggOperators": "https://siege.gg/operators",
+    "siegeggMaps": "https://siege.gg/maps"
+  },
+  "operators": {
+    "Ace": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/ace",
+      "siegegg": "https://siege.gg/operators/ace"
+    },
+    "Alibi": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/alibi",
+      "siegegg": "https://siege.gg/operators/alibi"
+    },
+    "Aruni": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/aruni",
+      "siegegg": "https://siege.gg/operators/aruni"
+    },
+    "Ash": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/ash",
+      "siegegg": "https://siege.gg/operators/ash"
+    },
+    "Azami": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/azami",
+      "siegegg": "https://siege.gg/operators/azami"
+    },
+    "Bandit": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/bandit",
+      "siegegg": "https://siege.gg/operators/bandit"
+    },
+    "Buck": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/buck",
+      "siegegg": "https://siege.gg/operators/buck"
+    },
+    "Capitao": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/capitao",
+      "siegegg": "https://siege.gg/operators/capitao"
+    },
+    "Castle": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/castle",
+      "siegegg": "https://siege.gg/operators/castle"
+    },
+    "Caveira": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/caveira",
+      "siegegg": "https://siege.gg/operators/caveira"
+    },
+    "Doc": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/doc",
+      "siegegg": "https://siege.gg/operators/doc"
+    },
+    "Dokkaebi": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/dokkaebi",
+      "siegegg": "https://siege.gg/operators/dokkaebi"
+    },
+    "Echo": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/echo",
+      "siegegg": "https://siege.gg/operators/echo"
+    },
+    "Ela": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/ela",
+      "siegegg": "https://siege.gg/operators/ela"
+    },
+    "Finka": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/finka",
+      "siegegg": "https://siege.gg/operators/finka"
+    },
+    "Flores": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/flores",
+      "siegegg": "https://siege.gg/operators/flores"
+    },
+    "Fuze": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/fuze",
+      "siegegg": "https://siege.gg/operators/fuze"
+    },
+    "Glaz": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/glaz",
+      "siegegg": "https://siege.gg/operators/glaz"
+    },
+    "Goyo": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/goyo",
+      "siegegg": "https://siege.gg/operators/goyo"
+    },
+    "Gridlock": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/gridlock",
+      "siegegg": "https://siege.gg/operators/gridlock"
+    },
+    "Hibana": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/hibana",
+      "siegegg": "https://siege.gg/operators/hibana"
+    },
+    "Iana": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/iana",
+      "siegegg": "https://siege.gg/operators/iana"
+    },
+    "Jackal": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/jackal",
+      "siegegg": "https://siege.gg/operators/jackal"
+    },
+    "Jager": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/jager",
+      "siegegg": "https://siege.gg/operators/jager"
+    },
+    "Kaid": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/kaid",
+      "siegegg": "https://siege.gg/operators/kaid"
+    },
+    "Kali": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/kali",
+      "siegegg": "https://siege.gg/operators/kali"
+    },
+    "Lesion": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/lesion",
+      "siegegg": "https://siege.gg/operators/lesion"
+    },
+    "Lion": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/lion",
+      "siegegg": "https://siege.gg/operators/lion"
+    },
+    "Maestro": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/maestro",
+      "siegegg": "https://siege.gg/operators/maestro"
+    },
+    "Maverick": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/maverick",
+      "siegegg": "https://siege.gg/operators/maverick"
+    },
+    "Melusi": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/melusi",
+      "siegegg": "https://siege.gg/operators/melusi"
+    },
+    "Mira": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/mira",
+      "siegegg": "https://siege.gg/operators/mira"
+    },
+    "Mozzie": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/mozzie",
+      "siegegg": "https://siege.gg/operators/mozzie"
+    },
+    "Mute": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/mute",
+      "siegegg": "https://siege.gg/operators/mute"
+    },
+    "Nomad": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/nomad",
+      "siegegg": "https://siege.gg/operators/nomad"
+    },
+    "Pulse": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/pulse",
+      "siegegg": "https://siege.gg/operators/pulse"
+    },
+    "Sledge": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/sledge",
+      "siegegg": "https://siege.gg/operators/sledge"
+    },
+    "Smoke": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/smoke",
+      "siegegg": "https://siege.gg/operators/smoke"
+    },
+    "Thatcher": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/thatcher",
+      "siegegg": "https://siege.gg/operators/thatcher"
+    },
+    "Thermite": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/thermite",
+      "siegegg": "https://siege.gg/operators/thermite"
+    },
+    "Thunderbird": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/thunderbird",
+      "siegegg": "https://siege.gg/operators/thunderbird"
+    },
+    "Twitch": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/twitch",
+      "siegegg": "https://siege.gg/operators/twitch"
+    },
+    "Valkyrie": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/valkyrie",
+      "siegegg": "https://siege.gg/operators/valkyrie"
+    },
+    "Vigil": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/vigil",
+      "siegegg": "https://siege.gg/operators/vigil"
+    },
+    "Wamai": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/wamai",
+      "siegegg": "https://siege.gg/operators/wamai"
+    },
+    "Ying": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/ying",
+      "siegegg": "https://siege.gg/operators/ying"
+    },
+    "Zero": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/zero",
+      "siegegg": "https://siege.gg/operators/zero"
+    },
+    "Zofia": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/operators/zofia",
+      "siegegg": "https://siege.gg/operators/zofia"
+    }
+  },
+  "maps": {
+    "bank": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/bank",
+      "siegegg": "https://siege.gg/maps/bank"
+    },
+    "border": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/border",
+      "siegegg": "https://siege.gg/maps/border"
+    },
+    "chalet": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/chalet",
+      "siegegg": "https://siege.gg/maps/chalet"
+    },
+    "clubhouse": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/clubhouse",
+      "siegegg": "https://siege.gg/maps/club-house"
+    },
+    "coastline": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/coastline",
+      "siegegg": "https://siege.gg/maps/coastline"
+    },
+    "consulate": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/consulate",
+      "siegegg": "https://siege.gg/maps/consulate"
+    },
+    "emerald-plains": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/emerald-plains",
+      "siegegg": null
+    },
+    "favela": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/favela",
+      "siegegg": "https://siege.gg/maps/favela"
+    },
+    "fortress": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/fortress",
+      "siegegg": "https://siege.gg/maps/fortress"
+    },
+    "hereford": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/hereford",
+      "siegegg": "https://siege.gg/maps/hereford"
+    },
+    "house": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/house",
+      "siegegg": "https://siege.gg/maps/house"
+    },
+    "kafe": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/kafe",
+      "siegegg": "https://siege.gg/maps/kafe"
+    },
+    "kanal": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/kanal",
+      "siegegg": "https://siege.gg/maps/kanal"
+    },
+    "lair": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/lair",
+      "siegegg": "https://siege.gg/maps/lair"
+    },
+    "nighthaven": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/nighthaven",
+      "siegegg": "https://siege.gg/maps/nighthaven-labs"
+    },
+    "oregon": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/oregon",
+      "siegegg": "https://siege.gg/maps/oregon"
+    },
+    "outback": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/outback",
+      "siegegg": null
+    },
+    "plane": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/plane",
+      "siegegg": "https://siege.gg/maps/plane"
+    },
+    "skyscraper": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/skyscraper",
+      "siegegg": "https://siege.gg/maps/skyscraper"
+    },
+    "stadium-bravo": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/stadium-bravo",
+      "siegegg": null
+    },
+    "theme-park": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/theme-park",
+      "siegegg": "https://siege.gg/maps/theme-park"
+    },
+    "tower": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/tower",
+      "siegegg": null
+    },
+    "villa": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/villa",
+      "siegegg": "https://siege.gg/maps/villa"
+    },
+    "calypso-casino": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/calypso-casino",
+      "siegegg": null
+    },
+    "yacht": {
+      "ubisoft": "https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/yacht",
+      "siegegg": "https://siege.gg/maps/yacht"
+    }
+  }
+}
