@@ -1,6 +1,7 @@
 import { StrictMode, Component, useEffect, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom'
+import { analytics } from '@heycatch/sdk'
 import './index.css'
 import './App.css'
 import './styles/polish.css'
@@ -10,6 +11,15 @@ import Layout from './components/Layout'
 // (AppShell, the old sidebar layout, was deleted 2026-07-06 — Layout is the
 // single shell for landing + in-app routes.)
 import LandingPage from './pages/LandingPage'
+
+analytics.init({
+  projectKey: 'hck_pk_LqdfkkyGftCKC8qKpR97GMHecXFJy_o4',
+  install: {
+    framework: 'vite-react',
+    frameworkVersion: '19',
+    agent: 'codex',
+  },
+})
 
 // Code-splitting strategy:
 // LandingPage stays eager — it's what 90% of new visitors hit first, so we
