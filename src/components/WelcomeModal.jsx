@@ -204,7 +204,7 @@ export default function WelcomeModal() {
                 <Link to="/download" onClick={dismiss} className="btn btn-primary btn-sm">Get desktop app</Link>
               )}
               {isAdmin && (
-                <Link to="/admin" onClick={dismiss} className="btn btn-primary btn-sm">Open admin</Link>
+                <a href="/admin" onClick={dismiss} className="btn btn-primary btn-sm">Open admin</a>
               )}
             </>
           )}

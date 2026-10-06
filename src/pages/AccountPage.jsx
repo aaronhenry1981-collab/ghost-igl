@@ -144,7 +144,7 @@ export default function AccountPage() {
       <header className="account-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h1>Your Account</h1>
-          <p>Signed in as <span className="account-mono">{user.email}</span></p>
+          <p>Signed in as <span className="account-mono ph-no-capture">{user.email}</span></p>
         </div>
         <button
           type="button"
@@ -180,7 +180,7 @@ export default function AccountPage() {
           </div>
           <div className="account-plan-actions">
             {isAdmin ? (
-              <Link to="/admin" className="btn btn-primary btn-sm">Open admin</Link>
+              <a href="/admin" className="btn btn-primary btn-sm">Open admin</a>
             ) : subStatus === 'past_due' ? (
               // A failed payment drops the effective plan to free, which used
               // to show "See plans" and could start a second, duplicate
