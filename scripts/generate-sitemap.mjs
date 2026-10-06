@@ -94,8 +94,10 @@ function datingInputs(loc) {
   return sourcesFor(loc)
 }
 
-// Dates and times inside a page are not a content change.
+// Dates and times inside a page are not a content change, and neither are
+// line endings (Windows checkouts convert to CRLF).
 const normalize = (text) => text
+  .replace(/\r\n/g, '\n')
   .replace(/\d{4}-\d{2}-\d{2}(T[\d:.]+Z?)?/g, '')
   .replace(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2}, \d{4}\b/g, '')
 
