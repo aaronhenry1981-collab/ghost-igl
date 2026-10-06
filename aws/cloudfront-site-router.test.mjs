@@ -73,6 +73,20 @@ test('merged thin pages redirect to their map guide', () => {
   assert.equal(served('/guides/og/bank.svg'), '/guides/og/bank.svg')
 })
 
+test('blog posts for other games go to the blog index; R6 posts are served', async () => {
+  for (const uri of ['/blog/valorant-plat-to-diamond.html', '/blog/pubg-endgame-strategy', '/blog/finals-gold-to-plat.html']) {
+    assert.equal(run(uri).statusCode, 301, uri)
+    assert.equal(run(uri).headers.location.value, '/blog/', uri)
+  }
+  assert.equal(run('/blog/cs2-silver-to-gold.html', { ref: { value: 'x' } }).headers.location.value, '/blog/?ref=x')
+  assert.equal(served('/blog/index.html'), '/blog/index.html')
+  const { readdirSync } = await import('node:fs')
+  const kept = readdirSync(new URL('../public/blog/', import.meta.url))
+    .filter((f) => f.endsWith('.html') && (f.startsWith('r6-') || f.startsWith('hardstuck-')))
+  assert.ok(kept.length > 50)
+  for (const f of kept) assert.equal(served(`/blog/${f}`), `/blog/${f}`, f)
+})
+
 test('the operator redirects match the deep dives on disk', async () => {
   const { readdirSync, existsSync } = await import('node:fs')
   const dir = new URL('../public/blog/', import.meta.url)

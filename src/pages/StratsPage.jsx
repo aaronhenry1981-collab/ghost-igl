@@ -25,6 +25,7 @@ import SeasonCountdown from '../components/SeasonCountdown'
 import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import SiteNotice from '../components/strats/SiteNotice'
 import { siteNoticeFor } from '../data/siteNotices'
+import { track as trackAnalytics } from '../utils/analytics'
 import './StratsPage.css'
 
 const VIEW_MODE_KEY = 'ghost-igl:strats-view-mode'
@@ -132,6 +133,12 @@ function R6StratsPage() {
       ? urlSiteId
       : null
   const side = validSide(urlSide)
+
+  // The value moment for a visitor: a site plan opened. Once per map, site
+  // and side shown (Plausible, and Heycatch as strat_viewed).
+  useEffect(() => {
+    if (selectedMap && selectedSite) trackAnalytics('Strat Viewed', { map: selectedMap, site: selectedSite, side })
+  }, [selectedMap, selectedSite, side])
 
   useEffect(() => {
     if (urlMapId && !selectedMap) {

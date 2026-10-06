@@ -61,6 +61,11 @@ function mergedInto(uri) {
   if (ban) return { path: '/guides/' + ban[1] + '.html', hash: '' }
   var setups = uri.match(/^\/blog\/([a-z0-9-]+)-defense-setups-ranked(\.html)?$/)
   if (setups) return { path: '/guides/' + setups[1] + '.html', hash: '' }
+  // Posts for other games are pruned from every deploy, but old copies still
+  // sit in the bucket (the sync never deletes). The R6 blog is the index, the
+  // r6-* posts and one more; anything else goes to the blog index.
+  var post = uri.match(/^\/blog\/([a-z0-9-]+)(\.html)?$/)
+  if (post && post[1] !== 'index' && post[1].indexOf('r6-') !== 0 && post[1] !== 'hardstuck-rainbow-six-not-your-aim') return { path: '/blog/', hash: '' }
   var op = uri.match(/^\/guides\/operators\/([a-z0-9-]+)(\.html)?$/)
   if (op && DEEP_DIVE_OPERATORS[op[1]] === 1) return { path: '/blog/r6-operator-' + op[1] + '.html', hash: '' }
   var site = uri.match(/^\/guides\/([a-z0-9-]+)\/([a-z0-9-]+)(\.html)?$/)
