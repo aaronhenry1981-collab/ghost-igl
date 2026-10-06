@@ -30,9 +30,9 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <div className="footer-logo" role="img" aria-label="Recon 6">
-            <img src="/logo-mark.svg" alt="" width="47" height="24" aria-hidden="true" />
-            <img src="/logo-wordmark.svg" alt="" width="93" height="13" aria-hidden="true" />
+          <div className="footer-logo">
+            <img src="/logo-mark.svg" alt="Recon 6 R6 monogram" width="47" height="24" />
+            <img src="/logo-wordmark.svg" alt="Recon 6" width="93" height="13" />
           </div>
           <p className="footer-tagline">Rainbow Six Siege coaching built around your real matches.</p>
           <Link to="/progress" className="footer-focus-link">Open Road to Champion →</Link>
@@ -52,14 +52,26 @@ export default function Footer() {
           <ul>
             <li><a href="/coaching/index.html#book">Book your first session — $20</a></li>
             <li><a href="/coaching/index.html">1-on-1 coaching</a></li>
-            <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('pricing', navigate, isLanding)}>Membership plans</button></li>
+            <li><Link to="/pricing">Membership plans</Link></li>
             <li><Link to="/account">Account & billing</Link></li>
+          </ul>
+        </div>
+        <div className="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><Link to="/about">About Recon 6</Link></li>
+            <li><a href="/about#contact">Contact</a></li>
+            <li><Link to="/press">Press kit</Link></li>
+            <li><Link to="/creator-demo">Creator demo</Link></li>
+            <li><Link to="/download">Desktop coach</Link></li>
+            <li><a href="/tools/">Free tools</a></li>
+            <li><Link to="/tools/r6-tier-list">Operator tier list</Link></li>
           </ul>
         </div>
         <div className="footer-col">
           <h4>Help</h4>
           <ul>
-            <li><button type="button" className="footer-linkbtn" onClick={() => scrollToSection('faq', navigate, isLanding)}>FAQ</button></li>
+            <li><a href="/#faq" onClick={(e) => { e.preventDefault(); scrollToSection('faq', navigate, isLanding) }}>FAQ</a></li>
             <li><a href="/guides/">Map guides</a></li>
             <li><Link to="/beginner-guide">Beginner workbook</Link></li>
             <li><a href="/status/index.html">System status</a></li>
@@ -78,6 +90,7 @@ export default function Footer() {
             <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a>
             <a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a>
+            <a href="https://www.tiktok.com/@recon6coach" target="_blank" rel="noopener noreferrer">TikTok</a>
           </div>
           <p>© 2026 Iron Front Digital LLC. Recon 6 is a fan-made Rainbow Six Siege coaching platform; not affiliated with Ubisoft.</p>
         </div>

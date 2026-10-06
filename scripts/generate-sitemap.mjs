@@ -1,22 +1,30 @@
 #!/usr/bin/env node
 // Generates the public, R6-only sitemap from the current Rainbow Six content.
 // Search engines should never be invited to products that are not currently sold.
+//
+// lastmod is the date a page's content last changed, not the build date.
+// scripts/sitemap-lastmod.json keeps a hash of each page's source; a build
+// only moves a page's date when that hash changes. A page seen for the first
+// time takes the last commit date of its source (today if it is uncommitted).
 
-import { writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
+import { metaForPath } from '../src/config/routeMeta.js'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(ROOT, 'public', 'sitemap.xml')
+const MANIFEST = join(ROOT, 'scripts', 'sitemap-lastmod.json')
 const SITE = 'https://r6coaching.com'
 const today = new Date().toISOString().slice(0, 10)
 
 const STATIC_URLS = [
   { loc: '/', freq: 'weekly', pri: 1.0 },
-  { loc: '/auth', freq: 'monthly', pri: 0.6 },
-  { loc: '/dashboard', freq: 'monthly', pri: 0.7 },
+  { loc: '/pricing', freq: 'weekly', pri: 0.9 },
   { loc: '/strats', freq: 'weekly', pri: 0.9 },
   { loc: '/match-prep', freq: 'weekly', pri: 0.85 },
   { loc: '/loadouts', freq: 'weekly', pri: 0.85 },
@@ -26,6 +34,7 @@ const STATIC_URLS = [
   { loc: '/download', freq: 'monthly', pri: 0.7 },
   { loc: '/changelog', freq: 'weekly', pri: 0.5 },
   { loc: '/live', freq: 'weekly', pri: 0.9 },
+  { loc: '/about', freq: 'monthly', pri: 0.6 },
   { loc: '/press', freq: 'monthly', pri: 0.6 },
   { loc: '/creator-demo', freq: 'monthly', pri: 0.9 },
   { loc: '/tools/r6-tier-list', freq: 'weekly', pri: 0.85 },
@@ -42,8 +51,93 @@ const STATIC_URLS = [
   { loc: '/tools/', freq: 'weekly', pri: 0.85 },
 ]
 
+// The source files behind each app route (static pages are their own source).
+const APP_SOURCES = {
+  '/': ['index.html', 'src/pages/LandingPage.jsx', 'src/components/PricingSection.jsx'],
+  '/pricing': ['src/pages/PricingPage.jsx', 'src/components/PricingSection.jsx'],
+  '/strats': ['src/pages/StratsPage.jsx'],
+  '/match-prep': ['src/pages/MatchPrepPage.jsx'],
+  '/loadouts': ['src/pages/LoadoutsPage.jsx'],
+  '/operators': ['src/pages/OperatorsPage.jsx'],
+  '/meta': ['src/pages/MetaPage.jsx'],
+  '/vod': ['src/pages/VodPage.jsx'],
+  '/download': ['src/pages/DownloadPage.jsx'],
+  '/changelog': ['src/pages/ChangelogPage.jsx', 'src/data/changelog.js'],
+  '/live': ['src/pages/LiveCoachPage.jsx'],
+  '/about': ['src/pages/AboutPage.jsx'],
+  '/press': ['src/pages/PressPage.jsx'],
+  '/creator-demo': ['src/pages/CreatorDemoPage.jsx'],
+  '/tools/r6-tier-list': ['src/pages/R6TierListPage.jsx'],
+  '/terms': ['src/pages/TermsPage.jsx'],
+  '/privacy': ['src/pages/PrivacyPage.jsx'],
+  '/refund': ['src/pages/RefundPage.jsx'],
+}
+
+function sourcesFor(loc) {
+  if (APP_SOURCES[loc]) return APP_SOURCES[loc]
+  if (loc.endsWith('/')) return [`public${loc}index.html`]
+  return [`public${loc}`]
+}
+
+// Pages the build regenerates are dated by their generator and its data, not
+// by the committed copy of the output (which can lag the live site).
+const STRAT_DATA = ['src/data/maps.js', 'src/data/strats.js', 'scripts/generate-content-boundaries.mjs']
+function datingInputs(loc) {
+  if (loc.startsWith('/guides/bans/')) return ['scripts/generate-ban-guides.mjs', 'src/data/bans.js', ...STRAT_DATA]
+  if (loc.startsWith('/guides/operators/')) return ['scripts/generate-operator-guides.mjs', ...STRAT_DATA]
+  if (loc.startsWith('/guides/')) return ['scripts/generate-guides.mjs', ...STRAT_DATA]
+  if (loc.startsWith('/blog/r6-operator-')) return sourcesFor(loc)
+  if (loc.startsWith('/blog/')) return ['scripts/generate-blog-posts.mjs']
+  if (loc === '/countdown/') return ['scripts/generate-countdown.mjs', 'src/config/season.js']
+  if (loc === '/tools/') return ['scripts/generate-tools-page.mjs']
+  if (loc === '/coaching/index.html') return ['scripts/generate-coaching-page.mjs', 'src/data/ranks.js']
+  return sourcesFor(loc)
+}
+
+// Dates and times inside a page are not a content change, and neither are
+// line endings (Windows checkouts convert to CRLF).
+const normalize = (text) => text
+  .replace(/\r\n/g, '\n')
+  .replace(/\d{4}-\d{2}-\d{2}(T[\d:.]+Z?)?/g, '')
+  .replace(/\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2}, \d{4}\b/g, '')
+
+function hashOf(loc, files) {
+  const h = createHash('sha256')
+  h.update(JSON.stringify(metaForPath(loc) || {}))
+  for (const file of files) {
+    const path = join(ROOT, file)
+    h.update(file)
+    h.update(existsSync(path) ? normalize(readFileSync(path, 'utf8')) : 'missing')
+  }
+  return h.digest('hex').slice(0, 16)
+}
+
+function git(args) {
+  try {
+    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()
+  } catch {
+    return ''
+  }
+}
+
+// First sighting: the last commit that touched the sources, or today when
+// any of them has uncommitted changes (or there is no git history).
+function firstSeenDate(files) {
+  if (git(['status', '--porcelain', '--', ...files])) return today
+  const dates = files.map((file) => git(['log', '-1', '--format=%cs', '--', file])).filter(Boolean)
+  return dates.length ? dates.sort().at(-1) : today
+}
+
+const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : {}
+const nextManifest = {}
+
 function urlEntry({ loc, freq, pri }) {
-  return `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${pri.toFixed(1)}</priority>\n  </url>`
+  const files = sourcesFor(loc)
+  const hash = hashOf(loc, files)
+  const known = manifest[loc]
+  const lastmod = known && known.hash === hash ? known.lastmod : known ? today : firstSeenDate(datingInputs(loc))
+  nextManifest[loc] = { hash, lastmod }
+  return `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${pri.toFixed(1)}</priority>\n  </url>`
 }
 
 const urls = STATIC_URLS.map(urlEntry)
@@ -87,4 +181,7 @@ for (const slug of R6_BLOG_SLUGS) urls.push(urlEntry({ loc: `/blog/${slug}.html`
 
 const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`
 writeFileSync(OUT, body, 'utf8')
-console.log(`✓ Generated R6-only sitemap with ${urls.length} URLs`)
+const sorted = Object.fromEntries(Object.keys(nextManifest).sort().map((k) => [k, nextManifest[k]]))
+writeFileSync(MANIFEST, `${JSON.stringify(sorted, null, 2)}\n`, 'utf8')
+const changed = Object.keys(nextManifest).filter((k) => manifest[k]?.hash !== nextManifest[k].hash).length
+console.log(`✓ Generated R6-only sitemap with ${urls.length} URLs (${changed} changed since the last build)`)

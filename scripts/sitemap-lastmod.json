@@ -1,0 +1,1110 @@
+{
+  "/": {
+    "hash": "b3b64e71dc6c35e6",
+    "lastmod": "2026-10-06"
+  },
+  "/about": {
+    "hash": "1d255bb10f98c7cf",
+    "lastmod": "2026-10-06"
+  },
+  "/blog/": {
+    "hash": "6f37ceb8b3b04d02",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-bronze-to-silver.html": {
+    "hash": "50e7943d91afd133",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-copper-to-bronze.html": {
+    "hash": "856ea580671a3e98",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-diamond-to-champion.html": {
+    "hash": "27f169188e6ba81d",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-emerald-to-diamond.html": {
+    "hash": "21a02c2046d805f1",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-gold-to-platinum.html": {
+    "hash": "1dd2636031880466",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-ace.html": {
+    "hash": "0ff8791036c443c7",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-alibi.html": {
+    "hash": "60890562b9766291",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-aruni.html": {
+    "hash": "2dd67ab96177b4db",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-ash.html": {
+    "hash": "97342d9cda2936d5",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-azami.html": {
+    "hash": "cdc23a393eeef275",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-bandit.html": {
+    "hash": "bb6a11d06f49c783",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-buck.html": {
+    "hash": "c80e13612ad16d20",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-capitao.html": {
+    "hash": "61e4a2793ac2af14",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-castle.html": {
+    "hash": "0195825d40d73d61",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-caveira.html": {
+    "hash": "24c3b4106ee795fe",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-doc.html": {
+    "hash": "b9e054a574b60c31",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-dokkaebi.html": {
+    "hash": "db0b801b37326e77",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-echo.html": {
+    "hash": "bcddeb27c708d066",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-ela.html": {
+    "hash": "19f03669f89f1f26",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-finka.html": {
+    "hash": "776d70e026b4a7ab",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-flores.html": {
+    "hash": "ec867dff04fc91b2",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-fuze.html": {
+    "hash": "42e62860804a6f99",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-glaz.html": {
+    "hash": "5c656950b1c53960",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-goyo.html": {
+    "hash": "607c61c21a0f6593",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-gridlock.html": {
+    "hash": "115882b9cf4bb136",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-hibana.html": {
+    "hash": "d8143a6efc096b5c",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-iana.html": {
+    "hash": "05a84201ad123b68",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-jager.html": {
+    "hash": "e913f3b02d197a41",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-kaid.html": {
+    "hash": "948c423ce1422220",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-kali.html": {
+    "hash": "ddcd8361e232ebff",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-lesion.html": {
+    "hash": "1dcf4785cf655175",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-lion.html": {
+    "hash": "6386f1c5d287a185",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-maestro.html": {
+    "hash": "1316e5da6512ac20",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-maverick.html": {
+    "hash": "6e6c1de4df03e9b3",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-melusi.html": {
+    "hash": "70a83f99183bb70f",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-mira.html": {
+    "hash": "ce79b0c7d888988a",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-mozzie.html": {
+    "hash": "42d4fd7c915755d5",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-mute.html": {
+    "hash": "a0d27346a39e4f0c",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-nomad.html": {
+    "hash": "d47e82fb71be606e",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-pulse.html": {
+    "hash": "cb1cf24733531459",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-sledge.html": {
+    "hash": "2af8a17ab9485f0b",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-smoke.html": {
+    "hash": "24320dbe76e4ee07",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-thatcher.html": {
+    "hash": "815ba9d37b119f7f",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-thermite.html": {
+    "hash": "eef8d5c7b5a9b733",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-thunderbird.html": {
+    "hash": "01e1f855d7faa8d5",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-twitch.html": {
+    "hash": "7525ea989f4d0225",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-valkyrie.html": {
+    "hash": "ce1eeda3b8016d83",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-vigil.html": {
+    "hash": "4c8bfb668c6e5d17",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-wamai.html": {
+    "hash": "249e1f50bd4b5852",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-ying.html": {
+    "hash": "470e504bf9b5cd50",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-zero.html": {
+    "hash": "2ae9d50726df17ab",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-operator-zofia.html": {
+    "hash": "0b57bf65b719de6e",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-platinum-to-emerald.html": {
+    "hash": "f9037bc38a1fe128",
+    "lastmod": "2026-09-29"
+  },
+  "/blog/r6-silver-to-gold.html": {
+    "hash": "7b691ed9e0ba1906",
+    "lastmod": "2026-09-29"
+  },
+  "/changelog": {
+    "hash": "66fed673dd0c4838",
+    "lastmod": "2026-09-28"
+  },
+  "/climb/": {
+    "hash": "e85e76bf6178ad51",
+    "lastmod": "2026-08-24"
+  },
+  "/coaching/index.html": {
+    "hash": "73759a4b9b3b7925",
+    "lastmod": "2026-09-29"
+  },
+  "/countdown/": {
+    "hash": "a8cfae898ca671f6",
+    "lastmod": "2026-09-29"
+  },
+  "/creator-demo": {
+    "hash": "7745fc7c204e6af3",
+    "lastmod": "2026-10-06"
+  },
+  "/download": {
+    "hash": "c155625a83299255",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/": {
+    "hash": "b9ca6b559705c384",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bank.html": {
+    "hash": "9877d41cc9ec3036",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bank/basement.html": {
+    "hash": "89101b3fd807df79",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bank/ceo.html": {
+    "hash": "d97d96df097aab5b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bank/open-area.html": {
+    "hash": "00e8c8dba7e3fa03",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bank/tellers.html": {
+    "hash": "8a3fc9c1f5a06c3d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/": {
+    "hash": "bb7a5e23650bc45a",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/bank.html": {
+    "hash": "f4f0c8303140ec6f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/border.html": {
+    "hash": "0989a301c73baae3",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/calypso-casino.html": {
+    "hash": "54aae553e670cc80",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/chalet.html": {
+    "hash": "e4a2354f4d5951c5",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/clubhouse.html": {
+    "hash": "1240aea47714e0ec",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/coastline.html": {
+    "hash": "581c9f764282b25c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/consulate.html": {
+    "hash": "8d75be590b9c9ef7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/emerald-plains.html": {
+    "hash": "fe631abdea82bcf2",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/favela.html": {
+    "hash": "ab5f92a64e238e96",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/fortress.html": {
+    "hash": "908ffbffa5ca2639",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/hereford.html": {
+    "hash": "8e09f98a2e460fe6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/house.html": {
+    "hash": "15570790c1e1d8e7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/kafe.html": {
+    "hash": "0c47cda5180e15f3",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/kanal.html": {
+    "hash": "47507d4281ce36da",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/lair.html": {
+    "hash": "856c1679d7290226",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/nighthaven.html": {
+    "hash": "c340cf9834cbb20f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/oregon.html": {
+    "hash": "b5ddfbef879912d9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/outback.html": {
+    "hash": "3728f5f96731d63f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/plane.html": {
+    "hash": "fea187c2685f942c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/skyscraper.html": {
+    "hash": "ae23ad6e5e34bc6d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/stadium-bravo.html": {
+    "hash": "cdfe7982c3a23f7f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/theme-park.html": {
+    "hash": "312ec3399a53c099",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/tower.html": {
+    "hash": "b00c95dec7e64d33",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/villa.html": {
+    "hash": "a5300fa39c7e2b05",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/bans/yacht.html": {
+    "hash": "05838045c26268c8",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/border.html": {
+    "hash": "7d30129ff4b657b9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/border/armory-archives.html": {
+    "hash": "1fd64daf7bf0dd85",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/border/bathroom-tellers.html": {
+    "hash": "10bb7f256227fa00",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/border/customs-supply.html": {
+    "hash": "2362ed1e59ee550f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/border/workshop-ventilation.html": {
+    "hash": "5a34da95b7167398",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/calypso-casino.html": {
+    "hash": "c9e1a975b6210cbb",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/calypso-casino/casino-keno.html": {
+    "hash": "32c7e1137602a4e0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/calypso-casino/lobby-mezzanine.html": {
+    "hash": "4f1bf4520b1d13d9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/calypso-casino/vault-security.html": {
+    "hash": "f7260a322cbb0eb4",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/calypso-casino/vip-cash.html": {
+    "hash": "718c379e948be86e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/chalet.html": {
+    "hash": "981929a2e3e77ac2",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/chalet/bar-gaming.html": {
+    "hash": "d047a3477740db94",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/chalet/kitchen-trophy.html": {
+    "hash": "4f32f6fb8425cc1a",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/chalet/master-office.html": {
+    "hash": "2308dfd104365c9c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/chalet/wine-snowmobile.html": {
+    "hash": "b4a078df3f1c6a41",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/clubhouse.html": {
+    "hash": "60ec37a5e4c5ae41",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/clubhouse/bar-stock.html": {
+    "hash": "ef90a4609f466f15",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/clubhouse/cash-cctv.html": {
+    "hash": "2e12beef53aff9b7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/clubhouse/church.html": {
+    "hash": "33327d54c7c2ed76",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/clubhouse/gym-bedroom.html": {
+    "hash": "37ae284e71e2d997",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/coastline.html": {
+    "hash": "f2d833313d82dc71",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/coastline/blue-bar.html": {
+    "hash": "b865e5061eb24f43",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/coastline/hookah-billiards.html": {
+    "hash": "8df59bd5850e81a5",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/coastline/kitchen-service.html": {
+    "hash": "0b655ea4f32643d2",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/coastline/theater-penthouse.html": {
+    "hash": "f724067a8f667f9e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/consulate.html": {
+    "hash": "97de2938dccacd18",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/consulate/consul-meeting.html": {
+    "hash": "909ecd47261ca900",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/consulate/garage-cafeteria.html": {
+    "hash": "20a1f3f4720b2a7c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/consulate/piano-expo.html": {
+    "hash": "0b06da24576fbb6c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/consulate/tellers-servers.html": {
+    "hash": "3c0e5e38460dd586",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/emerald-plains.html": {
+    "hash": "a7d8df6f0e65801d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/emerald-plains/admin-ceo.html": {
+    "hash": "1d8069d14ce5f960",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/emerald-plains/bar-lounge.html": {
+    "hash": "43ea3ee3eefcb6de",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/emerald-plains/gallery-meeting.html": {
+    "hash": "967e6b6cffcd8a72",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/emerald-plains/kitchen-dining.html": {
+    "hash": "ef75bb3477ceca32",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/favela.html": {
+    "hash": "df113f29d70767bd",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/favela/aunts-footsie.html": {
+    "hash": "5d2fde5253c68b2b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/favela/bedroom-autoshop.html": {
+    "hash": "8d0af5f86ffe9ddf",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/favela/kitchen-meeting.html": {
+    "hash": "1c94c74f5fa2f170",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/favela/market-party.html": {
+    "hash": "f09e6a37761528bd",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/fortress.html": {
+    "hash": "a1d3f196cb864153",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/fortress/commander-briefing.html": {
+    "hash": "1eab5c39e2fadeb0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/fortress/council-guard.html": {
+    "hash": "fddb72296b1b2b7c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/fortress/kitchen-dining.html": {
+    "hash": "42d5d7a65aa8ea59",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/fortress/tower-rooftop.html": {
+    "hash": "44caad5b449eded4",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/hereford.html": {
+    "hash": "fea0de31cb3a212c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/hereford/briefing-stairs.html": {
+    "hash": "109cd0b8cf1933b7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/hereford/dorms-office.html": {
+    "hash": "c4453c4f32429fa9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/hereford/kitchen-dining.html": {
+    "hash": "bd1a61f45aabe9ec",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/hereford/wine-cellar.html": {
+    "hash": "c1af4916a1b7dcd6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/house.html": {
+    "hash": "6fed314dd683b692",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/house/boiler-laundry.html": {
+    "hash": "86aa8009daa931ee",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/house/garage-workshop.html": {
+    "hash": "ac5d2f0824080fce",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/house/kitchen-living.html": {
+    "hash": "35671e390557d39d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/house/master-closet.html": {
+    "hash": "b258b98e141aade1",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kafe.html": {
+    "hash": "7d59c5e94b46ce98",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kafe/bar-cocktail.html": {
+    "hash": "4b0e8407d5cc6c34",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kafe/kitchen-bakery.html": {
+    "hash": "89217b771279ad2e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kafe/mining-train.html": {
+    "hash": "e97cf194336dccc8",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kafe/reading-fireplace.html": {
+    "hash": "fd4e480e17af3c6d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kanal.html": {
+    "hash": "8eb1484c4ce0a8ce",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kanal/construction-control.html": {
+    "hash": "ad8dbb11cc18e071",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kanal/engine-supply.html": {
+    "hash": "6af4d1315bca40ad",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kanal/kitchen-coast.html": {
+    "hash": "6657c162aa023f97",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/kanal/server-radio.html": {
+    "hash": "50b2b30987f91ce9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/lair.html": {
+    "hash": "720f46fcafc2141c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/lair/armory-weapon.html": {
+    "hash": "c6dbcf544e2dfb77",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/lair/bunks-briefing.html": {
+    "hash": "5bd1647f9d41284a",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/lair/lab-support.html": {
+    "hash": "c7ce5f4c994b2518",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/lair/master-r6.html": {
+    "hash": "0d45cb56e722717f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/nighthaven.html": {
+    "hash": "2738d3aa9bd5b71d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/nighthaven/command-server.html": {
+    "hash": "3f1f05b0cfdb3bbe",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/nighthaven/control-storage.html": {
+    "hash": "9b1a076452bffee7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/nighthaven/kitchen-cafeteria.html": {
+    "hash": "a9ff770903917319",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/nighthaven/tank-assembly.html": {
+    "hash": "eb26e6cddb703b03",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/": {
+    "hash": "2672e235c4d470ed",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/ace.html": {
+    "hash": "46b413d598ca492f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/alibi.html": {
+    "hash": "6a89c35ce055cc24",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/aruni.html": {
+    "hash": "1b064f0caee03e23",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/ash.html": {
+    "hash": "82f454506ca51332",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/azami.html": {
+    "hash": "436c58943b6af1db",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/bandit.html": {
+    "hash": "2ce3776de8e7fd6e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/buck.html": {
+    "hash": "fe4b0af2677b338f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/capitao.html": {
+    "hash": "ceba66adb3eb1b2e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/castle.html": {
+    "hash": "962b9eb512b0bba0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/caveira.html": {
+    "hash": "b52a1017e06d8405",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/doc.html": {
+    "hash": "c3cc567e912c9fe7",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/dokkaebi.html": {
+    "hash": "61b42dfdbd00bceb",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/echo.html": {
+    "hash": "dd2760d07f84a7bf",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/ela.html": {
+    "hash": "0f644214b51bacb0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/finka.html": {
+    "hash": "39a8b811e2f4df46",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/flores.html": {
+    "hash": "83e9cea97a64ab06",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/fuze.html": {
+    "hash": "8c272694d0a15219",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/glaz.html": {
+    "hash": "a56458760bef5c87",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/goyo.html": {
+    "hash": "ae4a6c8afb487429",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/gridlock.html": {
+    "hash": "d303228b30cc7067",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/hibana.html": {
+    "hash": "f2d77bd1779cc8d6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/iana.html": {
+    "hash": "b46af1121204d649",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/jackal.html": {
+    "hash": "d59b28d12b92e272",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/jager.html": {
+    "hash": "c4f01c85af3c7d31",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/kaid.html": {
+    "hash": "d6a1ac0c5f738239",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/kali.html": {
+    "hash": "c9d4ff842a35417b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/lesion.html": {
+    "hash": "4ff75a51b7f6daee",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/lion.html": {
+    "hash": "28f4476c3f0fd723",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/maestro.html": {
+    "hash": "d4dd2995603ac890",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/maverick.html": {
+    "hash": "422d80f9d36938fa",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/melusi.html": {
+    "hash": "7264c932211c6221",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/mira.html": {
+    "hash": "25aed448cc9625d2",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/mozzie.html": {
+    "hash": "c8ecad46601fea81",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/mute.html": {
+    "hash": "9e248a8f59de5309",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/nomad.html": {
+    "hash": "7134c971bc4e58df",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/pulse.html": {
+    "hash": "35fc3a47eb3bd5da",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/sledge.html": {
+    "hash": "5be69679cb7d4dd4",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/smoke.html": {
+    "hash": "dfff391545faefe6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/thatcher.html": {
+    "hash": "8a00df1c93289c63",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/thermite.html": {
+    "hash": "c776a5ddf0f6cfd6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/thunderbird.html": {
+    "hash": "26e4edc4e01044ea",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/twitch.html": {
+    "hash": "1dce65f7ef076c6f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/valkyrie.html": {
+    "hash": "f23af7399c26814b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/vigil.html": {
+    "hash": "0110ecd4aa84aab8",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/wamai.html": {
+    "hash": "2463c5659d288747",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/ying.html": {
+    "hash": "7baa927b4bc59897",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/zero.html": {
+    "hash": "78f7553a0dd240ba",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/operators/zofia.html": {
+    "hash": "dac5a8f421c67404",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/oregon.html": {
+    "hash": "82953fd0df0c0dbb",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/oregon/kids-dorms.html": {
+    "hash": "0dff8fec55657469",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/oregon/kitchen-dining.html": {
+    "hash": "50e3b68d754b18b6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/oregon/laundry.html": {
+    "hash": "5721521988d3d987",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/oregon/meeting-hall.html": {
+    "hash": "7a378dbf653a4f38",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/outback.html": {
+    "hash": "7959c9eb8f7a180d",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/outback/bedrooms.html": {
+    "hash": "ea6d9d3a3f5a1bed",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/outback/laundry-piano.html": {
+    "hash": "0c302c3bea379477",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/outback/mechanic-kitchen.html": {
+    "hash": "f75a16273f695984",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/outback/party-office.html": {
+    "hash": "ba32b43d0fed5cdd",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/plane.html": {
+    "hash": "39fa0dfea7c01c8b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/plane/kitchen-stateroom.html": {
+    "hash": "fe0b311fd9c27b32",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/plane/meeting-office.html": {
+    "hash": "705e4da62a481370",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/plane/security-cargo.html": {
+    "hash": "c7186e8fa33431b9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/plane/work-lobby.html": {
+    "hash": "9b5d174a2e9c2d6f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/skyscraper.html": {
+    "hash": "f6c533a9cfa3b030",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/skyscraper/bedroom.html": {
+    "hash": "2f56e95602e090da",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/skyscraper/kitchen.html": {
+    "hash": "e7cb3c8dc0e16f1f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/skyscraper/tea-room.html": {
+    "hash": "c6ccd2d0def4e636",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/skyscraper/work-office.html": {
+    "hash": "62422fbc7840cffb",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/stadium-bravo.html": {
+    "hash": "427e9c40ae35b159",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/stadium-bravo/garage-press.html": {
+    "hash": "891fe89260a15990",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/stadium-bravo/locker-dispensary.html": {
+    "hash": "bfdf724e56e3e0c9",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/stadium-bravo/medic-executive.html": {
+    "hash": "b8dd3ab43509706e",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/stadium-bravo/nats-oregon.html": {
+    "hash": "66efd8a963faabff",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/theme-park.html": {
+    "hash": "7d59174a7fb57111",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/theme-park/bunk.html": {
+    "hash": "6350faf63a929ae6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/theme-park/lab.html": {
+    "hash": "d1a82edce95048d0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/theme-park/office.html": {
+    "hash": "93e377fa56f72840",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/theme-park/throne-room.html": {
+    "hash": "0605a5e9b04c5b1b",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/tower.html": {
+    "hash": "6b959736a12cae38",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/tower/ballroom-bedroom.html": {
+    "hash": "35668c19162f6cfc",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/tower/bar-lounge.html": {
+    "hash": "ff850bfe55f818c6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/tower/tea-exhibition.html": {
+    "hash": "0093aeacd69577c2",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/tower/ventilation-seating.html": {
+    "hash": "3b1e66e50272847f",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/villa.html": {
+    "hash": "f325f7ec78a173ce",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/villa/aviator-games.html": {
+    "hash": "88fe8ff640b29de4",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/villa/kitchen-dining.html": {
+    "hash": "e940f68a83a4689a",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/villa/trophy-statuary.html": {
+    "hash": "df9c8fe2b779a70a",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/yacht.html": {
+    "hash": "a7b808f978945ea6",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/yacht/casino-bar.html": {
+    "hash": "3603f092139e6eeb",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/yacht/kitchen-engine.html": {
+    "hash": "f261b62f4eca385c",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/yacht/navigation-cafeteria.html": {
+    "hash": "bddfc2dca27bfab0",
+    "lastmod": "2026-09-29"
+  },
+  "/guides/yacht/submarine-stern.html": {
+    "hash": "47d416a6b261e434",
+    "lastmod": "2026-09-29"
+  },
+  "/live": {
+    "hash": "f04283b72c752587",
+    "lastmod": "2026-09-29"
+  },
+  "/loadouts": {
+    "hash": "9a6373f35d0e714d",
+    "lastmod": "2026-09-29"
+  },
+  "/match-prep": {
+    "hash": "6593b797cc2ae4b4",
+    "lastmod": "2026-09-29"
+  },
+  "/meta": {
+    "hash": "4e5498d986b2fce4",
+    "lastmod": "2026-09-28"
+  },
+  "/operators": {
+    "hash": "ec0539396b58f326",
+    "lastmod": "2026-08-29"
+  },
+  "/press": {
+    "hash": "880ab3aa645a1bd7",
+    "lastmod": "2026-09-29"
+  },
+  "/pricing": {
+    "hash": "f207fba2e4db2e67",
+    "lastmod": "2026-10-06"
+  },
+  "/privacy": {
+    "hash": "e0ba598e7bcd51e2",
+    "lastmod": "2026-10-05"
+  },
+  "/refund": {
+    "hash": "3e7432986b1e21b9",
+    "lastmod": "2026-08-24"
+  },
+  "/strats": {
+    "hash": "93e5f3364b621bdc",
+    "lastmod": "2026-09-29"
+  },
+  "/terms": {
+    "hash": "bb0d20b44fae3340",
+    "lastmod": "2026-09-28"
+  },
+  "/tools/": {
+    "hash": "3de9268e26ed4e85",
+    "lastmod": "2026-09-29"
+  },
+  "/tools/r6-tier-list": {
+    "hash": "f60f5eb1fadecba2",
+    "lastmod": "2026-09-29"
+  },
+  "/vod": {
+    "hash": "35b2b8f4d6da47e8",
+    "lastmod": "2026-09-29"
+  }
+}

@@ -1675,6 +1675,90 @@ select option:hover {
   color: var(--text-muted);
 }
 
+/* /pricing page header (the plans themselves are PricingSection). */
+.pricing-page-header {
+  padding: 3rem 1rem 0;
+}
+.pricing-page-links {
+  font-size: 0.9rem;
+}
+
+/* Value anchor under the Pro price. */
+.pricing-anchor {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+/* Elite and Champion while their cards are collapsed: price and what each adds. */
+.pricing-upper {
+  list-style: none;
+  margin: 1.25rem auto 0;
+  padding: 0;
+  max-width: 760px;
+  display: grid;
+  gap: 10px;
+}
+.pricing-upper li {
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) 1fr;
+  gap: 4px 16px;
+  align-items: baseline;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  font-size: 0.85rem;
+}
+.pricing-upper strong {
+  font-family: var(--heading);
+  color: var(--text-h);
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.pricing-upper strong span { font-size: 0.8rem; font-weight: 500; color: var(--text); }
+@media (max-width: 560px) {
+  .pricing-upper li { grid-template-columns: 1fr; }
+}
+
+/* Plan comparison: always in the page, scrolls inside its own box on phones. */
+.pricing-compare-wrap {
+  max-width: 980px;
+  margin: 2rem auto 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.pricing-compare {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.pricing-compare caption {
+  text-align: left;
+  padding: 14px 16px 6px;
+  font-family: var(--heading);
+  font-weight: 700;
+  color: var(--text-h);
+}
+.pricing-compare th,
+.pricing-compare td {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.pricing-compare thead th {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pricing-compare tbody th { color: var(--text-h); font-weight: 600; }
+
 /* ─── FAQ ─── */
 .faq-list {
   max-width: 700px;
@@ -1897,7 +1981,7 @@ select option:hover {
 
 .footer-top {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 40px;
   padding-bottom: 40px;
   border-bottom: 1px solid var(--border);
@@ -2286,6 +2370,28 @@ select option:hover {
   text-transform: uppercase;
   color: rgba(235, 228, 215, 0.6);
 }
+.meta-strip-locked {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(235, 228, 215, 0.72);
+}
+.meta-strip-locked a { color: var(--accent); font-weight: 700; }
+
+/* Homepage strip for creators and squad coaches. */
+.creator-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+.creator-strip-copy { flex: 1 1 420px; }
+.creator-strip-copy h2 { margin: 0.4rem 0 0.6rem; }
+.creator-strip-copy p { margin: 0; max-width: 620px; }
+.creator-strip-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
 .meta-strip-list {
   list-style: none;
   padding: 0;

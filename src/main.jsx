@@ -1,6 +1,6 @@
-import { StrictMode, Component, useEffect, lazy, Suspense } from 'react'
+import { StrictMode, Component, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { analytics } from '@heycatch/sdk'
 import { analyticsEnabledFor, markAnalyticsStarted } from './lib/analyticsScope.mjs'
 import './index.css'
@@ -68,6 +68,8 @@ const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
 const CreatorDemoPage = lazy(() => import('./pages/CreatorDemoPage'))
+const PricingPage = lazy(() => import('./pages/PricingPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
 
 // Tiny loading fallback shown while a route's chunk fetches. Keep it minimal
 // — typical chunk fetch on a warm connection is <100ms and the user shouldn't
@@ -146,28 +148,6 @@ function L({ children }) {
   )
 }
 
-// Lands on the home page and scrolls to a section. Used for friendly URL
-// aliases like /pricing → home + scroll to #pricing — better than the old
-// silent redirect to / where the user couldn't tell anything happened.
-//
-// Implementation note: we deliberately don't clear the timeout on unmount.
-// The unmount fires the moment we navigate('/'), which would cancel the
-// scroll. The 350ms window gives LandingPage time to render before we look
-// for the section element by ID.
-function RedirectToSection({ sectionId }) {
-  const navigate = useNavigate()
-  useEffect(() => {
-    navigate('/', { replace: true })
-    window.setTimeout(() => {
-      const el = document.getElementById(sectionId)
-      if (!el) return
-      const top = el.getBoundingClientRect().top + window.scrollY - 60
-      window.scrollTo({ top, behavior: 'smooth' })
-    }, 350)
-  }, [navigate, sectionId])
-  return null
-}
-
 function TikTokRedirect() {
   setCampaignAttribution({
     source: 'tiktok',
@@ -190,6 +170,8 @@ const router = createBrowserRouter([
       { path: '/changelog', element: <L><ChangelogPage /></L> },
       { path: '/beginner-guide', element: <L><BeginnerGuidePage /></L> },
       { path: '/press', element: <L><PressPage /></L> },
+      { path: '/pricing', element: <L><PricingPage /></L> },
+      { path: '/about', element: <L><AboutPage /></L> },
       { path: '/tools/r6-tier-list', element: <L><R6TierListPage /></L> },
       { path: '/r/:code', element: <L><ReferralLandingPage /></L> },
       { path: '/creator-demo', element: <L><CreatorDemoPage /></L> },
@@ -237,10 +219,8 @@ const router = createBrowserRouter([
   { path: '/start', element: <L><StartPage /></L> },
 
   // Friendly redirects for paths a curious user (or auditor) might type
-  // directly. Pricing is a landing-page section, so we send them home and
-  // let the page-level scroll-on-mount logic handle the hash. Activation
-  // and desktop have real routes — these aliases just match common guesses.
-  { path: '/pricing', element: <RedirectToSection sectionId="pricing" /> },
+  // directly. Activation and desktop have real routes — these aliases just
+  // match common guesses.
   { path: '/activation', element: <Navigate to="/activate" replace /> },
   { path: '/desktop', element: <Navigate to="/download" replace /> },
   { path: '/desktop-app', element: <Navigate to="/download" replace /> },

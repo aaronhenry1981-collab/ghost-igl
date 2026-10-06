@@ -1,11 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getCurrentSeason } from '../utils/season'
-// All-Access link/amount imports removed 2026-07-06 (R6-only) — the constants
-// stay exported from config/stripe.js for existing subscribers' plumbing.
-import {
-  AI_USAGE_PACK_AMOUNT,
-} from '../config/stripe'
 import { isFoundingOpen } from '../config/founding'
 import { track } from '../utils/analytics'
 import FoundingCountdown from '../components/FoundingCountdown'
@@ -13,7 +8,7 @@ import StratDisplay from '../components/strats/StratDisplay'
 import STRATS from '../data/public-strats.generated'
 import META from '../data/meta'
 import OPERATORS from '../data/operators'
-import { MAP_COUNT, SITE_COUNT } from '../config/planFacts'
+import { MAP_COUNT, PLAN_FACTS, SITE_COUNT } from '../config/planFacts'
 import { useAuth } from '../hooks/useAuth'
 import { useTestimonials } from '../hooks/useTestimonials'
 
@@ -25,10 +20,10 @@ const R6_ONLY = true
 
 import { useDemoVideo } from '../hooks/useDemoVideo'
 import { useReveal } from '../hooks/useReveal'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { openMembershipCheckout } from '../lib/membershipCheckout'
 import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
+import PricingSection from '../components/PricingSection'
 
 const PREVIEW_STRATS = {
   'bank-ceo-attack': { map: 'Bank', mapId: 'bank', site: 'CEO Office', siteId: 'ceo', side: 'attack', data: STRATS.bank.ceo.attack },
@@ -37,25 +32,6 @@ const PREVIEW_STRATS = {
   'kafe-cocktail-defense': { map: 'Kafe Dostoyevsky', mapId: 'kafe', site: 'Bar / Cocktail Lounge', siteId: 'bar-cocktail', side: 'defense', data: STRATS.kafe['bar-cocktail'].defense },
 }
 
-// Opens Stripe's customer portal via a freshly-created session. Never fall back to
-// a hardcoded portal URL — portal session IDs change and static URLs 404.
-async function openStripePortal() {
-  const cognitoUser = getCurrentUser()
-  if (!cognitoUser) throw new Error('Not signed in')
-  const session = await getSession(cognitoUser)
-  const token = getIdToken(session)
-  const res = await fetch(`${API_URL}/me/billing-portal`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
-  })
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error(body.error || `Could not open billing portal (HTTP ${res.status})`)
-  }
-  const data = await res.json()
-  if (!data.url) throw new Error('Billing portal returned no URL')
-  window.location.href = data.url
-}
 
 // Counter that displays the final value by default and only animates the
 // count-up once when first scrolled into view. Previous version started at 0
@@ -206,88 +182,6 @@ const STEPS = [
   { num: '04', title: 'Prove the Fix in Your Gameplay', desc: 'Road to Champion tracks repeated evidence, reopens a skill when the mistake returns, and gives you one clear mission for the next match.' },
 ]
 
-// Founding-member pricing active through May 31, 2026 (extended from May 8
-// while the desktop app finishes). After this date payment links swap to the
-// regular-price Stripe price IDs and the `price` / `regularPrice` fields flip
-// (regular becomes current). Existing subscribers stay locked in at the
-// founding rate — that's the promise.
-// Pricing copy is intentionally explicit about what each tier ADDS vs the
-// previous one. Reviewers and visitors should be able to read the cards and
-// know in 5 seconds why they'd pay more. "Everything in Pro / Recruit"
-// language anchors the comparison.
-const PRICING = [
-  {
-    tier: 'Basic',
-    tierKey: 'free',
-    price: 'Free',
-    period: '',
-    desc: 'Free Bank and Coastline strategy previews, plus the operator catalog.',
-    link: '/auth?mode=signup&redirect=%2Fstrats',
-    features: [
-      'Bank and Coastline sample maps with basic attack and defense plans',
-      'Operator lineups and role guidance',
-      'Map, site, and key-callout reference',
-      'No paid AI usage required',
-      'Upgrade only when you want analysis or live tools',
-    ],
-  },
-  {
-    tier: 'Pro',
-    tierKey: 'pro',
-    price: '$9',
-    regularPrice: '$12',
-    period: '/mo',
-    desc: 'Advanced strategies, AI analysis, and the optional PC Live Coach.',
-    founding: true,
-    featured: true,
-    trialDays: 0,
-    features: [
-      'Paid membership — billing starts at checkout',
-      'Everything in Basic',
-      '+ Advanced Pro strategies and utility plans',
-      '+ AI VOD breakdowns tied to your screenshots',
-      '+ 20 VOD review sessions each month',
-      '+ Recon 6 Command desktop coach for Windows',
-      '+ Match prep scaled to solo, duo, or full stack',
-      '+ Website AI hard limit — no surprise overage charges',
-    ],
-  },
-  {
-    tier: 'Elite',
-    tierKey: 'elite',
-    price: '$39',
-    period: '/mo',
-    desc: 'The full self-service coaching system for players who use Recon 6 every week.',
-    advanced: true,
-    features: [
-      'Everything in Pro',
-      '+ Champion-level strategy library and premium tactics',
-      '+ 60 VOD review sessions each month',
-      '+ Up to 10 screenshots in one multi-round review',
-      '+ Recurring-mistake reports and weekly practice goals',
-      '+ Recon 6 Command desktop coach for Windows',
-      '+ Website AI hard limit — no surprise overage charges',
-    ],
-  },
-  {
-    tier: 'Champion',
-    tierKey: 'champion',
-    price: '$70',
-    period: '/mo',
-    desc: 'High-touch coaching: everything in Elite plus two live sessions with Aaron every month.',
-    cta: 'Start Champion membership',
-    advanced: true,
-    features: [
-      'Everything in Elite',
-      '+ 75 VOD review sessions each month',
-      '+ Two live 1:1 coaching sessions each month',
-      '+ Aaron can use Recon 6 as a private assistant while watching you play',
-      '+ Session findings carried into your next practice goal',
-      '+ Sessions do not roll over; cancel at the end of the billing period',
-      '+ One lifetime no-show waiver',
-    ],
-  },
-]
 
 const FAQ = [
   {
@@ -309,6 +203,10 @@ const FAQ = [
   {
     q: 'What does a VOD breakdown actually look like?',
     a: 'Drop screenshots from a match — death cams, post-plant freezes, or end-of-round scoreboards. You get the specific mistake shown in the evidence, the pattern across the session, and a fix you can apply next round. VOD reviews use the monthly limit included with your plan, and stop when that allowance is used.',
+  },
+  {
+    q: 'Who is Recon 6 not for?',
+    a: 'Players who want someone else to raise their rank: nobody logs into your account, so this is not boosting. It is not a cheat, macro or aim trainer either. Recon 6 is for players who want to understand their rounds and fix one mistake at a time.',
   },
   {
     q: 'What ranks does Recon 6 help?',
@@ -363,15 +261,21 @@ function MetaStrip() {
       </div>
       <div className="meta-strip-col">
         <div className="meta-strip-label">Common ban recommendations</div>
-        <ol className="meta-strip-list">
-          {topBans.map((b, i) => (
-            <li key={b.name}>
-              <span className="meta-strip-rank">{i + 1}</span>
-              <span className="meta-strip-name">{b.name}</span>
-              <span className="meta-strip-count">{b.total} recommendations</span>
-            </li>
-          ))}
-        </ol>
+        {topBans.length > 0 ? (
+          <ol className="meta-strip-list">
+            {topBans.map((b, i) => (
+              <li key={b.name}>
+                <span className="meta-strip-rank">{i + 1}</span>
+                <span className="meta-strip-name">{b.name}</span>
+                <span className="meta-strip-count">{b.total} recommendations</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="meta-strip-locked">
+            Ban targets for every ranked map, each with the reason, come with Pro. <Link to="/pricing">See plans</Link>
+          </p>
+        )}
       </div>
       <div className="meta-strip-cta">
         <Link to="/meta" className="btn btn-primary btn-sm">See full meta →</Link>
@@ -406,14 +310,11 @@ function StratPreview() {
 }
 
 export default function LandingPage() {
-  const { user, isPro, plan } = useAuth()
+  const { user, isPro } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const { visible: testimonials } = useTestimonials()
   const { video: demoVideo } = useDemoVideo()
-  const [portalLoading, setPortalLoading] = useState(false)
-  const [portalError, setPortalError] = useState(null)
   const [checkoutError, setCheckoutError] = useState(null)
-  const [showAdvancedPlans, setShowAdvancedPlans] = useState(false)
   const checkoutResumeRef = useRef(false)
   const landingViewTrackedRef = useRef(false)
   // R6-ONLY (2026-07-06): the billing-scope toggle and All-Access SKUs are no
@@ -433,17 +334,6 @@ export default function LandingPage() {
     const event = checkoutReturnEvent(searchParams.get('checkout'))
     if (event) track(event.name, event.props)
   }, [searchParams])
-
-  const handleManageSubscription = useCallback(async () => {
-    setPortalLoading(true)
-    setPortalError(null)
-    try {
-      await openStripePortal()
-    } catch (err) {
-      setPortalError(err.message || 'Could not open billing portal')
-      setPortalLoading(false)
-    }
-  }, [])
 
   // A signed-out visitor chooses a tier, creates/signs into a verified account,
   // then returns here. Resume the server-owned Checkout Session exactly once.
@@ -478,7 +368,7 @@ export default function LandingPage() {
               Play it together.
             </h1>
             <p className="hero-subtitle">
-              Pick the map, site, and side. Recon 6 gives your squad five clear operator jobs,
+              Pick the Rainbow Six Siege map, site, and side. Recon 6 gives your squad five clear operator jobs,
               then reviews the round and tells you what to fix next.
             </p>
             <div className="hero-cta hero-v2-cta">
@@ -489,14 +379,14 @@ export default function LandingPage() {
               >
                 Open the free Bank defense <span aria-hidden="true">→</span>
               </Link>
+              <a
+                href="#pricing"
+                className="btn btn-outline btn-lg"
+                onClick={() => track('Hero Pricing Link Click')}
+              >
+                See Pro from ${PLAN_FACTS.pro.monthlyUsd}/month
+              </a>
             </div>
-            <a
-              href="#pricing"
-              className="hero-secondary-link"
-              onClick={() => track('Hero Pricing Link Click')}
-            >
-              See Pro from $12/month
-            </a>
             <div className="hero-v2-proof">
               <span><strong>{MAP_COUNT}</strong> maps</span>
               <span><strong>{SITE_COUNT}</strong> site setups</span>
@@ -572,7 +462,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">More than a strat library</div>
           <h2>The plan is only useful if it changes your next round.</h2>
-          <p>Recon 6 connects the briefing, your individual job, the mistake you made, and the correction you carry into the next match.</p>
+          <p>Hardstuck, and more hours aren't fixing it? Usually it's one mistake, repeated every match. Recon 6 connects the briefing, your individual job, the mistake you made, and the correction you carry into the next match.</p>
         </div>
         <div className="features-grid">
           {FEATURES.map((f) => {
@@ -628,6 +518,21 @@ export default function LandingPage() {
               <p>{s.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="section creator-strip" id="creators">
+        <div className="creator-strip-copy">
+          <div className="section-label">Creators and squad coaches</div>
+          <h2>Make Siege content or coach a stack?</h2>
+          <p>
+            The 60-second demo shows a full round plan you can put on stream or send to your squad. The press kit has
+            logos, screenshots, and a way to request a review build.
+          </p>
+        </div>
+        <div className="creator-strip-actions">
+          <Link to="/creator-demo" className="btn btn-primary">Open the 60-second demo</Link>
+          <Link to="/press" className="btn btn-outline">Press and creator kit</Link>
         </div>
       </section>
 
@@ -720,147 +625,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="section section-dark" id="pricing">
-        <div className="section-header">
-          <div className="section-label">Pricing</div>
-          <h2>Start With Pro. Upgrade Only When You Use More.</h2>
-          <p>Pro is the default paid plan: full strategies, AI review, and the desktop coach for $12/month.</p>
-        </div>
-        {isFoundingOpen() && (
-          <div style={{ display: 'flex', justifyContent: 'center', maxWidth: 720, margin: '0 auto 2rem' }}>
-            <FoundingCountdown variant="banner" />
-          </div>
-        )}
-
-        <div className="pricing-reassure">
-          <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">⟲</span>
-            <div>
-              <strong>7-day money-back</strong>
-              <p>Request a refund within seven days of your first paid charge. See the refund policy for details.</p>
-            </div>
-          </div>
-          <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">⊘</span>
-            <div>
-              <strong>Cancel in one click</strong>
-              <p>Stripe customer portal from your Account page. No phone calls, no retention tricks.</p>
-            </div>
-          </div>
-          <div className="pricing-reassure-item">
-            <span className="pricing-reassure-icon">∞</span>
-            <div>
-              <strong>Your account stays yours</strong>
-              <p>Nobody logs into your game account, and Recon 6 does not inject into the game client.</p>
-            </div>
-          </div>
-        </div>
-        {/* Billing-scope toggle REMOVED 2026-07-06 — R6-only pricing. All-Access SKUs live on for
-            existing subscribers (config/stripe.js + useAuth tier_scope). */}
-        <div className="pricing-grid">
-          {PRICING.filter((p) => showAdvancedPlans || !p.advanced).map((p) => {
-            const foundingOpen = isFoundingOpen()
-            const displayPrice = p.founding && !foundingOpen && p.regularPrice ? p.regularPrice : p.price
-            const showFounding = p.founding && foundingOpen
-            const showRegular = showFounding && p.regularPrice
-            return (
-            <div className={`pricing-card${p.featured ? ' featured' : ''}`} key={p.tier}>
-              {p.featured && <div className="pricing-popular">Recommended start</div>}
-              <div className="pricing-tier">{p.tier}</div>
-              <div className="pricing-price">
-                {showRegular && (
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      marginRight: 8,
-                      color: 'rgba(255,255,255,0.4)',
-                      textDecoration: 'line-through',
-                      fontSize: '0.75em',
-                      verticalAlign: 'middle',
-                    }}
-                  >
-                    {p.regularPrice}
-                  </span>
-                )}
-                {displayPrice}
-                {p.period && <span>{p.period}</span>}
-              </div>
-              {showFounding && (
-                <div
-                  style={{
-                    display: 'inline-block',
-                    padding: '3px 10px',
-                    marginBottom: '0.5rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    color: '#ff9b5c',
-                    background: 'rgba(255,155,92,0.12)',
-                    border: '1px solid rgba(255,155,92,0.4)',
-                    borderRadius: 999,
-                  }}
-                >
-                  Founding rate — locked for life
-                </div>
-              )}
-              <p className="pricing-desc">{p.desc}</p>
-              <ul className="pricing-features">
-                {p.features.map((f) => (<li key={f}>{f}</li>))}
-              </ul>
-              {isPro && p.price !== 'Free' ? (
-                <button
-                  type="button"
-                  onClick={handleManageSubscription}
-                  disabled={portalLoading}
-                  className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
-                >
-                  {portalLoading ? 'Opening…' : p.tierKey === plan ? 'Manage Subscription' : 'Change Plan'}
-                </button>
-              ) : p.price === 'Free' && user ? (
-                <Link to="/strats" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
-                  Go to Strats
-                </Link>
-              ) : p.price === 'Free' ? (
-                <Link
-                  to={p.link}
-                  onClick={() => track('Free Tier CTA Click', { location: 'pricing-card' })}
-                  className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
-                >
-                  Get Started Free
-                </Link>
-              ) : (
-                <MembershipCheckoutButton
-                  tier={p.tierKey}
-                  location="pricing-card"
-                  onError={(error) => setCheckoutError(error.message || 'Could not open secure checkout.')}
-                  className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}
-                >
-                  {p.cta || (p.trialDays ? `Start ${p.trialDays}-day free trial` : 'Subscribe Now')}
-                </MembershipCheckoutButton>
-              )}
-            </div>
-            )
-          })}
-        </div>
-        <button
-          type="button"
-          className="btn btn-outline pricing-advanced-toggle"
-          onClick={() => {
-            setShowAdvancedPlans((current) => !current)
-            track('Advanced Plans Toggle', { state: showAdvancedPlans ? 'closed' : 'open' })
-          }}
-        >
-          {showAdvancedPlans ? 'Hide Elite and Champion' : 'Compare Elite and Champion'}
-        </button>
-        <p className="pricing-note">
-          Paid memberships start billing at checkout; there is no free trial. Website AI usage is capped, and extra usage is prepaid at ${AI_USAGE_PACK_AMOUNT} with no automatic overage. Recon 6 Command is included with paid Pro, Elite, and Champion accounts. Champion includes two live sessions.
-        </p>
-        {(portalError || checkoutError) && (
-          <p className="pricing-note" style={{ color: '#ff6b6b' }}>
-            {portalError || checkoutError} — you can also <Link to="/account">manage from Account</Link>.
-          </p>
-        )}
-
-      </section>
+      <PricingSection externalError={checkoutError} />
 
       <section className="section" id="faq">
         <div className="section-header">

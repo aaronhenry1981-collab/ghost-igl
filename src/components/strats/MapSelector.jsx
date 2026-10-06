@@ -142,7 +142,7 @@ export default function MapSelector({ maps, onSelect }) {
             <div className="map-card-visual" aria-hidden="true">
               <img
                 src={`/guides/og/${map.id}.svg`}
-                alt=""
+                alt={`${map.name} map card art`}
                 onError={(event) => { event.currentTarget.style.display = 'none' }}
               />
               <span>{MAP_ICONS[map.id] || '⌖'}</span>
