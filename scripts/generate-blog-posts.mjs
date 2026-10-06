@@ -12,6 +12,7 @@
 import { writeFileSync, mkdirSync, readdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { FREE_MAP_NAMES } from '../src/config/planFacts.js'
 import {
   ARTICLE_CSS, TEMPLATE_REVISED, articleSchema, bylineHtml, descriptionFrom, firstPublished, footerHtml,
   navHtml, seasonSources, sourcesHtml, titleFromHeadline,
@@ -2335,7 +2336,7 @@ function renderPost(post) {
       <a class="btn" href="${SITE_URL}/#pricing" style="background:transparent;border:1px solid rgba(255,201,122,0.5);color:#ffc97a">See pricing</a>
     </div>`
     : `
-    <p class="pro-note"><a href="${SITE_URL}/pricing">Get your own rounds reviewed with Pro</a></p>`
+    <p class="pro-note">Next: <a href="${SITE_URL}/strats">open the free ${FREE_MAP_NAMES} strats</a>, or <a href="${SITE_URL}/pricing">get your own rounds reviewed with Pro</a>.</p>`
 
   const bodyInner = `
     ${renderBreadcrumb(post)}
