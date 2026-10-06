@@ -157,11 +157,11 @@ export default function PressPage() {
           <div className="press-founder-title">Founder & sole engineer · Recon 6 (Iron Front Digital LLC)</div>
           <p>{COPY_PRESETS.founder}</p>
           <ul className="press-founder-facts">
-            <li><strong>Based:</strong> Texas, USA</li>
-            <li><strong>Company:</strong> Iron Front Digital LLC (parent)</li>
-            <li><strong>Founded:</strong> 2025</li>
-            <li><strong>Funding:</strong> Bootstrapped</li>
-            <li><strong>Tech:</strong> React + AWS + Stripe</li>
+            <li><strong>Based:</strong> Texas, USA.</li>
+            <li><strong>Company:</strong> Iron Front Digital LLC (parent).</li>
+            <li><strong>Founded:</strong> 2025.</li>
+            <li><strong>Funding:</strong> Bootstrapped.</li>
+            <li><strong>Tech:</strong> React, AWS and Stripe.</li>
           </ul>
         </div>
       </section>
@@ -170,7 +170,7 @@ export default function PressPage() {
         <h2>Contact</h2>
         <ul className="press-contact-list">
           <li><strong>Press / interviews:</strong> <a href="mailto:aaronhenry1981@gmail.com">aaronhenry1981@gmail.com</a></li>
-          <li><strong>Partnerships / collabs:</strong> Same — DMs welcome</li>
+          <li><strong>Partnerships / collabs:</strong> Same address; DMs welcome.</li>
           <li><strong>Live site:</strong> <a href="https://r6coaching.com">r6coaching.com</a></li>
           <li><strong>Try the in-match coach:</strong> <Link to="/live">/live</Link></li>
           <li><strong>Current plans:</strong> <Link to="/#pricing">View pricing and terms</Link></li>

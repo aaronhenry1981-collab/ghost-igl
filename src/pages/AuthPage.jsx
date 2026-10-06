@@ -305,9 +305,9 @@ export default function AuthPage() {
             </div>
           </div>
           <ul className="auth-story-points">
-            <li><span>01</span> Free map, operator, and strategy foundation</li>
-            <li><span>02</span> See a sample round review before you pay</li>
-            <li><span>03</span> No game login, injection, or account sharing</li>
+            <li><span>01</span> Free map, operator, and strategy foundation.</li>
+            <li><span>02</span> See a sample round review before you pay.</li>
+            <li><span>03</span> No game login, injection, or account sharing.</li>
           </ul>
         </aside>
 

@@ -26,13 +26,7 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #121211;
-      color: #ebe4d7;
-      line-height: 1.6;
-    }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
@@ -41,48 +35,37 @@
     .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
     h1 { font-size: 2rem; margin: 0 0 8px; }
-    .sub { color: rgba(235,228,215,0.7); margin-bottom: 24px; font-size: 0.95rem; }
-    .cta-top {
-      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212);
-      color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
-    }
-    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; }
-    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
-    .side { margin: 18px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .definition { font-size: 1.04rem; color: rgba(235,228,215,0.94); }
+    .official { font-size: 0.92rem; color: rgba(235,228,215,0.8); }
+    .cta-top { display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212); color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin: 4px 0 18px; }
+    .site-toc { font-size: 0.92rem; margin: 0 0 24px; }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; scroll-margin-top: 16px; }
+    .site h3 { margin: 0 0 10px; font-size: 1.3rem; color: #fff; }
+    .site-answer { margin: 0 0 6px; }
+    .side { margin: 16px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
     .side.attack { border-left-color: #ff8060; }
     .side.defense { border-left-color: #50b4ff; }
-    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .side.attack h3 { color: #ff8060; }
-    .side.defense h3 { color: #50b4ff; }
-    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
-    .op { padding: 4px 10px; background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.3); border-radius: 4px; font-size: 0.85rem; color: #fad6c2; }
-    .op.essential { background: rgba(240,116,48,0.16); border-color: #f07430; font-weight: 700; }
-    .strategy { margin: 8px 0; color: rgba(235,228,215,0.9); }
-    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(235,228,215,0.85); }
-    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .side h4 { margin: 0 0 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h4 { color: #ff8060; }
+    .side.defense h4 { color: #50b4ff; }
+    .side p { margin: 6px 0; }
+    .lineup strong, .callout-line strong { color: #fad6c2; }
+    .callout-line { font-size: 0.9rem; color: rgba(235,228,215,0.85); }
+    .deep-link { display: inline-block; margin-top: 6px; font-size: 0.88rem; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
-    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .bans ul { margin: 0; padding-left: 18px; }
-    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
-    .intro-cta h3 { margin: 0 0 6px; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
-    .definition { font-size: 1.02rem; color: rgba(235,228,215,0.92); }
     .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
     .related-links ul { margin: 0; padding-left: 18px; }
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .pro-note { margin-top: 24px; font-size: 0.95rem; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
@@ -107,159 +90,111 @@
       <a href="/guides/">Map Guides</a> ›
       <span>Lair</span>
     </nav>
-    <h1>Lair — Complete Strategy Guide</h1>
     
-      <p class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a>, founder of Recon 6 · Published <time datetime="2026-05-23">May 23, 2026</time> · Updated <time datetime="2026-10-06">October 6, 2026</time></p>
-      <p class="process-note">Built from Recon 6's strat library, the same map, site and operator data the app uses. Site names follow Ubisoft's official map list. The strats are in beta; if a callout or setup doesn't match your game, <a href="/about#contact">tell us</a>.</p>
-    <p class="definition">Lair is a Rainbow Six Siege map with 4 bomb sites: Master Office, Bunks, Armory, Lab. For each one, this guide gives the operator picks, a short execute overview and the key callouts.</p>
-    <p class="sub">Full utility and ban intel unlock after sign-in.</p>
+      <div class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a> · <time datetime="2026-05-23">May 23, 2026</time></div>
+    <h1>Lair — Complete Strategy Guide</h1>
+    <p class="definition">In Rainbow Six Siege, Lair is a ranked map this season with 4 bomb sites: Master Office (2F), Bunks (1F), Armory (1F) and Lab (B). Recon 6's plans on Lair lean on Ace and Twitch for attack and on Mira and Mute for defense.</p>
     <a class="cta-top" href="https://r6coaching.com/strats/lair">Open interactive Lair strats &rarr;</a>
     
       <figure class="article-figure">
         <img src="/guides/og/lair.svg" alt="Lair map card from Recon 6's Rainbow Six Siege guide" width="1200" height="630" loading="lazy" />
-        <figcaption>Lair: Master Office, Bunks, Armory, Lab</figcaption>
+        <figcaption>Lair: Master Office (2F), Bunks (1F), Armory (1F), Lab (B).</figcaption>
       </figure>
+    <p class="site-toc"><strong>Jump to a site:</strong> <a href="#master-r6">Master Office</a>, <a href="#bunks-briefing">Bunks</a>, <a href="#armory-weapon">Armory</a>, <a href="#lab-support">Lab</a>.</p>
     
+    <h2>How should you play Lair's bomb sites?</h2>
     
-        <section class="site" id="master-r6">
-          <h2>2F &mdash; Master Office / R6 Room</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Ace</span><span class="op essential">Twitch</span>
-        <span class="op">Zofia</span><span class="op">Iana</span>
-        <span class="op">Capitao</span>
+      <section class="site" id="master-r6">
+        <h3>Master Office / R6 Room (2F)</h3>
+        <p class="site-answer">On Master Office, Ace and Twitch lead the attack; Mute and Mira lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Ace (hard breach), Twitch (support). <strong>Recommended:</strong> Zofia (vertical play), Iana (entry frag). <strong>Flex:</strong> Capitao (flex / intel).</p>
+        <p class="strategy">Layered execute: Capitao flashes from main, Iana pushes R6 Room for the trade, Ace and Twitch hit Master Office simultaneously.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Master Office, R6 Room, Sniper Nest, Garage.</p>
       </div>
-      <p class="strategy">Layered execute: Capitao flashes from main, Iana pushes R6 Room for the trade, Ace and Twitch hit Master Office simultaneously.</p>
-      <div class="callouts">
-        <span class="callout">Master Office</span><span class="callout">R6 Room</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Mira (intel). <strong>Recommended:</strong> Jager (utility denial), Alibi (roam). <strong>Flex:</strong> Azami (flex / sustain).</p>
+        <p class="strategy">Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Master Office, R6 Room, Sniper Nest, Garage.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Mira</span>
-        <span class="op">Jager</span><span class="op">Alibi</span>
-        <span class="op">Azami</span>
-      </div>
-      <p class="strategy">Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
-      <div class="callouts">
-        <span class="callout">Master Office</span><span class="callout">R6 Room</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/lair/master-r6/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/lair/master-r6/attack">Open the interactive Master Office strat &rarr;</a>
+      </section>
 
-        <section class="site" id="bunks-briefing">
-          <h2>1F &mdash; Bunks / Briefing</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Maverick</span><span class="op essential">Kali</span>
-        <span class="op">Zofia</span><span class="op">Ying</span>
-        <span class="op">Fuze</span>
+      <section class="site" id="bunks-briefing">
+        <h3>Bunks / Briefing (1F)</h3>
+        <p class="site-answer">On Bunks, Maverick and Kali lead the attack; Mute and Maestro lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Maverick (hard breach), Kali (support). <strong>Recommended:</strong> Zofia (vertical play), Ying (entry frag). <strong>Flex:</strong> Fuze (flex / intel).</p>
+        <p class="strategy">Open with Kali clearing electronics, then Maverick hits the Bunks wall on call.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Bunks, Briefing, Sniper Nest, Garage.</p>
       </div>
-      <p class="strategy">Open with Kali clearing electronics, then Maverick hits the Bunks wall on call.</p>
-      <div class="callouts">
-        <span class="callout">Bunks</span><span class="callout">Briefing</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Maestro (intel). <strong>Recommended:</strong> Jager (utility denial), Caveira (roam). <strong>Flex:</strong> Thunderbird (flex / sustain).</p>
+        <p class="strategy">Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Maestro hold site; Caveira plays off-site for pick potential and timing pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Bunks, Briefing, Sniper Nest, Garage.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Maestro</span>
-        <span class="op">Jager</span><span class="op">Caveira</span>
-        <span class="op">Thunderbird</span>
-      </div>
-      <p class="strategy">Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Maestro hold site; Caveira plays off-site for pick potential and timing pressure.</p>
-      <div class="callouts">
-        <span class="callout">Bunks</span><span class="callout">Briefing</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/lair/bunks-briefing/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/lair/bunks-briefing/attack">Open the interactive Bunks strat &rarr;</a>
+      </section>
 
-        <section class="site" id="armory-weapon">
-          <h2>1F &mdash; Armory / Weapon Maintenance</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Ace</span><span class="op essential">Twitch</span>
-        <span class="op">Buck</span><span class="op">Iana</span>
-        <span class="op">Nomad</span>
+      <section class="site" id="armory-weapon">
+        <h3>Armory / Weapon Maintenance (1F)</h3>
+        <p class="site-answer">On Armory, Ace and Twitch lead the attack; Bandit and Mira lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Ace (hard breach), Twitch (support). <strong>Recommended:</strong> Buck (vertical play), Iana (entry frag). <strong>Flex:</strong> Nomad (flex / intel).</p>
+        <p class="strategy">Layered execute: Nomad flashes from main, Iana pushes Weapon Maintenance for the trade, Ace and Twitch hit Armory simultaneously.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Armory, Weapon Maintenance, Sniper Nest, Garage.</p>
       </div>
-      <p class="strategy">Layered execute: Nomad flashes from main, Iana pushes Weapon Maintenance for the trade, Ace and Twitch hit Armory simultaneously.</p>
-      <div class="callouts">
-        <span class="callout">Armory</span><span class="callout">Weapon Maintenance</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Bandit (anti-breach), Mira (intel). <strong>Recommended:</strong> Wamai (utility denial), Vigil (roam). <strong>Flex:</strong> Azami (flex / sustain).</p>
+        <p class="strategy">Vigil forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Armory, Weapon Maintenance, Sniper Nest, Garage.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Bandit</span><span class="op essential">Mira</span>
-        <span class="op">Wamai</span><span class="op">Vigil</span>
-        <span class="op">Azami</span>
-      </div>
-      <p class="strategy">Vigil forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
-      <div class="callouts">
-        <span class="callout">Armory</span><span class="callout">Weapon Maintenance</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/lair/armory-weapon/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/lair/armory-weapon/attack">Open the interactive Armory strat &rarr;</a>
+      </section>
 
-        <section class="site" id="lab-support">
-          <h2>B &mdash; Lab / Lab Support</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Ace</span><span class="op essential">Twitch</span>
-        <span class="op">Sledge</span><span class="op">Iana</span>
-        <span class="op">Finka</span>
+      <section class="site" id="lab-support">
+        <h3>Lab / Lab Support (B)</h3>
+        <p class="site-answer">On Lab, Ace and Twitch lead the attack; Kaid and Mira lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Ace (hard breach), Twitch (support). <strong>Recommended:</strong> Sledge (vertical play), Iana (entry frag). <strong>Flex:</strong> Finka (flex / intel).</p>
+        <p class="strategy">Map control first: Finka and Iana clear Lab Support side while Sledge sets up vertical pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Lab, Lab Support, Sniper Nest, Garage.</p>
       </div>
-      <p class="strategy">Map control first: Finka and Iana clear Lab Support side while Sledge sets up vertical pressure.</p>
-      <div class="callouts">
-        <span class="callout">Lab</span><span class="callout">Lab Support</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Kaid (anti-breach), Mira (intel). <strong>Recommended:</strong> Aruni (utility denial), Vigil (roam). <strong>Flex:</strong> Thunderbird (flex / sustain).</p>
+        <p class="strategy">Kaid denies the hard-breach on Lab with electrified walls.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Lab, Lab Support, Sniper Nest, Garage.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Kaid</span><span class="op essential">Mira</span>
-        <span class="op">Aruni</span><span class="op">Vigil</span>
-        <span class="op">Thunderbird</span>
-      </div>
-      <p class="strategy">Kaid denies the hard-breach on Lab with electrified walls.</p>
-      <div class="callouts">
-        <span class="callout">Lab</span><span class="callout">Lab Support</span><span class="callout">Sniper Nest</span><span class="callout">Garage</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/lair/lab-support/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/lair/lab-support/attack">Open the interactive Lab strat &rarr;</a>
+      </section>
+    
+    <h2>Lair callouts from match footage</h2>
+    <p>Lair's attacker spawns: Gate, Dock, Lift and Shooting Range.</p>
+    <p>Most-seen Lair room callouts: Mezzanine, Main Stairs, Main Entrance, Master Office, Mask Room, Lab, Warehouse, Lockers, North Dock, Kid Room, Toxin and Missile Hallway.</p>
+    <p><a href="/guides/#footage">How the Lair names were read</a>.</p>
+    <p class="official">Official sources: <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/lair" rel="noopener">Ubisoft's Lair page</a> and <a href="https://siege.gg/maps/lair" rel="noopener">SiegeGG's Lair stats</a>.</p>
     
     <section class="related-links">
-      <h2>More on Lair</h2>
-      <ul><li><a href="/guides/lair/master-r6.html">Lair Master Office guide</a></li><li><a href="/guides/lair/bunks-briefing.html">Lair Bunks guide</a></li><li><a href="/guides/lair/armory-weapon.html">Lair Armory guide</a></li><li><a href="/guides/lair/lab-support.html">Lair Lab guide</a></li></ul>
+      <h2>Operators Lair plans lean on</h2>
+      <ul><li><a href="/blog/r6-operator-ace.html">Ace guide</a></li><li><a href="/blog/r6-operator-twitch.html">Twitch guide</a></li><li><a href="/blog/r6-operator-mute.html">Mute guide</a></li><li><a href="/blog/r6-operator-mira.html">Mira guide</a></li><li><a href="/blog/r6-operator-maverick.html">Maverick guide</a></li><li><a href="/blog/r6-operator-kali.html">Kali guide</a></li></ul>
     </section>
-    
-    <section class="sources" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">Sources</h2>
-      <ul><li><a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/lair" rel="noopener">Ubisoft: official Lair map page</a> <span>— layout, floors and bomb sites</span></li><li><a href="https://siege.gg/maps/lair" rel="noopener">SiegeGG: Lair map stats</a> <span>— how the map plays in professional matches</span></li></ul>
-      <p class="sources-note">Links checked October 6, 2026. Ubisoft's pages are the authority if anything here disagrees.</p>
-    </section>
-    <div class="intro-cta">
-      <h3>The full Lair plan is in Pro</h3>
-      <p>Utility for every operator on every Lair site, and AI review of your own rounds.</p>
-      <a class="btn" href="https://r6coaching.com/pricing">See plans</a>
-    </div>
+    <p class="pro-note"><a href="https://r6coaching.com/pricing">Get Lair's utility plans with Pro</a></p>
   </main>
   <div class="footer-strip">
     <p>&copy; Recon 6 — Rainbow Six Siege coaching, built by <a href="/author/aaron/">Aaron Henry</a>. Fan-made; not affiliated with Ubisoft.</p>

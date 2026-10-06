@@ -59,24 +59,24 @@ const body = `
     <nav class="breadcrumb"><a href="/">Recon 6</a> › <span>Authors</span> › <span>${escape(AUTHOR_NAME)}</span></nav>
     <article>
       <h1>${escape(AUTHOR_NAME)}</h1>
-      <p class="byline">Founder of Recon 6 · Texas, USA</p>
+      <div class="byline">Founder of Recon 6 · Texas, USA</div>
       <p>${escape(AUTHOR_NAME)} founded Recon 6 in 2025 after recording his own ranked Rainbow Six Siege matches to find the patterns behind repeated round losses. Those notes became a coaching tool built around decisions a player can test in the next match.</p>
       <p>He is Recon 6's founder and sole engineer: he builds the website and the Recon 6 Command desktop coach, publishes the guides below, and runs the live 1:1 coaching sessions. More about the company is on the <a href="${SITE_URL}/about">About page</a>.</p>
 
-      <h2>How these guides are made</h2>
-      <p>The map, site and operator guides are built from Recon 6's strat library, the same data the app uses, with site names that follow Ubisoft's official map list. The blog posts are drafted with AI assistance from that library and published by ${escape(AUTHOR_NAME)}. Every guide links the official Ubisoft pages it should agree with. If something doesn't match your game, <a href="${SITE_URL}/about#contact">tell us</a> and it gets fixed or withdrawn.</p>
+      <h2 id="how-guides-are-made">How are these guides made?</h2>
+      <p>The map guides are built from Recon 6's strat library, the same data the app uses, with site names that follow Ubisoft's official map list. The blog posts, operator deep dives included, are drafted with AI assistance from that library and published by ${escape(AUTHOR_NAME)}; their bylines say "AI-assisted". Every guide links the official Ubisoft pages it should agree with. If something doesn't match your game, <a href="${SITE_URL}/about#contact">tell us</a> and it gets fixed or withdrawn.</p>
 
       <h2>Where to find him</h2>
       <ul>
-        ${AUTHOR_SAME_AS.map((url) => `<li><a href="${escape(url)}" rel="me noopener">${escape(url.replace(/^https?:\/\//, ''))}</a></li>`).join('\n        ')}
-        <li><a href="https://www.tiktok.com/@recon6coach" rel="noopener">Recon 6 on TikTok</a></li>
-        <li><a href="https://discord.gg/namGQqs3jb" rel="noopener">Recon 6 Discord</a></li>
+        ${AUTHOR_SAME_AS.map((url) => `<li><a href="${escape(url)}" rel="me noopener">${escape(/youtube/.test(url) ? 'YouTube channel' : /twitch/.test(url) ? 'Twitch channel' : url.replace(/^https?:\/\//, ''))}</a>.</li>`).join('\n        ')}
+        <li><a href="https://www.tiktok.com/@recon6coach" rel="noopener">Recon 6 on TikTok</a>.</li>
+        <li><a href="https://discord.gg/namGQqs3jb" rel="noopener">Recon 6 Discord</a>.</li>
       </ul>
 
       <h2>Articles by ${escape(AUTHOR_NAME)} (${total})</h2>
       ${groups.filter((g) => g.items.length).map((g) => `
       <h3>${escape(g.heading)}</h3>
-      <ul class="author-articles">${g.items.map((p) => `<li><a href="${escape(p.url)}">${escape(p.title)}</a></li>`).join('')}</ul>`).join('\n')}
+      <ul class="author-articles">${g.items.map((p) => `<li><a href="${escape(p.url)}">${escape(p.title)}</a>.</li>`).join('')}</ul>`).join('\n')}
     </article>`
 
 const html = `<!doctype html>

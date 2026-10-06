@@ -17,6 +17,46 @@ import {
   navHtml, seasonSources, sourcesHtml, titleFromHeadline,
 } from './lib/article-seo.mjs'
 
+// The direct answer each rank guide opens with (40-60 words), summarising
+// the post's own sections, before any warm-up.
+const ANSWERS = {
+  'r6-copper-to-bronze': 'To climb from Copper to Bronze in Rainbow Six Siege, cut the deaths you can avoid. Play a small pool of operators and learn each one\'s job. Keep your drones alive and act on what they show. Reinforce for your bombsite plan, clear one angle at a time, and trade instead of re-peeking.',
+  'r6-bronze-to-silver': 'To climb from Bronze to Silver in Rainbow Six Siege, fix the decisions you control. Pick operators for the job your team needs. Learn the callouts for the maps you actually queue. Set up the specific site, rotations included, and use fresh drone information before you commit to a push or a hold.',
+  'r6-silver-to-gold': 'To climb from Silver to Gold in Rainbow Six Siege, make your utility useful to the next teammate. Agree on the breach before anyone spends utility. Drone the room you are about to take, not a quota. On defense, give each player a job and a route back to site.',
+  'r6-gold-to-platinum': 'To climb from Gold to Platinum in Rainbow Six Siege, turn information into a shared next move. Ban around the plan you mean to run. Make your entry useful to the player behind you. After the plant, attackers protect the defuser and defenders disable it. Review each decision, not only the scoreboard.',
+  'r6-platinum-to-emerald': 'To climb from Platinum to Emerald in Rainbow Six Siege, adapt only when something actually changed. Give every angle you hold a job and an exit. Peek only as far as your information supports. Treat run-outs as a risk, open walls to solve a visible problem, and change plans on confirmed evidence.',
+  'r6-emerald-to-diamond': 'To climb from Emerald to Diamond in Rainbow Six Siege, adapt from round to round. Track where opponents spawn and rotate. Pick off-meta operators only when the matchup calls for them. Time your roamer clears, drone two rooms past the choke, and switch the strat mid-round when defenders react.',
+  'r6-diamond-to-champion': 'To climb from Diamond to Champion in Rainbow Six Siege, win the mental and macro game, not just the aim duel. Budget utility across rounds and bank some for overtime. Reset tilt between rounds. Read opponent habits over the whole match, swap comps to break their reads, and keep calls short.',
+  'r6-y11s2-1-patch-notes-breakdown': 'The Y11S2.1 patch went live on July 2, 2026. It gives Dokkaebi\'s Jegeo Payload a 7-second cooldown, widens Ash\'s Breaching Round radius from 2m to 2.2m and cuts Thorn\'s limp from 15 to 10 seconds. It also removes the prone-cancel sprint-shoot, so rushers pay the full sprint-out delay again.',
+  'r6-y11s2-ranked-operators-that-win-rounds': 'In Y11S2 ranked, Solid Snake is the attack pick of the season, because his Soliton Radar makes it hard to walk into a fight blind. On defense, Smoke, Jäger and Mira stay on top because denial never goes out of date. Ash got a buff, not a nerf. Still, the operator is rarely why you lost a round.',
+  'hardstuck-rainbow-six-not-your-aim': 'If you are hardstuck in Rainbow Six Siege, your aim is usually not the problem; your information is. Hardstuck players lose rounds by peeking without intel, not by missing shots. Drone before you enter, spend utility before you peek, deny drones on defense, and after every death ask whether you died with information or without it.',
+  'r6-y11s2-system-override-guide': 'Y11S2 Operation System Override reached live ranked on June 2, 2026. It added Calypso Casino, ranked from day one, and remastered Dokkaebi with the Jegeo Payload in place of her Logic Bomb. It also added the XK23 assault rifle, buffed Gridlock, Pulse and Mozzie, and brought Ranked 3.0 with no hidden MMR.',
+}
+
+// Two headings per rank guide asked as the question a reader searches.
+const HEADING_QUESTIONS = {
+  'Learn a small operator pool and each operator’s job': 'Which operators should you play in Copper?',
+  'Reinforce for the actual bombsite plan': 'Which walls should you reinforce?',
+  'Choose operators by the job your team needs': 'How do you choose operators in Bronze?',
+  'Set up the specific site, including rotations': 'How do you set up a site, rotations included?',
+  'Agree on the breach before using utility': 'When should your team spend utility?',
+  'Assign defensive jobs and a return route': 'What job does each defender have?',
+  'Choose bans around your plan': 'How should you choose bans in Gold?',
+  'After the plant: attack protects, defense disables': 'What do you do after the plant?',
+  'Match your peek to the information you have': 'When should you peek?',
+  'Treat run-outs as a risk, not a requirement': 'Should you run out in Platinum?',
+  'Off-meta picks situationally — not for variety': 'When is an off-meta pick worth it?',
+  'Droning depth — clear two rooms before the choke': 'How deep should you drone?',
+  'Mental game — tilt management between rounds': 'How do you manage tilt between rounds?',
+  'Communication discipline — calls are decisions, not commentary': 'What makes a good call?',
+  'What to actually do with this patch in ranked': 'What should you change in ranked after Y11S2.1?',
+  'The changes that matter for your pick': 'Which Y11S2 changes should change your pick?',
+  'The habits that actually move rank': 'Which habits actually move rank?',
+  'Who to study (and who not to)': 'Which pros should you study?',
+  'Ranked 3.0 — the system changes': 'What changed in Ranked 3.0?',
+}
+const headingFor = (post, heading) => (post.game === 'r6' && HEADING_QUESTIONS[heading]) || heading
+
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT_DIR = join(ROOT, 'public', 'blog')
@@ -182,7 +222,7 @@ const R6_POSTS = [
       {
         heading: 'The change nobody is talking about — prone-cancel is gone',
         html: `<p>Buried in the bug fixes: <em>"Fixed — Players can go prone to cancel the sprinting animation and shoot immediately."</em></p>
-<p>That's the <strong>prone-cancel sprint-shoot</strong> — the tech that let sprinting players drop prone and fire with zero sprint-out delay. Every close-range fight against a sprinting opponent since System Override has been shaped by this, whether you knew the name or not. If you've been dying to players who "sprinted straight at me and shot instantly" — that's what killed you, and it's gone.</p>
+<p>The removed tech is the <strong>prone-cancel sprint-shoot</strong> — the tech that let sprinting players drop prone and fire with zero sprint-out delay. Every close-range fight against a sprinting opponent since System Override has been shaped by this, whether you knew the name or not. If you've been dying to players who "sprinted straight at me and shot instantly" — that's what killed you, and it's gone.</p>
 <p><strong>What changes:</strong> sprinting into a fight now carries its full sprint-out penalty again. Holding an angle against a rusher is meaningfully stronger today than it was yesterday. Passive angle-holders and anchors win more of those coin-flips now. If your own playstyle leaned on aggressive sprint entries, add a beat: pre-slow before the doorway, or drone first like your coach keeps telling you.</p>`,
       },
       {
@@ -247,7 +287,7 @@ const R6_POSTS = [
       {
         heading: "The part the tier list won't tell you",
         html: `<p>Here's the thing every ranked grinder needs to hear: the operator is rarely why you lost the round. You lost because you peeked with no info, didn't trade, or your crosshair was below the head when the fight started. The best operator in Y11S2 doesn't fix that. Reps and honest review do.</p>
-<p>That's the whole idea behind RECON6 — the meta read above is free and public, but the part that actually climbs is having your own rounds broken down: which pick fit the site, where the fight went wrong, what to do next time.</p>
+<p>Honest review of your own rounds is the whole idea behind RECON6 — the meta read above is free and public, but the part that actually climbs is having your own rounds broken down: which pick fit the site, where the fight went wrong, what to do next time.</p>
 <ul>
   <li><a href="/strats">Browse the current ranked strats and site setups</a> — free.</li>
   <li><a href="/vod">Drop a screenshot from your last match</a> and get an AI VOD breakdown of exactly what cost you the round.</li>
@@ -1940,7 +1980,7 @@ const R6_POSTS = [
     },
     {
       "heading": "Make the entry useful to the next player",
-      "html": "<p>Before moving, name the next room or angle, who checks it and who can trade. Keep your crosshair near the likely threat as you approach cover. Aim down sights before contesting a known angle; move between safe positions according to the current threat instead of remaining scoped out of habit.</p><p>Change one thing when a peek fails: information, exposure, timing or teammate support. Avoid repeating the same swing into an opponent who is already waiting. In solo queue, offer one short actionable call and adapt to the support you actually receive.</p>"
+      "html": "<p>Before moving, name the next room or angle, who checks that angle and who can trade. Keep your crosshair near the likely threat as you approach cover. Aim down sights before contesting a known angle; move between safe positions according to the current threat instead of remaining scoped out of habit.</p><p>Change one thing when a peek fails: information, exposure, timing or teammate support. Avoid repeating the same swing into an opponent who is already waiting. In solo queue, offer one short actionable call and adapt to the support you actually receive.</p>"
     },
     {
       "heading": "Verify your setup on the current map",
@@ -1948,7 +1988,7 @@ const R6_POSTS = [
     },
     {
       "heading": "After the plant: attack protects, defense disables",
-      "html": "<p>In Bomb, attackers plant the defuser and protect it. Defenders must stop the plant or disable the active defuser. Ubisoft explains the defender interaction in its <a href=\"https://www.ubisoft.com/en-gb/game/rainbow-six/siege/news-updates/1hKE4gGAMFG3Q8zj3PduO5/dev-blog%3A-new-counter-defuser\">counter-defuser explanation</a>.</p><p><strong>Attack:</strong> agree who watches the defuser and who covers the approach or flank. Use cover and available information; do not abandon the objective to hunt an unnecessary kill. Recheck your angle if visibility changes.</p><p><strong>Defense:</strong> identify the threat covering the defuser, coordinate pressure and decide who will attempt the disable while a teammate covers. Utility should help create a safe interaction, not blindly obstruct your own teammate. Use the visible objective timer and current cues instead of an invented five-second gadget cycle.</p>"
+      "html": "<p>In Bomb, attackers plant and protect the defuser. Defenders must stop the plant or disable the active defuser. Ubisoft explains the defender interaction in its <a href=\"https://www.ubisoft.com/en-gb/game/rainbow-six/siege/news-updates/1hKE4gGAMFG3Q8zj3PduO5/dev-blog%3A-new-counter-defuser\">counter-defuser explanation</a>.</p><p><strong>Attack:</strong> agree who watches the defuser and who covers the approach or flank. Use cover and available information; do not abandon the objective to hunt an unnecessary kill. Recheck your angle if visibility changes.</p><p><strong>Defense:</strong> identify the threat covering the defuser, coordinate pressure and decide who will attempt the disable while a teammate covers. Utility should help create a safe interaction, not blindly obstruct your own teammate. Use the visible objective timer and current cues instead of an invented five-second gadget cycle.</p>"
     },
     {
       "heading": "Review the decision, not just the scoreboard",
@@ -1993,7 +2033,7 @@ const R6_POSTS = [
   "sections": [
     {
       "heading": "Give every angle a job and an exit",
-      "html": "<p>Before holding a position, name the route it controls, the directions that expose you and the cover you can return to. An unusual angle can still be a bad angle if you cannot escape or receive support.</p><p>Once a drone or engagement reveals your position, reassess. Staying can be reasonable with cover and support; repositioning can be useful when the enemy can isolate you. Tell your teammate which route becomes uncovered when you move.</p>"
+      "html": "<p>Before holding a position, name the route the position controls, the directions that expose you and the cover you can return to. An unusual angle can still be a bad angle if you cannot escape or receive support.</p><p>Once a drone or engagement reveals your position, reassess. Staying can be reasonable with cover and support; repositioning can be useful when the enemy can isolate you. Tell your teammate which route becomes uncovered when you move.</p>"
     },
     {
       "heading": "Match your peek to the information you have",
@@ -2024,7 +2064,7 @@ const R6_POSTS = [
     "heading": "Drill: test one position from both sides",
     "html": "<p>In a custom game with a partner on the opposing side, choose one doorway and a nearby position. First test what each player can see without shooting. Then compare a short information peek with a committed challenge. Swap roles and review the exposure, crosshair preparation and fallback.</p><p>Change one condition at a time, such as the holder’s position or whether the attacker has fresh drone information. Keep a short note of what worked and why. Bring one habit into your next session and review several attempts instead of judging it by one kill.</p>"
   },
-  "aiVodMention": "<p>Bring your coach two comparable rounds and ask what changed between them. For Recon6 screenshot review, include the side, site, objective state and your question. A still image cannot establish repeated round habits, exact execution timing or an unseen opponent’s reaction; those require additional evidence.</p>",
+  "aiVodMention": "<p>Bring your coach two comparable rounds and ask what changed between the two rounds. For Recon6 screenshot review, include the side, site, objective state and your question. A still image cannot establish repeated round habits, exact execution timing or an unseen opponent’s reaction; those require additional evidence.</p>",
   "relatedLinks": [
     {
       "name": "Plan and post-plant practice",
@@ -2101,7 +2141,7 @@ const R6_POSTS = [
   <li>Round 4: defenders stack CEO; you hit basement.</li>
   <li>Round 5: defenders split — exec the under-defended site.</li>
 </ol>
-<p>This works because most teams adapt slowly. By round 3 they're still set up for round 1's strat. Diamond IGLs exploit the adaptation lag.</p>`,
+<p>Mid-round switching works because most teams adapt slowly. By round 3 they're still set up for round 1's strat. Diamond IGLs exploit the adaptation lag.</p>`,
       },
       {
         heading: 'Droning depth — clear two rooms before the choke',
@@ -2112,7 +2152,7 @@ const R6_POSTS = [
   <li>Drone Spiral / White Stairs (the rotation rooms behind Lobby). Catches the roamer who thinks they're hidden.</li>
   <li>Push Lobby with the second drone still scanning Spiral so a teammate can callout if a roamer rotates in.</li>
 </ol>
-<p>This is two-drone discipline. You burn drones faster but you push into clear space. At Emerald, attackers die to the unseen roamer 2-3 rounds per match. At Diamond, the second drone catches the roamer first.</p>`,
+<p>Clearing two rooms is two-drone discipline. You burn drones faster but you push into clear space. At Emerald, attackers die to the unseen roamer 2-3 rounds per match. At Diamond, the second drone catches the roamer first.</p>`,
       },
       {
         heading: 'Default round vs eco round — different play styles',
@@ -2157,8 +2197,8 @@ const R6_POSTS = [
       { name: 'Bank — Complete Strategy Guide', url: '/guides/bank.html' },
       { name: 'Kafe Dostoyevsky — Complete Strategy Guide', url: '/guides/kafe.html' },
       { name: 'Coastline — Complete Strategy Guide', url: '/guides/coastline.html' },
-      { name: 'Goyo operator guide', url: '/guides/operators/goyo.html' },
-      { name: 'Caveira operator guide', url: '/guides/operators/caveira.html' },
+      { name: 'Goyo operator guide', url: '/blog/r6-operator-goyo.html' },
+      { name: 'Caveira operator guide', url: '/blog/r6-operator-caveira.html' },
     ],
     readMinutes: 10,
   },
@@ -2199,7 +2239,7 @@ const R6_POSTS = [
       {
         heading: 'Comp swap per round — break opponent reads',
         html: `<p>Champions rotate operators across rounds. If your team plays Bank attack and round 1 your Thatcher dies first, round 2 the Thatcher player swaps to Twitch (which doesn't need to peek) and someone else picks up the EMP role.</p>
-<p>This breaks opponent reads. They saw your team's "Thatcher-Thermite combo" — round 2 you play "Twitch-Ace" and they over-prepared for the wrong thing.</p>
+<p>Swapping roles breaks opponent reads. They saw your team's "Thatcher-Thermite combo" — round 2 you play "Twitch-Ace" and they over-prepared for the wrong thing.</p>
 <p>Practice: in your stack, designate role-fluid players. Two players know how to play both Thatcher and Twitch. Two more know both Thermite and Ace. The 4 hard-breach permutations let you swap freely round-to-round.</p>`,
       },
       {
@@ -2210,7 +2250,7 @@ const R6_POSTS = [
   <li>NOT: "I think the roamer's top, I might push, what should I do?" (15 seconds, no decision.)</li>
 </ul>
 <p>Practice: between actions, say nothing. Information only when it changes a teammate's decision. No commentary on what just happened — the dead player can already see the kill cam.</p>
-<p>This sounds basic. It's not. The mental discipline of <em>not talking</em> when you're tilted or confused is what separates Diamond comms from Champion comms.</p>`,
+<p>Comms discipline sounds basic. It's not. The mental discipline of <em>not talking</em> when you're tilted or confused is what separates Diamond comms from Champion comms.</p>`,
       },
     ],
     mistakes: [
@@ -2256,7 +2296,7 @@ function renderPost(post) {
   const title = titleFromHeadline(post.metaTitle)
   const description = descriptionFrom(post.metaDescription)
   const sectionsHtml = post.sections.map((s) => `
-    <h2 id="${s.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}">${escape(s.heading)}</h2>
+    <h2 id="${s.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}">${escape(headingFor(post, s.heading))}</h2>
     ${s.html}
   `).join('\n')
 
@@ -2295,29 +2335,21 @@ function renderPost(post) {
       <a class="btn" href="${SITE_URL}/#pricing" style="background:transparent;border:1px solid rgba(255,201,122,0.5);color:#ffc97a">See pricing</a>
     </div>`
     : `
-    <div class="intro-cta">
-      <h3>Check your own rounds</h3>
-      <p>Pro reviews screenshots from rounds you played.</p>
-      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
-    </div>`
+    <p class="pro-note"><a href="${SITE_URL}/pricing">Get your own rounds reviewed with Pro</a></p>`
 
   const bodyInner = `
     ${renderBreadcrumb(post)}
     <article>
+      ${bylineHtml({ datePublished, kind: 'aiPost', readMinutes: post.readMinutes })}
       <h1>${escape(post.metaTitle)}</h1>
-      ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'aiPost' })}
-      <div class="meta-row">
-        <span class="pill">${escape(post.gameLabel)}</span>
-        <span class="pill">${escape(post.fromRank)} → ${escape(post.toRank)}</span>
-        <span>${post.readMinutes} min read</span>
-      </div>
+      ${ANSWERS[post.slug] ? `<p class="answer">${escape(ANSWERS[post.slug])}</p>` : ''}
       ${post.intro}
       ${sectionsHtml}
       ${mistakesHtml}
       ${drillHtml}
       ${aiHtml}
       ${relatedHtml}
-      ${post.game === 'r6' ? sourcesHtml(seasonSources()) : ''}
+      ${post.game === 'r6' ? sourcesHtml(seasonSources(), 'Further reading') : ''}
       ${ctaHtml}
     </article>`
 
@@ -2345,7 +2377,7 @@ function renderPost(post) {
       step: post.sections.map((s, i) => ({
         '@type': 'HowToStep',
         position: i + 1,
-        name: s.heading,
+        name: headingFor(post, s.heading),
         text: s.html.replace(/<[^>]+>/g, '').slice(0, 500),
         url: `${canonical}#${s.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,
       })),
@@ -2413,37 +2445,42 @@ function operatorDeepDivesHtml() {
     <section class="game-section" id="r6-operators">
       <h2>R6 operator deep dives</h2>
       <p style="color: rgba(235,228,215,0.75)">Loadout, the sites where Recon 6's plans pick them, counters and how to climb, for ${posts.length} operators.</p>
-      <ul>${posts.map((f) => `<li><a href="/blog/${f}">${escape(name(f))}</a></li>`).join('')}</ul>
+      <ul>${posts.map((f) => `<li><a href="/blog/${f}">${escape(name(f))}</a>.</li>`).join('')}</ul>
     </section>`
 }
 
 function renderIndex(allPosts) {
-  // Group by game for the index page.
-  const byGame = {}
-  for (const p of allPosts) {
-    if (!byGame[p.game]) byGame[p.game] = { label: p.gameLabel, posts: [], genre: GENRE_OF[p.game] || 'other' }
-    byGame[p.game].posts.push(p)
-  }
-
-  // Render each game section with a data-genre attribute so the client-side
-  // filter can show/hide whole sections via CSS without re-rendering.
-  const sectionsHtml = Object.entries(byGame).map(([gameId, group]) => `
-    <section class="blog-game-section" data-game="${gameId}" data-genre="${group.genre}" style="margin-bottom: 36px">
-      <h2 style="margin-bottom: 12px">${escape(group.label)} <span style="font-size: 0.7rem; color: rgba(235,228,215,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">${escape(GENRE_LABELS[group.genre] || 'Other')}</span></h2>
-      <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
-        ${group.posts.map((p) => `
+  const isRankGuide = (p) => /^r6-[a-z]+-to-[a-z]+$/.test(p.slug)
+  const card = (p) => `
           <li>
             <a href="/blog/${p.slug}.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">${escape(p.fromRank)} → ${escape(p.toRank)}</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">${escape(p.metaDescription.slice(0, 110))}…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">${escape(p.fromRank)} → ${escape(p.toRank)}:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">${escape(ANSWERS[p.slug] || descriptionFrom(p.metaDescription))}</span>
             </a>
-          </li>`).join('')}
+          </li>`
+  const grid = 'list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;'
+  // Sections keep data-game/data-genre so the client-side filter can show or
+  // hide them via CSS without re-rendering.
+  const section = (p) => `data-game="${p.game}" data-genre="${GENRE_OF[p.game] || 'other'}"`
+  const rankGuides = allPosts.filter(isRankGuide)
+  const seasonPosts = allPosts.filter((p) => !isRankGuide(p))
+  const sectionsHtml = `
+    ${rankGuides.length ? `<section class="blog-game-section" ${section(rankGuides[0])} style="margin-bottom: 36px">
+      <h2 style="margin-bottom: 12px">Which rank guide fits you?</h2>
+      <p style="color: rgba(235,228,215,0.75)">Pick the guide for the rank you are climbing out of. Each one names the habits that hold players at that rank, then gives a drill for your next match.</p>
+      <ul style="${grid}">${rankGuides.map(card).join('')}
       </ul>
-    </section>`).join('')
+    </section>` : ''}
+    ${seasonPosts.length ? `<section class="blog-game-section" ${section(seasonPosts[0])} style="margin-bottom: 36px">
+      <h2 style="margin-bottom: 12px">Season and patch breakdowns</h2>
+      <ul style="${grid}">${seasonPosts.map(card).join('')}
+      </ul>
+    </section>` : ''}`
 
   const bodyInner = `
     <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
-    <p style="color: rgba(235,228,215,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
+    <p style="color: rgba(235,228,215,0.8)">The Recon 6 blog has practical Rainbow Six Siege guides for ranked play. There is a guide for each rank step from Copper to Champion, season patch breakdowns, and a deep dive for each of the operators Recon 6's plans use.</p>
+    <p style="color: rgba(235,228,215,0.8)">Each rank guide opens with the short answer, then the habits behind it and a drill to run in your next match. For map-by-map plans, use the <a href="/guides/">map guides</a>.</p>
     ${sectionsHtml}
     ${operatorDeepDivesHtml()}
     <div class="intro-cta">

@@ -6,7 +6,7 @@ import { ALIAS_ROUTES, OPEN_ROUTE_PREFIXES, allRoutePaths, metaForPath } from '.
 
 const source = readFileSync(new URL('./cloudfront-site-router.js', import.meta.url), 'utf8')
 const sandbox = {}
-vm.runInNewContext(`${source}\nthis.handler = handler; this.EXACT = EXACT; this.APP_PREFIXES = APP_PREFIXES;`, sandbox)
+vm.runInNewContext(`${source}\nthis.handler = handler; this.EXACT = EXACT; this.APP_PREFIXES = APP_PREFIXES; this.DEEP_DIVE_OPERATORS = DEEP_DIVE_OPERATORS;`, sandbox)
 
 function run(uri, querystring = {}) {
   return sandbox.handler({ request: { uri, querystring, headers: {} } })
@@ -32,7 +32,7 @@ test('open-ended routes share the generic shell', () => {
 test('static files and directories pass through', () => {
   assert.equal(served('/'), '/')
   assert.equal(served('/blog/'), '/blog/index.html')
-  assert.equal(served('/guides/bank/ceo.html'), '/guides/bank/ceo.html')
+  assert.equal(served('/guides/bank.html'), '/guides/bank.html')
   assert.equal(served('/assets/index-abc.js'), '/assets/index-abc.js')
   assert.equal(served('/sitemap.xml'), '/sitemap.xml')
   assert.equal(served('/llms.txt'), '/llms.txt')
@@ -60,6 +60,26 @@ test('merged thin pages redirect to their map guide', () => {
   assert.equal(run('/blog/bank-defense-setups-ranked.html').headers.location.value, '/guides/bank.html')
   assert.equal(run('/blog/emerald-plains-defense-setups-ranked.html').statusCode, 301)
   assert.equal(run('/blog/emerald-plains-defense-setups-ranked.html').headers.location.value, '/guides/emerald-plains.html')
+  // Per-site guides land on their section of the map guide; a query string
+  // stays ahead of the anchor.
+  assert.equal(run('/guides/bank/ceo.html').headers.location.value, '/guides/bank.html#ceo')
+  assert.equal(run('/guides/stadium-bravo/nats-oregon').headers.location.value, '/guides/stadium-bravo.html#nats-oregon')
+  assert.equal(run('/guides/bank/ceo.html', { ref: { value: 'tt' } }).headers.location.value, '/guides/bank.html?ref=tt#ceo')
+  // An operator with a deep dive has one page; the rest keep their guide.
+  assert.equal(run('/guides/operators/ash.html').headers.location.value, '/blog/r6-operator-ash.html')
+  assert.equal(run('/guides/operators/ash').headers.location.value, '/blog/r6-operator-ash.html')
+  assert.equal(served('/guides/operators/jackal.html'), '/guides/operators/jackal.html')
+  assert.equal(served('/guides/operators/'), '/guides/operators/index.html')
+  assert.equal(served('/guides/og/bank.svg'), '/guides/og/bank.svg')
+})
+
+test('the operator redirects match the deep dives on disk', async () => {
+  const { readdirSync, existsSync } = await import('node:fs')
+  const dir = new URL('../public/blog/', import.meta.url)
+  const onDisk = readdirSync(dir).map((f) => f.match(/^r6-operator-([a-z0-9-]+)\.html$/)?.[1]).filter(Boolean).sort()
+  assert.deepEqual(Object.keys(sandbox.DEEP_DIVE_OPERATORS).sort(), onDisk)
+  // A folded guide must not be regenerated next to its redirect.
+  for (const slug of onDisk) assert.equal(existsSync(new URL(`../public/guides/operators/${slug}.html`, import.meta.url)), false, slug)
 })
 
 // Every directory under public/ that has an index.html must also answer

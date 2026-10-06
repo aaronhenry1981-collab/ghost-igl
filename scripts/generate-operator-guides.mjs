@@ -1,21 +1,25 @@
 #!/usr/bin/env node
-// Generates static SEO landing pages for each operator that appears in any
-// site strat. "Thermite operator guide R6 Siege", "Where to play Mira", etc.
-// are real long-tail search queries with weak SERP competition — capture
-// them with crawlable static HTML instead of the hash-routed React app.
+// The operator hub (/guides/operators/) and a "where to play" page for each
+// operator in the strat library that has no deep dive on the blog.
+// An operator with a deep dive (scripts/generate-r6-operator-posts.mjs) has
+// one page, the deep dive: its site list carries everything the "where to
+// play" page listed, so that page was folded in on 2026-10-06 and the
+// CloudFront router (aws/cloudfront-site-router.js) 301s it to the deep dive.
 //
-// Output: public/guides/operators/<slug>.html + an index page linking them.
+// Output: public/guides/operators/index.html + <slug>.html for the rest.
 // Run: node scripts/generate-operator-guides.mjs
 
-import { existsSync, writeFileSync, mkdirSync } from 'node:fs'
+import { existsSync, rmSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/public-strats.generated.js'
 import {
   ARTICLE_CSS, SITE_URL, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished,
-  fitDescription, fitTitle, footerHtml, navHtml, operatorSources, sourcesHtml,
+  fitDescription, fitTitle, footerHtml, navHtml, officialLinksSentence, operatorRefs,
 } from './lib/article-seo.mjs'
+
+const listOf = (items) => (items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`)
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -201,33 +205,40 @@ function operatorPage(op) {
     byMap[s.mapId].sites.push(s)
   }
 
+  const order = { essential: 0, recommended: 1, flex: 2 }
+  const ranked = [...op.sites].sort((a, b) => (order[a.priority] ?? 3) - (order[b.priority] ?? 3))
+  const roleCounts = {}
+  for (const s of op.sites) roleCounts[s.role] = (roleCounts[s.role] || 0) + 1
+  const topRole = String(Object.entries(roleCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || op.roles[0] || '').toLowerCase()
+  const firstRoom = (s) => String(s.siteName).split(' / ')[0]
+  const mapCount = Object.keys(byMap).length
+  const best = ranked.slice(0, 2).map((s) => `${firstRoom(s)} on ${s.mapName} (${s.side})`)
+
+  // The answer first: what the operator is, how much the plans use them, and where.
+  const answer = `${op.name} is a Rainbow Six Siege ${sideNoun}. Recon 6's plans pick ${op.name} at ${total} site${total === 1 ? '' : 's'} on ${mapCount} map${mapCount === 1 ? '' : 's'}${op.essentialCount ? ` (${op.essentialCount} essential)` : ''}, mostly as ${topRole} on ${sideText.includes(' and ') ? 'both sides' : sideText}. ${op.name}'s strongest ${best.length === 1 ? 'spot is' : 'spots are'} ${listOf(best)}. Below, each of ${op.name}'s sites shows the job ${op.name} does there.`
+
   const mapSections = Object.entries(byMap).map(([mapId, { mapName, sites }]) => {
-    const items = sites.map(s => {
-      const sidePill = `<span class="pill pill-${s.side}">${s.side}</span>`
-      const priorityPill = `<span class="pill pill-${s.priority}">${s.priority}</span>`
-      return `<li>
-        <a href="/guides/${mapId}/${s.siteId}.html">${escape(s.siteName)}</a>
-        ${sidePill}${priorityPill}
-        <span style="color:rgba(235,228,215,0.6); font-size:0.85rem;">${escape(s.role)}</span>
-      </li>`
-    }).join('\n')
+    const items = sites.map((s) => `<li><a href="/guides/${mapId}.html#${escape(s.siteId)}">${escape(s.siteName)}</a>: ${escape(s.side)}, ${escape(s.priority)}, ${escape(String(s.role || '').toLowerCase())}.</li>`).join('\n')
     return `<h3>${escape(mapName)}</h3>
       <ul class="site-list">${items}</ul>`
   }).join('\n')
 
+  const official = officialLinksSentence(op.name, operatorRefs(op.name), { ubisoftWhat: 'has the official loadout', siegeggWhat: 'track pro picks' })
+
   const inner = `
     <div class="eyebrow">Operator Guide</div>
+    ${bylineHtml({ datePublished, kind: 'guide' })}
     <h1>${escape(op.name)} — Where to Play</h1>
-    ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'operatorGuide' })}
-    <p class="lead">${escape(op.name)} is a Rainbow Six Siege ${sideNoun} that Recon 6's plans pick at ${total} site${total === 1 ? '' : 's'}, as ${op.roles.map(escape).join(', ')}. Played on ${sideText}.</p>
-    ${topMap ? figureHtml({ src: `/guides/og/${topMap.id}.svg`, alt: `${topMap.name} map card from Recon 6's Rainbow Six Siege guide`, caption: `${op.name}'s first map in Recon 6's plans: ${topMap.name}` }) : ''}
+    <p class="lead">${escape(answer)}</p>
+    ${official ? `<p class="official">${official}</p>` : ''}
+    ${topMap ? figureHtml({ src: `/guides/og/${topMap.id}.svg`, alt: `${topMap.name} map card from Recon 6's Rainbow Six Siege guide`, caption: `${topMap.name} — ${op.name}'s top map` }) : ''}
     <div class="stat-row">
       <div class="stat"><div class="stat-label">Sites</div><div class="stat-val">${total}</div></div>
       <div class="stat"><div class="stat-label">Essential</div><div class="stat-val">${op.essentialCount}</div></div>
       <div class="stat"><div class="stat-label">Recommended</div><div class="stat-val">${op.recommendedCount}</div></div>
       <div class="stat"><div class="stat-label">Flex</div><div class="stat-val">${op.flexCount}</div></div>
     </div>
-    <a class="cta" href="${SITE_URL}/operators/${encodeURIComponent(op.name)}">Open ${escape(op.name)} in the interactive tool →</a>
+    <a class="cta" href="${SITE_URL}/operators/${encodeURIComponent(op.name.toLowerCase())}">Open ${escape(op.name)} in the interactive tool →</a>
     <h2>Where is ${escape(op.name)} picked?</h2>
     ${mapSections}
     ${relatedHtml(`More on ${op.name}`, [
@@ -238,7 +249,6 @@ function operatorPage(op) {
       }),
       { name: 'All operator guides', url: '/guides/operators/' },
     ])}
-    ${sourcesHtml(operatorSources(op.name))}
   `
   return {
     slug,
@@ -269,39 +279,46 @@ function operatorPage(op) {
   }
 }
 
-function indexPage(operators) {
-  const groupedByRole = {}
-  for (const op of operators) {
-    for (const role of op.roles) {
-      if (!groupedByRole[role]) groupedByRole[role] = []
-      groupedByRole[role].push(op)
-    }
-  }
+const PRIORITY_ORDER = { essential: 0, recommended: 1, flex: 2 }
+const firstRoom = (site) => String(site.siteName).split(' / ')[0]
 
-  const deepDives = operators.map((op) => ({ name: op.name, path: deepDivePath(op.name) })).filter((d) => d.path)
-  const opCardsHtml = operators.map(op => {
-    const slug = operatorSlug(op.name)
-    return `<li>
-      <a href="/guides/operators/${slug}.html">${escape(op.name)}</a>
-      <span style="color:rgba(235,228,215,0.5); font-size:0.85rem; margin-left:6px;">${op.sites.length} site${op.sites.length === 1 ? '' : 's'}</span>
-    </li>`
-  }).join('\n')
+// One line per operator: the job, how often the plans pick them, and where.
+function operatorLine(op) {
+  const page = deepDivePath(op.name) || `/guides/operators/${operatorSlug(op.name)}.html`
+  const roleCounts = {}
+  for (const s of op.sites) roleCounts[s.role] = (roleCounts[s.role] || 0) + 1
+  const role = String(Object.entries(roleCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || '').toLowerCase()
+  const best = [...op.sites]
+    .sort((a, b) => (PRIORITY_ORDER[a.priority] ?? 3) - (PRIORITY_ORDER[b.priority] ?? 3) || a.mapName.localeCompare(b.mapName))
+    .slice(0, 2)
+    .map((s) => `${firstRoom(s)} on ${s.mapName}`)
+  const n = op.sites.length
+  return `<li><a href="${page}">${escape(op.name)}</a>: ${escape(role)} at ${n} site${n === 1 ? '' : 's'}${op.essentialCount ? ` (${op.essentialCount} essential)` : ''}, strongest at ${escape(listOf(best))}.</li>`
+}
+
+function indexPage(operators) {
+  const sideOf = (op) => {
+    const atk = op.sites.filter((s) => s.side === 'attack').length
+    return atk >= op.sites.length - atk ? 'attack' : 'defense'
+  }
+  const attackers = operators.filter((op) => sideOf(op) === 'attack')
+  const defenders = operators.filter((op) => sideOf(op) === 'defense')
 
   const inner = `
     <div class="eyebrow">Operator Guides</div>
     <h1>R6 Siege Operator Guides</h1>
-    <p class="lead">Every operator that appears in Recon 6's strat catalog. Click any operator for the full list of sites where they're picked, with role and priority breakdown.</p>
+    <p class="lead">Recon 6 has a page for each of the ${operators.length} operators its plans use: ${attackers.length} attackers and ${defenders.length} defenders. Each page lists every map site where the plans pick that operator, with the side, the priority (essential, recommended or flex) and the operator's job there. Most pages also cover the loadout and counters.</p>
     <div class="stat-row">
       <div class="stat"><div class="stat-label">Operators</div><div class="stat-val">${operators.length}</div></div>
       <div class="stat"><div class="stat-label">Maps</div><div class="stat-val">${Object.keys(STRATS).length}</div></div>
       <div class="stat"><div class="stat-label">Sites</div><div class="stat-val">${Object.values(STRATS).reduce((a, m) => a + Object.keys(m).length, 0)}</div></div>
     </div>
-    <ul class="site-list" style="columns: 2; column-gap: 1.5rem;">${opCardsHtml}</ul>
-    ${deepDives.length ? `<h2>Which operators have a full deep dive?</h2>
-    <p>These ${deepDives.length} operators also have a long-form guide on the blog: loadout, counters and how to climb with them.</p>
-    <ul class="site-list" style="columns: 2; column-gap: 1.5rem;">${deepDives.map(({ name, path }) => `<li><a href="${path}">${escape(name)} deep dive</a></li>`).join('\n')}</ul>` : ''}
-    <h2>Looking for full strat coverage?</h2>
-    <p>Each operator page links back to the specific sites where they shine. For full strats, ban recs, callouts, and utility breakdowns:</p>
+    <h2>Which attackers do Recon 6's plans use?</h2>
+    <ul class="site-list">${attackers.map(operatorLine).join('\n')}</ul>
+    <h2>Which defenders do Recon 6's plans use?</h2>
+    <ul class="site-list">${defenders.map(operatorLine).join('\n')}</ul>
+    <h2>Where are the full site plans?</h2>
+    <p>Each operator page links to the map guides for its sites. The map guides have the attack and defense plan and the callouts for every bomb site.</p>
     <a class="cta" href="/guides/">Browse map guides →</a>
   `
   return htmlShell({
@@ -316,13 +333,19 @@ const operators = buildOperatorIndex()
 mkdirSync(OUT_DIR, { recursive: true })
 
 let written = 0
+const folded = []
 for (const op of operators) {
-  const { slug, html } = operatorPage(op)
-  writeFileSync(join(OUT_DIR, `${slug}.html`), html)
+  const slug = operatorSlug(op.name)
+  const out = join(OUT_DIR, `${slug}.html`)
+  if (deepDivePath(op.name)) {
+    if (existsSync(out)) rmSync(out)
+    folded.push(op.name)
+    continue
+  }
+  writeFileSync(out, operatorPage(op).html)
   written++
 }
 
 writeFileSync(join(OUT_DIR, 'index.html'), indexPage(operators))
 
-console.log(`✓ Generated ${written} operator guides + index in public/guides/operators/`)
-console.log(`  Operators: ${operators.map(o => o.name).join(', ')}`)
+console.log(`✓ Generated ${written} operator guide${written === 1 ? '' : 's'} + index in public/guides/operators/ (${folded.length} live in their blog deep dive)`)
