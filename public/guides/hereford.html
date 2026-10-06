@@ -26,13 +26,7 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #121211;
-      color: #ebe4d7;
-      line-height: 1.6;
-    }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
@@ -41,48 +35,37 @@
     .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
     h1 { font-size: 2rem; margin: 0 0 8px; }
-    .sub { color: rgba(235,228,215,0.7); margin-bottom: 24px; font-size: 0.95rem; }
-    .cta-top {
-      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212);
-      color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
-    }
-    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; }
-    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
-    .side { margin: 18px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .definition { font-size: 1.04rem; color: rgba(235,228,215,0.94); }
+    .official { font-size: 0.92rem; color: rgba(235,228,215,0.8); }
+    .cta-top { display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212); color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin: 4px 0 18px; }
+    .site-toc { font-size: 0.92rem; margin: 0 0 24px; }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; scroll-margin-top: 16px; }
+    .site h3 { margin: 0 0 10px; font-size: 1.3rem; color: #fff; }
+    .site-answer { margin: 0 0 6px; }
+    .side { margin: 16px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
     .side.attack { border-left-color: #ff8060; }
     .side.defense { border-left-color: #50b4ff; }
-    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .side.attack h3 { color: #ff8060; }
-    .side.defense h3 { color: #50b4ff; }
-    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
-    .op { padding: 4px 10px; background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.3); border-radius: 4px; font-size: 0.85rem; color: #fad6c2; }
-    .op.essential { background: rgba(240,116,48,0.16); border-color: #f07430; font-weight: 700; }
-    .strategy { margin: 8px 0; color: rgba(235,228,215,0.9); }
-    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(235,228,215,0.85); }
-    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .side h4 { margin: 0 0 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h4 { color: #ff8060; }
+    .side.defense h4 { color: #50b4ff; }
+    .side p { margin: 6px 0; }
+    .lineup strong, .callout-line strong { color: #fad6c2; }
+    .callout-line { font-size: 0.9rem; color: rgba(235,228,215,0.85); }
+    .deep-link { display: inline-block; margin-top: 6px; font-size: 0.88rem; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
-    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .bans ul { margin: 0; padding-left: 18px; }
-    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
-    .intro-cta h3 { margin: 0 0 6px; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
-    .definition { font-size: 1.02rem; color: rgba(235,228,215,0.92); }
     .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
     .related-links ul { margin: 0; padding-left: 18px; }
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .pro-note { margin-top: 24px; font-size: 0.95rem; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
@@ -107,159 +90,107 @@
       <a href="/guides/">Map Guides</a> ›
       <span>Hereford Base</span>
     </nav>
-    <h1>Hereford Base — Complete Strategy Guide</h1>
     
-      <p class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a>, founder of Recon 6 · Published <time datetime="2026-05-23">May 23, 2026</time> · Updated <time datetime="2026-10-06">October 6, 2026</time></p>
-      <p class="process-note">Built from Recon 6's strat library, the same map, site and operator data the app uses. Site names follow Ubisoft's official map list. The strats are in beta; if a callout or setup doesn't match your game, <a href="/about#contact">tell us</a>.</p>
-    <p class="definition">Hereford Base is a Rainbow Six Siege map with 4 bomb sites: Master Bedroom, Kitchen, Ammo Storage, Fermentation Chamber. For each one, this guide gives the operator picks, a short execute overview and the key callouts.</p>
-    <p class="sub">Full utility and ban intel unlock after sign-in.</p>
+      <div class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a> · <time datetime="2026-05-23">May 23, 2026</time></div>
+    <h1>Hereford Base — Complete Strategy Guide</h1>
+    <p class="definition">In Rainbow Six Siege, Hereford Base is out of the ranked pool this season. Hereford Base has 4 bomb sites: Master Bedroom (2F), Kitchen (1F), Ammo Storage (3F) and Fermentation Chamber (B). Recon 6's plans on Hereford Base lean on Kali and Maverick for attack and on Bandit and Maestro for defense.</p>
     <a class="cta-top" href="https://r6coaching.com/strats/hereford">Open interactive Hereford Base strats &rarr;</a>
     
       <figure class="article-figure">
         <img src="/guides/og/hereford.svg" alt="Hereford Base map card from Recon 6's Rainbow Six Siege guide" width="1200" height="630" loading="lazy" />
-        <figcaption>Hereford Base: Master Bedroom, Kitchen, Ammo Storage, Fermentation Chamber</figcaption>
+        <figcaption>Hereford Base: Master Bedroom (2F), Kitchen (1F), Ammo Storage (3F), Fermentation Chamber (B).</figcaption>
       </figure>
+    <p class="site-toc"><strong>Jump to a site:</strong> <a href="#dorms-office">Master Bedroom</a>, <a href="#kitchen-dining">Kitchen</a>, <a href="#briefing-stairs">Ammo Storage</a>, <a href="#wine-cellar">Fermentation Chamber</a>.</p>
     
+    <h2>How should you play Hereford Base's bomb sites?</h2>
     
-        <section class="site" id="dorms-office">
-          <h2>2F &mdash; Master Bedroom / Kids Room</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Thermite</span><span class="op essential">Flores</span>
-        <span class="op">Buck</span><span class="op">Zero</span>
-        <span class="op">Nomad</span>
+      <section class="site" id="dorms-office">
+        <h3>Master Bedroom / Kids Room (2F)</h3>
+        <p class="site-answer">On Master Bedroom, Thermite and Flores lead the attack; Bandit and Valkyrie lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Thermite (hard breach), Flores (support). <strong>Recommended:</strong> Buck (vertical play), Zero (entry frag). <strong>Flex:</strong> Nomad (flex / intel).</p>
+        <p class="strategy">Layered execute: Nomad flashes from main, Zero pushes Kids Room for the trade, Thermite and Flores hit Master Bedroom simultaneously.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Master Bedroom, Kids Room, Garden, East Stairs.</p>
       </div>
-      <p class="strategy">Layered execute: Nomad flashes from main, Zero pushes Kids Room for the trade, Thermite and Flores hit Master Bedroom simultaneously.</p>
-      <div class="callouts">
-        <span class="callout">Master Bedroom</span><span class="callout">Kids Room</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Bandit (anti-breach), Valkyrie (intel). <strong>Recommended:</strong> Wamai (utility denial), Alibi (roam). <strong>Flex:</strong> Azami (flex / sustain).</p>
+        <p class="strategy">Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Master Bedroom, Kids Room, Garden, East Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Bandit</span><span class="op essential">Valkyrie</span>
-        <span class="op">Wamai</span><span class="op">Alibi</span>
-        <span class="op">Azami</span>
-      </div>
-      <p class="strategy">Alibi forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
-      <div class="callouts">
-        <span class="callout">Master Bedroom</span><span class="callout">Kids Room</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/hereford/dorms-office/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/hereford/dorms-office/attack">Open the interactive Master Bedroom strat &rarr;</a>
+      </section>
 
-        <section class="site" id="kitchen-dining">
-          <h2>1F &mdash; Kitchen / Dining Room</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Ace</span><span class="op essential">Twitch</span>
-        <span class="op">Buck</span><span class="op">Iana</span>
-        <span class="op">Nomad</span>
+      <section class="site" id="kitchen-dining">
+        <h3>Kitchen / Dining Room (1F)</h3>
+        <p class="site-answer">On Kitchen, Ace and Twitch lead the attack; Bandit and Mira lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Ace (hard breach), Twitch (support). <strong>Recommended:</strong> Buck (vertical play), Iana (entry frag). <strong>Flex:</strong> Nomad (flex / intel).</p>
+        <p class="strategy">Buck sets the tempo — Buck plays vertical from 2F to pressure Kitchen anchors through the soft floor.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Kitchen, Dining Room, Garden, East Stairs.</p>
       </div>
-      <p class="strategy">Buck sets the tempo — Buck plays vertical from 2F to pressure Kitchen anchors through the soft floor.</p>
-      <div class="callouts">
-        <span class="callout">Kitchen</span><span class="callout">Dining Room</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Bandit (anti-breach), Mira (intel). <strong>Recommended:</strong> Wamai (utility denial), Caveira (roam). <strong>Flex:</strong> Azami (flex / sustain).</p>
+        <p class="strategy">Setup is intel-first: Mira places a Black Mirror between Kitchen and Dining Room for sightlines on incoming pushes.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Kitchen, Dining Room, Garden, East Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Bandit</span><span class="op essential">Mira</span>
-        <span class="op">Wamai</span><span class="op">Caveira</span>
-        <span class="op">Azami</span>
-      </div>
-      <p class="strategy">Setup is intel-first: Mira places a Black Mirror between Kitchen and Dining Room for sightlines on incoming pushes.</p>
-      <div class="callouts">
-        <span class="callout">Kitchen</span><span class="callout">Dining Room</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/hereford/kitchen-dining/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/hereford/kitchen-dining/attack">Open the interactive Kitchen strat &rarr;</a>
+      </section>
 
-        <section class="site" id="briefing-stairs">
-          <h2>3F &mdash; Ammo Storage / Tractor Storage</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Maverick</span><span class="op essential">Kali</span>
-        <span class="op">Zofia</span><span class="op">Ying</span>
-        <span class="op">Fuze</span>
+      <section class="site" id="briefing-stairs">
+        <h3>Ammo Storage / Tractor Storage (3F)</h3>
+        <p class="site-answer">On Ammo Storage, Maverick and Kali lead the attack; Mute and Maestro lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Maverick (hard breach), Kali (support). <strong>Recommended:</strong> Zofia (vertical play), Ying (entry frag). <strong>Flex:</strong> Fuze (flex / intel).</p>
+        <p class="strategy">Open with Kali clearing electronics, then Maverick hits the Ammo Storage wall on call.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Ammo Storage, Tractor Storage, Garden, East Stairs.</p>
       </div>
-      <p class="strategy">Open with Kali clearing electronics, then Maverick hits the Ammo Storage wall on call.</p>
-      <div class="callouts">
-        <span class="callout">Ammo Storage</span><span class="callout">Tractor Storage</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Maestro (intel). <strong>Recommended:</strong> Jager (utility denial), Ela (roam). <strong>Flex:</strong> Goyo (flex / sustain).</p>
+        <p class="strategy">Anchored 4, roaming 1: Goyo, Jager, Mute, and Maestro hold site; Ela plays off-site for pick potential and timing pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Ammo Storage, Tractor Storage, Garden, East Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Maestro</span>
-        <span class="op">Jager</span><span class="op">Ela</span>
-        <span class="op">Goyo</span>
-      </div>
-      <p class="strategy">Anchored 4, roaming 1: Goyo, Jager, Mute, and Maestro hold site; Ela plays off-site for pick potential and timing pressure.</p>
-      <div class="callouts">
-        <span class="callout">Ammo Storage</span><span class="callout">Tractor Storage</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/hereford/briefing-stairs/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/hereford/briefing-stairs/attack">Open the interactive Ammo Storage strat &rarr;</a>
+      </section>
 
-        <section class="site" id="wine-cellar">
-          <h2>B &mdash; Fermentation Chamber / Brewery</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Maverick</span><span class="op essential">Kali</span>
-        <span class="op">Zofia</span><span class="op">Ying</span>
-        <span class="op">Fuze</span>
+      <section class="site" id="wine-cellar">
+        <h3>Fermentation Chamber / Brewery (B)</h3>
+        <p class="site-answer">On Fermentation Chamber, Maverick and Kali lead the attack; Mute and Maestro lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Maverick (hard breach), Kali (support). <strong>Recommended:</strong> Zofia (vertical play), Ying (entry frag). <strong>Flex:</strong> Fuze (flex / intel).</p>
+        <p class="strategy">Zofia sets the tempo — Zofia opens 1F soft floors above Fermentation Chamber to deny basement defender setup.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Fermentation Chamber, Brewery, Garden, East Stairs.</p>
       </div>
-      <p class="strategy">Zofia sets the tempo — Zofia opens 1F soft floors above Fermentation Chamber to deny basement defender setup.</p>
-      <div class="callouts">
-        <span class="callout">Fermentation Chamber</span><span class="callout">Brewery</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Maestro (intel). <strong>Recommended:</strong> Jager (utility denial), Pulse (roam). <strong>Flex:</strong> Smoke (flex / sustain).</p>
+        <p class="strategy">Setup is intel-first: Maestro sets Evil Eyes covering Fermentation Chamber plant spots and the main entry corridor.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Fermentation Chamber, Brewery, Garden, East Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Maestro</span>
-        <span class="op">Jager</span><span class="op">Pulse</span>
-        <span class="op">Smoke</span>
-      </div>
-      <p class="strategy">Setup is intel-first: Maestro sets Evil Eyes covering Fermentation Chamber plant spots and the main entry corridor.</p>
-      <div class="callouts">
-        <span class="callout">Fermentation Chamber</span><span class="callout">Brewery</span><span class="callout">Garden</span><span class="callout">East Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/hereford/wine-cellar/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/hereford/wine-cellar/attack">Open the interactive Fermentation Chamber strat &rarr;</a>
+      </section>
+    
+    <p class="official">Official sources: <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/hereford" rel="noopener">Ubisoft's Hereford Base page</a> and <a href="https://siege.gg/maps/hereford" rel="noopener">SiegeGG's Hereford Base stats</a>.</p>
     
     <section class="related-links">
-      <h2>More on Hereford Base</h2>
-      <ul><li><a href="/guides/hereford/dorms-office.html">Hereford Base Master Bedroom guide</a></li><li><a href="/guides/hereford/kitchen-dining.html">Hereford Base Kitchen guide</a></li><li><a href="/guides/hereford/briefing-stairs.html">Hereford Base Ammo Storage guide</a></li><li><a href="/guides/hereford/wine-cellar.html">Hereford Base Fermentation Chamber guide</a></li></ul>
+      <h2>Operators Hereford Base plans lean on</h2>
+      <ul><li><a href="/blog/r6-operator-thermite.html">Thermite guide</a></li><li><a href="/blog/r6-operator-flores.html">Flores guide</a></li><li><a href="/blog/r6-operator-bandit.html">Bandit guide</a></li><li><a href="/blog/r6-operator-valkyrie.html">Valkyrie guide</a></li><li><a href="/blog/r6-operator-ace.html">Ace guide</a></li><li><a href="/blog/r6-operator-twitch.html">Twitch guide</a></li></ul>
     </section>
-    
-    <section class="sources" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">Sources</h2>
-      <ul><li><a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/hereford" rel="noopener">Ubisoft: official Hereford Base map page</a> <span>— layout, floors and bomb sites</span></li><li><a href="https://siege.gg/maps/hereford" rel="noopener">SiegeGG: Hereford Base map stats</a> <span>— how the map plays in professional matches</span></li></ul>
-      <p class="sources-note">Links checked October 6, 2026. Ubisoft's pages are the authority if anything here disagrees.</p>
-    </section>
-    <div class="intro-cta">
-      <h3>The full Hereford Base plan is in Pro</h3>
-      <p>Utility for every operator on every Hereford Base site, and AI review of your own rounds.</p>
-      <a class="btn" href="https://r6coaching.com/pricing">See plans</a>
-    </div>
+    <p class="pro-note"><a href="https://r6coaching.com/pricing">Get Hereford Base's utility plans with Pro</a></p>
   </main>
   <div class="footer-strip">
     <p>&copy; Recon 6 — Rainbow Six Siege coaching, built by <a href="/author/aaron/">Aaron Henry</a>. Fan-made; not affiliated with Ubisoft.</p>

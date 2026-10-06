@@ -61,15 +61,14 @@
     .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
     .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
 
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
@@ -103,76 +102,82 @@
   <main>
     
     <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
-    <p style="color: rgba(235,228,215,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
+    <p style="color: rgba(235,228,215,0.8)">The Recon 6 blog has practical Rainbow Six Siege guides for ranked play. There is a guide for each rank step from Copper to Champion, season patch breakdowns, and a deep dive for each of the operators Recon 6's plans use.</p>
+    <p style="color: rgba(235,228,215,0.8)">Each rank guide opens with the short answer, then the habits behind it and a drill to run in your next match. For map-by-map plans, use the <a href="/guides/">map guides</a>.</p>
     
     <section class="blog-game-section" data-game="r6" data-genre="tactical" style="margin-bottom: 36px">
-      <h2 style="margin-bottom: 12px">Rainbow Six Siege <span style="font-size: 0.7rem; color: rgba(235,228,215,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">Tactical FPS</span></h2>
+      <h2 style="margin-bottom: 12px">Which rank guide fits you?</h2>
+      <p style="color: rgba(235,228,215,0.75)">Pick the guide for the rank you are climbing out of. Each one names the habits that hold players at that rank, then gives a drill for your next match.</p>
       <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
-        
-          <li>
-            <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Y11S2.1</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Rainbow Six Siege Y11S2.1 patch is live: Dokkaebi Jegeo Payload gets a 7s cooldown, Ash breaching rounds buffe…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-y11s2-ranked-operators-that-win-rounds.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Ranked Meta</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">The Operation System Override (Y11S2) ranked meta, from a coach's chair — not just who's S-tier, but how each …</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/hardstuck-rainbow-six-not-your-aim.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Hardstuck → The Fix</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Hardstuck in R6 ranked? It's not your aim — it's your information economy. The habits, the pros worth studying…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-y11s2-system-override-guide.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S1 → Y11S2</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Complete guide to Rainbow Six Siege Y11S2 Operation System Override. New Calypso Casino map, Dokkaebi Jegeo Pa…</span>
-            </a>
-          </li>
           <li>
             <a href="/blog/r6-copper-to-bronze.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Copper → Bronze</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful Siege habits: learn operator jobs, preserve drones, follow a site setup, clear angles, and sup…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Copper → Bronze:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Copper to Bronze in Rainbow Six Siege, cut the deaths you can avoid. Play a small pool of operators and learn each one's job. Keep your drones alive and act on what they show. Reinforce for your bombsite plan, clear one angle at a time, and trade instead of re-peeking.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-bronze-to-silver.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Bronze → Silver</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful callouts, site-specific setup decisions, fresh drone information and safer teamwork. A managea…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Bronze → Silver:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Bronze to Silver in Rainbow Six Siege, fix the decisions you control. Pick operators for the job your team needs. Learn the callouts for the maps you actually queue. Set up the specific site, rotations included, and use fresh drone information before you commit to a push or a hold.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-silver-to-gold.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Silver → Gold</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice breach coordination, fresh drone calls, verified vertical angles and defensive fallback plans. Build …</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Silver → Gold:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Silver to Gold in Rainbow Six Siege, make your utility useful to the next teammate. Agree on the breach before anyone spends utility. Drone the room you are about to take, not a quota. On defense, give each player a job and a route back to site.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-gold-to-platinum.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Gold → Platinum</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful bans, coordinated entry, verified map angles and correct post-plant roles. A practical Siege g…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Gold → Platinum:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Gold to Platinum in Rainbow Six Siege, turn information into a shared next move. Ban around the plan you mean to run. Make your entry useful to the player behind you. After the plant, attackers protect the defuser and defenders disable it. Review each decision, not only the scoreboard.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-platinum-to-emerald.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Platinum → Emerald</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice purposeful angles, safer repositioning, useful destruction and clear team adjustments. Review decisio…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Platinum → Emerald:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Platinum to Emerald in Rainbow Six Siege, adapt only when something actually changed. Give every angle you hold a job and an exit. Peek only as far as your information supports. Treat run-outs as a risk, open walls to solve a visible problem, and change plans on confirmed evidence.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-emerald-to-diamond.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Emerald → Diamond</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Emerald-to-Diamond is adaptability — opponent spawn rotation reads, off-meta picks situationally, late-round 1…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Emerald → Diamond:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Emerald to Diamond in Rainbow Six Siege, adapt from round to round. Track where opponents spawn and rotate. Pick off-meta operators only when the matchup calls for them. Time your roamer clears, drone two rooms past the choke, and switch the strat mid-round when defenders react.</span>
             </a>
           </li>
           <li>
             <a href="/blog/r6-diamond-to-champion.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #f07430; display: block; margin-bottom: 4px">Diamond → Champion</strong>
-              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Diamond-to-Champion is 5% mechanical, 95% mental + macro — utility economy, tilt management, opponent reads ac…</span>
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Diamond → Champion:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">To climb from Diamond to Champion in Rainbow Six Siege, win the mental and macro game, not just the aim duel. Budget utility across rounds and bank some for overtime. Reset tilt between rounds. Read opponent habits over the whole match, swap comps to break their reads, and keep calls short.</span>
+            </a>
+          </li>
+      </ul>
+    </section>
+    <section class="blog-game-section" data-game="r6" data-genre="tactical" style="margin-bottom: 36px">
+      <h2 style="margin-bottom: 12px">Season and patch breakdowns</h2>
+      <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+          <li>
+            <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Y11S2.1:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">The Y11S2.1 patch went live on July 2, 2026. It gives Dokkaebi's Jegeo Payload a 7-second cooldown, widens Ash's Breaching Round radius from 2m to 2.2m and cuts Thorn's limp from 15 to 10 seconds. It also removes the prone-cancel sprint-shoot, so rushers pay the full sprint-out delay again.</span>
+            </a>
+          </li>
+          <li>
+            <a href="/blog/r6-y11s2-ranked-operators-that-win-rounds.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Ranked Meta:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">In Y11S2 ranked, Solid Snake is the attack pick of the season, because his Soliton Radar makes it hard to walk into a fight blind. On defense, Smoke, Jäger and Mira stay on top because denial never goes out of date. Ash got a buff, not a nerf. Still, the operator is rarely why you lost a round.</span>
+            </a>
+          </li>
+          <li>
+            <a href="/blog/hardstuck-rainbow-six-not-your-aim.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Hardstuck → The Fix:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">If you are hardstuck in Rainbow Six Siege, your aim is usually not the problem; your information is. Hardstuck players lose rounds by peeking without intel, not by missing shots. Drone before you enter, spend utility before you peek, deny drones on defense, and after every death ask whether you died with information or without it.</span>
+            </a>
+          </li>
+          <li>
+            <a href="/blog/r6-y11s2-system-override-guide.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S1 → Y11S2:</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Y11S2 Operation System Override reached live ranked on June 2, 2026. It added Calypso Casino, ranked from day one, and remastered Dokkaebi with the Jegeo Payload in place of her Logic Bomb. It also added the XK23 assault rifle, buffed Gridlock, Pulse and Mozzie, and brought Ranked 3.0 with no hidden MMR.</span>
             </a>
           </li>
       </ul>
@@ -181,7 +186,7 @@
     <section class="game-section" id="r6-operators">
       <h2>R6 operator deep dives</h2>
       <p style="color: rgba(235,228,215,0.75)">Loadout, the sites where Recon 6's plans pick them, counters and how to climb, for 47 operators.</p>
-      <ul><li><a href="/blog/r6-operator-ace.html">Ace</a></li><li><a href="/blog/r6-operator-alibi.html">Alibi</a></li><li><a href="/blog/r6-operator-aruni.html">Aruni</a></li><li><a href="/blog/r6-operator-ash.html">Ash</a></li><li><a href="/blog/r6-operator-azami.html">Azami</a></li><li><a href="/blog/r6-operator-bandit.html">Bandit</a></li><li><a href="/blog/r6-operator-buck.html">Buck</a></li><li><a href="/blog/r6-operator-capitao.html">Capitao</a></li><li><a href="/blog/r6-operator-castle.html">Castle</a></li><li><a href="/blog/r6-operator-caveira.html">Caveira</a></li><li><a href="/blog/r6-operator-doc.html">Doc</a></li><li><a href="/blog/r6-operator-dokkaebi.html">Dokkaebi</a></li><li><a href="/blog/r6-operator-echo.html">Echo</a></li><li><a href="/blog/r6-operator-ela.html">Ela</a></li><li><a href="/blog/r6-operator-finka.html">Finka</a></li><li><a href="/blog/r6-operator-flores.html">Flores</a></li><li><a href="/blog/r6-operator-fuze.html">Fuze</a></li><li><a href="/blog/r6-operator-glaz.html">Glaz</a></li><li><a href="/blog/r6-operator-goyo.html">Goyo</a></li><li><a href="/blog/r6-operator-gridlock.html">Gridlock</a></li><li><a href="/blog/r6-operator-hibana.html">Hibana</a></li><li><a href="/blog/r6-operator-iana.html">Iana</a></li><li><a href="/blog/r6-operator-jager.html">Jager</a></li><li><a href="/blog/r6-operator-kaid.html">Kaid</a></li><li><a href="/blog/r6-operator-kali.html">Kali</a></li><li><a href="/blog/r6-operator-lesion.html">Lesion</a></li><li><a href="/blog/r6-operator-lion.html">Lion</a></li><li><a href="/blog/r6-operator-maestro.html">Maestro</a></li><li><a href="/blog/r6-operator-maverick.html">Maverick</a></li><li><a href="/blog/r6-operator-melusi.html">Melusi</a></li><li><a href="/blog/r6-operator-mira.html">Mira</a></li><li><a href="/blog/r6-operator-mozzie.html">Mozzie</a></li><li><a href="/blog/r6-operator-mute.html">Mute</a></li><li><a href="/blog/r6-operator-nomad.html">Nomad</a></li><li><a href="/blog/r6-operator-pulse.html">Pulse</a></li><li><a href="/blog/r6-operator-sledge.html">Sledge</a></li><li><a href="/blog/r6-operator-smoke.html">Smoke</a></li><li><a href="/blog/r6-operator-thatcher.html">Thatcher</a></li><li><a href="/blog/r6-operator-thermite.html">Thermite</a></li><li><a href="/blog/r6-operator-thunderbird.html">Thunderbird</a></li><li><a href="/blog/r6-operator-twitch.html">Twitch</a></li><li><a href="/blog/r6-operator-valkyrie.html">Valkyrie</a></li><li><a href="/blog/r6-operator-vigil.html">Vigil</a></li><li><a href="/blog/r6-operator-wamai.html">Wamai</a></li><li><a href="/blog/r6-operator-ying.html">Ying</a></li><li><a href="/blog/r6-operator-zero.html">Zero</a></li><li><a href="/blog/r6-operator-zofia.html">Zofia</a></li></ul>
+      <ul><li><a href="/blog/r6-operator-ace.html">Ace</a>.</li><li><a href="/blog/r6-operator-alibi.html">Alibi</a>.</li><li><a href="/blog/r6-operator-aruni.html">Aruni</a>.</li><li><a href="/blog/r6-operator-ash.html">Ash</a>.</li><li><a href="/blog/r6-operator-azami.html">Azami</a>.</li><li><a href="/blog/r6-operator-bandit.html">Bandit</a>.</li><li><a href="/blog/r6-operator-buck.html">Buck</a>.</li><li><a href="/blog/r6-operator-capitao.html">Capitao</a>.</li><li><a href="/blog/r6-operator-castle.html">Castle</a>.</li><li><a href="/blog/r6-operator-caveira.html">Caveira</a>.</li><li><a href="/blog/r6-operator-doc.html">Doc</a>.</li><li><a href="/blog/r6-operator-dokkaebi.html">Dokkaebi</a>.</li><li><a href="/blog/r6-operator-echo.html">Echo</a>.</li><li><a href="/blog/r6-operator-ela.html">Ela</a>.</li><li><a href="/blog/r6-operator-finka.html">Finka</a>.</li><li><a href="/blog/r6-operator-flores.html">Flores</a>.</li><li><a href="/blog/r6-operator-fuze.html">Fuze</a>.</li><li><a href="/blog/r6-operator-glaz.html">Glaz</a>.</li><li><a href="/blog/r6-operator-goyo.html">Goyo</a>.</li><li><a href="/blog/r6-operator-gridlock.html">Gridlock</a>.</li><li><a href="/blog/r6-operator-hibana.html">Hibana</a>.</li><li><a href="/blog/r6-operator-iana.html">Iana</a>.</li><li><a href="/blog/r6-operator-jager.html">Jager</a>.</li><li><a href="/blog/r6-operator-kaid.html">Kaid</a>.</li><li><a href="/blog/r6-operator-kali.html">Kali</a>.</li><li><a href="/blog/r6-operator-lesion.html">Lesion</a>.</li><li><a href="/blog/r6-operator-lion.html">Lion</a>.</li><li><a href="/blog/r6-operator-maestro.html">Maestro</a>.</li><li><a href="/blog/r6-operator-maverick.html">Maverick</a>.</li><li><a href="/blog/r6-operator-melusi.html">Melusi</a>.</li><li><a href="/blog/r6-operator-mira.html">Mira</a>.</li><li><a href="/blog/r6-operator-mozzie.html">Mozzie</a>.</li><li><a href="/blog/r6-operator-mute.html">Mute</a>.</li><li><a href="/blog/r6-operator-nomad.html">Nomad</a>.</li><li><a href="/blog/r6-operator-pulse.html">Pulse</a>.</li><li><a href="/blog/r6-operator-sledge.html">Sledge</a>.</li><li><a href="/blog/r6-operator-smoke.html">Smoke</a>.</li><li><a href="/blog/r6-operator-thatcher.html">Thatcher</a>.</li><li><a href="/blog/r6-operator-thermite.html">Thermite</a>.</li><li><a href="/blog/r6-operator-thunderbird.html">Thunderbird</a>.</li><li><a href="/blog/r6-operator-twitch.html">Twitch</a>.</li><li><a href="/blog/r6-operator-valkyrie.html">Valkyrie</a>.</li><li><a href="/blog/r6-operator-vigil.html">Vigil</a>.</li><li><a href="/blog/r6-operator-wamai.html">Wamai</a>.</li><li><a href="/blog/r6-operator-ying.html">Ying</a>.</li><li><a href="/blog/r6-operator-zero.html">Zero</a>.</li><li><a href="/blog/r6-operator-zofia.html">Zofia</a>.</li></ul>
     </section>
     <div class="intro-cta">
       <h3>Want feedback on your own rounds?</h3>

@@ -188,12 +188,18 @@
   <body>
     <div id="root"></div>
     <noscript>
+      <!-- scripts/generate-route-shells.mjs swaps the heading and description
+           below for each route's own (src/config/routeMeta.js). -->
+      <main>
+        <h1 data-shell="name">Recon 6 — AI Rainbow Six Siege Coach: Strats &amp; VOD Review</h1>
+        <p data-shell="description">Rainbow Six Siege coaching and reference tools for map strats, callouts, bans, match preparation, and screenshot-based VOD feedback.</p>
+        <p>This page needs JavaScript. The pages below work without it.</p>
+      </main>
       <nav aria-label="Recon 6 pages">
-        <a href="/strats">Map strats</a> · <a href="/guides/">Map guides</a> · <a href="/guides/operators/">Operator guides</a> ·
-        <a href="/blog/">Blog</a> · <a href="/pricing">Plans and pricing</a> · <a href="/coaching/">1-on-1 coaching</a> ·
-        <a href="/climb/">Rank climb guides</a> · <a href="/tools/">Free tools</a> · <a href="/tools/r6-tier-list">Operator tier list</a> ·
-        <a href="/creator-demo">Creator demo</a> · <a href="/download">Desktop coach</a> · <a href="/changelog">Changelog</a> ·
-        <a href="/compare/">Compare Recon 6</a> · <a href="/about">About and contact</a> · <a href="/press">Press kit</a>
+        <p>Learn the game: <a href="/strats">map strats</a>, <a href="/guides/">map guides</a>, <a href="/guides/operators/">operator guides</a> and the <a href="/blog/">blog</a>.</p>
+        <p>Climb with help: <a href="/climb/">rank climb guides</a>, <a href="/tools/">free tools</a>, the <a href="/tools/r6-tier-list">operator tier list</a> and <a href="/coaching/">1-on-1 coaching</a>.</p>
+        <p>See the product: <a href="/pricing">plans and pricing</a>, the <a href="/creator-demo">creator demo</a>, the <a href="/download">desktop coach</a> and the <a href="/changelog">changelog</a>.</p>
+        <p>About Recon 6: <a href="/compare/">how it compares</a>, <a href="/about">about and contact</a> and the <a href="/press">press kit</a>.</p>
       </nav>
     </noscript>
     <script type="module" src="/src/main.jsx"></script>

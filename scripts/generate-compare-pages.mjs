@@ -48,7 +48,15 @@ const PAGES = [
       },
       {
         q: 'What does Recon 6 do that one session can\'t?',
-        a: `<p>It is there every match. Pick the map, site and side and you get one plan with five operator jobs, the callouts and the utility. After the match, Pro reviews screenshots from your rounds and keeps the mistake you need to fix in front of you. ${FREE_MAP_NAMES} are free to try.</p>`,
+        a: `<p>Recon 6 is there every match. Pick the map, site and side and you get one plan with five operator jobs, the callouts and the utility. After the match, Pro reviews screenshots from your rounds and keeps the mistake you need to fix in front of you. ${FREE_MAP_NAMES} are free to try.</p>`,
+      },
+      {
+        q: 'What happens in a 1-on-1 session?',
+        a: `<p>A session is one full hour. You bring 2-3 clips or screenshots of rounds you lost, the coach breaks down the decisions that cost you those rounds, and you leave with a plan for your next queue. Sessions are for PC and console players at any rank. You pick an open time on the calendar, pay through Stripe, and get a calendar invite.</p>`,
+      },
+      {
+        q: 'What are the limits of each?',
+        a: `<p>Pro includes ${pro.aiReviewsPerMonth} AI reviews a month, each of up to ${pro.screenshotsPerReview} screenshots, and a review can only judge what those screenshots show. Elite raises that to ${elite.aiReviewsPerMonth} reviews of up to ${elite.screenshotsPerReview} screenshots. A session covers the rounds you bring to that one hour. Champion's ${champion.liveSessionsPerMonth} monthly sessions don't roll over to the next month.</p>`,
       },
       {
         q: 'Which should you pick?',
@@ -59,6 +67,7 @@ const PAGES = [
       ['Is Recon 6 a replacement for a coach?', 'No. It covers the plan before the round and a review of your screenshots after it. A coach watches the whole round and talks it through with you, which software doesn\'t do.'],
       ['Can I book a session without a subscription?', `Yes. Single sessions are $${SESSION} an hour with no subscription, and your first is $${FIRST_SESSION}.`],
       ['Who runs the sessions?', 'Aaron Henry, who founded Recon 6. Sessions are booked from the coaching page.'],
+      ['Is there a free trial?', `No. Paid plans start when you check out. ${FREE_MAP_NAMES} are free to open without paying.`],
     ],
     related: [
       { name: '1-on-1 coaching sessions', url: '/coaching/' },
@@ -85,7 +94,7 @@ const PAGES = [
     sections: [
       {
         q: 'What do YouTube guides do well?',
-        a: '<p>They teach. A good guide shows why a setup works, how pros play it and what the angles look like. They\'re free and there are a lot of them. The catch is finding the right one for the exact site and side with prep running, and knowing whether it still matches the current season.</p>',
+        a: '<p>YouTube guides teach. A good guide shows why a setup works, how pros play it and what the angles look like. They\'re free and there are a lot of them. The catch is finding the right one for the exact site and side with prep running, and knowing whether it still matches the current season.</p>',
       },
       {
         q: 'What do Discord strat sheets do well?',
@@ -94,6 +103,14 @@ const PAGES = [
       {
         q: 'What does Recon 6 add?',
         a: `<p>Speed and structure: one plan for the map, site and side you picked, with a job for each of the five players, the callouts and the utility. Plans cover ${MAP_COUNT} maps. With Pro, Recon 6 also reviews screenshots from your own rounds and points out the mistake to fix next. The strats are in beta, so if a plan doesn't match your game, tell us.</p>`,
+      },
+      {
+        q: 'How do the three work together?',
+        a: `<p>Say your stack queues Bank. Watch one guide on CEO Office to learn why the attack opens the CEO wall with Thermite. Write your stack's own calls for that site in the Discord sheet. Before the round, open the CEO Office attack plan in Recon 6 so all five players know their job. After the match, upload screenshots from the rounds you lost and compare them with the plan.</p>`,
+      },
+      {
+        q: 'What does each option cost?',
+        a: `<p>YouTube guides and Discord strat sheets are free. Recon 6's free tier opens ${FREE_MAP_NAMES}. Pro is $${pro.monthlyUsd} a month with ${pro.aiReviewsPerMonth} AI reviews. Elite is $${elite.monthlyUsd} a month with ${elite.aiReviewsPerMonth}. Champion is $${champion.monthlyUsd} a month with ${champion.aiReviewsPerMonth} reviews and ${champion.liveSessionsPerMonth} live sessions. There is no free trial.</p>`,
       },
       {
         q: 'Should you stop watching guides?',
@@ -144,6 +161,14 @@ const PAGES = [
       {
         q: 'What is live coaching?',
         a: '<p>Live coaching is a person watching you play, or watching your rounds with you, and telling you what to change. It catches what software misses, and it costs more per hour than any tool.</p>',
+      },
+      {
+        q: 'How do the tools work together?',
+        a: '<p>Here is one example. A stat tracker shows your deaths per round went up this month. VOD review of three of those rounds shows the same mistake: you peeked a door nobody had droned. A strat reference gives your team a plan in which someone drones that door first. A practice routine then makes droning before a peek a habit.</p>',
+      },
+      {
+        q: 'What does Recon 6 not do?',
+        a: `<p>Recon 6 does not track your stats, and it never needs your game login. Nothing is injected into the game, and accounts are not shared. Its AI review sees only the screenshots you upload: up to ${pro.screenshotsPerReview} per review on Pro and ${elite.screenshotsPerReview} on Elite and Champion.</p>`,
       },
       {
         q: 'Where does Recon 6 fit?',
@@ -237,14 +262,14 @@ function renderPage(page) {
   const body = `
     <nav class="breadcrumb"><a href="/">Recon 6</a> › <a href="/compare/">Compare</a> › <span>${escape(page.h1)}</span></nav>
     <article>
+      ${bylineHtml({ datePublished, kind: 'aiPost' })}
       <h1>${escape(page.h1)}</h1>
-      ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'aiPost' })}
       <p class="definition">${escape(page.definition)}</p>
       ${table}
       ${page.sections.map((s) => `<h2>${escape(s.q)}</h2>\n      ${s.a}`).join('\n      ')}
       <h2>Questions</h2>
       <dl class="faq">${page.faq.map(([q, a]) => `<dt>${escape(q)}</dt><dd>${escape(a)}</dd>`).join('')}</dl>
-      <div class="related"><h3>Related</h3><ul>${page.related.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul></div>
+      <div class="related"><h3>Related</h3><ul>${page.related.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a>.</li>`).join('')}</ul></div>
       ${sourcesHtml(page.sources)}
     </article>`
   const jsonLd = [
@@ -274,8 +299,11 @@ function renderIndex() {
   const body = `
     <nav class="breadcrumb"><a href="/">Recon 6</a> › <span>Compare</span></nav>
     <h1>Compare Recon 6 with other ways to improve</h1>
-    <p class="definition">Recon 6 is one way to get better at Rainbow Six Siege. These pages put it next to the others: a human coach, free guides, and the other kinds of coaching tools, with the cost and the limits of each.</p>
-    <ul>${PAGES.map((p) => `<li><a href="/compare/${p.slug}.html">${escape(p.h1)}</a> — ${escape(p.description)}</li>`).join('')}</ul>`
+    <p class="definition">Recon 6 is one way to get better at Rainbow Six Siege. These pages put it next to the others: a human coach, free YouTube guides and Discord strat sheets, and the other kinds of coaching tools. Each comparison gives the cost, what each option does well, and its limits.</p>
+    <h2>Which comparison do you need?</h2>
+    <ul>${PAGES.map((p) => `<li><a href="/compare/${p.slug}.html">${escape(p.h1)}</a>. ${escape(p.definition)}</li>`).join('')}</ul>
+    <h2>What does each option cost?</h2>
+    <p>YouTube guides, Discord strat sheets and Recon 6's ${escape(FREE_MAP_NAMES)} plans are free. Recon 6 Pro is $${pro.monthlyUsd} a month and Elite is $${elite.monthlyUsd}. A 1-on-1 session is $${SESSION} an hour, and your first is $${FIRST_SESSION}. Champion is $${champion.monthlyUsd} a month and includes ${champion.liveSessionsPerMonth} sessions. Recon 6 has no free trial.</p>`
   return shell({
     title: 'Compare Recon 6 With Other Ways to Improve at R6',
     description: 'Recon 6 next to a 1-on-1 coach, free YouTube guides and Discord strat sheets, and the other kinds of Rainbow Six Siege coaching tools, with costs and limits.',

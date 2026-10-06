@@ -6,7 +6,7 @@
 // Cost: zero. Effort: zero ongoing (regenerate on each deploy).
 // Tradeoff: small. Backlink yield: meaningful over months.
 
-import { writeFileSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, writeFileSync, readFileSync, readdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
@@ -61,6 +61,9 @@ const topOperators = Object.entries(operatorAppearances)
 
 for (const opName of topOperators) {
   const slug = opName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  // An operator with a deep dive is in the feed through the blog below; its
+  // old guide URL redirects there.
+  if (existsSync(join(ROOT, 'public', 'blog', `r6-operator-${slug}.html`))) continue
   items.push({
     title: `${opName} Operator Guide — Where to Play`,
     link: `${SITE}/guides/operators/${slug}.html`,

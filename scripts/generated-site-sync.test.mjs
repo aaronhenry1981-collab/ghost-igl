@@ -41,18 +41,21 @@ test('operator posts list only sites in maps.js and no placeholder copy', () => 
   const blog = new URL('public/blog/', root)
   const posts = readdirSync(blog).filter((f) => /^r6-operator-.+\.html$/.test(f))
   assert.ok(posts.length > 0)
-  const row = /<a href="\/guides\/([^"]+)\.html">[^<]*<\/a><\/td>\s*<td>([^<]*) <span[^>]*>\(([^)]*)\)<\/span><\/td>/g
+  // One list item per site: <a href="/guides/<map>.html#<site>">Site name</a> on Map (floor): …
+  const row = /<li><a href="\/guides\/([a-z0-9-]+)\.html#([a-z0-9-]+)">([^<]*)<\/a> on ([^<:]*?)(?: \(([^)]*)\))?:/g
   for (const file of posts) {
     const html = readFileSync(new URL(file, blog), 'utf8')
     assert.doesNotMatch(html, /VERIFY:|Unique gadget/, `${file} has placeholder copy`)
     let rows = 0
-    for (const [, mapId, siteName, floor] of html.matchAll(row)) {
+    for (const [, mapId, siteId, siteName, mapName, floor] of html.matchAll(row)) {
       rows++
       const map = MAPS.find((m) => m.id === mapId)
       assert.ok(map, `${file}: unknown map ${mapId}`)
-      const site = map.sites.find((s) => s.name === unescape(siteName))
-      assert.ok(site, `${file}: "${unescape(siteName)}" is not a ${map.name} site in maps.js`)
-      assert.equal(floor, site.floor || '—', `${file}: ${site.name} floor`)
+      assert.equal(unescape(mapName), map.name, `${file}: map name for ${mapId}`)
+      const site = map.sites.find((s) => s.id === siteId)
+      assert.ok(site, `${file}: #${siteId} is not a ${map.name} site in maps.js`)
+      assert.equal(unescape(siteName), site.name, `${file}: ${mapId}#${siteId} name`)
+      assert.equal(floor, site.floor || undefined, `${file}: ${site.name} floor`)
     }
     assert.ok(rows > 0, `${file}: no site rows found`)
   }

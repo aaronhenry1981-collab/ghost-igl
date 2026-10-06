@@ -35,6 +35,9 @@ export function shellFor(meta) {
   html = replaceOnce(html, /<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${attr(meta.canonical)}" />`, 'canonical')
   html = replaceOnce(html, /<meta name="robots" content="[^"]*"\s*\/?>/,
     `<meta name="robots" content="${meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}" />`, 'robots')
+  // The no-JavaScript fallback names this route and says what it is for.
+  html = replaceOnce(html, /<h1 data-shell="name">[^<]*<\/h1>/, `<h1 data-shell="name">${text(String(meta.title).replace(/ \| Recon 6$/, ''))}</h1>`, 'noscript heading')
+  html = replaceOnce(html, /<p data-shell="description">[^<]*<\/p>/, `<p data-shell="description">${text(description)}</p>`, 'noscript description')
   // The home page's FAQ answers belong to the home page only.
   html = html.replace(/<!-- FAQ schema[\s\S]*?<\/script>\s*/, '')
   return html

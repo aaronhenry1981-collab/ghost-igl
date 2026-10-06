@@ -152,17 +152,20 @@ for (const map of MAPS) {
   if (map.comingSoon || !STRATS[map.id]) continue
   urls.push(urlEntry({ loc: `/guides/${map.id}.html`, freq: 'monthly', pri: 0.8 }))
 
+  // Per-site guides are sections of the map guide now (301 at the edge).
   for (const site of map.sites) {
     if (!STRATS[map.id]?.[site.id]) continue
-    urls.push(urlEntry({ loc: `/guides/${map.id}/${site.id}.html`, freq: 'monthly', pri: 0.7 }))
     for (const side of ['attack', 'defense']) {
       for (const operator of STRATS[map.id][site.id]?.[side]?.operators || []) operatorSet.add(operator.name)
     }
   }
 }
 
+// Operators with a blog deep dive have no separate guide any more (it 301s
+// to the deep dive); list only the guides generate-operator-guides wrote.
 for (const name of [...operatorSet].sort()) {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  if (!existsSync(join(ROOT, 'public', 'guides', 'operators', `${slug}.html`))) continue
   urls.push(urlEntry({ loc: `/guides/operators/${slug}.html`, freq: 'monthly', pri: 0.7 }))
 }
 

@@ -157,33 +157,47 @@ const escapeHtml = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '
 export function sourcesHtml(sources, heading = 'Sources') {
   if (!sources.length) return ''
   return `
-    <section class="sources" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">${escapeHtml(heading)}</h2>
+    <section class="sources">
+      <h2>${escapeHtml(heading)}</h2>
       <ul>${sources.map((s) => `<li><a href="${escapeHtml(s.url)}" rel="noopener">${escapeHtml(s.label)}</a>${s.note ? ` <span>— ${escapeHtml(s.note)}</span>` : ''}</li>`).join('')}</ul>
-      <p class="sources-note">Links checked ${escapeHtml(humanDate(REFS.verifiedOn))}. Ubisoft's pages are the authority if anything here disagrees.</p>
     </section>`
 }
 
-// ---- byline and how-it-was-made --------------------------------------------
-const PROCESS = {
-  guide: "Built from Recon 6's strat library, the same map, site and operator data the app uses. Site names follow Ubisoft's official map list. The strats are in beta; if a callout or setup doesn't match your game,",
-  operatorGuide: "Built from Recon 6's strat library: every site where Recon 6's plans pick this operator. For loadout and gadget numbers, Ubisoft's official operator page is the authority. If something doesn't match your game,",
-  aiPost: 'Drafted with AI assistance from Recon 6\'s strat library and notes, then published by Aaron Henry. Check gadget and season details against the official sources at the end. If something doesn\'t match your game,',
+// The official references as one sentence inside the text, named after the
+// page's own subject (so it reads as part of the piece, not a stock block).
+export function officialLinksSentence(subject, refs, { ubisoftWhat = 'has the official details', siegeggWhat = 'track pro play' } = {}) {
+  const parts = []
+  if (refs.ubisoft) parts.push(`<a href="${escapeHtml(refs.ubisoft)}" rel="noopener">Ubisoft's ${escapeHtml(subject)} page</a> ${ubisoftWhat}`)
+  if (refs.siegegg) parts.push(`<a href="${escapeHtml(refs.siegegg)}" rel="noopener">SiegeGG's ${escapeHtml(subject)} stats</a> ${siegeggWhat}`)
+  return parts.length ? `${parts.join('; ')}.` : ''
 }
+// The same two links as a plain source line, for pages that only cite them.
+export function officialSourcesLine(subject, refs) {
+  const links = []
+  if (refs.ubisoft) links.push(`<a href="${escapeHtml(refs.ubisoft)}" rel="noopener">Ubisoft's ${escapeHtml(subject)} page</a>`)
+  if (refs.siegegg) links.push(`<a href="${escapeHtml(refs.siegegg)}" rel="noopener">SiegeGG's ${escapeHtml(subject)} stats</a>`)
+  return links.length ? `Official sources: ${links.join(' and ')}.` : ''
+}
+export const operatorRefs = (name) => REFS.operators[name] || {}
+export const mapRefs = (mapId) => REFS.maps[mapId] || {}
 
-export function bylineHtml({ datePublished, dateModified, kind = 'guide' }) {
-  const updated = dateModified && dateModified !== datePublished
-    ? ` · Updated <time datetime="${escapeHtml(dateModified)}">${escapeHtml(humanDate(dateModified))}</time>` : ''
+// ---- byline -------------------------------------------------------------------
+// One short line above the headline: who wrote it and when. Posts drafted
+// with AI say so and link to the author page (#how-guides-are-made), where
+// the process is explained once. Kept short: the same words on every page
+// read as a template.
+export function bylineHtml({ datePublished, kind = 'guide', readMinutes }) {
+  const made = kind === 'aiPost' ? ` · <a href="${AUTHOR_PATH}#how-guides-are-made">AI-assisted</a>` : ''
+  const read = readMinutes ? ` · ${Number(readMinutes)} min read` : ''
   return `
-      <p class="byline">By <a href="${AUTHOR_PATH}" rel="author">${AUTHOR_NAME}</a>, founder of Recon 6 · Published <time datetime="${escapeHtml(datePublished)}">${escapeHtml(humanDate(datePublished))}</time>${updated}</p>
-      <p class="process-note">${PROCESS[kind] || PROCESS.guide} <a href="/about#contact">tell us</a>.</p>`
+      <div class="byline">By <a href="${AUTHOR_PATH}" rel="author">${AUTHOR_NAME}</a> · <time datetime="${escapeHtml(datePublished)}">${escapeHtml(humanDate(datePublished))}</time>${made}${read}</div>`
 }
 
 export function figureHtml({ src, alt, caption }) {
   return `
       <figure class="article-figure">
         <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="1200" height="630" loading="lazy" />
-        ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ''}
+        ${caption ? `<figcaption>${escapeHtml(/[.!?]$/.test(caption) ? caption : `${caption}.`)}</figcaption>` : ''}
       </figure>`
 }
 
@@ -208,13 +222,12 @@ export function footerHtml() {
 }
 
 export const ARTICLE_CSS = `
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }`

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rainbow Six Siege Strategy Guides — Recon 6</title>
-  <meta name="description" content="Free R6 Siege map strategy guides for every map in the ranked pool. Operator picks, callouts, utility, and ban recommendations for every bomb site." />
+  <meta name="description" content="Free R6 Siege strategy guides for every map in the ranked pool: operator picks, callouts and a short execute overview for every bomb site." />
   <link rel="canonical" href="https://r6coaching.com/guides/" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -12,7 +12,7 @@
   <meta name="theme-color" content="#121211" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Rainbow Six Siege Strategy Guides — Recon 6" />
-  <meta property="og:description" content="Free R6 Siege map strategy guides for every map in the ranked pool. Operator picks, callouts, utility, and ban recommendations for every bomb site." />
+  <meta property="og:description" content="Free R6 Siege strategy guides for every map in the ranked pool: operator picks, callouts and a short execute overview for every bomb site." />
   <meta property="og:url" content="https://r6coaching.com/guides/" />
   <meta property="og:image" content="https://r6coaching.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -25,13 +25,7 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #121211;
-      color: #ebe4d7;
-      line-height: 1.6;
-    }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
@@ -40,48 +34,37 @@
     .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
     h1 { font-size: 2rem; margin: 0 0 8px; }
-    .sub { color: rgba(235,228,215,0.7); margin-bottom: 24px; font-size: 0.95rem; }
-    .cta-top {
-      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212);
-      color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
-    }
-    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; }
-    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
-    .side { margin: 18px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .definition { font-size: 1.04rem; color: rgba(235,228,215,0.94); }
+    .official { font-size: 0.92rem; color: rgba(235,228,215,0.8); }
+    .cta-top { display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212); color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin: 4px 0 18px; }
+    .site-toc { font-size: 0.92rem; margin: 0 0 24px; }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; scroll-margin-top: 16px; }
+    .site h3 { margin: 0 0 10px; font-size: 1.3rem; color: #fff; }
+    .site-answer { margin: 0 0 6px; }
+    .side { margin: 16px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
     .side.attack { border-left-color: #ff8060; }
     .side.defense { border-left-color: #50b4ff; }
-    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .side.attack h3 { color: #ff8060; }
-    .side.defense h3 { color: #50b4ff; }
-    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
-    .op { padding: 4px 10px; background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.3); border-radius: 4px; font-size: 0.85rem; color: #fad6c2; }
-    .op.essential { background: rgba(240,116,48,0.16); border-color: #f07430; font-weight: 700; }
-    .strategy { margin: 8px 0; color: rgba(235,228,215,0.9); }
-    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(235,228,215,0.85); }
-    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .side h4 { margin: 0 0 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h4 { color: #ff8060; }
+    .side.defense h4 { color: #50b4ff; }
+    .side p { margin: 6px 0; }
+    .lineup strong, .callout-line strong { color: #fad6c2; }
+    .callout-line { font-size: 0.9rem; color: rgba(235,228,215,0.85); }
+    .deep-link { display: inline-block; margin-top: 6px; font-size: 0.88rem; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
-    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .bans ul { margin: 0; padding-left: 18px; }
-    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
-    .intro-cta h3 { margin: 0 0 6px; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
-    .definition { font-size: 1.02rem; color: rgba(235,228,215,0.92); }
     .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
     .related-links ul { margin: 0; padding-left: 18px; }
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .pro-note { margin-top: 24px; font-size: 0.95rem; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
@@ -103,7 +86,9 @@
   <main>
     
     <h1>Recon 6 — Rainbow Six Siege Map Guides</h1>
-    <p class="sub">Free strategy guides for every map in the ranked pool. Operators, callouts, utility, and bans for every bomb site.</p>
+    <p class="definition">Recon 6 has a free strategy guide for each of 25 Rainbow Six Siege maps, 14 of them in the current ranked pool. Every guide puts all of a map's bomb sites on one page. Each site lists the operators the attack and defense plans use, a short execute overview and the callouts.</p>
+    <p>The guides come from the same strat library as the interactive app. Open a guide to learn a map before you queue. Open the app when you want the full plan for one site and side, with the job for each of the five players.</p>
+    <p id="footage">Most guides also list the attacker spawns and room callouts seen in Recon 6's own recorded matches. Those names are read off the in-game labels, and each one appeared on at least two frames. They cover map geography only, not tactics.</p>
     <style>
       .guide-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
       .guide-card a { display: block; padding: 18px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; color: inherit; text-decoration: none; transition: background 0.15s, border-color 0.15s; }
@@ -111,180 +96,186 @@
       .guide-card h3 { margin: 0 0 4px; color: #f07430; }
       .guide-card p { margin: 0; color: rgba(235,228,215,0.75); font-size: 0.9rem; }
     </style>
+    <h2>Which maps are in the ranked pool?</h2>
+    <p>14 maps with a guide are in the current ranked pool: Bank, Border, Chalet, Clubhouse, Consulate, Fortress, Kafe Dostoyevsky, Kanal, Lair, Nighthaven Labs, Oregon, Theme Park, Villa and Calypso Casino. The list follows Ubisoft's official map index, and Ubisoft rotates the ranked pool at each season launch and midseason. Each card below names a map's bomb sites and the two essential operators each side's plans use most.</p>
     <ul class="guide-grid">
       
         <li class="guide-card">
           <a href="bank.html">
             <h3>Bank</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: CEO Office, Open Area, Tellers' Office and Lockers. Attack leans on Thatcher and Thermite; defense on Bandit and Smoke.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="border.html">
             <h3>Border</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Armory Lockers, Workshop, Customs Inspection and Bathroom. Attack leans on Thatcher and Thermite; defense on Smoke and Kaid.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="chalet.html">
             <h3>Chalet</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Master Bedroom, Bar, Kitchen and Wine Cellar. Attack leans on Thatcher and Thermite; defense on Smoke and Bandit.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="clubhouse.html">
             <h3>Clubhouse</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="coastline.html">
-            <h3>Coastline</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Cash Room, Bar, Church and Gym. Attack leans on Thatcher and Thermite; defense on Bandit and Smoke.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="consulate.html">
             <h3>Consulate</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="emerald-plains.html">
-            <h3>Emerald Plains</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="favela.html">
-            <h3>Favela</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Consul Office, Piano Room, Garage and Tellers. Attack leans on Kali and Maverick; defense on Maestro and Bandit.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="fortress.html">
             <h3>Fortress</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="hereford.html">
-            <h3>Hereford Base</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="house.html">
-            <h3>House</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Bathroom, Dormitory, Waiting Room and Hammam. Attack leans on Flores and Thermite; defense on Kaid and Valkyrie.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="kafe.html">
             <h3>Kafe Dostoyevsky</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Bar, Reading Room, Mining Room and Kitchen Service. Attack leans on Thatcher and Thermite; defense on Smoke and Kaid.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="kanal.html">
             <h3>Kanal</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Server Room, Security Room, Coast Guard Meeting and Kayaks. Attack leans on Kali and Maverick; defense on Mute and Maestro.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="lair.html">
             <h3>Lair</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Master Office, Bunks, Armory and Lab. Attack leans on Ace and Twitch; defense on Mira and Mute.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="nighthaven.html">
             <h3>Nighthaven Labs</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Command, Control, Kitchen and Tank. Attack leans on Ace and Flores; defense on Mira and Mute.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="oregon.html">
             <h3>Oregon</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="outback.html">
-            <h3>Outback</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="plane.html">
-            <h3>Presidential Plane</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="skyscraper.html">
-            <h3>Skyscraper</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="stadium-bravo.html">
-            <h3>Stadium Bravo</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Kids' Dorms, Meeting Hall, Kitchen and Laundry. Attack leans on Ace and Twitch; defense on Kaid and Mira.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="theme-park.html">
             <h3>Theme Park</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
-          </a>
-        </li>
-
-        <li class="guide-card">
-          <a href="tower.html">
-            <h3>Tower</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Throne Room, Lab, Office and Bunk. Attack leans on Thatcher and Thermite; defense on Smoke and Kaid.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="villa.html">
             <h3>Villa</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Aviator Room, Trophy Room, Kitchen and Art Storage. Attack leans on Thatcher and Ace; defense on Smoke and Bandit.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="calypso-casino.html">
             <h3>Calypso Casino</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Cigar Room, Blackjack, Bar and CCTV. Attack leans on Thatcher and Thermite; defense on Kaid and Maestro.</p>
+          </a>
+        </li>
+    </ul>
+    <h2>Maps outside the ranked pool</h2>
+    <p>The other 11 maps with guides are not in the current ranked pool: Coastline, Emerald Plains, Favela, Hereford Base, House, Outback, Presidential Plane, Skyscraper, Stadium Bravo, Tower and Yacht.</p>
+    <ul class="guide-grid">
+      
+        <li class="guide-card">
+          <a href="coastline.html">
+            <h3>Coastline</h3>
+            <p>4 bomb sites: Hookah Lounge, Theater, Kitchen and Blue Bar. Attack leans on Ash and Zofia; defense on Jager and Smoke.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="emerald-plains.html">
+            <h3>Emerald Plains</h3>
+            <p>4 bomb sites: Administration, Private Gallery, Bar and Kitchen. Attack leans on Hibana and Thatcher; defense on Echo and Mute.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="favela.html">
+            <h3>Favela</h3>
+            <p>4 bomb sites: Blue Bedroom, Football Office, Pink Apartment and Aunt's Bedroom. Attack leans on Ace and Flores; defense on Kaid and Echo.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="hereford.html">
+            <h3>Hereford Base</h3>
+            <p>4 bomb sites: Master Bedroom, Kitchen, Ammo Storage and Fermentation Chamber. Attack leans on Kali and Maverick; defense on Bandit and Maestro.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="house.html">
+            <h3>House</h3>
+            <p>4 bomb sites: Master Bedroom, Kitchen, Garage and Boiler. Attack leans on Ace and Twitch; defense on Mira and Mute.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="outback.html">
+            <h3>Outback</h3>
+            <p>4 bomb sites: Laundry, Party, Green Bedroom and Mechanic Shop. Attack leans on Kali and Maverick; defense on Maestro and Mute.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="plane.html">
+            <h3>Presidential Plane</h3>
+            <p>4 bomb sites: Meeting Room, Security Room, Kitchen and Work Room. Attack leans on Flores and Hibana; defense on Echo and Mute.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="skyscraper.html">
+            <h3>Skyscraper</h3>
+            <p>4 bomb sites: Tea Room, Work Office, Kitchen and Bedroom. Attack leans on Thatcher and Ace; defense on Smoke and Bandit.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="stadium-bravo.html">
+            <h3>Stadium Bravo</h3>
+            <p>4 bomb sites: Office, Kids' Dormitory, Piano Room &amp; Living Room and Piano Room &amp; Kitchen. Attack leans on Flores and Thermite; defense on Kaid and Valkyrie.</p>
+          </a>
+        </li>
+
+        <li class="guide-card">
+          <a href="tower.html">
+            <h3>Tower</h3>
+            <p>4 bomb sites: Gift Shop, Tea Room, Restaurant and Exhibit Room. Attack leans on Ace and Twitch; defense on Kaid and Mira.</p>
           </a>
         </li>
 
         <li class="guide-card">
           <a href="yacht.html">
             <h3>Yacht</h3>
-            <p>4 bomb sites · Attack &amp; defense strats · Ban recommendations</p>
+            <p>4 bomb sites: Cockpit, Cafeteria, Engine Control and Server Room. Attack leans on Hibana and Thatcher; defense on Echo and Kaid.</p>
           </a>
         </li>
     </ul>
@@ -293,11 +284,7 @@
       <h2>More guides</h2>
       <ul><li><a href="/guides/operators/">Operator guides: every operator in Recon 6's plans</a></li><li><a href="/blog/">Blog: rank-up guides and operator deep dives</a></li><li><a href="/compare/">Compare Recon 6 with a coach, free guides and other tools</a></li></ul>
     </section>
-    <div class="intro-cta">
-      <h3>Prefer the interactive tool?</h3>
-      <p>Deep-linked strats with search, keyboard shortcuts, and personalized operator picks based on your main role.</p>
-      <a class="btn" href="https://r6coaching.com/strats">Open interactive strats &rarr;</a>
-    </div>
+    <p class="pro-note"><a href="https://r6coaching.com/strats">Open the interactive strats</a></p>
   </main>
   <div class="footer-strip">
     <p>&copy; Recon 6 — Rainbow Six Siege coaching, built by <a href="/author/aaron/">Aaron Henry</a>. Fan-made; not affiliated with Ubisoft.</p>

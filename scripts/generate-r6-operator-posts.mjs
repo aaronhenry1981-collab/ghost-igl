@@ -14,8 +14,21 @@ import STRATS from '../src/data/strats.js'
 import { CURRENT_R6_SEASON, balanceChangesFor } from '../src/data/r6-season.js'
 import {
   ARTICLE_CSS, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished, fitDescription,
-  footerHtml, navHtml, operatorSources, sourcesHtml,
+  footerHtml, navHtml, officialLinksSentence, operatorRefs,
 } from './lib/article-seo.mjs'
+
+// First sentence, without breaking on abbreviations such as "S.E.L.M.A.":
+// a sentence ends at . ! or ? after a lowercase letter, digit or ")".
+const firstSentence = (text) => {
+  const t = String(text || '').replace(/<[^>]+>/g, '').trim()
+  const m = t.match(/^.*?[a-z0-9)][.!?](?=\s+[A-Z"]|$)/)
+  return (m ? m[0] : t).trim()
+}
+// Gadget names that did not match the operator's official Ubisoft page when
+// checked on 2026-10-06; the opening line leaves the name out for these
+// until someone confirms them.
+const GADGET_UNVERIFIED = new Set(['Glaz', 'Smoke', 'Jager', 'Vigil'])
+const wordCount = (text) => (String(text).match(/[A-Za-z0-9']+/g) || []).length
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -51,7 +64,7 @@ const OP_DATA = {
     howToClimb: 'Master EMP timing with your Thermite or Hibana. The sequence: at 1:50 round timer, EMP the wall, wait 2 seconds for the EMP to fully detonate, then the breacher places their charge while Bandits are forcibly off the wall. Practice this exec in Custom Game with a buddy 10 times before relying on it in ranked. Don\'t throw EMP through line-of-sight if a Mute jammer is visible — the jammer eats it. Always EMP from cover.',
   },
   Ace: {
-    side: 'attack', role: 'Hard Breach', gadget: 'S.E.L.M.A. Aniti-Intruder Demolisher',
+    side: 'attack', role: 'Hard Breach', gadget: 'S.E.L.M.A. Aqua Breacher',
     gadgetDesc: 'Three S.E.L.M.A. devices that stick to reinforced walls and detonate in a self-extending sequence, opening a 1x2-meter hole. Cannot be denied by Bandit batteries (too far from the wall surface), only by Mute jammers.',
     primary: 'AK-12 / M1014', secondary: 'P9', secondaryGadget: 'Smoke Grenade / Breach Charge', speed: '2-speed / 2-armor',
     intro: 'Ace is the Plat+ default hard breacher when Thermite and Hibana are banned. His S.E.L.M.A. devices open reinforced walls without needing line-of-sight to the entire wall section, making him better than Thermite on wall types where Thermite can\'t place flush.',
@@ -692,37 +705,53 @@ ${ARTICLE_CSS}
 
 // ---------- RENDER ----------
 
+// The operators Recon 6's plans put on the same site and side as this one
+// most often: [name, sites together].
+function teammatesOf(opName) {
+  const counts = {}
+  for (const sites of Object.values(STRATS)) {
+    for (const sides of Object.values(sites)) {
+      for (const side of ['attack', 'defense']) {
+        const names = (sides?.[side]?.operators || []).map((o) => o.name)
+        if (!names.includes(opName)) continue
+        for (const n of names) if (n !== opName) counts[n] = (counts[n] || 0) + 1
+      }
+    }
+  }
+  return Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 3)
+}
+
+function teammatesSentence(opName) {
+  const mates = teammatesOf(opName)
+  if (!mates.length) return ''
+  const parts = mates.map(([n, c], i) => (i === 0 ? `${n} (${c} site${c === 1 ? '' : 's'})` : `${n} (${c})`))
+  const list = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
+  return ` The plans pair ${escape(opName)} most often with ${escape(list)}.`
+}
+
+// Ends a list item that may hold markup with a full stop.
+const withStop = (html) => (/[.!?]$/.test(String(html).replace(/<[^>]+>/g, '').trim()) ? html : `${html}.`)
+
 function renderBestSites(opName, opSites) {
   if (!opSites || opSites.length === 0) {
-    return `<p>${escape(opName)} doesn\'t have specific assigned site placements in our current strat library — works as a flex pick across multiple maps based on team comp.</p>`
+    return `<p>${escape(opName)} has no assigned site in the current strat library. Recon 6's plans treat ${escape(opName)} as a flex pick that depends on the team comp.</p>`
   }
-  // Sort by priority (essential > recommended > flex), then by mapName
+  // Essential first, then recommended, then flex; maps alphabetical within each.
   const order = { essential: 0, recommended: 1, flex: 2 }
-  const sorted = [...opSites].sort((a, b) => {
-    const p = (order[a.priority] ?? 3) - (order[b.priority] ?? 3)
-    if (p !== 0) return p
-    return a.mapName.localeCompare(b.mapName)
-  })
-  // Group by map
-  const byMap = {}
-  for (const s of sorted) {
-    if (!byMap[s.mapName]) byMap[s.mapName] = []
-    byMap[s.mapName].push(s)
-  }
-  const rows = sorted.map((s) => `
-    <tr>
-      <td><a href="/guides/${escape(s.mapId)}.html">${escape(s.mapName)}</a></td>
-      <td>${escape(s.siteName)} <span style="color:rgba(235,228,215,0.5)">(${escape(s.siteFloor || '—')})</span></td>
-      <td>${escape(s.side)}</td>
-      <td><span class="pri-${s.priority}">${escape(s.priority)}</span></td>
-      <td>${escape(s.role || '—')}</td>
-    </tr>`).join('\n')
+  const sorted = [...opSites].sort((a, b) => (order[a.priority] ?? 3) - (order[b.priority] ?? 3) || a.mapName.localeCompare(b.mapName))
+  const count = (priority) => opSites.filter((s) => s.priority === priority).length
+  const split = [['essential', count('essential')], ['recommended', count('recommended')], ['flex', count('flex')]]
+    .filter(([, n]) => n)
+    .map(([label, n]) => `${n} ${label}`)
+  const listOf = (items) => (items.length <= 1 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`)
+  const items = sorted.map((s) => `
+      <li><a href="/guides/${escape(s.mapId)}.html#${escape(s.siteId)}">${escape(s.siteName)}</a> on ${escape(s.mapName)}${s.siteFloor ? ` (${escape(s.siteFloor)})` : ''}: ${escape(s.side)}, ${escape(s.priority)}, ${escape(String(s.role || 'flex').toLowerCase())}.</li>`).join('')
+  const top = sorted[0]
   return `
-    <p>${escape(opName)} appears across ${sorted.length} site/side combinations in the Recon 6 strats library. Top picks where ${escape(opName)} is essential are the priority maps to learn first.</p>
-    <table class="site-table">
-      <thead><tr><th>Map</th><th>Site</th><th>Side</th><th>Priority</th><th>Role</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`
+    <p>${escape(opName)} is strongest at ${escape(String(top.siteName).split(' / ')[0])} on ${escape(top.mapName)}, where ${escape(opName)} is ${top.priority === 'essential' ? 'an' : 'a'} ${escape(top.priority)} ${escape(top.side)} pick. ${escape(opName)} is picked at ${opSites.length} site${opSites.length === 1 ? '' : 's'}: ${listOf(split)}.${teammatesSentence(opName)}</p>
+    <ul class="site-list">${items}
+    </ul>
+    <p><a href="${SITE_URL}/operators/${encodeURIComponent(opName.toLowerCase())}">Open ${escape(opName)} in the operator tool</a>.</p>`
 }
 
 function renderOperatorPost(opName, opIndex) {
@@ -745,13 +774,30 @@ function renderOperatorPost(opName, opIndex) {
   const topSite = sortedSites[0]
   const topMap = topSite && MAPS.find((m) => m.id === topSite.mapId)
 
-  const intro = `<p>${op.intro}</p>
-<p>In Recon 6's plans, ${escape(opName)} is picked at ${opSites.length} site${opSites.length === 1 ? '' : 's'}${essentialCount ? `, ${essentialCount} of them as essential` : ''}.</p>`
+  // The answer first (40-60 words): what the operator is, the one thing to
+  // do with them, and where Recon 6's plans use them.
+  const sideWord = op.side === 'attack' ? 'attacker' : 'defender'
+  const whereLine = topSite
+    ? `Recon 6's plans pick ${opName} at ${opSites.length} site${opSites.length === 1 ? '' : 's'}${essentialCount ? ` (${essentialCount} essential)` : ''}, led by ${String(topSite.siteName).split(' / ')[0]} on ${topSite.mapName}.`
+    : `${opName} is a flex pick in Recon 6's plans.`
+  const article = /^[aeiou]/i.test(sideWord) ? 'an' : 'a'
+  const lead = GADGET_UNVERIFIED.has(opName)
+    ? `In Rainbow Six Siege, ${opName} is ${article} ${sideWord} who plays as ${op.role.toLowerCase()}.`
+    : `In Rainbow Six Siege, ${opName} is ${article} ${sideWord} built around the ${op.gadget}.`
+  const candidates = [
+    [lead, firstSentence(op.howToClimb), whereLine],
+    [lead, firstSentence(op.gadgetDesc), firstSentence(op.howToClimb), whereLine],
+    [lead, firstSentence(op.gadgetDesc), whereLine],
+    [lead, whereLine],
+  ].map((parts) => parts.filter(Boolean).join(' '))
+  const answer = candidates.find((c) => wordCount(c) >= 40 && wordCount(c) <= 60)
+    || candidates.slice().sort((a, b) => Math.abs(wordCount(a) - 50) - Math.abs(wordCount(b) - 50))[0]
+  const intro = `<p>${op.intro}</p>`
 
   const figure = topMap ? figureHtml({
     src: `/guides/og/${topMap.id}.svg`,
     alt: `${topMap.name} map card from Recon 6's Rainbow Six Siege guide`,
-    caption: `Where ${opName} matters most in Recon 6's plans: ${topSite.siteName} on ${topMap.name} (${topSite.side}, ${topSite.priority}).`,
+    caption: `${topSite.siteName} on ${topMap.name}`,
   }) : ''
 
   // Official changes to this operator's own gadget or weapons in the current
@@ -766,73 +812,57 @@ function renderOperatorPost(opName, opIndex) {
 
   const sitesSection = `
     <h2>Where is ${opName} strongest?</h2>
-    ${renderBestSites(opName, opSites)}
-    <p>Each map name opens the full Recon 6 guide for that map.</p>`
+    ${renderBestSites(opName, opSites)}`
 
   const loadoutSection = `
-    <h2>What is ${opName}'s loadout?</h2>
+    <h2>${opName}'s loadout and gadget</h2>
     <div class="callout loadout">
-      <h3>${opName} kit at a glance</h3>
       <ul>
-        <li><strong>Side:</strong> ${escape(op.side === 'attack' ? 'Attack' : 'Defense')}</li>
-        <li><strong>Role:</strong> ${escape(op.role)}</li>
-        <li><strong>Gadget:</strong> ${escape(op.gadget)}</li>
-        <li><strong>Primary:</strong> ${escape(op.primary)}</li>
-        <li><strong>Secondary:</strong> ${escape(op.secondary)}</li>
-        <li><strong>Secondary gadget:</strong> ${escape(op.secondaryGadget)}</li>
-        <li><strong>Speed / armor:</strong> ${escape(op.speed)}</li>
+        <li><strong>Role:</strong> ${escape(withStop(op.role))}</li>
+        <li><strong>Gadget:</strong> ${escape(withStop(op.gadget))}</li>
+        <li><strong>Primary:</strong> ${escape(withStop(op.primary))}</li>
+        <li><strong>Secondary:</strong> ${escape(withStop(op.secondary))}</li>
+        <li><strong>Secondary gadget:</strong> ${escape(withStop(op.secondaryGadget))}</li>
+        <li><strong>Speed / armor:</strong> ${escape(String(op.speed).replace(/-(speed|armor)/g, ''))}.</li>
       </ul>
     </div>
     <p>${op.gadgetDesc}</p>
+    <p class="official">${officialLinksSentence(opName, operatorRefs(opName), { ubisoftWhat: 'has the current loadout', siegeggWhat: 'track pro picks' })}</p>
     ${patchSection}
-    <h3>Strengths</h3>
-    <ul>${op.strengths.map((s) => `<li>${s}</li>`).join('')}</ul>`
+    <h3>${opName}'s strengths</h3>
+    <ul>${op.strengths.map((s) => `<li>${withStop(s)}</li>`).join('')}</ul>`
 
   const counterPicksSection = `
     <h2>Who counters ${opName}?</h2>
-    <p>${op.side === 'attack' ? `Defending against ${opName}, these operators work directly against the kit:` : `Attacking into ${opName}, these operators work directly against the kit:`}</p>
-    <ul>${op.counterPicks.map((c) => `<li>${c}</li>`).join('')}</ul>`
+    <p>Operators that counter ${opName}:</p>
+    <ul>${op.counterPicks.map((c) => `<li>${withStop(c)}</li>`).join('')}</ul>`
 
   const counterAdviceSection = `
-    <h2>How do you play against ${opName}?</h2>
+    <h2>Playing against ${opName}</h2>
     <p>${op.counterAdvice}</p>`
 
   const climbSection = `
-    <h2>How do you climb with ${opName}?</h2>
+    <h2>Climbing ranked with ${opName}</h2>
     <p>${op.howToClimb}</p>`
 
-  // Other deep dives on the same side, same role first.
-  const peers = Object.keys(OP_DATA)
-    .filter((n) => n !== opName && OP_DATA[n].side === op.side && opIndex[n])
-    .sort((a, b) => (OP_DATA[a].role === op.role ? 0 : 1) - (OP_DATA[b].role === op.role ? 0 : 1) || a.localeCompare(b))
-    .slice(0, 3)
+  // The operators the plans pair this one with, when they have a deep dive.
+  const peers = teammatesOf(opName).map(([n]) => n).filter((n) => OP_DATA[n] && opIndex[n])
   const topMaps = Array.from(new Set(sortedSites.map((s) => s.mapId))).slice(0, 3)
   const relatedLinks = [
-    { name: `${opName} operator guide: every site in Recon 6's plans`, url: `/guides/operators/${slugify(opName)}.html` },
     ...topMaps.map((mapId) => {
       const map = MAPS.find((m) => m.id === mapId)
       return { name: `${map?.name || mapId} map guide`, url: `/guides/${mapId}.html` }
     }),
-    ...peers.map((n) => ({ name: `${n} deep dive`, url: `/blog/r6-operator-${slugify(n)}.html` })),
-    { name: 'All R6 operator guides', url: '/guides/operators/' },
+    ...peers.map((n) => ({ name: `${n} guide`, url: `/blog/r6-operator-${slugify(n)}.html` })),
   ]
   const relatedHtml = `
     <div class="related">
-      <h3>Related Recon 6 guides</h3>
-      <ul>${relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
+      <h3>More on ${escape(opName)}</h3>
+      <ul>${relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a>.</li>`).join('')}</ul>
     </div>`
-
-  const sources = [
-    ...operatorSources(opName),
-    ...(patchChanges.length ? [{ label: `Ubisoft: ${CURRENT_R6_SEASON.code} patch notes`, note: `official changes to ${opName}`, url: CURRENT_R6_SEASON.patchNotesUrl }] : []),
-  ]
 
   const ctaHtml = `
-    <div class="intro-cta">
-      <h3>Check your own ${escape(opName)} rounds</h3>
-      <p>Pro reviews screenshots of your own ${escape(opName)} rounds.</p>
-      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
-    </div>`
+    <p class="pro-note"><a href="${SITE_URL}/pricing">Review your own ${escape(opName)} rounds with Pro</a></p>`
 
   const breadcrumb = `<nav class="breadcrumb">
     <a href="/">Recon 6</a> ›
@@ -844,13 +874,9 @@ function renderOperatorPost(opName, opIndex) {
   const bodyInner = `
     ${breadcrumb}
     <article>
+      ${bylineHtml({ datePublished, kind: 'aiPost' })}
       <h1>${escape(title)}</h1>
-      ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'aiPost' })}
-      <div class="meta-row">
-        <span class="pill ${op.side}">${op.side === 'attack' ? 'Attack' : 'Defense'}</span>
-        <span class="pill">${escape(op.role)}</span>
-        <span class="pill">${escape(op.speed)}</span>
-      </div>
+      <p class="answer">${escape(answer)}</p>
       ${intro}
       ${figure}
       ${sitesSection}
@@ -859,7 +885,6 @@ function renderOperatorPost(opName, opIndex) {
       ${counterAdviceSection}
       ${climbSection}
       ${relatedHtml}
-      ${sourcesHtml(sources)}
       ${ctaHtml}
     </article>`
 
@@ -882,7 +907,7 @@ function renderOperatorPost(opName, opIndex) {
       description,
       step: [
         { '@type': 'HowToStep', position: 1, name: `Learn ${opName}'s loadout`, text: `${op.gadget}: ${op.gadgetDesc}` },
-        { '@type': 'HowToStep', position: 2, name: `Pick the right map for ${opName}`, text: `Use the site table to see where Recon 6's plans pick ${opName} as essential.` },
+        { '@type': 'HowToStep', position: 2, name: `Pick the right map for ${opName}`, text: `Use the site list to see where Recon 6's plans pick ${opName} as essential.` },
         { '@type': 'HowToStep', position: 3, name: `Know who counters ${opName}`, text: op.counterAdvice },
         { '@type': 'HowToStep', position: 4, name: `Climb with ${opName}`, text: op.howToClimb },
       ],

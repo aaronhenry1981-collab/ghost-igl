@@ -46,7 +46,7 @@ export default function ChangelogPage() {
               {entry.items?.length > 0 && (
                 <ul className="changelog-items">
                   {entry.items.map((item, j) => (
-                    <li key={j}>{item}</li>
+                    <li key={j}>{/[.!?]$/.test(String(item).trim()) ? item : `${item}.`}</li>
                   ))}
                 </ul>
               )}

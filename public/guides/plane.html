@@ -26,13 +26,7 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #121211;
-      color: #ebe4d7;
-      line-height: 1.6;
-    }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.6; }
     a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
@@ -41,48 +35,37 @@
     .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
     h1 { font-size: 2rem; margin: 0 0 8px; }
-    .sub { color: rgba(235,228,215,0.7); margin-bottom: 24px; font-size: 0.95rem; }
-    .cta-top {
-      display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212);
-      color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin-bottom: 28px;
-    }
-    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; }
-    .site h2 { margin: 0 0 14px; font-size: 1.3rem; color: #fff; }
-    .side { margin: 18px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
+    .definition { font-size: 1.04rem; color: rgba(235,228,215,0.94); }
+    .official { font-size: 0.92rem; color: rgba(235,228,215,0.8); }
+    .cta-top { display: inline-block; padding: 10px 18px; background: linear-gradient(90deg, #f07430, #ed6212); color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; margin: 4px 0 18px; }
+    .site-toc { font-size: 0.92rem; margin: 0 0 24px; }
+    .site { margin-bottom: 36px; padding: 22px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 10px; scroll-margin-top: 16px; }
+    .site h3 { margin: 0 0 10px; font-size: 1.3rem; color: #fff; }
+    .site-answer { margin: 0 0 6px; }
+    .side { margin: 16px 0; padding: 14px 16px; background: rgba(18,18,17,0.5); border-left: 3px solid; border-radius: 0 6px 6px 0; }
     .side.attack { border-left-color: #ff8060; }
     .side.defense { border-left-color: #50b4ff; }
-    .side h3 { margin: 0 0 10px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .side.attack h3 { color: #ff8060; }
-    .side.defense h3 { color: #50b4ff; }
-    .ops { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
-    .op { padding: 4px 10px; background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.3); border-radius: 4px; font-size: 0.85rem; color: #fad6c2; }
-    .op.essential { background: rgba(240,116,48,0.16); border-color: #f07430; font-weight: 700; }
-    .strategy { margin: 8px 0; color: rgba(235,228,215,0.9); }
-    .callouts { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .callout { padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 3px; font-size: 0.78rem; color: rgba(235,228,215,0.85); }
-    .deep-link { display: inline-block; margin-top: 10px; font-size: 0.88rem; }
+    .side h4 { margin: 0 0 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .side.attack h4 { color: #ff8060; }
+    .side.defense h4 { color: #50b4ff; }
+    .side p { margin: 6px 0; }
+    .lineup strong, .callout-line strong { color: #fad6c2; }
+    .callout-line { font-size: 0.9rem; color: rgba(235,228,215,0.85); }
+    .deep-link { display: inline-block; margin-top: 6px; font-size: 0.88rem; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
-    .bans h4 { margin: 0 0 8px; color: #ff8899; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .bans ul { margin: 0; padding-left: 18px; }
-    .bans li { margin-bottom: 4px; font-size: 0.9rem; }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
-    .intro-cta h3 { margin: 0 0 6px; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
-    .definition { font-size: 1.02rem; color: rgba(235,228,215,0.92); }
     .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
     .related-links ul { margin: 0; padding-left: 18px; }
-    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
-    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .pro-note { margin-top: 24px; font-size: 0.95rem; }
+    .footer-strip { max-width: 820px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+    .byline { color: rgba(235,228,215,0.7); font-size: 0.86rem; margin: 0 0 22px; }
+    .byline a { color: rgba(235,228,215,0.9); }
     .article-figure { margin: 22px 0; }
     .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
     .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
     .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
     .sources ul { padding-left: 20px; }
     .sources li span { color: rgba(235,228,215,0.65); }
-    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
     .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
@@ -107,159 +90,107 @@
       <a href="/guides/">Map Guides</a> ›
       <span>Presidential Plane</span>
     </nav>
-    <h1>Presidential Plane — Complete Strategy Guide</h1>
     
-      <p class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a>, founder of Recon 6 · Published <time datetime="2026-05-23">May 23, 2026</time> · Updated <time datetime="2026-10-06">October 6, 2026</time></p>
-      <p class="process-note">Built from Recon 6's strat library, the same map, site and operator data the app uses. Site names follow Ubisoft's official map list. The strats are in beta; if a callout or setup doesn't match your game, <a href="/about#contact">tell us</a>.</p>
-    <p class="definition">Presidential Plane is a Rainbow Six Siege map with 4 bomb sites: Meeting Room, Security Room, Kitchen, Work Room. For each one, this guide gives the operator picks, a short execute overview and the key callouts.</p>
-    <p class="sub">Full utility and ban intel unlock after sign-in.</p>
+      <div class="byline">By <a href="/author/aaron/" rel="author">Aaron Henry</a> · <time datetime="2026-05-23">May 23, 2026</time></div>
+    <h1>Presidential Plane — Complete Strategy Guide</h1>
+    <p class="definition">In Rainbow Six Siege, Presidential Plane is out of the ranked pool this season. Presidential Plane has 4 bomb sites: Meeting Room (2F), Security Room (1F), Kitchen (1F) and Work Room (1F). Recon 6's plans on Presidential Plane lean on Flores and Hibana for attack and on Echo and Mute for defense.</p>
     <a class="cta-top" href="https://r6coaching.com/strats/plane">Open interactive Presidential Plane strats &rarr;</a>
     
       <figure class="article-figure">
         <img src="/guides/og/plane.svg" alt="Presidential Plane map card from Recon 6's Rainbow Six Siege guide" width="1200" height="630" loading="lazy" />
-        <figcaption>Presidential Plane: Meeting Room, Security Room, Kitchen, Work Room</figcaption>
+        <figcaption>Presidential Plane: Meeting Room (2F), Security Room (1F), Kitchen (1F), Work Room (1F).</figcaption>
       </figure>
+    <p class="site-toc"><strong>Jump to a site:</strong> <a href="#meeting-office">Meeting Room</a>, <a href="#security-cargo">Security Room</a>, <a href="#kitchen-stateroom">Kitchen</a>, <a href="#work-lobby">Work Room</a>.</p>
     
+    <h2>How should you play Presidential Plane's bomb sites?</h2>
     
-        <section class="site" id="meeting-office">
-          <h2>2F &mdash; Meeting Room / Office</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Hibana</span><span class="op essential">Thatcher</span>
-        <span class="op">Sledge</span><span class="op">Ash</span>
-        <span class="op">Lion</span>
+      <section class="site" id="meeting-office">
+        <h3>Meeting Room / Office (2F)</h3>
+        <p class="site-answer">On Meeting Room, Hibana and Thatcher lead the attack; Kaid and Echo lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Hibana (hard breach), Thatcher (support). <strong>Recommended:</strong> Sledge (vertical play), Ash (entry frag). <strong>Flex:</strong> Lion (flex / intel).</p>
+        <p class="strategy">Layered execute: Lion flashes from main, Ash pushes Office for the trade, Hibana and Thatcher hit Meeting Room simultaneously.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Meeting Room, Office, Tarmac, Front Stairs.</p>
       </div>
-      <p class="strategy">Layered execute: Lion flashes from main, Ash pushes Office for the trade, Hibana and Thatcher hit Meeting Room simultaneously.</p>
-      <div class="callouts">
-        <span class="callout">Meeting Room</span><span class="callout">Office</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Kaid (anti-breach), Echo (intel). <strong>Recommended:</strong> Aruni (utility denial), Ela (roam). <strong>Flex:</strong> Lesion (flex / sustain).</p>
+        <p class="strategy">Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Meeting Room, Office, Tarmac, Front Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Kaid</span><span class="op essential">Echo</span>
-        <span class="op">Aruni</span><span class="op">Ela</span>
-        <span class="op">Lesion</span>
-      </div>
-      <p class="strategy">Ela forces attackers to play slow — early picks from off-site keep their utility on flank-watch.</p>
-      <div class="callouts">
-        <span class="callout">Meeting Room</span><span class="callout">Office</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/plane/meeting-office/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/plane/meeting-office/attack">Open the interactive Meeting Room strat &rarr;</a>
+      </section>
 
-        <section class="site" id="security-cargo">
-          <h2>1F &mdash; Security Room / Cargo Hold</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Thermite</span><span class="op essential">Flores</span>
-        <span class="op">Zofia</span><span class="op">Zero</span>
-        <span class="op">Capitao</span>
+      <section class="site" id="security-cargo">
+        <h3>Security Room / Cargo Hold (1F)</h3>
+        <p class="site-answer">On Security Room, Thermite and Flores lead the attack; Mute and Valkyrie lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Thermite (hard breach), Flores (support). <strong>Recommended:</strong> Zofia (vertical play), Zero (entry frag). <strong>Flex:</strong> Capitao (flex / intel).</p>
+        <p class="strategy">Open with Flores clearing electronics, then Thermite hits the Security Room wall on call.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Security Room, Cargo Hold, Tarmac, Front Stairs.</p>
       </div>
-      <p class="strategy">Open with Flores clearing electronics, then Thermite hits the Security Room wall on call.</p>
-      <div class="callouts">
-        <span class="callout">Security Room</span><span class="callout">Cargo Hold</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Valkyrie (intel). <strong>Recommended:</strong> Jager (utility denial), Vigil (roam). <strong>Flex:</strong> Thunderbird (flex / sustain).</p>
+        <p class="strategy">Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Valkyrie hold site; Vigil plays off-site for pick potential and timing pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Security Room, Cargo Hold, Tarmac, Front Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Valkyrie</span>
-        <span class="op">Jager</span><span class="op">Vigil</span>
-        <span class="op">Thunderbird</span>
-      </div>
-      <p class="strategy">Anchored 4, roaming 1: Thunderbird, Jager, Mute, and Valkyrie hold site; Vigil plays off-site for pick potential and timing pressure.</p>
-      <div class="callouts">
-        <span class="callout">Security Room</span><span class="callout">Cargo Hold</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/plane/security-cargo/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/plane/security-cargo/attack">Open the interactive Security Room strat &rarr;</a>
+      </section>
 
-        <section class="site" id="kitchen-stateroom">
-          <h2>1F &mdash; Kitchen / Stateroom</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Thermite</span><span class="op essential">Flores</span>
-        <span class="op">Buck</span><span class="op">Zero</span>
-        <span class="op">Nomad</span>
+      <section class="site" id="kitchen-stateroom">
+        <h3>Kitchen / Stateroom (1F)</h3>
+        <p class="site-answer">On Kitchen, Thermite and Flores lead the attack; Bandit and Valkyrie lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Thermite (hard breach), Flores (support). <strong>Recommended:</strong> Buck (vertical play), Zero (entry frag). <strong>Flex:</strong> Nomad (flex / intel).</p>
+        <p class="strategy">Map control first: Nomad and Zero clear Stateroom side while Buck sets up vertical pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Kitchen, Stateroom, Tarmac, Front Stairs.</p>
       </div>
-      <p class="strategy">Map control first: Nomad and Zero clear Stateroom side while Buck sets up vertical pressure.</p>
-      <div class="callouts">
-        <span class="callout">Kitchen</span><span class="callout">Stateroom</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Bandit (anti-breach), Valkyrie (intel). <strong>Recommended:</strong> Wamai (utility denial), Alibi (roam). <strong>Flex:</strong> Thunderbird (flex / sustain).</p>
+        <p class="strategy">Bandit denies the hard-breach on Kitchen with electrified walls.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Kitchen, Stateroom, Tarmac, Front Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Bandit</span><span class="op essential">Valkyrie</span>
-        <span class="op">Wamai</span><span class="op">Alibi</span>
-        <span class="op">Thunderbird</span>
-      </div>
-      <p class="strategy">Bandit denies the hard-breach on Kitchen with electrified walls.</p>
-      <div class="callouts">
-        <span class="callout">Kitchen</span><span class="callout">Stateroom</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/plane/kitchen-stateroom/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/plane/kitchen-stateroom/attack">Open the interactive Kitchen strat &rarr;</a>
+      </section>
 
-        <section class="site" id="work-lobby">
-          <h2>1F &mdash; Work Room / Lobby</h2>
-          
-    <div class="side attack">
-      <h3>attack</h3>
-      <div class="ops">
-        <span class="op essential">Hibana</span><span class="op essential">Thatcher</span>
-        <span class="op">Zofia</span><span class="op">Ash</span>
-        <span class="op">Fuze</span>
+      <section class="site" id="work-lobby">
+        <h3>Work Room / Lobby (1F)</h3>
+        <p class="site-answer">On Work Room, Hibana and Thatcher lead the attack; Mute and Echo lead the defense.</p>
+        
+      <div class="side attack">
+        <h4>Attack</h4>
+        <p class="lineup"><strong>Essential:</strong> Hibana (hard breach), Thatcher (support). <strong>Recommended:</strong> Zofia (vertical play), Ash (entry frag). <strong>Flex:</strong> Fuze (flex / intel).</p>
+        <p class="strategy">Map control first: Fuze and Ash clear Lobby side while Zofia sets up vertical pressure.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Work Room, Lobby, Tarmac, Front Stairs.</p>
       </div>
-      <p class="strategy">Map control first: Fuze and Ash clear Lobby side while Zofia sets up vertical pressure.</p>
-      <div class="callouts">
-        <span class="callout">Work Room</span><span class="callout">Lobby</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
+        
+      <div class="side defense">
+        <h4>Defense</h4>
+        <p class="lineup"><strong>Essential:</strong> Mute (anti-breach), Echo (intel). <strong>Recommended:</strong> Jager (utility denial), Caveira (roam). <strong>Flex:</strong> Lesion (flex / sustain).</p>
+        <p class="strategy">Mute denies the hard-breach on Work Room with electrified walls.</p>
+        <p class="callout-line"><strong>Callouts:</strong> Work Room, Lobby, Tarmac, Front Stairs.</p>
       </div>
-    </div>
-          
-    <div class="side defense">
-      <h3>defense</h3>
-      <div class="ops">
-        <span class="op essential">Mute</span><span class="op essential">Echo</span>
-        <span class="op">Jager</span><span class="op">Caveira</span>
-        <span class="op">Lesion</span>
-      </div>
-      <p class="strategy">Mute denies the hard-breach on Work Room with electrified walls.</p>
-      <div class="callouts">
-        <span class="callout">Work Room</span><span class="callout">Lobby</span><span class="callout">Tarmac</span><span class="callout">Front Stairs</span>
-      </div>
-    </div>
-          <a class="deep-link" href="https://r6coaching.com/strats/plane/work-lobby/attack">Open full interactive strat &rarr;</a>
-        </section>
+        <a class="deep-link" href="https://r6coaching.com/strats/plane/work-lobby/attack">Open the interactive Work Room strat &rarr;</a>
+      </section>
+    
+    <p class="official">Official sources: <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/plane" rel="noopener">Ubisoft's Presidential Plane page</a> and <a href="https://siege.gg/maps/plane" rel="noopener">SiegeGG's Presidential Plane stats</a>.</p>
     
     <section class="related-links">
-      <h2>More on Presidential Plane</h2>
-      <ul><li><a href="/guides/plane/meeting-office.html">Presidential Plane Meeting Room guide</a></li><li><a href="/guides/plane/security-cargo.html">Presidential Plane Security Room guide</a></li><li><a href="/guides/plane/kitchen-stateroom.html">Presidential Plane Kitchen guide</a></li><li><a href="/guides/plane/work-lobby.html">Presidential Plane Work Room guide</a></li></ul>
+      <h2>Operators Presidential Plane plans lean on</h2>
+      <ul><li><a href="/blog/r6-operator-hibana.html">Hibana guide</a></li><li><a href="/blog/r6-operator-thatcher.html">Thatcher guide</a></li><li><a href="/blog/r6-operator-kaid.html">Kaid guide</a></li><li><a href="/blog/r6-operator-echo.html">Echo guide</a></li><li><a href="/blog/r6-operator-thermite.html">Thermite guide</a></li><li><a href="/blog/r6-operator-flores.html">Flores guide</a></li></ul>
     </section>
-    
-    <section class="sources" aria-labelledby="sources-heading">
-      <h2 id="sources-heading">Sources</h2>
-      <ul><li><a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps/plane" rel="noopener">Ubisoft: official Presidential Plane map page</a> <span>— layout, floors and bomb sites</span></li><li><a href="https://siege.gg/maps/plane" rel="noopener">SiegeGG: Presidential Plane map stats</a> <span>— how the map plays in professional matches</span></li></ul>
-      <p class="sources-note">Links checked October 6, 2026. Ubisoft's pages are the authority if anything here disagrees.</p>
-    </section>
-    <div class="intro-cta">
-      <h3>The full Presidential Plane plan is in Pro</h3>
-      <p>Utility for every operator on every Presidential Plane site, and AI review of your own rounds.</p>
-      <a class="btn" href="https://r6coaching.com/pricing">See plans</a>
-    </div>
+    <p class="pro-note"><a href="https://r6coaching.com/pricing">Get Presidential Plane's utility plans with Pro</a></p>
   </main>
   <div class="footer-strip">
     <p>&copy; Recon 6 — Rainbow Six Siege coaching, built by <a href="/author/aaron/">Aaron Henry</a>. Fan-made; not affiliated with Ubisoft.</p>

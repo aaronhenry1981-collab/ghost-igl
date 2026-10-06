@@ -39,14 +39,32 @@ var STATIC_DIRS = {
 // Static trees whose pages may be asked for without ".html".
 var HTML_TREES = ['/blog/', '/guides/', '/compare/']
 
-// Thin pages merged into the map guide (2026-10-06): the per-map ban teasers
-// and the "defense setups, ranked" teasers. Returns the new path or null.
+// Operators whose "where to play" guide was folded into their blog deep dive
+// (2026-10-06): one page per operator. Mirrors the r6-operator-* posts in
+// public/blog/; the router test fails if they drift.
+var DEEP_DIVE_OPERATORS = {
+  ace: 1, alibi: 1, aruni: 1, ash: 1, azami: 1, bandit: 1, buck: 1, capitao: 1, castle: 1, caveira: 1,
+  doc: 1, dokkaebi: 1, echo: 1, ela: 1, finka: 1, flores: 1, fuze: 1, glaz: 1, goyo: 1, gridlock: 1,
+  hibana: 1, iana: 1, jager: 1, kaid: 1, kali: 1, lesion: 1, lion: 1, maestro: 1, maverick: 1, melusi: 1,
+  mira: 1, mozzie: 1, mute: 1, nomad: 1, pulse: 1, sledge: 1, smoke: 1, thatcher: 1, thermite: 1,
+  thunderbird: 1, twitch: 1, valkyrie: 1, vigil: 1, wamai: 1, ying: 1, zero: 1, zofia: 1
+}
+
+// Thin pages merged into a fuller one (2026-10-06): the per-map ban teasers,
+// the "defense setups, ranked" teasers, the per-site guides (now a section
+// of the map guide, so they land on its #site anchor), and the operator
+// "where to play" guides that have a deep dive.
+// Returns { path, hash } or null.
 function mergedInto(uri) {
-  if (uri === '/guides/bans' || uri === '/guides/bans/' || uri === '/guides/bans/index.html') return '/guides/'
+  if (uri === '/guides/bans' || uri === '/guides/bans/' || uri === '/guides/bans/index.html') return { path: '/guides/', hash: '' }
   var ban = uri.match(/^\/guides\/bans\/([a-z0-9-]+)(\.html)?$/)
-  if (ban) return '/guides/' + ban[1] + '.html'
+  if (ban) return { path: '/guides/' + ban[1] + '.html', hash: '' }
   var setups = uri.match(/^\/blog\/([a-z0-9-]+)-defense-setups-ranked(\.html)?$/)
-  if (setups) return '/guides/' + setups[1] + '.html'
+  if (setups) return { path: '/guides/' + setups[1] + '.html', hash: '' }
+  var op = uri.match(/^\/guides\/operators\/([a-z0-9-]+)(\.html)?$/)
+  if (op && DEEP_DIVE_OPERATORS[op[1]] === 1) return { path: '/blog/r6-operator-' + op[1] + '.html', hash: '' }
+  var site = uri.match(/^\/guides\/([a-z0-9-]+)\/([a-z0-9-]+)(\.html)?$/)
+  if (site && site[1] !== 'operators' && site[1] !== 'bans') return { path: '/guides/' + site[1] + '.html', hash: '#' + site[2] }
   return null
 }
 
@@ -88,7 +106,7 @@ function route(request) {
   if (uri === '/' || uri === '') return request
 
   var merged = mergedInto(uri)
-  if (merged) return redirect(merged + queryString(request))
+  if (merged) return redirect(merged.path + queryString(request) + merged.hash)
 
   if (uri.charAt(uri.length - 1) === '/') {
     var bare = uri.slice(0, -1)

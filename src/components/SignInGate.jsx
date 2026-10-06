@@ -41,7 +41,7 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
             {benefits.map((b, i) => (
               <li key={i}>
                 <span className="signin-gate-check" style={{ color: accent }}>&#10003;</span>
-                {b}
+                {/[.!?]$/.test(String(b).trim()) ? b : `${b}.`}
               </li>
             ))}
           </ul>
@@ -57,8 +57,8 @@ export default function SignInGate({ feature, gameMeta, benefits }) {
         </div>
 
         <div className="signin-gate-foot">
-          A free account never requires a card. Paid plans show their trial and
-          billing terms before checkout.
+          A free account never requires a card. Paid plans show their price and
+          billing terms before checkout. There is no free trial.
         </div>
       </div>
     </div>
