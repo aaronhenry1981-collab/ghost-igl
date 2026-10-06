@@ -44,7 +44,7 @@ export default function CrmPage({ api, basePath, tab = 'overview', playerKey = n
             <p className="crm-eyebrow">Recon 6 · Customer success{preview ? ' · fictional preview data' : ''}</p>
             <h1 className="crm-title">{title}</h1>
           </div>
-          {!preview && <NavLink to="/admin" className="btn btn-ghost btn-sm">Admin console</NavLink>}
+          {!preview && <a href="/admin" className="btn btn-ghost btn-sm">Admin console</a>}
         </header>
       )}
 

@@ -141,11 +141,11 @@ Resources:
         SecurityHeadersConfig:
           ContentSecurityPolicy:
             ContentSecurityPolicy: >-
-              default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io;
+              default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://in.heycatch.ai;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;
               connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com https://buy.stripe.com
-              https://plausible.io https://cognito-idp.us-east-1.amazonaws.com;
+              https://plausible.io https://in.heycatch.ai https://cognito-idp.us-east-1.amazonaws.com;
               frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://buy.stripe.com
             Override: true
           ContentTypeOptions:

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { track } from '../utils/analytics'
+import { isAdminPath } from '../lib/analyticsScope.mjs'
 import './AuthPage.css'
 
 // Only allow internal paths as redirect targets — never full URLs, never protocol-relative.
@@ -49,12 +50,22 @@ export default function AuthPage() {
   } = useAuth()
   const navigate = useNavigate()
   const redirectTarget = safeRedirect(searchParams.get('redirect'))
+  // The admin opens with a full page load so analytics started on this page
+  // never runs inside it (lib/analyticsScope.mjs).
+  const goToTarget = useCallback((target, opts) => {
+    if (isAdminPath(target)) {
+      if (opts?.replace) window.location.replace(target)
+      else window.location.assign(target)
+      return
+    }
+    navigate(target, opts)
+  }, [navigate])
   // Already signed in? /auth is a dead end — send them to the dashboard (or
   // the requested redirect). Deep links and bookmarks kept landing signed-in
   // users on a Sign In form (2026-07-06 UX audit).
   useEffect(() => {
-    if (!authLoading && user) navigate(redirectTarget || '/dashboard', { replace: true })
-  }, [authLoading, user, navigate, redirectTarget])
+    if (!authLoading && user) goToTarget(redirectTarget || '/dashboard', { replace: true })
+  }, [authLoading, user, goToTarget, redirectTarget])
   // Stripe payment links redirect here with ?checkout=success after payment.
   // The one thing that links their subscription to a login is signing up with
   // the SAME email they paid with — say it loudly, or they orphan themselves
@@ -130,7 +141,7 @@ export default function AuthPage() {
             setCode('')
           } else {
             track('Signup Completed')
-            navigate(redirectTarget)
+            goToTarget(redirectTarget)
           }
         } else {
           track('Signup Completed')
@@ -145,7 +156,7 @@ export default function AuthPage() {
         setError(err.message)
       } else {
         track('First Login Password Set')
-        navigate(redirectTarget)
+        goToTarget(redirectTarget)
       }
     } else if (mode === 'forgot') {
       const { error: err } = await forgotPassword(email)
@@ -168,7 +179,7 @@ export default function AuthPage() {
           setMode('signin')
           setCode('')
         } else {
-          navigate(redirectTarget)
+          goToTarget(redirectTarget)
         }
       }
     } else {
@@ -192,7 +203,7 @@ export default function AuthPage() {
       } else {
         // Honor ?redirect=... param if set, otherwise default to /dashboard
         // so signed-in users land on their home base instead of a map list.
-        navigate(redirectTarget)
+        goToTarget(redirectTarget)
       }
     }
     setLoading(false)

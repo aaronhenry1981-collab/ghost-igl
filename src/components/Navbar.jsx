@@ -135,7 +135,7 @@ function AccountDropdown({ user, plan, isAdmin, isPro, signOut, onClose }) {
       {open && (
         <div className="nav-account-pop" role="menu">
           <div className="nav-account-pop-head">
-            <div className="nav-account-pop-email" title={user.email}>{user.email}</div>
+            <div className="nav-account-pop-email ph-no-capture" title={user.email}>{user.email}</div>
             <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
           </div>
           <button type="button" className="nav-more-item" onClick={() => go('/account')}>Account & billing</button>
@@ -302,7 +302,8 @@ export default function Navbar() {
 
         <div className="navbar-right navbar-desktop-only">
           {isAdmin
-            ? <NavLink to="/admin" className={({ isActive }) => `btn btn-primary btn-sm${isActive ? ' is-active' : ''}`}>Admin console</NavLink>
+            // Full page load: analytics must not carry into the admin.
+            ? <a href="/admin" className="btn btn-primary btn-sm">Admin console</a>
             : <Link to="/strats" className="btn btn-primary btn-sm">Open a free strat</Link>}
           {user ? (
             <AccountDropdown
@@ -386,7 +387,7 @@ export default function Navbar() {
               {(user.email || '?')[0].toUpperCase()}
             </div>
             <div className="mobile-drawer-account-info">
-              <div className="mobile-drawer-account-email">{user.email}</div>
+              <div className="mobile-drawer-account-email ph-no-capture">{user.email}</div>
               <span className={`nav-account-badge nav-account-badge-${badgeClass}`}>{badge}</span>
             </div>
           </div>
@@ -406,7 +407,7 @@ export default function Navbar() {
               <NavLink to="/dashboard" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Dashboard</NavLink>
               <NavLink to="/progress" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Road to Champion</NavLink>
               {isAdmin
-                ? <NavLink to="/admin" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link mobile-drawer-primary${isActive ? ' is-active' : ''}`}>Admin console</NavLink>
+                ? <a href="/admin" onClick={closeMobile} className="mobile-drawer-link mobile-drawer-primary">Admin console</a>
                 : <a href="/coaching/index.html#book" onClick={closeMobile} className="mobile-drawer-link mobile-drawer-primary">Book your first session — $20</a>}
             </div>
             <div className="mobile-drawer-section">
