@@ -79,7 +79,7 @@ export default function Footer() {
             <a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a>
           </div>
-          <p>© 2026 Recon 6. Fan-made Rainbow Six Siege coaching; not affiliated with Ubisoft.</p>
+          <p>© 2026 Iron Front Digital LLC. Recon 6 is a fan-made Rainbow Six Siege coaching platform; not affiliated with Ubisoft.</p>
         </div>
         <div className="payment-badges" aria-label="Accepted payment methods">
           <svg className="payment-badge" viewBox="0 0 48 16" xmlns="http://www.w3.org/2000/svg" aria-label="Visa" role="img">
