@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rainbow Six Siege Guides — Recon 6 Blog</title>
-  <meta name="description" content="Practical Rainbow Six Siege guides for ranked play, map plans, operators, and decision-making." />
+  <meta name="description" content="Practical Rainbow Six Siege guides for ranked play: how to climb each rank, operator deep dives, season patch breakdowns, and decision-making." />
   <link rel="canonical" href="https://r6coaching.com/blog/" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0a0f19" />
+  <meta name="theme-color" content="#121211" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Rainbow Six Siege Guides — Recon 6 Blog" />
-  <meta property="og:description" content="Practical Rainbow Six Siege guides for ranked play, map plans, operators, and decision-making." />
+  <meta property="og:description" content="Practical Rainbow Six Siege guides for ranked play: how to climb each rank, operator deep dives, season patch breakdowns, and decision-making." />
   <meta property="og:url" content="https://r6coaching.com/blog/" />
   <meta property="og:image" content="https://r6coaching.com/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -25,25 +25,25 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a0f19; color: #e6e9ef; line-height: 1.7; }
-    a { color: #00e5ff; text-decoration: none; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #121211; color: #ebe4d7; line-height: 1.7; }
+    a { color: #f07430; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
     .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff; text-decoration: none; }
-    .brand span { color: #00e5ff; }
-    .nav-links a { margin-left: 18px; color: rgba(230,233,239,0.85); font-size: 0.9rem; }
+    .brand span { color: #f07430; }
+    .nav-links a { margin-left: 18px; color: rgba(235,228,215,0.85); font-size: 0.9rem; }
     main { max-width: 760px; margin: 0 auto; padding: 32px 24px 80px; }
     article h1 { font-size: 2.1rem; margin: 0 0 8px; line-height: 1.25; }
-    .meta-row { color: rgba(230,233,239,0.6); font-size: 0.88rem; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
-    .meta-row .pill { background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); border-radius: 999px; padding: 2px 10px; color: #c0f4fc; }
-    article p { margin: 0 0 16px; color: rgba(230,233,239,0.9); }
-    article h2 { font-size: 1.4rem; margin: 32px 0 12px; color: #fff; border-left: 3px solid #00e5ff; padding-left: 12px; }
-    article h3 { font-size: 1.05rem; margin: 22px 0 8px; color: #c0f4fc; }
-    article ul, article ol { padding-left: 22px; margin: 0 0 18px; color: rgba(230,233,239,0.9); }
+    .meta-row { color: rgba(235,228,215,0.6); font-size: 0.88rem; margin-bottom: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .meta-row .pill { background: rgba(240,116,48,0.08); border: 1px solid rgba(240,116,48,0.2); border-radius: 999px; padding: 2px 10px; color: #fad6c2; }
+    article p { margin: 0 0 16px; color: rgba(235,228,215,0.9); }
+    article h2 { font-size: 1.4rem; margin: 32px 0 12px; color: #fff; border-left: 3px solid #f07430; padding-left: 12px; }
+    article h3 { font-size: 1.05rem; margin: 22px 0 8px; color: #fad6c2; }
+    article ul, article ol { padding-left: 22px; margin: 0 0 18px; color: rgba(235,228,215,0.9); }
     article ul li, article ol li { margin-bottom: 6px; }
     article strong { color: #fff; font-weight: 700; }
-    article code { background: rgba(0,229,255,0.08); padding: 1px 6px; border-radius: 3px; font-size: 0.92em; color: #c0f4fc; }
-    .callout { margin: 22px 0; padding: 16px 18px; background: rgba(0,229,255,0.05); border-left: 3px solid #00e5ff; border-radius: 0 6px 6px 0; }
+    article code { background: rgba(240,116,48,0.08); padding: 1px 6px; border-radius: 3px; font-size: 0.92em; color: #fad6c2; }
+    .callout { margin: 22px 0; padding: 16px 18px; background: rgba(240,116,48,0.05); border-left: 3px solid #f07430; border-radius: 0 6px 6px 0; }
     .callout.mistakes { background: rgba(255,80,80,0.05); border-left-color: #ff5050; }
     .callout.mistakes h3 { color: #ff8899; margin-top: 0; }
     .callout.drill { background: rgba(80,255,140,0.04); border-left-color: #50ff8c; }
@@ -53,13 +53,24 @@
     .related { margin: 32px 0; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related h3 { margin: 0 0 10px; }
     .related ul { margin: 0; padding-left: 18px; }
-    .breadcrumb { font-size: 0.85rem; color: rgba(230,233,239,0.6); margin-bottom: 12px; }
-    .breadcrumb a { color: rgba(230,233,239,0.85); }
-    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(0,229,255,0.06), rgba(10,15,25,0.6)); border: 1px solid rgba(0,229,255,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
+    .breadcrumb { font-size: 0.85rem; color: rgba(235,228,215,0.6); margin-bottom: 12px; }
+    .breadcrumb a { color: rgba(235,228,215,0.85); }
+    .intro-cta { padding: 24px; background: linear-gradient(180deg, rgba(240,116,48,0.06), rgba(18,18,17,0.6)); border: 1px solid rgba(240,116,48,0.2); border-radius: 12px; margin: 32px 0; text-align: center; }
     .intro-cta h3 { margin: 0 0 6px; color: #fff; }
-    .intro-cta p { margin: 0 0 12px; color: rgba(230,233,239,0.8); }
-    .btn { display: inline-block; padding: 10px 20px; background: #00e5ff; color: #051117; font-weight: 700; border-radius: 6px; text-decoration: none; }
-    .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(230,233,239,0.5); font-size: 0.82rem; text-align: center; }
+    .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
+    .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
+
+    .byline { color: rgba(235,228,215,0.75); font-size: 0.9rem; margin: 0 0 6px; }
+    .process-note { color: rgba(235,228,215,0.6); font-size: 0.84rem; margin: 0 0 22px; }
+    .article-figure { margin: 22px 0; }
+    .article-figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #1a1b1b; }
+    .article-figure figcaption { font-size: 0.82rem; color: rgba(235,228,215,0.6); margin-top: 6px; }
+    .sources { margin: 32px 0 0; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .sources ul { padding-left: 20px; }
+    .sources li span { color: rgba(235,228,215,0.65); }
+    .sources-note { font-size: 0.82rem; color: rgba(235,228,215,0.55); }
+    .footer-strip p { margin: 4px 0; }
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       article h1 { font-size: 1.55rem; }
@@ -81,249 +92,106 @@
     } catch (e) { /* private mode / blocked storage — lose attribution only */ }
   </script>
   <nav class="nav">
-    <a class="brand" href="https://r6coaching.com/">RECON<span>+</span></a>
+    <a class="brand" href="https://r6coaching.com/">RECON<span>6</span></a>
     <div class="nav-links">
       <a href="https://r6coaching.com/blog/">Blog</a>
       <a href="https://r6coaching.com/guides/">Map guides</a>
       <a href="https://r6coaching.com/strats">Interactive strats</a>
-      <a href="https://r6coaching.com/#pricing">Pricing</a>
+      <a href="https://r6coaching.com/pricing">Pricing</a>
     </div>
   </nav>
   <main>
     
     <h1>Recon 6 Blog — Rainbow Six Siege Guides</h1>
-    <p style="color: rgba(230,233,239,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
+    <p style="color: rgba(235,228,215,0.8)">Practical Rainbow Six Siege guides for ranked play: map plans, site setups, operator choices, common mistakes, and drills you can use in your next match.</p>
     
     <section class="blog-game-section" data-game="r6" data-genre="tactical" style="margin-bottom: 36px">
-      <h2 style="margin-bottom: 12px">Rainbow Six Siege <span style="font-size: 0.7rem; color: rgba(230,233,239,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">Tactical FPS</span></h2>
+      <h2 style="margin-bottom: 12px">Rainbow Six Siege <span style="font-size: 0.7rem; color: rgba(235,228,215,0.5); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px">Tactical FPS</span></h2>
       <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
         
           <li>
-            <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Y11S2 → Y11S2.1</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege Y11S2.1 patch is live: Dokkaebi Jegeo Payload gets a 7s cooldown, Ash breaching rounds buffe…</span>
+            <a href="/blog/r6-y11s2-1-patch-notes-breakdown.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Y11S2.1</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Rainbow Six Siege Y11S2.1 patch is live: Dokkaebi Jegeo Payload gets a 7s cooldown, Ash breaching rounds buffe…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/r6-y11s2-ranked-operators-that-win-rounds.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Y11S2 → Ranked Meta</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">The Operation System Override (Y11S2) ranked meta, from a coach's chair — not just who's S-tier, but how each …</span>
+            <a href="/blog/r6-y11s2-ranked-operators-that-win-rounds.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S2 → Ranked Meta</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">The Operation System Override (Y11S2) ranked meta, from a coach's chair — not just who's S-tier, but how each …</span>
             </a>
           </li>
           <li>
-            <a href="/blog/villa-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Villa → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/hardstuck-rainbow-six-not-your-aim.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Hardstuck → The Fix</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Hardstuck in R6 ranked? It's not your aim — it's your information economy. The habits, the pros worth studying…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/chalet-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Chalet → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-y11s2-system-override-guide.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Y11S1 → Y11S2</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Complete guide to Rainbow Six Siege Y11S2 Operation System Override. New Calypso Casino map, Dokkaebi Jegeo Pa…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/clubhouse-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Clubhouse → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-copper-to-bronze.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Copper → Bronze</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful Siege habits: learn operator jobs, preserve drones, follow a site setup, clear angles, and sup…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/bank-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Bank → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-bronze-to-silver.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Bronze → Silver</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful callouts, site-specific setup decisions, fresh drone information and safer teamwork. A managea…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/coastline-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Coastline → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-silver-to-gold.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Silver → Gold</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice breach coordination, fresh drone calls, verified vertical angles and defensive fallback plans. Build …</span>
             </a>
           </li>
           <li>
-            <a href="/blog/kafe-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Kafe Dostoyevsky → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-gold-to-platinum.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Gold → Platinum</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice useful bans, coordinated entry, verified map angles and correct post-plant roles. A practical Siege g…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/border-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Border → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-platinum-to-emerald.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Platinum → Emerald</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Practice purposeful angles, safer repositioning, useful destruction and clear team adjustments. Review decisio…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/skyscraper-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Skyscraper → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
+            <a href="/blog/r6-emerald-to-diamond.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Emerald → Diamond</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Emerald-to-Diamond is adaptability — opponent spawn rotation reads, off-meta picks situationally, late-round 1…</span>
             </a>
           </li>
           <li>
-            <a href="/blog/theme-park-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Theme Park → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/calypso-casino-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Calypso Casino → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/consulate-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Consulate → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/lair-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Lair → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/nighthaven-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Nighthaven Labs → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/emerald-plains-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Emerald Plains → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/oregon-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Oregon → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/outback-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Outback → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/kanal-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Kanal → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/fortress-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Fortress → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/hereford-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Hereford Base → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/house-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">House → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/plane-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Presidential Plane → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/stadium-bravo-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Stadium Bravo → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/tower-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Tower → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/yacht-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Yacht → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/favela-defense-setups-ranked.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Favela → Defense Setups</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Rainbow Six Siege setup preview. The complete verified setup, operator jobs, utility order, and adaptations ar…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/hardstuck-rainbow-six-not-your-aim.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Hardstuck → The Fix</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Hardstuck in R6 ranked? It's not your aim — it's your information economy. The habits, the pros worth studying…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-y11s2-system-override-guide.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Y11S1 → Y11S2</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Complete guide to Rainbow Six Siege Y11S2 Operation System Override. New Calypso Casino map, Dokkaebi Jegeo Pa…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-copper-to-bronze.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Copper → Bronze</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Practice useful Siege habits: learn operator jobs, preserve drones, follow a site setup, clear angles, and sup…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-bronze-to-silver.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Bronze → Silver</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Practice useful callouts, site-specific setup decisions, fresh drone information and safer teamwork. A managea…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-silver-to-gold.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Silver → Gold</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">The Silver-to-Gold leap is utility coordination — Thatcher EMP timing, hard breach combos, vertical play, Band…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-gold-to-platinum.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Gold → Platinum</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Gold-to-Plat is where the metagame matters — meta operator bans, Mira anchor angles, spawn-peek timing, post-p…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-platinum-to-emerald.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Platinum → Emerald</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Plat-to-Emerald is refined positioning — off-angle holds, run-out timing, vertical micro-destruction, anti-met…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-emerald-to-diamond.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Emerald → Diamond</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Emerald-to-Diamond is adaptability — opponent spawn rotation reads, off-meta picks situationally, late-round 1…</span>
-            </a>
-          </li>
-          <li>
-            <a href="/blog/r6-diamond-to-champion.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(0,229,255,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
-              <strong style="color: #00e5ff; display: block; margin-bottom: 4px">Diamond → Champion</strong>
-              <span style="font-size: 0.88rem; color: rgba(230,233,239,0.75)">Diamond-to-Champion is 5% mechanical, 95% mental + macro — utility economy, tilt management, opponent reads ac…</span>
+            <a href="/blog/r6-diamond-to-champion.html" style="display: block; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(240,116,48,0.15); border-radius: 8px; color: inherit; text-decoration: none;">
+              <strong style="color: #f07430; display: block; margin-bottom: 4px">Diamond → Champion</strong>
+              <span style="font-size: 0.88rem; color: rgba(235,228,215,0.75)">Diamond-to-Champion is 5% mechanical, 95% mental + macro — utility economy, tilt management, opponent reads ac…</span>
             </a>
           </li>
       </ul>
     </section>
+    
+    <section class="game-section" id="r6-operators">
+      <h2>R6 operator deep dives</h2>
+      <p style="color: rgba(235,228,215,0.75)">Loadout, the sites where Recon 6's plans pick them, counters and how to climb, for 47 operators.</p>
+      <ul><li><a href="/blog/r6-operator-ace.html">Ace</a></li><li><a href="/blog/r6-operator-alibi.html">Alibi</a></li><li><a href="/blog/r6-operator-aruni.html">Aruni</a></li><li><a href="/blog/r6-operator-ash.html">Ash</a></li><li><a href="/blog/r6-operator-azami.html">Azami</a></li><li><a href="/blog/r6-operator-bandit.html">Bandit</a></li><li><a href="/blog/r6-operator-buck.html">Buck</a></li><li><a href="/blog/r6-operator-capitao.html">Capitao</a></li><li><a href="/blog/r6-operator-castle.html">Castle</a></li><li><a href="/blog/r6-operator-caveira.html">Caveira</a></li><li><a href="/blog/r6-operator-doc.html">Doc</a></li><li><a href="/blog/r6-operator-dokkaebi.html">Dokkaebi</a></li><li><a href="/blog/r6-operator-echo.html">Echo</a></li><li><a href="/blog/r6-operator-ela.html">Ela</a></li><li><a href="/blog/r6-operator-finka.html">Finka</a></li><li><a href="/blog/r6-operator-flores.html">Flores</a></li><li><a href="/blog/r6-operator-fuze.html">Fuze</a></li><li><a href="/blog/r6-operator-glaz.html">Glaz</a></li><li><a href="/blog/r6-operator-goyo.html">Goyo</a></li><li><a href="/blog/r6-operator-gridlock.html">Gridlock</a></li><li><a href="/blog/r6-operator-hibana.html">Hibana</a></li><li><a href="/blog/r6-operator-iana.html">Iana</a></li><li><a href="/blog/r6-operator-jager.html">Jager</a></li><li><a href="/blog/r6-operator-kaid.html">Kaid</a></li><li><a href="/blog/r6-operator-kali.html">Kali</a></li><li><a href="/blog/r6-operator-lesion.html">Lesion</a></li><li><a href="/blog/r6-operator-lion.html">Lion</a></li><li><a href="/blog/r6-operator-maestro.html">Maestro</a></li><li><a href="/blog/r6-operator-maverick.html">Maverick</a></li><li><a href="/blog/r6-operator-melusi.html">Melusi</a></li><li><a href="/blog/r6-operator-mira.html">Mira</a></li><li><a href="/blog/r6-operator-mozzie.html">Mozzie</a></li><li><a href="/blog/r6-operator-mute.html">Mute</a></li><li><a href="/blog/r6-operator-nomad.html">Nomad</a></li><li><a href="/blog/r6-operator-pulse.html">Pulse</a></li><li><a href="/blog/r6-operator-sledge.html">Sledge</a></li><li><a href="/blog/r6-operator-smoke.html">Smoke</a></li><li><a href="/blog/r6-operator-thatcher.html">Thatcher</a></li><li><a href="/blog/r6-operator-thermite.html">Thermite</a></li><li><a href="/blog/r6-operator-thunderbird.html">Thunderbird</a></li><li><a href="/blog/r6-operator-twitch.html">Twitch</a></li><li><a href="/blog/r6-operator-valkyrie.html">Valkyrie</a></li><li><a href="/blog/r6-operator-vigil.html">Vigil</a></li><li><a href="/blog/r6-operator-wamai.html">Wamai</a></li><li><a href="/blog/r6-operator-ying.html">Ying</a></li><li><a href="/blog/r6-operator-zero.html">Zero</a></li><li><a href="/blog/r6-operator-zofia.html">Zofia</a></li></ul>
+    </section>
     <div class="intro-cta">
-      <h3>Want AI VOD review on top of these guides?</h3>
-      <p>Recon 6 Pro reads your replays and flags positioning + utility mistakes per round.</p>
-      <a class="btn" href="https://r6coaching.com/#pricing">See plans</a>
+      <h3>Want feedback on your own rounds?</h3>
+      <p>Recon 6 Pro reviews screenshots from your matches and points out the mistake to fix next.</p>
+      <a class="btn" href="https://r6coaching.com/pricing">See plans</a>
     </div>
   </main>
   <div class="footer-strip">
-    <p>&copy; Recon 6 — Rainbow Six Siege coaching. <a href="https://r6coaching.com/">r6coaching.com</a></p>
+    <p>&copy; Recon 6 — Rainbow Six Siege coaching, built by <a href="/author/aaron/">Aaron Henry</a>. Fan-made; not affiliated with Ubisoft.</p>
+    <p><a href="https://r6coaching.com/about">About</a> · <a href="https://r6coaching.com/about#contact">Contact</a> · <a href="https://r6coaching.com/pricing">Pricing</a> · <a href="https://r6coaching.com/privacy">Privacy</a> · <a href="https://r6coaching.com/terms">Terms</a></p>
   </div>
 </body>
 </html>

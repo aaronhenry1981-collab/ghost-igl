@@ -53,6 +53,35 @@ test('trailing slashes and bare directories redirect to the canonical form', () 
   assert.equal(run('/pricing/').headers.location.value, '/pricing')
 })
 
+test('merged thin pages redirect to their map guide', () => {
+  assert.equal(run('/guides/bans/bank.html').headers.location.value, '/guides/bank.html')
+  assert.equal(run('/guides/bans/kafe').headers.location.value, '/guides/kafe.html')
+  assert.equal(run('/guides/bans/').headers.location.value, '/guides/')
+  assert.equal(run('/blog/bank-defense-setups-ranked.html').headers.location.value, '/guides/bank.html')
+  assert.equal(run('/blog/emerald-plains-defense-setups-ranked.html').statusCode, 301)
+  assert.equal(run('/blog/emerald-plains-defense-setups-ranked.html').headers.location.value, '/guides/emerald-plains.html')
+})
+
+// Every directory under public/ that has an index.html must also answer
+// without its trailing slash (Stripe and booking emails link both forms).
+test('every static directory redirects to its trailing-slash form', async () => {
+  const { readdirSync, existsSync } = await import('node:fs')
+  const { join } = await import('node:path')
+  const root = new URL('../public/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')
+  const dirs = []
+  const walk = (rel) => {
+    for (const entry of readdirSync(join(root, rel), { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      const sub = rel ? `${rel}/${entry.name}` : entry.name
+      if (existsSync(join(root, sub, 'index.html'))) dirs.push(`/${sub}`)
+      walk(sub)
+    }
+  }
+  walk('')
+  const missing = dirs.filter((d) => !d.startsWith('/games') && run(d).statusCode !== 301)
+  assert.deepEqual(missing, [])
+})
+
 test('the router knows exactly the routes routeMeta describes', () => {
   const exact = allRoutePaths().filter((p) => p.split('/').length === 2 || ['/operators/compare', '/tools/r6-tier-list'].includes(p))
   assert.deepEqual(Object.keys(sandbox.EXACT).sort(), exact.sort())

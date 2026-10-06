@@ -43,12 +43,12 @@ const body = `# Recon 6
 - [1-on-1 coaching](${SITE}/coaching/): live sessions with Aaron
 - [About and contact](${SITE}/about): who builds Recon 6 and how to reach him
 - [Press kit](${SITE}/press): logos, screenshots and product copy
+- [Compare Recon 6](${SITE}/compare/): next to a 1-on-1 coach, free guides and other coaching tools
 - [Refund policy](${SITE}/refund), [Privacy policy](${SITE}/privacy), [Terms](${SITE}/terms)
 
 ## Guides
 - [All map guides](${SITE}/guides/)
 - [Operator guides](${SITE}/guides/operators/)
-- [Ban guides](${SITE}/guides/bans/)
 - [Blog: rank-up and operator guides](${SITE}/blog/)
 ${guides.join('\n')}
 `

@@ -12,6 +12,10 @@ import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
 import { CURRENT_R6_SEASON, balanceChangesFor } from '../src/data/r6-season.js'
+import {
+  ARTICLE_CSS, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished, fitDescription,
+  footerHtml, navHtml, operatorSources, sourcesHtml,
+} from './lib/article-seo.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -668,6 +672,7 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     .site-table .pri-essential { color: #50ff8c; font-weight: 700; }
     .site-table .pri-recommended { color: #fad6c2; }
     .site-table .pri-flex { color: rgba(235,228,215,0.7); }
+${ARTICLE_CSS}
     @media (max-width: 600px) {
       main { padding: 20px 16px 40px; }
       article h1 { font-size: 1.55rem; }
@@ -676,21 +681,11 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <a class="brand" href="${SITE_URL}/">RECON<span>+</span></a>
-    <div class="nav-links">
-      <a href="${SITE_URL}/blog/">Blog</a>
-      <a href="${SITE_URL}/guides/">Map guides</a>
-      <a href="${SITE_URL}/strats">Interactive strats</a>
-      <a href="${SITE_URL}/#pricing">Pricing</a>
-    </div>
-  </nav>
+  ${navHtml()}
   <main>
     ${bodyInner}
   </main>
-  <div class="footer-strip">
-    <p>&copy; Recon 6 — AI-powered FPS coaching across 10 games. <a href="${SITE_URL}/">r6coaching.com</a></p>
-  </div>
+  ${footerHtml()}
 </body>
 </html>`
 }
@@ -737,11 +732,27 @@ function renderOperatorPost(opName, opIndex) {
   const canonical = `${SITE_URL}/blog/${slug}.html`
 
   const title = `${opName} R6 Guide — Loadout, Sites, & How to Play in ${YEAR}`
-  const description = `Complete ${opName} guide for Rainbow Six Siege ${YEAR}. ${op.role} on ${op.side}. Best maps + sites, gadget breakdown, common mistakes, counter picks, and how to climb with ${opName}.`
+  const description = fitDescription(
+    `${opName} guide for Rainbow Six Siege ${YEAR}: ${op.role} on ${op.side}. Best maps and sites, gadget use, counter picks, and how to climb with ${opName}.`,
+    `${opName} guide for Rainbow Six Siege ${YEAR}: best maps and sites, gadget use, counter picks, and how to climb with ${opName}.`,
+  )
+  // The day the post first went live (git), not a date typed into the template.
+  const datePublished = firstPublished(join(OUT_DIR, `${slug}.html`), `${YEAR}-05-10`)
+
+  const order = { essential: 0, recommended: 1, flex: 2 }
+  const sortedSites = [...opSites].sort((a, b) => (order[a.priority] ?? 3) - (order[b.priority] ?? 3) || a.mapName.localeCompare(b.mapName))
+  const essentialCount = opSites.filter((s) => s.priority === 'essential').length
+  const topSite = sortedSites[0]
+  const topMap = topSite && MAPS.find((m) => m.id === topSite.mapId)
 
   const intro = `<p>${op.intro}</p>
-<p>This guide covers ${opName}\'s loadout and gadget use, the maps + sites where they\'re strongest, common mistakes that hold ${opName} mains back, counter picks ${opName} is most vulnerable to, a practice drill to lock in their mechanics, and how to climb ranked with them. Last updated ${YEAR} — patch-current as of the most recent Operation.</p>
-<p>${opName} is a ${op.side === 'attack' ? 'attacker' : 'defender'} ${op.role.toLowerCase().includes('hard breach') ? 'used in coordinated executions where wall opening is round-deciding' : op.role.toLowerCase().includes('intel') ? 'whose information advantage shapes every team fight' : op.role.toLowerCase().includes('roam') ? 'whose flank plays disrupt attacker timing and force re-clears' : op.role.toLowerCase().includes('anchor') ? 'who holds site from cover and trade-frags pushers' : op.role.toLowerCase().includes('support') ? 'whose utility enables teammates direct frags' : 'with a unique kit that rewards specific situational play'}. Pick them when the team comp needs their role — running ${opName} as filler instead of fit is the fastest way to throw the round.</p>`
+<p>In Recon 6's plans, ${escape(opName)} is picked at ${opSites.length} site${opSites.length === 1 ? '' : 's'}${essentialCount ? `, ${essentialCount} of them as essential` : ''}.</p>`
+
+  const figure = topMap ? figureHtml({
+    src: `/guides/og/${topMap.id}.svg`,
+    alt: `${topMap.name} map card from Recon 6's Rainbow Six Siege guide`,
+    caption: `Where ${opName} matters most in Recon 6's plans: ${topSite.siteName} on ${topMap.name} (${topSite.side}, ${topSite.priority}).`,
+  }) : ''
 
   // Official changes to this operator's own gadget or weapons in the current
   // patch, rendered from the one reviewed season snapshot (r6-season.js).
@@ -752,15 +763,14 @@ function renderOperatorPost(opName, opIndex) {
       <ul>${patchChanges.map((c) => `<li><strong>${escape(c.item)}:</strong> ${escape(c.summary)}</li>`).join('')}</ul>
       <p>Source: <a href="${escape(CURRENT_R6_SEASON.patchNotesUrl)}" rel="noopener">Ubisoft’s official ${escape(CURRENT_R6_SEASON.code)} patch notes</a>.</p>
     </div>` : ''
-  const lastUpdated = patchChanges.length ? CURRENT_R6_SEASON.verifiedOn : `${YEAR}-05-10`
 
   const sitesSection = `
-    <h2>Best Maps & Sites for ${opName}</h2>
+    <h2>Where is ${opName} strongest?</h2>
     ${renderBestSites(opName, opSites)}
-    <p>Click any map name above to open the full Recon 6 strat guide for that map. The site cell shows the bomb pair where ${opName} appears as ${op.side === 'attack' ? 'an attacker' : 'a defender'}.</p>`
+    <p>Each map name opens the full Recon 6 guide for that map.</p>`
 
   const loadoutSection = `
-    <h2>Loadout & Gadget Use</h2>
+    <h2>What is ${opName}'s loadout?</h2>
     <div class="callout loadout">
       <h3>${opName} kit at a glance</h3>
       <ul>
@@ -778,81 +788,33 @@ function renderOperatorPost(opName, opIndex) {
     <h3>Strengths</h3>
     <ul>${op.strengths.map((s) => `<li>${s}</li>`).join('')}</ul>`
 
-  // Common mistakes are roughly templated by side + role
-  const mistakes = op.side === 'attack' ? [
-    `Solo-pushing without team support — ${opName} relies on coordinated execs in 80%+ of competitive setups.`,
-    `Wasting gadget charges in the first 30 seconds before knowing defender setups. Drone first; deploy gadget after.`,
-    `Picking ${opName} on maps where another operator is mathematically better. Check the Best Maps table above.`,
-    `Using ${opName}\'s primary at the wrong range (e.g., AR at point-blank, SMG at 30+ meters). Match weapon to engagement.`,
-    `Ignoring the secondary gadget. Most attackers use it as the &quot;throw it whenever&quot; option — pre-plan the secondary use.`,
-  ] : [
-    `Anchoring the same default position every round. Predictable to Plat+ attackers — vary your hold spots.`,
-    `Wasting gadget charges in the first 30 seconds before knowing attacker setups. Wait for drones / commit reads first.`,
-    `Picking ${opName} on maps where another operator is mathematically better. Check the Best Maps table above.`,
-    `Roaming when site needs an anchor (or anchoring when site needs a roamer). Match role to team comp.`,
-    `Ignoring the secondary gadget. Most defenders default-pick — pre-plan whether you need barbed wire, nitro, or impact for the round.`,
-  ]
-
-  const mistakesSection = `
-    <h2>Common Mistakes</h2>
-    <div class="callout mistakes">
-      <h3>What ${opName} mains get wrong</h3>
-      <ul>${mistakes.map((m) => `<li>${m}</li>`).join('')}</ul>
-    </div>`
-
   const counterPicksSection = `
-    <h2>Counter Picks — Who to ${op.side === 'attack' ? 'Run vs ' : 'Ban Against '}${opName}</h2>
-    <p>${op.side === 'attack' ? `If you\'re defending against ${opName}, the operators below directly counter their kit:` : `If you\'re attacking against ${opName}, the operators below directly counter their kit:`}</p>
+    <h2>Who counters ${opName}?</h2>
+    <p>${op.side === 'attack' ? `Defending against ${opName}, these operators work directly against the kit:` : `Attacking into ${opName}, these operators work directly against the kit:`}</p>
     <ul>${op.counterPicks.map((c) => `<li>${c}</li>`).join('')}</ul>`
 
-  const counterAdviceSection = op.side === 'defense' ? `
-    <h2>How to Play Against ${opName} (Attacker Side)</h2>
-    <p>${op.counterAdvice}</p>
-    <p>The general rule for facing ${opName}: drone-up before commitment, identify their gadget placement, and either clear it (Twitch / Thatcher / Flores) or play around it (rotate, smoke cover, alternate angle). Forcing ${opName} to react instead of letting them set up wins ${opName}-affected rounds.</p>` : `
-    <h2>How to Counter ${opName} (Defender Side)</h2>
-    <p>${op.counterAdvice}</p>
-    <p>The general rule for facing ${opName}: identify their setup early (round 1 reads), pre-aim the angles their gadget enables, and force them off their default position. ${opName}\'s utility loses value when used in unexpected positions or against alert teammates.</p>`
-
-  const whenToPickSection = `
-    <h2>When to Pick ${opName} — and When to Avoid</h2>
-    <p><strong>Pick ${opName} when:</strong></p>
-    <ul>
-      <li>The team comp lacks their role (${escape(op.role)}) and the map favors it.</li>
-      <li>The map appears in the Best Maps table above with ${opName} as essential or recommended priority.</li>
-      <li>${op.side === 'attack' ? `Defenders are likely to run gadgets ${opName}\'s kit specifically counters (e.g., heavy electronics, predictable anchors)` : `Attackers are likely to use the strategies ${opName}\'s kit denies (e.g., droning-heavy, gadget-reliant exec patterns)`}.</li>
-      <li>You\'ve put 50+ hours of muscle memory into ${opName} — pulling them out cold is risky in ranked.</li>
-    </ul>
-    <p><strong>Avoid ${opName} when:</strong></p>
-    <ul>
-      <li>Your team already has redundancy in ${opName}\'s role.</li>
-      <li>The map is short or simple enough that ${opName}\'s utility is overkill (a basic operator with a strong gun is better in those cases).</li>
-      <li>${opName} is banned (obvious) or the matchup specifically counters them (see Counter Picks above).</li>
-    </ul>`
+  const counterAdviceSection = `
+    <h2>How do you play against ${opName}?</h2>
+    <p>${op.counterAdvice}</p>`
 
   const climbSection = `
-    <h2>How to Climb With ${opName}</h2>
-    <p>${op.howToClimb}</p>
-    <p>For specific site setups, check the per-map guides linked in the Best Maps table — each guide has the full operator + utility breakdown for that bomb pair. The interactive strats tool also lets you filter by ${opName} to see all the strats they appear in.</p>
-    <h3>Tips for veterans</h3>
-    <p>If you\'ve been maining ${opName} for 100+ hours, the climb above Plat / Emerald comes from the small refinements: ${op.side === 'attack' ? 'varying your gadget timing per round (don\'t use it on the same count every match), pre-aiming the angle the defender holds against your typical entry, and saving secondary gadget for the post-plant rather than entry' : 'rotating your anchor position round-to-round (don\'t hold the same corner more than twice in a row), pre-aiming the head-height angle attackers peek through your typical hold spot, and timing your gadget for the late-round commit rather than spawn-time pre-emption'}. The mechanical skills that got you to your current rank stop working at higher elos — opponents have read your patterns. Vary deliberately.</p>
-    <h3>Practice drill — 5-game ${opName} focus</h3>
-    <p>Queue 5 ranked games with ${opName} locked in. After each game, write down (1) where you used your gadget and whether it landed, (2) which map and site you played, (3) one mistake you saw in the kill cam. By game 5 you\'ll have specific patterns to fix, and the next 10 games convert that knowledge into rank. The deliberate-practice loop beats grinding 50 random games where you don\'t track what you\'re fixing.</p>`
+    <h2>How do you climb with ${opName}?</h2>
+    <p>${op.howToClimb}</p>`
 
-  const aiVod = `
-    <p>If you\'re trying to debug your ${opName} play, <a href="${SITE_URL}/vod">Recon 6 AI VOD review</a> reviews the match screenshots you submit and suggests positioning and utility-timing corrections to check against your round. Useful for finding the rounds where you wasted a gadget charge or held a predictable angle. Your first paid charge is refundable within 7 days; see the <a href="${SITE_URL}/refund">refund policy</a>.</p>`
-
-  // Related links: 4-5 links to operator-relevant content
-  const topMaps = opSites.length > 0
-    ? Array.from(new Set(opSites.slice(0, 4).map((s) => s.mapId)))
-    : ['bank', 'clubhouse', 'kafe']
+  // Other deep dives on the same side, same role first.
+  const peers = Object.keys(OP_DATA)
+    .filter((n) => n !== opName && OP_DATA[n].side === op.side && opIndex[n])
+    .sort((a, b) => (OP_DATA[a].role === op.role ? 0 : 1) - (OP_DATA[b].role === op.role ? 0 : 1) || a.localeCompare(b))
+    .slice(0, 3)
+  const topMaps = Array.from(new Set(sortedSites.map((s) => s.mapId))).slice(0, 3)
   const relatedLinks = [
-    { name: 'All R6 Operator Guides', url: '/guides/operators/' },
-    ...topMaps.slice(0, 3).map((mapId) => {
+    { name: `${opName} operator guide: every site in Recon 6's plans`, url: `/guides/operators/${slugify(opName)}.html` },
+    ...topMaps.map((mapId) => {
       const map = MAPS.find((m) => m.id === mapId)
-      return { name: `${map?.name || mapId} Strategy Guide`, url: `/guides/${mapId}.html` }
+      return { name: `${map?.name || mapId} map guide`, url: `/guides/${mapId}.html` }
     }),
-    { name: `${opName} on /guides/operators`, url: `/guides/operators/${slugify(opName)}.html` },
-    { name: 'Recon 6 R6 Rank-Up Blog Posts', url: '/blog/' },
+    ...peers.map((n) => ({ name: `${n} deep dive`, url: `/blog/r6-operator-${slugify(n)}.html` })),
+    { name: 'All R6 operator guides', url: '/guides/operators/' },
   ]
   const relatedHtml = `
     <div class="related">
@@ -860,17 +822,22 @@ function renderOperatorPost(opName, opIndex) {
       <ul>${relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
     </div>`
 
+  const sources = [
+    ...operatorSources(opName),
+    ...(patchChanges.length ? [{ label: `Ubisoft: ${CURRENT_R6_SEASON.code} patch notes`, note: `official changes to ${opName}`, url: CURRENT_R6_SEASON.patchNotesUrl }] : []),
+  ]
+
   const ctaHtml = `
     <div class="intro-cta">
-      <h3>Want AI-powered VOD review on your ${opName} play?</h3>
-      <p>Recon 6 Pro reviews the match screenshots you submit and suggests corrections to check against your round context. See current membership prices and included tools on the Plans page. Paid memberships do not include a free trial.</p>
-      <a class="btn" href="${SITE_URL}/#pricing">See plans</a>
+      <h3>Check your own ${escape(opName)} rounds</h3>
+      <p>Pro reviews screenshots of your own ${escape(opName)} rounds.</p>
+      <a class="btn" href="${SITE_URL}/pricing">See plans</a>
     </div>`
 
   const breadcrumb = `<nav class="breadcrumb">
     <a href="/">Recon 6</a> ›
     <a href="/blog/">Blog</a> ›
-    <a href="/blog/?game=r6">R6 Operators</a> ›
+    <a href="/guides/operators/">R6 Operators</a> ›
     <span>${escape(opName)}</span>
   </nav>`
 
@@ -878,53 +845,46 @@ function renderOperatorPost(opName, opIndex) {
     ${breadcrumb}
     <article>
       <h1>${escape(title)}</h1>
+      ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'aiPost' })}
       <div class="meta-row">
         <span class="pill ${op.side}">${op.side === 'attack' ? 'Attack' : 'Defense'}</span>
         <span class="pill">${escape(op.role)}</span>
         <span class="pill">${escape(op.speed)}</span>
-        <span>10 min read</span>
-        <span>Last updated: ${lastUpdated.slice(0, 7)}</span>
       </div>
       ${intro}
+      ${figure}
       ${sitesSection}
       ${loadoutSection}
-      ${mistakesSection}
       ${counterPicksSection}
       ${counterAdviceSection}
-      ${whenToPickSection}
       ${climbSection}
-      ${aiVod}
       ${relatedHtml}
+      ${sourcesHtml(sources)}
       ${ctaHtml}
     </article>`
 
-  // JSON-LD: Article + HowTo + BreadcrumbList
+  // JSON-LD: BlogPosting + HowTo + BreadcrumbList
   const jsonLdBlocks = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
+    articleSchema({
+      type: 'BlogPosting',
       headline: title,
       description,
-      author: { '@type': 'Organization', name: 'Recon 6' },
-      publisher: { '@type': 'Organization', name: 'Recon 6', logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-image.png` } },
-      datePublished: `${YEAR}-05-10`,
-      dateModified: lastUpdated,
-      mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-      inLanguage: 'en-US',
-      articleSection: 'R6 Operators',
-    },
+      url: canonical,
+      datePublished,
+      dateModified: TEMPLATE_REVISED,
+      image: `${SITE_URL}/og-image.png`,
+      section: 'R6 Operators',
+    }),
     {
       '@context': 'https://schema.org',
       '@type': 'HowTo',
       name: `How to play ${opName} in Rainbow Six Siege`,
       description,
-      totalTime: 'PT10M',
       step: [
-        { '@type': 'HowToStep', position: 1, name: `Master ${opName}\'s loadout`, text: `${op.gadget}: ${op.gadgetDesc}` },
-        { '@type': 'HowToStep', position: 2, name: `Pick the right map for ${opName}`, text: `Use the Best Maps table to see the sites where ${opName} is essential.` },
-        { '@type': 'HowToStep', position: 3, name: `Avoid common mistakes`, text: mistakes[0] },
-        { '@type': 'HowToStep', position: 4, name: `Counter ${opName}'s weaknesses`, text: op.counterAdvice },
-        { '@type': 'HowToStep', position: 5, name: `Climb with ${opName}`, text: op.howToClimb },
+        { '@type': 'HowToStep', position: 1, name: `Learn ${opName}'s loadout`, text: `${op.gadget}: ${op.gadgetDesc}` },
+        { '@type': 'HowToStep', position: 2, name: `Pick the right map for ${opName}`, text: `Use the site table to see where Recon 6's plans pick ${opName} as essential.` },
+        { '@type': 'HowToStep', position: 3, name: `Know who counters ${opName}`, text: op.counterAdvice },
+        { '@type': 'HowToStep', position: 4, name: `Climb with ${opName}`, text: op.howToClimb },
       ],
     },
     {
@@ -933,7 +893,7 @@ function renderOperatorPost(opName, opIndex) {
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Recon 6', item: SITE_URL },
         { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
-        { '@type': 'ListItem', position: 3, name: 'R6 Operators', item: `${SITE_URL}/blog/?game=r6` },
+        { '@type': 'ListItem', position: 3, name: 'R6 Operators', item: `${SITE_URL}/guides/operators/` },
         { '@type': 'ListItem', position: 4, name: opName, item: canonical },
       ],
     },

@@ -7,16 +7,25 @@
 // Output: public/guides/operators/<slug>.html + an index page linking them.
 // Run: node scripts/generate-operator-guides.mjs
 
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { existsSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/public-strats.generated.js'
+import {
+  ARTICLE_CSS, SITE_URL, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished,
+  fitDescription, fitTitle, footerHtml, navHtml, operatorSources, sourcesHtml,
+} from './lib/article-seo.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT_DIR = join(ROOT, 'public', 'guides', 'operators')
-const SITE_URL = 'https://r6coaching.com'
+
+// The operator's deep-dive blog post (scripts/generate-r6-operator-posts.mjs), when one exists.
+function deepDivePath(name) {
+  const slug = `r6-operator-${operatorSlug(name)}`
+  return existsSync(join(ROOT, 'public', 'blog', `${slug}.html`)) ? `/blog/${slug}.html` : null
+}
 
 function escape(s) {
   return String(s || '')
@@ -138,26 +147,33 @@ function htmlShell({ title, description, canonical, bodyInner, ogImage, jsonLd, 
     .site-list a:hover { color: #f07430; }
     .cta { display: inline-block; padding: 0.7rem 1.4rem; background: #f07430; color: #121211; font-weight: 700; border-radius: 8px; text-decoration: none; margin: 1.5rem 0; }
     .cta:hover { background: #f49b67; }
-    footer { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
-    footer a { color: #f07430; }
+    a { color: #f07430; }
+    .nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .brand { font-weight: 900; letter-spacing: 0.06em; color: #fff !important; }
+    .brand span { color: #f07430; }
+    .nav-links a { margin-left: 14px; margin-right: 0; color: rgba(235,228,215,0.85); font-size: 0.9rem; font-weight: 500; }
+    .footer-strip { margin-top: 3rem; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); color: rgba(235,228,215,0.5); font-size: 0.85rem; text-align: center; }
+    .related-links ul { padding-left: 18px; }${ARTICLE_CSS}
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="nav">
-      <a href="/">Recon 6</a>
-      <a href="/guides/">Map Guides</a>
-      <a href="/guides/operators/">Operators</a>
-    </div>
+    ${navHtml()}
     ${bodyInner}
-    <footer>
-      <p>Recon 6 — AI-powered coaching for Rainbow Six Siege.<br>
-      Operator names are property of Ubisoft Entertainment. Fan-made, not affiliated with Ubisoft.</p>
-      <p><a href="${SITE_URL}/strats">Open the interactive strats tool →</a></p>
-    </footer>
+    ${footerHtml()}
   </div>
 </body>
 </html>`
+}
+
+function relatedHtml(heading, links) {
+  const items = links.filter(Boolean)
+  if (!items.length) return ''
+  return `
+    <section class="related-links">
+      <h2>${escape(heading)}</h2>
+      <ul>${items.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a></li>`).join('')}</ul>
+    </section>`
 }
 
 function operatorPage(op) {
@@ -167,7 +183,16 @@ function operatorPage(op) {
   const sideText = sidesPlayed.has('attack') && sidesPlayed.has('defense')
     ? 'both attack and defense'
     : sidesPlayed.has('attack') ? 'attack' : 'defense'
-  const description = `${op.name} operator guide for Rainbow Six Siege: every site where ${op.name} is picked, role, and priority. Played on ${sideText} across ${total} site${total === 1 ? '' : 's'} on Recon 6.`
+  const description = fitDescription(
+    `${op.name} operator guide for Rainbow Six Siege: every site where ${op.name} is picked, role, and priority. Played on ${sideText} across ${total} site${total === 1 ? '' : 's'} on Recon 6.`,
+    `${op.name} guide for Rainbow Six Siege: the ${total} site${total === 1 ? '' : 's'} where Recon 6's plans pick ${op.name}, with the role and priority at each one.`,
+  )
+  const canonical = `${SITE_URL}/guides/operators/${slug}.html`
+  const datePublished = firstPublished(join(OUT_DIR, `${slug}.html`))
+  const sideNoun = sideText === 'attack' ? 'attacker' : sideText === 'defense' ? 'defender' : 'operator'
+  const topMapIds = [...new Set(op.sites.filter((s) => s.priority === 'essential').concat(op.sites).map((s) => s.mapId))]
+  const topMap = MAPS.find((m) => m.id === topMapIds[0])
+  const deepDive = deepDivePath(op.name)
 
   // Group sites by map
   const byMap = {}
@@ -193,7 +218,9 @@ function operatorPage(op) {
   const inner = `
     <div class="eyebrow">Operator Guide</div>
     <h1>${escape(op.name)} — Where to Play</h1>
-    <p class="lead">${escape(op.name)} appears in ${total} site strat${total === 1 ? '' : 's'} across Recon 6's catalog. Roles: ${op.roles.map(escape).join(', ')}. Played on ${sideText}.</p>
+    ${bylineHtml({ datePublished, dateModified: TEMPLATE_REVISED, kind: 'operatorGuide' })}
+    <p class="lead">${escape(op.name)} is a Rainbow Six Siege ${sideNoun} that Recon 6's plans pick at ${total} site${total === 1 ? '' : 's'}, as ${op.roles.map(escape).join(', ')}. Played on ${sideText}.</p>
+    ${topMap ? figureHtml({ src: `/guides/og/${topMap.id}.svg`, alt: `${topMap.name} map card from Recon 6's Rainbow Six Siege guide`, caption: `${op.name}'s first map in Recon 6's plans: ${topMap.name}` }) : ''}
     <div class="stat-row">
       <div class="stat"><div class="stat-label">Sites</div><div class="stat-val">${total}</div></div>
       <div class="stat"><div class="stat-label">Essential</div><div class="stat-val">${op.essentialCount}</div></div>
@@ -201,25 +228,38 @@ function operatorPage(op) {
       <div class="stat"><div class="stat-label">Flex</div><div class="stat-val">${op.flexCount}</div></div>
     </div>
     <a class="cta" href="${SITE_URL}/operators/${encodeURIComponent(op.name)}">Open ${escape(op.name)} in the interactive tool →</a>
-    <h2>Where ${escape(op.name)} is picked</h2>
+    <h2>Where is ${escape(op.name)} picked?</h2>
     ${mapSections}
+    ${relatedHtml(`More on ${op.name}`, [
+      deepDive && { name: `${op.name} deep dive: loadout, counters and how to climb`, url: deepDive },
+      ...topMapIds.slice(0, 3).map((id) => {
+        const m = MAPS.find((x) => x.id === id)
+        return m && { name: `${m.name} map guide`, url: `/guides/${m.id}.html` }
+      }),
+      { name: 'All operator guides', url: '/guides/operators/' },
+    ])}
+    ${sourcesHtml(operatorSources(op.name))}
   `
   return {
     slug,
     html: htmlShell({
-      title: `${op.name} Operator Guide — Where to Play (R6 Siege) | Recon 6`,
+      title: fitTitle(
+        `${op.name} Operator Guide — Where to Play (R6 Siege) | Recon 6`,
+        `${op.name} Operator Guide: Where to Play | Recon 6`,
+        `${op.name} R6 Operator Guide | Recon 6`,
+      ),
       description,
-      canonical: `${SITE_URL}/guides/operators/${slug}.html`,
+      canonical,
       bodyInner: inner,
-      jsonLd: {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
+      jsonLd: articleSchema({
         headline: `${op.name} Operator Guide — R6 Siege`,
         description,
-        author: { '@type': 'Organization', name: 'Recon 6' },
-        publisher: { '@type': 'Organization', name: 'Recon 6', url: SITE_URL },
-        mainEntityOfPage: `${SITE_URL}/guides/operators/${slug}.html`,
-      },
+        url: canonical,
+        datePublished,
+        dateModified: TEMPLATE_REVISED,
+        image: `${SITE_URL}/og-image.png`,
+        section: 'Operator guides',
+      }),
       breadcrumbs: [
         { name: 'Recon 6', url: SITE_URL },
         { name: 'Operators', url: `${SITE_URL}/guides/operators/` },
@@ -238,6 +278,7 @@ function indexPage(operators) {
     }
   }
 
+  const deepDives = operators.map((op) => ({ name: op.name, path: deepDivePath(op.name) })).filter((d) => d.path)
   const opCardsHtml = operators.map(op => {
     const slug = operatorSlug(op.name)
     return `<li>
@@ -256,12 +297,15 @@ function indexPage(operators) {
       <div class="stat"><div class="stat-label">Sites</div><div class="stat-val">${Object.values(STRATS).reduce((a, m) => a + Object.keys(m).length, 0)}</div></div>
     </div>
     <ul class="site-list" style="columns: 2; column-gap: 1.5rem;">${opCardsHtml}</ul>
+    ${deepDives.length ? `<h2>Which operators have a full deep dive?</h2>
+    <p>These ${deepDives.length} operators also have a long-form guide on the blog: loadout, counters and how to climb with them.</p>
+    <ul class="site-list" style="columns: 2; column-gap: 1.5rem;">${deepDives.map(({ name, path }) => `<li><a href="${path}">${escape(name)} deep dive</a></li>`).join('\n')}</ul>` : ''}
     <h2>Looking for full strat coverage?</h2>
     <p>Each operator page links back to the specific sites where they shine. For full strats, ban recs, callouts, and utility breakdowns:</p>
     <a class="cta" href="/guides/">Browse map guides →</a>
   `
   return htmlShell({
-    title: 'R6 Siege Operator Guides — Where to Play Every Operator | Recon 6',
+    title: fitTitle('R6 Siege Operator Guides — Where to Play Every Operator | Recon 6', 'R6 Siege Operator Guides: Where to Play Each One', 'R6 Siege Operator Guides | Recon 6'),
     description: `Complete operator guide catalog for Rainbow Six Siege. ${operators.length} operators across ${Object.keys(STRATS).length} maps with full site-by-site picks.`,
     canonical: `${SITE_URL}/guides/operators/`,
     bodyInner: inner,

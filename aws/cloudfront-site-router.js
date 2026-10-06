@@ -33,11 +33,22 @@ var APP_PREFIXES = ['/r/', '/admin/', '/support/cases/', '/help/', '/embed/match
 var APP_EXACT = { '/admin': 1 }
 // Static directories that also answer without the trailing slash.
 var STATIC_DIRS = {
-  '/blog': 1, '/guides': 1, '/guides/operators': 1, '/guides/bans': 1, '/compare': 1, '/coaching': 1,
-  '/climb': 1, '/tools': 1, '/countdown': 1, '/status': 1, '/booking': 1, '/author/aaron': 1
+  '/blog': 1, '/guides': 1, '/guides/operators': 1, '/compare': 1, '/coaching': 1, '/coaching/booked': 1,
+  '/booking/manage': 1, '/climb': 1, '/tools': 1, '/countdown': 1, '/status': 1, '/author/aaron': 1
 }
 // Static trees whose pages may be asked for without ".html".
 var HTML_TREES = ['/blog/', '/guides/', '/compare/']
+
+// Thin pages merged into the map guide (2026-10-06): the per-map ban teasers
+// and the "defense setups, ranked" teasers. Returns the new path or null.
+function mergedInto(uri) {
+  if (uri === '/guides/bans' || uri === '/guides/bans/' || uri === '/guides/bans/index.html') return '/guides/'
+  var ban = uri.match(/^\/guides\/bans\/([a-z0-9-]+)(\.html)?$/)
+  if (ban) return '/guides/' + ban[1] + '.html'
+  var setups = uri.match(/^\/blog\/([a-z0-9-]+)-defense-setups-ranked(\.html)?$/)
+  if (setups) return '/guides/' + setups[1] + '.html'
+  return null
+}
 
 function startsWithAny(uri, prefixes) {
   for (var i = 0; i < prefixes.length; i++) {
@@ -75,6 +86,9 @@ function redirect(location) {
 function route(request) {
   var uri = request.uri
   if (uri === '/' || uri === '') return request
+
+  var merged = mergedInto(uri)
+  if (merged) return redirect(merged + queryString(request))
 
   if (uri.charAt(uri.length - 1) === '/') {
     var bare = uri.slice(0, -1)
