@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MAPS from '../data/maps'
 import PUBLIC_STRATS from '../data/public-strats.generated'
@@ -17,10 +17,6 @@ export default function CreatorDemoPage() {
   const site = map?.sites.find((item) => item.id === DEMO_SITE_ID)
   const strat = PUBLIC_STRATS[DEMO_MAP_ID]?.[DEMO_SITE_ID]?.[side]
   const gameplay = getGameplayVisuals(DEMO_MAP_ID, DEMO_SITE_ID, side)
-
-  useEffect(() => {
-    document.title = '60-Second Strategy Demo | Recon 6'
-  }, [])
 
   async function shareDemo() {
     const url = `${window.location.origin}/creator-demo`

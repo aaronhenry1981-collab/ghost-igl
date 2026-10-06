@@ -1,0 +1,57 @@
+# Recon 6
+
+> Recon 6 (r6coaching.com) is a Rainbow Six Siege coaching tool: attack and defense plans for 25 maps with five operator jobs per round, match prep, screenshot-based AI VOD review, and a Windows desktop coach. It is built by Aaron Henry in Texas, USA, and is fan-made, not affiliated with Ubisoft.
+
+## Plans
+- Basic: free. Bank and Coastline sample strats, operator lineups, and the map and callout reference.
+- Pro: $12/month. Advanced strategies, 20 AI VOD reviews a month (5 screenshots each), and the Recon 6 Command desktop coach for Windows.
+- Elite: $39/month. Everything in Pro, 60 AI VOD reviews a month (up to 10 screenshots each), premium tactics, and recurring-mistake reports.
+- Champion: $70/month. Everything in Elite, 75 AI VOD reviews a month, and 2 live 1:1 coaching sessions with Aaron each month.
+- 1-on-1 coaching without a plan: $40 a session; a player's first session is $20.
+- Paid plans bill at checkout; there is no free trial. The first charge has a 7-day money-back window, and members cancel from the Stripe customer portal on their Account page.
+
+## Facts
+- Recon 6 is not a boosting service: nobody logs into a player's game account.
+- The website does not inject into or modify Rainbow Six Siege. The desktop coach reads the player's own capture feed and never touches the game process.
+- AI usage on the website is capped per plan; extra usage is prepaid, with no automatic overage.
+
+## Key pages
+- [Home](https://r6coaching.com/): what Recon 6 does, with a free strat preview
+- [Plans and pricing](https://r6coaching.com/pricing): every plan side by side
+- [Map strats](https://r6coaching.com/strats): attack and defense plans by map and site
+- [Free Bank defense plan](https://r6coaching.com/strats/bank/ceo/defense): a full round plan with no account
+- [1-on-1 coaching](https://r6coaching.com/coaching/): live sessions with Aaron
+- [About and contact](https://r6coaching.com/about): who builds Recon 6 and how to reach him
+- [Press kit](https://r6coaching.com/press): logos, screenshots and product copy
+- [Refund policy](https://r6coaching.com/refund), [Privacy policy](https://r6coaching.com/privacy), [Terms](https://r6coaching.com/terms)
+
+## Guides
+- [All map guides](https://r6coaching.com/guides/)
+- [Operator guides](https://r6coaching.com/guides/operators/)
+- [Ban guides](https://r6coaching.com/guides/bans/)
+- [Blog: rank-up and operator guides](https://r6coaching.com/blog/)
+- [Bank map guide](https://r6coaching.com/guides/bank.html): sites, callouts and the operators each plan uses
+- [Border map guide](https://r6coaching.com/guides/border.html): sites, callouts and the operators each plan uses
+- [Chalet map guide](https://r6coaching.com/guides/chalet.html): sites, callouts and the operators each plan uses
+- [Clubhouse map guide](https://r6coaching.com/guides/clubhouse.html): sites, callouts and the operators each plan uses
+- [Coastline map guide](https://r6coaching.com/guides/coastline.html): sites, callouts and the operators each plan uses
+- [Consulate map guide](https://r6coaching.com/guides/consulate.html): sites, callouts and the operators each plan uses
+- [Emerald Plains map guide](https://r6coaching.com/guides/emerald-plains.html): sites, callouts and the operators each plan uses
+- [Favela map guide](https://r6coaching.com/guides/favela.html): sites, callouts and the operators each plan uses
+- [Fortress map guide](https://r6coaching.com/guides/fortress.html): sites, callouts and the operators each plan uses
+- [Hereford Base map guide](https://r6coaching.com/guides/hereford.html): sites, callouts and the operators each plan uses
+- [House map guide](https://r6coaching.com/guides/house.html): sites, callouts and the operators each plan uses
+- [Kafe Dostoyevsky map guide](https://r6coaching.com/guides/kafe.html): sites, callouts and the operators each plan uses
+- [Kanal map guide](https://r6coaching.com/guides/kanal.html): sites, callouts and the operators each plan uses
+- [Lair map guide](https://r6coaching.com/guides/lair.html): sites, callouts and the operators each plan uses
+- [Nighthaven Labs map guide](https://r6coaching.com/guides/nighthaven.html): sites, callouts and the operators each plan uses
+- [Oregon map guide](https://r6coaching.com/guides/oregon.html): sites, callouts and the operators each plan uses
+- [Outback map guide](https://r6coaching.com/guides/outback.html): sites, callouts and the operators each plan uses
+- [Presidential Plane map guide](https://r6coaching.com/guides/plane.html): sites, callouts and the operators each plan uses
+- [Skyscraper map guide](https://r6coaching.com/guides/skyscraper.html): sites, callouts and the operators each plan uses
+- [Stadium Bravo map guide](https://r6coaching.com/guides/stadium-bravo.html): sites, callouts and the operators each plan uses
+- [Theme Park map guide](https://r6coaching.com/guides/theme-park.html): sites, callouts and the operators each plan uses
+- [Tower map guide](https://r6coaching.com/guides/tower.html): sites, callouts and the operators each plan uses
+- [Villa map guide](https://r6coaching.com/guides/villa.html): sites, callouts and the operators each plan uses
+- [Calypso Casino map guide](https://r6coaching.com/guides/calypso-casino.html): sites, callouts and the operators each plan uses
+- [Yacht map guide](https://r6coaching.com/guides/yacht.html): sites, callouts and the operators each plan uses

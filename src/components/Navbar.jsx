@@ -260,8 +260,8 @@ export default function Navbar() {
         <div className="navbar-left">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile} aria-label="Recon 6 home">
             {/* Approved R6 signature (brand/): monogram + wordmark, vector art. */}
-            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="" width="51" height="26" aria-hidden="true" />
-            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="" width="100" height="14" aria-hidden="true" />
+            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="Recon 6 R6 monogram" width="51" height="26" />
+            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="Recon 6" width="100" height="14" />
           </Link>
           {/* GameSwitcher removed 2026-07-06 — RECON6 is R6-only now. The
               component + game data stay in the tree (existing All-Access subs
@@ -294,8 +294,8 @@ export default function Navbar() {
           ) : (
             <>
               <li><NavLink to="/strats" className={({ isActive }) => isActive ? 'is-active' : ''}>Free strats</NavLink></li>
-              <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('how-it-works')}>How it works</button></li>
-              <li><button type="button" className="nav-marketing-link" onClick={() => handleSectionClick('pricing')}>Plans</button></li>
+              <li><a href="/#how-it-works" className="nav-marketing-link" onClick={(e) => { e.preventDefault(); handleSectionClick('how-it-works') }}>How it works</a></li>
+              <li><NavLink to="/pricing" className={({ isActive }) => `nav-marketing-link${isActive ? ' is-active' : ''}`}>Plans</NavLink></li>
             </>
           )}
         </ul>
@@ -304,7 +304,7 @@ export default function Navbar() {
           {isAdmin
             // Full page load: analytics must not carry into the admin.
             ? <a href="/admin" className="btn btn-primary btn-sm">Admin console</a>
-            : <Link to="/strats" className="btn btn-primary btn-sm">Open a free strat</Link>}
+            : !(isLanding && !user) && <Link to="/strats" className="btn btn-primary btn-sm">Open a free strat</Link>}
           {user ? (
             <AccountDropdown
               user={user}
@@ -367,8 +367,8 @@ export default function Navbar() {
         <div className="mobile-drawer-head">
           <Link to={user ? '/dashboard' : '/'} className="navbar-logo" onClick={closeMobile} aria-label="Recon 6 home">
             {/* Approved R6 signature (brand/): monogram + wordmark, vector art. */}
-            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="" width="51" height="26" aria-hidden="true" />
-            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="" width="100" height="14" aria-hidden="true" />
+            <img className="navbar-logo-mark" src="/logo-mark.svg" alt="Recon 6 R6 monogram" width="51" height="26" />
+            <img className="navbar-logo-word" src="/logo-wordmark.svg" alt="Recon 6" width="100" height="14" />
           </Link>
           <button
             ref={drawerCloseRef}
@@ -425,7 +425,7 @@ export default function Navbar() {
             <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link mobile-drawer-primary${isActive ? ' is-active' : ''}`}>Open a free strat</NavLink>
             <NavLink to="/vod?demo=1" onClick={closeMobile} className="mobile-drawer-link">Review a round free</NavLink>
             <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button>
-            <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('pricing')}>Plans & pricing</button>
+            <Link to="/pricing" onClick={closeMobile} className="mobile-drawer-link">Plans & pricing</Link>
             <a href="/coaching/index.html" onClick={closeMobile} className="mobile-drawer-link">1-on-1 coaching</a>
           </div>
         )}

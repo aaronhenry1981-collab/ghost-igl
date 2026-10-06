@@ -10,12 +10,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recon 6 — AI Rainbow Six Siege Coach: Strats, Bans & VOD Review</title>
+    <title>Recon 6 — AI Rainbow Six Siege Coach: Strats &amp; VOD Review</title>
     <meta name="description" content="Rainbow Six Siege coaching and reference tools for map strats, callouts, bans, match preparation, and screenshot-based VOD feedback." />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Recon 6 — AI Rainbow Six Siege Coach: Strats, Bans & VOD Review" />
+    <meta property="og:title" content="Recon 6 — AI Rainbow Six Siege Coach: Strats &amp; VOD Review" />
     <meta property="og:description" content="Every R6 site, every callout, every ban — pre-loaded for you. Drop a screenshot from your match and find out exactly what cost you the round. The deepest Rainbow Six strat library plus AI VOD review built for Siege." />
     <meta property="og:url" content="https://r6coaching.com" />
     <meta property="og:image" content="https://r6coaching.com/og-image.png" />
@@ -23,7 +23,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Recon 6 — AI Rainbow Six Siege Coach: Strats, Bans & VOD Review" />
+    <meta name="twitter:title" content="Recon 6 — AI Rainbow Six Siege Coach: Strats &amp; VOD Review" />
     <meta name="twitter:description" content="Every R6 callout, ban, and setup — ready before you ready up. Plus round-by-round AI feedback on your own Siege clips. The deepest Rainbow Six strat library anywhere." />
     <meta name="twitter:image" content="https://r6coaching.com/og-image.png" />
 
@@ -47,8 +47,32 @@
           "@id": "https://r6coaching.com/#organization",
           "name": "Recon 6",
           "url": "https://r6coaching.com/",
-          "logo": "https://r6coaching.com/og-image.png",
-          "description": "Rainbow Six Siege coaching for map knowledge, site setups, callouts, bans, and screenshot-based VOD review."
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://r6coaching.com/favicon-512.png",
+            "width": 512,
+            "height": 512
+          },
+          "description": "Rainbow Six Siege coaching for map knowledge, site setups, callouts, bans, and screenshot-based VOD review.",
+          "founder": { "@id": "https://r6coaching.com/about#aaron-henry" },
+          "sameAs": [
+            "https://www.tiktok.com/@recon6coach",
+            "https://discord.gg/namGQqs3jb",
+            "https://youtube.com/@MrAaron8189",
+            "https://twitch.tv/splinter251981"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://r6coaching.com/about#aaron-henry",
+          "name": "Aaron Henry",
+          "jobTitle": "Founder",
+          "url": "https://r6coaching.com/about",
+          "worksFor": { "@id": "https://r6coaching.com/#organization" },
+          "sameAs": [
+            "https://youtube.com/@MrAaron8189",
+            "https://twitch.tv/splinter251981"
+          ]
         },
         {
           "@type": "WebSite",
@@ -124,6 +148,14 @@
         },
         {
           "@type": "Question",
+          "name": "Who is Recon 6 not for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Players who want someone else to raise their rank: nobody logs into your account, so this is not boosting. It is not a cheat, macro or aim trainer either. Recon 6 is for players who want to understand their rounds and fix one mistake at a time."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Do I need to install anything?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -155,6 +187,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <nav aria-label="Recon 6 pages">
+        <a href="/strats">Map strats</a> · <a href="/guides/">Map guides</a> · <a href="/guides/operators/">Operator guides</a> ·
+        <a href="/blog/">Blog</a> · <a href="/pricing">Plans and pricing</a> · <a href="/coaching/">1-on-1 coaching</a> ·
+        <a href="/climb/">Rank climb guides</a> · <a href="/tools/">Free tools</a> · <a href="/tools/r6-tier-list">Operator tier list</a> ·
+        <a href="/creator-demo">Creator demo</a> · <a href="/download">Desktop coach</a> · <a href="/changelog">Changelog</a> ·
+        <a href="/about">About and contact</a> · <a href="/press">Press kit</a>
+      </nav>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

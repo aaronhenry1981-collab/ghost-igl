@@ -11,7 +11,7 @@ export default function SiteSetupDiagram({ strat, side, mapId, mapName, siteName
 
   return (
     <div className={`site-diagram site-diagram-${side}`} role="img" aria-label={summary}>
-      <img className="site-diagram-backdrop" src={`/guides/og/${mapId}.svg`} alt="" />
+      <img className="site-diagram-backdrop" src={`/guides/og/${mapId}.svg`} alt={`${mapName || 'Map'} ${siteName || ''} ${side} strat diagram backdrop`.replace(/\s+/g, ' ')} />
       <div className="site-diagram-grid" aria-hidden="true" />
 
       <div className="site-diagram-header">

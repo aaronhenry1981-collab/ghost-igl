@@ -10,6 +10,7 @@ import ReferralAttributor from './ReferralAttributor'
 import ErrorBoundary from './ErrorBoundary'
 import ActivityBeacon from './ActivityBeacon'
 import { GameProvider } from '../hooks/useActiveGame'
+import { useRouteMeta } from '../hooks/useRouteMeta'
 
 // Unified layout — single Navbar across the entire site (landing + in-app).
 // Replaces the previous AppShell sidebar pattern that switched UI on /strats
@@ -21,6 +22,7 @@ import { GameProvider } from '../hooks/useActiveGame'
 
 export default function Layout() {
   const location = useLocation()
+  useRouteMeta(location.pathname)
   const isLanding = location.pathname === '/'
   // The admin area (and its dev fixture preview) has its own top bar and
   // navigation instead of the public site chrome.
