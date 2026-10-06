@@ -73,6 +73,19 @@ test('merged thin pages redirect to their map guide', () => {
   assert.equal(served('/guides/og/bank.svg'), '/guides/og/bank.svg')
 })
 
+test('HeyCatch short links land on the home page with the channel as UTM tags', () => {
+  for (const c of ['f', 'i', 'l', 'r', 't', 'x', 'y', '7']) {
+    const res = run(`/${c}`)
+    assert.equal(res.statusCode, 302, c)
+    assert.equal(res.headers.location.value, `/?utm_source=heycatch&utm_campaign=${c}`, c)
+  }
+  assert.equal(run('/i/').headers.location.value, '/?utm_source=heycatch&utm_campaign=i')
+  // Longer paths keep their own handling.
+  assert.equal(served('/r/ABC123'), '/_shell/app.html')
+  assert.equal(served('/ii'), '/ii')
+  assert.equal(served('/I'), '/I')
+})
+
 test('blog posts for other games go to the blog index; R6 posts are served', async () => {
   for (const uri of ['/blog/valorant-plat-to-diamond.html', '/blog/pubg-endgame-strategy', '/blog/finals-gold-to-plat.html']) {
     assert.equal(run(uri).statusCode, 301, uri)

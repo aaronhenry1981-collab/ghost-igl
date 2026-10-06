@@ -106,9 +106,31 @@ function redirect(location) {
   }
 }
 
+// HeyCatch channel short links (/i Instagram, /t TikTok, /y YouTube …): one
+// lowercase letter or digit, 302 to the home page with the channel as UTM
+// tags. HeyCatch's setup guide requires this rule on hosts that 404 unknown
+// paths, because its SDK never loads on a 404 page to forward them itself.
+var SHORT_LINK = /^\/([a-z0-9])\/?$/
+
+function shortLink(uri) {
+  var m = uri.match(SHORT_LINK)
+  if (!m) return null
+  return {
+    statusCode: 302,
+    statusDescription: 'Found',
+    headers: {
+      location: { value: '/?utm_source=heycatch&utm_campaign=' + m[1] },
+      'cache-control': { value: 'no-store' }
+    }
+  }
+}
+
 function route(request) {
   var uri = request.uri
   if (uri === '/' || uri === '') return request
+
+  var short = shortLink(uri)
+  if (short) return short
 
   var merged = mergedInto(uri)
   if (merged) return redirect(merged.path + queryString(request) + merged.hash)
