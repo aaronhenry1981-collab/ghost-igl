@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom'
 import PricingSection from '../components/PricingSection'
+import TestimonialCards from '../components/TestimonialCards'
 import { FREE_MAP_NAMES, PLAN_FACTS } from '../config/planFacts'
+import { useTestimonials } from '../hooks/useTestimonials'
 
 // /pricing: the same plans as the home page's #pricing section, as a page of
-// its own (title "Recon 6 Pricing — …" from config/routeMeta.js).
+// its own (title "Recon 6 Pricing — …" from config/routeMeta.js), followed by
+// the same published testimonials as the home page.
 export default function PricingPage() {
   const { pro } = PLAN_FACTS
+  const { visible: testimonials } = useTestimonials()
   return (
     <div className="pricing-page">
       <header className="section-header pricing-page-header">
@@ -24,6 +28,16 @@ export default function PricingPage() {
         </p>
       </header>
       <PricingSection />
+      {testimonials.length > 0 && (
+        <section className="section" id="testimonials" aria-labelledby="pricing-testimonials-title">
+          <div className="section-header">
+            <div className="section-label">Testimonials</div>
+            <h2 id="pricing-testimonials-title">What Players Say</h2>
+            <p>Feedback from R6 players who have used Recon 6.</p>
+          </div>
+          <TestimonialCards testimonials={testimonials} />
+        </section>
+      )}
     </div>
   )
 }

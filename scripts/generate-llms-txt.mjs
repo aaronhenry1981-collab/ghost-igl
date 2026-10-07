@@ -44,6 +44,8 @@ const body = `# Recon 6
 - [About and contact](${SITE}/about): who builds Recon 6 and how to reach him
 - [Press kit](${SITE}/press): logos, screenshots and product copy
 - [Compare Recon 6](${SITE}/compare/): next to a 1-on-1 coach, free guides and other coaching tools
+- [Recon 6 vs R6 Tracker](${SITE}/compare/recon-6-vs-r6-tracker.html): Siege stats next to a round plan and one fix
+- [Recon 6 vs replay-analytics tools](${SITE}/compare/recon-6-vs-replay-analytics-tools.html): replay-stats tools such as DataCoach, which doesn't cover Siege, next to Recon 6
 - [Refund policy](${SITE}/refund), [Privacy policy](${SITE}/privacy), [Terms](${SITE}/terms)
 
 ## Guides

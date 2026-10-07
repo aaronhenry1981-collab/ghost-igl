@@ -636,6 +636,8 @@ select option:hover {
   border-radius: 8px;
   cursor: pointer;
   padding: 8px 10px;
+  min-width: 44px;
+  min-height: 44px;
   transition: background 0.15s, border-color 0.15s;
 }
 .mobile-toggle:hover,
@@ -1559,6 +1561,113 @@ select option:hover {
   font-size: 0.86rem;
   line-height: 1.6;
 }
+/* Example board beside the Road to Champion copy: real curriculum skills,
+   each with an evidence state, above the next-match mission. */
+.road-home-board { display: grid; gap: 0.9rem; min-width: 0; }
+.road-home-board > .road-home-mission-label { margin-bottom: 0; }
+.road-home-skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.road-home-skills li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-h);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.road-home-skills .road-state { flex-shrink: 0; }
+
+/* Sample review under the feature cards: the VOD review's after-state. */
+.review-sample {
+  max-width: 1180px;
+  margin: 2.5rem auto 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(240,116,48,.22);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(240,116,48,.07), rgba(220,200,171,.05));
+}
+.review-sample-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-bottom: 1.1rem;
+}
+.review-sample-badge {
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(240,116,48,.14);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.review-sample-head strong {
+  color: var(--text-h);
+  font-family: var(--heading);
+  font-size: 1.05rem;
+}
+.review-sample-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.review-sample-steps li {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.review-sample-steps li > span {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.review-sample-steps p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.review-sample-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-top: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--text);
+}
+.review-sample-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-weight: 700;
+}
+@media (max-width: 760px) {
+  .review-sample { padding: 1.1rem; }
+  .review-sample-steps { grid-template-columns: 1fr; }
+}
 
 /* ─── Pricing ─── */
 .pricing-grid {
@@ -1607,6 +1716,14 @@ select option:hover {
   letter-spacing: 0.18em;
   color: var(--accent);
   margin-bottom: 10px;
+}
+
+/* Who the plan is for, under the tier name. */
+.pricing-for {
+  margin: -2px 0 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
 }
 
 .pricing-price {
@@ -1718,11 +1835,13 @@ select option:hover {
   white-space: nowrap;
 }
 .pricing-upper strong span { font-size: 0.8rem; font-weight: 500; color: var(--text); }
+.pricing-upper-for { display: block; margin-bottom: 2px; font-weight: 600; color: var(--text-h); }
 @media (max-width: 560px) {
   .pricing-upper li { grid-template-columns: 1fr; }
 }
 
-/* Plan comparison: always in the page, scrolls inside its own box on phones. */
+/* Plan comparison: always in the page. Between 600px and its 620px minimum it
+   scrolls inside its own box; on phones it stacks (see the media query below). */
 .pricing-compare-wrap {
   max-width: 980px;
   margin: 2rem auto 0;
@@ -1758,6 +1877,43 @@ select option:hover {
   text-transform: uppercase;
 }
 .pricing-compare tbody th { color: var(--text-h); font-weight: 600; }
+
+/* Phones: no sideways scrolling. Each row stacks into the feature name and
+   one labelled line per plan (the label comes from the cell's data-plan). */
+@media (max-width: 600px) {
+  .pricing-compare-wrap { overflow-x: visible; }
+  .pricing-compare { min-width: 0; }
+  .pricing-compare thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .pricing-compare tbody,
+  .pricing-compare tr,
+  .pricing-compare tbody th,
+  .pricing-compare td { display: block; }
+  .pricing-compare tbody tr { padding: 12px 16px; border-top: 1px solid var(--border); }
+  .pricing-compare tbody th { padding: 0 0 6px; border-top: 0; }
+  .pricing-compare td {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 10px;
+    padding: 3px 0;
+    border-top: 0;
+  }
+  .pricing-compare td::before {
+    content: attr(data-plan);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+}
+
+/* Tap targets on the plan cards stay at least 44px tall. */
+.pricing-card .btn,
+.pricing-advanced-toggle { min-height: 44px; }
 
 /* ─── FAQ ─── */
 .faq-list {
@@ -2470,11 +2626,16 @@ a.meta-strip-name:hover { color: #f07430; }
   pointer-events: none;
 }
 
+/* A real <img> (with alt text) rather than a CSS background, so the hero
+   visual is indexable; object-fit keeps the old cover crop. */
 .hero-v2-image {
   z-index: -4;
-  background-image: url('/recon6-tactical-hero.webp');
-  background-size: cover;
-  background-position: 56% center;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 56% center;
   filter: saturate(0.9) contrast(1.06);
   transform: scale(1.01);
 }
@@ -2754,7 +2915,7 @@ a.meta-strip-name:hover { color: #f07430; }
     padding: 64px 24px 0;
   }
   .hero-v2-image {
-    background-position: 66% center;
+    object-position: 66% center;
   }
   .hero-v2-shade {
     background:

@@ -24,6 +24,9 @@ import { openMembershipCheckout } from '../lib/membershipCheckout'
 import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
 import PricingSection from '../components/PricingSection'
+import TestimonialCards from '../components/TestimonialCards'
+import { R6_DEMO_ANALYSIS } from '../data/vodDemoR6'
+import { findProgressSkill } from '../data/progressCurriculum'
 
 const PREVIEW_STRATS = {
   'bank-ceo-attack': { map: 'Bank', mapId: 'bank', site: 'CEO Office', siteId: 'ceo', side: 'attack', data: STRATS.bank.ceo.attack },
@@ -174,6 +177,30 @@ const FEATURE_ICONS = {
     </svg>
   ),
 }
+
+// What the paid features hand back, shown with real product data rather than
+// described: an excerpt of the /vod demo's sample review (the same object),
+// and an example Road to Champion board built from the real curriculum, its
+// "Needs work" skill matching the sample's mistake. Both are labelled as
+// samples; neither is a member's data.
+const SAMPLE_SHOT = R6_DEMO_ANALYSIS.per_image[0]
+const SAMPLE_REVIEW_PLACE = [
+  `${SAMPLE_SHOT.detected.map} ${SAMPLE_SHOT.detected.site}`,
+  SAMPLE_SHOT.detected.side === 'defense' ? 'Defense' : 'Attack',
+  SAMPLE_SHOT.detected.character,
+].join(' · ')
+const SAMPLE_REVIEW_STEPS = [
+  { label: 'Screenshot', text: SAMPLE_SHOT.what_happened },
+  { label: 'Mistake', text: SAMPLE_SHOT.what_went_wrong[0] }, // crosshair on the door frame
+  { label: 'Practice', text: R6_DEMO_ANALYSIS.practice_plan.this_week[0] }, // pre-aim head height drill
+]
+const BOARD_MISSION = findProgressSkill('crosshair-head-height')
+const BOARD_EXAMPLE = [
+  { skill: findProgressSkill('drone-before-entry'), state: 'proven', label: 'Proven' },
+  { skill: BOARD_MISSION, state: 'needs', label: 'Needs work' },
+  { skill: findProgressSkill('controlled-peeks'), state: 'building', label: 'Building proof' },
+  { skill: findProgressSkill('spawn-discipline'), state: 'unseen', label: 'Not observed' },
+]
 
 const STEPS = [
   { num: '01', title: 'Choose Your Map and Site', desc: 'Open the exact Rainbow Six map, bombsite, and side you are playing. Preview Bank and Coastline for free; a paid plan unlocks more maps and detail.' },
@@ -353,7 +380,15 @@ export default function LandingPage() {
   return (
     <div className="recon-landing-v2">
       <section className="hero hero-v2">
-        <div className="hero-v2-image" aria-hidden="true" />
+        <img
+          className="hero-v2-image"
+          src="/recon6-tactical-hero.webp"
+          alt="Illustration of two attackers breaching into a room at night, with a floor plan and a dashed entry route drawn beside them"
+          width="1920"
+          height="1080"
+          fetchPriority="high"
+          decoding="async"
+        />
         <div className="hero-v2-shade" aria-hidden="true" />
         <div className="hero-v2-grid" aria-hidden="true" />
         <div className="hero-v2-inner">
@@ -363,7 +398,7 @@ export default function LandingPage() {
               Built for real R6 rounds · Season {getCurrentSeason()}
             </div>
             <h1>
-              Load your next round.<br />
+              Load your next Siege round.<br />
               <span className="accent">Know your job.</span><br />
               Play it together.
             </h1>
@@ -440,21 +475,7 @@ export default function LandingPage() {
           <h2>What Players Say</h2>
           <p>Feedback from R6 players who have used Recon 6.</p>
         </div>
-        <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <div className="testimonial-card" key={t.id || t.name}>
-              <p className="testimonial-text">\u201c{t.text}\u201d</p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">{t.initials}</div>
-                <div className="testimonial-meta">
-                  <strong>{t.name}</strong>
-                  {t.rank && <span className="rank-up">{t.rank}</span>}
-                </div>
-              </div>
-              {t.hours && <div className="testimonial-hours">{t.hours}</div>}
-            </div>
-          ))}
-        </div>
+        <TestimonialCards testimonials={testimonials} />
       </section>
       )}
 
@@ -482,6 +503,24 @@ export default function LandingPage() {
             )
           })}
         </div>
+        <figure className="review-sample">
+          <figcaption className="review-sample-head">
+            <span className="review-sample-badge">Sample review</span>
+            <strong>{SAMPLE_REVIEW_PLACE}</strong>
+          </figcaption>
+          <ol className="review-sample-steps">
+            {SAMPLE_REVIEW_STEPS.map((step) => (
+              <li key={step.label}>
+                <span>{step.label}</span>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="review-sample-foot">
+            <span>Each review is saved to Road to Champion as coaching evidence.</span>
+            <Link to="/vod?demo=1">Open the full sample review <span aria-hidden="true">→</span></Link>
+          </div>
+        </figure>
       </section>
 
       {demoVideo && (
@@ -618,10 +657,21 @@ export default function LandingPage() {
           </div>
           <Link to="/progress" className="btn btn-primary">Open Road to Champion</Link>
         </div>
-        <div className="road-home-mission">
-          <div className="road-home-mission-label">Example next-match mission</div>
-          <strong>Drone the room you will enter—then act on what you saw.</strong>
-          <p>Complete the behavior repeatedly in real matches. One lucky round does not mark the skill as mastered.</p>
+        <div className="road-home-board">
+          <div className="road-home-mission-label">Example board</div>
+          <ul className="road-home-skills" aria-label="Example skills and their evidence states">
+            {BOARD_EXAMPLE.map(({ skill, state, label }) => (
+              <li key={skill.id}>
+                <span>{skill.title}</span>
+                <span className={`road-state road-state-${state}`}>{label}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="road-home-mission">
+            <div className="road-home-mission-label">Next-match mission</div>
+            <strong>{BOARD_MISSION.action}</strong>
+            <p>Complete the behavior repeatedly in real matches. One lucky round does not mark the skill as mastered.</p>
+          </div>
         </div>
       </section>
 

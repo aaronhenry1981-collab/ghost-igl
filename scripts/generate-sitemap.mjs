@@ -53,6 +53,8 @@ const STATIC_URLS = [
   { loc: '/compare/recon-6-vs-1-on-1-coaching.html', freq: 'monthly', pri: 0.8 },
   { loc: '/compare/recon-6-vs-youtube-and-discord.html', freq: 'monthly', pri: 0.8 },
   { loc: '/compare/rainbow-six-siege-coaching-tools.html', freq: 'monthly', pri: 0.8 },
+  { loc: '/compare/recon-6-vs-replay-analytics-tools.html', freq: 'monthly', pri: 0.8 },
+  { loc: '/compare/recon-6-vs-r6-tracker.html', freq: 'monthly', pri: 0.8 },
 ]
 
 // The source files behind each app route (static pages are their own source).
