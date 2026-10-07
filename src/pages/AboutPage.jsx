@@ -74,6 +74,13 @@ export default function AboutPage() {
           <li><strong>Press</strong> Logos, screenshots and copy are in the <Link to="/press">press kit</Link>.</li>
         </ul>
       </section>
+
+      {/* Visitors were looping home → about → pricing and leaving; give the
+          page one next step: the free plan. */}
+      <section className="about-section about-next" aria-label="Try a plan">
+        <p>See how a plan reads before anything else: the free Bank defense needs no account.</p>
+        <Link to="/strats/bank/ceo/defense" className="btn btn-primary">Open the free Bank defense <span aria-hidden="true">→</span></Link>
+      </section>
     </div>
   )
 }

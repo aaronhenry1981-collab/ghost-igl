@@ -13,6 +13,7 @@ import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/public-strats.generated.js'
 import BANS from '../src/data/public-bans.generated.js'
 import { verifiedFor } from '../src/data/verified-callouts.js'
+import { FREE_MAPS } from '../src/config/planFacts.js'
 import {
   ARTICLE_CSS, SITE_URL, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished,
   fitDescription, fitTitle, footerHtml, mapRefs, navHtml, officialSourcesLine,
@@ -21,6 +22,8 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const OUT_DIR = join(ROOT, 'public', 'guides')
+// Maps whose plans open without an account (Bank and Coastline).
+const FREE_MAP_IDS = new Set(FREE_MAPS.map((map) => map.id))
 
 // "CEO Office / Executive Lounge" -> "CEO Office"; both rooms when two sites
 // on the map share the first one.
@@ -124,6 +127,11 @@ function htmlShell({ title, description, canonical, bodyInner, extraHead = '', o
     .lineup strong, .callout-line strong { color: #fad6c2; }
     .callout-line { font-size: 0.9rem; color: rgba(235,228,215,0.85); }
     .deep-link { display: inline-block; margin-top: 6px; font-size: 0.88rem; }
+    .deep-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 8px 0 0; }
+    .deep-links .deep-link { margin-top: 0; padding: 6px 0; }
+    .guide-cta { margin: 8px 0 32px; padding: 18px 20px; background: rgba(240,116,48,0.06); border: 1px solid rgba(240,116,48,0.22); border-radius: 10px; }
+    .guide-cta p { margin: 0 0 10px; }
+    .guide-cta .cta-top { margin: 0; }
     .bans { margin-top: 12px; padding: 14px 16px; background: rgba(255,70,90,0.05); border: 1px solid rgba(255,70,90,0.2); border-radius: 8px; }
     .related-links { margin-top: 32px; padding: 20px; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
     .related-links h2 { margin: 0 0 10px; font-size: 1.1rem; }
@@ -206,8 +214,17 @@ function renderSiteSection(map, site) {
         <p class="site-answer">${escape(siteAnswer(map, site, strat))}</p>
         ${renderSide('attack', strat.attack)}
         ${renderSide('defense', strat.defense)}
-        <a class="deep-link" href="${SITE_URL}/strats/${map.id}/${site.id}/attack">Open the interactive ${escape(siteLabel(map, site))} strat &rarr;</a>
+        ${planLinks(map, site, strat)}
       </section>`
+}
+
+// One link per side to the interactive plan, so a reader on this site can
+// open the side they're about to play (the guide used to link attack only).
+function planLinks(map, site, strat) {
+  const links = ['attack', 'defense']
+    .filter((side) => strat[side])
+    .map((side) => `<a class="deep-link" href="${SITE_URL}/strats/${map.id}/${site.id}/${side}">Open the ${escape(siteLabel(map, site))} ${side} plan &rarr;</a>`)
+  return links.length ? `<p class="deep-links">${links.join('')}</p>` : ''
 }
 
 // The two essential operators a side's plans on this map use most.
@@ -283,6 +300,10 @@ function renderMapGuide(map) {
     ${bansHtml}
     <h2>How should you play ${escape(map.name)}'s bomb sites?</h2>
     ${map.sites.map((s) => renderSiteSection(map, s)).join('\n')}
+    <div class="guide-cta">
+      <p><strong>Playing ${escape(map.name)} next?</strong> ${FREE_MAP_IDS.has(map.id) ? 'Its plans are free, no account needed.' : 'Pick your site and side in the interactive plans.'}</p>
+      <a class="cta-top" href="${SITE_URL}/strats/${map.id}">Open ${FREE_MAP_IDS.has(map.id) ? 'the free ' : ''}${escape(map.name)} strats &rarr;</a>
+    </div>
     ${footageHtml(map)}
     ${official ? `<p class="official">${official}</p>` : ''}
     ${relatedHtml(`Operators ${map.name} plans lean on`, [

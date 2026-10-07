@@ -11,6 +11,7 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import MAPS from '../src/data/maps.js'
 import STRATS from '../src/data/strats.js'
+import { metaForPath } from '../src/config/routeMeta.js'
 import { CURRENT_R6_SEASON, balanceChangesFor } from '../src/data/r6-season.js'
 import {
   ARTICLE_CSS, TEMPLATE_REVISED, articleSchema, bylineHtml, figureHtml, firstPublished, fitDescription,
@@ -678,6 +679,8 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     .intro-cta h3 { margin: 0 0 6px; color: #fff; }
     .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
     .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .btn-ghost { background: transparent; color: #f07430; border: 1px solid rgba(240,116,48,0.5); }
+    .next-step .btn { margin: 4px; }
     .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
     .site-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
     .site-table th { background: rgba(240,116,48,0.1); color: #fad6c2; text-align: left; padding: 8px 10px; }
@@ -861,8 +864,17 @@ function renderOperatorPost(opName, opIndex) {
       <ul>${relatedLinks.map((l) => `<li><a href="${escape(l.url)}">${escape(l.name)}</a>.</li>`).join('')}</ul>
     </div>`
 
+  // Next step: the plan where this operator matters most, when that plan has
+  // a page (routeMeta knows every live /strats/<map>/<site>/<side>), then Pro
+  // for reviewing your own rounds.
+  const topPlanPath = topSite && `/strats/${topSite.mapId}/${topSite.siteId}/${topSite.side}`
+  const topPlan = topPlanPath && metaForPath(topPlanPath) ? topPlanPath : null
   const ctaHtml = `
-    <p class="pro-note"><a href="${SITE_URL}/pricing">Review your own ${escape(opName)} rounds with Pro</a></p>`
+    <div class="intro-cta next-step">
+      ${topPlan ? `<p>Play ${escape(opName)} where the plans need ${escape(opName)} most: ${escape(String(topSite.siteName).split(' / ')[0])} on ${escape(topSite.mapName)}, ${escape(topSite.side)}.</p>
+      <a class="btn" href="${SITE_URL}${topPlan}">Open that plan &rarr;</a>` : ''}
+      <a class="btn btn-ghost" href="${SITE_URL}/pricing">Review your own ${escape(opName)} rounds with Pro</a>
+    </div>`
 
   const breadcrumb = `<nav class="breadcrumb">
     <a href="/">Recon 6</a> ›
@@ -885,8 +897,8 @@ function renderOperatorPost(opName, opIndex) {
       ${counterAdviceSection}
       ${climbSection}
       ${relatedHtml}
-      ${ctaHtml}
-    </article>`
+    </article>
+    ${ctaHtml}`
 
   // JSON-LD: BlogPosting + HowTo + BreadcrumbList
   const jsonLdBlocks = [

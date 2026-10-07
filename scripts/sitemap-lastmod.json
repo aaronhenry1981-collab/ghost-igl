@@ -1,235 +1,235 @@
 {
   "/": {
-    "hash": "9c7a614c331ae566",
+    "hash": "05b910fb5276417b",
     "lastmod": "2026-10-07"
   },
   "/about": {
-    "hash": "1d255bb10f98c7cf",
-    "lastmod": "2026-10-06"
+    "hash": "67270e4ebdd39d3b",
+    "lastmod": "2026-10-07"
   },
   "/author/aaron/": {
     "hash": "3d21005ad14cc8ec",
     "lastmod": "2026-10-07"
   },
   "/blog/": {
-    "hash": "5fd1b7f1a4bc86b5",
-    "lastmod": "2026-10-06"
+    "hash": "fc7954eb6bdd1ffb",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-bronze-to-silver.html": {
-    "hash": "77bd94d6f223c5ea",
-    "lastmod": "2026-10-06"
+    "hash": "b5321a7ec0bfd274",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-copper-to-bronze.html": {
-    "hash": "4a7fda1f2ce70bb9",
-    "lastmod": "2026-10-06"
+    "hash": "36a7b695627b26b6",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-diamond-to-champion.html": {
-    "hash": "357be8bd70fc12c5",
-    "lastmod": "2026-10-06"
+    "hash": "ddfdaa7f82a7b856",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-emerald-to-diamond.html": {
-    "hash": "997edaf174b4c423",
-    "lastmod": "2026-10-06"
+    "hash": "6f9e3781c0ede312",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-gold-to-platinum.html": {
-    "hash": "f8fa61b84d08448c",
-    "lastmod": "2026-10-06"
+    "hash": "472c28ab8cb0a0c3",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-ace.html": {
-    "hash": "478eb316e6aa1c5f",
-    "lastmod": "2026-10-06"
+    "hash": "0965278667eeab4b",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-alibi.html": {
-    "hash": "c47341368b14b2fd",
-    "lastmod": "2026-10-06"
+    "hash": "067261ca749282b1",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-aruni.html": {
-    "hash": "b25f5dcb688e0e7e",
-    "lastmod": "2026-10-06"
+    "hash": "063a6652cab9ed3c",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-ash.html": {
-    "hash": "eb9901e913ce8aae",
-    "lastmod": "2026-10-06"
+    "hash": "0a37089484f33a15",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-azami.html": {
-    "hash": "92fb5a31c82419b3",
-    "lastmod": "2026-10-06"
+    "hash": "76c2f982cd41cfe9",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-bandit.html": {
-    "hash": "4524355c2733da72",
-    "lastmod": "2026-10-06"
+    "hash": "2fc54384da8cb684",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-buck.html": {
-    "hash": "067096c03978a57b",
-    "lastmod": "2026-10-06"
+    "hash": "2859126c85151193",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-capitao.html": {
-    "hash": "97985afeb48b0da7",
-    "lastmod": "2026-10-06"
+    "hash": "42130587d07d8569",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-castle.html": {
-    "hash": "933fe8f0463dd6cf",
-    "lastmod": "2026-10-06"
+    "hash": "7f0a1f7e617b05fb",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-caveira.html": {
-    "hash": "8691a24d4e3882a2",
-    "lastmod": "2026-10-06"
+    "hash": "5cf2f2392ebc648e",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-doc.html": {
-    "hash": "b006cf62331bc54b",
-    "lastmod": "2026-10-06"
+    "hash": "5056cc4fca175a49",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-dokkaebi.html": {
-    "hash": "a8dea77657b3c520",
-    "lastmod": "2026-10-06"
+    "hash": "8146f1ee4d1f2d88",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-echo.html": {
-    "hash": "bdb5243e0556dd00",
-    "lastmod": "2026-10-06"
+    "hash": "17c94c0aee85d601",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-ela.html": {
-    "hash": "298d6b2224453e2e",
-    "lastmod": "2026-10-06"
+    "hash": "5129fdd4970f92a5",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-finka.html": {
-    "hash": "066ef66091386b43",
-    "lastmod": "2026-10-06"
+    "hash": "a1af4a5bab3a5f60",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-flores.html": {
-    "hash": "ca14f192d7f8751f",
-    "lastmod": "2026-10-06"
+    "hash": "9d3102fe44822820",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-fuze.html": {
-    "hash": "866878ad2c87d9b7",
-    "lastmod": "2026-10-06"
+    "hash": "3fff5b87cf4a00bd",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-glaz.html": {
-    "hash": "835f733f4c117d18",
-    "lastmod": "2026-10-06"
+    "hash": "5d564b7173d281eb",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-goyo.html": {
-    "hash": "2f2c232f25067ecf",
-    "lastmod": "2026-10-06"
+    "hash": "fdcbe3eb82239918",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-gridlock.html": {
-    "hash": "f35bcdca1c50fb2d",
-    "lastmod": "2026-10-06"
+    "hash": "6fb7d4e9ea24074c",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-hibana.html": {
-    "hash": "71856cfbf99597f0",
-    "lastmod": "2026-10-06"
+    "hash": "7494243208f7d419",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-iana.html": {
-    "hash": "d441e578c4f7cf81",
-    "lastmod": "2026-10-06"
+    "hash": "fe586766299fa737",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-jager.html": {
-    "hash": "127b46f1b1e924a5",
-    "lastmod": "2026-10-06"
+    "hash": "41455d600ed85548",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-kaid.html": {
-    "hash": "0eb82d673ddb5c04",
-    "lastmod": "2026-10-06"
+    "hash": "394e6c3d9fe6a421",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-kali.html": {
-    "hash": "a66f82338ababe50",
-    "lastmod": "2026-10-06"
+    "hash": "2d0ba976ea61c040",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-lesion.html": {
-    "hash": "4cb69101064bfc10",
-    "lastmod": "2026-10-06"
+    "hash": "1b1236b201349eaf",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-lion.html": {
-    "hash": "0750ff9c5902cdcd",
-    "lastmod": "2026-10-06"
+    "hash": "8f94b2816fcc88dc",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-maestro.html": {
-    "hash": "a17e7c8e4ce433c8",
-    "lastmod": "2026-10-06"
+    "hash": "64b0e860ec2f67f6",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-maverick.html": {
-    "hash": "266d67753105420d",
-    "lastmod": "2026-10-06"
+    "hash": "42711f067755d945",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-melusi.html": {
-    "hash": "c9ad4b8bf5d990b5",
-    "lastmod": "2026-10-06"
+    "hash": "cae8afee7841859a",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-mira.html": {
-    "hash": "b420a5984c7bd947",
-    "lastmod": "2026-10-06"
+    "hash": "2f87c69f4b43eb7d",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-mozzie.html": {
-    "hash": "d0013a66b1f3f0b0",
-    "lastmod": "2026-10-06"
+    "hash": "0c3c32303e55079c",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-mute.html": {
-    "hash": "462fcef08adbc0d2",
-    "lastmod": "2026-10-06"
+    "hash": "a132bbde9e3d83dd",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-nomad.html": {
-    "hash": "54e35dff48180b37",
-    "lastmod": "2026-10-06"
+    "hash": "04d44ccbac6e8a76",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-pulse.html": {
-    "hash": "2aa2b537397f23f7",
-    "lastmod": "2026-10-06"
+    "hash": "de3ec9b241c825c5",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-sledge.html": {
-    "hash": "50c58198ffa4d801",
-    "lastmod": "2026-10-06"
+    "hash": "2e217cfec08c1574",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-smoke.html": {
-    "hash": "f43e3af6aa4c76d6",
-    "lastmod": "2026-10-06"
+    "hash": "8f2da10727e7b282",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-thatcher.html": {
-    "hash": "d600298c405039e7",
-    "lastmod": "2026-10-06"
+    "hash": "9c45754f8d76d697",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-thermite.html": {
-    "hash": "c29632b16bd2064b",
-    "lastmod": "2026-10-06"
+    "hash": "65a594bec86fa344",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-thunderbird.html": {
-    "hash": "c06e47408934af80",
-    "lastmod": "2026-10-06"
+    "hash": "d9ade093c5e5d54c",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-twitch.html": {
-    "hash": "5cb00382ffd74c86",
-    "lastmod": "2026-10-06"
+    "hash": "4ee14a77f2397f6a",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-valkyrie.html": {
-    "hash": "2ca420d9331b9453",
-    "lastmod": "2026-10-06"
+    "hash": "3483b6865e5fcd22",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-vigil.html": {
-    "hash": "074484cc3bd2b484",
-    "lastmod": "2026-10-06"
+    "hash": "1a829baa9fdcabba",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-wamai.html": {
-    "hash": "128bad8918dddcfa",
-    "lastmod": "2026-10-06"
+    "hash": "a5732738a66f9948",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-ying.html": {
-    "hash": "f35f80f916f241d3",
-    "lastmod": "2026-10-06"
+    "hash": "4e825a303a7afd2e",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-zero.html": {
-    "hash": "9f0c0e3304bfa259",
-    "lastmod": "2026-10-06"
+    "hash": "d1f3d9cb921ab904",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-operator-zofia.html": {
-    "hash": "c444e1df97163cfc",
-    "lastmod": "2026-10-06"
+    "hash": "729eac02f29033c7",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-platinum-to-emerald.html": {
-    "hash": "95f339b798116bad",
-    "lastmod": "2026-10-06"
+    "hash": "248cb2ecd330d88e",
+    "lastmod": "2026-10-07"
   },
   "/blog/r6-silver-to-gold.html": {
-    "hash": "a82cd6666d3499c8",
-    "lastmod": "2026-10-06"
+    "hash": "561417dd8160946f",
+    "lastmod": "2026-10-07"
   },
   "/changelog": {
     "hash": "19ff17777e8d5fe1",
@@ -256,7 +256,7 @@
     "lastmod": "2026-10-06"
   },
   "/compare/recon-6-vs-r6-tracker.html": {
-    "hash": "2b6a77787395c498",
+    "hash": "c1471ca535f4c788",
     "lastmod": "2026-10-07"
   },
   "/compare/recon-6-vs-replay-analytics-tools.html": {
@@ -280,72 +280,72 @@
     "lastmod": "2026-09-29"
   },
   "/guides/": {
-    "hash": "3762ab80ebf6dbf6",
-    "lastmod": "2026-10-06"
+    "hash": "0ade3841423e4f3e",
+    "lastmod": "2026-10-07"
   },
   "/guides/bank.html": {
-    "hash": "728f552870df1be6",
-    "lastmod": "2026-10-06"
+    "hash": "786078a55835e615",
+    "lastmod": "2026-10-07"
   },
   "/guides/border.html": {
-    "hash": "83c3490271e4e696",
-    "lastmod": "2026-10-06"
+    "hash": "a9803c2ca76fe957",
+    "lastmod": "2026-10-07"
   },
   "/guides/calypso-casino.html": {
-    "hash": "23de9b23f5ba80a3",
-    "lastmod": "2026-10-06"
+    "hash": "cb3eb85a0f41e24a",
+    "lastmod": "2026-10-07"
   },
   "/guides/chalet.html": {
-    "hash": "710ec51f2b410a8f",
-    "lastmod": "2026-10-06"
+    "hash": "015c60c079b145af",
+    "lastmod": "2026-10-07"
   },
   "/guides/clubhouse.html": {
-    "hash": "acd395d5f7a91163",
-    "lastmod": "2026-10-06"
+    "hash": "a6a16d8f9335cf8d",
+    "lastmod": "2026-10-07"
   },
   "/guides/coastline.html": {
-    "hash": "7d81f32a82cbf74f",
-    "lastmod": "2026-10-06"
+    "hash": "0936463f2d273d52",
+    "lastmod": "2026-10-07"
   },
   "/guides/consulate.html": {
-    "hash": "5bf939eec83c6a99",
-    "lastmod": "2026-10-06"
+    "hash": "89dac454a74eb6bb",
+    "lastmod": "2026-10-07"
   },
   "/guides/emerald-plains.html": {
-    "hash": "ec46f6a6cb65afaf",
-    "lastmod": "2026-10-06"
+    "hash": "5a827366b096f27b",
+    "lastmod": "2026-10-07"
   },
   "/guides/favela.html": {
-    "hash": "daa100d2c5f503f3",
-    "lastmod": "2026-10-06"
+    "hash": "de80a5cfeb7f4c4b",
+    "lastmod": "2026-10-07"
   },
   "/guides/fortress.html": {
-    "hash": "13d58eb76921a6e3",
-    "lastmod": "2026-10-06"
+    "hash": "132becdc26643937",
+    "lastmod": "2026-10-07"
   },
   "/guides/hereford.html": {
-    "hash": "86e07e2b45b95e88",
-    "lastmod": "2026-10-06"
+    "hash": "18cc21576c0eee84",
+    "lastmod": "2026-10-07"
   },
   "/guides/house.html": {
-    "hash": "b5d7ff0420268341",
-    "lastmod": "2026-10-06"
+    "hash": "89c36b110a10d102",
+    "lastmod": "2026-10-07"
   },
   "/guides/kafe.html": {
-    "hash": "672d43750f920021",
-    "lastmod": "2026-10-06"
+    "hash": "d3391b0e41cd311f",
+    "lastmod": "2026-10-07"
   },
   "/guides/kanal.html": {
-    "hash": "c4470ecab5b2ec35",
-    "lastmod": "2026-10-06"
+    "hash": "d9ad062134db573d",
+    "lastmod": "2026-10-07"
   },
   "/guides/lair.html": {
-    "hash": "1e0ee1d11b66b1b9",
-    "lastmod": "2026-10-06"
+    "hash": "57eca55e66965e2d",
+    "lastmod": "2026-10-07"
   },
   "/guides/nighthaven.html": {
-    "hash": "96c6aafb91f7b452",
-    "lastmod": "2026-10-06"
+    "hash": "e68b9bcdb56e4ff6",
+    "lastmod": "2026-10-07"
   },
   "/guides/operators/": {
     "hash": "a5e0d0fa9a288dd1",
@@ -356,40 +356,40 @@
     "lastmod": "2026-10-06"
   },
   "/guides/oregon.html": {
-    "hash": "22e6a4a9dee34f62",
-    "lastmod": "2026-10-06"
+    "hash": "4371b74613db86f1",
+    "lastmod": "2026-10-07"
   },
   "/guides/outback.html": {
-    "hash": "d9faed95fdfeb2b0",
-    "lastmod": "2026-10-06"
+    "hash": "b2f99044a21ef99c",
+    "lastmod": "2026-10-07"
   },
   "/guides/plane.html": {
-    "hash": "e7d42a56dad54fd6",
-    "lastmod": "2026-10-06"
+    "hash": "93d4c08a8b420935",
+    "lastmod": "2026-10-07"
   },
   "/guides/skyscraper.html": {
-    "hash": "0e6f74be4dbecc46",
-    "lastmod": "2026-10-06"
+    "hash": "016c4a0bc25d0b06",
+    "lastmod": "2026-10-07"
   },
   "/guides/stadium-bravo.html": {
-    "hash": "09c42fa003e54bae",
-    "lastmod": "2026-10-06"
+    "hash": "ad3a10a37b2802f2",
+    "lastmod": "2026-10-07"
   },
   "/guides/theme-park.html": {
-    "hash": "cc653f82217b45a7",
-    "lastmod": "2026-10-06"
+    "hash": "8c122356139ae535",
+    "lastmod": "2026-10-07"
   },
   "/guides/tower.html": {
-    "hash": "c23b9c862dae8f0b",
-    "lastmod": "2026-10-06"
+    "hash": "d5075b3f45c1919f",
+    "lastmod": "2026-10-07"
   },
   "/guides/villa.html": {
-    "hash": "b85410e774a5bafa",
-    "lastmod": "2026-10-06"
+    "hash": "b2fc28cbd7c781c1",
+    "lastmod": "2026-10-07"
   },
   "/guides/yacht.html": {
-    "hash": "81cc5d20c2fb1efc",
-    "lastmod": "2026-10-06"
+    "hash": "4535ed8daab24fda",
+    "lastmod": "2026-10-07"
   },
   "/live": {
     "hash": "f04283b72c752587",
