@@ -422,7 +422,10 @@ export default function Navbar() {
         ) : (
           <div className="mobile-drawer-section">
             <div className="mobile-drawer-section-label">Recon 6</div>
-            <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link mobile-drawer-primary${isActive ? ' is-active' : ''}`}>Open a free strat</NavLink>
+            {/* On the home page the hero's "Open the free Bank defense" is the
+                free-strat CTA, so the drawer lists strats as a plain link
+                instead of a second primary button for the same job. */}
+            <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isLanding ? '' : ' mobile-drawer-primary'}${isActive ? ' is-active' : ''}`}>{isLanding ? 'Free strats' : 'Open a free strat'}</NavLink>
             <NavLink to="/vod?demo=1" onClick={closeMobile} className="mobile-drawer-link">Review a round free</NavLink>
             <button type="button" className="mobile-drawer-link" onClick={() => handleSectionClick('how-it-works')}>How It Works</button>
             <Link to="/pricing" onClick={closeMobile} className="mobile-drawer-link">Plans & pricing</Link>

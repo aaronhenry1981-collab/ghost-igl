@@ -47,6 +47,7 @@ const PRICING = [
   {
     tier: 'Basic',
     tierKey: 'free',
+    audience: `For trying Recon 6 on ${FREE_MAP_NAMES}`,
     price: 'Free',
     period: '',
     desc: 'Free Bank and Coastline strategy previews, plus the operator catalog.',
@@ -62,6 +63,7 @@ const PRICING = [
   {
     tier: 'Pro',
     tierKey: 'pro',
+    audience: 'For the solo ranked grinder',
     price: '$9',
     regularPrice: '$12',
     period: '/mo',
@@ -84,6 +86,7 @@ const PRICING = [
   {
     tier: 'Elite',
     tierKey: 'elite',
+    audience: 'For players who review their matches every week',
     price: '$39',
     period: '/mo',
     desc: 'The full self-service coaching system for players who use Recon 6 every week.',
@@ -101,6 +104,7 @@ const PRICING = [
   {
     tier: 'Champion',
     tierKey: 'champion',
+    audience: 'For players who want live coaching with Aaron',
     price: '$70',
     period: '/mo',
     desc: 'High-touch coaching: everything in Elite plus two live sessions with Aaron every month.',
@@ -120,6 +124,7 @@ const PRICING = [
 
 const { pro: PRO, elite: ELITE, champion: CHAMPION } = PLAN_FACTS
 const usd = (n) => `$${n}`
+const audienceFor = (tierKey) => PRICING.find((p) => p.tierKey === tierKey).audience
 
 // Shown while the Elite and Champion cards are collapsed, so their prices and
 // what they add never hide behind the toggle.
@@ -128,12 +133,14 @@ const UPPER_TIERS = [
     key: 'elite',
     name: 'Elite',
     price: usd(ELITE.monthlyUsd),
+    audience: audienceFor('elite'),
     delta: `Everything in Pro, ${ELITE.aiReviewsPerMonth / PRO.aiReviewsPerMonth}× the VOD reviews (${ELITE.aiReviewsPerMonth} a month), up to ${ELITE.screenshotsPerReview} screenshots per review, and premium tactics.`,
   },
   {
     key: 'champion',
     name: 'Champion',
     price: usd(CHAMPION.monthlyUsd),
+    audience: audienceFor('champion'),
     delta: `Everything in Elite, ${CHAMPION.aiReviewsPerMonth} VOD reviews a month, and ${CHAMPION.liveSessionsPerMonth} live 1:1 coaching sessions with Aaron every month.`,
   },
 ]
@@ -215,6 +222,7 @@ export default function PricingSection({ externalError = null }) {
           <div className={`pricing-card${p.featured ? ' featured' : ''}`} key={p.tier}>
             {p.featured && <div className="pricing-popular">Recommended start</div>}
             <div className="pricing-tier">{p.tier}</div>
+            <p className="pricing-for">{p.audience}</p>
             <div className="pricing-price">
               {showRegular && (
                 <span
@@ -295,7 +303,7 @@ export default function PricingSection({ externalError = null }) {
           {UPPER_TIERS.map((t) => (
             <li key={t.key}>
               <strong>{t.name} — {t.price}<span>/mo</span></strong>
-              <span>{t.delta}</span>
+              <span><b className="pricing-upper-for">{t.audience}</b>{t.delta}</span>
             </li>
           ))}
         </ul>
@@ -323,7 +331,7 @@ export default function PricingSection({ externalError = null }) {
             {COMPARE_ROWS.map(([label, ...cells]) => (
               <tr key={label}>
                 <th scope="row">{label}</th>
-                {cells.map((cell, i) => <td key={COMPARE_PLANS[i]}>{cell}</td>)}
+                {cells.map((cell, i) => <td key={COMPARE_PLANS[i]} data-plan={COMPARE_PLANS[i]}>{cell}</td>)}
               </tr>
             ))}
           </tbody>

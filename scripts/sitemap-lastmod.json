@@ -1,15 +1,15 @@
 {
   "/": {
-    "hash": "305a9b3f138675d5",
-    "lastmod": "2026-10-06"
+    "hash": "9c7a614c331ae566",
+    "lastmod": "2026-10-07"
   },
   "/about": {
     "hash": "1d255bb10f98c7cf",
     "lastmod": "2026-10-06"
   },
   "/author/aaron/": {
-    "hash": "fa3a0fed6c3e859c",
-    "lastmod": "2026-10-06"
+    "hash": "3d21005ad14cc8ec",
+    "lastmod": "2026-10-07"
   },
   "/blog/": {
     "hash": "5fd1b7f1a4bc86b5",
@@ -244,8 +244,8 @@
     "lastmod": "2026-09-29"
   },
   "/compare/": {
-    "hash": "c057ac5a4fed39fa",
-    "lastmod": "2026-10-06"
+    "hash": "0dd03263d51227ca",
+    "lastmod": "2026-10-07"
   },
   "/compare/rainbow-six-siege-coaching-tools.html": {
     "hash": "800125f5de0541be",
@@ -255,13 +255,21 @@
     "hash": "4c3c2d0f9018572b",
     "lastmod": "2026-10-06"
   },
+  "/compare/recon-6-vs-r6-tracker.html": {
+    "hash": "2b6a77787395c498",
+    "lastmod": "2026-10-07"
+  },
+  "/compare/recon-6-vs-replay-analytics-tools.html": {
+    "hash": "7e7a40bb12480e95",
+    "lastmod": "2026-10-07"
+  },
   "/compare/recon-6-vs-youtube-and-discord.html": {
     "hash": "e547b0e5f85708ae",
     "lastmod": "2026-10-06"
   },
   "/countdown/": {
     "hash": "a8cfae898ca671f6",
-    "lastmod": "2026-10-06"
+    "lastmod": "2026-10-07"
   },
   "/creator-demo": {
     "hash": "7745fc7c204e6af3",
@@ -396,8 +404,8 @@
     "lastmod": "2026-09-29"
   },
   "/meta": {
-    "hash": "4e5498d986b2fce4",
-    "lastmod": "2026-09-28"
+    "hash": "328224cca26024e8",
+    "lastmod": "2026-10-07"
   },
   "/operators": {
     "hash": "ec0539396b58f326",
@@ -408,8 +416,8 @@
     "lastmod": "2026-10-06"
   },
   "/pricing": {
-    "hash": "f207fba2e4db2e67",
-    "lastmod": "2026-10-06"
+    "hash": "9cd0da2ed1465e76",
+    "lastmod": "2026-10-07"
   },
   "/privacy": {
     "hash": "e0ba598e7bcd51e2",
@@ -429,14 +437,14 @@
   },
   "/tools/": {
     "hash": "3de9268e26ed4e85",
-    "lastmod": "2026-10-06"
+    "lastmod": "2026-10-07"
   },
   "/tools/r6-tier-list": {
     "hash": "f60f5eb1fadecba2",
     "lastmod": "2026-09-29"
   },
   "/vod": {
-    "hash": "35b2b8f4d6da47e8",
-    "lastmod": "2026-09-29"
+    "hash": "d39a3b38cb78c079",
+    "lastmod": "2026-10-07"
   }
 }

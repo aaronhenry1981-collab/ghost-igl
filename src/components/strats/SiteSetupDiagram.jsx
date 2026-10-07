@@ -1,4 +1,4 @@
-import { buildDiagramZones, diagramSummary } from '../../lib/siteDiagram.mjs'
+import { buildDiagramZones, diagramAlt, diagramSummary } from '../../lib/siteDiagram.mjs'
 
 const PHASES = {
   attack: ['DRONE', 'TAKE SPACE', 'EXECUTE', 'CLOSE'],
@@ -11,7 +11,7 @@ export default function SiteSetupDiagram({ strat, side, mapId, mapName, siteName
 
   return (
     <div className={`site-diagram site-diagram-${side}`} role="img" aria-label={summary}>
-      <img className="site-diagram-backdrop" src={`/guides/og/${mapId}.svg`} alt={`${mapName || 'Map'} ${siteName || ''} ${side} strat diagram backdrop`.replace(/\s+/g, ' ')} />
+      <img className="site-diagram-backdrop" src={`/guides/og/${mapId}.svg`} alt={diagramAlt(zones, side, mapName, siteName)} />
       <div className="site-diagram-grid" aria-hidden="true" />
 
       <div className="site-diagram-header">

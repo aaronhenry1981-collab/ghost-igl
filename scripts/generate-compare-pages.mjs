@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 // public/compare/: comparison and category pages for the searches buyers run
 // before they pay ("R6 coach vs app", "is it worth it", "what coaching tools
-// exist"). Facts come from planFacts and the coaching page's published prices;
-// nothing here describes another product beyond what it is.
+// exist", "R6 Tracker vs ..."). Recon 6 facts come from planFacts and the
+// coaching page's published prices. A named product is described only from
+// its own website: quoted, dated "checked on <date>", and listed under
+// Sources. Re-check those pages before changing what they say.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,6 +20,8 @@ const { pro, elite, champion } = PLAN_FACTS
 // Published on /coaching/ (scripts/generate-coaching-page.mjs).
 const SESSION = 40
 const FIRST_SESSION = 20
+// When the named products below were last read from their own sites.
+const CHECKED = '6 October 2026'
 
 const escape = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -189,6 +193,112 @@ const PAGES = [
       { label: 'SiegeGG: operator stats', note: 'pick and ban rates in professional play', url: 'https://siege.gg/operators' },
     ],
   },
+  {
+    slug: 'recon-6-vs-replay-analytics-tools',
+    title: 'Recon 6 vs Replay-Analytics Tools for Rainbow Six Siege',
+    description: 'Replay-analytics tools like DataCoach turn replay files into stats, but not for Siege. What Recon 6 does for Rainbow Six Siege instead, and what it costs.',
+    h1: 'Recon 6 vs replay-analytics tools',
+    definition: 'A replay-analytics tool reads the replay files your matches save and turns them into stats and charts. DataCoach is one; its site calls it "Performance analytics for competitive Esports." Recon 6 is built for Rainbow Six Siege and works from the other end of the round: a plan for the map, site and side before you play, then a review of your screenshots that names one mistake to fix.',
+    table: {
+      head: ['', 'Replay-analytics tool (DataCoach)', 'Recon 6'],
+      rows: [
+        ['Rainbow Six Siege', 'Not supported', 'Built only for Siege'],
+        ['Works from', 'Replay files you upload after matches', 'The map, site and side you pick, and screenshots you upload'],
+        ['What you get', 'A dashboard of analytics, game history and training plans', 'A plan with five operator jobs before the round; a review naming one mistake and a fix after it'],
+        ['Price', 'Free for 10 replays a month; $11 a month for 50; $18 a month for unlimited', `${FREE_MAP_NAMES} free; Pro $${pro.monthlyUsd} a month with ${pro.aiReviewsPerMonth} reviews`],
+      ],
+    },
+    sections: [
+      {
+        q: 'What does a replay-analytics tool do?',
+        a: '<p>It reads the replay file a game saves after each match and turns it into numbers you can track. DataCoach describes the job as converting "replay files into powerful esports performance analytics": you upload replays, then review a dashboard of analytics, game history and training plans. It can only measure what the replay file records.</p>',
+      },
+      {
+        q: 'Does DataCoach work for Rainbow Six Siege?',
+        a: `<p>No, not when we checked on ${CHECKED}. DataCoach's player plans are built for another game's 1v1, 2v2 and 3v3 playlists, and Rainbow Six Siege isn't mentioned on its site. Siege players who want numbers from their matches use a stat tracker instead; see <a href="/compare/recon-6-vs-r6-tracker.html">Recon 6 vs R6 Tracker</a>.</p>`,
+      },
+      {
+        q: 'What does Recon 6 do instead?',
+        a: '<p>Recon 6 covers both ends of a Siege round. Before it, pick the map, site and side, and you get one plan with a job for each of the five players, the callouts and the utility. After the match, upload screenshots such as death cams or end-of-round scoreboards; the review names the mistake they show, the pattern across the session, and a fix to apply next round. Each review is saved to Road to Champion as coaching evidence.</p>',
+      },
+      {
+        q: 'Can Recon 6 read Siege replay files?',
+        a: `<p>No. Recon 6 reviews the screenshots you upload, not replay files, so a review can only judge what those screenshots show: up to ${pro.screenshotsPerReview} per review on Pro and ${elite.screenshotsPerReview} on Elite and Champion.</p>`,
+      },
+      {
+        q: 'Which should you use?',
+        a: `<p>If you play a game a replay-analytics tool supports and want charts from every replay, that tool is built for it. If you play Siege and lose rounds without knowing why, Recon 6 gives your team the plan before the round and one fix after it. ${FREE_MAP_NAMES} are free to open without paying.</p>`,
+      },
+    ],
+    faq: [
+      ['Is Recon 6 a replay analyzer?', 'No. It does not read replay files. It gives you a plan before the round and reviews the screenshots you upload after it.'],
+      ['Does Recon 6 track my stats?', 'No. Recon 6 is not a stat tracker, and it never needs your game login.'],
+      ['Is Recon 6 connected to DataCoach?', `No. Recon 6 is not affiliated with DataCoach. The DataCoach details on this page come from its own website, checked on ${CHECKED}.`],
+      ['Is there a free trial?', `No. Paid plans start when you check out. ${FREE_MAP_NAMES} are free to open without paying.`],
+    ],
+    related: [
+      { name: 'Recon 6 vs R6 Tracker', url: '/compare/recon-6-vs-r6-tracker.html' },
+      { name: 'Rainbow Six Siege coaching tools, by type', url: '/compare/rainbow-six-siege-coaching-tools.html' },
+      { name: 'A sample AI review', url: '/vod?demo=1' },
+    ],
+    sources: [
+      { label: 'DataCoach: home page', note: `its description and player plans, checked ${CHECKED}`, url: 'https://www.datacoach.gg/' },
+      { label: 'DataCoach: pricing', note: `player plans and replay limits, checked ${CHECKED}`, url: 'https://www.datacoach.gg/pricing' },
+    ],
+  },
+  {
+    slug: 'recon-6-vs-r6-tracker',
+    title: 'Recon 6 vs R6 Tracker: Siege Stats or a Round Plan?',
+    description: 'R6 Tracker shows your Siege stats, match history and every player\'s rank. Recon 6 plans the round and finds one fix after it. What each does and costs.',
+    h1: 'Recon 6 vs R6 Tracker',
+    definition: 'R6 Tracker, from Tracker.gg, is a Rainbow Six Siege stats site and Windows overlay app; its site invites you to "Check Detailed Rainbow Six: Siege Stats and Leaderboards." Recon 6 is a Siege coaching tool: one plan for the map, site and side you are about to play, then a review of your screenshots that names one mistake to fix.',
+    table: {
+      head: ['', 'R6 Tracker', 'Recon 6'],
+      rows: [
+        ['What it answers', 'How am I doing, and who am I playing against?', 'What should my team do on this site, and what do I fix next?'],
+        ['Works from', 'Your Siege profile and match data', 'The map, site and side you pick, and screenshots you upload'],
+        ['During the match', 'A Windows overlay with every player\'s rank and your victory chances (not on console)', 'An optional Windows desktop coach that reads your own capture feed; console through a capture card'],
+        ['After the match', 'Match history with roster, scoreboard and timeline; operator, map and weapon stats', 'A screenshot review naming the mistake, the pattern and a fix'],
+        ['Price', 'Free; Premium is $3.99 a month and removes ads', `${FREE_MAP_NAMES} free; Pro $${pro.monthlyUsd} a month`],
+      ],
+    },
+    sections: [
+      {
+        q: 'What does R6 Tracker do well?',
+        a: '<p>Numbers. R6 Tracker keeps your match history, with the roster, an advanced scoreboard and a timeline for each match, and breaks your stats down by operator, map and weapon. Its Windows overlay shows every player\'s rank in your current match; in its own words, "Scout the enemy and build your battle plan." The site is free, and Premium ($3.99 a month) removes the ads.</p>',
+      },
+      {
+        q: 'What can\'t a stat tracker tell you?',
+        a: '<p>Why you lost the round. A tracker shows where your numbers are weak, such as a map, an operator or a weapon. It doesn\'t give your team a plan for the site: who drones, who opens the wall, who watches the flank. And it doesn\'t say what went wrong in the round you just lost.</p>',
+      },
+      {
+        q: 'What does Recon 6 do instead?',
+        a: `<p>Recon 6 starts before the round. Pick the map, site and side, and you get one plan with a job for each of the five players, the callouts and the utility, across ${MAP_COUNT} maps. After the match, Pro reviews up to ${pro.screenshotsPerReview} screenshots at a time, such as death cams or end-of-round scoreboards, and names the mistake they show and a fix for your next round. Recon 6 does not track your stats and never needs your game login.</p>`,
+      },
+      {
+        q: 'How do they work together?',
+        a: '<p>Say R6 Tracker shows Bank is your worst map. Open the Recon 6 plan for the Bank site you keep losing, so your stack plays one execute instead of five ideas. Play it, upload screenshots from the rounds you still lose, and carry the one fix into your next match. A month later, the tracker tells you whether Bank got better.</p>',
+      },
+      {
+        q: 'What does each cost?',
+        a: `<p>R6 Tracker is free, and its Premium plan is $3.99 a month without ads. Recon 6's ${FREE_MAP_NAMES} plans are free. Pro is $${pro.monthlyUsd} a month with ${pro.aiReviewsPerMonth} AI reviews, Elite is $${elite.monthlyUsd} with ${elite.aiReviewsPerMonth}, and Champion is $${champion.monthlyUsd} with ${champion.aiReviewsPerMonth} reviews and ${champion.liveSessionsPerMonth} live sessions. Recon 6 has no free trial.</p>`,
+      },
+    ],
+    faq: [
+      ['Is Recon 6 a stat tracker?', 'No. It does not track your stats or read your match history, and it never needs your game login.'],
+      ['Can I use both?', 'Yes. They answer different questions: the tracker shows where your numbers are weak, and Recon 6 gives the plan for the round and the fix after it.'],
+      ['Is Recon 6 affiliated with R6 Tracker or Tracker.gg?', `No. The R6 Tracker details on this page come from its own website, checked on ${CHECKED}.`],
+      ['Is there a free trial?', `No. Paid plans start when you check out. ${FREE_MAP_NAMES} are free to open without paying.`],
+    ],
+    related: [
+      { name: 'Recon 6 vs replay-analytics tools', url: '/compare/recon-6-vs-replay-analytics-tools.html' },
+      { name: 'Rainbow Six Siege coaching tools, by type', url: '/compare/rainbow-six-siege-coaching-tools.html' },
+      { name: 'Open the free Bank defense', url: '/strats/bank/ceo/defense' },
+    ],
+    sources: [
+      { label: 'R6 Tracker (Tracker.gg): home page', note: `its features, overlay and Premium price, checked ${CHECKED}`, url: 'https://r6.tracker.network/' },
+    ],
+  },
 ]
 
 function shell({ title, description, canonical, body, jsonLd }) {
@@ -299,14 +409,14 @@ function renderIndex() {
   const body = `
     <nav class="breadcrumb"><a href="/">Recon 6</a> › <span>Compare</span></nav>
     <h1>Compare Recon 6 with other ways to improve</h1>
-    <p class="definition">Recon 6 is one way to get better at Rainbow Six Siege. These pages put it next to the others: a human coach, free YouTube guides and Discord strat sheets, and the other kinds of coaching tools. Each comparison gives the cost, what each option does well, and its limits.</p>
+    <p class="definition">Recon 6 is one way to get better at Rainbow Six Siege. These pages put it next to the others: a human coach, free YouTube guides and Discord strat sheets, replay-analytics tools, R6 Tracker, and the other kinds of coaching tools. Each comparison gives the cost, what each option does well, and its limits.</p>
     <h2>Which comparison do you need?</h2>
     <ul>${PAGES.map((p) => `<li><a href="/compare/${p.slug}.html">${escape(p.h1)}</a>. ${escape(p.definition)}</li>`).join('')}</ul>
     <h2>What does each option cost?</h2>
     <p>YouTube guides, Discord strat sheets and Recon 6's ${escape(FREE_MAP_NAMES)} plans are free. Recon 6 Pro is $${pro.monthlyUsd} a month and Elite is $${elite.monthlyUsd}. A 1-on-1 session is $${SESSION} an hour, and your first is $${FIRST_SESSION}. Champion is $${champion.monthlyUsd} a month and includes ${champion.liveSessionsPerMonth} sessions. Recon 6 has no free trial.</p>`
   return shell({
     title: 'Compare Recon 6 With Other Ways to Improve at R6',
-    description: 'Recon 6 next to a 1-on-1 coach, free YouTube guides and Discord strat sheets, and the other kinds of Rainbow Six Siege coaching tools, with costs and limits.',
+    description: 'Recon 6 next to a 1-on-1 coach, free guides and strat sheets, replay-analytics tools, R6 Tracker and other Rainbow Six Siege coaching tools, with costs and limits.',
     canonical,
     body,
     jsonLd: [{

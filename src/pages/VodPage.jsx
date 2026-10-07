@@ -11,58 +11,15 @@ import { useSectionNavigate } from '../utils/sectionLink'
 import { isFoundingOpen, FOUNDING_END_SHORT, foundingTimeRemaining } from '../config/founding'
 import { FREE_MAP_NAMES } from '../config/planFacts'
 import { track } from '../utils/analytics'
+import { R6_DEMO_ANALYSIS } from '../data/vodDemoR6'
 import './VodPage.css'
 
-// R6 has a hand-tuned demo. Every other game falls through to a synthetic
+// R6 has a hand-tuned demo (data/vodDemoR6.js, shared with the home page's
+// sample review). Every other game falls through to a synthetic
 // demo built from the active game's actual maps + cast + vocabulary — so a
 // Tekken player sees a Tekken-shaped sample, a LoL player sees a LoL one,
 // etc. Without this, non-R6 visitors had NO way to preview the AI output
 // before paying. That was killing conversion on 19 of 20 games.
-const R6_DEMO_ANALYSIS = {
-  session: {
-    headline:
-      'Solid setup on Bank 2F CEO Office but a predictable head-glitch angle and unused utility cost you the round.',
-    score: 72,
-    detected_map: 'Bank',
-    detected_side: 'defense',
-    image_count: 1,
-  },
-  per_image: [
-    {
-      image_index: 0,
-      detected: { map: 'Bank', site: '2F CEO Office', side: 'defense', character: 'Smoke', round_phase: 'action' },
-      what_happened: 'Smoke holding CEO doorway from the standard head-glitch spot during the action phase.',
-      what_went_wrong: [
-        'Crosshair on the door frame, not pre-aimed head height into Executive Lounge.',
-        'Smoke canister visible on HUD but undeployed — wasted on a defensive round with no plant pressure yet.',
-        'Position is droneable: Iana/Flores attackers will see your exact angle.',
-      ],
-      what_went_right: ['Anchored the bomb site instead of roaming early.'],
-      specific_advice: [
-        'Step two paces back behind the desk to break the head-glitch and force attackers deeper.',
-        'Pre-aim chest height through the Executive Lounge shared wall.',
-        'Save Smoke canister for plant denial — don\'t throw early for pressure.',
-        'Ask Maestro to drop an Evil Eye covering Executive Lounge so you\'re not double-anchoring.',
-      ],
-    },
-  ],
-  patterns: {
-    recurring_weaknesses: [
-      'Holding head-glitch angles attackers can pre-drone',
-      'Crosshair drifting to floor between peeks',
-    ],
-    standout_strengths: ['Smoke canister kept in reserve for plant denial'],
-  },
-  practice_plan: {
-    this_week: [
-      'Aim Training: pre-aim head height on every doorway entry — 10 minutes/day',
-      'Custom Map: anchor Bank 2F CEO from 3 alternate spots, find one with cover',
-      'Map Awareness: review one match VOD and identify every droneable angle you held',
-    ],
-  },
-  character_feedback:
-    'Smoke is meant to be a plant-denial anchor — your gas canisters are your value, not your ADS. Hold from positions that survive long enough to throw gas at the plant. Don\'t peek for frags.',
-}
 
 // Hand-tuned demos for the highest-TAM non-R6 games. These reference the
 // game's actual maps + characters + vocab. Falls through to a generic

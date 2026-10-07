@@ -6,8 +6,34 @@ import STRATS from './public-strats.generated'
 import BANS from './public-bans.generated'
 import OPERATORS from './operators'
 
+function rankedMapIdSet() {
+  return new Set(MAPS.filter((m) => m.rankedPool && !m.comingSoon).map((m) => m.id))
+}
+
+// How often the guides recommend each ban across the ranked pool. Ban
+// recommendations are paid content, so the public bundle's BANS is empty and
+// the public board is too; MetaPage rebuilds it from a paid member's
+// protected catalog.
+export function buildBanBoard(bans = {}, rankedMapIds = rankedMapIdSet()) {
+  const banCounts = {}
+  for (const mapId of Object.keys(bans || {})) {
+    if (!rankedMapIds.has(mapId)) continue
+    for (const side of ['attack', 'defense']) {
+      for (const ban of bans[mapId]?.[side] || []) {
+        if (!banCounts[ban.name]) banCounts[ban.name] = { name: ban.name, atkBans: 0, defBans: 0, total: 0, sampleReasons: [] }
+        banCounts[ban.name][side === 'attack' ? 'atkBans' : 'defBans']++
+        banCounts[ban.name].total++
+        if (banCounts[ban.name].sampleReasons.length < 2) {
+          banCounts[ban.name].sampleReasons.push({ mapId, side, reason: ban.reason })
+        }
+      }
+    }
+  }
+  return Object.values(banCounts).sort((a, b) => b.total - a.total || a.name.localeCompare(b.name))
+}
+
 function computeMeta() {
-  const rankedMapIds = new Set(MAPS.filter((m) => m.rankedPool && !m.comingSoon).map((m) => m.id))
+  const rankedMapIds = rankedMapIdSet()
 
   // Operator leaderboard — essential / recommended counts, ranked only
   const opBoard = OPERATORS.map((op) => {
@@ -31,22 +57,7 @@ function computeMeta() {
     .filter((o) => o.total > 0)
     .sort((a, b) => b.essential - a.essential || b.total - a.total || a.name.localeCompare(b.name))
 
-  // Ban recommendations frequency
-  const banCounts = {}
-  for (const mapId of Object.keys(BANS)) {
-    if (!rankedMapIds.has(mapId)) continue
-    for (const side of ['attack', 'defense']) {
-      for (const ban of BANS[mapId]?.[side] || []) {
-        if (!banCounts[ban.name]) banCounts[ban.name] = { name: ban.name, atkBans: 0, defBans: 0, total: 0, sampleReasons: [] }
-        banCounts[ban.name][side === 'attack' ? 'atkBans' : 'defBans']++
-        banCounts[ban.name].total++
-        if (banCounts[ban.name].sampleReasons.length < 2) {
-          banCounts[ban.name].sampleReasons.push({ mapId, side, reason: ban.reason })
-        }
-      }
-    }
-  }
-  const banBoard = Object.values(banCounts).sort((a, b) => b.total - a.total || a.name.localeCompare(b.name))
+  const banBoard = buildBanBoard(BANS, rankedMapIds)
 
   // Per-map site counts and "weight" (more essentials = harder to improvise)
   const mapStats = []

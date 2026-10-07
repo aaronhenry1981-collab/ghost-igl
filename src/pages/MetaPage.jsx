@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import META from '../data/meta'
+import META, { buildBanBoard } from '../data/meta'
+import { useAuth } from '../hooks/useAuth'
+import useProtectedCatalog from '../hooks/useProtectedCatalog'
 import { useUserRole, operatorFitsRole } from '../hooks/useUserRole'
 import { useActiveGame } from '../hooks/useActiveGame'
 import GameMetaPage from './GameMetaPage'
@@ -83,8 +85,13 @@ function OperatorLeaderboard({ side }) {
 }
 
 function BanBoard({ side }) {
+  const { isPro, loading: authLoading } = useAuth()
+  const { catalog, error } = useProtectedCatalog()
+  // The public bundle ships no ban data (paid content), so META.banBoard is
+  // empty for visitors; paid members get the board from their catalog.
+  const board = useMemo(() => (catalog?.bans ? buildBanBoard(catalog.bans) : META.banBoard), [catalog])
   const rows = useMemo(() => {
-    return META.banBoard
+    return board
       .map((b) => ({
         ...b,
         filteredCount: side === 'all' ? b.total : side === 'attack' ? b.atkBans : b.defBans,
@@ -92,14 +99,21 @@ function BanBoard({ side }) {
       .filter((b) => b.filteredCount > 0)
       .sort((a, b) => b.filteredCount - a.filteredCount || a.name.localeCompare(b.name))
       .slice(0, 12)
-  }, [side])
+  }, [board, side])
 
   if (!rows.length) {
+    let note
+    if (board.length) note = <p>No ban recommendations for this filter.</p>
+    // Same teaser as the home page meta strip.
+    else if (!authLoading && !isPro) note = <p>Ban targets for every ranked map, each with the reason, come with Pro. <Link to="/pricing">See plans</Link></p>
+    else if (error) note = <p>Ban recommendations did not load. Refresh to try again, or open a map in <Link to="/strats">Strats</Link>.</p>
+    else if (!catalog) note = <p>Loading ban recommendations…</p>
+    else note = <p>No ban recommendations yet.</p>
     return (
       <div className="meta-card">
         <div className="meta-card-header">
           <h2>Common ban recommendations</h2>
-          <p>No ban recommendations for this filter.</p>
+          {note}
         </div>
       </div>
     )
