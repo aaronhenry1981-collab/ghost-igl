@@ -66,3 +66,15 @@
 .about-channels a:focus-visible {
   border-color: var(--accent);
 }
+
+/* The page's one next step: the free plan. */
+.about-next {
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(240, 116, 48, 0.25);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.about-next p {
+  margin: 0 0 0.9rem;
+  color: var(--text-h);
+}

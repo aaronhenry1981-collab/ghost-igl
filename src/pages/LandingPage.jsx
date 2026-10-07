@@ -702,18 +702,30 @@ export default function LandingPage() {
               <FoundingCountdown variant="pill" />
             </div>
           )}
+          {/* The copy above invites a free preview, so the free plan is the
+              primary button here too (visitors were ending on this section
+              with only a $12 checkout to press). Pro stays the secondary. */}
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             {isPro ? (
               <Link to="/account" className="btn btn-primary btn-lg">Manage membership</Link>
             ) : (
-              <MembershipCheckoutButton
-                tier="pro"
-                location="final-cta"
-                onError={(error) => setCheckoutError(error.message || 'Could not open secure checkout.')}
-                className="btn btn-primary btn-lg"
-              >
-                Start Pro — $12/month
-              </MembershipCheckoutButton>
+              <>
+                <Link
+                  to="/strats/bank/ceo/defense"
+                  className="btn btn-primary btn-lg"
+                  onClick={() => track('Final CTA Click', { type: 'bank-defense' })}
+                >
+                  Open the free Bank defense <span aria-hidden="true">→</span>
+                </Link>
+                <MembershipCheckoutButton
+                  tier="pro"
+                  location="final-cta"
+                  onError={(error) => setCheckoutError(error.message || 'Could not open secure checkout.')}
+                  className="btn btn-outline btn-lg"
+                >
+                  Start Pro — ${PLAN_FACTS.pro.monthlyUsd}/month
+                </MembershipCheckoutButton>
+              </>
             )}
           </div>
         </div>

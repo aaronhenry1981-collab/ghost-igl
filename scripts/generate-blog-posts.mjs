@@ -134,6 +134,8 @@ function htmlShell({ title, description, canonical, bodyInner, jsonLdBlocks = []
     .intro-cta h3 { margin: 0 0 6px; color: #fff; }
     .intro-cta p { margin: 0 0 12px; color: rgba(235,228,215,0.8); }
     .btn { display: inline-block; padding: 10px 20px; background: #f07430; color: #0f0e0d; font-weight: 700; border-radius: 6px; text-decoration: none; }
+    .btn-ghost { background: transparent; color: #f07430; border: 1px solid rgba(240,116,48,0.5); }
+    .next-step .btn { margin: 4px; }
     .footer-strip { max-width: 760px; margin: 40px auto; padding: 0 24px; color: rgba(235,228,215,0.5); font-size: 0.82rem; text-align: center; }
 ${ARTICLE_CSS}
     @media (max-width: 600px) {
@@ -2336,7 +2338,11 @@ function renderPost(post) {
       <a class="btn" href="${SITE_URL}/#pricing" style="background:transparent;border:1px solid rgba(255,201,122,0.5);color:#ffc97a">See pricing</a>
     </div>`
     : `
-    <p class="pro-note">Next: <a href="${SITE_URL}/strats">open the free ${FREE_MAP_NAMES} strats</a>, or <a href="${SITE_URL}/pricing">get your own rounds reviewed with Pro</a>.</p>`
+    <div class="intro-cta next-step">
+      <p>Try it on your next round: the ${FREE_MAP_NAMES} plans are free, no account needed.</p>
+      <a class="btn" href="${SITE_URL}/strats/bank/ceo/defense">Open the free Bank defense &rarr;</a>
+      <a class="btn btn-ghost" href="${SITE_URL}/pricing">See Pro plans</a>
+    </div>`
 
   const bodyInner = `
     ${renderBreadcrumb(post)}
@@ -2351,8 +2357,8 @@ function renderPost(post) {
       ${aiHtml}
       ${relatedHtml}
       ${post.game === 'r6' ? sourcesHtml(seasonSources(), 'Further reading') : ''}
-      ${ctaHtml}
-    </article>`
+    </article>
+    ${ctaHtml}`
 
   // JSON-LD: Article + HowTo + BreadcrumbList. HowTo steps are auto-derived
   // from the post sections — Google's HowTo rich result renders these as
