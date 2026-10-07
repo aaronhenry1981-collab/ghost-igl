@@ -43,6 +43,7 @@
     "check:patch-facts": "node scripts/check-patch-facts.mjs",
     "check:auth-health": "node scripts/check-auth-health.mjs",
     "test:coaching-addon": "node --test lambda/webhook/coaching-addon.test.mjs lambda/booking/coaching-credits.test.mjs",
+    "test:webhook-billing": "node --test lambda/webhook/subscription-ownership.test.mjs lambda/webhook/coaching-addon.test.mjs",
     "test:workbook-purchase": "node --test lambda/subscription/workbook-purchase.test.mjs",
     "test:patch-facts": "node --test src/data/r6-season.test.mjs scripts/check-patch-facts.test.mjs",
     "infra:coaching-routes": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/ensure-coaching-routes.ps1"
