@@ -330,7 +330,7 @@ function StratPreview() {
         ))}
       </div>
       <div className="strat-preview-body">
-        <StratDisplay strat={current.data} side={current.side} mapId={current.mapId} siteId={current.siteId} gated={true} />
+        <StratDisplay strat={current.data} side={current.side} mapId={current.mapId} mapName={current.map} siteId={current.siteId} siteName={current.site} gated={true} />
       </div>
     </div>
   )
