@@ -24,7 +24,13 @@ import { analytics } from '@heycatch/sdk'
 import { analyticsStarted } from '../lib/analyticsScope.mjs'
 import { getCampaignAttribution, getRefSource } from '../lib/refSource'
 
+// The purchase path in order: plan_selected fires on any plan button, signed
+// in or not (signed-out visitors go to sign-up before checkout opens), then
+// sign-up, then checkout_started when Stripe Checkout opens (queued; the SDK
+// flushes it with sendBeacon as the page leaves for Stripe), then
+// subscription_started on the ?checkout=success return.
 export const HEYCATCH_EVENTS = Object.freeze({
+  'Pricing CTA Click': 'plan_selected',
   'Signup Started': 'signup_started',
   'Account Verified': 'account_verified',
   'Signup Completed': 'signup_completed',
