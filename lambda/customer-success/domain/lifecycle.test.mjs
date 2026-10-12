@@ -47,6 +47,18 @@ test('new customer: signed up, healthy, mission is to finish the profile', async
   assert.equal(view.roadToChampion, null, 'no fabricated 0% progress')
 })
 
+test('admin with an incomplete profile never receives the suppressed customer profile action', async () => {
+  const { facts } = await adminView('new')
+  const adminFacts = { ...facts, identity: { ...facts.identity, isAdmin: true } }
+  const mission = deriveMission(adminFacts, NOW)
+  const activation = deriveActivation(adminFacts)
+  const view = buildHomeView(adminFacts)
+
+  assert.notEqual(mission.id, 'complete_profile')
+  assert.equal(activation.steps.some((step) => step.id === 'profile'), false)
+  assert.doesNotMatch(JSON.stringify(view), /"action":"open_profile"/)
+})
+
 test('activated free player: activated (not engaged), healthy, continues Road to Champion', async () => {
   const { lifecycle, facts } = await adminView('free_activated')
   assert.equal(facts.activity.activeDays14, 2)
