@@ -95,7 +95,9 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
   }
 
   // 3. Profile: every plan is tailored to platform and rank.
-  if (facts.account.profileComplete === false) {
+  // Admins bypass the customer profile modal, so never make its suppressed
+  // action their primary mission.
+  if (!facts.identity.isAdmin && facts.account.profileComplete === false) {
     return {
       id: 'complete_profile',
       kind: 'setup',

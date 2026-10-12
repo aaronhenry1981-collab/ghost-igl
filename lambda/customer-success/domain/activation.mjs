@@ -10,13 +10,17 @@ export function deriveActivation(facts) {
   const plan = facts.billing.plan || 'free'
   const steps = []
 
-  steps.push({
-    id: 'profile',
-    label: 'Finish your player profile',
-    detail: 'Name, gamertag and platform, so plans fit how you play.',
-    done: facts.account.profileComplete,
-    cta: { label: 'Finish profile', action: 'open_profile' },
-  })
+  // Admins are operators, not onboarding leads. ProfileSetupModal deliberately
+  // stays closed for admins, so exposing this action would create a no-op CTA.
+  if (!facts.identity.isAdmin) {
+    steps.push({
+      id: 'profile',
+      label: 'Finish your player profile',
+      detail: 'Name, gamertag and platform, so plans fit how you play.',
+      done: facts.account.profileComplete,
+      cta: { label: 'Finish profile', action: 'open_profile' },
+    })
+  }
 
   steps.push({
     id: 'rank_goal',
