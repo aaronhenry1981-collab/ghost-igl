@@ -368,6 +368,8 @@ async function handleCheckout(session, eventId, eventCreated) {
         price_id: item?.price?.id, // for diagnostics + audit
         status: sub.status,
         current_period_end: periodEndIso,
+        stripe_checkout_session_id: session.id,
+        checkout_payment_status: session.payment_status || null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         last_processed_event_id: eventId,
