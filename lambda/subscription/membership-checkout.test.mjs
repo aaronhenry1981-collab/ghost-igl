@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
 import {
   DEFAULT_FOUNDING_END_ISO,
   membershipIdempotencyKey,
@@ -38,4 +39,15 @@ test('double clicks share one five-minute idempotency key', () => {
   const otherTier = membershipIdempotencyKey('sub-123', 'elite', 1_800_001)
   assert.equal(first, retry)
   assert.notEqual(first, otherTier)
+})
+
+test('membership, usage and portal returns use BrowserRouter URLs', async () => {
+  const [subscription, template] = await Promise.all([
+    readFile(new URL('./index.mjs', import.meta.url), 'utf8'),
+    readFile(new URL('../../aws/template.yaml', import.meta.url), 'utf8'),
+  ])
+  assert.doesNotMatch(subscription, /\/\#\/(?:account)?/)
+  assert.doesNotMatch(template, /\/\#\/account/)
+  assert.match(subscription, /success_url: `\$\{SITE_URL\}\/account\?checkout=success&session_id=\{CHECKOUT_SESSION_ID\}`/)
+  assert.match(template, /PORTAL_RETURN_URL: !Sub https:\/\/\$\{DomainName\}\/account/)
 })

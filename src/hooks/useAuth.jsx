@@ -254,7 +254,10 @@ export function AuthProvider({ children }) {
       const userData = { id: payload.sub, email: payload.email, name: payload.name || '', cognitoUser, session }
       setUser(userData)
       setIsAdmin(computeIsAdmin(payload))
-      checkProStatus(userData.id, payload, session)
+      // Keep the resolved sign-in state and the entitlement state atomic. A
+      // caller that redirects immediately after this promise resolves must not
+      // briefly render paid members as Basic while /me is still in flight.
+      await checkProStatus(userData.id, payload, session)
       return { data: { user: userData, session }, error: null }
     }
     return { data: null, error: { message: result.err?.message || 'Sign in failed' } }

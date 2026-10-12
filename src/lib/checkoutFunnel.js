@@ -21,12 +21,20 @@ export function rememberCheckoutStart(tier, location, storage = globalThis.sessi
 // Returns the event to send for a checkout return URL, or null. Each pending
 // checkout is reported at most once, so reloading the success page does not
 // count a second purchase.
-export function checkoutReturnEvent(status, storage = globalThis.sessionStorage) {
+export function checkoutReturnEvent(status, {
+  storage = globalThis.sessionStorage,
+  verifiedPayment = false,
+} = {}) {
   if (status !== 'success' && status !== 'cancelled') return null
+  // A return URL can be opened or edited by anyone. Only count a completed
+  // checkout after /me confirms a real paid membership written by the Stripe
+  // webhook. Cancelled returns do not claim that money changed hands.
+  if (status === 'success' && !verifiedPayment) return null
   let pending = null
   try {
     pending = JSON.parse(storage?.getItem(PENDING_KEY) || 'null')
   } catch { pending = null }
+  if (status === 'success' && !pending) return null
   const marker = `${status}:${pending?.at || 'unknown'}`
   try {
     if (storage?.getItem(REPORTED_KEY) === marker) return null

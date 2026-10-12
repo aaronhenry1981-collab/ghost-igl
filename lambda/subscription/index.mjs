@@ -63,7 +63,7 @@ function isFoundingWindowOpen(now = Date.now()) {
 const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY
 const STRIPE_API_VERSION = process.env.STRIPE_API_VERSION || '2026-07-29.dahlia'
 const SITE_URL = String(process.env.SITE_URL || 'https://r6coaching.com').replace(/\/$/, '')
-const PORTAL_RETURN_URL = process.env.PORTAL_RETURN_URL || 'https://r6coaching.com/#/account'
+const PORTAL_RETURN_URL = process.env.PORTAL_RETURN_URL || `${SITE_URL}/account`
 const AI_USAGE_PACK_PRICE_ID = process.env.AI_USAGE_PACK_PRICE_ID || 'price_1TzrjoJNddvjgWcgzp9RSUOK'
 const AI_USAGE_PACK_CREDITS = parseInt(process.env.AI_USAGE_PACK_CREDITS || '100', 10)
 const DESKTOP_TOKEN_SECRET = process.env.DESKTOP_TOKEN_SECRET || ''
@@ -568,6 +568,11 @@ async function getMe(email, headers, payload) {
       tier_scope: tierScope,
       current_period_end: sub?.current_period_end || null,
       stripe_customer_id: sub?.stripe_customer_id || null,
+      // Checkout proof is written only by the signed Stripe webhook. The
+      // authenticated Account page compares it with Stripe's returned session
+      // id before recording a completed conversion.
+      checkout_session_id: sub?.stripe_checkout_session_id || null,
+      checkout_payment_status: sub?.checkout_payment_status || null,
       profile: stripped,
       // profile_complete is true iff the user has filled in the minimum
       // identity fields needed for personalization. Frontend uses this to
@@ -1238,8 +1243,8 @@ async function postMembershipCheckout(email, bodyJson, headers, payload) {
     'line_items[0][price]': offer.priceId,
     'line_items[0][quantity]': '1',
     client_reference_id: payload.sub,
-    success_url: `${SITE_URL}/#/account?checkout=success`,
-    cancel_url: `${SITE_URL}/#/?checkout=cancelled`,
+    success_url: `${SITE_URL}/account?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${SITE_URL}/?checkout=cancelled`,
     payment_method_collection: 'always',
     integration_identifier: membershipIntegrationIdentifier(),
     'metadata[kind]': 'recon6_membership',
@@ -1286,8 +1291,8 @@ async function postUsageCheckout(email, headers) {
     mode: 'payment',
     'line_items[0][price]': AI_USAGE_PACK_PRICE_ID,
     'line_items[0][quantity]': '1',
-    success_url: 'https://r6coaching.com/#/account?usage=success',
-    cancel_url: 'https://r6coaching.com/#/account?usage=cancelled',
+    success_url: `${SITE_URL}/account?usage=success`,
+    cancel_url: `${SITE_URL}/account?usage=cancelled`,
     'metadata[kind]': 'ai_usage_pack',
     'metadata[email]': email,
     'metadata[credits]': String(AI_USAGE_PACK_CREDITS),

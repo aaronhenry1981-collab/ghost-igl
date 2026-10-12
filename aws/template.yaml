@@ -383,7 +383,7 @@ Resources:
           STRIPE_ELITE_PRICE_ID: !Ref StripePriceIdChampionRegular
           STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID: !Ref StripeChampionMembershipPriceId
           FOUNDING_END_ISO: '2026-08-31T23:59:59-07:00'
-          PORTAL_RETURN_URL: !Sub https://${DomainName}/#/account
+          PORTAL_RETURN_URL: !Sub https://${DomainName}/account
           DESKTOP_TOKEN_SECRET: !Ref DesktopTokenSecret
           SITE_URL: !Sub https://${DomainName}
           STRIPE_WORKBOOK_PRICE_ID: !Ref StripeWorkbookPriceId

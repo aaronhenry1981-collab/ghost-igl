@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { checkoutReturnEvent } from '../lib/checkoutFunnel'
+import { loadMembershipAfterCheckout } from '../lib/entitlementRefresh'
 import { track } from '../utils/analytics'
 import { useSectionNavigate } from '../utils/sectionLink'
 import { AI_USAGE_PACK_AMOUNT, AI_USAGE_PACK_CREDITS } from '../config/stripe'
@@ -13,16 +14,24 @@ const SERVERS = ['US East', 'US Central', 'US West', 'EU', 'SEA', 'OCE', 'LATAM'
 const ROLES = ['IGL', 'Entry', 'Support', 'Anchor', 'Roamer', 'Flex']
 
 export default function AccountPage() {
-  const { user, plan: authPlan, isPro, isAdmin, vodUsage, loading: authLoading, signOut } = useAuth()
+  const { user, plan: authPlan, isPro, isAdmin, vodUsage, loading: authLoading, signOut, refreshProfile } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const refreshProfileRef = useRef(refreshProfile)
 
-  // Stripe Checkout returns here with ?checkout=success. Report it once so
-  // the paid step carries the same campaign props as the rest of the funnel.
   useEffect(() => {
-    const event = checkoutReturnEvent(searchParams.get('checkout'))
+    refreshProfileRef.current = refreshProfile
+  }, [refreshProfile])
+
+  const checkoutStatus = searchParams.get('checkout')
+  const checkoutSessionId = searchParams.get('session_id')
+
+  // Cancellation is safe to record from the return URL. A successful checkout
+  // is recorded only after /me confirms the webhook-backed paid membership.
+  useEffect(() => {
+    const event = checkoutReturnEvent(checkoutStatus)
     if (event) track(event.name, event.props)
-  }, [searchParams])
+  }, [checkoutStatus])
   const goToPricing = useSectionNavigate('pricing')
   const [me, setMe] = useState(null)
   const [form, setForm] = useState({
@@ -39,6 +48,7 @@ export default function AccountPage() {
   const [portalLoading, setPortalLoading] = useState(false)
   const [usageCheckoutLoading, setUsageCheckoutLoading] = useState(false)
   const [notice, setNotice] = useState(null)
+  const [checkoutNotice, setCheckoutNotice] = useState(null)
   const [error, setError] = useState(null)
 
   const authedFetch = useCallback(async (path, init = {}) => {
@@ -64,23 +74,37 @@ export default function AccountPage() {
   useEffect(() => {
     if (!user) return
     let cancelled = false
+    const controller = new AbortController()
     ;(async () => {
       setLoading(true)
       try {
-        const data = await authedFetch('/me')
+        const result = await loadMembershipAfterCheckout(
+          () => authedFetch('/me'),
+          { checkoutStatus, checkoutSessionId, signal: controller.signal },
+        )
+        const { data } = result
         if (cancelled) return
         setMe(data)
         if (data.profile) {
           setForm((f) => ({ ...f, ...pickFields(data.profile) }))
         }
+        if (result.verifiedPayment) {
+          setCheckoutNotice(null)
+          await refreshProfileRef.current()
+          if (cancelled) return
+          const event = checkoutReturnEvent('success', { verifiedPayment: true })
+          if (event) track(event.name, event.props)
+        } else if (checkoutStatus === 'success') {
+          setCheckoutNotice('Payment is still confirming. Your account is safe — reload this page in a moment to refresh access.')
+        }
       } catch (err) {
-        if (!cancelled) setError(err.message)
+        if (!cancelled && err?.name !== 'AbortError') setError(err.message)
       } finally {
         if (!cancelled) setLoading(false)
       }
     })()
-    return () => { cancelled = true }
-  }, [user, authedFetch])
+    return () => { cancelled = true; controller.abort() }
+  }, [user, authedFetch, checkoutStatus, checkoutSessionId])
 
   async function saveProfile(e) {
     e.preventDefault()
@@ -160,6 +184,7 @@ export default function AccountPage() {
       </header>
 
       <section className="account-section">
+        {checkoutNotice && <div className="account-note">{checkoutNotice}</div>}
         <div className={`account-plan-card account-plan-card-${planClassKey}`}>
           <div>
             <div className="account-label">Current plan</div>
