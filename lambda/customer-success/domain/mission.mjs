@@ -10,6 +10,7 @@
 
 import { toMs } from './facts.mjs'
 import { hasPlan, INCLUDED_SESSION_CTA, PLAN_LABEL } from './plans.mjs'
+import { firstRoundPlanCta } from './firstRoundPlan.mjs'
 
 const DAY = 86400000
 
@@ -127,9 +128,11 @@ export function deriveMission(facts, now = facts.now || Date.now()) {
     return {
       id: 'first_round_plan',
       kind: 'activation',
-      title: 'Build your first round plan',
-      body: 'Pick the map, bombsite and side you play next. You get one job, the utility order and the callouts. It takes about 30 seconds.',
-      cta: { label: 'Choose a site', to: '/strats' },
+      title: 'Open your first round plan',
+      body: hasPlan(b.plan, 'pro')
+        ? 'Pick the map, bombsite and side you play next. You get one job, the utility order and the callouts.'
+        : 'Start with the free Bank CEO defense plan. See your operator job and the defense setup, or choose another map from the plan page.',
+      cta: firstRoundPlanCta(b.plan),
       evidence: [facts.activity.usageEvidence === 'this_device' ? 'No round plans opened on this device yet' : 'No round plans opened yet'],
     }
   }
