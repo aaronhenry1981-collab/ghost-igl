@@ -52,10 +52,10 @@ function parseGameProfiles(profile) {
   return {}
 }
 
-// Production `profile_complete`: first + last name, display name and platform.
+// Match subscription /me and ProfileSetupModal: real names are optional.
 export function isProfileComplete(profile) {
   if (!profile) return false
-  return Boolean(profile.first_name && profile.last_name && profile.display_name && profile.platform)
+  return Boolean(profile.display_name && profile.platform)
 }
 
 function pickCanonical(record, field) {
