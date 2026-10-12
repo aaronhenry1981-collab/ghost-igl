@@ -3,6 +3,7 @@
 // with `done: null` so the UI can say "we couldn't check" instead of lying.
 
 import { INCLUDED_SESSION_CTA, hasPlan } from './plans.mjs'
+import { firstRoundPlanCta } from './firstRoundPlan.mjs'
 
 export const ACTIVATION_STEP_IDS = Object.freeze(['profile', 'rank_goal', 'round_plan', 'road_to_champion', 'vod', 'coaching'])
 
@@ -35,7 +36,7 @@ export function deriveActivation(facts) {
     label: 'Open your first round plan',
     detail: 'Pick a map, site and side. One plan, one job, into the round.',
     done: facts.activity.strategy.total > 0 ? true : facts.activity.usageEvidence === 'partial' ? null : false,
-    cta: { label: 'Choose a site', to: '/strats' },
+    cta: firstRoundPlanCta(plan),
   })
 
   steps.push({
