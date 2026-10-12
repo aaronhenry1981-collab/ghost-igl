@@ -16,7 +16,7 @@ export function deriveActivation(facts) {
     steps.push({
       id: 'profile',
       label: 'Finish your player profile',
-      detail: 'Name, gamertag and platform, so plans fit how you play.',
+      detail: 'Gamertag and platform, so plans fit how you play.',
       done: facts.account.profileComplete,
       cta: { label: 'Finish profile', action: 'open_profile' },
     })
