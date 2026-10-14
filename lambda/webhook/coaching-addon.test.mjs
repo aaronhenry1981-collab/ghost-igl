@@ -14,6 +14,15 @@ process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_secret'
 process.env.COACHING_ADDON_PRICE_ID = 'price_addon_test'
 process.env.STRIPE_CHAMPION_MEMBERSHIP_PRICE_ID = 'price_champion_membership_test'
 process.env.BOOKING_API = 'https://booking.test'
+// Isolation: no AWS client is faked here, so point the SDK at dummy
+// credentials and a dead local endpoint — a code path that reaches DynamoDB or
+// Cognito fails locally instead of touching a real account.
+process.env.AWS_ACCESS_KEY_ID = 'AKIATESTONLY'
+process.env.AWS_SECRET_ACCESS_KEY = 'test-only'
+process.env.AWS_SESSION_TOKEN = ''
+process.env.AWS_REGION = 'us-east-1'
+process.env.AWS_ENDPOINT_URL = 'http://127.0.0.1:9'
+delete process.env.AWS_PROFILE
 
 const { handler } = await import('./index.mjs')
 const Stripe = (await import('stripe')).default
