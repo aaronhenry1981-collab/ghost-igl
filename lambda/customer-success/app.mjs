@@ -74,6 +74,7 @@ export function createApp(deps) {
     catalog,
     log,
     delivery,
+    loginHelpEmail: deps.loginHelpEmail || null,
     legacy,
     decisionHooks: [],
     decisionPrechecks: [],
