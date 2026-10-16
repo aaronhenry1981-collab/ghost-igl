@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getCurrentUser, getSession } from '../lib/cognito'
+import { coachSessionEntries } from '../lib/coachConnect'
 
 // /coach-connect — one-click session handoff to the LOCAL coach app.
 //
@@ -18,35 +20,34 @@ export default function CoachConnectPage() {
   const [status, setStatus] = useState('checking')
 
   useEffect(() => {
-    const prefix = `CognitoIdentityServiceProvider.${CLIENT_ID}.`
-    const entries = {}
-    try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i)
-        if (k && k.startsWith(prefix)) entries[k] = localStorage.getItem(k)
-      }
-    } catch { /* storage blocked */ }
-
-    // One-shot mount handoff — terminal status per branch, no cascade possible.
     if (!window.opener) { setStatus('no-opener'); return }
-
-    if (!Object.keys(entries).length) {
-      // Not signed in here — tell the coach immediately so it can guide the
-      // user instead of waiting on a timeout.
-      window.opener.postMessage({ type: 'recon6-coach-connect-status', status: 'signed-out' }, COACH_ORIGIN)
-      setStatus('signed-out')
-      return
+    let canceled = false
+    async function connect() {
+      try {
+        const user = getCurrentUser()
+        const session = user ? await getSession(user) : null
+        if (canceled) return
+        const entries = coachSessionEntries(CLIENT_ID, user?.getUsername(), session)
+        if (!entries) {
+          window.opener.postMessage({ type: 'recon6-coach-connect-status', status: 'signed-out' }, COACH_ORIGIN)
+          setStatus('signed-out')
+          return
+        }
+        window.opener.postMessage({ type: 'recon6-coach-connect', entries }, COACH_ORIGIN)
+        setStatus('sent')
+      } catch {
+        if (!canceled) setStatus('error')
+      }
     }
-
-    window.opener.postMessage({ type: 'recon6-coach-connect', entries }, COACH_ORIGIN)
-    setStatus('sent')
-    setTimeout(() => { try { window.close() } catch { /* browser refused */ } }, 1200)
+    connect()
+    return () => { canceled = true }
   }, [])
 
   const wrap = { maxWidth: 460, margin: '4rem auto', padding: '0 1.5rem', textAlign: 'center' }
   if (status === 'sent') {
-    return <div style={wrap}><h2>Coach connected ✓</h2><p>This window will close itself.</p></div>
+    return <div style={wrap}><h2>Sign-in sent to your coach</h2><p>Return to the coach and check the account shown beside sync. Sending your sign-in does not confirm that a match has uploaded.</p><p>After your session, open Progress to check for the saved review.</p><Link className="btn btn-primary" to="/progress">Open my progress</Link></div>
   }
+  if (status === 'error') return <div style={wrap}><h2>Could not connect your account</h2><p>Your sign-in could not be refreshed. Sign in again, then use the sync button in your coach.</p><Link className="btn btn-primary" to="/auth?redirect=/coach-connect">Sign in again</Link></div>
   if (status === 'signed-out') {
     return (
       <div style={wrap}>
