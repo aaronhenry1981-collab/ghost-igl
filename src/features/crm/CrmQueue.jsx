@@ -11,11 +11,28 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
   const [note, setNote] = useState('')
   const [busy, setBusy] = useState(null)
   const [error, setError] = useState(null)
+  const [emailPreview, setEmailPreview] = useState(null)
+  const [emailReceipt, setEmailReceipt] = useState(null)
+  const loginHelp = item.type === 'account_setup_incomplete'
   const [subject, setSubject] = useState(item.draft?.subject || '')
   const [body, setBody] = useState(item.draft?.body || '')
   const noteId = useId()
   const subjectId = useId()
   const bodyId = useId()
+  async function loginEmail(send = false) {
+    setBusy('email'); setError(null)
+    try {
+      const path = `/cs/admin/support/login-help/${item.player.key}`
+      if (send) {
+        const result = await api.post(path, {recipient:emailPreview.recipient,previewToken:emailPreview.previewToken})
+        setEmailReceipt(result.receipt)
+      } else {
+        const preview = await api.get(path)
+        setEmailPreview(preview); setEmailReceipt(preview.receipt)
+      }
+    } catch (err) { setError(err.message) }
+    finally { setBusy(null) }
+  }
 
   async function decide(decision) {
     setBusy(decision)
@@ -51,7 +68,18 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
         <dt>Recommended action</dt>
         <dd>{item.recommended}</dd>
       </dl>
-      {item.draft && !item.approveBlockedBy && (
+      {loginHelp && <div className="crm-draft">
+        <button type="button" className="btn btn-primary btn-sm" disabled={Boolean(busy)} onClick={() => loginEmail(false)}>Review login-help email</button>
+        {emailPreview && <>
+          <p><strong>To:</strong> {emailPreview.recipient}</p>
+          <p><strong>Subject:</strong> {emailPreview.subject}</p>
+          <p className="crm-pre">{emailPreview.body}</p>
+          {!emailPreview.available && <p role="status">Email sending is not configured. No email has been sent.</p>}
+          <button type="button" className="btn btn-primary btn-sm" disabled={Boolean(busy) || !emailPreview.available || Boolean(emailReceipt)} onClick={() => loginEmail(true)}>{busy === 'email' ? 'Sending…' : 'Send login-help email'}</button>
+        </>}
+        {emailReceipt && <p role="status">Email status: <strong>{emailReceipt.status}</strong>. {emailReceipt.status === 'accepted' ? 'The email provider accepted it; delivery is not yet confirmed.' : emailReceipt.status === 'unknown' || emailReceipt.status === 'sending' ? 'Check the provider receipt before attempting any resend.' : 'The provider rejected this attempt.'} {emailReceipt.providerMessageId && <>Receipt: {emailReceipt.providerMessageId}. </>}Sending does not resolve the login issue.</p>}
+      </div>}
+      {!loginHelp && item.draft && !item.approveBlockedBy && (
         <details className="crm-draft">
           <summary>Message that "{item.approveLabel || 'Approve'}" records ({item.draft.channel === 'email' ? 'email' : 'in-app'})</summary>
           <label htmlFor={subjectId}>Subject</label>
@@ -65,7 +93,7 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
       <div className="crm-qitem-actions">
         <label htmlFor={noteId} className="crm-visually-hidden">Note for the audit log (optional)</label>
         <input id={noteId} className="crm-input" placeholder="Note (optional)" value={note} onChange={(e) => setNote(e.target.value)} maxLength={1000} />
-        {item.controls.map((c) => (
+        {item.controls.filter(c => !loginHelp || c !== 'approve').map((c) => (
           <button key={c} type="button" className={c === 'approve' ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm'} onClick={() => decide(c)} disabled={Boolean(busy) || (c === 'approve' && Boolean(item.approveBlockedBy))}>
             {busy === c ? 'Saving…' : c === 'approve' && item.approveLabel ? item.approveLabel : CONTROL_LABEL[c]}
           </button>

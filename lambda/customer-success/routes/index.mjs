@@ -5,6 +5,7 @@ import { messageRoutes } from './messages.mjs'
 import { outreachRoutes } from './outreach.mjs'
 import { feedbackRoutes } from './feedback.mjs'
 import { supportRoutes } from './support.mjs'
+import { loginHelpRoutes } from './loginHelp.mjs'
 
 // supportRoutes registers nothing unless config.features.support is true.
-export const routeModules = [adminRoutes, messageRoutes, outreachRoutes, feedbackRoutes, supportRoutes]
+export const routeModules = [adminRoutes, messageRoutes, outreachRoutes, feedbackRoutes, supportRoutes, loginHelpRoutes]

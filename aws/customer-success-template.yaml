@@ -79,8 +79,13 @@ Parameters:
     AllowedValues: [disabled, in_app]
     Description: >-
       disabled = messages are recorded, nothing reaches players (default).
-      in_app = in-app messages become visible to players. Email is never sent
-      by this stack; there is no email transport in the code.
+      in_app = in-app messages become visible to players. General outreach
+      email stays disabled; explicit admin login-help uses a separate flag.
+  LoginHelpEmailEnabled:
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    Description: Enable explicit admin login-help sends using the existing verified support sender and SES permission.
   SyncLegacySuppression:
     Type: String
     Default: 'false'
@@ -254,6 +259,8 @@ Resources:
           FEATURE_MESSAGING: !Ref FeatureMessaging
           FEATURE_FEEDBACK: !Ref FeatureFeedback
           OUTREACH_DELIVERY_MODE: !Ref OutreachDeliveryMode
+          LOGIN_HELP_EMAIL_ENABLED: !Ref LoginHelpEmailEnabled
+          LOGIN_HELP_EMAIL_FROM: !Ref SupportStaffNotifyFrom
           SYNC_LEGACY_SUPPRESSION: !Ref SyncLegacySuppression
           PLAYER_SNAPSHOTS_TABLE: !Ref PlayerSnapshotsTableName
           PLAYER_IDENTITIES_TABLE: !Ref PlayerIdentitiesTableName

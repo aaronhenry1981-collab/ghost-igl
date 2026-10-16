@@ -123,6 +123,18 @@ const supportStaffNotify = flag('SUPPORT_STAFF_NOTIFY') && env.SUPPORT_STAFF_NOT
   : null
 
 export const handler = createApp({
+  loginHelpEmail: flag('LOGIN_HELP_EMAIL_ENABLED') && env.LOGIN_HELP_EMAIL_FROM
+    ? async ({recipient,subject,body}) => {
+      const { SESv2Client, SendEmailCommand } = await import('@aws-sdk/client-sesv2')
+      // No SDK retry: an ambiguous outcome requires reconciliation, not another email.
+      const result = await new SESv2Client({region,maxAttempts:1}).send(new SendEmailCommand({
+        FromEmailAddress:env.LOGIN_HELP_EMAIL_FROM,
+        ReplyToAddresses:[env.LOGIN_HELP_REPLY_TO || 'support@r6coaching.com'],
+        Destination:{ToAddresses:[recipient]},
+        Content:{Simple:{Subject:{Data:subject,Charset:'UTF-8'},Body:{Text:{Data:body,Charset:'UTF-8'}}}},
+      }))
+      return {messageId:result.MessageId}
+    } : null,
   tables,
   store,
   authenticate: createCognitoAuthenticator({ userPoolId: env.COGNITO_USER_POOL_ID, clientId: env.COGNITO_CLIENT_ID }),

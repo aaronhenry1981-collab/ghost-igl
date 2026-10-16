@@ -10,7 +10,7 @@ import { createMemoryStore } from '../data/memoryStore.mjs'
 
 export const FIXTURE_NOW = Date.parse('2026-09-25T15:00:00.000Z')
 
-export function fixtureApp({ failures = {}, extraRoutes = [], config = {}, clock, mutate = null } = {}) {
+export function fixtureApp({ failures = {}, extraRoutes = [], config = {}, clock, mutate = null, loginHelpEmail = null } = {}) {
   const world = buildFixtureWorld(FIXTURE_NOW)
   if (mutate) mutate(world)
   const tables = createMemoryTables(world, { failures })
@@ -20,6 +20,7 @@ export function fixtureApp({ failures = {}, extraRoutes = [], config = {}, clock
   tokens.set('tok-admin', { email: 'coach.admin@example.test', sub: 'sub-fixture-admin', isAdmin: true })
   const authenticate = async (req) => tokens.get(String(req.headers.authorization || '').replace(/^Bearer\s+/i, '')) || null
   const handle = createApp({
+    loginHelpEmail,
     tables,
     store,
     authenticate,
