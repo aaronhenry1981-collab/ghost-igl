@@ -28,10 +28,10 @@ export function loginHelpRoutes({ ctx, requireAdmin }) {
       receipt:await ctx.store.get(pkFor(key),receiptKey)}
   }
   return {routes:[
-    {method:'GET',path:'/cs/admin/players/{key}/login-help',handler:async req=>{
+    {method:'GET',path:'/cs/admin/support/login-help/{key}',handler:async req=>{
       await requireAdmin(req); return json(200,await preview(req.params.key))
     }},
-    {method:'POST',path:'/cs/admin/players/{key}/login-help',handler:async req=>{
+    {method:'POST',path:'/cs/admin/support/login-help/{key}',handler:async req=>{
       const admin=await requireAdmin(req)
       const input=parseJsonBody(req.rawBody,{maxBytes:1024})
       const p=await preview(req.params.key)

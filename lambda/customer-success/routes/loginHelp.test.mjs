@@ -7,7 +7,7 @@ async function setup(sender=null) {
   const app=fixtureApp({extraRoutes:routeModules,loginHelpEmail:sender})
   const q=parse(await app.call('GET','/cs/admin/queue',{token:'tok-admin'}))
   const item=q.items.find(i=>i.type==='account_setup_incomplete')
-  const path=`/cs/admin/players/${item.player.key}/login-help`
+  const path=`/cs/admin/support/login-help/${item.player.key}`
   return {...app,path}
 }
 const admin={token:'tok-admin'}

@@ -22,7 +22,7 @@ export function QueueItem({ item, api, basePath, onDecided, compact = false }) {
   async function loginEmail(send = false) {
     setBusy('email'); setError(null)
     try {
-      const path = `/cs/admin/players/${item.player.key}/login-help`
+      const path = `/cs/admin/support/login-help/${item.player.key}`
       if (send) {
         const result = await api.post(path, {recipient:emailPreview.recipient,previewToken:emailPreview.previewToken})
         setEmailReceipt(result.receipt)
