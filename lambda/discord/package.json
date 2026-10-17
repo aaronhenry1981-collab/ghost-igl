@@ -2,5 +2,8 @@
   "name": "ghost-igl-discord-bot",
   "version": "1.0.0",
   "type": "module",
-  "dependencies": {}
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.1037.0",
+    "@aws-sdk/lib-dynamodb": "3.1036.0"
+  }
 }
