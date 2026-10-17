@@ -151,6 +151,7 @@ const STATIC = {
   },
   // Signed-in or utility pages: real titles, kept out of search.
   '/auth': { title: 'Sign In or Create a Free Recon 6 Account', noindex: true },
+  '/testimonial': { title: 'Share Your Recon 6 Experience | Customer Feedback', description: 'Share honest feedback about your Rainbow Six Siege experience with Recon 6. Choose your display name and permissions; every story is reviewed first.', noindex: true },
   '/dashboard': { title: 'Your Recon 6 Dashboard', noindex: true },
   '/progress': { title: 'Road to Champion — Your R6 Progress', noindex: true },
   '/setups': { title: 'Your Rainbow Six Siege Setups', noindex: true },

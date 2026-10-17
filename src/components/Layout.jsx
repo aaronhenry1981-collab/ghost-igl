@@ -24,6 +24,7 @@ export default function Layout() {
   const location = useLocation()
   useRouteMeta(location.pathname)
   const isLanding = location.pathname === '/'
+  const isTestimonial = /^\/testimonial\/?$/.test(location.pathname)
   // The admin area (and its dev fixture preview) has its own top bar and
   // navigation instead of the public site chrome.
   const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/__dev/admin')
@@ -52,8 +53,8 @@ export default function Layout() {
           <Outlet />
         </main>
         <Footer />
-        <WelcomeModal />
-        <ProfileSetupModal />
+        {!isTestimonial && <WelcomeModal />}
+        {!isTestimonial && <ProfileSetupModal />}
         {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
             game to pick. Component kept in tree (see GameSwitcher note). */}
         <ReferralAttributor />

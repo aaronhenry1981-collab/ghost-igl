@@ -570,6 +570,9 @@ Resources:
         GetPublicTestimonials:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Path: /testimonials, Method: GET }
+        SubmitPublicTestimonial:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Path: /testimonials, Method: POST }
         PublicTestimonialsOptions:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Path: /testimonials, Method: OPTIONS }

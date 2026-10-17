@@ -12,7 +12,7 @@ const SRC = fileURLToPath(new URL('..', import.meta.url))
 
 test('analytics runs on public pages, never on admin or dev previews', () => {
   for (const p of ['/', '/strats/bank/ceo/attack', '/account', '/auth', '/administrator-guide', '/r/abc']) assert.equal(analyticsEnabledFor(p), true, p)
-  for (const p of ['/admin', '/admin/', '/admin/members/fx-0001', '/admin/crm/support/cases/1', '/__dev/admin']) assert.equal(analyticsEnabledFor(p), false, p)
+  for (const p of ['/admin', '/admin/', '/admin/members/fx-0001', '/admin/crm/support/cases/1', '/__dev/admin', '/testimonial', '/testimonial/']) assert.equal(analyticsEnabledFor(p), false, p)
 })
 
 test('admin sign-in return path keeps the section and drops account ids and searches', () => {

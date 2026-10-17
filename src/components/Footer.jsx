@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { HELP_CENTER_UI_ENABLED, SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
+import { FounderProof, ReviewProof } from './PublicProof'
 
 function scrollToSection(id, navigate, isLanding) {
   const navHeight = 60
@@ -88,6 +89,9 @@ export default function Footer() {
       <div className="footer-bottom">
         <div>
           <div className="footer-community">
+            <a href="/testimonial">Share your experience</a>
+            <FounderProof linkOnly />
+            <ReviewProof linkOnly />
             <a href="https://discord.gg/namGQqs3jb" target="_blank" rel="noopener noreferrer">Discord</a>
             <a href="https://youtube.com/@MrAaron8189" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://twitch.tv/splinter251981" target="_blank" rel="noopener noreferrer">Twitch</a>

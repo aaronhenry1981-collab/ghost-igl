@@ -10,6 +10,7 @@ export default function PrivacyPage() {
         <li><strong>Account information:</strong> Email address when you subscribe</li>
         <li><strong>Payment information:</strong> Processed securely through Stripe. We do not store credit card numbers</li>
         <li><strong>Uploaded content:</strong> Screenshots you submit for VOD analysis</li>
+        <li><strong>Customer stories:</strong> The display name, experience, optional context and email you submit through our testimonial form, plus your publication permissions. Submissions are stored for admin review, not published automatically. Email and private feedback are not displayed publicly. The form requires sign-in and does not accept photo uploads. Your verified account ID is stored privately with the submission. You can request correction or deletion through Contact using your submission reference. A hashed account identifier limits repeated attempts and saved submissions; the testimonial service does not store your raw IP address.</li>
         <li><strong>Usage data:</strong> Pages visited, features used, clicks, and session activity collected through Plausible and HeyCatch analytics</li>
       </ul>
 

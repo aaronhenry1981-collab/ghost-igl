@@ -1,6 +1,6 @@
+import { approvedTestimonials, testimonialPhoto } from '../config/publicProof'
 // Testimonial cards, shared by the home page (#testimonials) and /pricing.
-// Records come from GET /testimonials (useTestimonials). They carry no photo
-// or initials field, so the avatar shows initials taken from the name.
+// Existing published quotes stay intact; photos require explicit public approval.
 function initialsOf(name) {
   // "Splinter — creator" -> "S": drop the label after the dash first.
   const base = String(name || '').split(/\s+[—–-]\s+/)[0]
@@ -8,13 +8,16 @@ function initialsOf(name) {
 }
 
 export default function TestimonialCards({ testimonials }) {
+  const approved = approvedTestimonials()
   return (
     <div className="testimonials-grid">
       {testimonials.map((t) => (
         <div className="testimonial-card" key={t.id || t.name}>
           <p className="testimonial-text">{'“'}{t.text}{'”'}</p>
           <div className="testimonial-author">
-            <div className="testimonial-avatar" aria-hidden="true">{initialsOf(t.name)}</div>
+            <div className="testimonial-avatar" aria-hidden="true">{(t.photo || testimonialPhoto(t) || approved.find(a => a.id === t.id)?.image)
+              ? <img src={t.photo || testimonialPhoto(t) || approved.find(a => a.id === t.id).image} alt="" width="40" height="40" loading="lazy" />
+              : initialsOf(t.name)}</div>
             <div className="testimonial-meta">
               <strong>{t.name}</strong>
               {t.rank && <span className="rank-up">{t.rank}</span>}
