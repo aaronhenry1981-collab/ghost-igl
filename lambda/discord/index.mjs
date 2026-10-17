@@ -1,5 +1,7 @@
 import crypto from 'node:crypto'
 import MAPS from './maps.mjs'
+import {createDailyTipRoute} from './daily-tip-route.mjs'
+import {handler as dailyTipHandler} from './daily-tip-handler.mjs'
 
 const PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY || ''
 const INFO_URL = process.env.SITE_URL || 'https://r6coaching.com'
@@ -25,7 +27,9 @@ function verifyEd25519(rawBody, signatureHex, timestamp) {
   }
 }
 
-export async function handler(event) {
+export const handler = createDailyTipRoute(interactionHandler, dailyTipHandler)
+
+export async function interactionHandler(event) {
   const method = event.requestContext?.http?.method
   if (method !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' }
