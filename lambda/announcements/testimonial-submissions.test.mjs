@@ -143,6 +143,21 @@ test('manual quote create and recoverable publication stay available to admins',
   assert.equal(JSON.parse((await f.request('GET', '/testimonials')).body).testimonials.length, 1)
   assert.equal((await f.request('POST', '/admin/testimonials', { id, action: 'publish' }, 'admin')).statusCode, 200)
 })
+
+test('legacy absence of form consent stays distinct from explicit customer denial', async () => {
+  const f = fixture(), privateId = randomUUID()
+  f.rows.set(legacyId, { id: legacyId, name: 'Existing manual quote', text: 'Preserved legacy quote' })
+  f.rows.set(privateId, { ...validateSubmission({ ...valid, quoteConsent: false }), id: privateId, status: 'approved' })
+  // Even an erroneously approved/indexed customer row cannot bypass consent.
+  f.rows.set(indexId, { id: indexId, ids: [legacyId, privateId], revision: 'fixture' })
+  for (const action of ['approve', 'publish']) {
+    assert.equal((await f.request('POST', '/admin/testimonials', { id: privateId, action }, 'admin')).statusCode, 400)
+  }
+  const rows = JSON.parse((await f.request('GET', '/testimonials')).body).testimonials
+  assert.deepEqual(rows.map(row => row.id), [legacyId])
+  assert.equal((await f.request('POST', '/admin/testimonials', { id: legacyId, action: 'publish' }, 'admin')).statusCode, 200)
+  assert.equal(f.rows.get(legacyId).quote_consent, undefined)
+})
 test('announcements and demo video behavior remain available', async () => {
   const f = fixture(), r = await f.request('POST', '/admin/announcements', { title: 'Fixture', message: 'Offline test' }, 'admin')
   assert.equal(r.statusCode, 201); assert.equal(JSON.parse((await f.request('GET', '/announcements')).body).announcements.length, 1)
