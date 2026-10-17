@@ -7,7 +7,7 @@
 // (adminHref / openAdmin below) so tracking started on a public page cannot
 // carry over through client-side navigation.
 
-const NO_ANALYTICS = /^\/(admin|__dev)(\/|$)/
+const NO_ANALYTICS = /^\/(admin|__dev|testimonial)(\/|$)/
 let started = false
 
 /** main.jsx calls this right after analytics.init(). */

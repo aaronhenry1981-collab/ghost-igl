@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './AboutPage.css'
+import { FounderProof } from '../components/PublicProof'
 
 // /about: who builds Recon 6, how the plans are made, and how to reach him.
 // Facts here are the ones already published in the press kit (PressPage.jsx);
@@ -25,6 +26,7 @@ export default function AboutPage() {
 
       <section className="about-section" id="aaron-henry" aria-labelledby="about-founder">
         <h2 id="about-founder">The founder</h2>
+        <FounderProof />
         <p>
           Aaron Henry founded Recon 6 after recording his own ranked Rainbow Six Siege matches to find the patterns
           behind repeated round losses. Those notes became a practical coaching tool: decisions a player can test in

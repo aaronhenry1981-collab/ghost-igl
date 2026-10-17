@@ -25,6 +25,7 @@ import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import MembershipCheckoutButton from '../components/MembershipCheckoutButton'
 import PricingSection from '../components/PricingSection'
 import TestimonialCards from '../components/TestimonialCards'
+import { CommunityProof, ReviewProof } from '../components/PublicProof'
 import { R6_DEMO_ANALYSIS } from '../data/vodDemoR6'
 import { findProgressSkill } from '../data/progressCurriculum'
 
@@ -398,9 +399,9 @@ export default function LandingPage() {
               Built for real R6 rounds · Season {getCurrentSeason()}
             </div>
             <h1>
-              Load your next Siege round.<br />
-              <span className="accent">Know your job.</span><br />
-              Play it together.
+              Solo queue Siege?<br />
+              <span className="accent">Know your job</span><br />
+              with Recon 6.
             </h1>
             <p className="hero-subtitle">
               Pick the Rainbow Six Siege map, site, and side. Recon 6 gives your squad five clear operator jobs,
@@ -428,6 +429,7 @@ export default function LandingPage() {
               <span><strong>{OPERATORS.length}</strong> operators in current plans</span>
               <span><i /> No signup to preview</span>
             </div>
+            <CommunityProof />
           </div>
 
         </div>
@@ -479,6 +481,7 @@ export default function LandingPage() {
       </section>
       )}
 
+      <ReviewProof />
       <section className="section" id="features">
         <div className="section-header">
           <div className="section-label">More than a strat library</div>

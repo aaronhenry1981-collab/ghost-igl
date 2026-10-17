@@ -24,7 +24,7 @@ var EXACT = {
   '/privacy': 1, '/refund': 1, '/help': 1, '/start': 1, '/auth': 1, '/dashboard': 1, '/progress': 1,
   '/setups': 1, '/coach-connect': 1, '/account': 1, '/activate': 1, '/support': 1, '/tiktok': 1,
   '/activation': 1, '/desktop': 1, '/desktop-app': 1, '/sign-in': 1, '/signin': 1, '/login': 1,
-  '/signup': 1, '/sign-up': 1, '/register': 1
+  '/signup': 1, '/sign-up': 1, '/register': 1, '/testimonial': 1
 }
 // Each concrete path has its own shell; an unknown value is a 404.
 var SHELL_PREFIXES = ['/strats/', '/match-prep/', '/operators/']

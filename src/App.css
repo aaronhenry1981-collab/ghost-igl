@@ -1878,6 +1878,14 @@ select option:hover {
 }
 .pricing-compare tbody th { color: var(--text-h); font-weight: 600; }
 
+/* Measured 375px audit: these controls were 20–36px tall. */
+@media (max-width: 600px) {
+  .recon-landing-v2 .callout-tag,
+  .recon-landing-v2 .btn-sm { min-height: 44px; min-width: 44px; }
+  .pricing-page-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .mobile-drawer-close { min-width: 44px; min-height: 44px; }
+}
+
 /* Phones: no sideways scrolling. Each row stacks into the feature name and
    one labelled line per plan (the label comes from the cell's data-plan). */
 @media (max-width: 600px) {

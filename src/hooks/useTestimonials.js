@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { approvedTestimonials } from '../config/publicProof'
 
 // Testimonials backed by ghost-igl-testimonials DynamoDB table.
 //
@@ -21,7 +22,7 @@ import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 //   remove(id)   async — DELETE a testimonial by id (admin only)
 //   refresh()    async — re-fetch from API (called automatically after writes)
 
-async function authedFetch(path, opts = {}) {
+export async function authedFetch(path, opts = {}) {
   const cognitoUser = getCurrentUser()
   if (!cognitoUser) throw new Error('Not signed in')
   const session = await getSession(cognitoUser)
@@ -83,6 +84,7 @@ export function useTestimonials(gameId = 'r6') {
     await refresh()
   }, [refresh])
 
-  const visible = list.filter((t) => (t.game_id || 'r6') === (gameId || 'r6'))
+  const approved = (gameId || 'r6') === 'r6' ? approvedTestimonials() : []
+  const visible = [...list.filter((t) => (t.game_id || 'r6') === (gameId || 'r6') && !approved.some(a => a.id === t.id)), ...approved]
   return { visible, list, loading, error, add, remove, refresh }
 }

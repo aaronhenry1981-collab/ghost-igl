@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTestimonials } from '../../hooks/useTestimonials'
+import TestimonialReviewQueue from './TestimonialReviewQueue'
 import { Badge, Field, Notice, Panel, Skeleton, StateView } from '../../features/admin/ui'
 
 const RANK_SUGGESTIONS = [
@@ -73,6 +74,7 @@ export default function TestimonialBuilder() {
       actions={<span className="ax-muted ax-num" style={{ fontSize: '0.78rem' }}>{loading ? 'Loading…' : `${list.length} live`}</span>}
       bodyClassName="is-flush"
     >
+      <TestimonialReviewQueue />
       <div style={{ padding: '16px 20px 20px', borderBottom: '1px solid var(--ax-border)' }}>
         {status && <Notice tone={status.tone} onDismiss={() => setStatus(null)}>{status.text}</Notice>}
         <form onSubmit={submit} className="ax-form-stack">

@@ -70,6 +70,7 @@ const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
 const CreatorDemoPage = lazy(() => import('./pages/CreatorDemoPage'))
 const PricingPage = lazy(() => import('./pages/PricingPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
+const TestimonialPage = lazy(() => import('./pages/TestimonialPage'))
 
 // Tiny loading fallback shown while a route's chunk fetches. Keep it minimal
 // — typical chunk fetch on a warm connection is <100ms and the user shouldn't
@@ -172,6 +173,7 @@ const router = createBrowserRouter([
       { path: '/press', element: <L><PressPage /></L> },
       { path: '/pricing', element: <L><PricingPage /></L> },
       { path: '/about', element: <L><AboutPage /></L> },
+      { path: '/testimonial', element: <L><TestimonialPage /></L> },
       { path: '/tools/r6-tier-list', element: <L><R6TierListPage /></L> },
       { path: '/r/:code', element: <L><ReferralLandingPage /></L> },
       { path: '/creator-demo', element: <L><CreatorDemoPage /></L> },

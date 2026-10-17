@@ -53,7 +53,7 @@ export default function AuthPage() {
   // The admin opens with a full page load so analytics started on this page
   // never runs inside it (lib/analyticsScope.mjs).
   const goToTarget = useCallback((target, opts) => {
-    if (isAdminPath(target)) {
+    if (isAdminPath(target) || target.split('?')[0] === '/testimonial') {
       if (opts?.replace) window.location.replace(target)
       else window.location.assign(target)
       return

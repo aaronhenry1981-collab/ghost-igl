@@ -1,7 +1,8 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, ScanCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, ScanCommand, PutCommand, DeleteCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
+import { validateSubmission, publicTestimonial, moderateSubmission, rateRecord } from './testimonial-submissions.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const TABLE = process.env.ANNOUNCEMENTS_TABLE || 'ghost-igl-announcements'
@@ -44,6 +45,7 @@ export async function handler(event) {
     // Public reads — no auth required
     if (isAnnouncementsPublic && method === 'GET') return await listPublic(headers)
     if (isTestimonialsPublic && method === 'GET') return await listPublicTestimonials(headers)
+    if (isTestimonialsPublic && method === 'POST') return await submitTestimonial(event, headers)
     if (isDemoVideoPublic && method === 'GET') return await getDemoVideo(headers)
 
     if (!isAnnouncementsAdmin && !isTestimonialsAdmin && !isDemoVideoAdmin) {
@@ -63,7 +65,7 @@ export async function handler(event) {
 
     if (isTestimonialsAdmin) {
       const hasId = /\/admin\/testimonials\/[^/]+$/.test(path)
-      if (!hasId && method === 'GET') return await listAllTestimonials(headers)
+      if (!hasId && method === 'GET') return await listAllTestimonials(headers, event)
       if (!hasId && method === 'POST') return await createTestimonial(event.body, adminCheck.email, headers)
       if (hasId && method === 'DELETE') return await removeTestimonial(path.split('/').pop(), headers)
     }
@@ -80,7 +82,7 @@ export async function handler(event) {
   }
 }
 
-async function verifyAdmin(event) {
+async function verifyIdentity(event) {
   const authHeader = event.headers?.authorization || event.headers?.Authorization || ''
   const token = authHeader.replace('Bearer ', '')
   if (!token) return { ok: false, status: 401, error: 'No token' }
@@ -89,6 +91,14 @@ async function verifyAdmin(event) {
   try { payload = await verifier.verify(token) }
   catch { return { ok: false, status: 401, error: 'Invalid token' } }
 
+  if (typeof payload.sub !== 'string' || !payload.sub) return { ok: false, status: 401, error: 'Invalid account' }
+  return { ok: true, payload }
+}
+
+async function verifyAdmin(event) {
+  const identity = await verifyIdentity(event)
+  if (!identity.ok) return identity
+  const payload = identity.payload
   const groups = payload['cognito:groups'] || []
   if (!Array.isArray(groups) || !groups.includes('admins')) {
     return { ok: false, status: 403, error: 'Admin access required' }
@@ -187,49 +197,62 @@ async function remove(id, headers) {
 // overhead of a 3rd Lambda for what's essentially a CRUD interface.
 // ============================================================================
 
-async function scanAllTestimonials() {
-  const items = []
-  let lastKey
-  do {
-    const r = await ddb.send(new ScanCommand({ TableName: TESTIMONIALS_TABLE, ExclusiveStartKey: lastKey }))
-    items.push(...(r.Items || []))
-    lastKey = r.LastEvaluatedKey
-  } while (lastKey)
-  // Filter out the demo-video singleton (shares this table for storage).
-  const filtered = items.filter(i => i.id !== '__demo_video__')
-  // Sort: featured first, then newest first.
-  filtered.sort((a, b) => {
-    if (!!b.featured !== !!a.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0)
-    return (b.created_at || '').localeCompare(a.created_at || '')
-  })
-  return filtered
+// Published IDs verified against public production GET on October 17. No quote text
+// is copied: every request reads current records, so deletion remains effective.
+const PUBLIC_INDEX_ID = '__public_testimonials_v1__'
+const LEGACY_PUBLIC_IDS = ['2ac6e39f-ae37-47c0-a5fb-9b93a643a5fe', '3f8d225c-d906-4ff8-91d0-1ff3f53ad90c']
+const validPublicId = id => typeof id === 'string' && /^[a-f0-9-]{36}$/i.test(id)
+function publishedIds(item) {
+  return [...new Set(item ? (Array.isArray(item.ids) ? item.ids : []) : LEGACY_PUBLIC_IDS)].filter(validPublicId).slice(0, 20)
 }
-
 async function listPublicTestimonials(headers) {
-  const items = await scanAllTestimonials()
-  // Strip admin-only fields before returning to the public.
-  const safe = items.map(t => ({
-    id: t.id,
-    name: t.name,
-    text: t.text,
-    rank: t.rank || null,
-    hours: t.hours || null,
-    tier: t.tier || null,
-    featured: !!t.featured,
-    created_at: t.created_at,
-  }))
+  const index = await ddb.send(new GetCommand({ TableName: TESTIMONIALS_TABLE, Key: { id: PUBLIC_INDEX_ID }, ConsistentRead: true }))
+  const rows = await Promise.all(publishedIds(index.Item).map(id => ddb.send(new GetCommand({ TableName: TESTIMONIALS_TABLE, Key: { id }, ConsistentRead: true }))))
+  const safe = rows.map(row => publicTestimonial(row.Item)).filter(Boolean)
+  safe.sort((a, b) => Number(!!b.featured) - Number(!!a.featured) || (b.created_at || '').localeCompare(a.created_at || ''))
   return { statusCode: 200, headers, body: JSON.stringify({ testimonials: safe }) }
 }
+async function publishTestimonial(id) {
+  // CAS avoids lost concurrent approvals without requiring UpdateItem/transactions.
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const prior = await ddb.send(new GetCommand({ TableName: TESTIMONIALS_TABLE, Key: { id: PUBLIC_INDEX_ID }, ConsistentRead: true }))
+    const ids = publishedIds(prior.Item)
+    if (prior.Item && ids.includes(id)) return
+    const item = { id: PUBLIC_INDEX_ID, ids: [...ids.filter(value => value !== id), id].slice(-20), revision: randomUUID() }
+    try {
+      await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: item,
+        ConditionExpression: prior.Item ? 'revision = :revision' : 'attribute_not_exists(id)',
+        ...(prior.Item ? { ExpressionAttributeValues: { ':revision': prior.Item.revision } } : {}) }))
+      return
+    } catch (error) { if (error.name !== 'ConditionalCheckFailedException') throw error }
+  }
+  throw new Error('Publication is busy. Retry publication from review history.')
+}
 
-async function listAllTestimonials(headers) {
-  const items = await scanAllTestimonials()
-  return { statusCode: 200, headers, body: JSON.stringify({ testimonials: items }) }
+async function listAllTestimonials(headers, event) {
+  let startKey
+  const cursor = event.queryStringParameters?.cursor
+  if (cursor) {
+    try {
+      if (typeof cursor !== 'string' || cursor.length > 512) throw new Error('cursor')
+      const id = Buffer.from(cursor, 'base64url').toString('utf8')
+      if (!/^[a-zA-Z0-9_-]{1,200}$/.test(id)) throw new Error('cursor')
+      startKey = { id }
+    } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid page cursor.' }) } }
+  }
+  // One DynamoDB page (at most 1 MiB), never the entire private photo collection.
+  const page = await ddb.send(new ScanCommand({ TableName: TESTIMONIALS_TABLE, Limit: 20, ExclusiveStartKey: startKey }))
+  const items = (page.Items || []).filter(item => !item.id?.startsWith('__'))
+  const nextCursor = page.LastEvaluatedKey?.id ? Buffer.from(page.LastEvaluatedKey.id).toString('base64url') : null
+  return { statusCode: 200, headers, body: JSON.stringify({ testimonials: items, nextCursor }) }
 }
 
 async function createTestimonial(bodyStr, authorEmail, headers) {
   let body
   try { body = JSON.parse(bodyStr || '{}') }
   catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) } }
+
+  if (body.action) return reviewTestimonial(body, authorEmail, headers)
 
   const name = (body.name || '').toString().trim()
   const text = (body.text || '').toString().trim()
@@ -264,13 +287,65 @@ async function createTestimonial(bodyStr, authorEmail, headers) {
   }
 
   await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: item }))
+  await publishTestimonial(item.id)
   return { statusCode: 201, headers, body: JSON.stringify({ testimonial: item }) }
 }
 
 async function removeTestimonial(id, headers) {
-  if (!id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'id required' }) }
+  if (!validPublicId(id)) return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid testimonial ID.' }) }
   await ddb.send(new DeleteCommand({ TableName: TESTIMONIALS_TABLE, Key: { id } }))
   return { statusCode: 200, headers, body: JSON.stringify({ ok: true, id }) }
+}
+
+async function submitTestimonial(event, headers) {
+  const reply = (statusCode, data) => ({ statusCode, headers, body: JSON.stringify(data) })
+  const origin = event.headers?.origin || event.headers?.Origin || ''
+  if (!ALLOWED_ORIGINS.includes(origin)) return reply(403, { error: 'Use the Recon 6 testimonial form.' })
+  const identity = await verifyIdentity(event)
+  if (!identity.ok) return reply(identity.status, { error: 'Sign in to send your story.' })
+  const now = Date.now()
+  const rate = rateRecord(identity.payload.sub, now)
+  // Admit before parsing: malformed/oversized attempts also consume this minute.
+  try {
+    await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: rate,
+      ConditionExpression: 'attribute_not_exists(id) OR next_allowed <= :now', ExpressionAttributeValues: { ':now': now } }))
+  } catch (error) {
+    if (error.name === 'ConditionalCheckFailedException') return reply(429, { error: 'Please wait before trying again: one attempt per minute, or 15 minutes after a saved story.' })
+    throw error
+  }
+  if (event.isBase64Encoded || Buffer.byteLength(event.body || '') > 8192) return reply(413, { error: 'The form is too large. Photo uploads are not accepted.' })
+  let item
+  try { item = validateSubmission(JSON.parse(event.body || '{}')) }
+  catch (error) { return reply(400, { error: error instanceof SyntaxError ? 'Invalid form data.' : error.message }) }
+  item.submitted_by = identity.payload.sub
+  await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: rateRecord(identity.payload.sub, now, 15 * 60000),
+    ConditionExpression: 'next_allowed = :admitted', ExpressionAttributeValues: { ':admitted': rate.next_allowed } }))
+  await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: item, ConditionExpression: 'attribute_not_exists(id)' }))
+  return reply(201, { id: item.id, status: 'pending', message: 'Saved for review. Nothing has been published.' })
+}
+
+async function reviewTestimonial(body, reviewer, headers) {
+  const reply = (statusCode, data) => ({ statusCode, headers, body: JSON.stringify(data) })
+  if (typeof body.id !== 'string' || !/^[a-f0-9-]{36}$/i.test(body.id)) return reply(400, { error: 'Invalid submission ID.' })
+  const result = await ddb.send(new GetCommand({ TableName: TESTIMONIALS_TABLE, Key: { id: body.id }, ConsistentRead: true }))
+  // Safe retry after an index write failure; publication never bypasses consent.
+  if (body.action === 'publish' || (body.action === 'approve' && result.Item?.status === 'approved')) {
+    if (!publicTestimonial(result.Item)) return reply(400, { error: 'Only an approved quote can be published.' })
+    await publishTestimonial(body.id)
+    return reply(200, { id: body.id, status: result.Item.status || 'published' })
+  }
+  let item
+  try { item = moderateSubmission(result.Item, body.action, reviewer) }
+  catch (error) { return reply(400, { error: error.message }) }
+  try {
+    await ddb.send(new PutCommand({ TableName: TESTIMONIALS_TABLE, Item: item,
+      ConditionExpression: '#status = :pending', ExpressionAttributeNames: { '#status': 'status' }, ExpressionAttributeValues: { ':pending': 'pending' } }))
+  } catch (error) {
+    if (error.name === 'ConditionalCheckFailedException') return reply(409, { error: 'Another reviewer already handled this submission. Refresh the queue.' })
+    throw error
+  }
+  if (body.action === 'approve') await publishTestimonial(item.id)
+  return reply(200, { id: item.id, status: item.status })
 }
 
 // ============================================================================
@@ -291,14 +366,8 @@ async function removeTestimonial(id, headers) {
 const DEMO_VIDEO_ID = '__demo_video__'
 
 async function getDemoVideo(headers) {
-  const r = await ddb.send(new ScanCommand({
-    TableName: TESTIMONIALS_TABLE,
-    FilterExpression: '#id = :id',
-    ExpressionAttributeNames: { '#id': 'id' },
-    ExpressionAttributeValues: { ':id': DEMO_VIDEO_ID },
-    Limit: 1,
-  }))
-  const item = (r.Items || [])[0]
+  const r = await ddb.send(new GetCommand({ TableName: TESTIMONIALS_TABLE, Key: { id: DEMO_VIDEO_ID } }))
+  const item = r.Item
   if (!item) return { statusCode: 200, headers, body: JSON.stringify({ video: null }) }
   return {
     statusCode: 200,
