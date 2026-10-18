@@ -1019,13 +1019,14 @@ async function postDesktopVerify(bodyJson, headers) {
   const email = activationPayload.email.toLowerCase()
 
   const sub = await getActiveSub(email)
-  if (isActiveSub(sub)) {
+  if (isActiveSub(sub) && ['pro', 'elite', 'champion'].includes(effectivePlan(sub))) {
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         valid: true,
         plan: effectivePlan(sub),
+        status: sub.status,
         expires_at: Math.min(activationPayload.expires_at, Date.parse(sub.current_period_end)),
       }),
     }
@@ -1034,7 +1035,7 @@ async function postDesktopVerify(bodyJson, headers) {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ valid: true, plan: 'champion', expires_at: activationPayload.expires_at }),
+      body: JSON.stringify({ valid: true, plan: 'champion', status: 'active', expires_at: activationPayload.expires_at }),
     }
   }
   return {
