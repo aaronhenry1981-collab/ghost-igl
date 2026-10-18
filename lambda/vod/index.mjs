@@ -1,3 +1,4 @@
+import { GROUNDING_RULES, requireGroundedAnalysis } from './grounding.mjs'
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 // VOD Analysis Lambda — Recon+ headline AI feature.
 //
@@ -186,17 +187,17 @@ const RESPONSE_SCHEMA = `{
         "round_phase": <"prep" | "action" | "post-plant" | "post-round" | "mid-fight" | "rotating" | "unknown">
       },
       "what_happened": <string — 1-2 sentences describing the moment>,
-      "what_went_wrong": [<2-4 specific items, referencing visible HUD/positions/utility>],
+      "what_went_wrong": [<0-3 supported observations; empty if uncertain>],
       "what_went_right": [<1-3 specific items if applicable, else empty>],
       "specific_advice": [<2-4 actionable items, mention concrete callouts/angles/timings>]
     }
   ],
   "patterns": {
-    "recurring_weaknesses": [<2-4 patterns observed across multiple images>],
-    "standout_strengths": [<1-3 patterns that worked>]
+    "recurring_weaknesses": [<empty for one image; no claims of repeated match habits>],
+    "standout_strengths": [<empty for one image; no inferred outcomes>]
   },
   "practice_plan": {
-    "this_week": [<3-5 specific drills tailored to the patterns above>]
+    "this_week": [<0-3 conditional drills tied to visible observations>]
   },
   "character_feedback": <string or null — character-specific feedback if a single character was identified across images, referencing kit usage and role expectations>
 }`
@@ -315,9 +316,11 @@ function buildSystemPrompt(gameId, userContext) {
 
   return `You are an expert ${meta.name} coach reviewing a session of gameplay screenshots from a single player. Your job is to give SPECIFIC, ACTIONABLE feedback that references visible HUD elements, ${meta.character_noun} kits, map geometry, round timers, and economy/loadout state.
 
-NEVER give generic advice. Examples of what NOT to say: "improve your aim", "use utility better", "play more cautiously". Examples of what TO say: "your crosshair was on the floor when you peeked at 1:23 — pre-aim head-level when entering through that doorway", "you brought Thermite but I see no charge on the Bandit batteries — that's wasted utility".
+Give specific advice only where visible evidence supports it. Off-screen utility is unknown, not unused. A static position does not establish a peek, a movement sequence, a prior mistake or an outcome.
 
-Reference the game context I provide below when relevant. If the user didn't specify a map, try to detect it from HUD/visuals. Adapt your vocabulary to ${meta.name} — don't use R6 terms if the game is CS2, don't use CS2 terms if the game is OW2, etc.
+Reference the game context I provide below when relevant. If no map was supplied, leave it unknown. Adapt your vocabulary to ${meta.name} — don't use R6 terms if the game is CS2, don't use CS2 terms if the game is OW2, etc.
+
+${GROUNDING_RULES}
 
 EVIDENCE RULES:
 - Tie every diagnosis to something visible in an image or to the supplied authoritative map/site context.
@@ -642,7 +645,7 @@ export async function handler(event) {
           tier,
           email_hash: createHash('sha256').update(String(email || '')).digest('hex').slice(0, 24),
           images_count: images.length,
-          user_context: String(userContext || '').slice(0, 1000),
+          user_context: JSON.stringify(userContext || {}).slice(0, 1000),
           analysis,
           source: analysisType === 'rank_snapshot' ? 'rank-snapshot' : 'vod-api',
         },
@@ -676,7 +679,10 @@ export async function handler(event) {
     let status = 502
     let friendly = msg || 'Upstream model error'
 
-    if (errName === 'RankSnapshotError') {
+    if (errName === 'ModelGroundingError') {
+      code = 'analysis_not_grounded'; status = 422
+      friendly = 'The review made claims that these still images could not support. It was not saved as coaching evidence. The review allowance may have been used.'
+    } else if (errName === 'RankSnapshotError') {
       code = 'rank_not_verified'; status = 422
       friendly = 'No exact current Rainbow Six rank was readable. Upload a clearer overview image with the rank text visible.'
     } else if (errName === 'ThrottlingException' || /throttl|too many tokens/i.test(msg)) {
@@ -923,7 +929,7 @@ async function callBedrock(gameId, images, userContext, tier) {
   const text = await invokeModel(input)
   let parsed = parseModelJson(text)
   let validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['result was not valid JSON']
-  if (validationErrors.length === 0) return parsed
+  if (validationErrors.length === 0) return requireGroundedAnalysis(parsed, images.length, userContext)
 
   // One bounded repair attempt is cheaper and kinder than returning malformed
   // data to the UI. It receives no images or secrets, only the model output.
@@ -931,7 +937,7 @@ async function callBedrock(gameId, images, userContext, tier) {
     anthropic_version: 'bedrock-2023-05-31',
     max_tokens: tier === 'pro' ? 1400 : 2400,
     temperature: 0,
-    system: `Repair the candidate into strict JSON matching this schema. Preserve supported observations; do not add facts. Return JSON only.\n${RESPONSE_SCHEMA}`,
+    system: `Repair the candidate into strict JSON matching this schema. Preserve supported observations; do not add facts. Return JSON only.\n${GROUNDING_RULES}\nSupplied context: ${JSON.stringify(userContext)}\n${RESPONSE_SCHEMA}`,
     messages: [{ role: 'user', content: [{ type: 'text', text: `Validation errors:\n- ${validationErrors.join('\n- ')}\n\nCandidate:\n${text.slice(0, 14000)}` }] }],
   }
   const repairedText = await invokeModel(repairInput, BUDGET_MODEL_ID)
@@ -942,7 +948,7 @@ async function callBedrock(gameId, images, userContext, tier) {
     err.name = 'ModelSchemaError'
     throw err
   }
-  return parsed
+  return requireGroundedAnalysis(parsed, images.length, userContext)
 }
 
 async function callRankSnapshot(image) {
@@ -968,6 +974,7 @@ async function invokeModel(input, modelId = MODEL_ID) {
     body: JSON.stringify(input),
   }))
   const decoded = JSON.parse(new TextDecoder().decode(resp.body))
+  console.info('vod_model_usage', JSON.stringify({ modelId, inputTokens: decoded.usage?.input_tokens ?? null, outputTokens: decoded.usage?.output_tokens ?? null, requestId: resp.$metadata?.requestId ?? null, attempts: resp.$metadata?.attempts ?? null }))
   return decoded.content?.[0]?.text || ''
 }
 

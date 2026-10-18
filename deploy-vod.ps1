@@ -29,7 +29,7 @@ $ContextIds = @(
     'r6', 'cs2', 'valorant', 'ow2', 'apex', 'mvr', 'halo', 'finals', 'cod', 'fn', 'rl',
     'lol', 'dota2', 'eafc', 'tk8', 'sf6', 'pubg', 'deadlock', 'naraka', 'nba2k'
 )
-$RequiredFiles = @('index.mjs', 'coach-contract.mjs', 'rank-snapshot.mjs', 'package.json', 'package-lock.json')
+$RequiredFiles = @('index.mjs', 'coach-contract.mjs', 'grounding.mjs', 'rank-snapshot.mjs', 'package.json', 'package-lock.json')
 $RequiredFiles += $ContextIds | ForEach-Object { "$_-context.json" }
 
 Write-Host ""
@@ -50,7 +50,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'index.mjs syntax check failed' }
     node --check coach-contract.mjs
     if ($LASTEXITCODE -ne 0) { throw 'coach-contract.mjs syntax check failed' }
-    node --test coach-contract.test.mjs rank-snapshot.test.mjs
+    node --test coach-contract.test.mjs rank-snapshot.test.mjs grounding.test.mjs admin-reservation.test.mjs
     if ($LASTEXITCODE -ne 0) { throw 'VOD contract tests failed' }
 
     Write-Host "[2/5] Installing production dependencies..." -ForegroundColor Yellow

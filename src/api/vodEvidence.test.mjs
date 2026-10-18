@@ -25,7 +25,7 @@ test('builds honest coaching evidence from a VOD analysis', () => {
   assert.equal(event.outcome, undefined)
 })
 
-test('uses player context only as a fallback and does not invent outcomes', () => {
+test('uses player context and does not invent outcomes', () => {
   const event = buildVodCoachingEvent({}, {
     map: 'bank', site: 'basement', side: 'defense', operator: 'Mute',
   }, { now: '2026-08-30T12:00:00.000Z', sessionId: 'vod-context' })
@@ -35,5 +35,12 @@ test('uses player context only as a fallback and does not invent outcomes', () =
   })
   assert.equal(event.report.mechanics.dominant, null)
   assert.equal(event.report.mechanics.drill, null)
+  assert.equal(event.report.score, null)
+})
+
+test('supplied Coastline context wins over conflicting generated House and preserves unscored review', () => {
+  const event = buildVodCoachingEvent({ session: { detected_map: 'House', score: null }, per_image: [{ detected: { map: 'House', site: 'Kids Bedroom' } }] }, { map: 'Coastline', site: 'Penthouse' })
+  assert.equal(event.gameState.map, 'Coastline')
+  assert.equal(event.gameState.siteId, 'Penthouse')
   assert.equal(event.report.score, null)
 })

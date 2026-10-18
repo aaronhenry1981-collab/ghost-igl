@@ -90,12 +90,13 @@ export default function SessionResults({ analysis }) {
           <h2 style={{ margin: 0 }}>Session Analysis</h2>
           {session.score != null && <ScoreBadge score={session.score} />}
         </div>
+        <p role="note">Selected stills cannot establish repeated habits or a match performance score. Map and site labels may come from your supplied context.</p>
         <p style={{ fontSize: '1.05rem', marginTop: '0.5rem' }}>{session.headline}</p>
         {(session.detected_map || session.detected_side) && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
             {session.detected_map && (
               <span style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)' }}>
-                Detected: <strong>{session.detected_map}</strong>
+                {analysis.context_provenance === 'user_context' ? 'Supplied context: ' : 'Map: '}<strong>{session.detected_map}</strong>
                 {session.detected_side ? ` (${session.detected_side})` : ''} · {session.image_count} {session.image_count === 1 ? 'image' : 'images'}
               </span>
             )}
@@ -119,6 +120,8 @@ export default function SessionResults({ analysis }) {
                   Image {(img.image_index ?? i) + 1} — {img.what_happened || 'tap to expand'}
                 </summary>
                 <DetectedPills detected={img.detected} />
+                {img.observations?.length > 0 && <div><strong>Visible evidence</strong><BulletList items={img.observations} /></div>}
+                {img.uncertainties?.length > 0 && <div><strong>Uncertain or not visible</strong><BulletList items={img.uncertainties} /></div>}
                 {img.what_went_wrong?.length > 0 && (
                   <div style={{ marginTop: '0.75rem' }}>
                     <strong style={{ color: '#ff8a8a', fontSize: '0.85rem' }}>What went wrong</strong>
@@ -173,7 +176,7 @@ export default function SessionResults({ analysis }) {
         }}>
           <h3 style={{ margin: '0 0 0.5rem', color: '#ff9b5c' }}>📋 Your practice plan this week</h3>
           <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.65)', margin: '0 0 0.75rem' }}>
-            Based on the patterns above. Spend 10-15 minutes per drill before your next ranked session.
+            Suggested practice based on the visible evidence, not a diagnosis of repeated habits.
           </p>
           <BulletList items={practicePlan.this_week} />
         </section>
