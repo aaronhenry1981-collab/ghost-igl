@@ -271,7 +271,7 @@ function buildGameContextSlice(gameId, userContext) {
     lines.push(`\nCOMMON MISTAKES BY RANK:\n${stringifyForModel(ctx.common_mistakes_by_rank, 1200)}`)
   }
 
-  return lines.join('\n')
+  return `REFERENCE MATERIAL ONLY: This catalog describes possible tactics, locations and common mistakes. It is not evidence of this player's location, actions, habits or match phase. Copy map/site labels from supplied context exactly, including IDs; never substitute a catalog label.\n${lines.join('\n')}`
 }
 
 // Try a few normalizations to map user-supplied "Bank" / "bank" / "Bank Map"
@@ -326,7 +326,7 @@ Reference the game context I provide below when relevant. If no map was supplied
 ${GROUNDING_RULES}
 
 EVIDENCE RULES:
-- Tie every diagnosis to something visible in an image or to the supplied authoritative map/site context.
+- Tie every diagnosis to visible evidence. User-selected map/site context may tailor conditional advice, but does not establish player actions or location from the pixels.
 - Do not invent unseen enemies, utility, sound cues, teammates, routes, or outcomes.
 - When an important detail is unreadable or ambiguous, say "uncertain" and give a conditional recommendation instead of guessing.
 - Prefer the user-selected map/site/side. If the image appears to contradict it, keep the supplied context and explicitly describe the visual uncertainty.
