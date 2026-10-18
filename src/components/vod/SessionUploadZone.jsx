@@ -189,7 +189,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
               {showContext ? '▾' : '▸'} {showContext ? 'Hide context hints' : 'Add context hints (optional)'}
             </button>
             <span style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)' }}>
-              Telling the AI the map / {characterLabel.toLowerCase()} gives sharper feedback. Skip if you want it to detect from the screenshots.
+              Supply the map and site when known. Without this context, those labels remain unknown; a still cannot establish match history.
             </span>
           </div>
 
@@ -202,7 +202,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
                   onChange={(e) => setContextField('map', e.target.value)}
                   className="testi-input"
                 >
-                  <option value="">Auto-detect</option>
+                  <option value="">Unknown / not supplied</option>
                   {playableMaps.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
                 </select>
               </label>

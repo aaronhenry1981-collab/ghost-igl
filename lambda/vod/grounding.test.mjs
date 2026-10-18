@@ -4,6 +4,34 @@ import { readFileSync } from 'node:fs'
 import vm from 'node:vm'
 import { GROUNDING_RULES, requireGroundedAnalysis, validateGrounding } from './grounding.mjs'
 const safe = () => ({ session: { headline: 'A still shows the player facing a doorway.', score: null, detected_map: null, image_count: 1 }, per_image: [{ image_index: 0, detected: { map: null, site: null, round_phase: 'unknown' }, observations: ['The HUD shows 100 health.'], uncertainties: ['Movement and prior actions cannot be established.'], what_happened: 'The player faces a doorway.', what_went_wrong: [], what_went_right: [], specific_advice: [] }], patterns: { recurring_weaknesses: [], standout_strengths: [] }, practice_plan: { this_week: [] } })
+test('actual model schema includes every required grounding field and has no scoring or phase conflict', () => {
+  const source = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
+  const context = vm.createContext({})
+  vm.runInContext(source.slice(source.indexOf('const RESPONSE_SCHEMA ='), source.indexOf('// Pull a compact')), context)
+  const schema = vm.runInContext('RESPONSE_SCHEMA', context)
+  assert.match(schema, /"score": null/)
+  assert.match(schema, /"round_phase": "unknown"/)
+  assert.match(schema, /"observations": \[/)
+  assert.match(schema, /"uncertainties": \[/)
+  assert.doesNotMatch(schema, /integer 0-100|"post-plant"/)
+})
+test('display-name formatting is equivalent to supplied IDs, but another map is rejected', () => {
+  const value = safe(); value.session.detected_map = 'Coastline'
+  Object.assign(value.per_image[0].detected, { map: 'Coastline', site: 'Theater / Penthouse' })
+  assert.deepEqual(validateGrounding(value, 1, { map: 'coastline', site: 'theater-penthouse' }), [])
+  value.session.detected_map = 'House'
+  assert.ok(validateGrounding(value, 1, { map: 'coastline', site: 'theater-penthouse' }).some(x => x.startsWith('session map')))
+})
+test('explicit uncertainty about post-plant is permitted without permitting a positive claim', () => {
+  const value = safe(); value.per_image[0].uncertainties = ['Cannot determine whether this is a post-plant situation.']
+  assert.deepEqual(validateGrounding(value, 1), [])
+  value.per_image[0].uncertainties = ['Cannot determine phase, but you have planted the defuser.']
+  assert.ok(validateGrounding(value, 1).some(x => x.includes('temporal')))
+  value.per_image[0].uncertainties = ['You have planted the defuser.']
+  assert.ok(validateGrounding(value, 1).some(x => x.includes('temporal')))
+  value.per_image[0].uncertainties = ['Cannot determine phase because you have planted the defuser.']
+  assert.ok(validateGrounding(value, 1).some(x => x.includes('temporal')))
+})
 test('exact Coastline failure is rejected before persistence: House, 62, post-plant and habits', () => {
   const bad = safe(); bad.session.score = 62; bad.session.detected_map = 'House'
   bad.per_image[0].detected = { map: 'House', site: "Kids Bedroom / Master Bedroom", round_phase: 'post-plant' }
