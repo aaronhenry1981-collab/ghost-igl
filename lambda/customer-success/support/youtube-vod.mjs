@@ -14,6 +14,8 @@ export async function submitYoutubeVod({ ctx, service, identity, body }) {
   // atomic idempotency and the staff queue. No VOD quota or AI call is used.
   const receipt = await service.createCase(identity, {
     text: `YouTube Siege manual-review request\n${video.url}\nSaved link only. Video has not been downloaded or analyzed. Manual review requested; no turnaround promised.`,
+    category: 'replay_upload',
+    subcategory: 'youtube_manual_review',
     context: { page: '/vod', feature: 'youtube-vod' },
     clientRequestId: `youtube-vod-${video.videoId}`,
   })
