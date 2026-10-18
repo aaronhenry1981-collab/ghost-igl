@@ -60,7 +60,7 @@ for (const [name, status] of [['AccessDeniedException', 503], ['ConditionalCheck
   test(`handler blocks Bedrock and persistence on ${name}`, async () => {
     let modelCalls = 0, writes = 0
     const ctx = vm.createContext({
-      buildHeaders: () => ({}), console: { error() {} },
+      REVIEW_REQUEST_BUDGET_MS: 24000, buildHeaders: () => ({}), console: { error() {} },
       verifier: { verify: async () => ({ email: 'owner@example.test', email_verified: true, 'cognito:groups': ['admins'] }) },
       VOD_AI_ENABLED: true, VOD_ADMIN_DAILY_LIMIT: 3,
       CONTEXTS_BY_GAME: { r6: {} }, ELITE_MAX_IMAGES: 10, MAX_IMAGE_BYTES: 5000000,
