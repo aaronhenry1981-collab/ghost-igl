@@ -171,7 +171,7 @@ function buildHeaders(event) {
 const RESPONSE_SCHEMA = `{
   "session": {
     "headline": <string, 1-2 sentences — top takeaway across all images>,
-    "score": <integer 0-100 — overall tactical score>,
+    "score": null,
     "detected_map": <string or null>,
     "detected_side": <string or null — game-appropriate side label>,
     "image_count": <integer>
@@ -184,12 +184,14 @@ const RESPONSE_SCHEMA = `{
         "site": <string or null>,
         "side": <string or null>,
         "character": <string or null — the operator/agent/hero/legend played>,
-        "round_phase": <"prep" | "action" | "post-plant" | "post-round" | "mid-fight" | "rotating" | "unknown">
+        "round_phase": "unknown"
       },
-      "what_happened": <string — 1-2 sentences describing the moment>,
+      "observations": [<one or more strings describing only directly visible facts>],
+      "uncertainties": [<one or more strings describing what this still cannot establish>],
+      "what_happened": <string - visible state only; no inferred past actions>,
       "what_went_wrong": [<0-3 supported observations; empty if uncertain>],
       "what_went_right": [<1-3 specific items if applicable, else empty>],
-      "specific_advice": [<2-4 actionable items, mention concrete callouts/angles/timings>]
+      "specific_advice": [<0-3 conditional suggestions supported by visible observations>]
     }
   ],
   "patterns": {
@@ -681,7 +683,7 @@ export async function handler(event) {
 
     if (errName === 'ModelGroundingError') {
       code = 'analysis_not_grounded'; status = 422
-      friendly = 'The review made claims that these still images could not support. It was not saved as coaching evidence. The review allowance may have been used.'
+      friendly = 'A reliable review could not be established from this response. It was not saved as coaching evidence. The review allowance may have been used. General self-check: in a custom game, pause before an entry and compare your crosshair with the doorway you intend to watch. Use before-and-after frames to assess movement; a single still cannot establish it.'
     } else if (errName === 'RankSnapshotError') {
       code = 'rank_not_verified'; status = 422
       friendly = 'No exact current Rainbow Six rank was readable. Upload a clearer overview image with the rank text visible.'
@@ -912,7 +914,7 @@ async function callBedrock(gameId, images, userContext, tier) {
   if (userContext.side) hintParts.push(`Side: ${userContext.side}`)
   if (userContext.operator) hintParts.push(`${meta.character_noun}: ${userContext.operator}`)
   else if (userContext.character) hintParts.push(`${meta.character_noun}: ${userContext.character}`)
-  const hintLine = hintParts.length ? `\n\nUser-specified context (trust these unless visually contradicted): ${hintParts.join(' · ')}` : ''
+  const hintLine = hintParts.length ? `\n\nUser-supplied context (not visual proof; preserve these labels and describe conflicts as uncertainty): ${hintParts.join(' · ')}` : ''
   content.push({
     type: 'text',
     text: `Analyze ${images.length === 1 ? 'this screenshot' : 'these screenshots as a single session — they\'re all from the same player, often the same match'}. The game is ${meta.name}. Return the strict JSON described in your system prompt.${hintLine}`,
