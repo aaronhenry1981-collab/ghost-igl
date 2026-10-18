@@ -57,7 +57,7 @@ test('real callBedrock rejects semantically invalid output after one model call 
   const source = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
   let calls = 0
   const bad = safe(); bad.session.score = 62
-  const ctx = vm.createContext({ GAME_DISPLAY: { r6: { name: 'Siege' } }, buildSystemPrompt: () => GROUNDING_RULES,
+  const ctx = vm.createContext({ REVIEW_REQUEST_BUDGET_MS: 24000, MODEL_ID: 'offline', GAME_DISPLAY: { r6: { name: 'Siege' } }, buildSystemPrompt: () => GROUNDING_RULES,
     invokeModel: async () => { calls++; return JSON.stringify(bad) }, parseModelJson: JSON.parse,
     validateAnalysis: () => [], requireGroundedAnalysis })
   vm.runInContext(source.slice(source.indexOf('async function callBedrock('), source.indexOf('async function callRankSnapshot(')), ctx)

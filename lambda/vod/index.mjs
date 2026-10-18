@@ -1,4 +1,5 @@
 import { GROUNDING_RULES, requireGroundedAnalysis } from './grounding.mjs'
+import { REVIEW_REQUEST_BUDGET_MS, withRequestDeadline } from './request-deadline.mjs'
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 // VOD Analysis Lambda — Recon+ headline AI feature.
 //
@@ -81,7 +82,7 @@ for (const id of GAME_IDS) {
 console.log(`VOD Lambda loaded contexts for: ${Object.keys(CONTEXTS_BY_GAME).join(', ')}`)
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
-const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'us-east-1' })
+const bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'us-east-1', maxAttempts: 1 })
 
 const SUBS_TABLE = process.env.SUBSCRIPTIONS_TABLE || 'ghost-igl-subscriptions'
 const PROFILES_TABLE = process.env.PROFILES_TABLE || 'ghost-igl-profiles'
@@ -270,7 +271,7 @@ function buildGameContextSlice(gameId, userContext) {
     lines.push(`\nCOMMON MISTAKES BY RANK:\n${stringifyForModel(ctx.common_mistakes_by_rank, 1200)}`)
   }
 
-  return lines.join('\n')
+  return `REFERENCE MATERIAL ONLY: This catalog describes possible tactics, locations and common mistakes. It is not evidence of this player's location, actions, habits or match phase. Copy map/site labels from supplied context exactly, including IDs; never substitute a catalog label.\n${lines.join('\n')}`
 }
 
 // Try a few normalizations to map user-supplied "Bank" / "bank" / "Bank Map"
@@ -325,7 +326,7 @@ Reference the game context I provide below when relevant. If no map was supplied
 ${GROUNDING_RULES}
 
 EVIDENCE RULES:
-- Tie every diagnosis to something visible in an image or to the supplied authoritative map/site context.
+- Tie every diagnosis to visible evidence. User-selected map/site context may tailor conditional advice, but does not establish player actions or location from the pixels.
 - Do not invent unseen enemies, utility, sound cues, teammates, routes, or outcomes.
 - When an important detail is unreadable or ambiguous, say "uncertain" and give a conditional recommendation instead of guessing.
 - Prefer the user-selected map/site/side. If the image appears to contradict it, keep the supplied context and explicitly describe the visual uncertainty.
@@ -408,6 +409,7 @@ async function publishVodPlayerData(payload, analysis, gameId) {
 }
 
 export async function handler(event) {
+  const requestDeadline = Date.now() + REVIEW_REQUEST_BUDGET_MS
   const headers = buildHeaders(event)
   const method = event.requestContext?.http?.method
   if (method === 'OPTIONS') return { statusCode: 200, headers, body: '' }
@@ -624,8 +626,8 @@ export async function handler(event) {
 
   try {
     const analysis = analysisType === 'rank_snapshot'
-      ? { analysis_type: analysisType, snapshot: await callRankSnapshot(images[0]) }
-      : await callBedrock(gameId, images, userContext, tier)
+      ? { analysis_type: analysisType, snapshot: await callRankSnapshot(images[0], requestDeadline) }
+      : await callBedrock(gameId, images, userContext, tier, requestDeadline)
     if (analysisType === 'rank_snapshot' && !analysis.snapshot) {
       const err = new Error('No exact Rainbow Six rank could be verified from the visible screenshot.')
       err.name = 'RankSnapshotError'
@@ -681,7 +683,10 @@ export async function handler(event) {
     let status = 502
     let friendly = msg || 'Upstream model error'
 
-    if (errName === 'ModelGroundingError') {
+    if (errName === 'ReviewDeadlineError') {
+      code = 'review_timeout'; status = 504
+      friendly = 'The review did not finish within the request time limit. No coaching result was saved. Your review allowance may have been used. Do not resubmit automatically.'
+    } else if (errName === 'ModelGroundingError') {
       code = 'analysis_not_grounded'; status = 422
       friendly = 'A reliable review could not be established from this response. It was not saved as coaching evidence. The review allowance may have been used. General self-check: in a custom game, pause before an entry and compare your crosshair with the doorway you intend to watch. Use before-and-after frames to assess movement; a single still cannot establish it.'
     } else if (errName === 'RankSnapshotError') {
@@ -898,7 +903,7 @@ async function reserveAdminUsage(email) {
   }))
 }
 
-async function callBedrock(gameId, images, userContext, tier) {
+async function callBedrock(gameId, images, userContext, tier, deadline = Date.now() + REVIEW_REQUEST_BUDGET_MS) {
   const meta = GAME_DISPLAY[gameId] || GAME_DISPLAY.r6
   const content = []
   for (let i = 0; i < images.length; i++) {
@@ -928,7 +933,7 @@ async function callBedrock(gameId, images, userContext, tier) {
     messages: [{ role: 'user', content }],
   }
 
-  const text = await invokeModel(input)
+  const text = await invokeModel(input, MODEL_ID, deadline)
   let parsed = parseModelJson(text)
   let validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['result was not valid JSON']
   if (validationErrors.length === 0) return requireGroundedAnalysis(parsed, images.length, userContext)
@@ -942,7 +947,7 @@ async function callBedrock(gameId, images, userContext, tier) {
     system: `Repair the candidate into strict JSON matching this schema. Preserve supported observations; do not add facts. Return JSON only.\n${GROUNDING_RULES}\nSupplied context: ${JSON.stringify(userContext)}\n${RESPONSE_SCHEMA}`,
     messages: [{ role: 'user', content: [{ type: 'text', text: `Validation errors:\n- ${validationErrors.join('\n- ')}\n\nCandidate:\n${text.slice(0, 14000)}` }] }],
   }
-  const repairedText = await invokeModel(repairInput, BUDGET_MODEL_ID)
+  const repairedText = await invokeModel(repairInput, BUDGET_MODEL_ID, deadline)
   parsed = parseModelJson(repairedText)
   validationErrors = parsed ? validateAnalysis(parsed, images.length) : ['repair was not valid JSON']
   if (validationErrors.length) {
@@ -953,7 +958,7 @@ async function callBedrock(gameId, images, userContext, tier) {
   return requireGroundedAnalysis(parsed, images.length, userContext)
 }
 
-async function callRankSnapshot(image) {
+async function callRankSnapshot(image, deadline = Date.now() + REVIEW_REQUEST_BUDGET_MS) {
   const input = {
     anthropic_version: 'bedrock-2023-05-31',
     max_tokens: 650,
@@ -964,17 +969,17 @@ async function callRankSnapshot(image) {
       { type: 'text', text: 'Extract the exact current visible rank and any visible RP, K/D, win rate, match, win, loss, season, and platform fields. JSON only.' },
     ] }],
   }
-  const text = await invokeModel(input, BUDGET_MODEL_ID)
+  const text = await invokeModel(input, BUDGET_MODEL_ID, deadline)
   return normalizeRankSnapshot(parseModelJson(text))
 }
 
-async function invokeModel(input, modelId = MODEL_ID) {
-  const resp = await bedrock.send(new InvokeModelCommand({
+async function invokeModel(input, modelId = MODEL_ID, deadline = Date.now() + REVIEW_REQUEST_BUDGET_MS) {
+  const resp = await withRequestDeadline(signal => bedrock.send(new InvokeModelCommand({
     modelId,
     contentType: 'application/json',
     accept: 'application/json',
     body: JSON.stringify(input),
-  }))
+  }), { abortSignal: signal }), deadline)
   const decoded = JSON.parse(new TextDecoder().decode(resp.body))
   console.info('vod_model_usage', JSON.stringify({ modelId, inputTokens: decoded.usage?.input_tokens ?? null, outputTokens: decoded.usage?.output_tokens ?? null, requestId: resp.$metadata?.requestId ?? null, attempts: resp.$metadata?.attempts ?? null }))
   return decoded.content?.[0]?.text || ''
