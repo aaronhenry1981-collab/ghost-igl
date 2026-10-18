@@ -644,9 +644,19 @@ Resources:
           COGNITO_USER_POOL_ID: !Ref UserPool
           COGNITO_CLIENT_ID: !Ref UserPoolClient
           VOD_MODEL_ID: !Ref VodModelId
+          PROFILES_TABLE: !Ref ProfilesTable
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref SubscriptionsTable
+        - Statement:
+            # Owner daily reservations and prepaid review credits use point
+            # reads and conditional updates, never scans or whole-row writes.
+            - Sid: VodProfileUsageReservation
+              Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt ProfilesTable.Arn
         - Statement:
             - Effect: Allow
               Action:
