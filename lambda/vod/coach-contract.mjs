@@ -32,7 +32,7 @@ export function validateAnalysis(value, expectedImages) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return ['result must be an object']
   if (value.error === 'wrong_game' && typeof value.message === 'string') return []
   if (!value.session || typeof value.session.headline !== 'string') errors.push('session.headline must be a string')
-  if (!Number.isInteger(value.session?.score) || value.session.score < 0 || value.session.score > 100) errors.push('session.score must be an integer from 0 to 100')
+  if (value.session?.score !== null && (!Number.isInteger(value.session?.score) || value.session.score < 0 || value.session.score > 100)) errors.push('session.score must be an integer from 0 to 100')
   if (value.session?.image_count !== expectedImages) errors.push(`session.image_count must equal ${expectedImages}`)
   if (!Array.isArray(value.per_image) || value.per_image.length !== expectedImages) {
     errors.push(`per_image must contain exactly ${expectedImages} items`)

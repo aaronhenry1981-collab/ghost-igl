@@ -20,8 +20,8 @@ export function buildVodCoachingEvent(analysis, context = {}, options = {}) {
     ts: now,
     phase: 'round-review',
     gameState: {
-      map: firstText([session.detected_map, detected.map, context.map]),
-      siteId: firstText([detected.site, context.site]),
+      map: firstText([context.map, session.detected_map, detected.map]),
+      siteId: firstText([context.site, detected.site]),
       side: firstText([session.detected_side, detected.side, context.side]),
       operatorId: firstText([detected.character, detected.operator, context.character, context.operator]),
     },
