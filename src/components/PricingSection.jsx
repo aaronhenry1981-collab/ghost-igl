@@ -8,6 +8,7 @@ import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { track } from '../utils/analytics'
 import FoundingCountdown from './FoundingCountdown'
 import MembershipCheckoutButton from './MembershipCheckoutButton'
+import { hasStripeBilling } from '../lib/billingNavigation'
 
 // The membership plans, shared by the home page (#pricing) and /pricing.
 // Prices and allowances come from planFacts. The 1-on-1 rate is the $40
@@ -157,13 +158,15 @@ const COMPARE_ROWS = [
 ]
 
 export default function PricingSection({ externalError = null }) {
-  const { user, isPro, plan } = useAuth()
+  const { user, isPro, isAdmin, plan, account } = useAuth()
+  const accessWithoutBilling = (isAdmin || isPro) && !hasStripeBilling(account)
   const [portalLoading, setPortalLoading] = useState(false)
   const [portalError, setPortalError] = useState(null)
   const [checkoutError, setCheckoutError] = useState(null)
   const [showAdvancedPlans, setShowAdvancedPlans] = useState(false)
 
   const handleManageSubscription = useCallback(async () => {
+    if (!hasStripeBilling(account)) return
     setPortalLoading(true)
     setPortalError(null)
     try {
@@ -172,7 +175,7 @@ export default function PricingSection({ externalError = null }) {
       setPortalError(err.message || 'Could not open billing portal')
       setPortalLoading(false)
     }
-  }, [])
+  }, [account])
 
   return (
     <section className="section section-dark" id="pricing">
@@ -263,7 +266,11 @@ export default function PricingSection({ externalError = null }) {
             <ul className="pricing-features">
               {p.features.map((f) => (<li key={f}>{f}</li>))}
             </ul>
-            {isPro && p.price !== 'Free' ? (
+            {accessWithoutBilling && p.price !== 'Free' ? (
+              <Link to="/account" className={`btn ${p.featured ? 'btn-primary' : 'btn-outline'}`}>
+                View account access
+              </Link>
+            ) : isPro && p.price !== 'Free' ? (
               <button
                 type="button"
                 onClick={handleManageSubscription}

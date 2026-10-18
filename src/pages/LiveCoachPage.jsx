@@ -568,7 +568,8 @@ function R6LiveCoachReady({ catalog }) {
       <header className="live-coach-header">
         <div className="section-label">In-match walkthrough · R6</div>
         <h1>Live <span className="accent">Coach</span></h1>
-        <p>One clear instruction for the current round. Open the round tools only when the match changes.</p>
+        <p>This browser round planner uses the map, site, side and round details you select. It does not watch your screen or automatically detect the match.</p>
+        <p>Update the plan as the round changes. For Windows capture and voice setup, open <Link to="/download#desktop-setup">Desktop setup</Link>.</p>
         {(mapId || bans[0].size > 0 || bans[1].size > 0) && (
           <div className="live-coach-header-actions">
             <button
