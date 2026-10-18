@@ -1,5 +1,12 @@
 import { createHash } from 'node:crypto'
 import { TIPS } from './tips.mjs'
+// Only metadata constructed here can enter the diagnostic record.
+const safeErrors = new WeakMap()
+function diagnosticError(kind, details = {}) {
+  const error = new Error('Daily tip operation failed')
+  safeErrors.set(error, {kind, ...details})
+  return error
+}
 export const TIMEZONE = 'America/New_York'
 export function localTime(date) {
   if (!Number.isFinite(date.getTime())) throw new Error('Invalid scheduled time')
@@ -33,16 +40,25 @@ export async function publishDailyTip({config,event,store,discord,now=new Date()
   let claimed
   try{claimed=await store.claim({key,day:local.day,tipId:post.tipId,contentHash:hash,status:'claimed'})}catch{return {status:'storage-unavailable'}}
   if(!claimed)return {status:'already-claimed',day:local.day}
+  let stage='verify-channel', postStarted=false
   try{
     await discord.verifyChannel(config.channelId)
+    stage='send';postStarted=true
     const receipt=await discord.send({content:post.content,allowed_mentions:post.allowed_mentions,tts:false},key)
+    stage='validate-receipt'
     if(receipt?.channel_id!==config.channelId||!/^\d{15,22}$/.test(receipt?.id||''))throw new Error('Invalid receipt')
+    stage='store-receipt'
     await store.markSent(key,receipt.id)
     return {status:'sent',day:local.day,messageId:receipt.id,tipId:post.tipId}
-  }catch{
-    // Persist only a generic state. An ambiguous POST is never auto-retried.
-    try{await store.markUncertain(key)}catch{}
-    return {status:'needs-review',day:local.day}
+  }catch(error){
+    const safe=safeErrors.get(error)
+    const diagnostic={stage,kind:safe?.kind||'operation-failed',postStarted:safe?.postStarted??postStarted,at:new Date().toISOString()}
+    if(safe?.httpStatus!==undefined)diagnostic.httpStatus=safe.httpStatus
+    if(safe?.discordCode!==undefined)diagnostic.discordCode=safe.discordCode
+    // Never include messages, stacks, headers, tokens, URLs or response bodies.
+    // Preserve the claim even if saving diagnostics fails. No automatic retry.
+    try{await store.markUncertain(key,diagnostic)}catch{}
+    return {status:'needs-review',day:local.day,diagnostic}
   }
 }
 
@@ -50,16 +66,27 @@ export function createBotClient({getToken,channelId,guildId,fetchImpl=globalThis
   if(!/^\d{15,22}$/.test(channelId||'')||!/^\d{15,22}$/.test(guildId||''))throw new Error('Invalid destination')
   let token
   async function request(method,payload) {
-    token ||= await getToken()
-    if(typeof token!=='string'||!token.trim()||/[\r\n]/.test(token))throw new Error('Bot configuration unavailable')
-    const url=`https://discord.com/api/v10/channels/${channelId}${method==='POST'?'/messages':''}`
-    const res=await fetchImpl(url,{method,redirect:'error',signal:AbortSignal.timeout(8000),headers:{Authorization:`Bot ${token}`,'Content-Type':'application/json'},...(payload?{body:JSON.stringify(payload)}:{})})
-    if(!res.ok)throw new Error('Discord request failed')
-    const reader=res.body.getReader();let size=0;const chunks=[]
-    try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>65536)throw new Error('Response exceeded limit');chunks.push(value)}}finally{await reader.cancel().catch(()=>{})}
-    return JSON.parse(Buffer.concat(chunks).toString('utf8'))
+    let postStarted=false, httpStatus
+    try {
+      token ||= await getToken()
+      if(typeof token!=='string'||!token.trim()||/[\r\n]/.test(token))throw diagnosticError('credential-unavailable')
+      const url=`https://discord.com/api/v10/channels/${channelId}${method==='POST'?'/messages':''}`
+      postStarted=method==='POST'
+      const res=await fetchImpl(url,{method,redirect:'error',signal:AbortSignal.timeout(8000),headers:{Authorization:`Bot ${token}`,'Content-Type':'application/json'},...(payload?{body:JSON.stringify(payload)}:{})})
+      httpStatus=res.status
+      const reader=res.body.getReader();let size=0;const chunks=[]
+      try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>65536)throw diagnosticError('response-too-large');chunks.push(value)}}finally{await reader.cancel().catch(()=>{})}
+      let data
+      try{data=JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{throw diagnosticError(res.ok?'invalid-response':'http-error')}
+      if(!res.ok)throw diagnosticError('http-error',Number.isSafeInteger(data?.code)&&data.code>=0?{discordCode:data.code}:{})
+      return data
+    } catch(error) {
+      const safe=safeErrors.get(error)
+      const kind=safe?.kind||(error?.name==='TimeoutError'?'timeout':'request-failed')
+      throw diagnosticError(kind,{...safe,postStarted,...(Number.isInteger(httpStatus)&&httpStatus>=100&&httpStatus<=599?{httpStatus}:{})})
+    }
   }
-  return {verifyChannel:async id=>{if(id!==channelId)throw new Error('Wrong destination');const channel=await request('GET');if(channel.id!==channelId||channel.guild_id!==guildId||channel.type!==0)throw new Error('Wrong channel')},
+  return {verifyChannel:async id=>{if(id!==channelId)throw new Error('Wrong destination');const channel=await request('GET');if(channel.id!==channelId||channel.guild_id!==guildId||channel.type!==0)throw diagnosticError('channel-mismatch',{postStarted:false})},
     send:(payload,key)=>request('POST',{...payload,nonce:createHash('sha256').update(key).digest('hex').slice(0,24),enforce_nonce:true})}
 }
 
