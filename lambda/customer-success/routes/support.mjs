@@ -17,6 +17,7 @@ import { HttpError, json, parseJsonBody } from '../lib/http.mjs'
 import { createSupportService, assertCaseNumber } from '../support/service.mjs'
 import { isStaff, rolesFor } from '../support/roles.mjs'
 import { INCIDENT_ID } from '../support/incidents.mjs'
+import { submitYoutubeVod } from '../support/youtube-vod.mjs'
 
 const SMALL = 4 * 1024
 const MEDIUM = 16 * 1024
@@ -74,6 +75,14 @@ export function createSupportRoutes({ engines = null } = {}) {
     const incidentPatch = (s, me, req) => s.updateIncident(me, incidentIdOf(req), bodyOf(req, MEDIUM))
 
     const routes = [
+      {
+        method: 'POST', path: '/cs/me/support/youtube-vods',
+        handler: async req => {
+          const identity = await requireUser(req)
+          const out = await submitYoutubeVod({ ctx, service: await service(), identity, body: bodyOf(req) })
+          return json(out.replayed ? 200 : 201, out)
+        },
+      },
       // ---- player (own data only) ------------------------------------------------------
       player('POST', '/cs/me/support/triage', (s, me, req) => s.triage(me, bodyOf(req, MEDIUM))),
       {

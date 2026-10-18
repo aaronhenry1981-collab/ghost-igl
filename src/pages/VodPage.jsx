@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import SessionUploadZone from '../components/vod/SessionUploadZone'
+import YoutubeSubmission from '../components/vod/YoutubeSubmission'
+import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 import SessionResults from '../components/vod/SessionResults'
 import AnalysisLoading from '../components/vod/AnalysisLoading'
 import { useVodAnalysis } from '../hooks/useVodAnalysis'
@@ -280,6 +282,7 @@ export default function VodPage() {
       </div>
 
       <div className="vod-content">
+        {canAnalyze && !demoMode && SUPPORT_UI_ENABLED && <YoutubeSubmission />}
         {(
           <>
             {!authLoading && !user && !demoMode && (
