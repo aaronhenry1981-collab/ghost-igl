@@ -13,6 +13,7 @@ const cher = { username: 'u-3', email: 'cher@example.test', first_name: 'Cher', 
 const handle = { username: 'u-4', email: 'xx.slayer@example.test', display_name: 'xXSlayerXx', name_review: [{ source: 'stripe', value: 'Slayer', reason: 'one word' }], plan: 'free', sub_status: 'none', created_at: '2026-07-01T00:00:00Z' }
 const orphan = { username: null, email: 'paid.no.account@example.test', cognito_status: 'NO_ACCOUNT', orphan: true, stripe_customer_id: 'cus_FIXTURE1', plan: 'pro', sub_status: 'active', live_subscription_count: 1, billing_state: 'paid' }
 const jordanTwo = { username: 'u-6', email: 'another.jordan@example.test', first_name: 'Jordan', last_name: 'Reyes', plan: 'free', sub_status: 'none', created_at: '2026-06-01T00:00:00Z' }
+for (const member of [jordan, zoe, orphan]) member.current_period_end = '2099-01-01T00:00:00Z'
 const ALL = [jordan, zoe, cher, handle, orphan, jordanTwo]
 
 test('search: first, last, full name or email; partial, case-insensitive, extra spaces, accents', () => {
@@ -47,6 +48,16 @@ test('filters combine status, plan and name', () => {
   assert.deepEqual(filterMembers(ALL, { status: 'stripe_only' }).map((m) => m.email), [orphan.email])
   assert.deepEqual(filterMembers(ALL, { status: 'trialing', q: 'zoe' }).map((m) => m.email), [zoe.email])
   assert.equal(filterMembers(ALL, { status: 'no-such-filter' }).length, ALL.length, 'unknown filter ids fall back to all')
+})
+
+test('access filters and CSV distinguish a past-due product from effective Free access', () => {
+  const member = { ...jordan, billing_state: 'payment_issue', sub_status: 'past_due' }
+  assert.deepEqual(filterMembers([member], { plan: 'free', status: 'payment_issue' }), [member])
+  assert.deepEqual(filterMembers([member], { status: 'free' }), [member])
+  assert.deepEqual(filterMembers([member], { plan: 'pro' }), [])
+  const [header, values] = membersCsv([member]).trim().split('\r\n').map((line) => line.split(','))
+  assert.equal(values[header.indexOf('plan')], 'pro')
+  assert.equal(values[header.indexOf('access_plan')], 'free')
 })
 
 test('sorting: name sorts by family name with single names by what they have; unnamed last', () => {

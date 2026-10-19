@@ -6,7 +6,7 @@ import {
   accountIdOf, emailsOnly, filterMembers, fullNameOf, membersCsv, nameStatusOf, paginate, sortMembers,
 } from '../memberDirectory.mjs'
 import { PLAN_LABELS, accountStateLabel, billingLabel, formatDate, formatLastSeen, formatMoney } from '../memberFormat.mjs'
-import { effectiveAccessPlan } from '../../../lib/adminBillingHealth.mjs'
+import { effectiveAccessPlan, hasComplimentaryAccess } from '../../../lib/adminBillingHealth.mjs'
 import { Badge, Icon, Notice, PageHeader, Pagination, Panel, Skeleton, StateView } from '../ui'
 
 const PLAN_TONE = { free: 'muted', pro: 'info', elite: 'bone', champion: 'accent' }
@@ -45,12 +45,12 @@ function MemberName({ member, to, state }) {
   )
 }
 
-function PlanBadges({ member }) {
-  const plan = effectiveAccessPlan(member)
+function PlanBadges({ member, nowMs }) {
+  const plan = effectiveAccessPlan(member, nowMs)
   return (
     <span className="ax-badges">
       <Badge tone={PLAN_TONE[plan] || 'muted'}>{PLAN_LABELS[plan] || plan}</Badge>
-      {member.is_comp && <Badge tone="info" title="Complimentary access; excluded from revenue">Comp</Badge>}
+      {hasComplimentaryAccess(member, nowMs) && <Badge tone="info" title="Complimentary access; excluded from revenue">Comp</Badge>}
       {member.cognito_status === 'NO_ACCOUNT' && <Badge tone="warning">No site account</Badge>}
     </span>
   )
@@ -81,7 +81,7 @@ export default function MembersPage() {
   }
 
   const { q, status: statusFilter, plan, name, sort } = list
-  const filtered = useMemo(() => sortMembers(filterMembers(users, { q, status: statusFilter, plan, name }), sort), [users, q, statusFilter, plan, name, sort])
+  const filtered = useMemo(() => sortMembers(filterMembers(users, { q, status: statusFilter, plan, name }, nowMs), sort), [users, q, statusFilter, plan, name, sort, nowMs])
   const page = paginate(filtered, list.page, list.size)
   const filtersActive = list.q || list.status !== 'all' || list.plan !== 'all' || list.name !== 'all'
   const backState = { from: location.search }
@@ -103,7 +103,7 @@ export default function MembersPage() {
   }
 
   function exportCsv() {
-    const blob = new Blob([membersCsv(filtered)], { type: 'text/csv;charset=utf-8' })
+    const blob = new Blob([membersCsv(filtered, nowMs)], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -153,7 +153,7 @@ export default function MembersPage() {
           <select id="ax-f-status" className="ax-select" value={list.status} onChange={(e) => update({ status: e.target.value })}>
             {STATUS_FILTERS.map((f) => <option key={f.id} value={f.id}>{f.label}</option>)}
           </select>
-          <label className="ax-sr" htmlFor="ax-f-plan">Plan</label>
+          <label className="ax-sr" htmlFor="ax-f-plan">Access plan</label>
           <select id="ax-f-plan" className="ax-select" value={list.plan} onChange={(e) => update({ plan: e.target.value })}>
             {PLAN_FILTERS.map((f) => <option key={f.id} value={f.id}>{f.label}</option>)}
           </select>
@@ -197,7 +197,7 @@ export default function MembersPage() {
                         <tbody>
                           {page.items.map((u) => {
                             const id = accountIdOf(u)
-                            const billing = billingLabel(u)
+                            const billing = billingLabel(u, nowMs)
                             const account = accountStateLabel(u)
                             const seen = formatLastSeen(u.last_seen_at, nowMs)
                             const alert = alertText(u)
@@ -210,7 +210,7 @@ export default function MembersPage() {
                                 onClick={(e) => { if (!e.target.closest('a,button')) navigate(recordLink(u), { state: backState }) }}
                               >
                                 <td><MemberName member={u} to={recordLink(u)} state={backState} /></td>
-                                <td><PlanBadges member={u} />{alert && <small style={{ color: 'var(--ax-danger)' }}>{alert}</small>}</td>
+                                <td><PlanBadges member={u} nowMs={nowMs} />{alert && <small style={{ color: 'var(--ax-danger)' }}>{alert}</small>}</td>
                                 <td>
                                   <Badge tone={billing.tone}>{billing.title}</Badge>
                                   <small>{u.will_renew ? `${formatMoney(u.price_amount_cents)} on ${formatDate(u.next_billing_at)}` : billing.detail}</small>
@@ -228,7 +228,7 @@ export default function MembersPage() {
                     <ul className="ax-cards" aria-label="Members">
                       {page.items.map((u) => {
                         const id = accountIdOf(u)
-                        const billing = billingLabel(u)
+                        const billing = billingLabel(u, nowMs)
                         const seen = formatLastSeen(u.last_seen_at, nowMs)
                         return (
                           <li key={id}>
@@ -238,7 +238,7 @@ export default function MembersPage() {
                                 <Icon name="chevron-right" />
                               </div>
                               <div className="ax-card__badges">
-                                <PlanBadges member={u} />
+                                <PlanBadges member={u} nowMs={nowMs} />
                                 <Badge tone={billing.tone}>{billing.title}</Badge>
                               </div>
                               <p className="ax-card__meta">{billing.detail} · {u.last_seen_at ? `Active ${seen.label.toLowerCase()}` : 'No recorded activity'}</p>

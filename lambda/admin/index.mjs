@@ -1,6 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, ScanCommand, PutCommand, UpdateCommand, DeleteCommand, QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
-import { CognitoIdentityProviderClient, ListUsersCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
+import { CognitoIdentityProviderClient, ListUsersCommand, ListUsersInGroupCommand, AdminDeleteUserCommand, AdminListGroupsForUserCommand } from '@aws-sdk/client-cognito-identity-provider'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { randomUUID } from 'node:crypto'
 import { billingStateFor, isLiveStripeSubscription, isReconSubscription, planFor, stripeSubscriptionDetails, summarizeStripeSubscriptions, unwrapStripeReconciliationResults } from './stripe-revenue.mjs'
@@ -8,6 +8,7 @@ import { BILLING_FIELDS, confirmationPhrase, planReconciliation } from './reconc
 import { runReferralRewards } from './referral-rewards.mjs'
 import { createStripeHttp } from './stripe-http.mjs'
 import { nameFieldsOf, validateNameEdit } from './member-names.mjs'
+import { bestMembership, memberAccessFields } from './member-access.mjs'
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}))
 const cognito = new CognitoIdentityProviderClient({})
@@ -266,7 +267,6 @@ function enrichUsersWithStripe(users, subscriptions) {
   }
 
   return users.map((user) => {
-    if (user.is_comp) return { ...user, billing_state: 'comp', will_renew: false, live_subscription_count: 0, billing_alerts: [] }
     const matches = new Map()
     for (const subscription of byCustomer.get(user.stripe_customer_id) || []) matches.set(subscription.id, subscription)
     for (const subscription of byEmail.get((user.email || '').toLowerCase()) || []) matches.set(subscription.id, subscription)
@@ -277,6 +277,7 @@ function enrichUsersWithStripe(users, subscriptions) {
     const customerCount = new Set([user.stripe_customer_id, ...all.map(stripeCustomerId)].filter(Boolean)).size
     const primary = choosePrimarySubscription(live.length ? live : all)
     if (!primary) {
+      if (user.is_comp) return { ...user, billing_state: 'comp', will_renew: false, live_subscription_count: 0, stripe_customer_count: customerCount, billing_alerts: [] }
       const fallbackState = user.sub_status === 'canceled' ? 'canceled' : 'free'
       return { ...user, billing_state: fallbackState, will_renew: false, live_subscription_count: 0, stripe_customer_count: customerCount, billing_alerts: [] }
     }
@@ -370,7 +371,7 @@ async function getSubscriptions(headers) {
   return { statusCode: 200, headers, body: JSON.stringify({ subscriptions: items, summary: computeSummary(items) }) }
 }
 
-async function getUsers(headers) {
+export async function getUsers(headers) {
   // Fetch all Cognito users (paginated) and all DDB subs, then join on email
   const cogUsers = []
   let nextToken
@@ -384,15 +385,26 @@ async function getUsers(headers) {
     nextToken = r.PaginationToken
   } while (nextToken)
 
+  // The same supported exemption as /me. One paginated group read avoids a
+  // separate group request for every member. No account or group is changed.
+  const adminUsernames = new Set()
+  let groupToken
+  do {
+    const page = await cognito.send(new ListUsersInGroupCommand({ UserPoolId: POOL_ID, GroupName: 'admins', Limit: 60, NextToken: groupToken }))
+    for (const user of page.Users || []) adminUsernames.add(user.Username)
+    groupToken = page.NextToken
+  } while (groupToken)
+
   const subs = await scanAllSubs()
-  // Index subs by lowercased email. Prefer active sub if multiple.
-  const subByEmail = new Map()
+  const nowMs = Date.now()
+  // Select the best unexpired active/trialing ledger row, just as /me does.
+  const rowsByEmail = new Map()
   for (const s of subs) {
     const key = (s.email || '').toLowerCase()
     if (!key) continue
-    const prev = subByEmail.get(key)
-    if (!prev || (s.status === 'active' && prev.status !== 'active')) subByEmail.set(key, s)
+    rowsByEmail.set(key, [...(rowsByEmail.get(key) || []), s])
   }
+  const subByEmail = new Map([...rowsByEmail].map(([email, rows]) => [email, bestMembership(rows, nowMs)]))
 
   // Index profiles (active_game_id + last_seen_at) by email — powers the
   // admin dashboard's "who's active, on which game, when last seen" view.
@@ -431,6 +443,7 @@ async function getUsers(headers) {
       current_period_end: sub?.current_period_end || null,
       orphan: false, // has a Cognito account
       is_comp: sub ? (sub.status === 'active' && isComp(sub)) : false,
+      ...memberAccessFields(sub, adminUsernames.has(u.Username), nowMs),
       ...nameFieldsOf(profile),
       display_name: profile?.display_name || null,
       platform: profile?.platform || null,
@@ -468,6 +481,8 @@ async function getUsers(headers) {
       stripe_subscription_id: sub.stripe_subscription_id || null,
       current_period_end: sub.current_period_end || null,
       orphan: true,               // Stripe-only, no Cognito match
+      is_comp: sub.status === 'active' && isComp(sub),
+      ...memberAccessFields(sub, false, nowMs),
       ...nameFieldsOf(profile),
       display_name: profile?.display_name || null,
       platform: profile?.platform || null,

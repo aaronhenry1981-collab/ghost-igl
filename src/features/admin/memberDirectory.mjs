@@ -9,6 +9,7 @@
 //     rows, and nothing is ever looked up or merged by name.
 //   - Email stays visible and searchable everywhere.
 import {
+  effectiveAccessPlan,
   effectiveBillingState,
   hasDuplicateLiveSubscriptions,
   hasDuplicateStripeCustomers,
@@ -77,7 +78,7 @@ export function matchesQuery(member, query) {
 
 export const STATUS_FILTERS = [
   { id: 'all', label: 'All statuses', test: () => true },
-  { id: 'free', label: 'Free only', test: (u) => u.plan === 'free' },
+  { id: 'free', label: 'Free access', test: (u, nowMs) => effectiveAccessPlan(u, nowMs) === 'free' },
   { id: 'paid', label: 'Paid and renewing', test: (u) => u.billing_state === 'paid' },
   { id: 'trialing', label: 'Trial scheduled to charge', test: (u) => u.billing_state === 'trialing' },
   { id: 'ending', label: 'Ending, no next charge', test: (u) => effectiveBillingState(u) === 'ending' },
@@ -114,11 +115,11 @@ function nameFilterTest(id, member) {
   return status === id
 }
 
-export function filterMembers(members, { q = '', status = 'all', plan = 'all', name = 'all' } = {}) {
+export function filterMembers(members, { q = '', status = 'all', plan = 'all', name = 'all' } = {}, nowMs = Date.now()) {
   const statusTest = (STATUS_FILTERS.find((f) => f.id === status) || STATUS_FILTERS[0]).test
   return (members || []).filter((u) =>
-    (plan === 'all' || u.plan === plan) &&
-    statusTest(u) &&
+    (plan === 'all' || effectiveAccessPlan(u, nowMs) === plan) &&
+    statusTest(u, nowMs) &&
     nameFilterTest(name, u) &&
     matchesQuery(u, q))
 }
@@ -197,6 +198,7 @@ export const CSV_COLUMNS = [
   'plan', 'billing_state', 'sub_status', 'price_amount_cents', 'next_billing_at', 'will_renew',
   'has_collected_payment', 'stripe_customer_count', 'live_subscription_count', 'billing_alerts',
   'cognito_status', 'referral_source', 'created_at', 'stripe_customer_id',
+  'access_plan', 'access_source', 'access_period_end',
 ]
 
 export function csvCell(value) {
@@ -209,7 +211,7 @@ export function csvCell(value) {
   return s
 }
 
-export function membersCsv(members) {
+export function membersCsv(members, nowMs = Date.now()) {
   const rows = [CSV_COLUMNS.join(',')]
   for (const u of members || []) {
     const row = {
@@ -219,6 +221,7 @@ export function membersCsv(members) {
       last_name: u.last_name || '',
       full_name: fullNameOf(u),
       name_status: nameStatusOf(u),
+      access_plan: effectiveAccessPlan(u, nowMs),
     }
     rows.push(CSV_COLUMNS.map((c) => csvCell(row[c])).join(','))
   }

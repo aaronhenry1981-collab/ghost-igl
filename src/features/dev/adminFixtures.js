@@ -3,12 +3,14 @@
 // shim that answers API calls only while the page is under /__dev/admin.
 import { API_URL } from '../../lib/cognito'
 import { setAdminTokenSource } from '../admin/adminFetch'
+import { PRO_CURRENT_AMOUNT, ELITE_CURRENT_AMOUNT, CHAMPION_CURRENT_AMOUNT } from '../../config/stripe'
+import { effectiveAccessPlan } from '../../lib/adminBillingHealth.mjs'
 
 const NOW = Date.now()
 const DAY = 86400000
 const iso = (offsetMs) => new Date(NOW + offsetMs).toISOString()
 
-const PRICES = { pro: 1200, elite: 7000, champion: 3900 }
+const PRICES = { pro: PRO_CURRENT_AMOUNT * 100, elite: ELITE_CURRENT_AMOUNT * 100, champion: CHAMPION_CURRENT_AMOUNT * 100 }
 let seq = 0
 function member(o) {
   seq += 1
@@ -16,6 +18,9 @@ function member(o) {
   const plan = o.plan || 'free'
   const state = o.billing_state || (plan === 'free' ? 'free' : 'paid')
   const paidLike = ['paid', 'trialing', 'payment_issue', 'ending'].includes(state)
+  const status = o.sub_status || (['paid', 'ending', 'comp'].includes(state) ? 'active' : state === 'trialing' ? 'trialing' : state === 'payment_issue' ? 'past_due' : state === 'canceled' ? 'canceled' : 'none')
+  const periodEnd = paidLike || state === 'comp' ? iso((o.renewInDays ?? 12) * DAY) : null
+  const accessPlan = effectiveAccessPlan({ plan, sub_status: status, current_period_end: periodEnd }, NOW)
   return {
     username: o.noAccount ? null : `fx-${id}-7d1c-4a8e`,
     email: o.email,
@@ -23,12 +28,16 @@ function member(o) {
     orphan: Boolean(o.noAccount),
     created_at: iso(-(o.joinedDaysAgo ?? seq * 3) * DAY),
     plan,
-    sub_status: o.sub_status || (state === 'paid' ? 'active' : state === 'trialing' ? 'trialing' : state === 'payment_issue' ? 'past_due' : state === 'canceled' ? 'canceled' : state === 'ending' ? 'active' : 'none'),
+    sub_status: status,
+    access_plan: accessPlan,
+    access_status: status,
+    access_period_end: periodEnd,
+    access_source: accessPlan === 'free' ? 'free' : state === 'comp' ? 'complimentary' : 'subscription',
     billing_state: state,
     is_comp: state === 'comp',
     price_amount_cents: paidLike ? PRICES[plan] || 0 : 0,
     next_billing_at: paidLike || state === 'comp' ? iso((o.renewInDays ?? 12) * DAY) : null,
-    current_period_end: paidLike || state === 'comp' ? iso((o.renewInDays ?? 12) * DAY) : null,
+    current_period_end: periodEnd,
     will_renew: state === 'paid' || state === 'trialing',
     has_collected_payment: state === 'paid' || state === 'payment_issue' || state === 'ending' || state === 'canceled',
     live_subscription_count: o.liveSubs ?? (paidLike ? 1 : 0),
