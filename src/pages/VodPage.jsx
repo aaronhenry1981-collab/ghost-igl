@@ -273,11 +273,13 @@ export default function VodPage() {
       <div className="vod-header">
         <div className="vod-eyebrow">ROUND REVIEW</div>
         <h1>
-          Upload one screenshot. <span className="accent" style={{ color: accent }}>Get one fix.</span>
+          Upload a screenshot. <span className="accent" style={{ color: accent }}>Review visible evidence.</span>
         </h1>
         <p>
-          Add the moment that cost the round. Recon 6 explains what happened, gives you the next drill,
-          and saves the lesson to Road to Champion.
+          Recon 6 reviews selected screenshots for visible observations, uncertainty and conditional practice advice.
+          A still cannot prove prior actions, recurring habits or why a round was lost. Accepted reviews can sync
+          to Road to Champion; check the save status. Rejected or timed-out reviews are not saved as coaching evidence
+          and may still use an allowance attempt.
         </p>
       </div>
 
@@ -436,9 +438,9 @@ export default function VodPage() {
                     <div className="vod-demo-convert-eyebrow">That was a sample — here's the real thing</div>
                     <h3>Get this breakdown on <em>your</em> matches</h3>
                     <p>
-                      Drop screenshots from a {displayName} match — death cams, post-plant freezes,
-                      scoreboards. The AI reads each one, finds the recurring mistake, and gives you a
-                      fix you can use next round. {isFoundingOpen()
+                      Add selected screenshots from a {displayName} match for visible observations and conditional
+                      practice advice. More frames add context, but do not establish a recurring habit or a continuous
+                      sequence of actions. {isFoundingOpen()
                         ? `Founding rate locks for life if you join before ${FOUNDING_END_SHORT}.`
                         : ''}
                     </p>
@@ -502,7 +504,7 @@ function UsageStrip({ usage, isAdmin, goToPricing, goToUsage }) {
         background: 'rgba(240,116,48,0.04)', border: '1px solid rgba(240,116,48,0.18)',
         borderRadius: 8, fontSize: '0.82rem', color: 'rgba(235,228,215,0.8)',
       }}>
-        <span><strong style={{ color: '#f07430' }}>Admin</strong> · Unlimited VOD sessions</span>
+        <span><strong style={{ color: '#f07430' }}>Admin</strong> · Daily testing limit applies</span>
       </div>
     )
   }

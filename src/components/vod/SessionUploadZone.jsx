@@ -139,11 +139,11 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
         {files.length === 0 ? (
           <>
             <div className="upload-zone-icon">📸</div>
-            <h3>Add the moment that cost the round</h3>
-            <p>Start with one death cam, scoreboard, or post-plant screenshot.</p>
+            <h3>Add a gameplay screenshot</h3>
+            <p>Choose a clear frame showing the position or HUD you want to review.</p>
             <span className="upload-zone-btn">Choose screenshots</span>
             <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)', marginTop: '1rem' }}>
-              You can add up to {maxImages} screenshots. More images help Recon 6 spot a recurring mistake.
+              You can add up to {maxImages} screenshots. Selected frames add context; they do not prove recurring habits or actions between frames.
             </p>
           </>
         ) : (
