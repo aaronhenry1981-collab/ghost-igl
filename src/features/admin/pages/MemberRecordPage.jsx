@@ -4,10 +4,10 @@ import { useAdminData, useAdminResource } from '../AdminData'
 import { adminSend } from '../adminFetch'
 import { findMember, fullNameOf, nameStatusOf, NAME_STATUS_LABELS } from '../memberDirectory.mjs'
 import {
-  PLAN_LABELS, accountStateLabel, billingLabel, formatDate, formatDateTime, formatLastSeen, formatMoney, nameSourceLabel,
+  PLAN_LABELS, accessDetail, accountStateLabel, billingLabel, formatDate, formatDateTime, formatLastSeen, formatMoney, nameSourceLabel, nextChargeLabel,
 } from '../memberFormat.mjs'
 import { auditDetailLines, auditLabel, auditTone, timeAgo } from '../auditFormat.mjs'
-import { effectiveAccessPlan } from '../../../lib/adminBillingHealth.mjs'
+import { effectiveAccessPlan, hasComplimentaryAccess } from '../../../lib/adminBillingHealth.mjs'
 import { bookingStatusLabel, isConfirmedSession } from '../../../lib/bookingDisplay'
 import { Badge, CopyButton, Field, Icon, KeyValues, Notice, PageHeader, Panel, Skeleton, StateView } from '../ui'
 
@@ -61,8 +61,8 @@ function MemberRecord({ member, accountId, back, base, nowMs, patchMember }) {
   const events = history.data?.events || []
   const removal = events.find((e) => e.action === 'user.delete') || null
 
-  const plan = effectiveAccessPlan(member)
-  const billing = billingLabel(member)
+  const plan = effectiveAccessPlan(member, nowMs)
+  const billing = billingLabel(member, nowMs)
   const account = accountStateLabel(member)
   const seen = formatLastSeen(member.last_seen_at, nowMs)
 
@@ -87,7 +87,7 @@ function MemberRecord({ member, accountId, back, base, nowMs, patchMember }) {
               <Badge tone={PLAN_TONE[plan] || 'muted'}>{PLAN_LABELS[plan] || plan}</Badge>
               <Badge tone={billing.tone}>{billing.title}</Badge>
               <Badge tone={account.tone}>{account.title}</Badge>
-              {member.is_comp && <Badge tone="info">Complimentary</Badge>}
+              {hasComplimentaryAccess(member, nowMs) && <Badge tone="info">Complimentary</Badge>}
             </div>
           </>
         }
@@ -108,7 +108,7 @@ function MemberRecord({ member, accountId, back, base, nowMs, patchMember }) {
 
           <Panel title="Access">
             <KeyValues columns={2} items={[
-              { label: 'Plan access', value: <Badge tone={PLAN_TONE[plan] || 'muted'}>{PLAN_LABELS[plan] || plan}</Badge>, hint: member.is_comp ? `Complimentary through ${formatDate(member.current_period_end)}` : null },
+              { label: 'Plan access', value: <Badge tone={PLAN_TONE[plan] || 'muted'}>{PLAN_LABELS[plan] || plan}</Badge>, hint: accessDetail(member, nowMs) },
               { label: 'Site account', value: account.title, hint: account.detail },
               { label: 'Joined', value: formatDate(member.created_at) },
               { label: 'Last active', value: <>{seen.isActive && <span className="ax-dot" aria-hidden="true" />}{seen.label}</> },
@@ -143,8 +143,9 @@ function MemberRecord({ member, accountId, back, base, nowMs, patchMember }) {
             )}
             <KeyValues columns={2} items={[
               { label: 'Status', value: <Badge tone={billing.tone}>{billing.title}</Badge>, hint: billing.detail },
+              { label: 'Subscription product', value: PLAN_LABELS[member.plan] || member.plan, hint: 'Billing record; current access is shown above' },
               { label: 'Price', value: member.price_amount_cents ? formatMoney(member.price_amount_cents) : null },
-              { label: 'Next charge', value: member.will_renew ? formatDate(member.next_billing_at) : 'None scheduled' },
+              { label: 'Next charge', value: nextChargeLabel(member) },
               { label: 'Payment collected', value: member.has_collected_payment == null ? null : member.has_collected_payment ? 'Yes' : 'Not yet' },
               { label: 'Stripe customer', value: member.stripe_customer_id ? <span className="ax-mono">{member.stripe_customer_id}</span> : null, hint: Number(member.stripe_customer_count) > 1 ? `${member.stripe_customer_count} customer records share this email` : null },
               { label: 'Subscription', value: member.stripe_subscription_id ? <span className="ax-mono">{member.stripe_subscription_id}</span> : null },

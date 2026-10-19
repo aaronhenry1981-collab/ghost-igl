@@ -1,6 +1,6 @@
 // Display formatting for member billing, access and activity. Pure; the
 // current time is passed in so rendering stays deterministic.
-import { effectiveBillingState } from '../../lib/adminBillingHealth.mjs'
+import { effectiveAccessPlan, effectiveBillingState } from '../../lib/adminBillingHealth.mjs'
 
 export const PLAN_LABELS = { free: 'Basic', pro: 'Pro', elite: 'Elite', champion: 'Champion' }
 
@@ -45,7 +45,26 @@ export function formatLastSeen(iso, nowMs) {
   return { label: formatDate(iso), isActive }
 }
 
-export function billingLabel(user) {
+export function nextChargeLabel(user) {
+  if (effectiveBillingState(user) === 'payment_issue') return 'Check Stripe for payment recovery timing'
+  if (user.will_renew) {
+    return Number.isFinite(Date.parse(user.next_billing_at || '')) ? formatDate(user.next_billing_at) : 'Check Stripe for charge timing'
+  }
+  return 'None scheduled'
+}
+
+export function accessDetail(user, nowMs) {
+  if (user.is_admin) return 'Admin access exemption'
+  const end = user.access_period_end ?? user.current_period_end
+  if (effectiveAccessPlan(user, nowMs) === 'free') {
+    if (user.is_comp) return `Complimentary access ended ${formatDate(end)}`
+    if (effectiveBillingState(user) === 'payment_issue') return 'Paid access paused while payment needs attention'
+    return 'No current paid access'
+  }
+  return user.access_source === 'complimentary' || user.is_comp ? `Complimentary through ${formatDate(end)}` : `Access through ${formatDate(end)}`
+}
+
+export function billingLabel(user, nowMs = Date.now()) {
   const date = formatDate(user.next_billing_at)
   const amount = formatMoney(user.price_amount_cents)
   switch (effectiveBillingState(user)) {
@@ -53,7 +72,9 @@ export function billingLabel(user) {
     case 'trialing': return { title: 'Trial', tone: 'info', detail: `First charge ${date} · ${amount}` }
     case 'ending': return { title: user.sub_status === 'trialing' ? 'Trial ending' : 'Ending', tone: 'warning', detail: `No charge after ${date}` }
     case 'payment_issue': return { title: 'Payment issue', tone: 'danger', detail: 'Action needed in Stripe' }
-    case 'comp': return { title: 'Complimentary', tone: 'info', detail: `Access through ${formatDate(user.current_period_end)}` }
+    case 'comp': return effectiveAccessPlan(user, nowMs) === 'free'
+      ? { title: 'Complimentary ended', tone: 'muted', detail: `Ended ${formatDate(user.access_period_end ?? user.current_period_end)}` }
+      : { title: 'Complimentary', tone: 'info', detail: `Access through ${formatDate(user.access_period_end ?? user.current_period_end)}` }
     case 'canceled': return { title: 'Canceled', tone: 'muted', detail: user.has_collected_payment ? 'Previously paid' : 'No payment collected' }
     case 'free':
     case 'none':
