@@ -112,7 +112,7 @@ const FEATURES = [
   {
     icon: 'vod',
     title: 'Find What Cost the Round',
-    desc: 'Submit real match evidence and get the specific mistake, correction, and practice focus—not a generic list of recycled advice.',
+    desc: 'Submit selected gameplay screenshots for visible observations, explicit uncertainty and a suggested practice focus when the evidence supports one.',
     link: '/vod?demo=1',
   },
   {
@@ -230,7 +230,7 @@ const FAQ = [
   },
   {
     q: 'What does a VOD breakdown actually look like?',
-    a: 'Drop screenshots from a match — death cams, post-plant freezes, or end-of-round scoreboards. You get the specific mistake shown in the evidence, the pattern across the session, and a fix you can apply next round. VOD reviews use the monthly limit included with your plan, and stop when that allowance is used.',
+    a: 'Upload selected gameplay screenshots. Reviews describe visible evidence and uncertainty, with conditional advice where supported. A still cannot establish prior movement, a successful plant, recurring habits or why a round was lost. Reviews use your plan allowance; a rejected or timed-out review may consume an attempt without producing saved feedback.',
   },
   {
     q: 'Who is Recon 6 not for?',
@@ -436,7 +436,7 @@ export default function LandingPage() {
         <div className="hero-v2-rail" aria-label="How Recon 6 improves a round">
           <div><span>01</span><strong>PREP</strong><p>Pick the site and get the five jobs.</p></div>
           <div><span>02</span><strong>PLAY</strong><p>Run one clear execute—not five separate ideas.</p></div>
-          <div><span>03</span><strong>REVIEW</strong><p>Find the mistake and carry one fix forward.</p></div>
+          <div><span>03</span><strong>REVIEW</strong><p>Review visible evidence and choose a practice focus.</p></div>
         </div>
       </section>
 
@@ -486,7 +486,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div className="section-label">More than a strat library</div>
           <h2>The plan is only useful if it changes your next round.</h2>
-          <p>Hardstuck, and more hours aren't fixing it? Usually it's one mistake, repeated every match. Recon 6 connects the briefing, your individual job, the mistake you made, and the correction you carry into the next match.</p>
+          <p>Use the briefing to choose your job, then review what your screenshots actually show. A single frame cannot prove the cause of a loss or a recurring habit; use repeated gameplay evidence to assess progress.</p>
         </div>
         <div className="features-grid">
           {FEATURES.map((f) => {
@@ -520,7 +520,7 @@ export default function LandingPage() {
             ))}
           </ol>
           <div className="review-sample-foot">
-            <span>Each review is saved to Road to Champion as coaching evidence.</span>
+            <span>Accepted reviews can sync to Road to Champion; check the save status. Rejected or timed-out reviews are not saved as coaching evidence.</span>
             <Link to="/vod?demo=1">Open the full sample review <span aria-hidden="true">→</span></Link>
           </div>
         </figure>
