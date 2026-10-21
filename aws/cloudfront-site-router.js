@@ -22,7 +22,7 @@ var EXACT = {
   '/operators/compare': 1, '/meta': 1, '/vod': 1, '/live': 1, '/download': 1, '/changelog': 1,
   '/press': 1, '/creator-demo': 1, '/tools/r6-tier-list': 1, '/beginner-guide': 1, '/terms': 1,
   '/privacy': 1, '/refund': 1, '/help': 1, '/start': 1, '/auth': 1, '/dashboard': 1, '/progress': 1,
-  '/setups': 1, '/coach-connect': 1, '/account': 1, '/activate': 1, '/support': 1, '/tiktok': 1,
+  '/setups': 1, '/coach-connect': 1, '/live-coaching': 1, '/account': 1, '/activate': 1, '/support': 1, '/tiktok': 1,
   '/activation': 1, '/desktop': 1, '/desktop-app': 1, '/sign-in': 1, '/signin': 1, '/login': 1,
   '/signup': 1, '/sign-up': 1, '/register': 1, '/testimonial': 1
 }

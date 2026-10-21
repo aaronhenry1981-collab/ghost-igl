@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { canShowPilotEntry } from '../features/live-coach/pilot-release.mjs'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import { loadMembershipAfterCheckout } from '../lib/entitlementRefresh'
@@ -387,6 +388,7 @@ export default function AccountPage() {
 
       <section className="account-section">
         <h2>What you have access to</h2>
+        {canShowPilotEntry({ isAdmin, apiBase: import.meta.env.VITE_LIVE_COACH_API_BASE_URL }) && <p><Link to="/live-coaching">Browser coaching private pilot</Link> checks the approved account, remaining grant and fixed expiry before capture starts.</p>}
         <ul className="account-access-list">
           <AccessItem enabled allow="Map strats, operator picks, community access" />
           <AccessItem enabled={isPaid || isAdmin} allow="Ban targets and pick recommendations matched to your role and rank" note="Pro+" />

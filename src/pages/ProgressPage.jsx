@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { useAuth } from '../hooks/useAuth'
+import { liveRequest } from '../features/live-coach/api'
+import { canShowPilotEntry } from '../features/live-coach/pilot-release.mjs'
 import { RANKS } from '../data/ranks'
 import { analyzeRankSnapshotApi } from '../api/vodApi'
 import MechanicsLab from '../components/MechanicsLab'
@@ -156,7 +158,7 @@ function FocusCard({ skill, evidence, status, onChoose }) {
 
 export default function ProgressPage() {
   const [searchParams] = useSearchParams()
-  const { user, loading: authLoading, profile: account, refreshProfile } = useAuth()
+  const { user, isAdmin, loading: authLoading, profile: account, refreshProfile } = useAuth()
   const [profile, setProfile] = useState(null)
   const [sessions, setSessions] = useState([])
   const [roadmap, setRoadmap] = useState(emptyRoadmap)
@@ -169,20 +171,24 @@ export default function ProgressPage() {
   const [rankPreview, setRankPreview] = useState(null)
   const [rankImportState, setRankImportState] = useState('idle')
   const [rankSnapshot, setRankSnapshot] = useState(null)
+  const [hostedFocus, setHostedFocus] = useState(null)
 
   useEffect(() => {
+    setHostedFocus(null)
     if (authLoading || !user) return
     const localRoadmap = loadLocalRoadmap(user.id)
     setRoadmap(localRoadmap)
     setRoadmapOwnerId(user.id)
     let cancelled = false
     ;(async () => {
-      const [profileResult, historyResult, roadmapResult] = await Promise.allSettled([
+      const [profileResult, historyResult, roadmapResult, hostedResult] = await Promise.allSettled([
         authedRequest('/me/coaching-profile'),
         authedRequest('/me/coaching-history'),
         authedRequest('/me/climb-progress'),
+        canShowPilotEntry({ isAdmin, apiBase: import.meta.env.VITE_LIVE_COACH_API_BASE_URL }) ? liveRequest('/history') : Promise.resolve({ sessions: [] }),
       ])
       if (cancelled) return
+      if (hostedResult.status === 'fulfilled') setHostedFocus((hostedResult.value.sessions || []).find(session => session.state === 'stopped' && session.focus) || null)
       if (profileResult.status === 'fulfilled') setProfile(profileResult.value)
       if (historyResult.status === 'fulfilled') setSessions(historyResult.value.sessions || [])
       if (roadmapResult.status === 'fulfilled' && roadmapResult.value.progress) {
@@ -207,7 +213,7 @@ export default function ProgressPage() {
       setLoading(false)
     })()
     return () => { cancelled = true }
-  }, [authLoading, user])
+  }, [authLoading, user, isAdmin])
 
   const evidenceMap = useMemo(() => profile?.progressEvidence?.skills || {}, [profile])
   const savedR6 = account?.game_profiles?.r6 || {}
@@ -364,6 +370,9 @@ export default function ProgressPage() {
           {saveState === 'saving' ? 'Saving…' : saveState === 'device' ? 'Saved on this device' : 'Progress saved'}
         </div>
       </header>
+
+      {canShowPilotEntry({ isAdmin, apiBase: import.meta.env.VITE_LIVE_COACH_API_BASE_URL }) && <p><Link to="/live-coaching">Open browser coaching and hosted session history</Link></p>}
+      {hostedFocus && <section className="progress-scoreboard" aria-label="Saved browser coaching focus"><div><strong>My live-coaching focus</strong><p>{hostedFocus.focus}</p><span>Saved by you after a session. This does not verify a gameplay skill.</span><Link to="/live-coaching">Review my session notes</Link></div></section>}
 
       <section className="progress-scoreboard" aria-label="Progress summary">
         <div><strong>{automaticRank || selectedTier.name}</strong><span>{roadmap.rankMode === 'manual' ? 'Manual focus tier' : 'Auto-detected focus tier'}</span></div>

@@ -66,6 +66,7 @@ const HelpRoute = lazy(() => import('./features/support/HelpRoute'))
 const DevPreviewPage = import.meta.env.DEV ? lazy(() => import('./features/dev/DevPreviewPage')) : null
 const ProgressPage = lazy(() => import('./pages/ProgressPage'))
 const CoachConnectPage = lazy(() => import('./pages/CoachConnectPage'))
+const HostedCoachPage = lazy(() => import('./pages/HostedCoachPage'))
 const ReferralLandingPage = lazy(() => import('./pages/ReferralLandingPage'))
 const CreatorDemoPage = lazy(() => import('./pages/CreatorDemoPage'))
 const PricingPage = lazy(() => import('./pages/PricingPage'))
@@ -191,6 +192,7 @@ const router = createBrowserRouter([
       ...(DevPreviewPage ? [{ path: '/__dev/*', element: <L><DevPreviewPage /></L> }] : []),
       { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
+      { path: '/live-coaching', element: <L><HostedCoachPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
       { path: '/operators/compare', element: <L><OperatorsComparePage /></L> },
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },
