@@ -18,6 +18,8 @@ export default function HostedCoachPage() {
   const [session, setSession] = useState(null)
   const [history, setHistory] = useState([])
   const [cards, setCards] = useState([])
+  const [cardDiscovery, setCardDiscovery] = useState(null)
+  const [scanningCards, setScanningCards] = useState(false)
   const [captureReady, setCaptureReady] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -118,11 +120,12 @@ export default function HostedCoachPage() {
   }
   async function findCards() {
     if (!isPilotWindowOpen() || !availability?.available) { setError('This account has no available private pilot session.'); return }
-    setError('')
+    setError(''); setScanningCards(true); setCardDiscovery(null)
     try {
-      const found = await capture.cards(); setCards(found)
-      if (!found.length) setMessage('No labeled capture card is available. Use Choose game window to select an existing Elgato preview, or grant your browser camera permission to the capture card in browser settings. No camera was opened.')
+      const result = await capture.inspectCards(); setCards(result.cards); setCardDiscovery(result)
+      setMessage(result.cards.length ? 'Capture cards are listed beside the source controls. Select only your gameplay card.' : 'Capture-card access checked. Use the next step beside the source controls.')
     } catch (err) { setError(err.message) }
+    finally { setScanningCards(false) }
   }
   async function start() {
     if (busy || !isPilotWindowOpen() || !availability?.available || !confirmed || !capture.current().confirmed) return
@@ -232,11 +235,14 @@ export default function HostedCoachPage() {
       <div className="hosted-grid">
         <section className="hosted-card">
           <h2>{session?.role === 'coach' || (!session && view === 'coach') ? 'Player’s shared gameplay' : 'My gameplay source'}</h2>
-          <video ref={preview} className={view === 'coach' ? 'hosted-hidden' : 'hosted-video'} muted playsInline autoPlay aria-label="Your gameplay preview" />
+          <video ref={preview} className={view === 'coach' || !captureReady ? 'hosted-hidden' : 'hosted-video'} muted playsInline autoPlay aria-label="Your gameplay preview" aria-hidden={!captureReady} />
           <video ref={remote} className={view === 'coach' ? 'hosted-video' : 'hosted-hidden'} muted playsInline autoPlay aria-label="Invited player’s gameplay" />
+          {view === 'player' && !captureReady && <div className="hosted-source-empty"><strong>No gameplay source selected</strong><p>For PS5, open your existing Elgato preview on this computer, then choose that window below. A local preview does not use AI frames.</p></div>}
           {view === 'player' && !session && <>
             <p>PC: select your game window. PS5: HDMI → Elgato → this computer, then select the capture card or its preview window. This shows only your own source.</p>
-            <div className="hosted-actions"><button type="button" className="btn btn-secondary" disabled={busy || !availability.available} onClick={() => choose('window')}>Choose game window</button><button type="button" className="btn btn-secondary" disabled={busy || !availability.available} onClick={findCards}>Find capture cards</button></div>
+            <div className="hosted-actions"><button type="button" className="btn btn-secondary" disabled={busy || !availability.available} onClick={() => choose('window')}>Choose game / Elgato preview window</button><button type="button" className="btn btn-secondary" disabled={busy || scanningCards || !availability.available} onClick={findCards}>{scanningCards ? 'Checking capture-card access...' : 'Check capture-card access'}</button></div>
+            <p className="hosted-muted">Checking cards only lists devices this browser exposes to this site. It does not open a camera or request camera permission.</p>
+            {cardDiscovery && <div className="hosted-card-status" role="status"><strong>{cardDiscovery.cards.length ? `${cardDiscovery.cards.length} capture card${cardDiscovery.cards.length === 1 ? '' : 's'} found` : cardDiscovery.hiddenLabels ? 'Device names are hidden by this browser' : 'No recognized capture card is exposed to this site'}</strong><p>{cardDiscovery.cards.length ? 'Select the Elgato card below to request its video preview. No laptop webcam is selected automatically.' : 'This is a device-access check, not an exhausted-credit error. Chrome may hide device names until camera access is allowed; a disconnected or unrecognized card can also be absent.'}</p>{!cardDiscovery.cards.length && <p>Use <strong>Choose game / Elgato preview window</strong> and select only the existing window showing your PS5. This route uses window-sharing approval instead of camera permission. Keep source audio off.</p>}</div>}
             {cards.map(card => <button key={card.deviceId} type="button" className="btn btn-secondary" disabled={busy} onClick={() => choose('capture-card', card.deviceId)}>Preview {card.label}</button>)}
             {captureReady && <label className="hosted-check"><input type="checkbox" checked={confirmed} onChange={event => { if (event.target.checked) capture.confirm(); setConfirmed(event.target.checked) }} />I can see my gameplay in this preview and agree to share this source.</label>}
             <fieldset disabled={busy}><legend>Session type</legend><label><input type="radio" name="coach-mode" checked={mode === 'private'} onChange={() => setMode('private')} />Private session with my coach</label><label><input type="radio" name="coach-mode" checked={mode === 'ai'} disabled={!availability.aiAvailable} onChange={() => setMode('ai')} />AI practice on my own</label></fieldset>
@@ -249,6 +255,7 @@ export default function HostedCoachPage() {
         <section className="hosted-card">
           <h2>Credits and session controls</h2>
           <p>{availability.available ? `${availability.kind} credits · ${availability.framesRemaining} AI frames · ${availability.shareMinutesRemaining} sharing minutes remaining` : availability.reason}</p>
+          {availability.kind === 'pilot' && <p className="hosted-muted">These are temporary pilot safeguards for AWS usage, separate from your membership or CEO/admin access. Device discovery and a local preview do not use AI frames. The original pilot expiry still applies.</p>}
           {availability.endsAt && <p>Credits end {date(availability.endsAt)}. Sessions last at most 30 minutes. No automatic overage or recharge.</p>}
           {session?.owner && session.mode === 'private' && <form onSubmit={makeInvite}><h3>Invite my coach</h3><label>Coach’s Recon account email<input type="email" value={email} onChange={event => setEmail(event.target.value)} autoComplete="off" required /></label><button className="btn btn-secondary" disabled={busy || !!invite || session.coachConnected}>Create private invitation</button>{invite && <><label>Private invitation code<textarea readOnly value={invite} aria-label="Private invitation code" /></label><button type="button" className="btn btn-secondary" onClick={() => navigator.clipboard.writeText(invite).then(() => setMessage('Invitation copied. Send it only to the invited coach.')).catch(() => setError('Select and copy the invitation code manually.'))}>Copy invitation</button></>}<p>Only the invited verified coach can join. To revoke access, Stop sharing ends the media session and invalidates its invitation.</p></form>}
           {session?.owner && <><h3>AI frame analysis</h3><p>AI is separate from human viewing. Turning it on sends one small frame of this confirmed source for analysis at most every 15 seconds. Raw frames are not saved in session history. Advice is observational; it does not prove rank or skills.</p><button type="button" className="btn btn-secondary" disabled={busy || !availability.aiAvailable} onClick={toggleAi}>{session.aiEnabled ? 'Turn off AI analysis' : 'Allow AI frame analysis'}</button>{advice && <p className="hosted-advice" role="status">{advice}</p>}</>}

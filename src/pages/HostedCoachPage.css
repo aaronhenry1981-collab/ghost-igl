@@ -15,6 +15,7 @@
 .hosted-stop{display:inline-block;margin:16px 10px 8px 0;background:#54272c;color:#ffe6e9;border:1px solid #bf7b81;border-radius:6px;padding:10px 16px;font:inherit;cursor:pointer}
 .hosted-roles button{background:#20242d;color:#f4f4f5;border:1px solid #69717e;border-radius:7px;padding:14px 20px;font:inherit;cursor:pointer}.hosted-roles .selected{border-color:#ddbf65;color:#fce5a7}
 .hosted-muted{color:#b8bec8;font-size:.88rem}.hosted-advice{border-left:3px solid #ddbf65;background:#26261e;padding:16px}
+.hosted-source-empty,.hosted-card-status{padding:18px;border:1px solid #69717e;border-radius:7px;background:#111419;margin:14px 0;line-height:1.6}.hosted-source-empty p,.hosted-card-status p{margin:8px 0 0}
 .hosted-notes{list-style:none;padding:0;max-height:320px;overflow:auto}.hosted-notes li{padding:10px 0;border-bottom:1px solid #3a3d43;overflow-wrap:anywhere}
 .hosted-history{list-style:none;padding:0}.hosted-history li{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #3a3d43;padding:16px 0}.hosted-history li>div{flex:1;min-width:160px}.hosted-history span{display:block;margin-top:6px;color:#b8bec8}.hosted-review{border-top:1px solid #454b57;margin-top:16px;overflow-wrap:anywhere}
 .hosted-coach :focus-visible{outline:3px solid #f2d57c;outline-offset:3px}

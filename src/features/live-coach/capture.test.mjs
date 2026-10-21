@@ -21,6 +21,27 @@ test('construction never opens devices; only known capture cards are listed', as
   await assert.rejects(f.capture.choose('capture-card', 'camera'))
   assert.equal(f.calls.some(call => call.video), false)
 })
+
+test('device discovery reports hidden labels without requesting permission or opening media', async () => {
+  let opened = 0
+  const capture = createGameplayCapture({ devices: {
+    enumerateDevices: async () => [{ kind: 'videoinput', label: '', deviceId: '' }],
+    getUserMedia: async () => { opened++; throw Error('must not open') },
+    getDisplayMedia: async () => { opened++; throw Error('must not open') },
+  } })
+  assert.deepEqual(await capture.inspectCards(), { cards: [], hiddenLabels: true, videoInputCount: 1 })
+  assert.equal(opened, 0)
+})
+
+test('discovery distinguishes no exposed inputs from a named non-card and rejects a card without an ID', async () => {
+  for (const inputs of [[], [{ kind: 'videoinput', label: 'Webcam', deviceId: 'camera' }], [{ kind: 'videoinput', label: 'Elgato 4K X', deviceId: '' }]]) {
+    const capture = createGameplayCapture({ devices: { enumerateDevices: async () => inputs } })
+    const result = await capture.inspectCards()
+    assert.equal(result.cards.length, 0)
+    assert.equal(result.hiddenLabels, false)
+    assert.equal(result.videoInputCount, inputs.length)
+  }
+})
 test('capture card uses exact device ID and audio:false; source needs explicit confirmation', async () => {
   const f = fixture(); await f.capture.choose('capture-card', 'card')
   assert.equal(f.capture.current().confirmed, false)
