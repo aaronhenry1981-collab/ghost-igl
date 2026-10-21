@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { HELP_CENTER_UI_ENABLED, SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
+import { canShowPilotEntry } from '../features/live-coach/pilot-release.mjs'
 
 // Unified top navigation — single nav across the entire site (landing +
 // in-app). Replaces the previous dual-layout pattern where landing used a
@@ -20,7 +21,7 @@ function scrollToSection(id) {
   }
 }
 
-function MoreDropdown({ onClose }) {
+function MoreDropdown({ onClose, browserCoachVisible = false }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const navigate = useNavigate()
@@ -70,7 +71,8 @@ function MoreDropdown({ onClose }) {
       </button>
       {open && (
         <div className="nav-more-pop" role="menu">
-          <div className="nav-more-label">Five working tools</div>
+          <div className="nav-more-label">Coaching tools</div>
+          {browserCoachVisible && <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/live-coaching')}><strong>Browser Live Coach</strong><span>Private pilot · choose your own gameplay source</span></button>}
           <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/live')}>
             <strong>Live Match Coach</strong><span>Evidence-based calls while you play</span>
           </button>
@@ -173,6 +175,7 @@ export default function Navbar() {
   const navigate = useNavigate()
   const isLanding = location.pathname === '/'
   const { user, isPro, isAdmin, plan, signOut } = useAuth()
+  const browserCoachVisible = canShowPilotEntry({ isAdmin, apiBase: import.meta.env.VITE_LIVE_COACH_API_BASE_URL })
   const toggleRef = useRef(null)
   const drawerRef = useRef(null)
   const drawerCloseRef = useRef(null)
@@ -289,7 +292,7 @@ export default function Navbar() {
             <>
               <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? 'is-active' : ''}>Dashboard</NavLink></li>
               <li><NavLink to="/progress" className={({ isActive }) => isActive ? 'is-active' : ''}>Road to Champion</NavLink></li>
-              <li><MoreDropdown /></li>
+              <li><MoreDropdown browserCoachVisible={browserCoachVisible} /></li>
             </>
           ) : (
             <>
@@ -412,6 +415,7 @@ export default function Navbar() {
             </div>
             <div className="mobile-drawer-section">
               <div className="mobile-drawer-section-label">Working tools</div>
+              {browserCoachVisible && <NavLink to="/live-coaching" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Browser Live Coach · private pilot</NavLink>}
               <NavLink to="/live" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Live Match Coach</NavLink>
               <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
               <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Site Strategy</NavLink>

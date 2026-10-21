@@ -105,6 +105,11 @@ const STATIC = {
     title: `Live Match Coach for Rainbow Six Siege${SUFFIX}`,
     description: 'One clear instruction for the Rainbow Six Siege round you are playing: stack, bans, side, site and operator, then the setup for that round.',
   },
+  '/live-coaching': {
+    title: `Private Live Coaching${SUFFIX}`,
+    description: 'Share your gameplay source, join a private coaching session, and review saved notes with your Recon account.',
+    noindex: true,
+  },
   '/download': {
     title: `Download Recon 6 Command for Windows${SUFFIX}`,
     description: 'Recon 6 Command is the Windows desktop coach included with paid Pro, Elite and Champion plans. Download the installer and sign in to start.',
