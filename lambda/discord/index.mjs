@@ -131,7 +131,7 @@ function pricingResponse() {
     '',
     '**Basic** — Free · Foundational strats, operator catalog, Discord',
     '**Pro** — $12/mo · Advanced strats, AI VOD, PC Live Coach',
-    '**Elite** — $39/mo · Champion-level strategies, 60 VOD reviews, higher live usage',
+    '**Elite** - $39/mo · Champion-level strategies, 60 VOD reviews, up to 10 screenshots per review',
     '**Champion** — $70/mo · Everything in Elite + two live sessions with Aaron',
     '',
     `Subscribe at ${INFO_URL}/#pricing`,
@@ -252,4 +252,4 @@ function helpResponse() {
 }
 
 // Exported for tests (withdrawn-site handling); the handler is the only caller in production.
-export { stratResponse, calloutsResponse }
+export { stratResponse, calloutsResponse, pricingResponse }
