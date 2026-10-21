@@ -57,24 +57,31 @@ export function frameFromVideo(video, document = globalThis.document) {
   return image
 }
 
-export function createAnalysisLoop({ takeFrame, request, onAdvice, onError, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
-  let generation = 0, timer, controller, sequence = 0
+export function createAnalysisLoop({ takeFrame, request, onAdvice, onError, onComplete = () => {}, maxFrames = Infinity, initialSequence = 0, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
+  if (!(maxFrames === Infinity || Number.isSafeInteger(maxFrames) && maxFrames >= 0) || !Number.isSafeInteger(initialSequence) || initialSequence < 0) throw new Error('finite_frame_limit_required')
+  let generation = 0, timer, controller, sequence = initialSequence
   function stop() { generation++; cancel(timer); controller?.abort(); controller = null }
   function start(epoch) {
     stop(); const mine = generation
+    let attempted = 0
     async function tick() {
       if (mine !== generation) return
+      if (attempted >= maxFrames) { stop(); onComplete(); return }
       const capturedAt = now(), seq = ++sequence
       controller = new AbortController()
       try {
         const image = takeFrame()
+        attempted++
         const result = await request({ capturedAt, sequence: seq, epoch, image }, controller.signal)
         if (mine === generation && !result.stale && result.epoch === epoch && result.sequence === seq && now() - capturedAt <= 8000) onAdvice(result.text, { capturedAt, epoch, sequence: seq })
       } catch (error) {
         if (mine === generation) { stop(); onError(error) }
         return
       }
-      if (mine === generation) timer = schedule(tick, 15_000)
+      if (mine === generation) {
+        if (attempted >= maxFrames) { stop(); onComplete() }
+        else timer = schedule(tick, 15_000)
+      }
     }
     void tick()
   }
