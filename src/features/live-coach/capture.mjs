@@ -2,11 +2,17 @@ export function createGameplayCapture({ devices = globalThis.navigator?.mediaDev
   let generation = 0, stream = null, confirmed = false, kind = null
   const release = value => value?.getTracks().forEach(track => track.stop())
   function stop() { generation++; confirmed = false; kind = null; release(stream); stream = null }
-  async function cards() {
+  async function inspectCards() {
     if (!devices?.enumerateDevices) throw new Error('Use a desktop browser with capture support.')
     const list = await devices.enumerateDevices()
-    return list.filter(device => device.kind === 'videoinput' && /elgato|4k\s*x|hd60|game\s*capture/i.test(device.label))
+    const inputs = list.filter(device => device.kind === 'videoinput')
+    return {
+      cards: inputs.filter(device => device.deviceId && /elgato|4k\s*x|hd60|game\s*capture/i.test(device.label)),
+      hiddenLabels: inputs.some(device => !device.label?.trim()),
+      videoInputCount: inputs.length,
+    }
   }
+  async function cards() { return (await inspectCards()).cards }
   async function choose(sourceKind, deviceId) {
     stop()
     const mine = generation
@@ -34,7 +40,7 @@ export function createGameplayCapture({ devices = globalThis.navigator?.mediaDev
     }, { once: true })
     return selected
   }
-  return { cards, choose, stop, confirm() {
+  return { cards, inspectCards, choose, stop, confirm() {
     if (!stream?.getVideoTracks().some(track => track.readyState === 'live')) throw new Error('Choose your gameplay source first.')
     confirmed = true
   }, current: () => ({ stream, kind, confirmed }) }
@@ -51,24 +57,31 @@ export function frameFromVideo(video, document = globalThis.document) {
   return image
 }
 
-export function createAnalysisLoop({ takeFrame, request, onAdvice, onError, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
-  let generation = 0, timer, controller, sequence = 0
+export function createAnalysisLoop({ takeFrame, request, onAdvice, onError, onComplete = () => {}, maxFrames = Infinity, initialSequence = 0, now = Date.now, schedule = setTimeout, cancel = clearTimeout }) {
+  if (!(maxFrames === Infinity || Number.isSafeInteger(maxFrames) && maxFrames >= 0) || !Number.isSafeInteger(initialSequence) || initialSequence < 0) throw new Error('finite_frame_limit_required')
+  let generation = 0, timer, controller, sequence = initialSequence
   function stop() { generation++; cancel(timer); controller?.abort(); controller = null }
   function start(epoch) {
     stop(); const mine = generation
+    let attempted = 0
     async function tick() {
       if (mine !== generation) return
+      if (attempted >= maxFrames) { stop(); onComplete(); return }
       const capturedAt = now(), seq = ++sequence
       controller = new AbortController()
       try {
         const image = takeFrame()
+        attempted++
         const result = await request({ capturedAt, sequence: seq, epoch, image }, controller.signal)
         if (mine === generation && !result.stale && result.epoch === epoch && result.sequence === seq && now() - capturedAt <= 8000) onAdvice(result.text, { capturedAt, epoch, sequence: seq })
       } catch (error) {
         if (mine === generation) { stop(); onError(error) }
         return
       }
-      if (mine === generation) timer = schedule(tick, 15_000)
+      if (mine === generation) {
+        if (attempted >= maxFrames) { stop(); onComplete() }
+        else timer = schedule(tick, 15_000)
+      }
     }
     void tick()
   }

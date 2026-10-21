@@ -39,6 +39,9 @@ export function AuthProvider({ children }) {
   // Keep it in memory only; refreshing the page intentionally requires the
   // customer to sign in with the temporary password again.
   const pendingNewPasswordRef = useRef(null)
+  // A request from a previous sign-in must never hydrate the next account
+  // (or restore paid/profile state after the player has signed out).
+  const authGeneration = useRef(0)
   // Billing/account facts from /me that the player home needs to explain
   // membership status honestly (payment failed, renewal unconfirmed, etc.).
   const [account, setAccount] = useState(null)
@@ -47,16 +50,19 @@ export function AuthProvider({ children }) {
   // /me returns { plan, sub_status, profile, profile_complete } so consumers can
   // gate UI like the onboarding modal on profile_complete without an extra round trip.
   // Declared BEFORE the mount effect that calls it (react-hooks/immutability).
-  async function checkProStatus(userId, payload, session) {
+  async function checkProStatus(userId, payload, session, generation = authGeneration.current) {
     if (!API_URL) return
+    if (generation !== authGeneration.current) return
 
     try {
       const token = getIdToken(session)
       const res = await fetch(`${API_URL}/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
+      if (generation !== authGeneration.current) return
       if (res.ok) {
         const data = await res.json()
+        if (generation !== authGeneration.current) return
         const p = normalizePlan(data?.plan)
         setPlan(p)
         setIsPro(hasPlan(p, 'pro'))
@@ -82,6 +88,7 @@ export function AuthProvider({ children }) {
         }
       }
     } catch {
+      if (generation !== authGeneration.current) return
       if (computeIsAdmin(payload)) {
         setIsPro(true); setPlan('champion')
       } else {
@@ -91,6 +98,8 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
+    const lifecycle = authGeneration
+    const generation = ++authGeneration.current
     if (!userPool) {
       // Terminal state when Cognito isn't configured — set once on mount.
       setLoading(false)
@@ -107,6 +116,7 @@ export function AuthProvider({ children }) {
     if (cognitoUser) {
       getSession(cognitoUser)
         .then((session) => {
+          if (generation !== authGeneration.current) return
           const payload = session.getIdToken().decodePayload()
           const userData = {
             id: payload.sub,
@@ -119,29 +129,33 @@ export function AuthProvider({ children }) {
           setIsAdmin(computeIsAdmin(payload))
           // Return the promise so .finally waits for /me to resolve before
           // clearing the loading flag. No more first-paint flash.
-          return checkProStatus(userData.id, payload, session)
+          return checkProStatus(userData.id, payload, session, generation)
         })
         .catch(() => {
+          if (generation !== authGeneration.current) return
           setUser(null)
           setIsPro(false)
           setIsAdmin(false)
           setPlan('free')
         })
-        .finally(() => setLoading(false))
+        .finally(() => { if (generation === authGeneration.current) setLoading(false) })
     } else {
       setLoading(false)
     }
+    return () => { lifecycle.current++ }
   }, [])
 
   // Re-fetch /me — call after the user updates their profile so consumers
   // (like the onboarding modal) see the new state without a full reload.
   async function refreshProfile() {
+    const generation = authGeneration.current
     const cognitoUser = getCurrentUser()
     if (!cognitoUser) return
     try {
       const session = await getSession(cognitoUser)
+      if (generation !== authGeneration.current) return
       const payload = session.getIdToken().decodePayload()
-      await checkProStatus(payload.sub, payload, session)
+      await checkProStatus(payload.sub, payload, session, generation)
     } catch (err) {
       console.warn('refreshProfile failed:', err)
     }
@@ -205,6 +219,8 @@ export function AuthProvider({ children }) {
 
   async function signIn(email, password) {
     if (!userPool) return { error: { message: 'Auth not configured' } }
+    const generation = ++authGeneration.current
+    pendingNewPasswordRef.current = null
 
     const typed = (email || '').trim()
     const lower = typed.toLowerCase()
@@ -213,6 +229,7 @@ export function AuthProvider({ children }) {
     // plus every existing lowercase account regardless of how the user's
     // device capitalized their input.
     let result = await attemptSignIn(lower, password)
+    if (generation !== authGeneration.current) return { data: null, error: { message: 'Sign-in was cancelled.' } }
 
     // Fall back to the exact-typed casing ONLY when the lowercase user truly
     // doesn't exist (not on a wrong-password) and the casing actually differs.
@@ -225,6 +242,7 @@ export function AuthProvider({ children }) {
         result = await attemptSignIn(typed, password)
       }
     }
+    if (generation !== authGeneration.current) return { data: null, error: { message: 'Sign-in was cancelled.' } }
 
     // Handle the challenge after the casing fallback too, so a legacy account
     // whose stored email contains capitals gets the same first-login flow.
@@ -240,6 +258,7 @@ export function AuthProvider({ children }) {
       pendingNewPasswordRef.current = {
         cognitoUser: result.cognitoUser,
         attributes,
+        generation,
       }
       return {
         data: { challenge: 'NEW_PASSWORD_REQUIRED' },
@@ -258,8 +277,11 @@ export function AuthProvider({ children }) {
       // caller that redirects immediately after this promise resolves must not
       // briefly render paid members as Basic while /me is still in flight.
       await checkProStatus(userData.id, payload, session)
+      if (generation !== authGeneration.current) return { data: null, error: { message: 'Sign-in was cancelled.' } }
+      setLoading(false)
       return { data: { user: userData, session }, error: null }
     }
+    setLoading(false)
     return { data: null, error: { message: result.err?.message || 'Sign in failed' } }
   }
 
@@ -268,10 +290,15 @@ export function AuthProvider({ children }) {
     if (!pending?.cognitoUser) {
       return { data: null, error: { message: 'Your first-login session expired. Sign in again with the temporary password.' } }
     }
+    const generation = pending.generation
 
     return new Promise((resolve) => {
       pending.cognitoUser.completeNewPasswordChallenge(newPassword, pending.attributes, {
         onSuccess: async (session) => {
+          if (generation !== authGeneration.current) {
+            resolve({ data: null, error: { message: 'Sign-in was cancelled.' } })
+            return
+          }
           pendingNewPasswordRef.current = null
           const payload = session.getIdToken().decodePayload()
           const userData = {
@@ -284,6 +311,11 @@ export function AuthProvider({ children }) {
           setUser(userData)
           setIsAdmin(computeIsAdmin(payload))
           await checkProStatus(userData.id, payload, session)
+          if (generation !== authGeneration.current) {
+            resolve({ data: null, error: { message: 'Sign-in was cancelled.' } })
+            return
+          }
+          setLoading(false)
           resolve({ data: { user: userData, session }, error: null })
         },
         onFailure: (err) => resolve({
@@ -344,6 +376,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    authGeneration.current++
     pendingNewPasswordRef.current = null
     const cognitoUser = getCurrentUser()
     if (cognitoUser) {
@@ -354,6 +387,11 @@ export function AuthProvider({ children }) {
     setIsAdmin(false)
     setPlan('free')
     setAccount(null)
+    setProfile(null)
+    setProfileComplete(false)
+    setVodUsage(null)
+    setTierScope('all_access')
+    setLoading(false)
   }
 
   // Step 1 of password reset: emails the user a 6-digit code. Uses the casing

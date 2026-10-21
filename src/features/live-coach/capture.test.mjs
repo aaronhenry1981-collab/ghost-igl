@@ -21,6 +21,27 @@ test('construction never opens devices; only known capture cards are listed', as
   await assert.rejects(f.capture.choose('capture-card', 'camera'))
   assert.equal(f.calls.some(call => call.video), false)
 })
+
+test('device discovery reports hidden labels without requesting permission or opening media', async () => {
+  let opened = 0
+  const capture = createGameplayCapture({ devices: {
+    enumerateDevices: async () => [{ kind: 'videoinput', label: '', deviceId: '' }],
+    getUserMedia: async () => { opened++; throw Error('must not open') },
+    getDisplayMedia: async () => { opened++; throw Error('must not open') },
+  } })
+  assert.deepEqual(await capture.inspectCards(), { cards: [], hiddenLabels: true, videoInputCount: 1 })
+  assert.equal(opened, 0)
+})
+
+test('discovery distinguishes no exposed inputs from a named non-card and rejects a card without an ID', async () => {
+  for (const inputs of [[], [{ kind: 'videoinput', label: 'Webcam', deviceId: 'camera' }], [{ kind: 'videoinput', label: 'Elgato 4K X', deviceId: '' }]]) {
+    const capture = createGameplayCapture({ devices: { enumerateDevices: async () => inputs } })
+    const result = await capture.inspectCards()
+    assert.equal(result.cards.length, 0)
+    assert.equal(result.hiddenLabels, false)
+    assert.equal(result.videoInputCount, inputs.length)
+  }
+})
 test('capture card uses exact device ID and audio:false; source needs explicit confirmation', async () => {
   const f = fixture(); await f.capture.choose('capture-card', 'card')
   assert.equal(f.capture.current().confirmed, false)
@@ -50,6 +71,31 @@ test('analysis aborts and suppresses a late response after Stop', async () => {
   const loop = createAnalysisLoop({ takeFrame: () => 'jpeg', request: (body, s) => { signal = s; return new Promise(r => { resolve = () => r({ ...body, text: 'late' }) }) }, onAdvice: () => advice++, onError: assert.fail })
   loop.start(1); loop.stop(); resolve(); await new Promise(r => setImmediate(r))
   assert.equal(signal.aborted, true); assert.equal(advice, 0)
+})
+
+test('finite analysis completes after three images without taking or dispatching a fourth', async () => {
+  const pending = []
+  let images = 0, requests = 0, completed = 0
+  const sequences = []
+  const loop = createAnalysisLoop({ maxFrames: 3, initialSequence: 4,
+    takeFrame: () => { images++; return 'synthetic-jpeg' },
+    request: async body => { requests++; sequences.push(body.sequence); return { ...body, text: 'synthetic advice' } },
+    onAdvice() {}, onError: assert.fail, onComplete: () => { completed++ },
+    schedule: callback => { pending.push(callback); return pending.length }, cancel() {},
+  })
+  loop.start(2)
+  await new Promise(resolve => setImmediate(resolve))
+  while (pending.length) { pending.shift()(); await new Promise(resolve => setImmediate(resolve)) }
+  assert.equal(images, 3); assert.equal(requests, 3); assert.equal(completed, 1)
+  assert.deepEqual(sequences, [5, 6, 7])
+})
+
+test('zero or invalid image allowance cannot dispatch an image', async () => {
+  let completed = 0
+  const loop = createAnalysisLoop({ maxFrames: 0, takeFrame: assert.fail, request: assert.fail, onAdvice: assert.fail, onError: assert.fail, onComplete: () => completed++ })
+  loop.start(1)
+  assert.equal(completed, 1)
+  for (const maxFrames of [-1, 1.2, NaN]) assert.throws(() => createAnalysisLoop({ maxFrames }))
 })
 test('stale epoch and aged advice never display; loop schedules one request at a time', async () => {
   let clock = 1000, resolve, scheduled = 0, advice = 0, calls = 0
