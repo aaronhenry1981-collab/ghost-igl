@@ -90,6 +90,10 @@ export async function analyzeSessionApi(files, context = {}) {
     const err = new Error(errBody.message || errBody.error || `Analysis failed (${res.status})`)
     err.code = errBody.error
     err.status = res.status
+    err.allowance_consumed = errBody.allowance_consumed === true
+    if (errBody.usage && typeof errBody.usage === 'object' && !Array.isArray(errBody.usage)) {
+      err.usage = errBody.usage
+    }
     // Surface usage-cap fields from 429s so the UI can show "12/20 used, resets in 4 days"
     // without a second fetch.
     if (errBody.error === 'usage_limit_exceeded') {

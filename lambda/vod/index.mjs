@@ -624,6 +624,20 @@ export async function handler(event) {
     }
   }
 
+  // The reservation also remains spent when the model fails. Return the same
+  // allowance snapshot on success and failure so the page cannot show an
+  // unspent attempt after an unsuccessful review.
+  const responseUsage = !isAdmin && activeSub
+    ? {
+        used: usePurchasedUsage ? (usageMeta?.used || 0) : (usageMeta?.used || 0) + 1,
+        limit: usageMeta?.limit || 0,
+        remaining: usePurchasedUsage ? 0 : Math.max(0, (usageMeta?.limit || 0) - (usageMeta?.used || 0) - 1),
+        purchased_credits: usePurchasedUsage ? Math.max(0, purchasedCredits - VOD_PURCHASED_CREDIT_COST) : purchasedCredits,
+        is_trial: isTrial,
+        period_end: usageMeta?.periodEnd || null,
+      }
+    : null
+
   try {
     const analysis = analysisType === 'rank_snapshot'
       ? { analysis_type: analysisType, snapshot: await callRankSnapshot(images[0], requestDeadline) }
@@ -657,18 +671,6 @@ export async function handler(event) {
     } catch (archiveErr) {
       console.error('review archive failed (non-fatal):', archiveErr?.message || archiveErr)
     }
-    // Compute the updated usage AFTER reservation so the response can show
-    // the user their remaining count without an extra round-trip.
-    const responseUsage = !isAdmin && activeSub
-      ? {
-          used: usePurchasedUsage ? (usageMeta?.used || 0) : (usageMeta?.used || 0) + 1,
-          limit: usageMeta?.limit || 0,
-          remaining: usePurchasedUsage ? 0 : Math.max(0, (usageMeta?.limit || 0) - (usageMeta?.used || 0) - 1),
-          purchased_credits: usePurchasedUsage ? Math.max(0, purchasedCredits - VOD_PURCHASED_CREDIT_COST) : purchasedCredits,
-          is_trial: isTrial,
-          period_end: usageMeta?.periodEnd || null,
-        }
-      : null
     if (analysisType === 'vod_review') await publishVodPlayerData(payload, analysis, gameId)
     return { statusCode: 200, headers, body: JSON.stringify({ ...analysis, tier, game_id: gameId, usage: responseUsage }) }
   } catch (err) {
@@ -681,28 +683,39 @@ export async function handler(event) {
     const msg = String(err.message || '')
     let code = 'analysis_failed'
     let status = 502
-    let friendly = msg || 'Upstream model error'
+    let friendly = 'The review could not be completed. No coaching result was saved.'
 
     if (errName === 'ReviewDeadlineError') {
       code = 'review_timeout'; status = 504
-      friendly = 'The review did not finish within the request time limit. No coaching result was saved. Your review allowance may have been used. Do not resubmit automatically.'
+      friendly = 'The review did not finish within the request time limit. No coaching result was saved.'
     } else if (errName === 'ModelGroundingError') {
       code = 'analysis_not_grounded'; status = 422
-      friendly = 'A reliable review could not be established from this response. It was not saved as coaching evidence. The review allowance may have been used. General self-check: in a custom game, pause before an entry and compare your crosshair with the doorway you intend to watch. Use before-and-after frames to assess movement; a single still cannot establish it.'
+      friendly = 'A reliable review could not be established from this response. It was not saved as coaching evidence. General self-check: in a custom game, pause before an entry and compare your crosshair with the doorway you intend to watch. Use before-and-after frames to assess movement; a single still cannot establish it.'
     } else if (errName === 'RankSnapshotError') {
       code = 'rank_not_verified'; status = 422
       friendly = 'No exact current Rainbow Six rank was readable. Upload a clearer overview image with the rank text visible.'
     } else if (errName === 'ThrottlingException' || /throttl|too many tokens/i.test(msg)) {
       code = 'quota_throttled'; status = 503
-      friendly = 'VOD analysis is temporarily rate-limited. Try again in a few minutes.'
+      friendly = 'VOD analysis is temporarily rate-limited.'
     } else if (errName === 'AccessDeniedException' || /not authorized/i.test(msg)) {
       code = 'model_access'; status = 503
-      friendly = 'Model access is being provisioned. This should clear up shortly.'
+      friendly = 'Review processing is unavailable. Contact Support if this continues.'
     } else if (errName === 'ValidationException') {
       code = 'invalid_image'; status = 400
       friendly = 'One or more images could not be analyzed. Try clearer PNG or JPG screenshots.'
     }
-    return { statusCode: status, headers, body: JSON.stringify({ error: code, message: friendly }) }
+    const allowanceNotice = usePurchasedUsage
+      ? `This request used ${VOD_PURCHASED_CREDIT_COST} prepaid usage credits.`
+      : 'This request used one review attempt.'
+    return {
+      statusCode: status, headers,
+      body: JSON.stringify({
+        error: code,
+        message: `${friendly} ${allowanceNotice} Check your remaining allowance before submitting again. Do not resubmit automatically.`,
+        allowance_consumed: true,
+        usage: responseUsage,
+      }),
+    }
   }
 }
 
