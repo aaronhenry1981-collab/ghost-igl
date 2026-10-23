@@ -42,6 +42,11 @@ export function useVodAnalysis() {
         }
       }
     } catch (err) {
+      // Failed processing can still consume a reserved review or prepaid
+      // credits. Keep the displayed allowance in step with that response.
+      if (err.usage && typeof setVodUsage === 'function') {
+        setVodUsage(err.usage)
+      }
       // The api helper attaches err.code from the response body when present.
       if (err.code === 'usage_limit_exceeded') {
         setUsageError({

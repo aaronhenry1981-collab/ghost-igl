@@ -64,16 +64,22 @@ export async function publishDailyTip({config,event,store,discord,now=new Date()
 
 export function createBotClient({getToken,channelId,guildId,fetchImpl=globalThis.fetch}) {
   if(!/^\d{15,22}$/.test(channelId||'')||!/^\d{15,22}$/.test(guildId||''))throw new Error('Invalid destination')
-  let token
+  let token, authenticationFailed=false
   async function request(method,payload) {
     let postStarted=false, httpStatus
     try {
+      // An invalid credential must not be retried by this client. Recovery
+      // requires an explicitly approved credential repair, never auto-stripping
+      // a prefix or falling back to a different authentication scheme.
+      if(authenticationFailed)throw diagnosticError('authentication-stopped')
       token ||= await getToken()
-      if(typeof token!=='string'||!token.trim()||/[\r\n]/.test(token))throw diagnosticError('credential-unavailable')
+      if(typeof token!=='string'||!token)throw diagnosticError('credential-unavailable')
+      if(/[^\x21-\x7e]|["'{}]/.test(token)||/^(?:Bot|Bearer)\s/i.test(token))throw diagnosticError('credential-format')
       const url=`https://discord.com/api/v10/channels/${channelId}${method==='POST'?'/messages':''}`
       postStarted=method==='POST'
       const res=await fetchImpl(url,{method,redirect:'error',signal:AbortSignal.timeout(8000),headers:{Authorization:`Bot ${token}`,'Content-Type':'application/json'},...(payload?{body:JSON.stringify(payload)}:{})})
       httpStatus=res.status
+      if(httpStatus===401)authenticationFailed=true
       const reader=res.body.getReader();let size=0;const chunks=[]
       try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>65536)throw diagnosticError('response-too-large');chunks.push(value)}}finally{await reader.cancel().catch(()=>{})}
       let data

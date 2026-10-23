@@ -50,7 +50,8 @@ test('actual handler returns structured timeout after reservation and before per
   const response = await ctx.handler({ headers: { authorization: 'Bearer offline-fixture' }, body: JSON.stringify({ images: [{ base64: 'eA==', media_type: 'image/jpeg' }] }) })
   assert.equal(response.statusCode, 504)
   assert.equal(JSON.parse(response.body).error, 'review_timeout')
-  assert.match(JSON.parse(response.body).message, /allowance may have been used/)
+  assert.match(JSON.parse(response.body).message, /used one review attempt/)
+  assert.equal(JSON.parse(response.body).allowance_consumed, true)
   assert.equal(reserved, 1); assert.equal(writes, 0)
 })
 
