@@ -53,15 +53,29 @@ export function errorMessage(err, fallback = 'Something went wrong on our side.'
   return err.message || fallback
 }
 
-export function createLiveSupportTransport({ baseUrl = CS_API_URL, getToken = currentIdToken, fetchImpl = (...a) => fetch(...a) } = {}) {
+export function createLiveSupportTransport({ baseUrl = CS_API_URL, getToken = currentIdToken, getAuthorization = null, fetchImpl = (...a) => fetch(...a) } = {}) {
   return {
     mode: 'live',
     configured: Boolean(baseUrl),
     async request(method, path, { body, auth = true, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
       if (!baseUrl) throw supportError('Support is not configured on this deployment.', { code: 'not_configured' })
       let token = null
+      let isCurrent = () => true
+      const requireCurrent = () => {
+        if (!isCurrent()) throw Object.assign(supportError('This account request was cancelled.', { code: 'owner_changed' }), { name: 'AbortError' })
+      }
       if (auth) {
-        token = await getToken().catch(() => null)
+        if (getAuthorization) {
+          let authorization
+          try { authorization = await getAuthorization() }
+          catch (error) {
+            if (error?.name === 'AbortError') throw error
+            throw supportError('Sign in to continue.', { status: 401, code: 'signed_out' })
+          }
+          token = authorization?.token
+          isCurrent = typeof authorization?.isCurrent === 'function' ? authorization.isCurrent : () => false
+        } else token = await getToken().catch(() => null)
+        requireCurrent()
         if (!token) throw supportError('Sign in to continue.', { status: 401, code: 'signed_out' })
       }
       const controller = new AbortController()
@@ -84,6 +98,7 @@ export function createLiveSupportTransport({ baseUrl = CS_API_URL, getToken = cu
           body: body !== undefined ? JSON.stringify(body) : undefined,
         })
       } catch (e) {
+        requireCurrent()
         if (timedOut) throw supportError('Request timed out.', { code: 'timeout' })
         if (e?.name === 'AbortError') throw e
         throw supportError('Network error.', { code: 'network' })
@@ -92,6 +107,7 @@ export function createLiveSupportTransport({ baseUrl = CS_API_URL, getToken = cu
         signal?.removeEventListener?.('abort', onAbort)
       }
       const payload = await res.json().catch(() => ({}))
+      requireCurrent()
       if (!res.ok) {
         throw supportError(payload.message || payload.error || `Request failed (${res.status})`, {
           status: res.status,

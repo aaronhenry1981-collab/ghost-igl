@@ -5,6 +5,7 @@ import assert from 'node:assert/strict'
 export async function runCustomerJourney(ctx) {
   const { state, origin, send, fulfill, evaluate, until, untilFixture, click, fill, screenshot, signedOut, pause, check, createFixtureTransport } = ctx
   const accounts = new Map(), support = new Map(), progress = new Map()
+  const closedSupport = createFixtureTransport({ latency: 0 })
   const calls = { checkouts: [], portals: [], profileWrites: [], progressWrites: [], supportCreates: [] }
   const modes = { portal: 'ok', profile: 'ok', progress: 'ok', progressRead: 'ok', support: 'ok', evidence: 'ok', holdMember: null }
   const held = []
@@ -32,6 +33,14 @@ export async function runCustomerJourney(ctx) {
       assert.ok(subject, 'Support fixture requires a synthetic authenticated subject')
       try {
         const body = JSON.parse(request.postData || '{}')
+        if (subject === 'subject-a' && url.pathname === '/cs/me/support/cases/R6-999999' && request.method === 'GET') {
+          const closed = await closedSupport.request('GET', '/cs/me/support/cases/R6-000001')
+          await fulfill(requestId, { ...closed, caseNumber: 'R6-999999', subject: 'Private A closed case fixture' }); return true
+        }
+        if (subject === 'subject-a' && url.pathname === '/cs/me/support/cases/R6-999999/messages' && request.method === 'POST') {
+          const data = await closedSupport.request('POST', '/cs/me/support/cases/R6-000001/messages', { body })
+          held.push({ requestId, data, kind: 'closed-reply', subject }); return true
+        }
         const data = await supportFor(subject).request(request.method, url.pathname + url.search, { body })
         if (request.method === 'POST' && url.pathname === '/cs/me/support/cases') {
           calls.supportCreates.push({ subject, body, data })
@@ -229,6 +238,19 @@ export async function runCustomerJourney(ctx) {
     assert.equal(await evaluate(bodyHas('Local fixture follow-up reply')), false)
     await until(bodyHas('No case ' + caseNumber + ' on your account'), 'other-owner case denied')
   })
-  state.customerJourneyEvidence = { fixtureProcessorOnly: true, cases: 9, failures, checkoutRequests: calls.checkouts.length, portalRequests: calls.portals.length, profileWrites: calls.profileWrites.length, progressWrites: calls.progressWrites.length, supportCreateRequests: calls.supportCreates.length }
+  await scenario('late closed-case reply cannot navigate the next account to the former owner follow-up', async () => {
+    await asA('/support/cases/R6-999999'); await until(bodyHas('Private A closed case fixture'), 'closed case A')
+    await evaluate("(()=>{const e=document.querySelector('textarea');Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(e,'Local closed-case follow-up fixture');e.dispatchEvent(new Event('input',{bubbles:true}));})()")
+    await evaluate("document.querySelector('textarea').closest('form').requestSubmit()")
+    await untilFixture(() => held.some(item => item.kind === 'closed-reply'), 'held closed-case follow-up')
+    assert.ok(held.find(item => item.kind === 'closed-reply').data.linkedCaseNumber)
+    await evaluate("document.querySelector('#fixture-switch-b').click()")
+    await until("JSON.parse(document.querySelector('#fixture-identity').textContent).subject==='subject-b'", 'closed-case switched B')
+    await release(); await pause(250)
+    assert.equal(await evaluate('location.pathname'), '/support/cases/R6-999999')
+    assert.equal(await evaluate("JSON.stringify(history.state).includes('followUpOf')"), false)
+    await until(bodyHas('No case R6-999999 on your account'), 'new owner remains denied old case')
+  })
+  state.customerJourneyEvidence = { fixtureProcessorOnly: true, cases: 10, failures, checkoutRequests: calls.checkouts.length, portalRequests: calls.portals.length, profileWrites: calls.profileWrites.length, progressWrites: calls.progressWrites.length, supportCreateRequests: calls.supportCreates.length }
   assert.deepEqual(failures, [], 'rendered customer journey failures')
 }

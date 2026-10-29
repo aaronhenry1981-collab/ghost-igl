@@ -75,3 +75,15 @@ test('missing owner is rejected before any request', async () => {
   await assert.rejects(app.context.requestForOwner(null, app.scope, '/me'), cancelled)
   assert.equal(app.calls.length, 0)
 })
+
+test('transport authorization retains the original generation through switch and same-owner reauthentication', async () => {
+  const app = fixture()
+  const authorization = await app.context.authorizationForOwner('subject-a', app.scope)
+  assert.equal(authorization.token, 'fixture:subject-a')
+  assert.equal(authorization.isCurrent(), true)
+  app.switchAccount('subject-b')
+  assert.equal(authorization.isCurrent(), false)
+  app.switchAccount('subject-a')
+  assert.equal(authorization.isCurrent(), false, 'completion must not acquire the new generation')
+  assert.equal((await app.context.authorizationForOwner('subject-a', app.scope)).isCurrent(), true)
+})

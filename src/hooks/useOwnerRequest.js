@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useAuth } from './useAuth'
-import { requestForOwner, tokenForOwner } from '../lib/ownerRequest'
+import { requestForOwner, tokenForOwner, authorizationForOwner } from '../lib/ownerRequest'
 
 export function useOwnerRequest() {
   const { user, captureAuthScope, isAuthScopeCurrent } = useAuth()
@@ -12,4 +12,10 @@ export function useOwnerToken() {
   const { user, captureAuthScope, isAuthScopeCurrent } = useAuth()
   const ownerId = user?.id
   return useCallback(() => tokenForOwner(ownerId, { captureAuthScope, isAuthScopeCurrent }), [ownerId, captureAuthScope, isAuthScopeCurrent])
+}
+
+export function useOwnerAuthorization() {
+  const { user, captureAuthScope, isAuthScopeCurrent } = useAuth()
+  const ownerId = user?.id
+  return useCallback(() => authorizationForOwner(ownerId, { captureAuthScope, isAuthScopeCurrent }), [ownerId, captureAuthScope, isAuthScopeCurrent])
 }

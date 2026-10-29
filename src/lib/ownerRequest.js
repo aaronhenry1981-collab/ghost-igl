@@ -23,6 +23,13 @@ export async function tokenForOwner(ownerId, lifecycle) {
   return getIdToken(session)
 }
 
+// Keep the original generation check attached to a transport request. A bare
+// token can authenticate its start but cannot validate a delayed completion.
+export async function authorizationForOwner(ownerId, lifecycle) {
+  const { session, current } = await ownerSession(ownerId, lifecycle)
+  return { token: getIdToken(session), isCurrent: current }
+}
+
 export async function requestForOwner(ownerId, lifecycle, path, init = {}) {
   const { session, current } = await ownerSession(ownerId, lifecycle)
   const response = await fetch(`${API_URL}${path}`, {
