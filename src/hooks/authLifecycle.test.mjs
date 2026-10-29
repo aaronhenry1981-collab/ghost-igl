@@ -13,7 +13,7 @@ const end = source.indexOf("  const isElite = hasPlan(plan, 'elite', isAdmin)")
 assert.ok(start > 0 && end > start, 'provider source boundaries changed')
 const executable = source.slice(start, end).replace('export function AuthProvider', 'function AuthProvider') + `
   return { user, isPro, isAdmin, plan, profile, profileComplete, vodUsage, account,
-    tierScope, loading, signIn, signOut, refreshProfile, completeNewPassword }
+    tierScope, loading, signIn, signOut, refreshProfile, completeNewPassword, captureAuthScope, isAuthScopeCurrent }
 }
 `
 
@@ -78,6 +78,16 @@ test('reload hydration keeps loading until server membership is available', asyn
   await flush()
   assert.equal(app.render().loading, false)
   assert.equal(app.render().plan, 'champion')
+})
+
+test('feature scopes are invalidated synchronously by sign-out', async () => {
+  const app = harness()
+  await flush()
+  const captured = app.render().captureAuthScope()
+  const check = app.render().isAuthScopeCurrent
+  assert.equal(check(captured), true)
+  await app.render().signOut()
+  assert.equal(check(captured), false)
 })
 
 test('normal sign-in resolves only after paid entitlement hydration', async () => {

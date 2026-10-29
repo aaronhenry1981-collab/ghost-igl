@@ -424,11 +424,16 @@ export function AuthProvider({ children }) {
     return r.ok ? { data: { ok: true }, error: null } : { data: null, error: { message: r.err?.message || 'Reset failed' } }
   }
 
+  // Async feature hooks capture this scope before starting work. Signing out
+  // or switching accounts invalidates it synchronously, before React renders.
+  function captureAuthScope() { return authGeneration.current }
+  function isAuthScopeCurrent(scope) { return scope === authGeneration.current }
+
   const isElite = hasPlan(plan, 'elite', isAdmin)
   const isChampion = hasPlan(plan, 'champion', isAdmin)
 
   return (
-    <AuthContext.Provider value={{ user, isPro, isElite, isChampion, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, account, loading, signUp, signIn, completeNewPassword, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile }}>
+    <AuthContext.Provider value={{ user, isPro, isElite, isChampion, isAdmin, plan, tierScope, profile, profileComplete, vodUsage, setVodUsage, account, loading, signUp, signIn, completeNewPassword, signOut, confirmSignUp, resendConfirmationCode, forgotPassword, confirmForgotPassword, refreshProfile, captureAuthScope, isAuthScopeCurrent }}>
       {children}
     </AuthContext.Provider>
   )

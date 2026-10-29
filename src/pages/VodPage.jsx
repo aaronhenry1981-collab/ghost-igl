@@ -224,7 +224,7 @@ export default function VodPage() {
   const { user, isPro, isAdmin, plan, vodUsage, loading: authLoading } = useAuth()
   const { activeGameId } = useActiveGame()
   const { gameMeta, data: gameData } = useGameData()
-  const { analysis, loading, error, errorCode, usageError, analyzeSession, reset } = useVodAnalysis()
+  const { analysis, loading, error, errorCode, usageError, savingEvidence, saveError, analyzeSession, retrySave, reset } = useVodAnalysis()
   const tier = isAdmin ? 'champion' : plan === 'champion' ? 'champion' : plan === 'elite' ? 'elite' : 'pro'
   const navigate = useNavigate()
   const goToPricing = useSectionNavigate('pricing')
@@ -322,7 +322,7 @@ export default function VodPage() {
             {canAnalyze && !effectiveAnalysis && !loading && !error && !demoMode && (
               <>
                 <UsageStrip usage={vodUsage} isAdmin={isAdmin} goToPricing={goToPricing} goToUsage={() => navigate('/account')} />
-                <SessionUploadZone onUpload={analyzeSession} tier={tier} />
+                <SessionUploadZone key={user?.id || 'signed-out'} onUpload={analyzeSession} tier={tier} />
                 {demoAvailable && (
                   <div className="vod-demo-hint">
                     Want to see what the analysis looks like first?{' '}
@@ -412,7 +412,7 @@ export default function VodPage() {
                     {canAnalyze
                       ? `Sample ${displayName} analysis. Upload your own screenshot to review your real match.`
                       : isHandTunedDemo
-                        ? `Sample ${displayName} analysis. Sign up for Pro to review your own matches and find out exactly what cost you the round.`
+                        ? `Sample ${displayName} analysis. Sign up for Pro to review selected screenshots from your own matches.`
                         : `Synthetic ${displayName} sample showing the format. Your real analysis references the exact map, character, and round phase the AI detects — not a stock example.`}
                     <button type="button" className="vod-demo-close" onClick={exitDemo} aria-label="Exit demo">×</button>
                   </div>
@@ -423,8 +423,14 @@ export default function VodPage() {
                     <span>
                       {analysis.roadmap_sync === 'saved'
                         ? 'This correction is now part of your coaching evidence.'
-                        : 'Your feedback is ready. Road to Champion will pick up the evidence when sync resumes.'}
+                        : 'Your feedback is ready, but saving to Road to Champion is not confirmed. Retry saving without running another AI review.'}
                     </span>
+                    {analysis.roadmap_sync !== 'saved' && analysis.roadmap_retry && (
+                      <button type="button" className="btn btn-outline" onClick={retrySave} disabled={savingEvidence}>
+                        {savingEvidence ? 'Saving review...' : 'Retry saving review'}
+                      </button>
+                    )}
+                    {saveError && <span role="alert">{saveError}</span>}
                   </div>
                 )}
                 <SessionResults analysis={effectiveAnalysis} />

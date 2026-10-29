@@ -40,9 +40,10 @@ for (const rejected of [false, true]) test(`offline upload → prompt → valida
     readAsDataURL(file) { this.result = `data:${file.type};base64,${file.bytes.toString('base64')}`; this.onload() }
   }
   const frontend = vm.createContext({
-    FileReader, API_URL: 'https://offline.invalid', getCurrentUser: () => ({}), getSession: async () => ({}), getIdToken: () => 'offline', buildVodCoachingEvent,
+    AbortController, setTimeout, clearTimeout,
+    FileReader, API_URL: 'https://offline.invalid', getCurrentUser: () => ({}), getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: 'offline' }) }) }), getIdToken: () => 'offline', buildVodCoachingEvent,
     fetch: async (url, request) => {
-      if (url.endsWith('/me/coaching-events')) { syncs.push(JSON.parse(request.body)); return { ok: true } }
+      if (url.endsWith('/me/coaching-events')) { syncs.push(JSON.parse(request.body)); return { ok: true, json: async () => ({ written: 1, received: 1 }) } }
       const response = await backend.handler({ headers: request.headers, body: request.body })
       return { ok: response.statusCode === 200, status: response.statusCode, json: async () => JSON.parse(response.body) }
     },
