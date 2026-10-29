@@ -5,9 +5,10 @@ import vm from 'node:vm'
 import { buildVodCoachingEvent } from './vodEvidence.js'
 
 const source = readFileSync(new URL('./vodApi.js', import.meta.url), 'utf8').replace(/^import .*\r?\n/gm, '').replace(/export /g, '')
-function harness(receipts, { hanging = false, deferredImage = false } = {}) {
+function harness(receipts, { hanging = false, deferredImage = false, deferredModel = false } = {}) {
   let subject = 'subject-a', modelRequests = 0
   const writes = [], persisted = new Map(), deadlines = [], readers = []
+  let finishModel
   class FileReader { readAsDataURL() { this.result = 'data:image/png;base64,Zml4dHVyZQ=='; if (deferredImage) readers.push(this); else this.onload() } }
   const context = vm.createContext({
     API_URL: 'https://fixture.invalid', FileReader, buildVodCoachingEvent,
@@ -15,7 +16,11 @@ function harness(receipts, { hanging = false, deferredImage = false } = {}) {
     getCurrentUser: () => ({}), getIdToken: () => `fixture-${subject}`,
     getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: subject }) }) }),
     fetch: async (url, request) => {
-      if (url.endsWith('/vod/analyze')) { modelRequests++; return { ok: true, json: async () => ({ session: { headline: 'fixture observation', image_count: 1 }, per_image: [], usage: { remaining: 19 } }) } }
+      if (url.endsWith('/vod/analyze')) {
+        modelRequests++
+        if (deferredModel) await new Promise(resolve => { finishModel = resolve })
+        return { ok: true, json: async () => ({ session: { headline: 'fixture observation', image_count: 1 }, per_image: [], usage: { remaining: 19 } }) }
+      }
       assert.ok(url.endsWith('/me/coaching-events'))
       const event = JSON.parse(request.body).events[0]; writes.push(event)
       if (hanging) return new Promise(() => {})
@@ -25,7 +30,7 @@ function harness(receipts, { hanging = false, deferredImage = false } = {}) {
     },
   })
   vm.runInContext(source, context)
-  return { context, writes, persisted, deadlines, readers, switchUser: value => { subject = value }, models: () => modelRequests }
+  return { context, writes, persisted, deadlines, readers, switchUser: value => { subject = value }, models: () => modelRequests, finishModel: () => finishModel() }
 }
 
 test('HTTP 200 with no durable write is pending, not saved', async () => {
@@ -59,7 +64,9 @@ test('pending evidence from another subject cannot be submitted with a new sessi
 test('a hanging evidence save yields a bounded pending result, without another model call', async () => {
   const app = harness([], { hanging: true })
   const review = app.context.analyzeSessionApi([{ type: 'image/png' }])
-  for (let i = 0; i < 15 && !app.deadlines.length; i++) await Promise.resolve()
+  // Let the real session rechecks and encoding microtasks drain before
+  // advancing this test's explicit deadline; don't assume a promise count.
+  await new Promise(setImmediate)
   assert.equal(app.deadlines.length, 1)
   app.deadlines[0]()
   assert.equal((await review).roadmap_sync, 'pending')
@@ -77,4 +84,26 @@ for (const boundary of ['account', 'reset']) test(`interruption during image enc
   await assert.rejects(review, error => ['not_authenticated', 'review_cancelled'].includes(error.code))
   assert.equal(app.models(), 0)
   assert.equal(app.writes.length, 0)
+})
+
+for (const boundary of ['account', 'logout', 'reset']) test(`late analysis does not start new evidence work after ${boundary}`, async () => {
+  const app = harness([], { deferredModel: true })
+  let current = true
+  const review = app.context.analyzeSessionApi([{ type: 'image/png' }], {}, { isCurrent: () => current })
+  for (let i = 0; i < 20 && !app.models(); i++) await Promise.resolve()
+  assert.equal(app.models(), 1)
+  if (boundary === 'account') app.switchUser('subject-b')
+  else if (boundary === 'logout') app.switchUser(null)
+  else current = false
+  app.finishModel()
+  const result = await review
+  assert.equal(result.roadmap_sync, undefined)
+  assert.equal(app.writes.length, 0)
+})
+
+test('retry lifecycle invalidation during session refresh prevents a new save request', async () => {
+  const app = harness([{ written: 0, received: 1 }])
+  const review = await app.context.analyzeSessionApi([{ type: 'image/png' }])
+  await assert.rejects(app.context.retryVodEvidenceApi(review, { isCurrent: () => false }), error => error.code === 'not_authenticated')
+  assert.equal(app.writes.length, 1)
 })

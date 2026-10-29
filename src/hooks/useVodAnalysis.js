@@ -97,7 +97,7 @@ export function useVodAnalysis() {
     const current = () => generation === requestGeneration.current && isAuthScopeCurrent(scope)
     setSavingEvidence(true); setSaveError(null)
     try {
-      const saved = await retryVodEvidenceApi(analysis)
+      const saved = await retryVodEvidenceApi(analysis, { isCurrent: current })
       if (current()) setAnalysis(saved)
     } catch (err) {
       if (current()) setSaveError(err.message || 'Saving is not confirmed. Retry saving later.')

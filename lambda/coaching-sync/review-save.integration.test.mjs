@@ -12,20 +12,26 @@ function fixture({ unprocessed = false, lostReceipt = false } = {}) {
   let subject = 'subject-a', blocked = unprocessed, lose = lostReceipt, models = 0
   const events = new Map(), quota = new Map()
   class QueryCommand { constructor(input) { this.input = input } }
+  class GetCommand { constructor(input) { this.input = input } }
   class UpdateCommand { constructor(input) { this.input = input } }
   class BatchWriteCommand { constructor(input) { this.input = input } }
   const backend = vm.createContext({
     Buffer, MAX_BATCH_EVENTS: 100, MAX_BODY_BYTES: 262144, MAX_EVENT_BYTES: 8192,
     DAILY_EVENT_LIMIT: 5000, RETENTION_DAYS: 90, SUBSCRIPTIONS_TABLE: 'subs-fixture', TABLE: 'events-fixture',
-    QueryCommand, UpdateCommand, BatchWriteCommand, aggregateProgressEvidence, sanitizeProgressEvidence,
+    QueryCommand, GetCommand, UpdateCommand, BatchWriteCommand, aggregateProgressEvidence, sanitizeProgressEvidence,
     verifier: { verify: async () => ({ sub: subject, email: subject + '@example.test', email_verified: true }) },
     console: { error() {} },
     ddb: { send: async command => {
       const input = command.input
       if (command instanceof QueryCommand) {
-        if (input.TableName === 'subs-fixture') return { Items: [{ plan: 'pro', status: 'active', current_period_end: '2099-01-01T00:00:00Z', cognito_sub: subject }] }
+        if (input.TableName === 'subs-fixture') return { Items: [{ stripe_customer_id: 'customer-fixture' }] }
         assert.equal(input.TableName, 'events-fixture')
         return { Items: [...events.values()].filter(row => row.userId === input.ExpressionAttributeValues[':u']) }
+      }
+      if (command instanceof GetCommand) {
+        assert.equal(input.TableName, 'subs-fixture')
+        assert.equal(input.ConsistentRead, true)
+        return { Item: { stripe_customer_id: 'customer-fixture', email: subject + '@example.test', plan: 'pro', status: 'active', current_period_end: '2099-01-01T00:00:00Z', cognito_sub: subject } }
       }
       if (command instanceof UpdateCommand) {
         const key = input.Key.userId + '#' + input.Key.sk, row = quota.get(key)

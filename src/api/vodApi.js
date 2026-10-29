@@ -36,12 +36,13 @@ async function saveVodEvidence(event, token) {
 
 // Retry only the existing evidence event, never the paid review. Its stable
 // sessionId/ts key makes a lost-response replay overwrite the same evidence.
-export async function retryVodEvidenceApi(analysis) {
+export async function retryVodEvidenceApi(analysis, lifecycle = {}) {
   const pending = analysis?.roadmap_retry
   const user = getCurrentUser()
   if (!user || !pending?.event?.sessionId || !pending?.event?.ts) throw signInAgain()
   const session = await getSession(user)
   if (!pending.subject || sessionSubject(session) !== pending.subject) throw signInAgain()
+  if (lifecycle.isCurrent && !lifecycle.isCurrent()) throw signInAgain()
   const saved = await saveVodEvidence(pending.event, getIdToken(session))
   if (!saved) throw Object.assign(new Error('Saving is not confirmed yet. Your review is still available. Retry saving later; this does not use another review attempt.'), { code: 'evidence_save_pending' })
   return { ...analysis, roadmap_sync: 'saved', roadmap_retry: undefined }
@@ -169,10 +170,18 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
   // Keep analysis success independent: a temporary evidence-sync failure must
   // never hide feedback the player already paid to generate.
   if (context.analysis_type !== 'rank_snapshot' && !result.error) {
+    // Processing can finish after logout/reset. That paid attempt may already
+    // be consumed, but it must not initiate a new evidence write in an old
+    // identity's scope. Recheck both the current session and caller lifecycle.
+    if (lifecycle.isCurrent && !lifecycle.isCurrent()) return result
+    const evidenceUser = getCurrentUser()
+    const evidenceSession = evidenceUser ? await getSession(evidenceUser).catch(() => null) : null
+    if (sessionSubject(evidenceSession) !== subject) return result
+    if (lifecycle.isCurrent && !lifecycle.isCurrent()) return result
     const event = buildVodCoachingEvent(result, context)
     result.roadmap_retry = { event, subject }
     try {
-      result.roadmap_sync = await saveVodEvidence(event, token) ? 'saved' : 'pending'
+      result.roadmap_sync = await saveVodEvidence(event, getIdToken(evidenceSession)) ? 'saved' : 'pending'
       if (result.roadmap_sync === 'saved') result.roadmap_retry = undefined
     } catch {
       result.roadmap_sync = 'pending'
