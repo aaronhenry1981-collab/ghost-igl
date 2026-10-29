@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { useOwnerRequest } from '../hooks/useOwnerRequest'
 import { useAuth } from '../hooks/useAuth'
 import { liveRequest } from '../features/live-coach/api'
 import { canShowPilotEntry } from '../features/live-coach/pilot-release.mjs'
@@ -38,20 +38,6 @@ function normalizeRoadmap(value) {
     rankMode: source.rankMode === 'manual' ? 'manual' : 'auto',
     mechanics: normalizeMechanicsState(source.mechanics),
   }
-}
-
-async function authedRequest(path, options = {}) {
-  const cognitoUser = getCurrentUser()
-  if (!cognitoUser) throw new Error('Not signed in')
-  const session = await getSession(cognitoUser)
-  const token = getIdToken(session)
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: { Authorization: `Bearer ${token}`, ...(options.headers || {}) },
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`)
-  return data
 }
 
 function emptyRoadmap() {
@@ -157,8 +143,14 @@ function FocusCard({ skill, evidence, status, onChoose }) {
 }
 
 export default function ProgressPage() {
+  const { user } = useAuth()
+  return <ProgressContent key={user?.id || 'signed-out'} />
+}
+
+function ProgressContent() {
   const [searchParams] = useSearchParams()
   const { user, isAdmin, loading: authLoading, profile: account, refreshProfile } = useAuth()
+  const authedRequest = useOwnerRequest()
   const [profile, setProfile] = useState(null)
   const [sessions, setSessions] = useState([])
   const [roadmap, setRoadmap] = useState(emptyRoadmap)
@@ -213,7 +205,7 @@ export default function ProgressPage() {
       setLoading(false)
     })()
     return () => { cancelled = true }
-  }, [authLoading, user, isAdmin])
+  }, [authLoading, user, isAdmin, authedRequest])
 
   const evidenceMap = useMemo(() => profile?.progressEvidence?.skills || {}, [profile])
   const savedR6 = account?.game_profiles?.r6 || {}

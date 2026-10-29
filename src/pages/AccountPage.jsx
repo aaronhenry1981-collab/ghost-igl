@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { canShowPilotEntry } from '../features/live-coach/pilot-release.mjs'
-import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
+import { useOwnerRequest } from '../hooks/useOwnerRequest'
 import { checkoutReturnEvent } from '../lib/checkoutFunnel'
 import { loadMembershipAfterCheckout } from '../lib/entitlementRefresh'
+import { hasStripeBilling } from '../lib/billingNavigation'
 import { track } from '../utils/analytics'
 import { useSectionNavigate } from '../utils/sectionLink'
 import { AI_USAGE_PACK_AMOUNT, AI_USAGE_PACK_CREDITS } from '../config/stripe'
@@ -15,6 +16,11 @@ const SERVERS = ['US East', 'US Central', 'US West', 'EU', 'SEA', 'OCE', 'LATAM'
 const ROLES = ['IGL', 'Entry', 'Support', 'Anchor', 'Roamer', 'Flex']
 
 export default function AccountPage() {
+  const { user } = useAuth()
+  return <AccountContent key={user?.id || 'signed-out'} />
+}
+
+function AccountContent() {
   const { user, plan: authPlan, isPro, isAdmin, vodUsage, loading: authLoading, signOut, refreshProfile } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -52,21 +58,7 @@ export default function AccountPage() {
   const [checkoutNotice, setCheckoutNotice] = useState(null)
   const [error, setError] = useState(null)
 
-  const authedFetch = useCallback(async (path, init = {}) => {
-    const cognitoUser = getCurrentUser()
-    if (!cognitoUser) throw new Error('Not authenticated')
-    const session = await getSession(cognitoUser)
-    const token = getIdToken(session)
-    const res = await fetch(`${API_URL}${path}`, {
-      ...init,
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...(init.headers || {}) },
-    })
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}))
-      throw new Error(body.error || `HTTP ${res.status}`)
-    }
-    return res.json()
-  }, [])
+  const authedFetch = useOwnerRequest()
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/auth?redirect=/account')
@@ -197,7 +189,7 @@ export default function AccountPage() {
             </div>
             {me?.current_period_end && !comp && (
               <div className="account-muted">
-                {subStatus === 'active' || subStatus === 'trialing' ? 'Renews' : subStatus === 'past_due' ? 'Paid through' : 'Ended'} {new Date(me.current_period_end).toLocaleDateString()}
+                {['active', 'trialing', 'past_due'].includes(subStatus) ? 'Current period ends' : 'Ended'} {new Date(me.current_period_end).toLocaleDateString()}
               </div>
             )}
             {comp && (
@@ -214,7 +206,7 @@ export default function AccountPage() {
               <button onClick={openBillingPortal} className="btn btn-primary btn-sm" disabled={portalLoading}>
                 {portalLoading ? 'Opening…' : 'Update payment method'}
               </button>
-            ) : isPaid ? (
+            ) : isPaid || hasStripeBilling(me) ? (
               <button onClick={openBillingPortal} className="btn btn-primary btn-sm" disabled={portalLoading}>
                 {portalLoading ? 'Opening…' : 'Manage billing'}
               </button>

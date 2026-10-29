@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext, useRef } from 'react'
+import { useState, useEffect, createContext, useContext, useRef, useCallback } from 'react'
 import {
   userPool,
   getCognitoUser,
@@ -45,6 +45,17 @@ export function AuthProvider({ children }) {
   // Billing/account facts from /me that the player home needs to explain
   // membership status honestly (payment failed, renewal unconfirmed, etc.).
   const [account, setAccount] = useState(null)
+
+  function beginIdentity(userData, payload) {
+    // Membership/profile facts belong to the previous subject until /me
+    // confirms the new one. Never display those facts under a new identity.
+    setLoading(true)
+    setUser(userData)
+    setIsAdmin(computeIsAdmin(payload))
+    setIsPro(false); setPlan('free'); setAccount(null)
+    setProfile(null); setProfileComplete(false); setVodUsage(null)
+    setTierScope('all_access')
+  }
 
   // Profile + sub state lives in one /me call now (was two: /subscription + nothing).
   // /me returns { plan, sub_status, profile, profile_complete } so consumers can
@@ -125,8 +136,7 @@ export function AuthProvider({ children }) {
             cognitoUser,
             session,
           }
-          setUser(userData)
-          setIsAdmin(computeIsAdmin(payload))
+          beginIdentity(userData, payload)
           // Return the promise so .finally waits for /me to resolve before
           // clearing the loading flag. No more first-paint flash.
           return checkProStatus(userData.id, payload, session, generation)
@@ -271,8 +281,7 @@ export function AuthProvider({ children }) {
       const { session, cognitoUser } = result
       const payload = session.getIdToken().decodePayload()
       const userData = { id: payload.sub, email: payload.email, name: payload.name || '', cognitoUser, session }
-      setUser(userData)
-      setIsAdmin(computeIsAdmin(payload))
+      beginIdentity(userData, payload)
       // Keep the resolved sign-in state and the entitlement state atomic. A
       // caller that redirects immediately after this promise resolves must not
       // briefly render paid members as Basic while /me is still in flight.
@@ -308,8 +317,7 @@ export function AuthProvider({ children }) {
             cognitoUser: pending.cognitoUser,
             session,
           }
-          setUser(userData)
-          setIsAdmin(computeIsAdmin(payload))
+          beginIdentity(userData, payload)
           await checkProStatus(userData.id, payload, session)
           if (generation !== authGeneration.current) {
             resolve({ data: null, error: { message: 'Sign-in was cancelled.' } })
@@ -426,8 +434,8 @@ export function AuthProvider({ children }) {
 
   // Async feature hooks capture this scope before starting work. Signing out
   // or switching accounts invalidates it synchronously, before React renders.
-  function captureAuthScope() { return authGeneration.current }
-  function isAuthScopeCurrent(scope) { return scope === authGeneration.current }
+  const captureAuthScope = useCallback(() => authGeneration.current, [])
+  const isAuthScopeCurrent = useCallback(scope => scope === authGeneration.current, [])
 
   const isElite = hasPlan(plan, 'elite', isAdmin)
   const isChampion = hasPlan(plan, 'champion', isAdmin)

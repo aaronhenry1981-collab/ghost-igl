@@ -177,9 +177,9 @@ export function createSupportClient(transport) {
 
 // Player portal client. null when the customer-success API is not configured
 // (the page then shows an honest "not live yet" state with the email path).
-export function createLiveSupportApi() {
+export function createLiveSupportApi(options = {}) {
   if (!isCustomerSuccessConfigured()) return null
-  return createSupportClient(createLiveSupportTransport())
+  return createSupportClient(createLiveSupportTransport(options))
 }
 
 // Help Center reads are public; a client exists whenever the API is configured.

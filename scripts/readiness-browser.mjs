@@ -17,13 +17,13 @@ const report = { checkedAtUtc: new Date().toISOString(), fixturesOnly: true, nor
 const proxy = http.createServer((_req, res) => { report.proxyDenied++; res.writeHead(403); res.end() })
 proxy.on('connect', (_req, socket) => { socket.on('error', () => {}); report.proxyDenied++; socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n') })
 proxy.listen(0, '127.0.0.1'); await once(proxy, 'listening')
-const vite = await createServer({ root, cacheDir: join(evidence, 'vite-cache'), server: { host: '127.0.0.1', port: 0, hmr: false }, clearScreen: false, logLevel: 'error' })
+const vite = await createServer({ root, define: { 'import.meta.env.VITE_CUSTOMER_SUCCESS_API_URL': JSON.stringify('https://support-fixture.invalid') }, cacheDir: join(evidence, 'vite-cache'), server: { host: '127.0.0.1', port: 0, hmr: false }, clearScreen: false, logLevel: 'error' })
 await vite.listen()
 const origin = 'http://127.0.0.1:' + vite.httpServer.address().port
 // Middleware maps fixture navigation to its own entry, never production HTML
 // with analytics scripts. Source modules remain the actual production modules.
 vite.middlewares.stack.unshift({ route: '', handle: (req, _res, next) => {
-  if (req.url.startsWith('/auth') || req.url.startsWith('/vod')) req.url = '/scripts/readiness-fixture/index.html'
+  if (/^\/(auth|vod|account|progress|support|pricing)(?:[/?]|$)/.test(req.url) || req.url === '/' || req.url.startsWith('/?')) req.url = '/scripts/readiness-fixture/index.html'
   next()
 } })
 const chrome = spawn(process.env.RECON_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', [
@@ -53,7 +53,7 @@ function subjectOf(headers) {
   try { return JSON.parse(Buffer.from(auth.split('.')[1], 'base64url')).sub } catch { return null }
 }
 async function fulfill(id, body, status = 200) {
-  return send('Fetch.fulfillRequest', { requestId: id, responseCode: status, responseHeaders: [{ name: 'Content-Type', value: 'application/json' }, { name: 'Access-Control-Allow-Origin', value: '*' }, { name: 'Access-Control-Allow-Headers', value: '*' }], body: Buffer.from(JSON.stringify(body)).toString('base64') })
+  return send('Fetch.fulfillRequest', { requestId: id, responseCode: status, responseHeaders: [{ name: 'Content-Type', value: 'application/json' }, { name: 'Access-Control-Allow-Origin', value: '*' }, { name: 'Access-Control-Allow-Headers', value: 'Content-Type,Authorization,X-Amz-Target,X-Amz-User-Agent,X-Amz-Date,Cache-Control' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,PATCH,DELETE,OPTIONS' }], body: Buffer.from(JSON.stringify(body)).toString('base64') })
 }
 function result(subject) {
   return { session: { headline: 'Synthetic doorway observation for ' + subject, image_count: 1 }, per_image: [], patterns: {}, practice_plan: { this_week: ['Check the doorway in a private custom game.'] }, usage: { used: 1, limit: 20, remaining: 19, period_end: '2099-01-01T00:00:00Z' } }
@@ -63,6 +63,7 @@ async function intercept({ requestId, request }) {
   if (url.origin === origin || url.protocol === 'data:' || url.protocol === 'blob:') return send('Fetch.continueRequest', { requestId })
   if (request.method === 'OPTIONS') return fulfill(requestId, {})
   report.providerRequestsIntercepted++
+  if (state.journeyIntercept && await state.journeyIntercept({ requestId, request, url, subject: subjectOf(request.headers) })) return
   if (url.hostname === 'cognito-idp.us-east-1.amazonaws.com') {
     const operation = Object.entries(request.headers).find(([name]) => name.toLowerCase() === 'x-amz-target')?.[1]?.split('.').pop()
     const data = JSON.parse(request.postData || '{}')
@@ -249,6 +250,11 @@ try {
   assert.equal(await evaluate("JSON.parse(document.querySelector('#fixture-identity').textContent).plan"), 'free')
   assert.equal(await evaluate("!!document.querySelector('input[type=file]')"), false)
   check('late paid-membership response cannot upgrade the next signed-in free account')
+  if (process.env.RECON_CUSTOMER_JOURNEY === 'true') {
+    const { runCustomerJourney } = await import('./readiness-customer-journey.mjs')
+    const support = await vite.ssrLoadModule('/src/features/support/fixtures/transport.js')
+    await runCustomerJourney({ state, origin, send, fulfill, evaluate, until, untilFixture, click, fill, screenshot, signIn, signedOut, pause, check, createFixtureTransport: support.createFixtureTransport })
+  }
   assert.deepEqual(report.unknownAppRequests, []); assert.deepEqual(report.browserErrors, [])
   assert.ok(process.env.NETGUARD_LOG, 'supply a fresh per-run NETGUARD_LOG with the preloaded guard')
   const guard = await readFile(process.env.NETGUARD_LOG, 'utf8').catch(error => { if (error.code === 'ENOENT') return ''; throw error })
@@ -266,6 +272,7 @@ try {
   console.error(error); process.exitCode = 1
 } finally {
   report.finishedAtUtc = new Date().toISOString()
+  if (state.customerJourneyEvidence) report.customerJourney = state.customerJourneyEvidence
   await writeFile(join(evidence, 'report.json'), JSON.stringify(report, null, 2))
   if (ws) { try { await send('Browser.close', {}, null) } catch { /* owned process fallback below */ } ws.close() }
   if (chrome.exitCode === null) { await Promise.race([once(chrome, 'exit'), pause(2000)]); if (chrome.exitCode === null) chrome.kill() }
