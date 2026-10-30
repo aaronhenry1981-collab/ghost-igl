@@ -13,7 +13,7 @@ const end = source.indexOf("  const isElite = hasPlan(plan, 'elite', isAdmin)")
 assert.ok(start > 0 && end > start, 'provider source boundaries changed')
 const executable = source.slice(start, end).replace('export function AuthProvider', 'function AuthProvider') + `
   return { user, isPro, isAdmin, plan, profile, profileComplete, vodUsage, account,
-    tierScope, loading, signIn, signOut, refreshProfile, completeNewPassword }
+    tierScope, loading, signIn, signOut, refreshProfile, completeNewPassword, captureAuthScope, isAuthScopeCurrent }
 }
 `
 
@@ -44,6 +44,7 @@ function harness({ current = true, fetchMembership, initialSession = Promise.res
       return [values[index], next => { values[index] = typeof next === 'function' ? next(values[index]) : next }]
     },
     useRef: initial => refs[refIndex++] ||= { current: initial },
+    useCallback: callback => callback,
     useEffect: callback => { if (!effects[effectIndex]) effects[effectIndex] = callback; effectIndex++ },
     userPool: {}, getCurrentUser: () => present ? user : null,
     getSession: () => initialSession,
@@ -78,6 +79,38 @@ test('reload hydration keeps loading until server membership is available', asyn
   await flush()
   assert.equal(app.render().loading, false)
   assert.equal(app.render().plan, 'champion')
+})
+
+test('switching identity clears former paid/profile/usage facts until the new membership response', async () => {
+  const pending = deferred()
+  let calls = 0
+  const app = harness({ fetchMembership: async () => ++calls === 1 ? response(membership('pro')) : pending.promise })
+  await flush()
+  assert.equal(app.render().isPro, true)
+  const signingIn = app.render().signIn('subject-b@example.test', 'LocalFixture123!')
+  await flush()
+  const loading = app.render()
+  assert.equal(loading.user.id, 'subject-b@example.test')
+  assert.equal(loading.loading, true)
+  assert.equal(loading.isPro, false)
+  assert.equal(loading.plan, 'free')
+  assert.equal(loading.profile, null)
+  assert.equal(loading.account, null)
+  assert.equal(loading.vodUsage, null)
+  pending.resolve(response(membership('free')))
+  await signingIn
+  assert.equal(app.render().loading, false)
+  assert.equal(app.render().plan, 'free')
+})
+
+test('feature scopes are invalidated synchronously by sign-out', async () => {
+  const app = harness()
+  await flush()
+  const captured = app.render().captureAuthScope()
+  const check = app.render().isAuthScopeCurrent
+  assert.equal(check(captured), true)
+  await app.render().signOut()
+  assert.equal(check(captured), false)
 })
 
 test('normal sign-in resolves only after paid entitlement hydration', async () => {

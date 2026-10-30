@@ -1,8 +1,9 @@
 // recon6-coaching-sync — Phase 1 sync spine (Part A).
 //
 // One Cognito login → one profile → every surface reads/writes the same data.
-// The desktop coach (Part B, igl-coach-ps5 session's lane) batch-posts
-// CoachingEvents here; the /progress dashboard reads the aggregates. The
+// Browser reviews save CoachingEvents here; /progress reads the aggregates.
+// Future desktop sync must use this subject-bound contract, separate from its
+// current license-token activation. The
 // (aiSuggestion vs coachAction vs outcome) triple per event is the training
 // corpus that later proves the AI can run a rank band solo.
 //
@@ -17,7 +18,7 @@
 //     coachAction{spokenLine}, outcome{roundResult?,died?,tradedWithin?} }
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, QueryCommand, BatchWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, QueryCommand, GetCommand, BatchWriteCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
 import { CognitoJwtVerifier } from 'aws-jwt-verify'
 import { aggregateProgressEvidence, sanitizeProgressEvidence } from './progress-evidence.mjs'
 
@@ -47,16 +48,19 @@ const resp = (code, obj) => ({ statusCode: code, headers: HEADERS, body: JSON.st
 
 async function requireUser(event) {
   const auth = event.headers?.authorization || event.headers?.Authorization || ''
+  if (typeof auth !== 'string') return null
   const token = auth.replace(/^Bearer\s+/i, '')
   if (!token) return null
   try {
     const user = await verifier.verify(token)
-    return user.email_verified === true ? user : null
+    return user.email_verified === true &&
+      typeof user.sub === 'string' && user.sub.trim() === user.sub && user.sub.length > 0 &&
+      typeof user.email === 'string' && user.email.trim().length > 0 ? user : null
   } catch { return null }
 }
 
 async function requirePaidAccess(user) {
-  if ((user?.['cognito:groups'] || []).includes('admins')) return true
+  if (Array.isArray(user?.['cognito:groups']) && user['cognito:groups'].includes('admins')) return true
   const email = String(user?.email || '').trim().toLowerCase()
   if (!email) return false
   const r = await ddb.send(new QueryCommand({
@@ -65,12 +69,24 @@ async function requirePaidAccess(user) {
     KeyConditionExpression: 'email = :email',
     ExpressionAttributeValues: { ':email': email },
   }))
-  return (r.Items || []).some((row) =>
-    ['active', 'trialing'].includes(row.status) &&
-    ['pro', 'elite', 'champion'].includes(row.plan) &&
-    Number.isFinite(Date.parse(row.current_period_end || '')) &&
-    Date.parse(row.current_period_end) > Date.now()
-  )
+  // The email index only discovers candidates. Its eventually consistent row
+  // cannot authorize a different subject, or retain access after cancellation
+  // or rebinding. Existing account setup binds identities; sync never does.
+  for (const candidate of r.Items || []) {
+    if (typeof candidate.stripe_customer_id !== 'string' || !candidate.stripe_customer_id) continue
+    const { Item: row } = await ddb.send(new GetCommand({
+      TableName: SUBSCRIPTIONS_TABLE,
+      Key: { stripe_customer_id: candidate.stripe_customer_id },
+      ConsistentRead: true,
+    }))
+    if (row?.cognito_sub === user.sub &&
+      typeof row.email === 'string' && row.email.trim().toLowerCase() === email &&
+      ['active', 'trialing'].includes(row.status) &&
+      ['pro', 'elite', 'champion'].includes(row.plan) &&
+      Number.isFinite(Date.parse(row.current_period_end || '')) &&
+      Date.parse(row.current_period_end) > Date.now()) return true
+  }
+  return false
 }
 
 async function queryRecent(userId) {
@@ -156,7 +172,11 @@ export async function handler(event) {
 
   const user = await requireUser(event)
   if (!user) return resp(401, { error: 'sign in required' })
-  if (!(await requirePaidAccess(user))) return resp(403, { error: 'active paid membership required' })
+  try {
+    if (!(await requirePaidAccess(user))) return resp(403, { error: 'active paid membership required' })
+  } catch {
+    return resp(503, { error: 'membership verification unavailable; try again' })
+  }
   const userId = user.sub
 
   try {

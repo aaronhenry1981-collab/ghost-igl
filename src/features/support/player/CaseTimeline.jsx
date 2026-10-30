@@ -77,7 +77,7 @@ export default function CaseTimeline({ api, caseNumber, paths }) {
       res.reload()
       return out
     } catch (err) {
-      setError(errorMessage(err))
+      if (err?.name !== 'AbortError') setError(errorMessage(err))
       return null
     } finally {
       setBusy(null)

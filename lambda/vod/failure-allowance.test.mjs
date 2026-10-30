@@ -44,7 +44,7 @@ function harness({ prepaid = false, failure = 'ModelSchemaError', blocked = fals
   }
   const frontend = vm.createContext({
     FileReader, API_URL: 'https://synthetic.invalid',
-    getCurrentUser: () => ({}), getSession: async () => ({}), getIdToken: () => 'synthetic',
+    getCurrentUser: () => ({}), getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: 'synthetic' }) }) }), getIdToken: () => 'synthetic',
     fetch: async (url, request) => {
       requests++
       assert.ok(url.endsWith('/vod/analyze'), 'failed reviews must not sync coaching evidence')
@@ -53,10 +53,11 @@ function harness({ prepaid = false, failure = 'ModelSchemaError', blocked = fals
     },
   })
   vm.runInContext(executable(apiSource), frontend)
-  const state = [], usageUpdates = []
-  let index = 0
+  const state = [], refs = [], usageUpdates = [], user = { id: 'synthetic' }
+  let index = 0, refIndex = 0
   const hook = vm.createContext({
-    useAuth: () => ({ setVodUsage: usage => usageUpdates.push(usage) }),
+    useAuth: () => ({ user, captureAuthScope: () => 1, isAuthScopeCurrent: scope => scope === 1, setVodUsage: usage => usageUpdates.push(usage) }),
+    useRef: initial => refs[refIndex++] ||= { current: initial }, useEffect() {},
     useState: initial => {
       const slot = index++
       if (!(slot in state)) state[slot] = initial
@@ -65,7 +66,7 @@ function harness({ prepaid = false, failure = 'ModelSchemaError', blocked = fals
     analyzeSessionApi: frontend.analyzeSessionApi,
   })
   vm.runInContext(executable(hookSource), hook)
-  const render = () => { index = 0; return hook.useVodAnalysis() }
+  const render = () => { index = 0; refIndex = 0; return hook.useVodAnalysis() }
   return {
     render, usageUpdates,
     counters: () => ({ used, credits, modelCalls, requests, reserves }),

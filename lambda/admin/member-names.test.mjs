@@ -89,6 +89,13 @@ proto.send = async function (cmd) {
 let groups = ['admins']
 const vp = Object.getPrototypeOf(CognitoJwtVerifier.create({ userPoolId: 'us-east-1_FIXTURE', tokenUse: 'id', clientId: 'fixture-client' }))
 vp.verify = async () => ({ email: 'admin@example.test', 'cognito:groups': groups })
+// The admin Stripe client captures fetch when its module is imported. Stub
+// before import: changing global fetch later leaves that captured client live.
+globalThis.fetch = async (url, options = {}) => {
+  assert.equal(new URL(url).hostname, 'api.stripe.com')
+  assert.equal(options.method || 'GET', 'GET', 'provider mutations are not part of these fixtures')
+  return new Response('{}', { status: 503 })
+}
 const { handler, enrichUsersWithStripe } = await import('./index.mjs')
 const call = (body) => handler({ requestContext: { http: { method: 'POST', path: '/prod/admin/users/name' } }, headers: { authorization: 'Bearer t' }, body: JSON.stringify(body) })
 const getAudit = (target) => handler({ requestContext: { http: { method: 'GET', path: '/prod/admin/audit' } }, headers: { authorization: 'Bearer t' }, queryStringParameters: target ? { target } : undefined })
