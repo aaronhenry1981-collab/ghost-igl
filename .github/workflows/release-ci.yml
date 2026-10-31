@@ -20,6 +20,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ci-dummy
   AWS_REGION: us-east-1
   AWS_ENDPOINT_URL: http://127.0.0.1:9
+  VITE_LIVE_COACH_API_BASE_URL: https://gc3tzbeeoi.execute-api.us-east-1.amazonaws.com/prod
 
 jobs:
   validate:

@@ -6,6 +6,7 @@ import { liveRequest, liveRequestId } from '../features/live-coach/api'
 import { joinGameplayMeeting } from '../features/live-coach/meeting'
 import { createCoachSpeech } from '../features/live-coach/speech.mjs'
 import { canUsePilotControls, isPilotWindowOpen, pilotWindowDeadline } from '../features/live-coach/pilot-release.mjs'
+import { createGameplayRecorder } from '../features/live-coach/recording.mjs'
 import './HostedCoachPage.css'
 
 const date = value => new Date(value).toLocaleString()
@@ -22,7 +23,10 @@ export default function HostedCoachPage() {
   const [cardDiscovery, setCardDiscovery] = useState(null)
   const [scanningCards, setScanningCards] = useState(false)
   const [captureReady, setCaptureReady] = useState(false)
-  const [confirmed, setConfirmed] = useState(false)
+  const [confirmed, setConfirmedState] = useState(false)
+  const confirmedNow = useRef(false)
+  const pendingRecordingStart = useRef(null)
+  const setConfirmed = useCallback(value => { confirmedNow.current = value; setConfirmedState(value) }, [])
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('Choose your role to begin.')
   const [error, setError] = useState('')
@@ -33,11 +37,40 @@ export default function HostedCoachPage() {
   const [advice, setAdvice] = useState('')
   const [speechStatus, setSpeechStatus] = useState('off')
   const [review, setReview] = useState(null)
+  const [recording, setRecording] = useState({ phase: 'idle' })
+  const [clip, setClip] = useState(null)
+  const clipUrl = useRef(null)
   const preview = useRef(null), remote = useRef(null), active = useRef(null), connection = useRef(null)
   const analysis = useRef(null), generation = useRef(0), sourceEnded = useRef(null)
   const frameSequence = useRef(0), framesSent = useRef(0)
   const [capture] = useState(() => createGameplayCapture({ onEnded: () => sourceEnded.current?.() }))
   const [speech] = useState(() => createCoachSpeech({ onStatus: setSpeechStatus }))
+  const [recorder] = useState(() => createGameplayRecorder({
+    onState: setRecording,
+    onRelease: () => {
+      capture.stop()
+      if (preview.current) preview.current.srcObject = null
+      setCaptureReady(false); setConfirmed(false)
+    },
+    onComplete: blob => {
+      if (clipUrl.current) URL.revokeObjectURL(clipUrl.current)
+      const url = URL.createObjectURL(blob)
+      clipUrl.current = url
+      setClip({ url, bytes: blob.size, name: `recon-gameplay-${new Date().toISOString().replace(/[:.]/g, '-')}.webm` })
+    },
+  }))
+  const recordingBusy = ['recording', 'stopping'].includes(recording.phase)
+  const clearClip = useCallback(() => {
+    if (clipUrl.current) URL.revokeObjectURL(clipUrl.current)
+    clipUrl.current = null; setClip(null); setRecording({ phase: 'idle' })
+  }, [])
+  const cancelRecordingStart = useCallback(() => {
+    const pending = pendingRecordingStart.current
+    if (!pending) return
+    pendingRecordingStart.current = null
+    pending.controller.abort()
+    setBusy(false)
+  }, [])
   const sessionId = session?.id, sessionDeadline = session?.expiresAt
   const userId = user?.id
   useEffect(() => { frameSequence.current = 0; framesSent.current = 0 }, [sessionId])
@@ -55,18 +88,21 @@ export default function HostedCoachPage() {
       if (!canceled) { setAvailability(status); setHistory(saved.sessions || []) }
     }).catch(err => { if (!canceled) { setAvailability({ serviceEnabled: false }); setError(err.message) } })
     return () => { canceled = true }
-  }, [loading, userId])
+  }, [loading, userId, setConfirmed])
 
-  const releaseLocal = useCallback(() => {
+  const releaseLocal = useCallback(({ keepRecording = false } = {}) => {
     generation.current++; analysis.current?.stop(); analysis.current = null
+    cancelRecordingStart(); setBusy(false)
+    if (keepRecording) recorder.stop()
+    else { recorder.discard(); clearClip() }
     speech.stop()
     capture.stop(); void connection.current?.close(); connection.current = null
     if (preview.current) preview.current.srcObject = null
     if (remote.current) remote.current.srcObject = null
-  }, [capture, speech])
+  }, [capture, speech, recorder, clearClip, cancelRecordingStart])
   const stop = useCallback(async () => {
     const previous = active.current
-    active.current = null; releaseLocal()
+    active.current = null; releaseLocal({ keepRecording: true })
     const mine = generation.current
     setCaptureReady(false); setConfirmed(false); setAdvice(''); setInvite(''); setSession(null)
     setMessage('Capture stopped on this device. Confirming the private session has ended…')
@@ -78,7 +114,7 @@ export default function HostedCoachPage() {
         await refresh()
       } catch (err) { if (mine === generation.current) setError(`${err.message} Local capture is stopped. The server cleanup may still be pending; use Stop in session history to retry.`) }
     } else setMessage('Preview stopped. No gameplay is being shared.')
-  }, [refresh, releaseLocal])
+  }, [refresh, releaseLocal, setConfirmed])
   useEffect(() => { sourceEnded.current = () => { void stop() } }, [stop])
   useEffect(() => {
     const deadline = pilotWindowDeadline(availability)
@@ -87,6 +123,13 @@ export default function HostedCoachPage() {
     return () => clearTimeout(timer)
   }, [availability, stop])
   useEffect(() => () => { active.current = null; releaseLocal() }, [releaseLocal, user?.id])
+  useEffect(() => {
+    const leave = () => { active.current = null; releaseLocal() }
+    const hide = () => { if (document.hidden) { cancelRecordingStart(); recorder.stop('page-hidden') } }
+    window.addEventListener('pagehide', leave)
+    document.addEventListener('visibilitychange', hide)
+    return () => { window.removeEventListener('pagehide', leave); document.removeEventListener('visibilitychange', hide) }
+  }, [releaseLocal, recorder, cancelRecordingStart])
   useEffect(() => {
     if (!sessionId) return
     let canceled = false
@@ -108,19 +151,40 @@ export default function HostedCoachPage() {
     }, 10_000)
     const deadline = setTimeout(() => { if (!canceled) void stop() }, Math.max(0, sessionDeadline - Date.now()))
     return () => { canceled = true; clearInterval(timer); clearTimeout(deadline) }
-  }, [sessionId, sessionDeadline, refresh, releaseLocal, stop])
+  }, [sessionId, sessionDeadline, refresh, releaseLocal, stop, setConfirmed])
 
   async function choose(kind, deviceId) {
+    if (busy || recordingBusy) return
     if (!canUsePilotControls({ availability })) { setError('This account has no active funded test window.'); return }
-    setError(''); setConfirmed(false); setCaptureReady(false); setBusy(true)
+    clearClip(); setError(''); setConfirmed(false); setCaptureReady(false); setBusy(true)
+    const mine = generation.current
     try {
       const stream = await capture.choose(kind, deviceId)
+      if (mine !== generation.current || !canUsePilotControls({ availability })) { capture.stop(); return }
       if (stream && preview.current) {
         preview.current.srcObject = stream; await preview.current.play()
+        if (mine !== generation.current || !canUsePilotControls({ availability })) { capture.stop(); return }
         setCaptureReady(true); setMessage('Preview stays on this device until you confirm the source and start.')
       }
-    } catch (err) { setError(err.message) }
-    finally { setBusy(false) }
+    } catch (err) { if (mine === generation.current) { capture.stop(); setError(err.message) } }
+    finally { if (mine === generation.current) setBusy(false) }
+  }
+  async function startRecording() {
+    if (busy || pendingRecordingStart.current || recordingBusy || session || document.hidden || !confirmedNow.current || !canUsePilotControls({ availability })) return
+    clearClip(); setError(''); setBusy(true)
+    const mine = generation.current
+    const pending = { controller: new AbortController(), stream: capture.current().stream }
+    pendingRecordingStart.current = pending
+    try {
+      const status = await liveRequest('/status', undefined, pending.controller.signal)
+      if (pendingRecordingStart.current !== pending || mine !== generation.current) return
+      if (document.hidden || !confirmedNow.current || !capture.current().confirmed || capture.current().stream !== pending.stream) return
+      setAvailability(status)
+      if (!canUsePilotControls({ availability: status })) throw new Error('This account has no active test window. Capture has stopped.')
+      recorder.start(capture.current())
+    }
+    catch (err) { if (pendingRecordingStart.current === pending && mine === generation.current) { capture.stop(); setCaptureReady(false); setConfirmed(false); setError(err.message) } }
+    finally { if (pendingRecordingStart.current === pending) { pendingRecordingStart.current = null; setBusy(false) } }
   }
   async function findCards() {
     if (!canUsePilotControls({ availability })) { setError('This account has no active funded test window.'); return }
@@ -132,6 +196,7 @@ export default function HostedCoachPage() {
     finally { setScanningCards(false) }
   }
   async function start() {
+    if (recordingBusy) return
     if (busy || !canUsePilotControls({ availability }) || !confirmed || !capture.current().confirmed) return
     setBusy(true); setError(''); setAdvice(''); setReview(null)
     const mine = ++generation.current
@@ -152,7 +217,7 @@ export default function HostedCoachPage() {
     } catch (err) {
       if (created) { await liveRequest(`/sessions/${created.id}/stop`, {}).catch(() => {}) }
       if (mine === generation.current) { releaseLocal(); active.current = null; setSession(null); setCaptureReady(false); setConfirmed(false); setError(err.message) }
-    } finally { setBusy(false) }
+    } finally { if (mine === generation.current) setBusy(false) }
   }
   async function toggleAi() {
     if (!session?.owner || busy) return
@@ -188,7 +253,7 @@ export default function HostedCoachPage() {
         analysis.current = loop; loop.start(current.epoch)
       }
     } catch (err) { if (mine === generation.current) setError(err.message) }
-    finally { setBusy(false) }
+    finally { if (mine === generation.current) setBusy(false) }
   }
   async function makeInvite(event) {
     event.preventDefault(); setBusy(true); setError('')
@@ -199,7 +264,7 @@ export default function HostedCoachPage() {
       setInvite(`${result.sessionId}.${result.token}`)
       setMessage('Private invitation created for this email. Copy it and send it to your coach yourself. It expires in 10 minutes.')
     } catch (err) { if (mine === generation.current) setError(err.message) }
-    finally { setBusy(false) }
+    finally { if (mine === generation.current) setBusy(false) }
   }
   async function join(event) {
     event.preventDefault(); setBusy(true); setError(''); setReview(null)
@@ -215,7 +280,7 @@ export default function HostedCoachPage() {
       if (mine !== generation.current) { await joined.close(); return }
       connection.current = joined; setMessage('Viewing the player’s explicitly shared gameplay. Your microphone and camera are off.')
     } catch (err) { if (mine === generation.current) { releaseLocal(); setError(err.message) } }
-    finally { setBusy(false) }
+    finally { if (mine === generation.current) setBusy(false) }
   }
   async function addNote(event) {
     event.preventDefault(); setBusy(true); setError('')
@@ -227,13 +292,13 @@ export default function HostedCoachPage() {
       if (session) { active.current = saved; setSession(saved) } else setReview(saved)
       setNote(''); await refresh()
     } catch (err) { if (mine === generation.current) setError(err.message) }
-    finally { setBusy(false) }
+    finally { if (mine === generation.current) setBusy(false) }
   }
   async function stopSaved(id) {
     setBusy(true); setError('')
     const mine = generation.current
     try { const saved = await liveRequest(`/sessions/${id}/stop`, {}); if (mine !== generation.current) return; setReview(saved); await refresh() }
-    catch (err) { if (mine === generation.current) setError(err.message) } finally { setBusy(false) }
+    catch (err) { if (mine === generation.current) setError(err.message) } finally { if (mine === generation.current) setBusy(false) }
   }
 
   if (loading) return <main className="hosted-coach"><p role="status">Loading your Recon account…</p></main>
@@ -255,17 +320,24 @@ export default function HostedCoachPage() {
           {view === 'player' && !captureReady && <div className="hosted-source-empty"><strong>No gameplay source selected</strong><p>For PS5, open your existing Elgato preview on this computer, then choose that window below. A local preview does not use AI frames.</p></div>}
           {view === 'player' && !session && <>
             <p>PC: select your game window. PS5: HDMI → Elgato → this computer, then select the capture card or its preview window. This shows only your own source.</p>
-            <div className="hosted-actions"><button type="button" className="btn btn-secondary" disabled={busy || !availability.available} onClick={() => choose('window')}>Choose game / Elgato preview window</button><button type="button" className="btn btn-secondary" disabled={busy || scanningCards || !availability.available} onClick={findCards}>{scanningCards ? 'Checking capture-card access...' : 'Check capture-card access'}</button></div>
+            <div className="hosted-actions"><button type="button" className="btn btn-secondary" disabled={busy || recordingBusy || !availability.available} onClick={() => choose('window')}>Choose game / Elgato preview window</button><button type="button" className="btn btn-secondary" disabled={busy || recordingBusy || scanningCards || !availability.available} onClick={findCards}>{scanningCards ? 'Checking capture-card access...' : 'Check capture-card access'}</button></div>
             <p className="hosted-muted">Checking cards only lists devices this browser exposes to this site. It does not open a camera or request camera permission.</p>
             {cardDiscovery && <div className="hosted-card-status" role="status"><strong>{cardDiscovery.cards.length ? `${cardDiscovery.cards.length} capture card${cardDiscovery.cards.length === 1 ? '' : 's'} found` : cardDiscovery.hiddenLabels ? 'Device names are hidden by this browser' : 'No recognized capture card is exposed to this site'}</strong><p>{cardDiscovery.cards.length ? 'Select the Elgato card below to request its video preview. No laptop webcam is selected automatically.' : 'This is a device-access check, not an exhausted-credit error. Chrome may hide device names until camera access is allowed; a disconnected or unrecognized card can also be absent.'}</p>{!cardDiscovery.cards.length && <p>Use <strong>Choose game / Elgato preview window</strong> and select only the existing window showing your PS5. This route uses window-sharing approval instead of camera permission. Keep source audio off.</p>}</div>}
-            {cards.map(card => <button key={card.deviceId} type="button" className="btn btn-secondary" disabled={busy} onClick={() => choose('capture-card', card.deviceId)}>Preview {card.label}</button>)}
-            {captureReady && <label className="hosted-check"><input type="checkbox" checked={confirmed} onChange={event => { if (event.target.checked) capture.confirm(); setConfirmed(event.target.checked) }} />I can see my gameplay in this preview and agree to share this source.</label>}
+            {cards.map(card => <button key={card.deviceId} type="button" className="btn btn-secondary" disabled={busy || recordingBusy} onClick={() => choose('capture-card', card.deviceId)}>Preview {card.label}</button>)}
+            {captureReady && <label className="hosted-check"><input type="checkbox" checked={confirmed} disabled={recordingBusy} onChange={event => { if (event.target.checked) capture.confirm(); else cancelRecordingStart(); setConfirmed(event.target.checked) }} />I confirm this preview shows only my gameplay. Recording saves it on this computer; AI analysis is separate.</label>}
+            <div className="hosted-recorder">
+              <h3>Record my walkthrough</h3>
+              <p>Save up to five minutes of this confirmed gameplay source as a local WebM video, capped at 64 MiB. Microphone and game audio stay off. Recording does not upload video, start AI or use AI frames. Keep this tab visible while recording.</p>
+              <div className="hosted-actions"><button type="button" className="btn btn-primary" disabled={!confirmed || busy || recordingBusy || !availability.available} onClick={startRecording}>Start local recording</button><button type="button" className="hosted-stop" disabled={recording.phase !== 'recording'} onClick={() => recorder.stop()}>Stop recording and capture</button></div>
+              <p role="status" className={recording.phase === 'recording' ? 'hosted-recording-active' : ''}>{recording.phase === 'recording' ? `Recording locally · ${recording.seconds || 0}s / 300s · ${((recording.bytes || 0) / 1048576).toFixed(1)} MiB / 64 MiB` : recording.phase === 'stopping' ? 'Capture stopped. Finishing your local video…' : recording.phase === 'error' ? 'Recording could not be saved within the recording limits. Capture is stopped; choose your source to try again.' : recording.phase === 'ready' ? 'Recording finished. Capture is stopped. Save your video before leaving this page or choosing another source.' : 'Not recording. Select and confirm your gameplay source, then press Start local recording.'}</p>
+              {clip && <a className="btn btn-secondary" href={clip.url} download={clip.name}>Save gameplay video ({(clip.bytes / 1048576).toFixed(1)} MiB)</a>}
+            </div>
             <fieldset disabled={busy}><legend>Session type</legend><label><input type="radio" name="coach-mode" checked={mode === 'private'} disabled onChange={() => setMode('private')} />Remote sharing is off</label><label><input type="radio" name="coach-mode" checked={mode === 'ai'} disabled={!availability.aiAvailable} onChange={() => setMode('ai')} />AI practice on my own</label></fieldset>
-            <button type="button" className="btn btn-primary" disabled={!confirmed || busy || !availability.available || (mode === 'ai' && !availability.aiAvailable)} onClick={start}>Start live coaching</button>
+            <button type="button" className="btn btn-primary" disabled={!confirmed || busy || recordingBusy || !availability.available || (mode === 'ai' && !availability.aiAvailable)} onClick={start}>Start live coaching</button>
           </>}
           {view === 'coach' && !session && <form onSubmit={join}><p>The player must choose their own source and invite the email on your verified Recon coach account. You do not need to join their game.</p><label>Private invitation code<input value={joinCode} onChange={event => setJoinCode(event.target.value)} autoComplete="off" spellCheck={false} required /></label><button className="btn btn-primary" disabled={busy || !isAdmin}>Join private session</button>{!isAdmin && <p>A Recon coach account is required to accept an invitation.</p>}</form>}
           {(session || captureReady) && <button type="button" className="hosted-stop" onClick={stop}>{session?.role === 'coach' ? 'Leave and end private session' : 'Stop sharing and coaching'}</button>}
-          <p className="hosted-muted">Microphone off. Source audio off. No media recording or paid voice service. Closing this page stops local capture; the server also enforces the session deadline.</p>
+          <p className="hosted-muted">Microphone off. Source audio off. Video recording starts only when you press Start local recording. No paid voice service. Closing this page stops capture and discards unsaved video; the server also enforces the session deadline.</p>
         </section>
         <section className="hosted-card">
           <h2>Credits and session controls</h2>
