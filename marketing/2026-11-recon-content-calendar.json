@@ -1,0 +1,124 @@
+{
+  "brand": "Recon 6",
+  "month": "2026-11",
+  "status": "ORIGINAL DRAFT CONTENT ONLY — NOT SCHEDULED OR PUBLISHED",
+  "channels": "TikTok / Instagram Reels / YouTube Shorts / Facebook; verify account access before publishing",
+  "timezone": "America/New_York",
+  "assets": "Use original, user-owned gameplay/replays or owned brand art; NEVER pass AI-generated tactical simulation off as authentic captured gameplay.",
+  "offerLinks": {
+    "freeStrats": "https://r6coaching.com/strats",
+    "coaching": "https://r6coaching.com/coaching/",
+    "plans": "https://r6coaching.com/pricing"
+  },
+  "audience": "US Rainbow Six Siege players focused on solo queue, attack/defense decision-making and legitimate skill improvement",
+  "posts": [
+    {
+      "date": "2026-11-02",
+      "pillar": "solo queue",
+      "format": "short video",
+      "hook": "Solo queue doesn't mean five separate plans.",
+      "script": "When nobody talks in solo queue, set one objective at a time. Drone one entry, call the defender's location, and tell your team exactly which room you're clearing. A simple call that changes a teammate's decision is worth more than five vague pings.",
+      "caption": "Solo queue: what's one callout that actually helps strangers coordinate? #RainbowSixSiege #R6Siege #SoloQueue",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-04",
+      "pillar": "breaching",
+      "format": "carousel",
+      "hook": "The hard breach is not the whole attack.",
+      "script": "Slide 1: Don't send Thermite or Ace alone. Slide 2: Gather information on the wall and its protection. Slide 3: Assign someone to clear denial. Slide 4: Secure the flank and use the breach to take space. Slide 5: A wall open with nobody ready to act is only half the job.",
+      "caption": "Thermite and Ace players: what gets your wall open most reliably when teammates are random? #R6Siege #HardBreach",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-06",
+      "pillar": "VOD reviews",
+      "format": "short video",
+      "hook": "Don't review only the bullet that killed you.",
+      "script": "Pause five seconds before every death. Where did your last piece of information come from? What did you assume? Could you have changed your timing or position? Your best lesson is often the decision before the gunfight.",
+      "caption": "One death, one decision to fix. Replay the moments leading into the fight instead of blaming aim alone. #SiegeCoaching #R6Siege",
+      "cta": "https://r6coaching.com/coaching/"
+    },
+    {
+      "date": "2026-11-09",
+      "pillar": "droning",
+      "format": "short video",
+      "hook": "Your drone is not a disposable camera.",
+      "script": "Before entering, use the drone to answer one question: which room or angle must be safe for the next step? Communicate the result, then act while that information is still fresh. An old drone callout is not a guarantee the room stayed clear.",
+      "caption": "Do you lose more rounds from no info or from acting on stale info? #R6Siege #DroneTips",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-11",
+      "pillar": "defense",
+      "format": "carousel",
+      "hook": "Kaid utility needs a plan, not a hiding spot.",
+      "script": "Slide 1: Identify the reinforced surfaces that matter for this site. Slide 2: Discuss common utility-clearing paths. Slide 3: Protect or reposition utility only within the rules of the round. Slide 4: Prepare a fallback if the wall opens. Slide 5: Denial buys time; it doesn't win the round by itself.",
+      "caption": "Kaid mains: what do you do after the wall gets opened anyway? #R6Siege #Defense",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-13",
+      "pillar": "player growth",
+      "format": "short video",
+      "hook": "Five lost rounds can contain the same mistake.",
+      "script": "After a match, don't write down every mistake. Find one repeated decision: did you overpeek, fail to drone, forget the flank, or use utility too late? Choose one correction to practice next session. That's a plan, not a pep talk.",
+      "caption": "What's the one mistake you keep catching yourself repeating? #R6Siege #Ranked",
+      "cta": "https://r6coaching.com/coaching/"
+    },
+    {
+      "date": "2026-11-16",
+      "pillar": "utility timing",
+      "format": "short video",
+      "hook": "Great utility used too late is wasted utility.",
+      "script": "Before the execute, agree on what the utility is supposed to accomplish and what must happen immediately afterward. Watch the clock. If no one can follow up, rethink the timing. Team utility matters only when it changes the next decision.",
+      "caption": "What's the best utility combo your team forgets to coordinate? #R6Siege #Teamplay",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-18",
+      "pillar": "community",
+      "format": "question post",
+      "hook": "The hardest part of solo queue is ___",
+      "script": "Prompt: pick one—no calls, inconsistent roles, poor drones, or playing for kills instead of the objective. Ask viewers to explain how they work around the issue.",
+      "caption": "Finish the sentence: the hardest part of solo queue is ____. I'm interested in what actually costs your team rounds. #RainbowSixSiege #SoloQueue",
+      "cta": null
+    },
+    {
+      "date": "2026-11-20",
+      "pillar": "defense",
+      "format": "short video",
+      "hook": "Jäger gives you a tool, not permission to overpeek.",
+      "script": "Place utility based on the position your team wants to protect. Then think about how your position supports site and how you can get back safely. A good defensive setup survives even when you don't take the first fight.",
+      "caption": "Jäger players: do you stay close to site or roam after setting utility? #R6Siege #Jager",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-23",
+      "pillar": "rank preparation",
+      "format": "carousel",
+      "hook": "Your next ranked session needs one objective.",
+      "script": "Slide 1: Review your last two games. Slide 2: Pick a repeated problem. Slide 3: Choose one practical fix. Slide 4: Track attempts, not only win/loss. Slide 5: Review again after the session and keep or replace the habit.",
+      "caption": "Try this for three matches: measure one decision you control, not just the scoreboard. #SiegeRanked #R6Coaching",
+      "cta": "https://r6coaching.com/coaching/"
+    },
+    {
+      "date": "2026-11-25",
+      "pillar": "attack",
+      "format": "short video",
+      "hook": "The first minute should buy information.",
+      "script": "Early attackers often rush toward a fight without knowing what the defenders prepared. Use your early time to confirm your route, identify important obstacles, and help your entry player avoid guessing. Then coordinate the pressure instead of trickling in one by one.",
+      "caption": "Solo-queue attackers: what's your best first-60-seconds habit? #R6Siege #Attack",
+      "cta": "https://r6coaching.com/strats"
+    },
+    {
+      "date": "2026-11-30",
+      "pillar": "conversion",
+      "format": "short video",
+      "hook": "You don't need someone to play your ranked games for you.",
+      "script": "Real coaching is about better decisions you can repeat. Bring the rounds you keep losing. Identify one leak, practice a fix, and measure whether your choices change. You still earn every rank yourself.",
+      "caption": "Need a structured review of the rounds you keep losing? Recon 6 offers Siege strategy resources and first-time coaching sessions. Explore the current details at r6coaching.com/coaching/ #SiegeCoaching #R6Siege",
+      "cta": "https://r6coaching.com/coaching/"
+    }
+  ]
+}
