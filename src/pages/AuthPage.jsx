@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { track } from '../utils/analytics'
 import { isAdminPath } from '../lib/analyticsScope.mjs'
+import { isSquadStandalonePath } from '../features/squad/auth-handoff.mjs'
 import './AuthPage.css'
 
 // Only allow internal paths as redirect targets — never full URLs, never protocol-relative.
@@ -53,7 +54,7 @@ export default function AuthPage() {
   // The admin opens with a full page load so analytics started on this page
   // never runs inside it (lib/analyticsScope.mjs).
   const goToTarget = useCallback((target, opts) => {
-    if (isAdminPath(target) || target.split('?')[0] === '/testimonial') {
+    if (isAdminPath(target) || target.split('?')[0] === '/testimonial' || isSquadStandalonePath(target)) {
       if (opts?.replace) window.location.replace(target)
       else window.location.assign(target)
       return

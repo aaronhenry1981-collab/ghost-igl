@@ -1,0 +1,1096 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Isolated Recon squad preview. No hosting grant is created. Existing APIs, paid accounts and capture pilot are untouched.",
+  "Parameters": {
+    "CodeS3Key": {
+      "Type": "String",
+      "AllowedPattern": "recon-squad/[a-f0-9]{64}/lambda.zip"
+    },
+    "CodeSha256": {
+      "Type": "String",
+      "AllowedPattern": "[A-Za-z0-9+/]{43}="
+    }
+  },
+  "Resources": {
+    "SquadTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "TableName": "recon-squad-state",
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "PK",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "SK",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "PK",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "SK",
+            "KeyType": "RANGE"
+          }
+        ],
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": "ReconSquadPreview"
+          }
+        ]
+      }
+    },
+    "SquadGrantsTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "TableName": "recon-squad-grants",
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "PK",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "SK",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "PK",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "SK",
+            "KeyType": "RANGE"
+          }
+        ],
+        "SSESpecification": {
+          "SSEEnabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": "ReconSquadPreview"
+          }
+        ]
+      }
+    },
+    "SquadHttpApi": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "Name": "recon-squad-preview-http",
+        "ProtocolType": "HTTP",
+        "CorsConfiguration": {
+          "AllowOrigins": [
+            "https://r6coaching.com",
+            "https://www.r6coaching.com"
+          ],
+          "AllowHeaders": [
+            "Authorization",
+            "Content-Type"
+          ],
+          "AllowMethods": [
+            "GET",
+            "POST",
+            "PUT"
+          ],
+          "MaxAge": 600
+        }
+      }
+    },
+    "SquadWsApi": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "Name": "recon-squad-preview-ws",
+        "ProtocolType": "WEBSOCKET",
+        "RouteSelectionExpression": "$request.body.type"
+      }
+    },
+    "SquadRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "recon-squad-api-role",
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "recon-squad-only",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Sid": "ReadDedicatedSquadState",
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-state",
+                  "Condition": {
+                    "ForAllValues:StringLike": {
+                      "dynamodb:LeadingKeys": [
+                        "ROOM#*",
+                        "CREATE#*",
+                        "USAGE#*",
+                        "TICKET#*",
+                        "CONNECTION#*",
+                        "USER#*"
+                      ]
+                    },
+                    "Null": {
+                      "dynamodb:LeadingKeys": "false"
+                    }
+                  }
+                },
+                {
+                  "Sid": "ReadHostingGrant",
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-grants"
+                },
+                {
+                  "Sid": "QueryOnlyRoomConnectionsAndOwnedHistory",
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-state",
+                  "Condition": {
+                    "ForAllValues:StringLike": {
+                      "dynamodb:LeadingKeys": [
+                        "ROOM#*",
+                        "USER#*"
+                      ]
+                    },
+                    "Null": {
+                      "dynamodb:LeadingKeys": "false"
+                    }
+                  }
+                },
+                {
+                  "Sid": "WriteOnlyTransactionalSquadState",
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-state",
+                  "Condition": {
+                    "StringEquals": {
+                      "dynamodb:EnclosingOperation": "TransactWriteItems"
+                    }
+                  }
+                },
+                {
+                  "Sid": "CheckGrantWithoutChangingIt",
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:ConditionCheckItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-grants",
+                  "Condition": {
+                    "StringEquals": {
+                      "dynamodb:EnclosingOperation": "TransactWriteItems"
+                    }
+                  }
+                },
+                {
+                  "Sid": "DenyAllOtherHostingGrantAccess",
+                  "Effect": "Deny",
+                  "NotAction": [
+                    "dynamodb:GetItem",
+                    "dynamodb:ConditionCheckItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-grants"
+                },
+                {
+                  "Sid": "ManageOnlyThisVoiceFreeSocketApi",
+                  "Effect": "Allow",
+                  "Action": [
+                    "execute-api:ManageConnections"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/@connections/*",
+                        {
+                          "Api": {
+                            "Ref": "SquadWsApi"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/DELETE/@connections/*",
+                        {
+                          "Api": {
+                            "Ref": "SquadWsApi"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Sid": "WriteOnlyThisFunctionsLogs",
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "arn:aws:logs:us-east-1:183678667221:log-group:/aws/lambda/recon-squad-api:*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "SquadLogs": {
+      "Type": "AWS::Logs::LogGroup",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/recon-squad-api",
+        "RetentionInDays": 7
+      }
+    },
+    "SquadFunction": {
+      "Type": "AWS::Lambda::Function",
+      "DependsOn": [
+        "SquadLogs"
+      ],
+      "Properties": {
+        "FunctionName": "recon-squad-api",
+        "Runtime": "nodejs24.x",
+        "Architectures": [
+          "x86_64"
+        ],
+        "Handler": "index.handler",
+        "MemorySize": 256,
+        "Timeout": 8,
+        "Role": {
+          "Fn::GetAtt": [
+            "SquadRole",
+            "Arn"
+          ]
+        },
+        "Code": {
+          "S3Bucket": "recon-player-data-sam-artifacts-183678667221",
+          "S3Key": {
+            "Ref": "CodeS3Key"
+          }
+        },
+        "Environment": {
+          "Variables": {
+            "STATE_TABLE": {
+              "Ref": "SquadTable"
+            },
+            "GRANTS_TABLE": {
+              "Ref": "SquadGrantsTable"
+            },
+            "HTTP_API_ID": {
+              "Ref": "SquadHttpApi"
+            },
+            "WS_API_ID": {
+              "Ref": "SquadWsApi"
+            },
+            "COGNITO_POOL_ID": "us-east-1_rvLy8WLQB",
+            "COGNITO_CLIENT_ID": "5bpa1cteenctoue24v4e245re8"
+          }
+        }
+      }
+    },
+    "SquadVersion": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SquadFunction"
+        },
+        "CodeSha256": {
+          "Ref": "CodeSha256"
+        },
+        "Description": "Reviewed immutable squad preview artifact"
+      }
+    },
+    "SquadAlias": {
+      "Type": "AWS::Lambda::Alias",
+      "Properties": {
+        "Name": "preview",
+        "FunctionName": {
+          "Ref": "SquadFunction"
+        },
+        "FunctionVersion": {
+          "Fn::GetAtt": [
+            "SquadVersion",
+            "Version"
+          ]
+        }
+      }
+    },
+    "SquadJwtAuthorizer": {
+      "Type": "AWS::ApiGatewayV2::Authorizer",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "AuthorizerType": "JWT",
+        "IdentitySource": [
+          "$request.header.Authorization"
+        ],
+        "Name": "ExistingReconAccounts",
+        "JwtConfiguration": {
+          "Audience": [
+            "5bpa1cteenctoue24v4e245re8"
+          ],
+          "Issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_rvLy8WLQB"
+        }
+      }
+    },
+    "SquadHttpIntegration": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Ref": "SquadAlias"
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 10000
+      }
+    },
+    "SquadHttpRoute0": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "POST /squads",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke0": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/squads",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute1": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "POST /squads/join",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke1": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/squads/join",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute2": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "GET /squads/me/grant",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke2": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/GET/squads/me/grant",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute3": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "GET /squads/me/profile",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke3": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/GET/squads/me/profile",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute4": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "GET /squads/me/history",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke4": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/GET/squads/me/history",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute5": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "GET /squads/{roomId}",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke5": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/GET/squads/*",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute6": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "POST /squads/{roomId}/commands",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke6": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/squads/*/commands",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute7": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "POST /squads/{roomId}/socket-ticket",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke7": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/squads/*/socket-ticket",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute8": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "POST /squads/{roomId}/invite",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke8": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/POST/squads/*/invite",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpRoute9": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "RouteKey": "PUT /squads/{roomId}/profile",
+        "AuthorizationType": "JWT",
+        "AuthorizerId": {
+          "Ref": "SquadJwtAuthorizer"
+        },
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadHttpIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpInvoke9": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/PUT/squads/*/profile",
+            {
+              "Api": {
+                "Ref": "SquadHttpApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadHttpDeployment994a6993": {
+      "Type": "AWS::ApiGatewayV2::Deployment",
+      "DependsOn": [
+        "SquadHttpRoute0",
+        "SquadHttpRoute1",
+        "SquadHttpRoute2",
+        "SquadHttpRoute3",
+        "SquadHttpRoute4",
+        "SquadHttpRoute5",
+        "SquadHttpRoute6",
+        "SquadHttpRoute7",
+        "SquadHttpRoute8",
+        "SquadHttpRoute9"
+      ],
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "Description": "Reviewed explicit squad routes"
+      }
+    },
+    "SquadHttpStage": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadHttpApi"
+        },
+        "StageName": "prod",
+        "DeploymentId": {
+          "Ref": "SquadHttpDeployment994a6993"
+        },
+        "AutoDeploy": false,
+        "DefaultRouteSettings": {
+          "ThrottlingBurstLimit": 10,
+          "ThrottlingRateLimit": 5
+        }
+      }
+    },
+    "SquadWsIntegration": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationMethod": "POST",
+        "IntegrationUri": {
+          "Fn::Sub": [
+            "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/${Function}/invocations",
+            {
+              "Function": {
+                "Ref": "SquadAlias"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsRoute0": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "RouteKey": "$connect",
+        "AuthorizationType": "NONE",
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadWsIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsInvoke0": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/$connect",
+            {
+              "Api": {
+                "Ref": "SquadWsApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsRoute1": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "RouteKey": "$disconnect",
+        "AuthorizationType": "NONE",
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadWsIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsInvoke1": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/$disconnect",
+            {
+              "Api": {
+                "Ref": "SquadWsApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsRoute2": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "RouteKey": "$default",
+        "AuthorizationType": "NONE",
+        "Target": {
+          "Fn::Sub": [
+            "integrations/${Integration}",
+            {
+              "Integration": {
+                "Ref": "SquadWsIntegration"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsInvoke2": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "SquadAlias"
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceAccount": "183678667221",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:us-east-1:183678667221:${Api}/prod/$default",
+            {
+              "Api": {
+                "Ref": "SquadWsApi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SquadWsDeployment": {
+      "Type": "AWS::ApiGatewayV2::Deployment",
+      "DependsOn": [
+        "SquadWsRoute0",
+        "SquadWsRoute1",
+        "SquadWsRoute2"
+      ],
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "Description": "Ticket-authenticated voice-free room transport"
+      }
+    },
+    "SquadWsStage": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "SquadWsApi"
+        },
+        "StageName": "prod",
+        "DeploymentId": {
+          "Ref": "SquadWsDeployment"
+        },
+        "DefaultRouteSettings": {
+          "ThrottlingBurstLimit": 10,
+          "ThrottlingRateLimit": 5
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "HttpApiUrl": {
+      "Value": {
+        "Fn::Sub": [
+          "https://${Api}.execute-api.us-east-1.amazonaws.com/prod",
+          {
+            "Api": {
+              "Ref": "SquadHttpApi"
+            }
+          }
+        ]
+      }
+    },
+    "WebsocketUrl": {
+      "Value": {
+        "Fn::Sub": [
+          "wss://${Api}.execute-api.us-east-1.amazonaws.com/prod",
+          {
+            "Api": {
+              "Ref": "SquadWsApi"
+            }
+          }
+        ]
+      }
+    },
+    "ExecutionRoleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SquadRole",
+          "Arn"
+        ]
+      }
+    },
+    "StateTableArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SquadTable",
+          "Arn"
+        ]
+      }
+    },
+    "GrantTableArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SquadGrantsTable",
+          "Arn"
+        ]
+      }
+    },
+    "FunctionAliasArn": {
+      "Value": {
+        "Ref": "SquadAlias"
+      }
+    }
+  }
+}
