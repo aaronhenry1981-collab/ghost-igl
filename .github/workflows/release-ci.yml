@@ -37,12 +37,18 @@ jobs:
       - run: npm ci
       - name: Install Lambda dependencies used by tests
         run: |
-          for d in admin booking coaching-sync subscription vod webhook player-data ubisoft-patch-watcher customer-success; do
+          for d in admin booking coaching-sync subscription vod webhook player-data ubisoft-patch-watcher customer-success squad; do
             if [ -f "lambda/$d/package-lock.json" ]; then npm ci --no-audit --no-fund --prefix "lambda/$d"; elif [ -f "lambda/$d/package.json" ]; then npm install --no-audit --no-fund --prefix "lambda/$d"; fi
           done
       - run: npm run lint
       - name: Production-line unit tests
         run: node scripts/run-release-tests.mjs
+      - name: Build the standalone squad preview and verify its local Lambda package
+        run: |
+          node node_modules/vite/bin/vite.js build --config squad.pwa.config.mjs
+          node scripts/squad/build-preview.mjs
+          python3 scripts/squad/build-backend.py --out .squad-ci-package
+          SQUAD_PACKAGE_DIR=.squad-ci-package NODE_OPTIONS="--import=./scripts/test-netguard.mjs" node --test scripts/squad/packaged-runtime.check.mjs
       - name: Customer success + Support tests
         run: npm run test:customer-success
       - name: Support fixtures match the backend

@@ -1,0 +1,12 @@
+{
+  "name": "recon-squad-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.1154.0",
+    "@aws-sdk/lib-dynamodb": "3.1154.0",
+    "@aws-sdk/client-apigatewaymanagementapi": "3.1161.0"
+  }
+}
