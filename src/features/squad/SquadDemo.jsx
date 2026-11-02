@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { DEMO_PLANS, OPERATORS, PHASES, myRole, planFor } from './domain.mjs'
+import { OPERATORS, PHASES, myRole, planFor } from './domain.mjs'
 import { createLocalSquadAdapter } from './local-adapter.mjs'
 import { createRoleSpeech } from './speech.mjs'
 import PreviewInstall from './PreviewInstall.jsx'
 import RoleCard from './RoleCard.jsx'
+import StackPlanner from './StackPlanner.jsx'
+import MapPicker from './MapPicker.jsx'
+import { stackPlanning, planningSizeFor } from './stack-planning.mjs'
 import '../../index.css'
 import './squad.css'
 
@@ -21,6 +24,7 @@ function initialView() {
 function rememberView(subject, roomId) { try { if (roomId) localStorage.setItem(viewKey(subject), roomId); else localStorage.removeItem(viewKey(subject)) } catch { /* Resume is optional; do not discard a confirmed change. */ } }
 export default function SquadDemo() {
   const [initial] = useState(initialView)
+  const [planningSize, setPlanningSize] = useState(null)
   const [actorId, setActorId] = useState(PLAYERS[0].subject), [roomId, setRoomId] = useState(initial?.id || ''), [room, setRoom] = useState(initial)
   const [error, setError] = useState(''), [busy, setBusy] = useState(false), [audioEnabled, setAudioEnabled] = useState(false), [audioStatus, setAudioStatus] = useState('Muted')
   const [online, setOnline] = useState(navigator.onLine)
@@ -30,6 +34,7 @@ export default function SquadDemo() {
   const adapter = useMemo(() => createLocalSquadAdapter({ storage: { getItem: name => localStorage.getItem(name), setItem: (name, value) => localStorage.setItem(name, value) }, locks: navigator.locks }), [])
   const speech = useMemo(() => createRoleSpeech({ onStatus: setAudioStatus }), [])
   const selected = planFor(room?.plan?.id), role = myRole(room, actor.subject), igl = room?.igl === actor.subject
+  const planning = stackPlanning(room, planningSizeFor(room, planningSize))
   const context = [actor.subject, room?.id, room?.round, room?.phaseEpoch, room?.iglTerm, room?.planRevision, room?.assignmentRevision, room?.plan?.locked].join(':')
   useEffect(() => { speech.setContext(context); return () => speech.stop() }, [speech, context])
   useEffect(() => {
@@ -68,7 +73,7 @@ export default function SquadDemo() {
       iglTerm: room.iglTerm, expectedRevision: room.revision, ...values }))
   }
   function switchPlayer(subject) {
-    generation.current++; attached.current = false; setViewOpen(false); speech.mute(); setAudioEnabled(false); setBusy(false); setActorId(subject); setError('')
+    generation.current++; attached.current = false; setViewOpen(false); speech.mute(); setAudioEnabled(false); setBusy(false); setActorId(subject); setPlanningSize(null); setError('')
     try { const next = adapter.read(roomId, PLAYERS.find(player => player.subject === subject)); attached.current = true; setViewOpen(true); rememberView(subject, next.id); setRoom(next) }
     catch { setRoom(null) }
   }
@@ -99,6 +104,7 @@ export default function SquadDemo() {
       <div className="sq-intro"><p className="sq-eyebrow">ONE PLAN. YOUR ROLE.</p><h1>Know your next action.</h1><p>Choose a plan together. Keep your assignment close.</p></div>
       <aside className="sq-notice" role="note">{room ? <><strong>Local demo.</strong> Same-browser simulation; instructions are unverified. No online squad connection.</> : <><strong>Synthetic demo on this browser.</strong> No real accounts, cloud synchronization, payments or CRM connection. The example drills and diagram are not verified Siege tactics. Open a second local tab to simulate another player; a room code will not work on another device.</>}</aside>
       {!online && <aside className="sq-offline" role="status"><strong>Offline — cached view only.</strong> Reconnect before confirming a squad change. This view can be out of date.</aside>}
+      <StackPlanner planning={planning} onChange={setPlanningSize} local />
       <section className="sq-card sq-session" aria-labelledby="session-title">
         <h2 id="session-title">Your demo player</h2>
         {room ? <details><summary>Player: {actor.alias} · simulation controls</summary>{playerControl}</details> : playerControl}
@@ -112,9 +118,10 @@ export default function SquadDemo() {
           <div className="sq-stack">
             <section className="sq-card"><div className="sq-heading"><h2>{room.map || 'Choose the actual map'}</h2><span>Round {room.round} · {phaseNames[room.phase]}</span></div>
               {!room.map && <p>The map is manually confirmed. Camera scanning is outside this prototype.</p>}
-              {igl && ['prequeue', 'map_offer'].includes(room.phase) && <div className="sq-actions">{['Bank', 'Coastline'].map(map => <button disabled={busy || !online} key={map} onClick={() => command('choose_map', { map })}>{map}</button>)}</div>}
+              {igl && ['prequeue', 'map_offer'].includes(room.phase) && <MapPicker disabled={busy || !online} onConfirm={map => command('choose_map', { map })} />}
+              {room.map && <p className="sq-no-playbook" role="status">{room.map} selected for coordination only. No verified map/site playbook is attached in this preview.</p>}
               <label>Your reported operator<select value={room.members[actor.subject].operator} disabled={busy || !online} onChange={event => command('report_operator', { operator: event.target.value })}>{OPERATORS.map(operator => <option key={operator}>{operator}</option>)}</select></label>
-              {room.phase === 'round_prep' && <><h3>Choose a coordination drill</h3><p>Votes help the IGL decide. They do not silently lock a plan.</p><div className="sq-plans">{DEMO_PLANS.map(plan => <article key={plan.id} className={room.plan?.id === plan.id ? 'sq-plan sq-selected' : 'sq-plan'}><h4>{plan.name}</h4><p>{plan.complexity} · {plan.minPlayers} player{plan.minPlayers > 1 ? 's' : ''} minimum · {Object.values(room.votes).filter(value => value === plan.id).length} votes</p><div className="sq-actions"><button disabled={busy || !online} onClick={() => command('vote', { planId: plan.id })}>Vote</button>{igl && <button disabled={busy || !online} onClick={() => command('select_plan', { planId: plan.id })}>Select plan</button>}</div></article>)}</div></>}
+              {room.phase === 'round_prep' && <><h3>Choose a coordination drill</h3><p>Generic exercise for {planning.size} coordinated players. Votes help the IGL decide; choosing a size does not replace the shared plan.</p><div className="sq-plans">{[planning.drill].map(plan => <article key={plan.id} className={room.plan?.id === plan.id ? 'sq-plan sq-selected' : 'sq-plan'}><h4>{plan.name}</h4><p>Generic exercise · {plan.minPlayers} player{plan.minPlayers > 1 ? 's' : ''} minimum · {Object.values(room.votes).filter(value => value === plan.id).length} votes</p><div className="sq-actions"><button disabled={busy || !online} onClick={() => command('vote', { planId: plan.id })}>Vote</button>{igl && <button disabled={busy || !online} onClick={() => command('select_plan', { planId: plan.id })}>Select plan</button>}</div></article>)}</div></>}
               {selected && <><h3>{selected.name} <span className="sq-chip">{room.plan.locked ? 'Locked' : 'Draft — review required'}</span></h3><p>Plan revision {room.planRevision}. Operator changes reopen review.</p>{selected.roles.map(item => <div className="sq-assignment" key={item.id}><div><strong>{item.name}</strong><small>{item.operators.join(' / ')}</small></div>{igl && room.phase === 'round_prep' ? <select aria-label={`Assign ${item.name}`} disabled={busy || !online} value={room.assignments[item.id] || ''} onChange={event => command('assign', { roleId: item.id, memberSubject: event.target.value })}><option value="" disabled>Choose player</option>{Object.values(room.members).filter(member => item.operators.includes(member.operator)).map(member => <option key={member.subject} value={member.subject}>{member.alias}</option>)}</select> : <span>{room.members[room.assignments[item.id]]?.alias || 'Unassigned'}</span>}</div>)}
                 {igl && room.phase === 'round_prep' && <div className="sq-actions"><button className="sq-primary" disabled={busy || !online || room.plan.locked} onClick={() => command('lock')}>Lock plan</button><button disabled={busy || !online || !room.plan.locked} onClick={() => command('advance')}>Start action</button></div>}
               </>}

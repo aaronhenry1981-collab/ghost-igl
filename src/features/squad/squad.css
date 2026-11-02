@@ -29,3 +29,18 @@ summary { cursor: pointer; min-height: 44px; display: list-item; padding: 10px 0
 .sq-mode-bar button { font-size: .8rem; }
 .sq-profile { display: grid; gap: 12px; }
 .sq-signin-link { display: inline-flex; align-items: center; min-height: 46px; padding: 10px 12px; color: var(--accent); }
+.sq-stack-planner { margin: 14px 0; }
+.sq-stack-planner fieldset { border: 0; padding: 0; margin: 12px 0; min-width: 0; }
+.sq-stack-planner legend { margin-bottom: 10px; font-size: .85rem; }
+.sq-size-options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.sq-size-options button { padding: 10px 3px; font-size: .8rem; }
+.sq-size-options button[aria-pressed=true] { border: 2px solid var(--accent); background: var(--accent-soft); }
+.sq-stack-planner p { font-size: .85rem; line-height: 1.6; }
+.sq-stack-planner ul, .sq-stack-planner ol { padding-left: 22px; font-size: .85rem; line-height: 1.7; }
+.sq-roster-slots li { margin: 8px 0; }
+.sq-roster-slots span { display: block; overflow-wrap: anywhere; }
+.sq-map-picker { display: grid; gap: 10px; margin: 16px 0; }
+.sq-map-picker label { display: grid; gap: 8px; }
+.sq-map-picker select { width: 100%; min-width: 0; }
+.sq-map-picker p, .sq-no-playbook, .sq-lock-help { font-size: .85rem; line-height: 1.6; }
+.sq-no-playbook, .sq-lock-help { border-left: 3px solid var(--accent); padding: 10px 12px; background: var(--accent-soft); }

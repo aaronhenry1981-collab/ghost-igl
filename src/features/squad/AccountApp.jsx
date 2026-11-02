@@ -4,8 +4,11 @@ import { createRemoteSquadAdapter } from './remote-adapter.mjs'
 import { createAccountViewCache } from './account-cache.mjs'
 import { createRoomRealtime } from './realtime-client.mjs'
 import { createRoleSpeech } from './speech.mjs'
-import { DEMO_PLANS, OPERATORS, myRole, planFor } from './domain.mjs'
+import { OPERATORS, myRole, planFor } from './domain.mjs'
 import RoleCard from './RoleCard.jsx'
+import StackPlanner from './StackPlanner.jsx'
+import MapPicker from './MapPicker.jsx'
+import { stackPlanning, planningSizeFor } from './stack-planning.mjs'
 import PreviewInstall from './PreviewInstall.jsx'
 import '../../index.css'
 import './squad.css'
@@ -26,6 +29,7 @@ function ProfileForm({ profile, busy, save }) {
 }
 export default function AccountApp({ endpoints, authClient, onDemo }) {
   const auth = useMemo(() => authClient || createExistingAccountClient(), [authClient])
+  const [planningSize, setPlanningSize] = useState(null)
   const [identity, setIdentity] = useState(null), [alias, setAlias] = useState(''), [code, setCode] = useState(''), [snapshot, setSnapshot] = useState(null), [grant, setGrant] = useState(null), [invite, setInvite] = useState(''), [profile, setProfile] = useState(null), [history, setHistory] = useState([])
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [connection, setConnection] = useState('Not connected'), [online, setOnline] = useState(navigator.onLine), [audioEnabled, setAudioEnabled] = useState(false), [audioStatus, setAudioStatus] = useState('Muted')
   const [fresh, setFresh] = useState(false)
@@ -36,13 +40,14 @@ export default function AccountApp({ endpoints, authClient, onDemo }) {
   const forgetAccount = useCallback(message => {
     pendingMutation.current = null; setRecoveryRequired(false)
     generation.current++; attached.current = false; realtime.current?.stop(); api.current?.disconnect(); auth.disconnect(); speech.mute()
-    setIdentity(null); setSnapshot(null); setGrant(null); setProfile(null); setHistory([]); setInvite(''); setAlias(''); setCode(''); setBusy(false); setAudioEnabled(false); setFresh(false); setError(message)
+    setPlanningSize(null); setIdentity(null); setSnapshot(null); setGrant(null); setProfile(null); setHistory([]); setInvite(''); setAlias(''); setCode(''); setBusy(false); setAudioEnabled(false); setFresh(false); setError(message)
   }, [auth, speech])
   const suspend = useCallback(message => {
     generation.current++; attached.current = false; realtime.current?.stop(); api.current?.disconnect({ clearAccountCache: false }); speech.mute()
     setBusy(false); setFresh(false); setAudioEnabled(false); setRecoveryRequired(true); setConnection(message)
   }, [speech])
   const room = snapshot?.room, role = myRole(room, snapshot?.memberId), plan = planFor(room?.plan?.id), igl = room?.igl === snapshot?.memberId
+  const planning = stackPlanning(room, planningSizeFor(room, planningSize))
   const audioContext = [identity?.subject, room?.id, room?.phaseEpoch, room?.iglTerm, room?.planRevision, room?.assignmentRevision, room?.plan?.locked, fresh].join(':')
   useEffect(() => { speech.setContext(audioContext); return () => speech.stop() }, [speech, audioContext])
   useEffect(() => {
@@ -132,6 +137,7 @@ export default function AccountApp({ endpoints, authClient, onDemo }) {
     <aside className="sq-notice"><strong>Private test.</strong> General coordination drills; map-specific tactics are not verified. No billing changes, microphone or automatic game observation.</aside>
     {error && <p className="sq-error" role="alert">{error}</p>}
     {identity && recoveryRequired && <section className="sq-notice" role="status"><p>This view was interrupted. Nothing resumes automatically. A change may already have reached the server.</p>{pendingMutation.current ? <button disabled={busy || !online} onClick={recoverChange}>Recover interrupted change</button> : <p>Use Refresh test access or Refresh / reconnect before deciding.</p>}<p>Recovery reuses the original request ID and receipt; it does not create a second change. Closing the view abandons this in-memory recovery.</p></section>}
+    <StackPlanner planning={planning} onChange={setPlanningSize} hostingLimit={grant?.maxMembers} />
     {!identity ? <section className="sq-card"><h1>Use your existing account.</h1><p>This uses the Recon account you already have. No second purchase or new account is required for an approved test.</p><div className="sq-actions"><button disabled={busy || !online} onClick={connect}>Connect my Recon account</button><a className="sq-signin-link" href="/auth?redirect=%2Fsquad-preview%2F">Sign in to Recon</a></div><p>Return here after sign-in. A hosting grant is separate from your membership.</p></section> : <>
       <section className="sq-card sq-session"><p>Existing account connected. {grant?.enabled ? `Hosting test: up to ${grant.maxMembers} participant(s).` : 'Hosting is not active; you may join an approved invitation.'}</p><p role="status">{connection}</p>
         {!room ? <><label>Your squad alias<input maxLength={30} value={alias} onChange={e => setAlias(e.target.value)} placeholder="An alias your squad recognizes" /></label><div className="sq-actions"><button disabled={busy || !online || !grant?.enabled || !alias.trim() || Boolean(grant?.activeRoomId) || grant?.sessionsUsed >= grant?.maxSessions || recoveryRequired} onClick={createSquad}>Create private squad</button><button disabled={busy || !online} onClick={() => perform(() => api.current.grant(), { recover: true })}>Refresh test access</button>{grant?.activeRoomId && <button disabled={busy || !online} onClick={() => perform(() => api.current.snapshot(grant.activeRoomId), { start: true, recover: true })}>Open my active squad</button>}</div><label>Invitation code<input value={code} onChange={e => setCode(e.target.value.trim())} autoCapitalize="none" spellCheck="false" /></label><button disabled={busy || !online || !alias.trim() || recoveryRequired} onClick={() => { const [roomId, token, extra] = code.split('.'); if (!roomId || !token || extra) { setError('Paste the room and invitation code shared by the IGL.'); return }; const body = { roomId, invite: token, alias: alias.trim(), requestId: crypto.randomUUID() }; perform(() => api.current.join(body), { start: true, mutation: true }) }}>Join private squad</button></> : <>
@@ -142,9 +148,10 @@ export default function AccountApp({ endpoints, authClient, onDemo }) {
       </section>
       {room && <>{!live && <p className="sq-offline" role="status">Cached or expired view — reconnect and verify access before deciding. No changes can be confirmed here.</p>}
         <div className="sq-grid"><div className="sq-stack"><section className="sq-card"><h2>Shared preparation</h2>
-          {igl && !room.map && <div className="sq-actions">{['Bank', 'Coastline'].map(map => <button key={map} disabled={disabled} onClick={() => command('choose_map', { map })}>{map}</button>)}</div>}
-          <label>Your reported operator<select value={room.members[snapshot.memberId].operator} disabled={disabled} onChange={e => command('report_operator', { operator: e.target.value })}>{OPERATORS.map(operator => <option key={operator}>{operator}</option>)}</select></label>
-          {room.phase === 'round_prep' && DEMO_PLANS.map(item => <article className="sq-plan" key={item.id}><h3>{item.name}</h3><p>{item.minPlayers} player minimum · {Object.values(room.votes).filter(value => value === item.id).length} votes</p><div className="sq-actions"><button disabled={disabled} onClick={() => command('vote', { planId: item.id })}>Vote</button>{igl && <button disabled={disabled} onClick={() => command('select_plan', { planId: item.id })}>Select plan</button>}</div></article>)}
+          {igl && !room.map && <MapPicker disabled={disabled} onConfirm={map => command('choose_map', { map })} />}
+          {room.map && <p className="sq-no-playbook" role="status">{room.map} selected for coordination only. No verified map/site playbook is attached in this preview.</p>}
+              <label>Your reported operator<select value={room.members[snapshot.memberId].operator} disabled={disabled} onChange={e => command('report_operator', { operator: e.target.value })}>{OPERATORS.map(operator => <option key={operator}>{operator}</option>)}</select></label>
+          {room.phase === 'round_prep' && [planning.drill].map(item => <article className="sq-plan" key={item.id}><h3>{item.name}</h3><p>Generic exercise · {item.minPlayers} coordinated player minimum · {Object.values(room.votes).filter(value => value === item.id).length} votes</p><div className="sq-actions"><button disabled={disabled} onClick={() => command('vote', { planId: item.id })}>Vote</button>{igl && <button disabled={disabled} onClick={() => command('select_plan', { planId: item.id })}>Select plan</button>}</div></article>)}
           {plan?.roles.map(item => <div className="sq-assignment" key={item.id}><strong>{item.name}</strong>{igl && room.phase === 'round_prep' ? <select aria-label={`Assign ${item.name}`} disabled={disabled} value={room.assignments[item.id] || ''} onChange={e => command('assign', { roleId: item.id, memberSubject: e.target.value })}><option value="" disabled>Choose player</option>{Object.values(room.members).filter(member => item.operators.includes(member.operator)).map(member => <option value={member.subject} key={member.subject}>{member.alias}</option>)}</select> : <span>{room.members[room.assignments[item.id]]?.alias || 'Unassigned'}</span>}</div>)}
           {igl && <div className="sq-actions">{room.phase === 'round_prep' && <><button disabled={disabled || !room.plan || room.plan.locked} onClick={() => command('lock')}>Lock plan</button><button disabled={disabled || !room.plan?.locked} onClick={() => command('advance')}>Start action</button></>}{room.phase === 'action' && <button disabled={disabled} onClick={() => command('advance')}>Finish round</button>}{room.phase === 'result' && <><button disabled={disabled} onClick={() => command('record_result', { result: 'unknown' })}>Record unknown result</button><button disabled={disabled} onClick={() => command('new_round')}>Next round</button></>}</div>}
         </section><section className="sq-card"><h2>Squad</h2>{Object.values(room.members).map(member => <div className="sq-member" key={member.subject}><div><strong>{member.alias}</strong><small>{member.operator} · {room.ready[member.subject] ? 'Ready for this plan' : 'Not acknowledged'}</small></div>{igl && member.subject !== room.igl && <div className="sq-actions"><button disabled={disabled} onClick={() => command('transfer', { memberSubject: member.subject })}>Make IGL</button><button disabled={disabled} onClick={() => command('remove', { memberSubject: member.subject })}>Remove player</button></div>}</div>)}{igl && <button disabled={disabled || room.inviteRevoked} onClick={() => command('revoke_invite')}>Revoke invitation</button>}</section>
