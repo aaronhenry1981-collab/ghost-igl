@@ -15,6 +15,17 @@ export const DEMO_PLANS = [
     role('first', 'First action', ['Thermite', 'Ace', 'Hibana'], 'Name your intended first action to your support.', 'Wait for your support to confirm readiness.', 'Hold the action if support cannot help.'),
     role('support', 'Support', ['Thatcher', 'Twitch', 'Zero'], 'Confirm what the first player needs from you.', 'Say ready after you have checked your task.', 'Call a pause if the required utility is unavailable.'),
   ] },
+  { id: 'trio', name: 'Three-player coordination', complexity: 'Basic', minPlayers: 3, roles: [
+    role('first', 'First action', ['Thermite', 'Ace', 'Hibana'], 'Confirm the intended opening action.', 'Wait for support and information.', 'Hold if a required teammate is not ready.'),
+    role('support', 'Utility support', ['Thatcher', 'Twitch', 'Zero'], 'Confirm the utility dependency.', 'Act on the agreed cue.', 'Tell the IGL if the dependency cannot be met.'),
+    role('entry', 'Follow-up', ['Sledge', 'Buck', 'Ash'], 'Confirm the safe follow-up route.', 'Follow only after the opening is confirmed.', 'Regroup instead of taking an unsupported route.'),
+  ] },
+  { id: 'quad', name: 'Four-player coordination', complexity: 'Basic', minPlayers: 4, roles: [
+    role('first', 'First action', ['Thermite', 'Ace', 'Hibana'], 'Confirm the intended opening action.', 'Wait for support and information.', 'Hold if a required teammate is not ready.'),
+    role('support', 'Utility support', ['Thatcher', 'Twitch', 'Zero'], 'Confirm the utility dependency.', 'Act on the agreed cue.', 'Tell the IGL if the dependency cannot be met.'),
+    role('entry', 'Follow-up', ['Sledge', 'Buck', 'Ash'], 'Confirm the safe follow-up route.', 'Follow only after the opening is confirmed.', 'Regroup instead of taking an unsupported route.'),
+    role('flank', 'Rear watch', ['Nomad', 'Gridlock'], 'Confirm who is watching the rear.', 'Report a change before leaving the role.', 'Ask for a replacement before moving.'),
+  ] },
   { id: 'stack', name: 'Five-player coordination', complexity: 'Advanced', minPlayers: 5, roles: [
     role('first', 'First action', ['Thermite', 'Ace', 'Hibana'], 'Confirm the intended opening action.', 'Wait for support and information.', 'Hold if a required teammate is not ready.'),
     role('support', 'Utility support', ['Thatcher', 'Twitch', 'Zero'], 'Confirm the utility dependency.', 'Act on the agreed cue.', 'Tell the IGL if the dependency cannot be met.'),
@@ -23,6 +34,15 @@ export const DEMO_PLANS = [
     role('intel', 'Information', ['Iana', 'Zero', 'Twitch'], 'Report what is confirmed and what is unknown.', 'Give an explicit clear or hold call.', 'Mark lost information as unknown.'),
   ] },
 ]
+// Name-only coordination choices, checked against Ubisoft's map index 2026-11-02.
+// Mode availability is confirmed manually; no Ranked-pool or tactical-readiness claim.
+// https://www.ubisoft.com/en-us/game/rainbow-six/siege/game-info/maps
+export const COORDINATION_MAPS = Object.freeze([
+  'Bank', 'Border', 'Calypso Casino', 'Chalet', 'Clubhouse', 'Coastline', 'Consulate',
+  'Emerald Plains', 'Favela', 'Fortress', 'Hereford Base', 'House', 'Kafe Dostoyevsky',
+  'Kanal', 'Lair', 'Nighthaven Labs', 'Oregon', 'Outback', 'Presidential Plane',
+  'Skyscraper', 'Stadium Alpha', 'Stadium Bravo', 'Theme Park', 'Tower', 'Villa', 'Yacht',
+])
 export const PHASES = ['prequeue', 'map_offer', 'round_prep', 'action', 'result']
 export const planFor = id => DEMO_PLANS.find(plan => plan.id === id)
 export function createRoom({ id, actor, now, inviteExpiresAt }) {
@@ -74,7 +94,7 @@ export function applyCommand(original, command, actor, now) {
       room.votes[actor.subject] = command.planId
       break
     case 'choose_map':
-      if (!['Bank', 'Coastline'].includes(command.map)) fail('MAP', 'Choose one of the demonstration maps.')
+      if (!COORDINATION_MAPS.includes(command.map)) fail('MAP', 'Choose a listed map and confirm it in your game.')
       if (!['prequeue', 'map_offer', 'result'].includes(room.phase)) fail('PHASE', 'Change maps between rounds or before preparation.')
       room.map = command.map; room.phase = 'round_prep'; room.phaseEpoch++; room.ready = {}
       room.plan = null; room.assignments = {}; room.votes = {}; room.planRevision++; room.assignmentRevision++; room.result = null

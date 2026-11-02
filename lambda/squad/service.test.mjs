@@ -16,6 +16,22 @@ function fixture(overrides = {}) {
     { type, requestId: `command-${++serial}`, phaseEpoch: snapshot.room.phaseEpoch, iglTerm: snapshot.room.iglTerm, expectedRevision: snapshot.room.revision, ...values })
   return { repo, service, request, create, command, grant, advance: ms => { clock += ms } }
 }
+
+test('three/four-player planning does not expand a one-owner grant or admit random teammates', async () => {
+  const f = fixture({ maxMembers: 1, maxSessions: 1, allowedSubjects: [host.subject] })
+  const before = await f.repo.getGrant(host.subject)
+  let current = await f.create(); const originalId = current.room.id
+  current = { ...current, ...await f.command(current, host, 'choose_map', { map: 'Villa' }) }
+  for (const planId of ['trio', 'quad']) {
+    current = { ...current, ...await f.command(current, host, 'select_plan', { planId }) }
+    await assert.rejects(() => f.command(current, host, 'lock'), error => error.code === 'STACK_SIZE')
+    await assert.rejects(() => f.service.join(f.request(guest), { requestId: `not-enrolled-${planId}`, roomId: originalId, alias: 'Not enrolled', invite: current.invite }), { status: 403 })
+    const snapshot = await f.service.snapshot(f.request(host), originalId)
+    assert.equal(snapshot.room.id, originalId); assert.equal(snapshot.room.map, 'Villa'); assert.equal(Object.keys(snapshot.room.members).length, 1)
+    assert.equal(snapshot.room.plan.id, planId); assert.equal(snapshot.room.plan.locked, false)
+    assert.deepEqual(await f.repo.getGrant(host.subject), before)
+  }
+})
 test('missing verified authentication rejects even when body supplies a subject', async () => {
   const f = fixture()
   await assert.rejects(() => f.service.create({}, { alias: 'Demo', requestId: 'request-001', subject: host.subject }), { status: 401 })
