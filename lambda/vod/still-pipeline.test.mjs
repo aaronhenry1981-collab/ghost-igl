@@ -12,11 +12,22 @@ const source = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
 const api = readFileSync(new URL('../../src/api/vodApi.js', import.meta.url), 'utf8').replace(/^import .*\r?\n/gm, '').replace(/export /g, '')
 const extract = (start, end) => source.slice(source.indexOf(start), source.indexOf(end))
 
-for (const rejected of [false, true]) test(`offline upload → prompt → validation → persistence (${rejected ? 'reject' : 'accept'})`, async () => {
+for (const failure of [null, 'temporal', 'geometry', 'geometry_pronoun', 'geometry_hold']) test(`offline upload → prompt → validation → persistence (${failure || 'accept'})`, async () => {
+  const rejected = failure !== null && failure !== 'geometry_hold'
   const writes = [], publishes = [], syncs = [], invocations = []
   let reservations = 0
   const candidate = groundedStill()
-  if (rejected) candidate.per_image[0].what_happened = 'You moved through the doorway.'
+  if (failure === 'temporal') candidate.per_image[0].what_happened = 'You moved through the doorway.'
+  if (failure === 'geometry') {
+    candidate.per_image[0].uncertainties.push('Floor material and destructibility cannot be verified from this frame.')
+    candidate.per_image[0].specific_advice = ['This floor is destructible; use Sledge to open a vertical angle here.']
+  }
+  if (failure === 'geometry_pronoun' || failure === 'geometry_hold') {
+    candidate.per_image[0].uncertainties.push('Floor material and destructibility cannot be verified from this frame.')
+    candidate.per_image[0].specific_advice = [failure === 'geometry_pronoun'
+      ? 'Use Sledge to open it and attack the defenders below.'
+      : 'Do not breach the floor until its destructibility is verified.']
+  }
   // Optional exact approved JPEG is read locally only; no real endpoint exists.
   const bytes = process.env.RECON_APPROVED_FRAME ? readFileSync(process.env.RECON_APPROVED_FRAME) : Buffer.from('offline-image-fixture')
   if (process.env.RECON_APPROVED_FRAME) assert.equal(createHash('sha256').update(bytes).digest('hex'), '9bf57a8d9fe6a36f1c0e85fd199ddbad000953efb76d3733a566c3360ef778bc')
