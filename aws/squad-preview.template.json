@@ -156,7 +156,8 @@
                         "USAGE#*",
                         "TICKET#*",
                         "CONNECTION#*",
-                        "USER#*"
+                        "USER#*",
+                        "OWNER_USAGE#*"
                       ]
                     },
                     "Null": {
