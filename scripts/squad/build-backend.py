@@ -10,7 +10,7 @@ if target.exists() or archive.exists():
     raise SystemExit('Output already exists. Preserve it and choose a new named output.')
 source = root / 'lambda/squad'
 target.mkdir(parents=True)
-names = ['index.mjs', 'service.mjs', 'dynamo-repository.mjs', 'gateway-auth.mjs', 'websocket.mjs', 'package.json', 'package-lock.json']
+names = ['index.mjs', 'service.mjs', 'dynamo-repository.mjs', 'hosting-policy.mjs', 'history-cursor.mjs', 'gateway-auth.mjs', 'websocket.mjs', 'package.json', 'package-lock.json']
 for name in names:
     shutil.copy2(source / name, target / name)
 domain = (root / 'src/features/squad/domain.mjs').read_bytes()

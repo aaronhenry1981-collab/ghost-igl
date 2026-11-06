@@ -49,7 +49,7 @@ export function createRemoteSquadAdapter({ baseUrl, getIdentity, getCurrentSubje
     kind: 'authenticated_http', realtimeConnected: false,
     grant: () => request('/squads/me/grant'),
     profile: () => request('/squads/me/profile'),
-    history: () => request('/squads/me/history'),
+    history: cursor => request('/squads/me/history' + (cursor ? `?cursor=${encodeURIComponent(cursor)}` : '')),
     create: (alias, requestId) => request('/squads', { method: 'POST', body: { alias, requestId } }),
     join: body => request('/squads/join', { method: 'POST', body }),
     snapshot: roomId => request(`/squads/${encodeURIComponent(roomId)}`),
