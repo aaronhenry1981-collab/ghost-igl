@@ -29,7 +29,14 @@ export function createShellCache({ scope, assets, assetHashes, version, cacheSto
     },
     handle(request) {
       const url = new URL(request.url)
-      if (request.method !== 'GET' || url.origin !== base.origin || url.search || url.hash) return null
+      if (request.method !== 'GET' || url.origin !== base.origin || url.search) return null
+      if (url.hash) {
+        const plain = new URL(url); plain.hash = ''
+        // Only the launcher's explicit display-mode fragment may reuse the
+        // public navigation shell. Never normalize private or asset URLs.
+        if (request.mode !== 'navigate' || url.hash !== '#local-demo' || ![base.href, index].includes(plain.href)) return null
+        url.hash = ''
+      }
       const navigation = request.mode === 'navigate' && [base.href, index].includes(url.href)
       if (!navigation && !allowed.has(url.href)) return null
       return (async () => {

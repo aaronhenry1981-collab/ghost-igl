@@ -1,4 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
+import { hostingPolicy, audienceAllows, sessionEndsAt, usageForDisplay } from './hosting-policy.mjs'
 
 export class ApiError extends Error {
   constructor(status, code, message) { super(message); this.status = status; this.code = code }
@@ -14,6 +15,7 @@ const COMMAND_FIELDS = {
   report_operator: ['operator'], vote: ['planId'], choose_map: ['map'], select_plan: ['planId'], assign: ['roleId', 'memberSubject'],
   lock: [], ready: ['planRevision', 'assignmentRevision'], advance: [], new_round: ['side'], transfer: ['memberSubject'],
   remove: ['memberSubject'], revoke_invite: [], record_result: ['result'],
+  close_room: [],
 }
 function validateCommand(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) fail(400, 'BODY', 'A command object is required.')
@@ -32,7 +34,7 @@ function validateCommand(body) {
 function stateForClient(envelope) {
   const state = structuredClone(envelope.state)
   delete state.receipts; delete state.excluded
-  return { room: state, expiresAt: envelope.expiresAt, revision: envelope.version }
+  return { room: state, expiresAt: envelope.expiresAt, revision: envelope.version, ...(envelope.hostingKind === 'owner' ? { hostingMode: 'owner' } : {}) }
 }
 
 // repo operations are atomic contracts, not calls to an existing production DB.
@@ -47,10 +49,9 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
     return { subject: value.subject, tokenExpiresAt: value.tokenExpiresAt }
   }
   async function grantFor(subject) {
-    const grant = await repo.getGrant(subject)
-    if (!grant?.enabled || grant.ownerSubject !== subject || !ID.test(grant.id || '') || !Number.isFinite(grant.validUntil) || grant.validUntil <= now()) fail(403, 'GRANT', 'Squad hosting access is not active.')
-    if (!Number.isSafeInteger(grant.version) || grant.version < 1 || !Number.isInteger(grant.maxMembers) || grant.maxMembers < 1 || grant.maxMembers > 5 || !Number.isInteger(grant.maxCommands) || grant.maxCommands < 1 || grant.maxCommands > 500 || !Number.isInteger(grant.maxSessions) || grant.maxSessions < 1 || grant.maxSessions > 3 || !Number.isFinite(grant.sessionMs) || grant.sessionMs < 60_000 || grant.sessionMs > 3600_000) fail(503, 'GRANT_CONFIG', 'The hosting allowance is not valid.')
-    if (!Array.isArray(grant.allowedSubjects) || !grant.allowedSubjects.includes(subject) || new Set(grant.allowedSubjects).size !== grant.allowedSubjects.length || grant.allowedSubjects.length > grant.maxMembers || grant.allowedSubjects.some(value => typeof value !== 'string' || !ID.test(value))) fail(503, 'GRANT_CONFIG', 'The trial audience is not configured correctly.')
+    const grant = hostingPolicy(await repo.getGrant(subject), subject, now())
+    if (grant.error === 403) fail(403, 'GRANT', 'Squad hosting access is not active.')
+    if (grant.error) fail(503, 'GRANT_CONFIG', 'The hosting allowance is not valid.')
     return grant
   }
   async function activeRoom(id) {
@@ -60,6 +61,7 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
     if (room.expiresAt <= now()) fail(410, 'EXPIRED', 'This squad session has ended.')
     const grant = await grantFor(room.hostSubject)
     if (grant.id !== room.grantId) fail(403, 'GRANT', 'This room no longer has an active hosting allowance.')
+    if (grant.kind === 'owner' && room.hostingKind !== 'owner') fail(503, 'ROOM_CONFIG', 'The owner room configuration is not valid.')
     return { room, grant }
   }
   function member(room, owner) {
@@ -71,7 +73,7 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
     const fingerprint = fingerprintOf(body)
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       const { room, grant } = await activeRoom(id)
-      if (!grant.allowedSubjects.includes(actor.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved trial audience.')
+      if (!audienceAllows(grant, actor.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved audience.')
       const who = kind === 'join' ? { subject: memberIdFor(id, actor.subject), alias: body.alias } : member(room, actor)
       // Authorization precedes receipt lookup, so removal cannot be bypassed by retry.
       if (room.state.excluded.includes(who.subject)) fail(403, 'REMOVED', 'This player was removed from the room.')
@@ -81,15 +83,21 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
         if (!room.state.members[who.subject]) fail(403, 'REMOVED', 'This player is no longer in the room.')
         return { ...stateForClient(room), memberId: who.subject, recovered: true }
       }
-      if (room.commandCount >= grant.maxCommands) fail(429, 'ALLOWANCE', 'This session has reached its command allowance.')
+      if (room.commandCount >= grant.maxCommands && body.type !== 'close_room') fail(429, 'ALLOWANCE', 'This session has reached its command allowance.')
       const next = structuredClone(room)
+      if (grant.kind === 'owner' && body.type !== 'close_room') {
+        if (room.ownerRate && (!Number.isSafeInteger(room.ownerRate.second) || !Number.isSafeInteger(room.ownerRate.count) || room.ownerRate.count < 0 || room.ownerRate.count > grant.changesPerSecond)) fail(503, 'ROOM_CONFIG', 'The owner room rate state is not valid.')
+        const second = Math.floor(now() / 1000), count = room.ownerRate?.second === second ? room.ownerRate.count : 0
+        if (count >= grant.changesPerSecond) fail(429, 'RATE', 'Too many squad changes at once. Wait a moment, then refresh.')
+        next.ownerRate = { second, count: count + 1 }
+      }
       const change = await mutate(next, who, grant) || {}
       // Domain receipt storage is for the local adapter. Persist a compact,
       // separate receipt atomically here, never an ever-growing room array.
       next.state.receipts = []
       next.version = room.version + 1; next.commandCount = room.commandCount + 1
       if (Buffer.byteLength(JSON.stringify(next.state)) > 24_000) fail(413, 'STATE_SIZE', 'The room state reached its safe size limit.')
-      const accepted = await repo.commitRoom({ expectedVersion: room.version, next, grant, ticket: change.ticket, privateProfile: change.privateProfile,
+      const accepted = await repo.commitRoom({ expectedVersion: room.version, next, grant, ticket: change.ticket, privateProfile: change.privateProfile, releaseActiveRoom: Boolean(change.releaseActiveRoom),
         receipt: { roomId: id, actor: who.subject, requestId: body.requestId, fingerprint, kind, acceptedAt: now(), version: next.version } })
       if (accepted) return { ...stateForClient(next), memberId: who.subject, ...change.publicResult }
     }
@@ -98,8 +106,9 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
   return {
     async grant(request) {
       const actor = await principal(request), value = await grantFor(actor.subject)
-      const usage = await repo.getUsage(value.id)
-      return { enabled: true, maxMembers: value.maxMembers, maxSessions: value.maxSessions, maxCommands: value.maxCommands, sessionMs: value.sessionMs, validUntil: value.validUntil, sessionsUsed: usage?.sessions || 0, activeRoomId: usage?.activeUntil > now() ? usage.activeRoomId : null }
+      const usage = await repo.getUsage(value.id, value.kind === 'owner' ? value.ownerSubject : undefined)
+      const current = usageForDisplay(value, usage, now())
+      return { enabled: true, ...(value.kind === 'owner' ? { kind: 'owner', maxSessionsPerDay: value.maxSessionsPerDay, sessionsToday: current.sessionsToday } : {}), maxMembers: value.maxMembers, maxSessions: value.maxSessions, maxCommands: value.maxCommands, sessionMs: value.sessionMs, validUntil: value.validUntil ?? null, sessionsUsed: current.sessions, activeRoomId: current.activeRoomId, ...(value.kind === 'owner' ? { retainedRooms: current.retainedRooms, reservedBytes: current.reservedBytes, maxRetainedRooms: value.maxRetainedRooms, roomReservationBytes: value.roomReservationBytes, maxReservedBytes: value.maxRetainedRooms * value.roomReservationBytes } : {}) }
     },
     async create(request, body) {
       const actor = await principal(request)
@@ -114,16 +123,18 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
         return { ...stateForClient(room), memberId: memberIdFor(room.id, actor.subject), recovered: true, invite: null }
       }
       const id = random(), invite = random(), timestamp = now(), who = { subject: memberIdFor(id, actor.subject), alias: body.alias.trim() }
+      const endsAt = sessionEndsAt(grant, timestamp)
       const envelope = { id, version: 0, hostSubject: actor.subject, grantId: grant.id, createdAt: timestamp,
-        expiresAt: Math.min(timestamp + grant.sessionMs, grant.validUntil), commandCount: 0, ticketCount: 0, inviteHash: digest(invite),
-        state: domain.createRoom({ id, actor: who, now: timestamp, inviteExpiresAt: Math.min(timestamp + grant.sessionMs, grant.validUntil) }) }
+        expiresAt: endsAt, commandCount: 0, ticketCount: 0, inviteHash: digest(invite),
+        ...(grant.kind === 'owner' ? { hostingKind: 'owner' } : {}),
+        state: domain.createRoom({ id, actor: who, now: timestamp, inviteExpiresAt: grant.kind === 'owner' ? Math.min(endsAt, timestamp + 15 * 60_000) : endsAt }) }
       const accepted = await repo.createSession({ envelope, grant, createReceipt: { ownerSubject: actor.subject, requestId: body.requestId, fingerprint, roomId: id } })
-      if (!accepted) fail(409, 'SESSION', 'A squad session is active or the hosting allowance was used. Refresh your access status.')
+      if (!accepted) fail(409, 'SESSION', 'A room is active or a room/capacity limit was reached. Refresh hosting access. Saved records are preserved; storage capacity requires an operator-reviewed increase.')
       return { ...stateForClient(envelope), memberId: who.subject, invite }
     },
     async snapshot(request, id) {
       const actor = await principal(request), { room, grant } = await activeRoom(id), who = member(room, actor)
-      if (!grant.allowedSubjects.includes(actor.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved trial audience.')
+      if (!audienceAllows(grant, actor.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved audience.')
       return { ...stateForClient(room), memberId: who.subject }
     },
     async join(request, body) {
@@ -137,15 +148,29 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
     },
     async command(request, id, raw) {
       const actor = await principal(request), body = validateCommand(raw)
-      return saveMutation({ id, actor, body, kind: 'command', mutate(next, who) {
+      if (body.type === 'close_room') {
+        const stored = ID.test(id || '') && await repo.getRoom(id)
+        if (stored?.hostSubject === actor.subject && stored.expiresAt <= now()) {
+          const grant = await grantFor(actor.subject), receipt = await repo.getReceipt(id, memberIdFor(id, actor.subject), body.requestId)
+          if (grant.kind === 'owner' && receipt?.kind === 'command' && receipt.fingerprint === fingerprintOf(body)) return { ended: true, roomId: id, recovered: true }
+          fail(410, 'EXPIRED', 'This squad session has ended.')
+        }
+      }
+      return saveMutation({ id, actor, body, kind: 'command', mutate(next, who, grant) {
+        if (body.type === 'close_room') {
+          if (grant.kind !== 'owner' || actor.subject !== next.hostSubject) fail(403, 'OWNER', 'Only this room host can end an owner room.')
+          if (body.expectedRevision !== next.state.revision) fail(409, 'STALE', 'Refresh the latest room before ending it.')
+          next.expiresAt = now()
+          return { releaseActiveRoom: true, publicResult: { ended: true, roomId: id } }
+        }
         next.state = domain.applyCommand(next.state, body, who, now())
       } })
     },
     async socketTicket(request, id, body) {
       const actor = await principal(request)
       if (!body || !ID.test(body.requestId || '') || Object.keys(body).some(key => key !== 'requestId')) fail(400, 'BODY', 'A ticket request ID is required.')
-      return saveMutation({ id, actor, body, kind: 'socket_ticket', mutate(next, who) {
-        if ((next.ticketCount || 0) >= 20) fail(429, 'TICKETS', 'This session reached its reconnect allowance.')
+      return saveMutation({ id, actor, body, kind: 'socket_ticket', mutate(next, who, grant) {
+        if ((next.ticketCount || 0) >= (grant.maxTickets || 20)) fail(429, 'TICKETS', 'This session reached its reconnect allowance.')
         const token = random(), authorizationExpiresAt = Math.min(next.expiresAt, actor.tokenExpiresAt || next.expiresAt), expiresAt = Math.min(now() + 30_000, authorizationExpiresAt)
         next.ticketCount = (next.ticketCount || 0) + 1
         return { ticket: { hash: digest(token), roomId: id, subject: actor.subject, memberId: who.subject, expiresAt, authorizationExpiresAt }, publicResult: { ticket: token, ticketExpiresAt: expiresAt } }
@@ -164,7 +189,7 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
       const connection = await repo.getConnection(connectionId)
       if (!connection || connection.status !== 'active' || connection.authorizationExpiresAt <= now()) fail(403, 'CONNECTION', 'This connection is no longer active.')
       const { room, grant } = await activeRoom(connection.roomId)
-      if (!grant.allowedSubjects.includes(connection.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved trial audience.')
+      if (!audienceAllows(grant, connection.subject)) fail(403, 'AUDIENCE', 'This account is outside the approved audience.')
       const who = member(room, { subject: connection.subject })
       if (who.subject !== connection.memberId) fail(403, 'CONNECTION', 'Connection ownership mismatch.')
       return { ...stateForClient(room), memberId: who.subject }
@@ -175,9 +200,11 @@ export function createSquadService({ repo, authenticate, domain, now = Date.now,
       return { subject: actor.subject, profile }
     },
     async history(request) {
-      const actor = await principal(request), observations = await repo.getProfileHistory(actor.subject)
+      const actor = await principal(request), query = request.queryStringParameters || {}
+      if (Object.keys(query).some(key => key !== 'cursor')) fail(400, 'HISTORY_CURSOR', 'Reload recent history for this account.')
+      const { observations, nextCursor } = await repo.getProfileHistory(actor.subject, query.cursor)
       if (observations.some(row => row.ownerSubject !== actor.subject)) fail(403, 'OWNER', 'History ownership mismatch.')
-      return { observations, limit: 25, source: 'user_reported' }
+      return { observations, nextCursor, limit: 25, source: 'user_reported' }
     },
     async updateProfile(request, id, body) {
       const actor = await principal(request)
