@@ -21,8 +21,19 @@ test('room receipts observations and profiles are retained without TTL markers',
  const f=fixture(),profile={ownerSubject:subject,version:1};await f.repo.commitRoom({next:envelope,expectedVersion:0,grant,receipt:{actor:'member-001',requestId:'owner-request-001'},privateProfile:{profile,previousVersion:0,requestId:'owner-profile-001'}});const writes=f.calls[0].TransactItems.filter(x=>x.Put).map(x=>x.Put.Item);assert.equal(writes.find(x=>x.SK==='PROFILE').expiresAtTtl,undefined);assert.equal(writes.find(x=>x.SK.startsWith('OBS#')).expiresAtTtl,undefined);assert.equal(writes.find(x=>x.SK.startsWith('RECEIPT#')).expiresAtTtl,undefined)
  const history=fixture([{Items:[{profile:{version:1},expiresAtTtl:Math.floor(now/1000)-1},{profile:{version:2}},{profile:{version:3},expiresAtTtl:Math.floor(now/1000)+1000}]}]);assert.deepEqual(await history.repo.getProfileHistory(subject),{observations:[{version:1},{version:2},{version:3}],nextCursor:null})
 })
-test('template remains exactly the deployed no-TTL baseline; IAM and grant-write denial unchanged',()=>{
- const next=JSON.parse(readFileSync(new URL('../../aws/squad-preview.template.json',import.meta.url)));assert.equal(next.Resources.SquadTable.Properties.TimeToLiveSpecification,undefined);assert.equal(createHash('sha256').update(JSON.stringify(next)).digest('hex'),'c97fe96b91fb5d90adaaa26863a072503ef35db998fca84ad8f819a9aa80452c')
+test('template adds only approved owner-usage GetItem prefix to pinned no-TTL baseline',()=>{
+ const next=JSON.parse(readFileSync(new URL('../../aws/squad-preview.template.json',import.meta.url)))
+ assert.equal(next.Resources.SquadTable.Properties.TimeToLiveSpecification,undefined)
+ const reads=next.Resources.SquadRole.Properties.Policies[0].PolicyDocument.Statement.find(row=>row.Sid==='ReadDedicatedSquadState')
+ assert.deepEqual(reads.Action,['dynamodb:GetItem'])
+ assert.equal(reads.Resource,'arn:aws:dynamodb:us-east-1:183678667221:table/recon-squad-state')
+ assert.equal(reads.Condition.Null['dynamodb:LeadingKeys'],'false')
+ const prefixes=reads.Condition['ForAllValues:StringLike']['dynamodb:LeadingKeys']
+ assert.equal(prefixes.filter(value=>value==='OWNER_USAGE#*').length,1)
+ assert.equal(prefixes.pop(),'OWNER_USAGE#*')
+ // Removing exactly the approved prefix must recover the immutable full baseline.
+ // This still detects all other resource, IAM, grant-write or deletion changes.
+ assert.equal(createHash('sha256').update(JSON.stringify(next)).digest('hex'),'c97fe96b91fb5d90adaaa26863a072503ef35db998fca84ad8f819a9aa80452c')
 })
 
 test('end-room active lock release shares the room/receipt transaction and binds room plus usage version',async()=>{
