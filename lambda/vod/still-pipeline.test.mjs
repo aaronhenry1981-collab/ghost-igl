@@ -6,6 +6,7 @@ import vm from 'node:vm'
 import { buildMapContext, validateAnalysis } from './coach-contract.mjs'
 import { GROUNDING_RULES, requireGroundedAnalysis } from './grounding.mjs'
 import { buildVodCoachingEvent } from '../../src/api/vodEvidence.js'
+import { preflightVodUpload, serializeVodRequest } from '../../src/api/vodUploadSize.mjs'
 import { context, groundedStill } from './fixtures/coastline-still.mjs'
 
 const source = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
@@ -51,7 +52,7 @@ for (const failure of [null, 'temporal', 'geometry', 'geometry_pronoun', 'geomet
     readAsDataURL(file) { this.result = `data:${file.type};base64,${file.bytes.toString('base64')}`; this.onload() }
   }
   const frontend = vm.createContext({
-    AbortController, setTimeout, clearTimeout,
+    AbortController, setTimeout, clearTimeout, preflightVodUpload, serializeVodRequest,
     FileReader, API_URL: 'https://offline.invalid', getCurrentUser: () => ({}), getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: 'offline' }) }) }), getIdToken: () => 'offline', buildVodCoachingEvent,
     fetch: async (url, request) => {
       if (url.endsWith('/me/coaching-events')) { syncs.push(JSON.parse(request.body)); return { ok: true, json: async () => ({ written: 1, received: 1 }) } }
@@ -60,7 +61,7 @@ for (const failure of [null, 'temporal', 'geometry', 'geometry_pronoun', 'geomet
     },
   })
   vm.runInContext(api, frontend)
-  const run = frontend.analyzeSessionApi([{ type: 'image/jpeg', bytes }], { ...context, game_id: 'r6' })
+  const run = frontend.analyzeSessionApi([{ type: 'image/jpeg', size: bytes.length, bytes }], { ...context, game_id: 'r6' })
   if (rejected) {
     await assert.rejects(run, error => error.code === 'analysis_not_grounded' && error.status === 422)
     assert.equal(writes.length + publishes.length + syncs.length, 0)

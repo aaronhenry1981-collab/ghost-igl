@@ -1,5 +1,6 @@
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { buildVodCoachingEvent } from './vodEvidence'
+import { preflightVodUpload, serializeVodRequest } from './vodUploadSize.mjs'
 
 function sessionSubject(session) {
   try { return session?.getIdToken()?.decodePayload()?.sub || null }
@@ -101,6 +102,9 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
   const subject = sessionSubject(session)
   if (!token || !subject) throw signInAgain()
 
+  // Reject the whole batch before allocating any base64 image strings.
+  const body = preflightVodUpload(files, context)
+
   // Encode all images in parallel
   const images = await Promise.all(
     files.map(async (file) => ({
@@ -118,21 +122,8 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
     throw Object.assign(new Error('Review cancelled before processing started.'), { code: 'review_cancelled' })
   }
 
-  const body = { images }
-  // game_id rides at the top level so the Lambda doesn't have to dig into
-  // context to route. Default to r6 server-side if missing.
-  if (context.game_id) body.game_id = context.game_id
-  if (context.analysis_type) body.analysis_type = context.analysis_type
-
-  // Only include context fields the user actually set — empty strings would
-  // confuse the AI into thinking the user specified empty values.
-  const cleanContext = {}
-  if (context.map) cleanContext.map = context.map
-  if (context.side) cleanContext.side = context.side
-  if (context.operator) cleanContext.operator = context.operator
-  if (context.character) cleanContext.character = context.character
-  if (context.site) cleanContext.site = context.site
-  if (Object.keys(cleanContext).length > 0) body.context = cleanContext
+  body.images = images
+  const serializedBody = serializeVodRequest(body)
 
   const res = await fetch(`${API_URL}/vod/analyze`, {
     method: 'POST',
@@ -140,7 +131,7 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: serializedBody,
   })
 
   if (!res.ok) {

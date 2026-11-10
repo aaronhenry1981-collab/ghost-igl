@@ -4,6 +4,7 @@ import SessionUploadZone from '../components/vod/SessionUploadZone'
 import YoutubeSubmission from '../components/vod/YoutubeSubmission'
 import { SUPPORT_UI_ENABLED } from '../features/support/supportFlags'
 import SessionResults from '../components/vod/SessionResults'
+import VodSampleWorkflow from '../components/vod/VodSampleWorkflow'
 import AnalysisLoading from '../components/vod/AnalysisLoading'
 import { useVodAnalysis } from '../hooks/useVodAnalysis'
 import { useAuth } from '../hooks/useAuth'
@@ -409,7 +410,9 @@ export default function VodPage() {
                 {demoMode && (
                   <div className="vod-demo-banner">
                     <span className="vod-demo-badge">SAMPLE</span>
-                    {canAnalyze
+                    {activeGameId === 'r6'
+                      ? 'Illustrative review workflow. No gameplay image was analyzed.'
+                      : canAnalyze
                       ? `Sample ${displayName} analysis. Upload your own screenshot to review your real match.`
                       : isHandTunedDemo
                         ? `Sample ${displayName} analysis. Sign up for Pro to review selected screenshots from your own matches.`
@@ -433,7 +436,7 @@ export default function VodPage() {
                     {saveError && <span role="alert">{saveError}</span>}
                   </div>
                 )}
-                <SessionResults analysis={effectiveAnalysis} />
+                {demoMode && activeGameId === 'r6' ? <VodSampleWorkflow /> : <SessionResults analysis={effectiveAnalysis} />}
                 <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
                   <button type="button" onClick={demoMode ? exitDemo : reset} className="btn btn-outline">
                     {demoMode ? 'Exit demo' : 'Analyze another session'}

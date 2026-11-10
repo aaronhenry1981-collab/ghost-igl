@@ -179,22 +179,10 @@ const FEATURE_ICONS = {
   ),
 }
 
-// What the paid features hand back, shown with real product data rather than
-// described: an excerpt of the /vod demo's sample review (the same object),
-// and an example Road to Champion board built from the real curriculum, its
-// "Needs work" skill matching the sample's mistake. Both are labelled as
-// samples; neither is a member's data.
-const SAMPLE_SHOT = R6_DEMO_ANALYSIS.per_image[0]
-const SAMPLE_REVIEW_PLACE = [
-  `${SAMPLE_SHOT.detected.map} ${SAMPLE_SHOT.detected.site}`,
-  SAMPLE_SHOT.detected.side === 'defense' ? 'Defense' : 'Attack',
-  SAMPLE_SHOT.detected.character,
-].join(' · ')
-const SAMPLE_REVIEW_STEPS = [
-  { label: 'Screenshot', text: SAMPLE_SHOT.what_happened },
-  { label: 'Mistake', text: SAMPLE_SHOT.what_went_wrong[0] }, // crosshair on the door frame
-  { label: 'Practice', text: R6_DEMO_ANALYSIS.practice_plan.this_week[0] }, // pre-aim head height drill
-]
+// The text-only screenshot-review workflow and the separate curriculum
+// board are illustrations, not an analysis or assessment of a player.
+const SAMPLE_REVIEW_PLACE = R6_DEMO_ANALYSIS.title
+const SAMPLE_REVIEW_STEPS = R6_DEMO_ANALYSIS.steps
 const BOARD_MISSION = findProgressSkill('crosshair-head-height')
 const BOARD_EXAMPLE = [
   { skill: findProgressSkill('drone-before-entry'), state: 'proven', label: 'Proven' },
@@ -508,7 +496,7 @@ export default function LandingPage() {
         </div>
         <figure className="review-sample">
           <figcaption className="review-sample-head">
-            <span className="review-sample-badge">Sample review</span>
+            <span className="review-sample-badge">Illustrative workflow</span>
             <strong>{SAMPLE_REVIEW_PLACE}</strong>
           </figcaption>
           <ol className="review-sample-steps">
@@ -521,7 +509,7 @@ export default function LandingPage() {
           </ol>
           <div className="review-sample-foot">
             <span>Accepted reviews can sync to Road to Champion; check the save status. Rejected or timed-out reviews are not saved as coaching evidence.</span>
-            <Link to="/vod?demo=1">Open the full sample review <span aria-hidden="true">→</span></Link>
+            <Link to="/vod?demo=1">See the illustrative workflow <span aria-hidden="true">→</span></Link>
           </div>
         </figure>
       </section>
