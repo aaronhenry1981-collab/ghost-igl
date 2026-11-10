@@ -5,6 +5,8 @@ import vm from 'node:vm'
 import { aggregateProgressEvidence, sanitizeProgressEvidence } from './progress-evidence.mjs'
 import { evaluateCondition } from '../webhook/test-support/fakeDynamo.mjs'
 import { buildVodCoachingEvent } from '../../src/api/vodEvidence.js'
+import { preflightVodUpload, serializeVodRequest } from '../../src/api/vodUploadSize.mjs'
+const imageBytes = Buffer.from('local')
 
 const backendSource = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
 const apiSource = readFileSync(new URL('../../src/api/vodApi.js', import.meta.url), 'utf8').replace(/^import .*\r?\n/gm, '').replace(/export /g, '')
@@ -50,9 +52,9 @@ function fixture({ unprocessed = false, lostReceipt = false } = {}) {
     const response = await backend.handler({ headers: { authorization: 'Bearer fixture-only' }, requestContext: { http: { method } }, rawPath: path, body: body && JSON.stringify(body) })
     return { ok: response.statusCode >= 200 && response.statusCode < 300, status: response.statusCode, json: async () => JSON.parse(response.body) }
   }
-  class FileReader { readAsDataURL() { this.result = 'data:image/png;base64,bG9jYWw='; this.onload() } }
+  class FileReader { readAsDataURL() { this.result = `data:image/png;base64,${imageBytes.toString('base64')}`; this.onload() } }
   const client = vm.createContext({
-    AbortController, setTimeout, clearTimeout,
+    AbortController, setTimeout, clearTimeout, preflightVodUpload, serializeVodRequest,
     API_URL: 'https://fixture.invalid', FileReader, buildVodCoachingEvent,
     getCurrentUser: () => ({}), getIdToken: () => 'fixture-only', getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: subject }) }) }),
     fetch: async (url, init) => {
@@ -68,7 +70,7 @@ function fixture({ unprocessed = false, lostReceipt = false } = {}) {
 
 for (const mode of ['unprocessed', 'lostReceipt']) test(`review → ${mode} → evidence-only retry → actual history/profile readback`, async () => {
   const app = fixture({ [mode]: true })
-  const review = await app.client.analyzeSessionApi([{ type: 'image/png' }], { map: 'bank', site: 'ceo', side: 'attack' })
+  const review = await app.client.analyzeSessionApi([{ type: 'image/png', size: imageBytes.length }], { map: 'bank', site: 'ceo', side: 'attack' })
   assert.equal(review.roadmap_sync, 'pending')
   if (mode === 'unprocessed') assert.equal(app.events.size, 0)
   app.unblock()

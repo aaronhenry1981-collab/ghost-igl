@@ -6,6 +6,7 @@ import { encodeHistoryCursor, decodeHistoryCursor } from './history-cursor.mjs'
 import { createSquadService } from './service.mjs'
 import { createMemoryRepository } from './memory-repository.mjs'
 import * as domain from '../../src/features/squad/domain.mjs'
+import { hostingConnection, hostingFailure } from '../../src/features/squad/hosting-status.mjs'
 const who='verified-owner-001',at=Date.parse('2026-11-06T08:00:00Z')
 const key=n=>({PK:`USER#${who}`,SK:`OBS#${String(n).padStart(12,'0')}#request-${String(n).padStart(6,'0')}`})
 class Command{constructor(input){this.input=input}}
@@ -30,9 +31,10 @@ test('legacy, zero, expired, boundary and future timestamps never hide saved his
 function recoveryFixture({holdGrant=false,initialRecovery=true}={}){
  let serial=0
  const record={id:'owner-grant-001',kind:'owner',policy:'owner-v1',ownerSubject:who,version:1,enabled:true},repo=createMemoryRepository({grants:[record],now:()=>at}),service=createSquadService({repo,authenticate:async()=>({subject:who}),domain,now:()=>at,random:()=>`recovery-room-${++serial}`})
- const state={room:null,grant:null,busy:false,recovery:initialRecovery,closeCalls:0},generation={current:0},pendingMutation={current:null};let releaseGrant
+ const state={room:null,grant:null,busy:false,recovery:initialRecovery,closeCalls:0,hostingDiagnostic:''},generation={current:0},pendingMutation={current:null};let releaseGrant
  const noop=()=>{},auth={currentSubject:()=>who}
  const bindings={canInteract:()=>true,recoveryRequired:initialRecovery,pendingMutation,speech:{stop:noop,mute:noop},setFresh:noop,generation,setBusy:v=>{state.busy=v},setError:noop,suspend:()=>{throw Error('Unexpected suspension')},auth,forgetAccount:()=>{throw Error('Unexpected account switch')},setRecoveryRequired:v=>{state.recovery=v},attached:{current:true},apply:()=>{throw Error('Ended result must never apply an expired room')},watch:()=>{throw Error('Ended result must never restart a room')},setProfile:noop,setHistory:noop,setHistoryCursor:noop,setGrant:v=>{state.grant=v},realtime:{current:{stop:noop}},setAudioEnabled:noop,setSnapshot:v=>{state.room=v;state.closeCalls++},setInvite:noop,setConnection:noop,api:{current:{grant:()=>holdGrant?new Promise(resolve=>{releaseGrant=resolve}):service.grant({}),disconnect:noop}}}
+ Object.assign(bindings,{hostingConnection,hostingFailure,setHostingDiagnostic:v=>{state.hostingDiagnostic=v}})
  const text=readFileSync(new URL('../../src/features/squad/AccountApp.jsx',import.meta.url),'utf8'),perform=text.slice(text.indexOf('  async function perform('),text.indexOf('  async function connect(')),recover=text.match(/  function recoverChange\(\) \{[^\n]*\}/)[0],close=text.match(/  function closeView\(\) \{[^\n]*\}/)[0];const functions=new Function(...Object.keys(bindings),perform+'\n'+close+'\n'+recover+'\nreturn {perform,recoverChange};')(...Object.values(bindings))
  return{state,repo,service,record,generation,pendingMutation,functions,auth,release:()=>releaseGrant?.({enabled:true,kind:'owner',activeRoomId:null})}
 }

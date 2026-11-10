@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import vm from 'node:vm'
+import { preflightVodUpload, serializeVodRequest } from '../../src/api/vodUploadSize.mjs'
 
 // Execute the real handler, API helper and hook. Identity, storage and the
 // provider are synthetic boundaries; no Stripe, AWS, image or network is used.
@@ -9,6 +10,7 @@ const source = readFileSync(new URL('./index.mjs', import.meta.url), 'utf8')
 const apiSource = readFileSync(new URL('../../src/api/vodApi.js', import.meta.url), 'utf8')
 const hookSource = readFileSync(new URL('../../src/hooks/useVodAnalysis.js', import.meta.url), 'utf8')
 const executable = text => text.replace(/^import .*\r?\n/gm, '').replace(/export /g, '')
+const imageBytes = Buffer.from('local')
 const handlerStart = source.indexOf('export async function handler(')
 const handlerEnd = source.indexOf('async function getActiveSub(')
 assert.ok(handlerStart > 0 && handlerEnd > handlerStart)
@@ -40,10 +42,10 @@ function harness({ prepaid = false, failure = 'ModelSchemaError', blocked = fals
   })
   vm.runInContext(executable(source.slice(handlerStart, handlerEnd)), backend)
   class FileReader {
-    readAsDataURL() { this.result = 'data:image/png;base64,bG9jYWw='; this.onload() }
+    readAsDataURL() { this.result = `data:image/png;base64,${imageBytes.toString('base64')}`; this.onload() }
   }
   const frontend = vm.createContext({
-    FileReader, API_URL: 'https://synthetic.invalid',
+    FileReader, preflightVodUpload, serializeVodRequest, API_URL: 'https://synthetic.invalid',
     getCurrentUser: () => ({}), getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: 'synthetic' }) }) }), getIdToken: () => 'synthetic',
     fetch: async (url, request) => {
       requests++
@@ -77,7 +79,7 @@ function harness({ prepaid = false, failure = 'ModelSchemaError', blocked = fals
 for (const failure of ['ReviewDeadlineError', 'ModelGroundingError', 'ThrottlingException', 'AccessDeniedException', 'ValidationException', 'ModelSchemaError']) {
   for (const prepaid of [false, true]) test(`${failure}: ${prepaid ? 'prepaid credits' : 'monthly attempt'} stay visible after failure`, async () => {
     const app = harness({ prepaid, failure })
-    await app.render().analyzeSession([{ type: 'image/png' }])
+    await app.render().analyzeSession([{ type: 'image/png', size: imageBytes.length }])
     const result = app.render()
     assert.equal(result.loading, false)
     assert.equal(result.analysis, null)
@@ -94,7 +96,7 @@ for (const failure of ['ReviewDeadlineError', 'ModelGroundingError', 'Throttling
 
 test('API preserves the consumed flag and quota payload without retrying a failed review', async () => {
   const app = harness()
-  await assert.rejects(app.api([{ type: 'image/png' }]), error => {
+  await assert.rejects(app.api([{ type: 'image/png', size: imageBytes.length }]), error => {
     assert.equal(error.allowance_consumed, true)
     assert.equal(error.usage.remaining, 1)
     assert.equal(error.code, 'analysis_failed')
@@ -105,7 +107,7 @@ test('API preserves the consumed flag and quota payload without retrying a faile
 
 test('reservation failure blocks processing and never claims an attempt was consumed', async () => {
   const app = harness({ blocked: true })
-  await assert.rejects(app.api([{ type: 'image/png' }]), error => {
+  await assert.rejects(app.api([{ type: 'image/png', size: imageBytes.length }]), error => {
     assert.equal(error.allowance_consumed, false)
     assert.equal(error.usage, undefined)
     assert.equal(error.code, 'usage_reservation_unavailable')
@@ -117,7 +119,7 @@ test('reservation failure blocks processing and never claims an attempt was cons
 
 test('an unreadable rank snapshot also updates the reserved allowance', async () => {
   const app = harness()
-  await app.render().analyzeSession([{ type: 'image/png' }], { analysis_type: 'rank_snapshot' })
+  await app.render().analyzeSession([{ type: 'image/png', size: imageBytes.length }], { analysis_type: 'rank_snapshot' })
   assert.equal(app.render().errorCode, 'rank_not_verified')
   assert.equal(app.usageUpdates[0].remaining, 1)
   assert.equal(app.counters().modelCalls, 1)
