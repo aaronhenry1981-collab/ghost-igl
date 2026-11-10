@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import vm from 'node:vm'
 import { buildVodCoachingEvent } from './vodEvidence.js'
+import { preflightVodUpload, serializeVodRequest } from './vodUploadSize.mjs'
 
 const source = readFileSync(new URL('./vodApi.js', import.meta.url), 'utf8').replace(/^import .*\r?\n/gm, '').replace(/export /g, '')
 function harness(receipts, { hanging = false, deferredImage = false, deferredModel = false } = {}) {
@@ -11,7 +12,7 @@ function harness(receipts, { hanging = false, deferredImage = false, deferredMod
   let finishModel
   class FileReader { readAsDataURL() { this.result = 'data:image/png;base64,Zml4dHVyZQ=='; if (deferredImage) readers.push(this); else this.onload() } }
   const context = vm.createContext({
-    API_URL: 'https://fixture.invalid', FileReader, buildVodCoachingEvent,
+    API_URL: 'https://fixture.invalid', FileReader, buildVodCoachingEvent, preflightVodUpload, serializeVodRequest,
     AbortController, setTimeout: callback => { deadlines.push(callback); return deadlines.length }, clearTimeout() {},
     getCurrentUser: () => ({}), getIdToken: () => `fixture-${subject}`,
     getSession: async () => ({ getIdToken: () => ({ decodePayload: () => ({ sub: subject }) }) }),
@@ -35,14 +36,14 @@ function harness(receipts, { hanging = false, deferredImage = false, deferredMod
 
 test('HTTP 200 with no durable write is pending, not saved', async () => {
   const app = harness([{ written: 0, received: 1 }])
-  const review = await app.context.analyzeSessionApi([{ type: 'image/png' }])
+  const review = await app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }])
   assert.equal(review.roadmap_sync, 'pending')
   assert.equal(app.persisted.size, 0)
 })
 
 test('evidence-only retry reuses its receipt identity and never re-runs paid analysis', async () => {
   const app = harness([{ written: 0, received: 1 }, { written: 1, received: 1 }])
-  const review = await app.context.analyzeSessionApi([{ type: 'image/png' }])
+  const review = await app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }])
   const saved = await app.context.retryVodEvidenceApi(review)
   assert.equal(saved.roadmap_sync, 'saved')
   assert.equal(app.models(), 1)
@@ -54,7 +55,7 @@ test('evidence-only retry reuses its receipt identity and never re-runs paid ana
 
 test('pending evidence from another subject cannot be submitted with a new session', async () => {
   const app = harness([{ written: 0, received: 1 }])
-  const review = await app.context.analyzeSessionApi([{ type: 'image/png' }])
+  const review = await app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }])
   app.switchUser('subject-b')
   await assert.rejects(app.context.retryVodEvidenceApi(review), error => error.code === 'not_authenticated')
   assert.equal(app.writes.length, 1)
@@ -63,7 +64,7 @@ test('pending evidence from another subject cannot be submitted with a new sessi
 
 test('a hanging evidence save yields a bounded pending result, without another model call', async () => {
   const app = harness([], { hanging: true })
-  const review = app.context.analyzeSessionApi([{ type: 'image/png' }])
+  const review = app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }])
   // Let the real session rechecks and encoding microtasks drain before
   // advancing this test's explicit deadline; don't assume a promise count.
   await new Promise(setImmediate)
@@ -76,7 +77,7 @@ test('a hanging evidence save yields a bounded pending result, without another m
 for (const boundary of ['account', 'reset']) test(`interruption during image encoding prevents paid dispatch: ${boundary}`, async () => {
   const app = harness([], { deferredImage: true })
   let current = true
-  const review = app.context.analyzeSessionApi([{ type: 'image/png' }], {}, { isCurrent: () => current })
+  const review = app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }], {}, { isCurrent: () => current })
   for (let i = 0; i < 10 && !app.readers.length; i++) await Promise.resolve()
   if (boundary === 'account') app.switchUser('subject-b')
   else current = false
@@ -89,7 +90,7 @@ for (const boundary of ['account', 'reset']) test(`interruption during image enc
 for (const boundary of ['account', 'logout', 'reset']) test(`late analysis does not start new evidence work after ${boundary}`, async () => {
   const app = harness([], { deferredModel: true })
   let current = true
-  const review = app.context.analyzeSessionApi([{ type: 'image/png' }], {}, { isCurrent: () => current })
+  const review = app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }], {}, { isCurrent: () => current })
   for (let i = 0; i < 20 && !app.models(); i++) await Promise.resolve()
   assert.equal(app.models(), 1)
   if (boundary === 'account') app.switchUser('subject-b')
@@ -103,7 +104,7 @@ for (const boundary of ['account', 'logout', 'reset']) test(`late analysis does 
 
 test('retry lifecycle invalidation during session refresh prevents a new save request', async () => {
   const app = harness([{ written: 0, received: 1 }])
-  const review = await app.context.analyzeSessionApi([{ type: 'image/png' }])
+  const review = await app.context.analyzeSessionApi([{ type: 'image/png', size: 7 }])
   await assert.rejects(app.context.retryVodEvidenceApi(review, { isCurrent: () => false }), error => error.code === 'not_authenticated')
   assert.equal(app.writes.length, 1)
 })

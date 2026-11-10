@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { useGameData } from '../../hooks/useGameData'
 import { useActiveGame } from '../../hooks/useActiveGame'
+import { preflightVodUpload } from '../../api/vodUploadSize.mjs'
 
 // Multi-image upload zone for the VOD session-based analysis flow. Supports
 // drag/drop OR click-to-browse for 1-10 screenshots, plus optional context
@@ -78,6 +79,10 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
       return
     }
     const combined = [...files, ...list].slice(0, maxImages)
+    // Preview encoding also allocates base64 strings. Keep an oversized batch
+    // out of both the preview and the review request; retain the current files.
+    try { preflightVodUpload(combined, { ...context, game_id: activeGameId }) }
+    catch (problem) { setError(problem.message); return }
     if (files.length + list.length > maxImages) {
       setError(`Max ${maxImages} images per session on ${tier} tier — kept the first ${maxImages}`)
     }
@@ -87,7 +92,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
       reader.onload = (e) => resolve({ name: f.name, dataUrl: e.target.result })
       reader.readAsDataURL(f)
     }))).then(setPreviews)
-  }, [files, maxImages, tier])
+  }, [files, maxImages, tier, context, activeGameId])
 
   function removeAt(idx) {
     const next = files.filter((_, i) => i !== idx)
@@ -143,7 +148,7 @@ export default function SessionUploadZone({ onUpload, tier = 'pro', disabled = f
             <p>Choose a clear frame showing the position or HUD you want to review.</p>
             <span className="upload-zone-btn">Choose screenshots</span>
             <p style={{ fontSize: '0.85rem', color: 'rgba(235,228,215,0.55)', marginTop: '1rem' }}>
-              You can add up to {maxImages} screenshots. Selected frames add context; they do not prove recurring habits or actions between frames.
+              You can add up to {maxImages} screenshots within a combined 4 MiB encoded review limit; use fewer or smaller images if needed. Selected frames add context; they do not prove recurring habits or actions between frames.
             </p>
           </>
         ) : (
