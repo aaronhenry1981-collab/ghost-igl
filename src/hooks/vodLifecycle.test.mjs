@@ -47,12 +47,12 @@ test('reset invalidates an outstanding review without automatic resubmission', a
   assert.equal(app.pending.length, 1)
 })
 
-test('older requests cannot replace the newest review or clear its loading state', async () => {
+test('repeated submit cannot create a second paid request while the first is active', async () => {
   const app = harness(), first = app.render().analyzeSession([{}]), second = app.render().analyzeSession([{}])
-  app.pending[0].resolve(result); await first
+  await second
+  assert.equal(app.pending.length, 1)
   assert.equal(app.render().loading, true)
-  assert.equal(app.render().analysis, null)
-  app.pending[1].resolve({ session: { headline: 'new review' }, usage: { remaining: 18 } }); await second
-  assert.equal(app.render().analysis.session.headline, 'new review')
+  app.pending[0].resolve(result); await first
+  assert.equal(app.render().analysis.session.headline, 'private review for A')
   assert.equal(app.updates.length, 1)
 })

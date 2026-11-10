@@ -408,8 +408,8 @@ async function publishVodPlayerData(payload, analysis, gameId) {
   }
 }
 
-export async function handler(event) {
-  const requestDeadline = Date.now() + REVIEW_REQUEST_BUDGET_MS
+export async function handler(event, runtime = {}) {
+  const requestDeadline = runtime.deadline || (Date.now() + REVIEW_REQUEST_BUDGET_MS)
   const headers = buildHeaders(event)
   const method = event.requestContext?.http?.method
   if (method === 'OPTIONS') return { statusCode: 200, headers, body: '' }
@@ -417,10 +417,10 @@ export async function handler(event) {
   // Auth
   const authHeader = event.headers?.authorization || event.headers?.Authorization || ''
   const token = authHeader.replace('Bearer ', '')
-  if (!token) return { statusCode: 401, headers, body: JSON.stringify({ error: 'No token' }) }
+  if (!token && !runtime.verifiedPayload) return { statusCode: 401, headers, body: JSON.stringify({ error: 'No token' }) }
 
   let payload
-  try { payload = await verifier.verify(token) }
+  try { payload = runtime.verifiedPayload || await verifier.verify(token) }
   catch (err) {
     console.error('JWT verify failed:', err)
     return { statusCode: 401, headers, body: JSON.stringify({ error: 'Invalid token' }) }
@@ -458,7 +458,7 @@ export async function handler(event) {
   } else {
     activeSub = await getActiveSub(email, payload.sub)
     const activePlan = effectivePlan(activeSub)
-    if (activeSub && (activeSub.status === 'active' || activeSub.status === 'trialing')
+    if (activeSub && activeSub.strategy_only_catalog !== true && (activeSub.status === 'active' || activeSub.status === 'trialing')
         && ['pro', 'elite', 'champion'].includes(activePlan)) {
       tier = activePlan
       tierScope = activeSub.tier_scope || 'single'
@@ -513,6 +513,10 @@ export async function handler(event) {
   try { body = JSON.parse(event.body || '{}') }
   catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON body' }) } }
 
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'JSON object body required' }) }
+  }
+
   // Game selection — accept body.game_id, body.context.game_id, or default to r6
   // for backward compat with the old UI that didn't pass a game.
   const requestedGame =
@@ -541,7 +545,7 @@ export async function handler(event) {
   }
   for (let i = 0; i < images.length; i++) {
     const img = images[i]
-    if (!img.base64 || typeof img.base64 !== 'string') {
+    if (!img || typeof img !== 'object' || Array.isArray(img) || !img.base64 || typeof img.base64 !== 'string') {
       return { statusCode: 400, headers, body: JSON.stringify({ error: `images[${i}].base64 missing` }) }
     }
     if (!['image/png', 'image/jpeg', 'image/webp', 'image/gif'].includes(img.media_type)) {
@@ -668,13 +672,13 @@ export async function handler(event) {
           source: analysisType === 'rank_snapshot' ? 'rank-snapshot' : 'vod-api',
         },
       }))
-    } catch (archiveErr) {
-      console.error('review archive failed (non-fatal):', archiveErr?.message || archiveErr)
+    } catch {
+      console.error('vod_review_archive_failed')
     }
     if (analysisType === 'vod_review') await publishVodPlayerData(payload, analysis, gameId)
     return { statusCode: 200, headers, body: JSON.stringify({ ...analysis, tier, game_id: gameId, usage: responseUsage }) }
   } catch (err) {
-    console.error('Bedrock error:', err)
+    console.error('vod_review_processing_failed')
     // Usage is intentionally not refunded after model invocation starts.
     // Bedrock bills the request even when its output is malformed or the
     // provider throttles mid-flight; refunding here enabled unlimited paid
@@ -1003,3 +1007,32 @@ function parseModelJson(text) {
   try { return JSON.parse(cleaned) }
   catch { return null }
 }
+
+// Internal worker entry: invoked only by code holding the verified job identity.
+// HTTP events never populate the second argument; no client-supplied bypass.
+export async function runVerifiedReview(owner, input, deadline) {
+  return handler({ headers: {}, body: JSON.stringify(input) }, {
+    deadline,
+    verifiedPayload: { sub: owner.subject, email: owner.email, email_verified: true,
+      'cognito:groups': owner.isAdmin ? ['admins'] : [] },
+  })
+}
+
+// Admission repeats membership validation before any temporary image storage.
+// The worker rechecks subscription/allowance immediately before paid inference.
+export async function authorizeReviewJob(event, forSubmit = true) {
+  const token = (event.headers?.authorization || event.headers?.Authorization || '').replace(/^Bearer /, '')
+  let payload
+  try { payload = await verifier.verify(token) } catch { return { statusCode: 401, error: 'not_authenticated' } }
+  if (!payload.sub || !payload.email || payload.email_verified !== true) return { statusCode: 403, error: 'verified_email_required' }
+  if (forSubmit && !VOD_AI_ENABLED) return { statusCode: 503, error: 'ai_temporarily_disabled' }
+  const owner = { subject: payload.sub, email: payload.email.toLowerCase(),
+    isAdmin: Array.isArray(payload['cognito:groups']) && payload['cognito:groups'].includes('admins') }
+  if (forSubmit && !owner.isAdmin) {
+    const sub = await getActiveSub(owner.email, owner.subject)
+    if (!sub || sub.strategy_only_catalog === true || !['active', 'trialing'].includes(sub.status) || !['pro', 'elite', 'champion'].includes(effectivePlan(sub))) return { statusCode: 402, error: 'pro_required' }
+  }
+  return { owner }
+}
+
+export { buildHeaders }

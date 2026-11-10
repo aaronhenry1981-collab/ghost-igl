@@ -162,7 +162,7 @@ for (const interruption of ['logout', 'account', 'reset']) test(`existing ${inte
 })
 
 test('actual upload-selection callback rejects before preview FileReader and retains previous selection', () => {
-  const component = readFileSync(new URL('../components/vod/SessionUploadZone.jsx', import.meta.url), 'utf8')
+  const component = readFileSync(new URL('../components/vod/SessionUploadZone.jsx', import.meta.url), 'utf8').replace(/\r\n/g, '\n')
   const start = component.indexOf('const addFiles = useCallback('), end = component.indexOf('\n\n  function removeAt', start)
   assert.ok(start >= 0 && end > start)
   const calls = [], previous = [image(1200000)]

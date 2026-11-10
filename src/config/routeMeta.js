@@ -161,6 +161,7 @@ const STATIC = {
   '/progress': { title: 'Road to Champion — Your R6 Progress', noindex: true },
   '/setups': { title: 'Your Rainbow Six Siege Setups', noindex: true },
   '/coach-connect': { title: 'Connect a Coach to Recon 6', noindex: true },
+  '/vod/results': { title: 'Existing Screenshot Review Result | Recon 6', noindex: true },
   '/account': { title: 'Your Recon 6 Account and Billing', noindex: true },
   '/activate': { title: 'Activate Recon 6 Command', noindex: true },
   '/support': { title: 'Recon 6 Support', noindex: true },
