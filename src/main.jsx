@@ -45,6 +45,7 @@ const StartPage = lazy(() => import('./pages/StartPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
 const MetaPage = lazy(() => import('./pages/MetaPage'))
+const VodResultsPage = lazy(() => import('./pages/VodResultsPage'))
 const VodPage = lazy(() => import('./pages/VodPage'))
 const AuthPage = lazy(() => import('./pages/AuthPage'))
 const AdminRoute = lazy(() => import('./features/admin/AdminRoute'))
@@ -197,6 +198,7 @@ const router = createBrowserRouter([
       { path: '/operators/compare', element: <L><OperatorsComparePage /></L> },
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },
       { path: '/meta', element: <L><MetaPage /></L> },
+      { path: '/vod/results', element: <L><VodResultsPage /></L> },
       { path: '/vod', element: <L><VodPage /></L> },
       // Admin application: its own shell and routes (members, coaching,
       // customer success, support, growth, content, system).

@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Privacy-preserving streaming VOD candidate; images remain in request memory only.
+Parameters:
+  ApiId: { Type: String }
+  UserPoolId: { Type: String }
+  ClientId: { Type: String }
+  SubscriptionsTable: { Type: String, Default: ghost-igl-subscriptions }
+  ProfilesTable: { Type: String, Default: ghost-igl-profiles }
+  ArchiveTable: { Type: String, Default: recon6-review-archive }
+  PlayerDataIngestArn: { Type: String, Default: '' }
+  ModelId: { Type: String, Default: 'us.anthropic.claude-sonnet-4-5-20250929-v1:0' }
+  ReaderModelId: { Type: String, Default: 'us.anthropic.claude-haiku-4-5-20251001-v1:0' }
+  AiEnabled: { Type: String, Default: 'false', AllowedValues: ['true', 'false'] }
+  AdminDailyLimit: { Type: Number, Default: 3, MinValue: 1 }
+  TrialLimit: { Type: Number, Default: 3 }
+  ProLimit: { Type: Number, Default: 20 }
+  ProAllLimit: { Type: Number, Default: 30 }
+  EliteLimit: { Type: Number, Default: 60 }
+  EliteAllLimit: { Type: Number, Default: 75 }
+  ChampionLimit: { Type: Number, Default: 75 }
+  ChampionAllLimit: { Type: Number, Default: 90 }
+  PurchasedCreditCost: { Type: Number, Default: 5 }
+  ChampionPriceId: { Type: String, Default: '' }
+  ChampionFoundingPriceId: { Type: String, Default: '' }
+  ChampionRegularPriceId: { Type: String, Default: '' }
+  ChampionAllAccessPriceId: { Type: String, Default: '' }
+  ChampionAllAccessAnnualPriceId: { Type: String, Default: '' }
+Conditions:
+  HasIngest: !Not [!Equals [!Ref PlayerDataIngestArn, '']]
+Globals:
+  Function:
+    Runtime: nodejs24.x
+    Architectures: [x86_64]
+    CodeUri: ../lambda/vod/
+    MemorySize: 512
+    Environment:
+      Variables:
+        COGNITO_USER_POOL_ID: !Ref UserPoolId
+        COGNITO_CLIENT_ID: !Ref ClientId
+        SUBSCRIPTIONS_TABLE: !Ref SubscriptionsTable
+        PROFILES_TABLE: !Ref ProfilesTable
+        ARCHIVE_TABLE: !Ref ArchiveTable
+        PLAYER_DATA_INGEST_FUNCTION: !Ref PlayerDataIngestArn
+        VOD_MODEL_ID: !Ref ModelId
+        VOD_READER_MODEL_ID: !Ref ReaderModelId
+        VOD_AI_ENABLED: !Ref AiEnabled
+        VOD_ADMIN_DAILY_LIMIT: !Ref AdminDailyLimit
+        VOD_TRIAL_LIMIT: !Ref TrialLimit
+        VOD_PRO_LIMIT: !Ref ProLimit
+        VOD_PRO_ALL_LIMIT: !Ref ProAllLimit
+        VOD_ELITE_LIMIT: !Ref EliteLimit
+        VOD_ELITE_ALL_LIMIT: !Ref EliteAllLimit
+        VOD_CHAMPION_LIMIT: !Ref ChampionLimit
+        VOD_CHAMPION_ALL_LIMIT: !Ref ChampionAllLimit
+        VOD_PURCHASED_CREDIT_COST: !Ref PurchasedCreditCost
+        STRIPE_CHAMPION_PRICE_ID: !Ref ChampionPriceId
+        STRIPE_CHAMPION_FOUNDING_PRICE_ID: !Ref ChampionFoundingPriceId
+        STRIPE_CHAMPION_REGULAR_PRICE_ID: !Ref ChampionRegularPriceId
+        STRIPE_CHAMPION_ALL_ACCESS_PRICE_ID: !Ref ChampionAllAccessPriceId
+        STRIPE_CHAMPION_ALL_ACCESS_ANNUAL_PRICE_ID: !Ref ChampionAllAccessAnnualPriceId
+        VOD_JOBS_TABLE: !Ref Jobs
+Resources:
+  Jobs:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: ownerKey, AttributeType: S }
+        - { AttributeName: jobId, AttributeType: S }
+      KeySchema:
+        - { AttributeName: ownerKey, KeyType: HASH }
+        - { AttributeName: jobId, KeyType: RANGE }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification: { AttributeName: expiresAt, Enabled: true }
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: stream-handler.statusHandler
+      Timeout: 20
+      ReservedConcurrentExecutions: 4
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:UpdateItem]
+              Resource: !GetAtt Jobs.Arn
+  StreamFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: stream-handler.handler
+      Timeout: 180
+      ReservedConcurrentExecutions: 2
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [dynamodb:PutItem]
+              Resource: !GetAtt Jobs.Arn
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:UpdateItem]
+              Resource: [!GetAtt Jobs.Arn, !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SubscriptionsTable}', !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ProfilesTable}']
+            - Effect: Allow
+              Action: [dynamodb:Query]
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${SubscriptionsTable}/index/email-index'
+            - Effect: Allow
+              Action: [dynamodb:PutItem]
+              Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ArchiveTable}'
+            - Effect: Allow
+              Action: [bedrock:InvokeModel]
+              Resource:
+                - 'arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0'
+                - 'arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-20251001-v1:0'
+                - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${ModelId}'
+                - !Sub 'arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${ReaderModelId}'
+            - !If
+              - HasIngest
+              - Effect: Allow
+                Action: [lambda:InvokeFunction]
+                Resource: !Ref PlayerDataIngestArn
+              - !Ref AWS::NoValue
+  StreamUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !GetAtt StreamFunction.Arn
+      AuthType: NONE
+      InvokeMode: RESPONSE_STREAM
+      Cors:
+        AllowOrigins: ['https://r6coaching.com', 'https://www.r6coaching.com']
+        AllowMethods: [POST]
+        AllowHeaders: [Authorization, Content-Type]
+        MaxAge: 300
+  StreamUrlPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref StreamFunction
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+  StreamInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref StreamFunction
+      Action: lambda:InvokeFunction
+      Principal: '*'
+      InvokedViaFunctionUrl: true
+  ApiIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiId
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt ApiFunction.Arn
+      PayloadFormatVersion: '2.0'
+      TimeoutInMillis: 20000
+  StatusRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiId
+      RouteKey: 'GET /vod/jobs/{jobId}'
+      Target: !Sub integrations/${ApiIntegration}
+  StatusOptionsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiId
+      RouteKey: 'OPTIONS /vod/jobs/{jobId}'
+      Target: !Sub integrations/${ApiIntegration}
+  ApiPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ApiFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiId}/*/*/vod/jobs/*'
+Outputs:
+  StreamingUrl: { Value: !GetAtt StreamUrl.FunctionUrl }
+  StatusIntegrationId: { Value: !Ref ApiIntegration }
+  JobsTable: { Value: !Ref Jobs }

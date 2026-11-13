@@ -161,6 +161,7 @@ function AccountContent() {
       <header className="account-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h1>Your Account</h1>
+          <Link to="/vod/results">Check an existing screenshot review</Link>
           <p>Signed in as <span className="account-mono ph-no-capture">{user.email}</span></p>
         </div>
         <button

@@ -222,16 +222,16 @@ function getDemoForGame(gameId, gameMeta, data) {
 
 export default function VodPage() {
   const [demoMode, setDemoMode] = useState(false)
-  const { user, isPro, isAdmin, plan, vodUsage, loading: authLoading } = useAuth()
+  const { user, isPro, isAdmin, account, plan, vodUsage, loading: authLoading } = useAuth()
   const { activeGameId } = useActiveGame()
   const { gameMeta, data: gameData } = useGameData()
-  const { analysis, loading, error, errorCode, usageError, savingEvidence, saveError, analyzeSession, retrySave, reset } = useVodAnalysis()
+  const { analysis, loading, error, errorCode, usageError, savingEvidence, saveError, analyzeSession, resumeReview, retrySave, reset } = useVodAnalysis()
   const tier = isAdmin ? 'champion' : plan === 'champion' ? 'champion' : plan === 'elite' ? 'elite' : 'pro'
   const navigate = useNavigate()
   const goToPricing = useSectionNavigate('pricing')
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const canAnalyze = !!user && (isPro || isAdmin)
+  const canAnalyze = !!user && (isAdmin || (isPro && account?.strategy_only_catalog !== true))
   // Demo is now available for ALL 20 games. R6 gets its hand-tuned demo, 5
   // high-TAM games (CS2/VAL/LoL/Tekken/OW2) get hand-tuned demos, the rest
   // get a synthetic demo that uses the active game's real maps + cast.
@@ -285,6 +285,7 @@ export default function VodPage() {
       </div>
 
       <div className="vod-content">
+        {user && <a href="/vod/results">Check an existing review result</a>}
         {canAnalyze && !demoMode && SUPPORT_UI_ENABLED && <YoutubeSubmission />}
         {(
           <>
@@ -323,6 +324,7 @@ export default function VodPage() {
             {canAnalyze && !effectiveAnalysis && !loading && !error && !demoMode && (
               <>
                 <UsageStrip usage={vodUsage} isAdmin={isAdmin} goToPricing={goToPricing} goToUsage={() => navigate('/account')} />
+                <button type="button" className="btn btn-outline" onClick={resumeReview}>Check pending review status</button>
                 <SessionUploadZone key={user?.id || 'signed-out'} onUpload={analyzeSession} tier={tier} />
                 {demoAvailable && (
                   <div className="vod-demo-hint">
@@ -335,9 +337,9 @@ export default function VodPage() {
               </>
             )}
 
-            {canAnalyze && loading && <AnalysisLoading />}
+            {user && loading && <AnalysisLoading />}
 
-            {canAnalyze && error && !demoMode && (
+            {user && error && !demoMode && (
               <div className={`vod-error${errorCode === 'quota_throttled' || errorCode === 'model_access' ? ' vod-error-pending' : ''}`}>
                 {errorCode === 'quota_throttled' ? (
                   <>
@@ -399,13 +401,15 @@ export default function VodPage() {
                     {errorCode === 'pro_required' && (
                       <button type="button" onClick={goToPricing} className="btn btn-primary">See plans</button>
                     )}
-                    <button className="btn btn-outline" onClick={reset}>Try Again</button>
+                    {errorCode === 'review_pending'
+                      ? <button className="btn btn-outline" onClick={resumeReview}>Check review status</button>
+                      : <button className="btn btn-outline" onClick={reset}>Return to upload</button>}
                   </>
                 )}
               </div>
             )}
 
-            {(canAnalyze || demoMode) && effectiveAnalysis && (
+            {(user || demoMode) && effectiveAnalysis && (
               <>
                 {demoMode && (
                   <div className="vod-demo-banner">

@@ -130,7 +130,7 @@ test('every static directory redirects to its trailing-slash form', async () => 
 })
 
 test('the router knows exactly the routes routeMeta describes', () => {
-  const exact = allRoutePaths().filter((p) => p.split('/').length === 2 || ['/operators/compare', '/tools/r6-tier-list'].includes(p))
+  const exact = allRoutePaths().filter((p) => p.split('/').length === 2 || ['/operators/compare', '/tools/r6-tier-list', '/vod/results'].includes(p))
   assert.deepEqual(Object.keys(sandbox.EXACT).sort(), exact.sort())
   for (const alias of ALIAS_ROUTES) assert.equal(sandbox.EXACT[alias], 1, alias)
   for (const prefix of OPEN_ROUTE_PREFIXES) {

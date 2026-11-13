@@ -1,3 +1,5 @@
+import { VOD_STREAM_URL } from './vodStreamConfig.mjs'
+import { pollVodJob, readPendingJob, savePendingJob, clearPendingJob, jobPending } from './vodJobPolling.mjs'
 import { API_URL, getCurrentUser, getSession, getIdToken } from '../lib/cognito'
 import { buildVodCoachingEvent } from './vodEvidence'
 import { preflightVodUpload, serializeVodRequest } from './vodUploadSize.mjs'
@@ -88,7 +90,7 @@ export async function analyzeRankSnapshotApi(file) {
 // }
 export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
   if (!API_URL) throw new Error('API not configured')
-  if (!Array.isArray(files) || files.length === 0) {
+  if (files !== null && (!Array.isArray(files) || files.length === 0)) {
     throw new Error('At least one screenshot is required')
   }
   const cognitoUser = getCurrentUser()
@@ -101,6 +103,11 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
   const token = getIdToken(session)
   const subject = sessionSubject(session)
   if (!token || !subject) throw signInAgain()
+
+  // Browser receipts contain only job ID/context, never credentials or image bytes.
+  const pending = typeof readPendingJob === 'function' ? readPendingJob(subject) : null
+  if (pending) return resumeVodReviewApi(lifecycle)
+  if (files === null) throw Object.assign(new Error('No pending review found for this account.'), { code: 'review_not_found' })
 
   // Reject the whole batch before allocating any base64 image strings.
   const body = preflightVodUpload(files, context)
@@ -123,17 +130,52 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
   }
 
   body.images = images
+  const streamUrl = typeof VOD_STREAM_URL === 'string' ? VOD_STREAM_URL : ''
+  const requestId = streamUrl ? globalThis.crypto?.randomUUID?.() : null
+  if (streamUrl && !requestId) throw Object.assign(new Error('A secure review receipt could not be created. No review was submitted.'), {code:'review_receipt_unavailable'})
+  if (requestId) body.request_id = requestId
   const serializedBody = serializeVodRequest(body)
+  if (requestId && !savePendingJob({ subject, jobId: requestId, context, createdAt: Date.now() })) throw Object.assign(new Error('This browser cannot retain the review receipt. Enable session storage before submitting. No review was started.'), {code:'review_receipt_unavailable'})
 
-  const res = await fetch(`${API_URL}/vod/analyze`, {
+  const admissionAbort = requestId ? new AbortController() : null
+  const admissionTimer = requestId ? setTimeout(() => admissionAbort.abort(), 35000) : null
+  let res
+  try { res = await fetch(`${streamUrl || API_URL}/vod/analyze`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: serializedBody,
-  })
+    ...(admissionAbort ? {signal:admissionAbort.signal} : {}),
+  }) } catch (error) {
+    if (requestId) throw jobPending()
+    throw error
+  } finally { if (admissionTimer) clearTimeout(admissionTimer) }
+  if (streamUrl && res.ok) {
+    // HTTP headers are emitted only after durable admission. We deliberately use
+    // owner-bound GET polling as the single result path. Disconnecting this stream
+    // does not stop the awaited Lambda execution; never replay the POST.
+    try { await res.body?.cancel() } catch { /* Check the original receipt. */ }
+    return resumeVodReviewApi(lifecycle)
+  }
+  if (res.status === 202) {
+    const receipt = await res.json()
+    if (!receipt.jobId || (requestId && receipt.jobId !== requestId)) throw jobPending()
+    savePendingJob({subject,jobId:receipt.jobId,context,createdAt:Date.now()})
+    return resumeVodReviewApi(lifecycle)
+  }
+  if (requestId && res.status >= 500) {
+    const problem = await res.json().catch(() => null)
+    if (!problem || problem.error === 'review_status_unavailable') throw jobPending()
+    res = {ok:false,status:res.status,json:async()=>problem}
+  }
+  if (requestId) clearPendingJob(subject)
 
+  return finishVodResponse(res, context, lifecycle, subject)
+}
+
+async function finishVodResponse(res, context, lifecycle, subject, jobId = null, createdAt = null) {
   if (!res.ok) {
     const errBody = await res.json().catch(() => ({}))
     const err = new Error(errBody.message || errBody.error || `Analysis failed (${res.status})`)
@@ -169,7 +211,7 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
     const evidenceSession = evidenceUser ? await getSession(evidenceUser).catch(() => null) : null
     if (sessionSubject(evidenceSession) !== subject) return result
     if (lifecycle.isCurrent && !lifecycle.isCurrent()) return result
-    const event = buildVodCoachingEvent(result, context)
+    const event = buildVodCoachingEvent(result, context, jobId ? { sessionId: `vod-job-${jobId}`, now: new Date(createdAt).toISOString() } : {})
     result.roadmap_retry = { event, subject }
     try {
       result.roadmap_sync = await saveVodEvidence(event, getIdToken(evidenceSession)) ? 'saved' : 'pending'
@@ -179,5 +221,34 @@ export async function analyzeSessionApi(files, context = {}, lifecycle = {}) {
     }
   }
 
+  return result
+}
+
+export async function resumeVodReviewApi(lifecycle = {}) {
+  const user = getCurrentUser()
+  const session = user ? await getSession(user) : null
+  const subject = sessionSubject(session)
+  if (!subject) throw signInAgain()
+  const pending = readPendingJob(subject)
+  if (!pending) throw Object.assign(new Error('No pending review found for this account.'), {code:'review_not_found'})
+  if (Date.now() - pending.createdAt >= 3600000) { clearPendingJob(subject); throw Object.assign(new Error('The saved review receipt expired. No automatic paid retry was made.'), {code:'review_failed'}) }
+  let res
+  try { res = await pollVodJob({jobId:pending.jobId,isCurrent:()=>!lifecycle.isCurrent || lifecycle.isCurrent(),
+    fetchStatus: async jobId => {
+      const currentUser=getCurrentUser()
+      const currentSession=currentUser?await getSession(currentUser):null
+      if(sessionSubject(currentSession)!==subject) throw signInAgain()
+      if(lifecycle.isCurrent && !lifecycle.isCurrent()) throw Object.assign(new Error('Review cancelled'),{code:'review_cancelled'})
+      const controller=new AbortController()
+      const timer=setTimeout(()=>controller.abort(),10000)
+      try { return await fetch(        API_URL+'/vod/jobs/'+encodeURIComponent(jobId),{headers:{Authorization:'Bearer '+getIdToken(currentSession)},signal:controller.signal}) }
+      finally {clearTimeout(timer)}
+    }}) } catch(error) { if(error.code==='review_failed') clearPendingJob(subject); throw error }
+  const finalUser=getCurrentUser()
+  const finalSession=finalUser?await getSession(finalUser):null
+  if(sessionSubject(finalSession)!==subject || (lifecycle.isCurrent && !lifecycle.isCurrent())) throw signInAgain()
+  clearPendingJob(subject)
+  const result=await finishVodResponse(res,pending.context||{},lifecycle,subject,pending.jobId,pending.createdAt)
+  clearPendingJob(subject)
   return result
 }
