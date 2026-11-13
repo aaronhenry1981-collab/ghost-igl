@@ -22,3 +22,24 @@ test('HTTP API status retains exactly one explicit origin header',async()=>{
  const e=request();e.rawPath='/vod/jobs/123';e.requestContext.http.method='GET'
  assert.equal((await api(e)).headers['Access-Control-Allow-Origin'],'https://r6coaching.com')
 })
+
+test('status routes support exact named stages, default stages and custom-domain paths',async()=>{
+ for(const [stage,rawPath] of [['prod','/prod/vod/jobs/request-123'],['preview_2','/preview_2/vod/jobs/request-123'],['prod','/vod/jobs/request-123'],['$default','/vod/jobs/request-123'],[undefined,'/vod/jobs/request-123']]){
+  const calls=[]
+  const api=createStatusApi({authorize:async(e,submit)=>{calls.push('auth');assert.equal(submit,false);return {owner}},jobs:{poll:async args=>{calls.push('poll');assert.equal(args.owner,owner);assert.equal(args.idempotencyKey,'request-123');return {statusCode:200,body:{status:'pending'}}}}})
+  assert.equal((await api({...request(),rawPath,requestContext:{stage,http:{method:'GET'}}})).statusCode,200,rawPath)
+  assert.deepEqual(calls,['auth','poll'])
+ }
+})
+test('status routing never strips arbitrary, mismatched or repeated path prefixes',async()=>{
+ for(const [stage,rawPath] of [['prod','/preview/vod/jobs/request-123'],['prod','/production/vod/jobs/request-123'],['prod','/prod/prod/vod/jobs/request-123'],['$default','/prod/vod/jobs/request-123'],[undefined,'/prod/vod/jobs/request-123'],['$default','/$default/vod/jobs/request-123'],['prod/extra','/prod/extra/vod/jobs/request-123'],['prod','/prod/vod/jobs/'],['prod','/prod/vod/jobs/request-123/'],['prod','/prod/vod/jobs/request-123/extra']]){
+  const api=createStatusApi({authorize:async()=>{assert.fail('invalid route must not authorize')},jobs:{poll:async()=>{assert.fail('invalid route must not poll')}}})
+  assert.equal((await api({...request(),rawPath,requestContext:{stage,http:{method:'GET'}}})).statusCode,404,rawPath)
+ }
+})
+test('named-stage status reaches authentication and rejects unauthorized retrieval before storage',async()=>{
+ let verified=0
+ const api=createStatusApi({authorize:async()=>{verified++;return {statusCode:401,error:'unauthorized'}},jobs:{poll:async()=>assert.fail('unauthorized must not poll')}})
+ const result=await api({...request(),headers:{},rawPath:'/prod/vod/jobs/request-123',requestContext:{stage:'prod',http:{method:'GET'}}})
+ assert.equal(verified,1);assert.equal(result.statusCode,401);assert.equal(JSON.parse(result.body).error,'unauthorized')
+})

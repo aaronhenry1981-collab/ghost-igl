@@ -54,7 +54,13 @@ export function createStatusApi({jobs,authorize,origins=STREAM_ORIGINS}) {
   const origin=event.headers?.origin||event.headers?.Origin
   if(origin&&!origins.includes(origin))return reply(response(403,'origin_not_allowed'))
   if(event.requestContext?.http?.method==='OPTIONS')return reply({statusCode:200,body:{}})
-  if(event.requestContext?.http?.method!=='GET'||!/^\/vod\/jobs\/[^/]+$/.test(event.rawPath||''))return reply(response(404,'not_found'))
-  try{const auth=await authorize(event,false);if(!auth.owner)return reply(auth);return reply(await jobs.poll({owner:auth.owner,idempotencyKey:event.rawPath.split('/').at(-1)}))}catch{return reply(response(503,'review_status_unavailable'))}
+  // HTTP API named stages can remain in rawPath. Strip only the exact trusted
+  // request-context stage prefix; custom-domain/default-stage paths need none.
+  const stage=event.requestContext?.stage
+  let path=typeof event.rawPath==='string'?event.rawPath:''
+  if(typeof stage==='string'&&/^[A-Za-z0-9_-]+$/.test(stage)&&path.startsWith('/'+stage+'/'))path=path.slice(stage.length+1)
+  const route=/^\/vod\/jobs\/([^/]+)$/.exec(path)
+  if(event.requestContext?.http?.method!=='GET'||!route)return reply(response(404,'not_found'))
+  try{const auth=await authorize(event,false);if(!auth.owner)return reply(auth);return reply(await jobs.poll({owner:auth.owner,idempotencyKey:route[1]}))}catch{return reply(response(503,'review_status_unavailable'))}
  }
 }
