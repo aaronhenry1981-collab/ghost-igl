@@ -425,6 +425,18 @@ Resources:
             ApiId: !Ref HttpApi
             Path: /content/catalog
             Method: OPTIONS
+        GetOperatorHub:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /content/operator-hub
+            Method: GET
+        OperatorHubOptions:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /content/operator-hub
+            Method: OPTIONS
         GetMe:
           Type: HttpApi
           Properties:

@@ -53,4 +53,12 @@ const paths = allRoutePaths()
 for (const path of paths) write(`${path.slice(1)}.html`, shellFor(metaForPath(path)))
 // Open-ended routes (/r/:code, /admin/*, /help/:slug …) share one unindexed shell.
 write('app.html', shellFor({ title: 'Recon 6', canonical: `${SITE_URL}/`, noindex: true }))
-console.log(`✓ Wrote ${paths.length + 1} route shells to dist/_shell/`)
+// This member page may contain text an autocapture recorder could collect.
+const hubShell = shellFor(metaForPath('/operator-hub'))
+  .replace(/<script[^>]+src="https:\/\/plausible\.io[^"]+"[^>]*><\/script>\s*/g, '')
+  .replace(/<script>window\.plausible=[^<]+<\/script>\s*/g, '')
+if (hubShell.includes('plausible.io') || hubShell.includes('window.plausible=')) {
+  throw new Error('Operator Hub shell must not load Plausible.')
+}
+write('operator-hub.html', hubShell)
+console.log(`✓ Wrote ${paths.length + 2} route shells to dist/_shell/`)

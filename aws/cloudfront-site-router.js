@@ -19,7 +19,7 @@
 
 var EXACT = {
   '/pricing': 1, '/about': 1, '/strats': 1, '/match-prep': 1, '/loadouts': 1, '/operators': 1,
-  '/operators/compare': 1, '/meta': 1, '/vod': 1, '/vod/results': 1, '/live': 1, '/download': 1, '/changelog': 1,
+  '/operators/compare': 1, '/meta': 1, '/vod': 1, '/live': 1, '/download': 1, '/changelog': 1,
   '/press': 1, '/creator-demo': 1, '/tools/r6-tier-list': 1, '/beginner-guide': 1, '/terms': 1,
   '/privacy': 1, '/refund': 1, '/help': 1, '/start': 1, '/auth': 1, '/dashboard': 1, '/progress': 1,
   '/setups': 1, '/coach-connect': 1, '/live-coaching': 1, '/account': 1, '/activate': 1, '/support': 1, '/tiktok': 1,
@@ -80,8 +80,13 @@ function startsWithAny(uri, prefixes) {
   return false
 }
 
+// Member routes share one non-indexed, analytics-free UI shell, never data.
+function isOperatorHub(uri) {
+  return uri.length <= 62 && /^\/operator-hub(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(uri)
+}
+
 function isAppRoute(uri) {
-  return EXACT[uri] === 1 || APP_EXACT[uri] === 1 || startsWithAny(uri, SHELL_PREFIXES) || startsWithAny(uri, APP_PREFIXES)
+  return isOperatorHub(uri) || EXACT[uri] === 1 || APP_EXACT[uri] === 1 || startsWithAny(uri, SHELL_PREFIXES) || startsWithAny(uri, APP_PREFIXES)
 }
 
 function queryString(request) {
@@ -145,6 +150,10 @@ function route(request) {
   var last = uri.substring(uri.lastIndexOf('/') + 1)
   if (last.indexOf('.') !== -1) return request
 
+  if (isOperatorHub(uri)) {
+    request.uri = '/_shell/operator-hub.html'
+    return request
+  }
   if (STATIC_DIRS[uri] === 1) return redirect(uri + '/' + queryString(request))
   if (EXACT[uri] === 1 || startsWithAny(uri, SHELL_PREFIXES)) {
     request.uri = '/_shell' + uri + '.html'

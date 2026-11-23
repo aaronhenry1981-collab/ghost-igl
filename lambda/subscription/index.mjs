@@ -6,6 +6,7 @@ import crypto from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { createOperatorHubHandler, isOperatorHubRequestPath } from './operator-hub.mjs'
 import { validateWorkbookPurchase, workbookIntegrationIdentifier } from './workbook-purchase.mjs'
 import { membershipIdempotencyKey, membershipIntegrationIdentifier, resolveMembershipOffer } from './membership-checkout.mjs'
 
@@ -94,6 +95,11 @@ const verifier = CognitoJwtVerifier.create({
 })
 
 const ALLOWED_ORIGINS = ['https://r6coaching.com', 'https://www.r6coaching.com', 'http://localhost:5173']
+const getOperatorHub = createOperatorHubHandler({
+  verifyToken: token => verifier.verify(token),
+  allowedOrigins: ALLOWED_ORIGINS,
+})
+
 // Profile fields stored in ghost-igl-profiles. Game-agnostic identity fields
 // (display_name, platform, region, discord, etc.) apply to every Recon+ game.
 // Game-specific fields (R6 rank, role, ubi username, etc.) are nested inside
@@ -206,6 +212,10 @@ function buildDesktopHeaders() {
 export async function handler(event) {
   const method = event.requestContext?.http?.method
   const path = event.requestContext?.http?.path || event.rawPath || ''
+
+  // Members-only common corpus: Cognito identity, not billing entitlement.
+  // Dispatch before the shared handler's legacy billing identity writer.
+  if (isOperatorHubRequestPath(path)) return getOperatorHub(event)
 
   // Public endpoint for desktop-app license verification — no Cognito session.
   // Sits ahead of the auth gate so the desktop app can call without a JWT.
