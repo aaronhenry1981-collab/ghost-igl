@@ -130,7 +130,7 @@ test('every static directory redirects to its trailing-slash form', async () => 
 })
 
 test('the router knows exactly the routes routeMeta describes', () => {
-  const exact = allRoutePaths().filter((p) => p.split('/').length === 2 || ['/operators/compare', '/tools/r6-tier-list', '/vod/results'].includes(p))
+  const exact = allRoutePaths().filter((p) => p.split('/').length === 2 || ['/operators/compare', '/tools/r6-tier-list'].includes(p))
   assert.deepEqual(Object.keys(sandbox.EXACT).sort(), exact.sort())
   for (const alias of ALIAS_ROUTES) assert.equal(sandbox.EXACT[alias], 1, alias)
   for (const prefix of OPEN_ROUTE_PREFIXES) {
@@ -141,4 +141,15 @@ test('the router knows exactly the routes routeMeta describes', () => {
 test('every concrete route maps to the shell the build writes for it', () => {
   const missing = allRoutePaths().filter((path) => served(path) !== `/_shell${path}.html` || !metaForPath(path))
   assert.deepEqual(missing, [])
+})
+
+test('Operator Hub direct links share a generic unindexed shell; public operator routes stay distinct', () => {
+  for (const uri of ['/operator-hub', '/operator-hub/fictional-one', '/operator-hub/fictional-two']) {
+    assert.equal(served(uri), '/_shell/operator-hub.html')
+    assert.equal(metaForPath(uri).noindex, true)
+    assert.equal(run(`${uri}/`).headers.location.value, uri)
+  }
+  assert.equal(served('/operator-hub/fictional-one/extra'), '/operator-hub/fictional-one/extra')
+  assert.equal(served('/operator-hub-content.json'), '/operator-hub-content.json')
+  assert.equal(served('/operators/ash'), '/_shell/operators/ash.html')
 })

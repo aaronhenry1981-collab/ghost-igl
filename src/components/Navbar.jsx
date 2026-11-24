@@ -85,6 +85,9 @@ function MoreDropdown({ onClose, browserCoachVisible = false }) {
           <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/vod')}>
             <strong>Round Review</strong><span>Find the mistake shown in your evidence</span>
           </button>
+          <a href="/operator-hub" className="nav-more-item nav-tool-item" onClick={onClose}>
+            <strong>Operator Hub</strong><span>Find a pick, a role, and a place to use it</span>
+          </a>
           <button type="button" className="nav-more-item nav-tool-item" onClick={() => go('/loadouts')}>
             <strong>Loadout Builder</strong><span>Choose an operator and setup with purpose</span>
           </button>
@@ -420,6 +423,7 @@ export default function Navbar() {
               <NavLink to="/match-prep" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Match Prep</NavLink>
               <NavLink to="/strats" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Site Strategy</NavLink>
               <NavLink to="/vod" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Round Review</NavLink>
+              <NavLink to="/operator-hub" reloadDocument onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Operator Hub</NavLink>
               <NavLink to="/loadouts" onClick={closeMobile} className={({ isActive }) => `mobile-drawer-link${isActive ? ' is-active' : ''}`}>Loadout Builder</NavLink>
             </div>
           </>

@@ -16,7 +16,6 @@ import { useAuth } from './useAuth'
 export function useVodAnalysis() {
   const { user, setVodUsage, captureAuthScope, isAuthScopeCurrent } = useAuth()
   const requestGeneration = useRef(0)
-  const submissionActive = useRef(false)
   const [resultOwner, setResultOwner] = useState(user)
   const [analysis, setAnalysis] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -37,8 +36,7 @@ export function useVodAnalysis() {
   }, [user])
 
   async function analyzeSession(files, context = {}) {
-    if (!user || submissionActive.current) return
-    submissionActive.current = true
+    if (!user) return
     const generation = ++requestGeneration.current
     const scope = captureAuthScope()
     const current = () => generation === requestGeneration.current && isAuthScopeCurrent(scope)
@@ -88,7 +86,6 @@ export function useVodAnalysis() {
         setErrorCode(err.code || null)
       }
     } finally {
-      submissionActive.current = false
       if (current()) setLoading(false)
     }
   }
@@ -113,8 +110,6 @@ export function useVodAnalysis() {
     return analyzeSession([file], context)
   }
 
-  async function resumeReview() { return analyzeSession(null) }
-
   function reset() {
     requestGeneration.current++
     setResultOwner(user)
@@ -134,6 +129,6 @@ export function useVodAnalysis() {
     error: ownsResult ? error : null, errorCode: ownsResult ? errorCode : null,
     usageError: ownsResult ? usageError : null,
     savingEvidence: ownsResult && savingEvidence, saveError: ownsResult ? saveError : null,
-    analyzeSession, analyzeScreenshot, resumeReview, retrySave, reset,
+    analyzeSession, analyzeScreenshot, retrySave, reset,
   }
 }

@@ -43,9 +43,9 @@ const R6TierListPage = lazy(() => import('./pages/R6TierListPage'))
 const EmbedMatchPrepPage = lazy(() => import('./pages/EmbedMatchPrepPage'))
 const StartPage = lazy(() => import('./pages/StartPage'))
 const OperatorsPage = lazy(() => import('./pages/OperatorsPage'))
+const OperatorHubPage = lazy(() => import('./features/operator-hub/OperatorHubPage'))
 const OperatorsComparePage = lazy(() => import('./pages/OperatorsComparePage'))
 const MetaPage = lazy(() => import('./pages/MetaPage'))
-const VodResultsPage = lazy(() => import('./pages/VodResultsPage'))
 const VodPage = lazy(() => import('./pages/VodPage'))
 const AuthPage = lazy(() => import('./pages/AuthPage'))
 const AdminRoute = lazy(() => import('./features/admin/AdminRoute'))
@@ -194,11 +194,11 @@ const router = createBrowserRouter([
       { path: '/progress', element: <L><ProgressPage /></L> },
       { path: '/coach-connect', element: <L><CoachConnectPage /></L> },
       { path: '/live-coaching', element: <L><HostedCoachPage /></L> },
+      { path: '/operator-hub/:slug?', element: <L><OperatorHubPage /></L> },
       { path: '/operators', element: <L><OperatorsPage /></L> },
       { path: '/operators/compare', element: <L><OperatorsComparePage /></L> },
       { path: '/operators/:opName', element: <L><OperatorsPage /></L> },
       { path: '/meta', element: <L><MetaPage /></L> },
-      { path: '/vod/results', element: <L><VodResultsPage /></L> },
       { path: '/vod', element: <L><VodPage /></L> },
       // Admin application: its own shell and routes (members, coaching,
       // customer success, support, growth, content, system).

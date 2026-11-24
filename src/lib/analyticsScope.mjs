@@ -7,6 +7,8 @@
 // (adminHref / openAdmin below) so tracking started on a public page cannot
 // carry over through client-side navigation.
 
+import { isOperatorHubPath } from '../features/operator-hub/operatorHub.mjs'
+
 const NO_ANALYTICS = /^\/(admin|__dev|testimonial)(\/|$)/
 let started = false
 
@@ -21,7 +23,7 @@ export function analyticsStarted() {
 }
 
 export function analyticsEnabledFor(pathname) {
-  return !NO_ANALYTICS.test(String(pathname || ''))
+  return !isOperatorHubPath(pathname) && !NO_ANALYTICS.test(String(pathname || ''))
 }
 
 export function isAdminPath(path) {

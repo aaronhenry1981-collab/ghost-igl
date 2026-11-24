@@ -8,6 +8,7 @@
 // routeMeta.test.mjs fails the build if any route drifts outside them.
 // Facts (prices, map counts, free maps) come from planFacts, never typed.
 import MAPS from '../data/maps.js'
+import { HUB_PATH, isOperatorHubPath } from '../features/operator-hub/operatorHub.mjs'
 import STRATS from '../data/public-strats.generated.js'
 import { FREE_MAPS, MAP_COUNT, PLAN_FACTS } from './planFacts.js'
 
@@ -161,7 +162,6 @@ const STATIC = {
   '/progress': { title: 'Road to Champion — Your R6 Progress', noindex: true },
   '/setups': { title: 'Your Rainbow Six Siege Setups', noindex: true },
   '/coach-connect': { title: 'Connect a Coach to Recon 6', noindex: true },
-  '/vod/results': { title: 'Existing Screenshot Review Result | Recon 6', noindex: true },
   '/account': { title: 'Your Recon 6 Account and Billing', noindex: true },
   '/activate': { title: 'Activate Recon 6 Command', noindex: true },
   '/support': { title: 'Recon 6 Support', noindex: true },
@@ -248,6 +248,8 @@ export function metaForPath(rawPath) {
   const canonical = `${SITE_URL}${path === '/' ? '/' : path}`
   const base = (meta, extra = {}) => meta && ({ canonical, noindex: false, ...meta, ...extra })
 
+  if (isOperatorHubPath(path)) return base({ title: 'Operator Hub | Recon 6',
+    description: 'Sign in to open the Recon 6 Operator Hub.', canonical: `${SITE_URL}${HUB_PATH}`, noindex: true })
   if (STATIC[path]) return base(STATIC[path])
   if (ALIAS_ROUTES.includes(path)) return base({ title: 'Recon 6', noindex: true })
   const parts = path.split('/').filter(Boolean).map(decodeSafe)

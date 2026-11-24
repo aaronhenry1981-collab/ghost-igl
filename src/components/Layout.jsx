@@ -11,6 +11,7 @@ import ErrorBoundary from './ErrorBoundary'
 import ActivityBeacon from './ActivityBeacon'
 import { GameProvider } from '../hooks/useActiveGame'
 import { useRouteMeta } from '../hooks/useRouteMeta'
+import { isOperatorHubPath } from '../features/operator-hub/operatorHub.mjs'
 
 // Unified layout — single Navbar across the entire site (landing + in-app).
 // Replaces the previous AppShell sidebar pattern that switched UI on /strats
@@ -24,6 +25,7 @@ export default function Layout() {
   const location = useLocation()
   useRouteMeta(location.pathname)
   const isLanding = location.pathname === '/'
+  const isOperatorHub = isOperatorHubPath(location.pathname)
   const isTestimonial = /^\/testimonial\/?$/.test(location.pathname)
   // The admin area (and its dev fixture preview) has its own top bar and
   // navigation instead of the public site chrome.
@@ -47,18 +49,18 @@ export default function Layout() {
         {isLanding && <FoundingTopBanner />}
         {/* Release notes help signed-in players, but stacking them above the
             public hero buries the conversion path for first-time visitors. */}
-        {!isLanding && <AnnouncementBanner />}
+        {!isLanding && !isOperatorHub && <AnnouncementBanner />}
         <Navbar />
         <main className="app-main">
           <Outlet />
         </main>
         <Footer />
-        {!isTestimonial && <WelcomeModal />}
-        {!isTestimonial && <ProfileSetupModal />}
+        {!isTestimonial && !isOperatorHub && <WelcomeModal />}
+        {!isTestimonial && !isOperatorHub && <ProfileSetupModal />}
         {/* GamePickerModal removed 2026-07-06 — R6-only product; there is no
             game to pick. Component kept in tree (see GameSwitcher note). */}
-        <ReferralAttributor />
-        <ActivityBeacon />
+        {!isOperatorHub && <ReferralAttributor />}
+        {!isOperatorHub && <ActivityBeacon />}
         {isLanding && <ExitIntentModal />}
       </GameProvider>
     </ErrorBoundary>
